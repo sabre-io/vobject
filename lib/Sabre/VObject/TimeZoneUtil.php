@@ -7,8 +7,6 @@ namespace Sabre\VObject;
  *
  * This file translates well-known time zone names into "Olson database" time zone names.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Frank Edelhaeuser (fedel@users.sourceforge.net)
  * @author Evert Pot (http://www.rooftopsolutions.nl/)

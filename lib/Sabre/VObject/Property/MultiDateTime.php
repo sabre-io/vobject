@@ -17,8 +17,6 @@ use Sabre\VObject;
  * If you use the 'value' or properties directly, this object does not keep
  * reference and results might appear incorrectly.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
