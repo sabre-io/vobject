@@ -178,8 +178,8 @@ ICS;
         $gen = new FreeBusyGenerator();
         $gen->setObjects($this->getInput());
         $gen->setTimeRange(
-            new \DateTime('20110101T110000Z'),
-            new \DateTime('20110103T110000Z')
+            new \DateTime('20110101T110000Z', new \DateTimeZone('UTC')),
+            new \DateTime('20110103T110000Z', new \DateTimeZone('UTC'))
         );
 
         $result = $gen->getResult();
@@ -228,20 +228,6 @@ ICS;
         $result = $gen->getResult();
 
         $this->assertEquals('PUBLISH', $result->METHOD->value);
-
-    }
-    function testGeneratorNoVersion() {
-
-        $v = \Sabre\DAV\Server::$exposeVersion;
-        \Sabre\DAV\Server::$exposeVersion = false;
-
-        $gen = new FreeBusyGenerator();
-        $gen->setObjects(array());
-
-        $result = $gen->getResult();
-        \Sabre\DAV\Server::$exposeVersion = $v;
-
-        $this->assertFalse(strpos($result->PRODID->value, Version::VERSION));
 
     }
 

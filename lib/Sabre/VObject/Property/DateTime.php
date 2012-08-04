@@ -176,7 +176,7 @@ class DateTime extends VObject\Property {
             // Date-only
             return array(
                 self::DATE,
-                new \DateTime($matches['year'] . '-' . $matches['month'] . '-' . $matches['date'] . ' 00:00:00'),
+                new \DateTime($matches['year'] . '-' . $matches['month'] . '-' . $matches['date'] . ' 00:00:00', new \DateTimeZone('UTC')),
             );
         }
 
@@ -200,6 +200,9 @@ class DateTime extends VObject\Property {
         // Finding the timezone.
         $tzid = $property['TZID'];
         if (!$tzid) {
+            // This was a floating time string. This implies we use the
+            // timezone from date_default_timezone_set / date.timezone ini
+            // setting.
             return array(
                 self::LOCAL,
                 new \DateTime($dateStr)

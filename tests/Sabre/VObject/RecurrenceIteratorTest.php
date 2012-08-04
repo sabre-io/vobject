@@ -79,7 +79,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=DAILY;INTERVAL=3;UNTIL=20111025T000000Z';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-10-07'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-10-07', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -129,7 +129,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev = new Component('VEVENT');
         $ev->UID = 'bla';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-10-07'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-10-07', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -173,7 +173,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=DAILY;INTERVAL=2;BYDAY=TU,WE,FR';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-10-07'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-10-07', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -229,7 +229,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=WEEKLY;INTERVAL=2;COUNT=10';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-10-07'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-10-07', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -283,7 +283,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=WEEKLY;INTERVAL=2;BYDAY=TU,WE,FR;WKST=SU';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-10-07'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-10-07', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -340,7 +340,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=MONTHLY;INTERVAL=3;COUNT=5';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-12-05'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-12-05', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -389,7 +389,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=MONTHLY;INTERVAL=2;COUNT=12';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-12-31'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-12-31', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -445,7 +445,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=MONTHLY;INTERVAL=5;COUNT=9;BYMONTHDAY=1,31,-7';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-01-01'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-01-01', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -498,7 +498,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=MONTHLY;INTERVAL=2;COUNT=16;BYDAY=MO,-2TU,+1WE,3TH';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-01-03'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-01-03', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -558,7 +558,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=MONTHLY;COUNT=10;BYDAY=MO;BYMONTHDAY=1';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-08-01'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-08-01', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -613,7 +613,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=MONTHLY;COUNT=10;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=1,-1';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-01-03'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-01-03', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -668,7 +668,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=YEARLY;COUNT=10;INTERVAL=3';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-01-01'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-01-01', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -721,7 +721,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=YEARLY;COUNT=3';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2012-02-29'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2012-02-29', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -766,7 +766,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=YEARLY;COUNT=8;INTERVAL=4;BYMONTH=4,10';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-04-07'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-04-07', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -818,7 +818,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=YEARLY;COUNT=8;INTERVAL=5;BYMONTH=4,10;BYDAY=1MO,-1SU';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-04-04'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-04-04', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -871,7 +871,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=YEARLY;COUNT=8;INTERVAL=5;BYMONTH=4,10;BYDAY=1MO,-1SU';
         $dtStart = new Property\DateTime('DTSTART');
-        $dtStart->setDateTime(new DateTime('2011-04-04'),Property\DateTime::UTC);
+        $dtStart->setDateTime(new DateTime('2011-04-04', new DateTimeZone('UTC')),Property\DateTime::UTC);
 
         $ev->add($dtStart);
 
@@ -882,7 +882,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         // The idea is that we're fast-forwarding too far in the future, so
         // there will be no results left.
-        $it->fastForward(new DateTime('2020-05-05'));
+        $it->fastForward(new DateTime('2020-05-05', new DateTimeZone('UTC')));
 
         $max = 20;
         $result = array();

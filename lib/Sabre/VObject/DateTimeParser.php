@@ -31,7 +31,7 @@ class DateTimeParser {
         $result = preg_match('/^([1-3][0-9]{3})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/',$dt,$matches);
 
         if (!$result) {
-            throw new \Sabre\DAV\Exception\BadRequest('The supplied iCalendar datetime value is incorrect: ' . $dt);
+            throw new \LogicException('The supplied iCalendar datetime value is incorrect: ' . $dt);
         }
 
         if ($matches[7]==='Z' || is_null($tz)) {
@@ -57,7 +57,7 @@ class DateTimeParser {
         $result = preg_match('/^([1-3][0-9]{3})([0-1][0-9])([0-3][0-9])$/',$date,$matches);
 
         if (!$result) {
-            throw new \Sabre\DAV\Exception\BadRequest('The supplied iCalendar date value is incorrect: ' . $date);
+            throw new \LogicException('The supplied iCalendar date value is incorrect: ' . $date);
         }
 
         $date = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3], new \DateTimeZone('UTC'));
@@ -79,7 +79,7 @@ class DateTimeParser {
 
         $result = preg_match('/^(?P<plusminus>\+|-)?P((?P<week>\d+)W)?((?P<day>\d+)D)?(T((?P<hour>\d+)H)?((?P<minute>\d+)M)?((?P<second>\d+)S)?)?$/', $duration, $matches);
         if (!$result) {
-            throw new \Sabre\DAV\Exception\BadRequest('The supplied iCalendar duration value is incorrect: ' . $duration);
+            throw new \LogicException('The supplied iCalendar duration value is incorrect: ' . $duration);
         }
 
         if (!$asString) {

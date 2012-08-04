@@ -38,7 +38,7 @@ class VAlarm extends VObject\Component {
                 } elseif ($parentComponent->name === 'VEVENT') {
                     $endProp = 'DTEND';
                 } else {
-                    throw new \Sabre\DAV\Exception('time-range filters on VALARM components are only supported when they are a child of VTODO or VEVENT');
+                    throw new \LogicException('time-range filters on VALARM components are only supported when they are a child of VTODO or VEVENT');
                 }
 
                 if (isset($parentComponent->$endProp)) {

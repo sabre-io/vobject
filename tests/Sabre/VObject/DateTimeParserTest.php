@@ -6,8 +6,6 @@ use DateTime;
 use DateTimeZone;
 use DateInterval;
 
-require_once 'Sabre/CalDAV/TestUtil.php';
-
 class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     function testParseICalendarDuration() {
@@ -34,7 +32,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException Sabre\DAV\Exception\BadRequest
+     * @expectedException LogicException
      */
     function testParseICalendarDurationFail() {
 
@@ -54,7 +52,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testParseICalendarDateTime
-     * @expectedException Sabre\DAV\Exception\BadRequest
+     * @expectedException LogicException
      */
     function testParseICalendarDateTimeBadFormat() {
 
@@ -113,7 +111,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testParseICalendarDate
-     * @expectedException Sabre\DAV\Exception\BadRequest
+     * @expectedException LogicException
      */
     function testParseICalendarDateBadFormat() {
 
