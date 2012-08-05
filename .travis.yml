@@ -5,3 +5,4 @@ php:
 
 script: phpunit --configuration tests/phpunit.xml
 
+before_script: composer install
