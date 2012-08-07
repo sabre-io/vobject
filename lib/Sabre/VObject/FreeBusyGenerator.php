@@ -250,7 +250,7 @@ class FreeBusyGenerator {
         } else {
             $calendar = new Component('VCALENDAR');
             $calendar->version = '2.0';
-            $calendar->prodid = '-//SabreDAV//Sabre VObject ' . Version::VERSION . '//EN';
+            $calendar->prodid = '-//Sabre//Sabre VObject ' . Version::VERSION . '//EN';
             $calendar->calscale = 'GREGORIAN';
         }
 

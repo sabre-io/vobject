@@ -73,11 +73,17 @@ class Property extends Element {
      * Creates the new property by name, but in addition will also see if
      * there's a class mapped to the property name.
      *
+     * Parameters can be specified with the optional third argument. Parameters
+     * must be a key->value map of the parameter name, and value. If the value
+     * is specified as an array, it is assumed that multiple parameters with
+     * the same name should be added.
+     *
      * @param string $name
      * @param string $value
+     * @param array $parameters
      * @return Property
      */
-    static public function create($name, $value = null) {
+    static public function create($name, $value = null, array $parameters = array()) {
 
         $name = strtoupper($name);
         $shortName = $name;
@@ -87,9 +93,9 @@ class Property extends Element {
         }
 
         if (isset(self::$classMap[$shortName])) {
-            return new self::$classMap[$shortName]($name, $value);
+            return new self::$classMap[$shortName]($name, $value, $parameters);
         } else {
-            return new self($name, $value);
+            return new self($name, $value, $parameters);
         }
 
     }
@@ -97,14 +103,16 @@ class Property extends Element {
     /**
      * Creates a new property object
      *
-     * By default this object will iterate over its own children, but this can
-     * be overridden with the iterator argument
+     * Parameters can be specified with the optional third argument. Parameters
+     * must be a key->value map of the parameter name, and value. If the value
+     * is specified as an array, it is assumed that multiple parameters with
+     * the same name should be added.
      *
      * @param string $name
      * @param string $value
-     * @param ElementList $iterator
+     * @param array $parameters
      */
-    public function __construct($name, $value = null, $iterator = null) {
+    public function __construct($name, $value = null, array $parameters = array()) {
 
         $name = strtoupper($name);
         $group = null;
@@ -113,12 +121,21 @@ class Property extends Element {
         }
         $this->name = $name;
         $this->group = $group;
-        if (!is_null($iterator)) $this->iterator = $iterator;
         $this->setValue($value);
 
+        foreach($parameters as $paramName => $paramValues) {
+
+            if (!is_array($paramValues)) {
+                $paramValues = array($paramValues);
+            }
+
+            foreach($paramValues as $paramValue) {
+                $this->add($paramName, $paramValue);
+            }
+
+        }
+
     }
-
-
 
     /**
      * Updates the internal value

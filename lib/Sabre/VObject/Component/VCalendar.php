@@ -142,6 +142,7 @@ class VCalendar extends VObject\Component {
      * 
      * @return array 
      */
+    /*
     public function validate() {
 
         $warnings = array();
@@ -235,6 +236,7 @@ class VCalendar extends VObject\Component {
         );
 
     }
+     */
 
 }
 

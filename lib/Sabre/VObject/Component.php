@@ -130,7 +130,6 @@ class Component extends Element {
                     }
                 }
             }
-            next($children);
 
         };
 
@@ -159,7 +158,7 @@ class Component extends Element {
      * You can call this method with the following syntaxes:
      *
      * add(Element $element)
-     * add(string $name, $value)
+     * add(string $name, $value, array $parameters = array())
      *
      * The first version adds an Element
      * The second adds a property as a string.
@@ -168,7 +167,7 @@ class Component extends Element {
      * @param mixed $itemValue
      * @return void
      */
-    public function add($item, $itemValue = null) {
+    public function add($item, $itemValue = null, array $parameters = array()) {
 
         if ($item instanceof Element) {
             if (!is_null($itemValue)) {
@@ -181,7 +180,7 @@ class Component extends Element {
             if (!is_scalar($itemValue)) {
                 throw new \InvalidArgumentException('The second argument must be scalar');
             }
-            $item = Property::create($item,$itemValue);
+            $item = Property::create($item,$itemValue, $parameters);
             $item->parent = $this;
             $this->children[] = $item;
 
@@ -276,6 +275,7 @@ class Component extends Element {
      *
      * @return array
      */
+    /*
     public function validate() {
 
         $result = array();
@@ -285,6 +285,7 @@ class Component extends Element {
         return $result;
 
     }
+     */
 
     /* Magic property accessors {{{ */
 

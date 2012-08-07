@@ -182,7 +182,8 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
     public function testGetIterator() {
 
         $it = new ElementList(array());
-        $property = new Property('propname','propvalue', $it);
+        $property = new Property('propname','propvalue');
+        $property->setIterator($it);
         $this->assertEquals($it,$property->getIterator());
 
     }
@@ -274,6 +275,18 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         
         $property['FOO'] = 'BAZ';
         $this->assertEquals('BAR', (string)$property2['FOO']);
+
+    }
+
+    function testCreateParams() {
+
+        $property = Property::create('X-PROP', 'value', array(
+            'param1' => 'value1',
+            'param2' => array('value2', 'value3')
+        ));
+
+        $this->assertEquals(1, count($property['PARAM1']));
+        $this->assertEquals(2, count($property['PARAM2']));
 
     }
 

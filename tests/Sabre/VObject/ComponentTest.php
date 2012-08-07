@@ -207,6 +207,27 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testAddScalarParams() {
+
+        $comp = Component::create('VCALENDAR');
+
+        $comp->add('myprop','value',array('param1'=>'value1'));
+
+        $this->assertEquals(1, count($comp->children));
+
+        $this->assertTrue($comp->children[0] instanceof Property);
+        $this->assertEquals('MYPROP',$comp->children[0]->name);
+        $this->assertEquals('value',$comp->children[0]->value);
+
+        $this->assertEquals(1, count($comp->children[0]->parameters));
+
+        $this->assertTrue($comp->children[0]->parameters[0] instanceof Parameter);
+        $this->assertEquals('PARAM1',$comp->children[0]->parameters[0]->name);
+        $this->assertEquals('value1',$comp->children[0]->parameters[0]->value);
+
+    }
+
+
     function testAddComponent() {
 
         $comp = new Component('VCALENDAR');

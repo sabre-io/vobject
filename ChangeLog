@@ -1,4 +1,6 @@
 2.0.0-stable (2012-??-??)
 	* VObject is now a separate project from SabreDAV. See the SabreDAV
 	  changelog for version information before 2.0.
-	* New: VObject library now uses PHP 5.3 namespaces
+	* New: VObject library now uses PHP 5.3 namespaces.
+	* New: It's possible to specify lists of parameters when constructing
+	  properties.
