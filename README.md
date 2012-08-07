@@ -18,11 +18,11 @@ After that, just declare the vobject dependency as follows:
 
 ```
 "require" : {
-    "sabre/vobject" : "dev-master"
+    "sabre/vobject" : "2.0.*"
 }
 ```
 
-Then, run `composer.phar update` and you should be good. As soon as the first release is out, you should switch `dev-master` to `2.0.*` though.
+Then, run `composer.phar update` and you should be good.
 
 # Usage
 
