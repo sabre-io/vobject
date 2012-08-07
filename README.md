@@ -339,14 +339,16 @@ You can automatically generate these reports from calendars using the `FreeBusyG
 Example based on our last event:
 
 ```
-$fbGenerator = VObject\FreeBusyGenerator();
 
 // We're giving it the calendar object. It's also possible to specify multiple objects,
 // by setting them as an array.
-$fbGenerator->setObjects($calendar);
-
-// We must again specify a time-range because of expanding recurrence rules.
-$fbGenerator->setTimeRange(new DateTime('2012-01-01'), new DateTime('2012-12-31'));
+//
+// We must also specify a start and end date, because recurring events are expanded.
+$fbGenerator = new VObject\FreeBusyGenerator(
+    new DateTime('2012-01-01'),
+    new DateTime('2012-12-31'),
+    $calendar
+);
 
 // Grabbing the report
 $freebusy = $fbGenerator->result();

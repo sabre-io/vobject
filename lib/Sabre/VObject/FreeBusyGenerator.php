@@ -47,6 +47,29 @@ class FreeBusyGenerator {
     protected $baseObject;
 
     /**
+     * Creates the generator.
+     *
+     * Check the setTimeRange and setObjects methods for details about the
+     * arguments.
+     *
+     * @param DateTime $start
+     * @param DateTime $end
+     * @param mixed $objects
+     * @return void
+     */
+    public function __construct(\DateTime $start = null, \DateTime $end = null, $objects = null) {
+
+        if ($start && $end) {
+            $this->setTimeRange($start, $end);
+        }
+
+        if ($objects) {
+            $this->setObjects($objects);
+        }
+
+    }
+
+    /**
      * Sets the VCALENDAR object.
      *
      * If this is set, it will not be generated for you. You are responsible
