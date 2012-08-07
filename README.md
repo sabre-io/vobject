@@ -2,14 +2,14 @@
 
 [![Build Status](https://secure.travis-ci.org/evert/sabre-vobject.png?branch=master)](http://travis-ci.org/evert/sabre-vobject)
 
-The VObject library allows you to easily parse and manipulate (iCalendar)[https://tools.ietf.org/html/rfc5545]
-and (vCard)[https://tools.ietf.org/html/rfc6350] objects using PHP.
+The VObject library allows you to easily parse and manipulate [iCalendar](https://tools.ietf.org/html/rfc5545)
+and [vCard](https://tools.ietf.org/html/rfc6350) objects using PHP.
 The goal of the VObject library is to create a very complete library, with an easy to use API.
 
 # Installation
 
 VObject requires PHP 5.3, and should be installed using composer.
-The general composer instructions can be found on the (composer website)[http://getcomposer.org/doc/00-intro.md composer website].
+The general composer instructions can be found on the [composer website](http://getcomposer.org/doc/00-intro.md composer website).
 
 After that, just declare the vobject dependency as follows:
 
@@ -240,7 +240,7 @@ Recurrence rules allow events to recur, for example for a weekly meeting, or an 
 This is done with the `RRULE` property. The `RRULE` property allows for a LOT of different
 rules. VObject only implements the ones that actually appear in calendar software.
 
-To read more about `RRULE` and all the options, check out (RFC5545)[https://tools.ietf.org/html/rfc5545#section-3.8.5].
+To read more about `RRULE` and all the options, check out [RFC5545](https://tools.ietf.org/html/rfc5545#section-3.8.5).
 VObject supports the following options:
 
 1. `UNTIL` for an end date.
@@ -256,7 +256,7 @@ properties. If you're interested in this, please file a github issue, as this wi
 on my radar.
 
 This is a bit of a complex subject to go in excruciating detail. The
-(RFC)[https://tools.ietf.org/html/rfc5545#section-3.8.5] has a lot of examples though.
+[RFC](https://tools.ietf.org/html/rfc5545#section-3.8.5) has a lot of examples though.
 
 The hard part is not to write the RRULE, it is to expand them. The most complex and
 hard-to-read code is hidden in this component. Dragons be here.
