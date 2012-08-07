@@ -2,7 +2,8 @@
 
 [![Build Status](https://secure.travis-ci.org/evert/sabre-vobject.png?branch=master)](http://travis-ci.org/evert/sabre-vobject)
 
-The VObject library allows you to easily parse and manipulate iCalendar and vCard objects using PHP.
+The VObject library allows you to easily parse and manipulate (iCalendar)[https://tools.ietf.org/html/rfc5545]
+and (vCard)[https://tools.ietf.org/html/rfc6350] objects using PHP.
 The goal of the VObject library is to create a very complete library, with an easy to use API.
 
 # Installation
@@ -228,3 +229,155 @@ options exist:
 3. `LOCALTZ` specifies that it's supposed to be encoded in its local timezone. For example `DTSTART;VALUE=DATE-TIME;TZID=Europe/Amsterdam:20120807235300`.
 4. `DATE` This is a date-only, and does not contain the time. In this case this would be encoded as `DTSTART;VALUE=DATE:20120807`.
 
+A few important notes:
+
+* When a `TZID` is specified, there should also be a matching `VTIMEZONE` object with all the timezone information. VObject cannot currently automatically embed this. However, in reality other clients seem to do fine without this information. Yet, for completeness, this will be added in the future.
+* As mentioned, the timezone-determination process may sometimes fail. Report any issues you find, and I'll be quick to add workarounds!
+
+## Recurrence rules
+
+Recurrence rules allow events to recur, for example for a weekly meeting, or an anniversary.
+This is done with the `RRULE` property. The `RRULE` property allows for a LOT of different
+rules. VObject only implements the ones that actually appear in calendar software.
+
+To read more about `RRULE` and all the options, check out (RFC5545)[https://tools.ietf.org/html/rfc5545#section-3.8.5].
+VObject supports the following options:
+
+1. `UNTIL` for an end date.
+2. `INTERVAL` for for example "every 2 days".
+3. `COUNT` to stop recurring after x items.
+4. `FREQ=DAILY` to recur every day, and `BYDAY` to limit it to certain days.
+5. `FREQ=WEEKLY` to recur every week, `BYDAY` to expand this to multiple weekdays in every week and `WKST` to specify on which day the week starts.
+6. `FREQ=MONTHLY` to recur every month, `BYMONTHDAY` to expand this to certain days in a month, `BYDAY` to expand it to certain weekdays occuring in a month, and `BYSETPOS` to limit the last two expansions.
+7. `FREQ=YEARLY` to recur every year, `BYMONTH` to expand that to certain months in a year, and `BYDAY` and `BYWEEKDAY` to expand the `BYMONTH` rule even further.
+
+VObject supports the `EXDATE` property for exclusions, but not yet the `RDATE` and `EXRULE` 
+properties. If you're interested in this, please file a github issue, as this will put it
+on my radar.
+
+This is a bit of a complex subject to go in excruciating detail. The
+(RFC)[https://tools.ietf.org/html/rfc5545#section-3.8.5] has a lot of examples though.
+
+The hard part is not to write the RRULE, it is to expand them. The most complex and
+hard-to-read code is hidden in this component. Dragons be here.
+
+So, if we have a meeting every 2nd monday of the month, this would be specified as such:
+
+```
+BEGIN:VCALENDAR
+  VERSION:2.0
+  BEGIN:VEVENT
+    UID:1102c450-e0d7-11e1-9b23-0800200c9a66
+    DTSTART:20120109T140000Z
+    RRULE:FREQ=MONTHLY;BYWEEKDAY=MO;BYSETPOS=2
+  END:VEVENT
+END:VCALENDAR
+```
+
+Note that normally it's not allowed to indent the object like this, but it does make
+it easier to read. This is also the first time I added in a UID, which is required
+for all VEVENT, VTODO and VJOURNAL objects!
+
+To figure out all the meetings for this year, we can use the following syntax:
+
+```php
+use Sabre\VObject;
+
+$calendar = VObject\Reader::read($data);
+$calendar->expand(new DateTime('2012-01-01'), new DateTime('2012-31-01'));
+```
+
+What the expand method does, is look at its inner events, and expand the recurring
+rule. Our calendar now contains 12 events. The first will have its RRULE stripped,
+and every subsequent VEVENT has the correct meeting date and a `RECURRENCE-ID` set.
+
+This results in something like this:
+
+```
+BEGIN:VCALENDAR
+  VERSION:2.0
+  BEGIN:VEVENT
+    UID:1102c450-e0d7-11e1-9b23-0800200c9a66
+    DTSTART:20120109T140000Z
+  END:VEVENT
+  BEGIN:VEVENT
+    UID:1102c450-e0d7-11e1-9b23-0800200c9a66
+    RECURRENCE-ID:20120213T140000Z
+    DTSTART:20120213T140000Z
+  END:VEVENT
+  BEGIN:VEVENT
+    UID:1102c450-e0d7-11e1-9b23-0800200c9a66
+    RECURRENCE-ID:20120312T140000Z
+    DTSTART:20120312T140000Z
+  END:VEVENT
+  ..etc..
+END:VCALENDAR
+```
+
+To show the list of dates, we would do this as such:
+
+```
+foreach($calendar->VEVENT as $event) {
+    echo $event->DTSTART->getDateTime()->format(\DateTime::ATOM);
+}
+```
+
+In a recurring event, single instances can also be overriden. VObject also takes these
+into consideration. The reason we needed to specify a start and end-date, is because
+some recurrence rules can be 'never ending'.
+
+You should make sure you pick a sane date-range. Because if you pick a 50 year
+time-range, for a daily recurring event; this would result in over 18K objects.
+
+# Free-busy report generation
+
+Some calendaring software can make use of FREEBUSY reports to show when people are
+available.
+
+You can automatically generate these reports from calendars using the `FreeBusyGenerator`.
+
+Example based on our last event:
+
+```
+$fbGenerator = VObject\FreeBusyGenerator();
+
+// We're giving it the calendar object. It's also possible to specify multiple objects,
+// by setting them as an array.
+$fbGenerator->setObjects($calendar);
+
+// We must again specify a time-range because of expanding recurrence rules.
+$fbGenerator->setTimeRange(new DateTime('2012-01-01'), new DateTime('2012-12-31'));
+
+// Grabbing the report
+$freebusy = $fbGenerator->result();
+
+// The freebusy report is another VCALENDAR object, so we can serialize it as usual:
+echo $freebusy->serialize();
+```
+
+The output of this script will look like this:
+
+```
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 2.0//EN
+CALSCALE:GREGORIAN
+BEGIN:VFREEBUSY
+DTSTART;VALUE=DATE-TIME:20111231T230000Z
+DTEND;VALUE=DATE-TIME:20111231T230000Z
+DTSTAMP;VALUE=DATE-TIME:20120807T215018Z
+FREEBUSY;FBTYPE=BUSY:20120109T140000Z/20120109T140000Z
+FREEBUSY;FBTYPE=BUSY:20120209T140000Z/20120209T140000Z
+FREEBUSY;FBTYPE=BUSY:20120309T140000Z/20120309T140000Z
+FREEBUSY;FBTYPE=BUSY:20120409T140000Z/20120409T140000Z
+FREEBUSY;FBTYPE=BUSY:20120509T140000Z/20120509T140000Z
+FREEBUSY;FBTYPE=BUSY:20120609T140000Z/20120609T140000Z
+FREEBUSY;FBTYPE=BUSY:20120709T140000Z/20120709T140000Z
+FREEBUSY;FBTYPE=BUSY:20120809T140000Z/20120809T140000Z
+FREEBUSY;FBTYPE=BUSY:20120909T140000Z/20120909T140000Z
+FREEBUSY;FBTYPE=BUSY:20121009T140000Z/20121009T140000Z
+FREEBUSY;FBTYPE=BUSY:20121109T140000Z/20121109T140000Z
+FREEBUSY;FBTYPE=BUSY:20121209T140000Z/20121209T140000Z
+END:VFREEBUSY
+END:VCALENDAR
+```
