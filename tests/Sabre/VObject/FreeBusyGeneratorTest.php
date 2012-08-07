@@ -175,11 +175,10 @@ ICS;
 
     function testGenerator() {
 
-        $gen = new FreeBusyGenerator();
-        $gen->setObjects($this->getInput());
-        $gen->setTimeRange(
+        $gen = new FreeBusyGenerator(
             new \DateTime('20110101T110000Z', new \DateTimeZone('UTC')),
-            new \DateTime('20110103T110000Z', new \DateTimeZone('UTC'))
+            new \DateTime('20110103T110000Z', new \DateTimeZone('UTC')),
+            $this->getInput()
         );
 
         $result = $gen->getResult();
@@ -236,8 +235,11 @@ ICS;
      */
     function testInvalidArg() {
 
-        $gen = new FreeBusyGenerator();
-        $gen->setObjects(array(new \StdClass()));
+        $gen = new FreeBusyGenerator(
+            new \DateTime('2012-01-01'),
+            new \DateTime('2012-12-31'),
+            new \StdClass()
+        );
 
     }
 
