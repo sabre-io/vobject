@@ -223,8 +223,8 @@ $event->DTSTART->setDateTime($dateTime, VObject\Property\DateTime::DATE);
 The second argument specifies the type of date you're setting. The following three
 options exist:
 
-# `LOCAL` This is a floating time, with no timezone information. This basically specifies that the event happens in whatever the timezone's currently in. This would be encoded as `DTSTART;VALUE=DATE-TIME:20120807235300`
-# `UTC` This specifies that the time should be encoded as a UTC time. This is encoded as `DTSTART;VALUE=DATE-TIME:20120807205300Z`. Note the extra Z and the fact that it's two hours 'earlier'.
-# `LOCALTZ` specifies that it's supposed to be encoded in its local timezone. For example `DTSTART;VALUE=DATE-TIME;TZID=Europe/Amsterdam:20120807235300`.
-# `DATE` This is a date-only, and does not contain the time. In this case this would be encoded as `DTSTART;VALUE=DATE:20120807`.
+1. `LOCAL` This is a floating time, with no timezone information. This basically specifies that the event happens in whatever the timezone's currently in. This would be encoded as `DTSTART;VALUE=DATE-TIME:20120807235300`
+2. `UTC` This specifies that the time should be encoded as a UTC time. This is encoded as `DTSTART;VALUE=DATE-TIME:20120807205300Z`. Note the extra Z and the fact that it's two hours 'earlier'.
+3. `LOCALTZ` specifies that it's supposed to be encoded in its local timezone. For example `DTSTART;VALUE=DATE-TIME;TZID=Europe/Amsterdam:20120807235300`.
+4. `DATE` This is a date-only, and does not contain the time. In this case this would be encoded as `DTSTART;VALUE=DATE:20120807`.
 
