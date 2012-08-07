@@ -143,7 +143,7 @@ If you want to generate your updated VObject, you can simply call the serialize(
 
 echo $card->serialize();
 
-``
+```
 
 ## Components
 
