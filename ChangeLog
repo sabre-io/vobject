@@ -4,3 +4,4 @@
 	* New: VObject library now uses PHP 5.3 namespaces.
 	* New: It's possible to specify lists of parameters when constructing
 	  properties.
+	* New: made it easier to construct the FreeBusyGenerator.
