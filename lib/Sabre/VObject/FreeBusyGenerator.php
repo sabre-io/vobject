@@ -66,12 +66,18 @@ class FreeBusyGenerator {
     /**
      * Sets the input objects
      *
-     * Every object must either be a string or a Component.
+     * You must either specify a valendar object as a strong, or as the parse
+     * Component.
+     * It's also possible to specify multiple objects as an array.
      *
-     * @param array $objects
+     * @param mixed $objects
      * @return void
      */
-    public function setObjects(array $objects) {
+    public function setObjects($objects) {
+
+        if (!is_array($objects)) {
+            $objects = array($objects);
+        }
 
         $this->objects = array();
         foreach($objects as $object) {
