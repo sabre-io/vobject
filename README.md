@@ -287,7 +287,7 @@ To figure out all the meetings for this year, we can use the following syntax:
 use Sabre\VObject;
 
 $calendar = VObject\Reader::read($data);
-$calendar->expand(new DateTime('2012-01-01'), new DateTime('2012-31-01'));
+$calendar->expand(new DateTime('2012-01-01'), new DateTime('2012-12-31'));
 ```
 
 What the expand method does, is look at its inner events, and expand the recurring
