@@ -85,6 +85,10 @@ class VCard extends VObject\Component {
                     } else {
                         $this->FN = $value[0];
                     }
+
+                // Otherwise, the ORG property may work
+                } elseif (isset($this->ORG)) {
+                    $this->FN = (string)$this->ORG;
                 }
 
             }

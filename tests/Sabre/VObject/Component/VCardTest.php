@@ -85,6 +85,14 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
             "BEGIN:VCARD\r\nVERSION:4.0\r\nN:Doe;;;;;;\r\nFN:Doe\r\nEND:VCARD\r\n",
         );
 
+        // No FN, ORG fallback
+        $tests[] = array(
+            "BEGIN:VCARD\r\nVERSION:4.0\r\nORG:Acme Co.\r\nEND:VCARD\r\n",
+            array(
+                'The FN property must appear in the VCARD component exactly 1 time',
+            ),
+            "BEGIN:VCARD\r\nVERSION:4.0\r\nORG:Acme Co.\r\nFN:Acme Co.\r\nEND:VCARD\r\n",
+        );
         return $tests;
 
     }
