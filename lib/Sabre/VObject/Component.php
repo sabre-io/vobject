@@ -30,6 +30,11 @@ class Component extends Element {
     public $children = array();
 
     /**
+     * The following constants are used by the validate() method.
+     */
+    const REPAIR = 1;
+
+    /**
      * If components are added to this map, they will be automatically mapped
      * to their respective classes, if parsed by the reader or constructed with
      * the 'create' method.
@@ -37,11 +42,12 @@ class Component extends Element {
      * @var array
      */
     static public $classMap = array(
-        'VCALENDAR'     => 'Sabre\\VObject\\Component\\VCalendar',
-        'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
-        'VTODO'         => 'Sabre\\VObject\\Component\\VTodo',
-        'VJOURNAL'      => 'Sabre\\VObject\\Component\\VJournal',
         'VALARM'        => 'Sabre\\VObject\\Component\\VAlarm',
+        'VCALENDAR'     => 'Sabre\\VObject\\Component\\VCalendar',
+        'VCARD'         => 'Sabre\\VObject\\Component\\VCard',
+        'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
+        'VJOURNAL'      => 'Sabre\\VObject\\Component\\VJournal',
+        'VTODO'         => 'Sabre\\VObject\\Component\\VTodo',
     );
 
     /**
@@ -266,6 +272,11 @@ class Component extends Element {
 
     /**
      * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Component::REPAIR - If something is broken, and automatic repair may
+     *                         be attempted.
+     *
      * An array is returned with warnings.
      *
      * Every item in the array has the following properties:
@@ -273,10 +284,10 @@ class Component extends Element {
      *    * message - (human readable message)
      *    * node - (reference to the offending node)
      *
+     * @param int $options
      * @return array
      */
-    /*
-    public function validate() {
+    public function validate($options = 0) {
 
         $result = array();
         foreach($this->children as $child) {
@@ -285,7 +296,6 @@ class Component extends Element {
         return $result;
 
     }
-     */
 
     /* Magic property accessors {{{ */
 
