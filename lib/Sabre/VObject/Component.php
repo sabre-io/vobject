@@ -13,7 +13,7 @@ namespace Sabre\VObject;
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Component extends Element {
+class Component extends Node {
 
     /**
      * Name, for example VEVENT
@@ -28,11 +28,6 @@ class Component extends Element {
      * @var array
      */
     public $children = array();
-
-    /**
-     * The following constants are used by the validate() method.
-     */
-    const REPAIR = 1;
 
     /**
      * If components are added to this map, they will be automatically mapped
@@ -163,7 +158,7 @@ class Component extends Element {
      *
      * You can call this method with the following syntaxes:
      *
-     * add(Element $element)
+     * add(Node $node)
      * add(string $name, $value, array $parameters = array())
      *
      * The first version adds an Element
@@ -175,9 +170,9 @@ class Component extends Element {
      */
     public function add($item, $itemValue = null, array $parameters = array()) {
 
-        if ($item instanceof Element) {
+        if ($item instanceof Node) {
             if (!is_null($itemValue)) {
-                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject');
+                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject Node');
             }
             $item->parent = $this;
             $this->children[] = $item;
@@ -192,7 +187,7 @@ class Component extends Element {
 
         } else {
 
-            throw new \InvalidArgumentException('The first argument must either be a \\Sabre\\VObject\\Element or a string');
+            throw new \InvalidArgumentException('The first argument must either be a \\Sabre\\VObject\\Node or a string');
 
         }
 

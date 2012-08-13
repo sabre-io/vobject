@@ -20,7 +20,7 @@ class Reader {
      * Parses the file and returns the top component
      *
      * @param string $data
-     * @return Element
+     * @return Node 
      */
     static function read($data) {
 
@@ -59,7 +59,7 @@ class Reader {
      * to traverse.
      *
      * @param array $lines
-     * @return Element
+     * @return Node 
      */
     static private function readLine(&$lines) {
 

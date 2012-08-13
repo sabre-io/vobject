@@ -17,7 +17,7 @@ namespace Sabre\VObject;
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Property extends Element {
+class Property extends Node {
 
     /**
      * Propertyname
@@ -226,7 +226,7 @@ class Property extends Element {
 
         } else {
 
-            throw new \InvalidArgumentException('The first argument must either be a Element or a string');
+            throw new \InvalidArgumentException('The first argument must either be a Node a string');
 
         }
 
@@ -257,7 +257,7 @@ class Property extends Element {
      * Returns a parameter, or parameter list.
      *
      * @param string $name
-     * @return Element
+     * @return Node 
      */
     public function offsetGet($name) {
 
