@@ -274,8 +274,8 @@ class Component extends Element {
      * Validates the node for correctness.
      *
      * The following options are supported:
-     *   - Component::REPAIR - If something is broken, and automatic repair may
-     *                         be attempted.
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
      *
      * An array is returned with warnings.
      *
