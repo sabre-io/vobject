@@ -390,6 +390,9 @@ class Property extends Node {
                 'message' => 'Property is not valid UTF-8!',
                 'node' => $this,
             );
+            if ($options & self::REPAIR) {
+                $this->value = StringUtil::convertToUTF8($this->value);
+            }
         }
 
         // Validating inner parameters

@@ -286,7 +286,7 @@ class Component extends Node {
 
         $result = array();
         foreach($this->children as $child) {
-            $result = array_merge($result, $child->validate());
+            $result = array_merge($result, $child->validate($options));
         }
         return $result;
 
