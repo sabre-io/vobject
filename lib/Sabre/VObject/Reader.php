@@ -111,15 +111,13 @@ class Reader {
         }
 
         $propertyName = strtoupper($matches['name']);
-        $propertyValue = Property::stripSlashes($matches['value']);
-        /* Maybe it's better to just remove '|;|,' from the regex below?
-         * $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
+        $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
             if ($matches[2]==='n' || $matches[2]==='N') {
                 return "\n";
             } else {
                 return $matches[2];
             }
-        }, $matches['value']);*/
+        }, $matches['value']);
 
         $obj = Property::create($propertyName, $propertyValue);
 
