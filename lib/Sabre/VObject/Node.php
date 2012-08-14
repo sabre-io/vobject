@@ -12,6 +12,11 @@ namespace Sabre\VObject;
 abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
 
     /**
+     * The following constants are used by the validate() method.
+     */
+    const REPAIR = 1;
+
+    /**
      * Turns the object back into a serialized blob.
      *
      * @return string
@@ -34,6 +39,11 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
 
     /**
      * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
+     *
      * An array is returned with warnings.
      *
      * Every item in the array has the following properties:
@@ -41,9 +51,10 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      *    * message - (human readable message)
      *    * node - (reference to the offending node)
      *
+     * @param int $options
      * @return array
      */
-    public function validate() {
+    public function validate($options = 0) {
 
         return array();
 

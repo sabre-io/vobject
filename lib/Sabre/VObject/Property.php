@@ -17,7 +17,7 @@ namespace Sabre\VObject;
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Property extends Element {
+class Property extends Node {
 
     /**
      * Propertyname
@@ -230,7 +230,7 @@ class Property extends Element {
 
         } else {
 
-            throw new \InvalidArgumentException('The first argument must either be a Element or a string');
+            throw new \InvalidArgumentException('The first argument must either be a Node a string');
 
         }
 
@@ -261,7 +261,7 @@ class Property extends Element {
      * Returns a parameter, or parameter list.
      *
      * @param string $name
-     * @return Element
+     * @return Node
      */
     public function offsetGet($name) {
 
@@ -363,6 +363,48 @@ class Property extends Element {
             $this->parameters[$key] = clone $child;
             $this->parameters[$key]->parent = $this;
         }
+
+    }
+
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
+     *
+     * An array is returned with warnings.
+     *
+     * Every item in the array has the following properties:
+     *    * level - (number between 1 and 3 with severity information)
+     *    * message - (human readable message)
+     *    * node - (reference to the offending node)
+     *
+     * @param int $options
+     * @return array
+     */
+    public function validate($options = 0) {
+
+        $warnings = array();
+
+        // Checking if our value is UTF-8
+        if (!StringUtil::isUTF8($this->value)) {
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'Property is not valid UTF-8!',
+                'node' => $this,
+            );
+            if ($options & self::REPAIR) {
+                $this->value = StringUtil::convertToUTF8($this->value);
+            }
+        }
+
+        // Validating inner parameters
+        foreach($this->parameters as $param) {
+            $warnings = array_merge($warnings, $param->validate($options));
+        }
+
+        return $warnings;
 
     }
 
