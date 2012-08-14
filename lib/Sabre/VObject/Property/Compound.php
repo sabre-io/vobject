@@ -93,17 +93,6 @@ class Compound extends VObject\Property {
     }
 
     /**
-    * Get the unescaped value.
-    *
-    * @return array
-    */
-    public function getValue() {
-
-        return $this->getArray();
-
-    }
-
-    /**
     * Parses the serialised data structure to create an array.
     *
     * @param string|null $propertyValue The string to parse.
