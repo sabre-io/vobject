@@ -17,7 +17,7 @@ class CompoundTest extends \PHPUnit_Framework_TestCase {
         $elem->setParts($arr);
 
         $this->assertEquals('ABC\, Inc.;North American Division;Marketing\;Sales', $elem->value);
-        $this->assertEquals(3, count($elem->getArray()));
+        $this->assertEquals(3, count($elem->getParts()));
         $parts = $elem->getParts();
         $this->assertEquals('Marketing;Sales', $parts[2]);
 
@@ -29,7 +29,7 @@ class CompoundTest extends \PHPUnit_Framework_TestCase {
 
         $elem = new Compound('ORG', $str);
 
-        $this->assertEquals(3, count($elem->getArray()));
+        $this->assertEquals(3, count($elem->getParts()));
         $parts = $elem->getParts();
         $this->assertEquals('Marketing;Sales', $parts[2]);
     }
