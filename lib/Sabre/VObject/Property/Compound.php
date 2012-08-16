@@ -9,13 +9,13 @@ use Sabre\VObject;
 *
 * This class adds (de)serialization of compound properties to/from arrays.
 *
-* Currently the following properties from RFC 2426 are mapped to use this
+* Currently the following properties from RFC 6350 are mapped to use this
 * class:
 *
-*   N:          Section 3.1.2
-*   ADR:        Section 3.2.1
-*   ORG:        Section 3.5.5
-*   CATEGORIES: Section 3.6.1
+*  N:          Section 6.2.2
+*  ADR:        Section 6.3.1
+*  ORG:        Section 6.6.4
+*  CATEGORIES: Section 6.7.1
 *
 * In order to use this correctly, you must call setArray and getArray to
 * retrieve and modify dates respectively.
