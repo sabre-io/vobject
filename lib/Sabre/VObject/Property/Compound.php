@@ -71,10 +71,10 @@ class Compound extends VObject\Property {
     */
     public function setParts(array $values) {
 
-        $this->arr = array_map('trim', $values);
-
         if(in_array($this->name, array_keys(self::$delimiterMap))) {
-            $this->setValue($this->concatCompoundValues($values, self::$delimiterMap[$this->name]));
+            $this->setValue($this->concatCompoundValues(
+                array_map('trim', $values),
+                self::$delimiterMap[$this->name]));
         } else {
             throw new \InvalidArgumentException(
                     'This property cannot be saved as an array: '
