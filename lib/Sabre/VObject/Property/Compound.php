@@ -17,7 +17,7 @@ use Sabre\VObject;
 *  ORG:        Section 6.6.4
 *  CATEGORIES: Section 6.7.1
 *
-* In order to use this correctly, you must call setArray and getArray to
+* In order to use this correctly, you must call setParts and getParts to
 * retrieve and modify dates respectively.
 *
 * If you use the 'value' or properties directly, this object does not keep
@@ -48,7 +48,7 @@ class Compound extends VObject\Property {
 
     /**
     * If property names are added to this map, they will be (de)serialised as arrays
-    * using the getArray() and setArray() methods.
+    * using the getParts() and setParts() methods.
     * The keys are the property names, values are delimiter chars.
     *
     * @var array
@@ -66,7 +66,7 @@ class Compound extends VObject\Property {
     * @param $name string
     * @return array
     */
-    public function getArray() {
+    public function getParts() {
         if(!$this->arr) {
             $this->arr = $this->parseData($this->name, $this->value);
         }
@@ -79,7 +79,7 @@ class Compound extends VObject\Property {
     * @param $name string
     * @return array
     */
-    public function setArray(array $values) {
+    public function setParts(array $values) {
 
         $this->arr = array_map('trim', $values);
 
