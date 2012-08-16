@@ -86,7 +86,7 @@ class Compound extends VObject\Property {
         if(in_array($this->name, array_keys(self::$delimiterMap))) {
             $this->setValue($this->concatCompoundValues($values, self::$delimiterMap[$this->name]));
         } else {
-            throw new Sabre_DAV_Exception_UnsupportedMediaType(
+            throw new \InvalidArgumentException(
                     'This property cannot be saved as an array: '
                         . $this->name);
         }
@@ -110,7 +110,7 @@ class Compound extends VObject\Property {
         if(in_array($propertyName, array_keys(self::$delimiterMap))) {
             $arr = self::splitCompoundValues($propertyValue, self::$delimiterMap[$propertyName]);
         } else {
-            throw new Sabre_DAV_Exception_UnsupportedMediaType(
+            throw new \InvalidArgumentException(
                     'This property cannot de-serialised as an array: '
                         . $this->name);
         }
