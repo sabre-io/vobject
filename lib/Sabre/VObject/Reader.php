@@ -111,7 +111,7 @@ class Reader {
         }
 
         $propertyName = strtoupper($matches['name']);
-        $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
+        $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
             if ($matches[2]==='n' || $matches[2]==='N') {
                 return "\n";
             } else {
