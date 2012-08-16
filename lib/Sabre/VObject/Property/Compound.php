@@ -26,9 +26,10 @@ use Sabre\VObject;
 * The splitCompoundValues() and concatCompoundValues() methods are written
 * by Lars Kneschke https://code.google.com/p/sabredav/issues/detail?id=145#c6
 *
-* @author Thomas Tanghus
-* @copyright 2012 Thomas Tanghus <thomas@tanghus.net>
-* @copyright 2011 Lars Kneschke
+* @author Thomas Tanghus (http://tanghus.net/)
+* @author Lars Kneschke
+* @author Evert Pot (http://www.rooftopsolutions.nl/)
+* @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
 *
 * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
 */
