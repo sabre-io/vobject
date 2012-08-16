@@ -159,13 +159,12 @@ class Property extends Node {
         $str = $this->name;
         if ($this->group) $str = $this->group . '.' . $this->name;
 
-        if (count($this->parameters)) {
-            foreach($this->parameters as $param) {
+        foreach($this->parameters as $param) {
 
-                $str.=';' . $param->serialize();
+            $str.=';' . $param->serialize();
 
-            }
         }
+
         $src = array(
             '\\',
             "\n",
