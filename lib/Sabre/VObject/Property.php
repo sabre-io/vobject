@@ -67,6 +67,10 @@ class Property extends Node {
         'LAST-MODIFIED' => 'Sabre\\VObject\\Property\\DateTime',
         'RECURRENCE-ID' => 'Sabre\\VObject\\Property\\DateTime',
         'TRIGGER'       => 'Sabre\\VObject\\Property\\DateTime',
+        'N'             => 'Sabre\\VObject\\Property\\Compound',
+        'ORG'           => 'Sabre\\VObject\\Property\\Compound',
+        'ADR'           => 'Sabre\\VObject\\Property\\Compound',
+        'CATEGORIES'    => 'Sabre\\VObject\\Property\\Compound',
     );
 
     /**
