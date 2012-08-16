@@ -40,13 +40,6 @@ use Sabre\VObject;
 class Compound extends VObject\Property {
 
     /**
-    * Property value as array
-    *
-    * @var array
-    */
-    protected $arr;
-
-    /**
     * If property names are added to this map, they will be (de)serialised as arrays
     * using the getParts() and setParts() methods.
     * The keys are the property names, values are delimiter chars.
@@ -67,10 +60,7 @@ class Compound extends VObject\Property {
     * @return array
     */
     public function getParts() {
-        if(!$this->arr) {
-            $this->arr = $this->parseData($this->name, $this->value);
-        }
-        return $this->arr;
+        return $this->parseData($this->name, $this->value);
     }
 
     /**
@@ -156,43 +146,6 @@ class Compound extends VObject\Property {
             }, $values);
 
         return implode($glue, $values);
-    }
-
-    /**
-    * Turns the object back into a serialized blob.
-    *
-    * This method is overridden to not serialize the value
-    * as it is already serialized.
-    *
-    * @return string
-    */
-    public function serialize() {
-
-        $str = $this->name;
-        if ($this->group) $str = $this->group . '.' . $this->name;
-
-        foreach($this->parameters as $param) {
-
-            $str.=';' . $param->serialize();
-
-        }
-
-        $str.=':' . $this->value;
-
-        $out = '';
-        while(strlen($str)>0) {
-            if (strlen($str)>75) {
-                $out.= mb_strcut($str,0,75,'utf-8') . "\r\n";
-                $str = ' ' . mb_strcut($str,75,strlen($str),'utf-8');
-            } else {
-                $out.=$str . "\r\n";
-                $str='';
-                break;
-            }
-        }
-
-        return $out;
-
     }
 
 }
