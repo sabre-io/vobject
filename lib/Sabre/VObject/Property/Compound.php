@@ -5,7 +5,7 @@ namespace Sabre\VObject\Property;
 use Sabre\VObject;
 
 /**
-* ownCloud Contacts - Compound property.
+* Compound property.
 *
 * This class adds (de)serialization of compound properties to/from arrays.
 *
