@@ -132,9 +132,9 @@ class Compound extends VObject\Property {
         $compoundValues = preg_split("/(?<!\\\)$delimiter/", $value);
 
         // remove slashes from any semicolon and comma left escaped in the single values
+        $trans = array("\\;" => ';', "\\,", ',');
         foreach ($compoundValues as &$compoundValue) {
-            $compoundValue = str_replace("\\;", ';', $compoundValue);
-            $compoundValue = str_replace("\\,", ',', $compoundValue);
+            $compoundValue = strtr($compoundValue, $trans);
         }
 
         reset($compoundValues);
@@ -152,9 +152,9 @@ class Compound extends VObject\Property {
     public static function concatCompoundValues(array $values, $glue = ';') {
 
         // add slashes to all semicolons and commas in the single values
+        $trans = array(';' => "\\;", ',' => "\\,");
         foreach($values as &$value) {
-            $value = str_replace( ';', "\\;", $value);
-            $value = str_replace( ',', "\\,", $value);
+            $value = strtr($value, $trans);
         }
 
         return implode($glue, $values);
