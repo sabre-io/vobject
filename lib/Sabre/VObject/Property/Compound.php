@@ -44,7 +44,7 @@ class Compound extends VObject\Property {
     *
     * @var array
     */
-    public $arr;
+    protected $arr;
 
     /**
     * If property names are added to this map, they will be (de)serialised as arrays
