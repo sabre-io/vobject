@@ -1,6 +1,8 @@
 2.0.1-stable (2012-??-??)
 	* Removed: Element class. It wasn't used.
 	* Added: Basic validation and repair methods for broken input data.
+	* Fixed: RecurrenceIterator could infinitely loop when an INTERVAL of 0
+	  was specified.
 
 2.0.0-stable (2012-08-08)
 	* VObject is now a separate project from SabreDAV. See the SabreDAV
