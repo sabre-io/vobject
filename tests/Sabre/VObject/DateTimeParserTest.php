@@ -114,13 +114,13 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
      */
     function testParseICalendarDateGreaterThan4000() {
 
-        $dateTime = Sabre_VObject_DateTimeParser::parseDate('45001231');
+        $dateTime = DateTimeParser::parseDate('45001231');
 
         $expected = new DateTime('4500-12-31 00:00:00',new DateTimeZone('UTC'));
 
         $this->assertEquals($expected, $dateTime);
 
-        $dateTime = Sabre_VObject_DateTimeParser::parse('45001231');
+        $dateTime = DateTimeParser::parse('45001231');
         $this->assertEquals($expected, $dateTime);
 
     }
@@ -130,13 +130,13 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
      */
     function testParseICalendarDateTimeGreaterThan4000() {
 
-        $dateTime = Sabre_VObject_DateTimeParser::parseDateTime('45001231T235959');
+        $dateTime = DateTimeParser::parseDateTime('45001231T235959');
 
         $expected = new DateTime('4500-12-31 23:59:59',new DateTimeZone('UTC'));
 
         $this->assertEquals($expected, $dateTime);
 
-        $dateTime = Sabre_VObject_DateTimeParser::parse('45001231T235959');
+        $dateTime = DateTimeParser::parse('45001231T235959');
         $this->assertEquals($expected, $dateTime);
 
     }
