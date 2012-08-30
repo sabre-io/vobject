@@ -68,14 +68,14 @@ class Reader {
         next($lines);
 
         // Components
-        if (stripos($line,"BEGIN:")===0) {
+        if (strtoupper(substr($line,0,6)) === "BEGIN:") {
 
             $componentName = strtoupper(substr($line,6));
             $obj = Component::create($componentName);
 
             $nextLine = current($lines);
 
-            while(stripos($nextLine,"END:")!==0) {
+            while(strtoupper(substr($nextLine,0,4))!=="END:") {
 
                 $obj->add(self::readLine($lines));
 
