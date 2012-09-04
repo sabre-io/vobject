@@ -8,7 +8,7 @@
 	* Added: A new 'Compound' property, that can automatically split up parts
 	  for properties such as N, ADR, ORG and CATEGORIES.
 	* Added: Splitter classes, that can split up large objects (such as exports)
-	  into individual objects.
+	  into individual objects (thanks @DominikTO and @armin-hackmann).
 	* Fixed: A bug in Windows timezone-id mappings for times created in
 	  Greenlands timezone (sorry Greenlanders! I do care!)
 
