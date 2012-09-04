@@ -1,6 +1,8 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Splitter;
+
+use Sabre\VObject;
 
 class VCardSplitterTest extends \PHPUnit_Framework_TestCase {
 
@@ -21,14 +23,14 @@ END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\VCard($tempFile);
+        $objects = new VCard($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
 
-        Reader::read($return);
+        VObject\Reader::read($return);
     }
 
     function testVCardImportValidVCardsWithCategories() {
@@ -52,14 +54,14 @@ END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\VCard($tempFile);
+        $objects = new VCard($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
 
-        Reader::read($return);
+        VObject\Reader::read($return);
     }
 
     function testVCardImportEndOfData() {
@@ -70,7 +72,7 @@ END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\VCard($tempFile);
+        $objects = new VCard($tempFile);
         $object=$objects->getNext();
         
         $this->assertFalse($object=$objects->getNext());
@@ -88,7 +90,7 @@ END:FOO
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\VCard($tempFile);
+        $objects = new VCard($tempFile);
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
@@ -106,14 +108,14 @@ END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\VCard($tempFile);
+        $objects = new VCard($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
 
-        Reader::read($return);
+        VObject\Reader::read($return);
     }
 
     function testVCardImportVCardWithoutUID() {
@@ -123,14 +125,14 @@ END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\VCard($tempFile);
+        $objects = new VCard($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
 
-        Reader::read($return);
+        VObject\Reader::read($return);
     }
 
 }

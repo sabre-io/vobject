@@ -1,8 +1,16 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Splitter;
+
+use Sabre\VObject;
 
 class ICalendarSplitterTest extends \PHPUnit_Framework_TestCase {
+
+    protected $version;
+
+    function setup() {
+        $this->version = VObject\Version::VERSION;
+    }
 
     function createStream($data) {
 
@@ -24,13 +32,13 @@ END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        Reader::read($return);
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportEndOfData() {
@@ -43,7 +51,7 @@ END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
         
         $return = "";
         while($object=$objects->getNext()) {
@@ -60,56 +68,85 @@ EOT;
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
     }
 
     function testICalendarImportMultipleValidEvents() {
 
+        $event[] = <<<EOT
+BEGIN:VEVENT
+UID:foo1
+END:VEVENT
+EOT;
+
+$event[] = <<<EOT
+BEGIN:VEVENT
+UID:foo2
+END:VEVENT
+EOT;
+
         $data = <<<EOT
 BEGIN:VCALENDAR
-BEGIN:VEVENT
-UID:foo
-END:VEVENT
-BEGIN:VEVENT
-UID:foo
-END:VEVENT
+$event[0]
+$event[1]
 END:VCALENDAR
+
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
+        $i = 0;
         while($object=$objects->getNext()) {
+
+            $expected = <<<EOT
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $this->version//EN
+CALSCALE:GREGORIAN
+$event[$i]
+END:VCALENDAR
+
+EOT;
+
             $return .= $object->serialize();
+            $expected = str_replace("\n", "\r\n", $expected);
+            $this->assertEquals($expected, $object->serialize());
+            $i++;
         }
-        Reader::read($return);
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportEventWithoutUID() {
 
         $data = <<<EOT
 BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $this->version//EN
+CALSCALE:GREGORIAN
 BEGIN:VEVENT
 END:VEVENT
 END:VCALENDAR
+
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
+            $expected = str_replace("\n", "\r\n", $data);
+            $this->assertEquals($expected, $object->serialize());
             $return .= $object->serialize();
         }
 
-        Reader::read($return);
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportMultipleVTIMEZONESAndMultipleValidEvents() {
 
-        $data = <<<EOT
-BEGIN:VCALENDAR
+        $timezones = <<<EOT
 BEGIN:VTIMEZONE
 TZID:Europe/Berlin
 BEGIN:DAYLIGHT
@@ -144,35 +181,63 @@ TZNAME:GMT
 TZOFFSETTO:+0000
 END:STANDARD
 END:VTIMEZONE
+EOT;
+
+        $event[] = <<<EOT
 BEGIN:VEVENT
-UID:foo
+UID:foo1
 END:VEVENT
+EOT;
+
+        $event[] = <<<EOT
 BEGIN:VEVENT
-UID:foo
+UID:foo2
 END:VEVENT
+EOT;
+
+        $event[] = <<<EOT
 BEGIN:VEVENT
-UID:foo
+UID:foo3
 END:VEVENT
-BEGIN:VEVENT
-UID:foo
-END:VEVENT
-BEGIN:VEVENT
-UID:foo
-END:VEVENT
+EOT;
+
+        $data = <<<EOT
+BEGIN:VCALENDAR
+$timezones
+$event[0]
+$event[1]
+$event[2]
 END:VCALENDAR
+
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
+        $i = 0;
         while($object=$objects->getNext()) {
+
+            $expected = <<<EOT
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $this->version//EN
+CALSCALE:GREGORIAN
+$timezones
+$event[$i]
+END:VCALENDAR
+
+EOT;
+            $expected = str_replace("\n", "\r\n", $expected);
+
+            $this->assertEquals($expected, $object->serialize());
             $return .= $object->serialize();
+            $i++;
+
         }
-        $this->assertTrue(array_key_exists("Europe/Berlin", $objects->vtimezones));
-        $this->assertTrue(array_key_exists("Europe/London", $objects->vtimezones));
-        
-        Reader::read($return);
+     
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportWithOutVTIMEZONES() {
@@ -201,17 +266,18 @@ ACTION:AUDIO
 END:VALARM
 END:VEVENT
 END:VCALENDAR
+
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
 
-        Reader::read($return);
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
 }
