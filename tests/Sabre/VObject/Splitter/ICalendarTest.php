@@ -30,7 +30,7 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        Reader::read($return);
+        $this->assertEquals(array(), Reader::read($return)->validate());
     }
 
     function testICalendarImportEndOfData() {
@@ -83,7 +83,7 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        Reader::read($return);
+        $this->assertEquals(array(), Reader::read($return)->validate());
     }
 
     function testICalendarImportEventWithoutUID() {
@@ -103,7 +103,7 @@ EOT;
             $return .= $object->serialize();
         }
 
-        Reader::read($return);
+        $this->assertEquals(array(), Reader::read($return)->validate());
     }
 
     function testICalendarImportMultipleVTIMEZONESAndMultipleValidEvents() {
@@ -172,7 +172,7 @@ EOT;
         $this->assertTrue(array_key_exists("Europe/Berlin", $objects->vtimezones));
         $this->assertTrue(array_key_exists("Europe/London", $objects->vtimezones));
         
-        Reader::read($return);
+        $this->assertEquals(array(), Reader::read($return)->validate());
     }
 
     function testICalendarImportWithOutVTIMEZONES() {
@@ -211,7 +211,7 @@ EOT;
             $return .= $object->serialize();
         }
 
-        Reader::read($return);
+        $this->assertEquals(array(), Reader::read($return)->validate());
     }
 
 }
