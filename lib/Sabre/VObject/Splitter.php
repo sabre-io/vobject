@@ -13,8 +13,18 @@ namespace Sabre\VObject;
  */
 interface Splitter {
 
+    /**
+     * Creates a new VObject/Splitter object.
+     *
+     * @param string $filename
+     */
     function __construct($filename);
 
+    /**
+     * Returns an object of a splitted object
+     *
+     * @return mixed
+     */
     function getNext();
 
 }

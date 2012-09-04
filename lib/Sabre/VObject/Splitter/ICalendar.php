@@ -16,10 +16,25 @@ use Sabre\VObject;
  */
 class ICalendar implements VObject\Splitter {
 
+    /**
+     * Timezones
+     *
+     * @var array
+     */
     public $vtimezones = array();
 
+    /**
+     * File handle
+     *
+     * @var resource
+     */
     protected $objects = array();
 
+    /**
+     * Creates a new VObject/Splitter/ICalendar object.
+     *
+     * @param string $filename
+     */
     public function __construct($filename) {
 
         $data = VObject\Reader::read(file_get_contents($filename));
@@ -54,6 +69,11 @@ class ICalendar implements VObject\Splitter {
 
     }
 
+    /**
+     * Returns an ICalendar object or false when eof is hit
+     *
+     * @return mixed
+     */
     public function getNext() {
 
         if($object=current($this->objects)) {

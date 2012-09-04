@@ -16,8 +16,18 @@ use Sabre\VObject;
  */
 class VCard implements VObject\Splitter {
 
+    /**
+     * File handle
+     *
+     * @var resource
+     */
     protected $fileHandle;
 
+    /**
+     * Creates a new VObject/Splitter/VCard object.
+     *
+     * @param string $filename
+     */
     public function __construct($filename) {
 
         $this->validFileType = '';
@@ -26,10 +36,15 @@ class VCard implements VObject\Splitter {
 
     }
 
+    /**
+     * Returns a VCard object or false when eof is hit
+     *
+     * @return mixed
+     */
     public function getNext() {
         
         $vcard = '';
-        
+
         do {
 
             if (feof($this->fileHandle)) {
