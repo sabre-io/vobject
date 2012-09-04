@@ -4,16 +4,13 @@ namespace Sabre\VObject;
 
 class ICalendarSplitterTest extends \PHPUnit_Framework_TestCase {
 
-    function createTempFile($data) {
-        $tempfile = tempnam("/tmp", "vobject-test");
-        $fp = fopen($tempfile, "w");
-        fwrite($fp, $data);
-        fclose($fp);
-        return $tempfile;
-    }
+    function createStream($data) {
 
-    function removeTempFile($tempFile) {
-        unlink($tempFile);
+        $stream = fopen('php://memory','r+');
+        fwrite($stream, $data);
+        rewind($stream);
+        return $stream;
+
     }
 
     function testICalendarImportValidEvent() {
@@ -25,7 +22,7 @@ UID:foo
 END:VEVENT
 END:VCALENDAR
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\ICalendar($tempFile);
 
@@ -33,8 +30,6 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
-
         Reader::read($return);
     }
 
@@ -46,7 +41,7 @@ UID:foo
 END:VEVENT
 END:VCALENDAR
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\ICalendar($tempFile);
         
@@ -54,9 +49,7 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
-
-        $this->assertFalse($object=$objects->getNext());
+        $this->assertNull($object=$objects->getNext());
     }
 
     /**
@@ -65,7 +58,7 @@ EOT;
     function testICalendarImportInvalidEvent() {
         $data = <<<EOT
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\ICalendar($tempFile);
     }
@@ -82,7 +75,7 @@ UID:foo
 END:VEVENT
 END:VCALENDAR
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\ICalendar($tempFile);
 
@@ -90,8 +83,6 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
-
         Reader::read($return);
     }
 
@@ -103,7 +94,7 @@ BEGIN:VEVENT
 END:VEVENT
 END:VCALENDAR
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\ICalendar($tempFile);
 
@@ -111,7 +102,6 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
 
         Reader::read($return);
     }
@@ -171,7 +161,7 @@ UID:foo
 END:VEVENT
 END:VCALENDAR
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\ICalendar($tempFile);
 
@@ -179,8 +169,6 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
-
         $this->assertTrue(array_key_exists("Europe/Berlin", $objects->vtimezones));
         $this->assertTrue(array_key_exists("Europe/London", $objects->vtimezones));
         
@@ -214,7 +202,7 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\ICalendar($tempFile);
 
@@ -222,7 +210,6 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
 
         Reader::read($return);
     }

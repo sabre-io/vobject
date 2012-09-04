@@ -4,16 +4,13 @@ namespace Sabre\VObject;
 
 class VCardSplitterTest extends \PHPUnit_Framework_TestCase {
 
-    function createTempFile($data) {
-        $tempfile = tempnam("/tmp", "vobject-test");
-        $fp = fopen($tempfile, "w");
-        fwrite($fp, $data);
-        fclose($fp);
-        return $tempfile;
-    }
+    function createStream($data) {
 
-    function removeTempFile($tempFile) {
-        unlink($tempFile);
+        $stream = fopen('php://memory','r+');
+        fwrite($stream, $data);
+        rewind($stream);
+        return $stream;
+
     }
 
     function testVCardImportValidVCard() {
@@ -22,7 +19,7 @@ BEGIN:VCARD
 UID:foo
 END:VCARD
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\VCard($tempFile);
 
@@ -30,7 +27,6 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
 
         Reader::read($return);
     }
@@ -54,7 +50,7 @@ UID:card-in-foo1-and-foo3
 CATEGORIES:foo1\,foo3
 END:VCARD
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\VCard($tempFile);
 
@@ -62,7 +58,6 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
 
         Reader::read($return);
     }
@@ -73,14 +68,13 @@ BEGIN:VCARD
 UID:foo
 END:VCARD
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\VCard($tempFile);
         $object=$objects->getNext();
         
         $this->assertFalse($object=$objects->getNext());
 
-        $this->removeTempFile($tempFile);
 
     }
 
@@ -92,13 +86,12 @@ EOT;
 BEGIN:FOO
 END:FOO
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\VCard($tempFile);
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
         
     }
 
@@ -111,7 +104,7 @@ BEGIN:VCARD
 UID:foo
 END:VCARD
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\VCard($tempFile);
 
@@ -119,7 +112,6 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
 
         Reader::read($return);
     }
@@ -129,7 +121,7 @@ EOT;
 BEGIN:VCARD
 END:VCARD
 EOT;
-        $tempFile = $this->createTempFile($data);
+        $tempFile = $this->createStream($data);
         
         $objects = new Splitter\VCard($tempFile);
 
@@ -137,7 +129,6 @@ EOT;
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->removeTempFile($tempFile);
 
         Reader::read($return);
     }
