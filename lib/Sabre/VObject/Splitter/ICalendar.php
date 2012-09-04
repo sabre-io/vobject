@@ -39,7 +39,7 @@ class ICalendar implements VObject\Splitter {
             
             // Get component UID for recurring Events search
             if($component->uid) {
-                $uid = $component->__get('uid')->value;
+                $uid = (string)$component->UID;
             } else {
                 $uid = '';
             }
