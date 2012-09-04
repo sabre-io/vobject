@@ -88,6 +88,11 @@ class ICalendar implements SplitterInterface {
         if($object=current($this->objects)) {
             next($this->objects);
 
+            // create our baseobject
+            $object->version = '2.0';
+            $object->prodid = '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN';
+            $object->calscale = 'GREGORIAN';
+
             // add vtimezone information to obj (if we have it)
             foreach ($this->vtimezones as $vtimezone) {
                 $object->add($vtimezone);

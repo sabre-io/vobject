@@ -1,8 +1,16 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Splitter;
+
+use Sabre\VObject;
 
 class ICalendarSplitterTest extends \PHPUnit_Framework_TestCase {
+
+    protected $version;
+
+    function setup() {
+        $this->version = VObject\Version::VERSION;
+    }
 
     function createStream($data) {
 
@@ -24,13 +32,13 @@ END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->assertEquals(array(), Reader::read($return)->validate());
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportEndOfData() {
@@ -43,7 +51,7 @@ END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
         
         $return = "";
         while($object=$objects->getNext()) {
@@ -60,7 +68,7 @@ EOT;
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
     }
 
     function testICalendarImportMultipleValidEvents() {
@@ -86,7 +94,7 @@ END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
         $i = 0;
@@ -94,6 +102,9 @@ EOT;
 
             $expected = <<<EOT
 BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $this->version//EN
+CALSCALE:GREGORIAN
 $event[$i]
 END:VCALENDAR
 
@@ -104,13 +115,16 @@ EOT;
             $this->assertEquals($expected, $object->serialize());
             $i++;
         }
-        $this->assertEquals(array(), Reader::read($return)->validate());
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportEventWithoutUID() {
 
         $data = <<<EOT
 BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $this->version//EN
+CALSCALE:GREGORIAN
 BEGIN:VEVENT
 END:VEVENT
 END:VCALENDAR
@@ -118,7 +132,7 @@ END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
@@ -127,7 +141,7 @@ EOT;
             $return .= $object->serialize();
         }
 
-        $this->assertEquals(array(), Reader::read($return)->validate());
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportMultipleVTIMEZONESAndMultipleValidEvents() {
@@ -198,7 +212,7 @@ END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
         $i = 0;
@@ -206,6 +220,9 @@ EOT;
 
             $expected = <<<EOT
 BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $this->version//EN
+CALSCALE:GREGORIAN
 $timezones
 $event[$i]
 END:VCALENDAR
@@ -219,8 +236,8 @@ EOT;
 
         }
      
-        $this->assertEquals(array(), Reader::read($return)->validate());
-        $this->assertEquals(array(), Reader::read($return)->validate());
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportWithOutVTIMEZONES() {
@@ -253,14 +270,14 @@ END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
         
-        $objects = new Splitter\ICalendar($tempFile);
+        $objects = new ICalendar($tempFile);
 
         $return = "";
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
 
-        $this->assertEquals(array(), Reader::read($return)->validate());
+        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
 }
