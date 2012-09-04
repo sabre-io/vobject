@@ -25,7 +25,7 @@ class ICalendar implements SplitterInterface {
      *
      * @var array
      */
-    public $vtimezones = array();
+    protected $vtimezones = array();
 
     /**
      * File handle
@@ -87,9 +87,18 @@ class ICalendar implements SplitterInterface {
 
         if($object=current($this->objects)) {
             next($this->objects);
+
+            // add vtimezone information to obj (if we have it)
+            foreach ($this->vtimezones as $vtimezone) {
+                $object->add($vtimezone);
+            }
+
             return $object;
+
         } else {
+
             return null;
+
         }
 
    }

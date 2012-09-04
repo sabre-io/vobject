@@ -65,23 +65,44 @@ EOT;
 
     function testICalendarImportMultipleValidEvents() {
 
+        $event[] = <<<EOT
+BEGIN:VEVENT
+UID:foo1
+END:VEVENT
+EOT;
+
+$event[] = <<<EOT
+BEGIN:VEVENT
+UID:foo2
+END:VEVENT
+EOT;
+
         $data = <<<EOT
 BEGIN:VCALENDAR
-BEGIN:VEVENT
-UID:foo
-END:VEVENT
-BEGIN:VEVENT
-UID:foo
-END:VEVENT
+$event[0]
+$event[1]
 END:VCALENDAR
+
 EOT;
         $tempFile = $this->createStream($data);
         
         $objects = new Splitter\ICalendar($tempFile);
 
         $return = "";
+        $i = 0;
         while($object=$objects->getNext()) {
+
+            $expected = <<<EOT
+BEGIN:VCALENDAR
+$event[$i]
+END:VCALENDAR
+
+EOT;
+
             $return .= $object->serialize();
+            $expected = str_replace("\n", "\r\n", $expected);
+            $this->assertEquals($expected, $object->serialize());
+            $i++;
         }
         $this->assertEquals(array(), Reader::read($return)->validate());
     }
@@ -93,6 +114,7 @@ BEGIN:VCALENDAR
 BEGIN:VEVENT
 END:VEVENT
 END:VCALENDAR
+
 EOT;
         $tempFile = $this->createStream($data);
         
@@ -100,6 +122,8 @@ EOT;
 
         $return = "";
         while($object=$objects->getNext()) {
+            $expected = str_replace("\n", "\r\n", $data);
+            $this->assertEquals($expected, $object->serialize());
             $return .= $object->serialize();
         }
 
@@ -108,8 +132,7 @@ EOT;
 
     function testICalendarImportMultipleVTIMEZONESAndMultipleValidEvents() {
 
-        $data = <<<EOT
-BEGIN:VCALENDAR
+        $timezones = <<<EOT
 BEGIN:VTIMEZONE
 TZID:Europe/Berlin
 BEGIN:DAYLIGHT
@@ -144,34 +167,59 @@ TZNAME:GMT
 TZOFFSETTO:+0000
 END:STANDARD
 END:VTIMEZONE
+EOT;
+
+        $event[] = <<<EOT
 BEGIN:VEVENT
-UID:foo
+UID:foo1
 END:VEVENT
+EOT;
+
+        $event[] = <<<EOT
 BEGIN:VEVENT
-UID:foo
+UID:foo2
 END:VEVENT
+EOT;
+
+        $event[] = <<<EOT
 BEGIN:VEVENT
-UID:foo
+UID:foo3
 END:VEVENT
-BEGIN:VEVENT
-UID:foo
-END:VEVENT
-BEGIN:VEVENT
-UID:foo
-END:VEVENT
+EOT;
+
+        $data = <<<EOT
+BEGIN:VCALENDAR
+$timezones
+$event[0]
+$event[1]
+$event[2]
 END:VCALENDAR
+
 EOT;
         $tempFile = $this->createStream($data);
         
         $objects = new Splitter\ICalendar($tempFile);
 
         $return = "";
+        $i = 0;
         while($object=$objects->getNext()) {
+
+            $expected = <<<EOT
+BEGIN:VCALENDAR
+$timezones
+$event[$i]
+END:VCALENDAR
+
+EOT;
+            $expected = str_replace("\n", "\r\n", $expected);
+
+            $this->assertEquals($expected, $object->serialize());
             $return .= $object->serialize();
+            $i++;
+
         }
-        $this->assertTrue(array_key_exists("Europe/Berlin", $objects->vtimezones));
-        $this->assertTrue(array_key_exists("Europe/London", $objects->vtimezones));
-        
+     
+        $this->assertEquals(array(), Reader::read($return)->validate());
         $this->assertEquals(array(), Reader::read($return)->validate());
     }
 
@@ -201,6 +249,7 @@ ACTION:AUDIO
 END:VALARM
 END:VEVENT
 END:VCALENDAR
+
 EOT;
         $tempFile = $this->createStream($data);
         
