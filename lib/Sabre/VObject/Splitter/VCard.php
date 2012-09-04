@@ -16,51 +16,39 @@ use Sabre\VObject;
  */
 class VCard implements VObject\Splitter {
 
-    protected $categories;
-    
     protected $fileHandle;
 
     public function __construct($filename) {
+
         $this->validFileType = '';
 
         $this->fileHandle = fopen($filename, 'r');
+
     }
 
     public function getNext() {
+        
         $vcard = '';
+        
+        do {
 
-        if(feof($this->fileHandle)) {
-            return false;
+            if (feof($this->fileHandle)) {
+                return false;
+            }
+
+            $line = fgets($this->fileHandle);
+            $vcard .= $line;
+
+        } while(stripos($line, "END:") !== 0);
+
+        $object = VObject\Reader::read($vcard);
+
+        if($object->name !== 'VCARD') {
+            throw new \InvalidArgumentException("Thats no vCard!", 1);
         }
 
-        while(!feof($this->fileHandle)) {
-                $line = fgets($this->fileHandle);
-                $vcard .= $line;
+        return $object;
 
-                if (stripos($line, "END:")===0) {
-
-                    $object = VObject\Reader::read($vcard);
-
-                    if($object->name !== 'VCARD') {
-                        throw new VObject\ParseException("Thats no vCard!", 1);
-                    }
-
-                    // remember vcards with categories
-                    if($object->categories) {
-                        $categories = explode(",", $object->categories);
-
-                        foreach ($categories as $category) {
-                            $this->categories[(string)$category][] = (string)$object->uid;
-                        }
-                    }
-
-                    return $object;
-
-                }
-        }
-        if($this->categories) {
-            reset($this->categories);
-        }
     }
 
 }

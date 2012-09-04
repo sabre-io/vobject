@@ -85,9 +85,9 @@ EOT;
     }
 
     /**
-     * @expectedException        Sabre\VObject\ParseException
+     * @expectedException        InvalidArgumentException
      */
-    function testVCardImportCheckInvalidComponentException() {
+    function testVCardImportCheckInvalidArgumentException() {
         $data = <<<EOT
 BEGIN:FOO
 END:FOO
