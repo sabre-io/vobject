@@ -61,7 +61,7 @@ class VCard implements SplitterInterface {
             $line = fgets($this->input);
             $vcard .= $line;
 
-        } while(stripos($line, "END:") !== 0);
+        } while(strtoupper(substr($line,0,4))!=="END:");
 
         $object = VObject\Reader::read($vcard);
 
