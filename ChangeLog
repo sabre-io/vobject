@@ -10,7 +10,8 @@
 	* Added: Splitter classes, that can split up large objects (such as exports)
 	  into individual objects (thanks @DominikTO and @armin-hackmann).
 	* Fixed: A bug in Windows timezone-id mappings for times created in
-	  Greenlands timezone (sorry Greenlanders! I do care!)
+	  Greenlands timezone (sorry Greenlanders! I do care!).
+	* Fixed: DTEND was not generated correctly for VFREEBUSY reports.
 
 2.0.0-stable (2012-08-08)
 	* VObject is now a separate project from SabreDAV. See the SabreDAV
