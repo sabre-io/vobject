@@ -293,7 +293,7 @@ class FreeBusyGenerator {
         }
         if ($this->end) {
             $dtend = new Property\DateTime('DTEND');
-            $dtend->setDateTime($this->start,Property\DateTime::UTC);
+            $dtend->setDateTime($this->end,Property\DateTime::UTC);
             $vfreebusy->add($dtend);
         }
         $dtstamp = new Property\DateTime('DTSTAMP');
