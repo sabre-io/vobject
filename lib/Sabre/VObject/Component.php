@@ -43,6 +43,7 @@ class Component extends Node {
         'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
         'VJOURNAL'      => 'Sabre\\VObject\\Component\\VJournal',
         'VTODO'         => 'Sabre\\VObject\\Component\\VTodo',
+        'VFREEBUSY'     => 'Sabre\\VObject\\Component\\VFreeBusy',
     );
 
     /**
