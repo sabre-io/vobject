@@ -9,6 +9,8 @@
 	  for properties such as N, ADR, ORG and CATEGORIES.
 	* Added: Splitter classes, that can split up large objects (such as exports)
 	  into individual objects (thanks @DominikTO and @armin-hackmann).
+	* Added: VFREEBUSY component, which allows easily checking wether
+	  timeslots are available.
 	* Fixed: A bug in Windows timezone-id mappings for times created in
 	  Greenlands timezone (sorry Greenlanders! I do care!).
 	* Fixed: DTEND was not generated correctly for VFREEBUSY reports.
