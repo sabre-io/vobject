@@ -14,6 +14,8 @@
 	* Added: The Reader class now has a 'FORGIVING' option, which allows it to
 	  parse properties with incorrect characters in the name (at this time, it
 	  just allows underscores).
+	* Added: Also added the 'IGNORE_INVALID_LINES' option, to completely
+	  disregard any invalid lines.
 	* Fixed: A bug in Windows timezone-id mappings for times created in
 	  Greenlands timezone (sorry Greenlanders! I do care!).
 	* Fixed: DTEND was not generated correctly for VFREEBUSY reports.
