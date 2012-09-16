@@ -14,6 +14,15 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testCreateNonScalar() {
+
+        $property = new Property('propname',array());
+
+    }
+
     public function testParameterExists() {
 
         $property = new Property('propname','propvalue');

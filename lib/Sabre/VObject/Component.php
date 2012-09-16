@@ -179,9 +179,6 @@ class Component extends Node {
             $this->children[] = $item;
         } elseif(is_string($item)) {
 
-            if (!is_scalar($itemValue)) {
-                throw new \InvalidArgumentException('The second argument must be scalar');
-            }
             $item = Property::create($item,$itemValue, $parameters);
             $item->parent = $this;
             $this->children[] = $item;

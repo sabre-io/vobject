@@ -118,6 +118,10 @@ class Property extends Node {
      */
     public function __construct($name, $value = null, array $parameters = array()) {
 
+        if (!is_scalar($value) && !is_null($value)) {
+            throw new \InvalidArgumentException('The value argument must be scalar or null');
+        }
+
         $name = strtoupper($name);
         $group = null;
         if (strpos($name,'.')!==false) {
@@ -220,9 +224,6 @@ class Property extends Node {
             $this->parameters[] = $item;
         } elseif(is_string($item)) {
 
-            if (!is_scalar($itemValue) && !is_null($itemValue)) {
-                throw new \InvalidArgumentException('The second argument must be scalar');
-            }
             $parameter = new Parameter($item,$itemValue);
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
