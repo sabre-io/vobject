@@ -155,7 +155,12 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
         $iterator = $this->getIterator();
         $iterator->offsetSet($offset,$value);
 
+    // @codeCoverageIgnoreStart
+    //
+    // This method always throws an exception, so we ignore the closing
+    // brace
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Sets an item through ArrayAccess.
@@ -170,7 +175,12 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
         $iterator = $this->getIterator();
         $iterator->offsetUnset($offset);
 
+    // @codeCoverageIgnoreStart
+    //
+    // This method always throws an exception, so we ignore the closing
+    // brace
     }
+    // @codeCoverageIgnoreEnd
 
     /* }}} */
 
