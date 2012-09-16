@@ -26,6 +26,12 @@ class Reader {
     const OPTION_FORGIVING = 1;
 
     /**
+     * If this option is turned on, any lines we cannot parse will be ignored
+     * by the reader.
+     */
+    const OPTION_IGNORE_INVALID_LINES = 2;
+
+    /**
      * Parses the file and returns the top component
      *
      * The options argument is a bitfield. Pass any of the OPTIONS constant to
@@ -61,7 +67,7 @@ class Reader {
 
         reset($lines2);
 
-        return self::readLine($lines2);
+        return self::readLine($lines2, $options);
 
     }
 
@@ -70,6 +76,9 @@ class Reader {
      *
      * This method receives the full array of lines. The array pointer is used
      * to traverse.
+     *
+     * This method returns null if an invalid line was encountered, and the
+     * IGNORE_INVALID_LINES option was turned on.
      *
      * @param array $lines
      * @param int $options See the OPTIONS constants.
@@ -91,9 +100,13 @@ class Reader {
 
             while(strtoupper(substr($nextLine,0,4))!=="END:") {
 
-                $obj->add(self::readLine($lines));
-
+                $parsedLine = self::readLine($lines, $options);
                 $nextLine = current($lines);
+
+                if (is_null($parsedLine)) {
+                    continue;
+                }
+                $obj->add($parsedLine);
 
                 if ($nextLine===false)
                     throw new ParseException('Invalid VObject. Document ended prematurely.');
@@ -124,7 +137,11 @@ class Reader {
         $result = preg_match($regex,$line,$matches);
 
         if (!$result) {
-            throw new ParseException('Invalid VObject, line ' . ($lineNr+1) . ' did not follow the icalendar/vcard format');
+            if ($options & self::OPTION_IGNORE_INVALID_LINES) {
+                return null;
+            } else {
+                throw new ParseException('Invalid VObject, line ' . ($lineNr+1) . ' did not follow the icalendar/vcard format');
+            }
         }
 
         $propertyName = strtoupper($matches['name']);
