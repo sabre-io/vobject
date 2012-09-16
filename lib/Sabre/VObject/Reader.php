@@ -17,12 +17,25 @@ namespace Sabre\VObject;
 class Reader {
 
     /**
+     * If this option is passed to the reader, it will be less strict about the
+     * validity of the lines.
+     *
+     * Currently using this option just means, that it will accept underscores
+     * in property names.
+     */
+    const OPTION_FORGIVING = 1;
+
+    /**
      * Parses the file and returns the top component
      *
+     * The options argument is a bitfield. Pass any of the OPTIONS constant to
+     * alter the parsers' behaviour.
+     *
      * @param string $data
-     * @return Node 
+     * @param int $options
+     * @return Node
      */
-    static function read($data) {
+    static function read($data, $options = 0) {
 
         // Normalizing newlines
         $data = str_replace(array("\r","\n\n"), array("\n","\n"), $data);
@@ -59,9 +72,10 @@ class Reader {
      * to traverse.
      *
      * @param array $lines
-     * @return Node 
+     * @param int $options See the OPTIONS constants.
+     * @return Node
      */
-    static private function readLine(&$lines) {
+    static private function readLine(&$lines, $options = 0) {
 
         $line = current($lines);
         $lineNr = key($lines);
@@ -99,8 +113,11 @@ class Reader {
         // Properties
         //$result = preg_match('/(?P<name>[A-Z0-9-]+)(?:;(?P<parameters>^(?<!:):))(.*)$/',$line,$matches);
 
-
-        $token = '[A-Z0-9-\.]+';
+        if ($options & self::OPTION_FORGIVING) {
+            $token = '[A-Z0-9-\._]+';
+        } else {
+            $token = '[A-Z0-9-\.]+';
+        }
         $parameters = "(?:;(?P<parameters>([^:^\"]|\"([^\"]*)\")*))?";
         $regex = "/^(?P<name>$token)$parameters:(?P<value>.*)$/i";
 

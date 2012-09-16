@@ -290,4 +290,25 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testValidateNonUTF8() {
+
+        $property = Property::create('X-PROP', "Bla\x00");
+        $result = $property->validate(Property::REPAIR);
+
+        $this->assertEquals('Property is not valid UTF-8!', $result[0]['message']);
+        $this->assertEquals('Bla', $property->value);
+
+    }
+
+
+    function testValidateBadPropertyName() {
+
+        $property = Property::create("X_*&PROP*", "Bla");
+        $result = $property->validate(Property::REPAIR);
+
+        $this->assertEquals($result[0]['message'], 'The propertyname: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed');
+        $this->assertEquals('X-PROP', $property->name);
+
+    }
+
 }

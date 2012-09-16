@@ -398,6 +398,25 @@ class Property extends Node {
             }
         }
 
+        // Checking if the propertyname does not contain any invalid bytes.
+        if (!preg_match('/^([A-Z0-9-]+)$/', $this->name)) {
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'The propertyname: ' . $this->name . ' contains invalid characters. Only A-Z, 0-9 and - are allowed',
+                'node' => $this,
+            );
+            if ($options & self::REPAIR) {
+                // Uppercasing and converting underscores to dashes.
+                $this->name = strtoupper(
+                    str_replace('_', '-', $this->name)
+                );
+                // Removing every other invalid character
+                $this->name = preg_replace('/([^A-Z0-9-])/u', '', $this->name);
+
+            }
+
+        }
+
         // Validating inner parameters
         foreach($this->parameters as $param) {
             $warnings = array_merge($warnings, $param->validate($options));

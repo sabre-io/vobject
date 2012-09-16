@@ -11,6 +11,9 @@
 	  into individual objects (thanks @DominikTO and @armin-hackmann).
 	* Added: VFREEBUSY component, which allows easily checking wether
 	  timeslots are available.
+	* Added: The Reader class now has a 'FORGIVING' option, which allows it to
+	  parse properties with incorrect characters in the name (at this time, it
+	  just allows underscores).
 	* Fixed: A bug in Windows timezone-id mappings for times created in
 	  Greenlands timezone (sorry Greenlanders! I do care!).
 	* Fixed: DTEND was not generated correctly for VFREEBUSY reports.
