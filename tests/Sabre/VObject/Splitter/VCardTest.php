@@ -22,7 +22,7 @@ UID:foo
 END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new VCard($tempFile);
 
         $return = "";
@@ -53,7 +53,7 @@ CATEGORIES:foo1\,foo3
 END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new VCard($tempFile);
 
         $return = "";
@@ -71,10 +71,10 @@ UID:foo
 END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new VCard($tempFile);
         $object=$objects->getNext();
-        
+
         $this->assertFalse($object=$objects->getNext());
 
 
@@ -89,12 +89,12 @@ BEGIN:FOO
 END:FOO
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new VCard($tempFile);
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
         }
-        
+
     }
 
     function testVCardImportMultipleValidVCards() {
@@ -107,7 +107,7 @@ UID:foo
 END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new VCard($tempFile);
 
         $return = "";
@@ -124,7 +124,7 @@ BEGIN:VCARD
 END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new VCard($tempFile);
 
         $return = "";
