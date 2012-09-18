@@ -28,9 +28,9 @@ class ICalendar implements SplitterInterface {
     protected $vtimezones = array();
 
     /**
-     * File handle
+     * iCalendar object
      *
-     * @var resource
+     * @var array
      */
     protected $objects = array();
 
@@ -63,7 +63,7 @@ class ICalendar implements SplitterInterface {
                 $uid = (string)$component->UID;
             } else {
                 // Generating a random UID
-                $uid = sha1(microtime()) . '-vobjectimport'; 
+                $uid = sha1(microtime()) . '-vobjectimport';
             }
 
             // Take care of recurring events
@@ -71,7 +71,7 @@ class ICalendar implements SplitterInterface {
                 $this->objects[$uid] = VObject\Component::create('VCALENDAR');
             }
 
-            $this->objects[$uid]->add($component);
+            $this->objects[$uid]->add(clone($component));
         }
 
     }
@@ -87,7 +87,13 @@ class ICalendar implements SplitterInterface {
     public function getNext() {
 
         if($object=current($this->objects)) {
-            next($this->objects);
+
+            // remove current object from array or empty it if current object is the last one
+            if(isset($this->objects[1])) {
+                $this->objects = array_slice($this->objects, 1);
+            } else {
+                $this->objects = array();
+            }
 
             // create our baseobject
             $object->version = '2.0';
