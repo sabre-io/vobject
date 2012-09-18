@@ -71,7 +71,7 @@ class ICalendar implements SplitterInterface {
                 $this->objects[$uid] = VObject\Component::create('VCALENDAR');
             }
 
-            $this->objects[$uid]->add(clone($component));
+            $this->objects[$uid]->add(clone $component);
         }
 
     }
@@ -86,14 +86,7 @@ class ICalendar implements SplitterInterface {
      */
     public function getNext() {
 
-        if($object=current($this->objects)) {
-
-            // remove current object from array or empty it if current object is the last one
-            if(isset($this->objects[1])) {
-                $this->objects = array_slice($this->objects, 1);
-            } else {
-                $this->objects = array();
-            }
+        if($object=array_shift($this->objects)) {
 
             // create our baseobject
             $object->version = '2.0';
