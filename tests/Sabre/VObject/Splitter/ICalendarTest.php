@@ -31,7 +31,7 @@ END:VEVENT
 END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new ICalendar($tempFile);
 
         $return = "";
@@ -50,9 +50,9 @@ END:VEVENT
 END:VCALENDAR
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new ICalendar($tempFile);
-        
+
         $return = "";
         while($object=$objects->getNext()) {
             $return .= $object->serialize();
@@ -67,7 +67,7 @@ EOT;
         $data = <<<EOT
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new ICalendar($tempFile);
     }
 
@@ -93,7 +93,7 @@ END:VCALENDAR
 
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new ICalendar($tempFile);
 
         $return = "";
@@ -131,7 +131,7 @@ END:VCALENDAR
 
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new ICalendar($tempFile);
 
         $return = "";
@@ -211,7 +211,7 @@ END:VCALENDAR
 
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new ICalendar($tempFile);
 
         $return = "";
@@ -235,7 +235,7 @@ EOT;
             $i++;
 
         }
-     
+
         $this->assertEquals(array(), VObject\Reader::read($return)->validate());
         $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
@@ -269,7 +269,7 @@ END:VCALENDAR
 
 EOT;
         $tempFile = $this->createStream($data);
-        
+
         $objects = new ICalendar($tempFile);
 
         $return = "";
