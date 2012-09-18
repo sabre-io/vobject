@@ -49,12 +49,10 @@ If we want to just print out Max' full name, you can just use property access:
 
 
 ```php
-
 use Sabre\VObject;
 
 $card = VObject\Reader::read($data);
 echo $card->FN;
-
 ```
 
 ## Changing properties
@@ -63,19 +61,15 @@ Creating properties is pretty similar. If we like to add his birthday, we just
 set the property:
 
 ```php
-
 $card->BDAY = '1858-04-23';
-
 ```
 
 Note that in the previous example, we're actually updating any existing BDAY that
 may already exist. If we want to add a new property, without overwriting the previous
-we can do this with the `add` method. 
+we can do this with the `add` method.
 
 ```php
-
 $card->add('EMAIL','max@example.org');
-
 ```
 
 ## Parameters
@@ -84,9 +78,7 @@ If we want to also specify that this is max' home email addresses, we can do thi
 a third parameter:
 
 ```
-
 $card->add('EMAIL', 'max@example'org', array('type' => 'HOME'));
-
 ```
 
 If we want to read out all the email addresses and their type, this would look something
@@ -113,7 +105,6 @@ to tie the label to the property.
 The VObject library simply ignores the group if you don't specify it, so this will work:
 
 ```php
-
 foreach($card->TEL as $tel) {
     echo $tel, "\n";
 }
@@ -122,15 +113,13 @@ foreach($card->TEL as $tel) {
 But if you would like to target a specific group + property, this is possible too:
 
 ```php
-
 echo $card->{'ITEM1.TEL'};
-
 ```
 
 So if you would like to show all the phone numbers, along with their custom label, the
 following syntax is used:
 
-```
+```php
 foreach($card->TEL as $tel) {
 
     echo $card->{$tel->group . '.X-ABLABEL'}, ": ";
@@ -143,10 +132,8 @@ foreach($card->TEL as $tel) {
 
 If you want to generate your updated VObject, you can simply call the serialize() method.
 
-```
-
+```php
 echo $card->serialize();
-
 ```
 
 ## Components
@@ -171,34 +158,28 @@ Since events, tasks and journals are always in a sub component, this is also how
 access them.
 
 ```php
-
 use Sabre\VObject;
 
 $calendar = VObject\Reader::read($data);
 echo $calendar->VEVENT->SUMMARY;
-
 ```
 
 Adding components to a calendar is done with a factory method:
 
 ```php
-
 $event = VObject\Component::create('VEVENT');
 $calendar->add($event);
 
 $event->SUMMARY = 'Curiosity launch';
 $event->DTSTART = '20111126T150202Z';
 $event->LOCATION = 'Cape Carnival';
-
 ```
 
 By the way.. cloning also works as expected, as the entire structure is cloned along with it:
 
 ```php
-
 $clonedEvent = clone $calendar->VEVENT[0];
 $calendar->add($clonedEvent);
-
 ```
 
 ## Date and time handling
@@ -211,7 +192,7 @@ microsoft generated timezone information, and others.
 
 To get a real php `DateTime` object, you can request this as follows:
 
-```
+```php
 $event = $calendar->VEVENT;
 $start = $event->DTSTART->getDateTime();
 echo $start->format(\DateTime::W3C);
@@ -219,7 +200,7 @@ echo $start->format(\DateTime::W3C);
 
 To set the property with a DateTime object, you can use the following syntax:
 
-```
+```php
 $dateTime = new \DateTime('2012-08-07 23:53:00', new DateTimeZone('Europe/Amsterdam'));
 $event->DTSTART->setDateTime($dateTime, VObject\Property\DateTime::DATE);
 ```
@@ -319,7 +300,7 @@ END:VCALENDAR
 
 To show the list of dates, we would do this as such:
 
-```
+```php
 foreach($calendar->VEVENT as $event) {
     echo $event->DTSTART->getDateTime()->format(\DateTime::ATOM);
 }
@@ -341,8 +322,7 @@ You can automatically generate these reports from calendars using the `FreeBusyG
 
 Example based on our last event:
 
-```
-
+```php
 // We're giving it the calendar object. It's also possible to specify multiple objects,
 // by setting them as an array.
 //
