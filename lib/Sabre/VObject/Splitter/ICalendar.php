@@ -28,7 +28,7 @@ class ICalendar implements SplitterInterface {
     protected $vtimezones = array();
 
     /**
-     * iCalendar object
+     * iCalendar objects
      *
      * @var array
      */
