@@ -20,17 +20,10 @@ use Sabre\VObject;
 * In order to use this correctly, you must call setParts and getParts to
 * retrieve and modify dates respectively.
 *
-* If you use the 'value' or properties directly, this object does not keep
-* reference and results might appear incorrectly.
-*
-* The splitCompoundValues() and concatCompoundValues() methods are written
-* by Lars Kneschke https://code.google.com/p/sabredav/issues/detail?id=145#c6
-*
 * @author Thomas Tanghus (http://tanghus.net/)
 * @author Lars Kneschke
 * @author Evert Pot (http://www.rooftopsolutions.nl/)
 * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
-*
 * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
 */
 
@@ -54,90 +47,72 @@ class Compound extends VObject\Property {
     );
 
     /**
+     * The currently used delimiter.
+     *
+     * @var string
+     */
+    protected $delimiter = null;
+
+    /**
     * Get a compound value as an array.
     *
     * @param $name string
     * @return array
     */
     public function getParts() {
-        return $this->parseData($this->name, $this->value);
-    }
 
-    /**
-    * Set a compound value as an array.
-    *
-    * @param $name string
-    * @return array
-    */
-    public function setParts(array $values) {
-
-        if(in_array($this->name, array_keys(self::$delimiterMap))) {
-            $this->setValue($this->concatCompoundValues(
-                array_map('trim', $values),
-                self::$delimiterMap[$this->name]));
-        } else {
-            throw new \InvalidArgumentException(
-                    'This property cannot be saved as an array: '
-                        . $this->name);
+        if (is_null($this->value)) {
+            return array();
         }
 
-    }
+        $delimiter = $this->getDelimiter();
 
-    /**
-    * Parses the serialised data structure to create an array.
-    *
-    * @param string|null $propertyValue The string to parse.
-    * @return Array
-    */
-    static public function parseData($propertyName, $propertyValue) {
-
-        if (is_null($propertyValue)) {
-            return  null;
-        }
-
-        $arr = array();
-
-        if(in_array($propertyName, array_keys(self::$delimiterMap))) {
-            $arr = self::splitCompoundValues($propertyValue, self::$delimiterMap[$propertyName]);
-        } else {
-            throw new \InvalidArgumentException(
-                    'This property cannot de-serialised as an array: '
-                        . $this->name);
-        }
-
-        $arr = array_map('trim', $arr);
-        return $arr;
-    }
-
-    /**
-    * split compound value into single parts
-    *
-    * @param string $value
-    * @param string $delimiter
-    * @return array
-    */
-    public static function splitCompoundValues($value, $delimiter = ';') {
-
-        // split by any $delimiter which is NOT prefixed by a slash
-        $compoundValues = preg_split("/(?<!\\\)$delimiter/", $value);
+        // split by any $delimiter which is NOT prefixed by a slash.
+        // Note that this is not a a perfect solution. If a value is prefixed
+        // by two slashes, it should actually be split anyway.
+        //
+        // Hopefully we can fix this better in a future version, where we can
+        // break compatibility a bit.
+        $compoundValues = preg_split("/(?<!\\\)$delimiter/", $this->value);
 
         // remove slashes from any semicolon and comma left escaped in the single values
         $compoundValues = array_map(
             function($val) {
                 return strtr($val, array('\,' => ',', '\;' => ';'));
-            }, $compoundValues);
+        }, $compoundValues);
 
         return $compoundValues;
+
     }
 
     /**
-    * concat single values to one compound value
+     * Returns the delimiter for this property.
+     *
+     * @return string
+     */
+    public function getDelimiter() {
+
+        if (!$this->delimiter) {
+            if (isset(self::$delimiterMap[$this->name])) {
+                $this->delimiter = self::$delimiterMap[$this->name];
+            } else {
+                // To be a bit future proof, we are going to default the
+                // delimiter to ;
+                $this->delimiter = ';';
+            }
+        }
+        return $this->delimiter;
+
+    }
+
+    /**
+     * Set a compound value as an array.
+     *
     *
-    * @param array $values
-    * @param string $glue
-    * @return string
+    * @param $name string
+    * @return array
     */
-    public static function concatCompoundValues(array $values, $glue = ';') {
+    public function setParts(array $values) {
 
         // add slashes to all semicolons and commas in the single values
         $values = array_map(
@@ -145,7 +120,10 @@ class Compound extends VObject\Property {
                 return strtr($val, array(',' => '\,', ';' => '\;'));
             }, $values);
 
-        return implode($glue, $values);
+        $this->setValue(
+            implode($this->getDelimiter(), $values)
+        );
+
     }
 
 }

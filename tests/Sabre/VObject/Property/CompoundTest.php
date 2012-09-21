@@ -34,4 +34,26 @@ class CompoundTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Marketing;Sales', $parts[2]);
     }
 
+    function testGetPartsDefaultDelimiter() {
+
+        $str = 'Hi!;Hello!';
+
+        $elem = new Compound('X-FOO', $str);
+
+        $this->assertEquals(array(
+            'Hi!',
+            'Hello!',
+        ), $elem->getParts());
+
+    }
+
+    function testGetPartsNull() {
+
+        $str = 'ABC\, Inc.;North American Division;Marketing\;Sales';
+
+        $elem = new Compound('ORG', null);
+
+        $this->assertEquals(0, count($elem->getParts()));
+
+    }
 }
