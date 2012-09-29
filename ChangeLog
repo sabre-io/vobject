@@ -1,4 +1,7 @@
-2.0.1-stable (2012-10-22)
+2.0.2-stable (2012-??-??)
+	* Added: includes.php file, to load the entire library in one go.
+
+2.0.1-stable (2012-09-22)
 	* Removed: Element class. It wasn't used.
 	* Added: Basic validation and repair methods for broken input data.
 	* Fixed: RecurrenceIterator could infinitely loop when an INTERVAL of 0
