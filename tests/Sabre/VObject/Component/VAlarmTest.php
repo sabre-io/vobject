@@ -4,6 +4,7 @@ namespace Sabre\VObject\Component;
 
 use Sabre\VObject\Component;
 use DateTime;
+use Sabre\VObject\Reader;
 
 class VAlarmTest extends \PHPUnit_Framework_TestCase {
 
@@ -165,7 +166,7 @@ END:VTODO
 END:VCALENDAR
 BLA;
 
-        $vobj = Sabre_VObject_Reader::read($input);
+        $vobj = Reader::read($input);
 
         $this->assertTrue($vobj->VTODO->VALARM->isInTimeRange(new \DateTime('2012-10-01 00:00:00'), new \DateTime('2012-11-01 00:00:00')));
 
