@@ -13,7 +13,7 @@ namespace Sabre\VObject;
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Component extends Element {
+class Component extends Node {
 
     /**
      * Name, for example VEVENT
@@ -37,11 +37,13 @@ class Component extends Element {
      * @var array
      */
     static public $classMap = array(
-        'VCALENDAR'     => 'Sabre\\VObject\\Component\\VCalendar',
-        'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
-        'VTODO'         => 'Sabre\\VObject\\Component\\VTodo',
-        'VJOURNAL'      => 'Sabre\\VObject\\Component\\VJournal',
         'VALARM'        => 'Sabre\\VObject\\Component\\VAlarm',
+        'VCALENDAR'     => 'Sabre\\VObject\\Component\\VCalendar',
+        'VCARD'         => 'Sabre\\VObject\\Component\\VCard',
+        'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
+        'VJOURNAL'      => 'Sabre\\VObject\\Component\\VJournal',
+        'VTODO'         => 'Sabre\\VObject\\Component\\VTodo',
+        'VFREEBUSY'     => 'Sabre\\VObject\\Component\\VFreeBusy',
     );
 
     /**
@@ -157,7 +159,7 @@ class Component extends Element {
      *
      * You can call this method with the following syntaxes:
      *
-     * add(Element $element)
+     * add(Node $node)
      * add(string $name, $value, array $parameters = array())
      *
      * The first version adds an Element
@@ -169,24 +171,21 @@ class Component extends Element {
      */
     public function add($item, $itemValue = null, array $parameters = array()) {
 
-        if ($item instanceof Element) {
+        if ($item instanceof Node) {
             if (!is_null($itemValue)) {
-                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject');
+                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject Node');
             }
             $item->parent = $this;
             $this->children[] = $item;
         } elseif(is_string($item)) {
 
-            if (!is_scalar($itemValue)) {
-                throw new \InvalidArgumentException('The second argument must be scalar');
-            }
             $item = Property::create($item,$itemValue, $parameters);
             $item->parent = $this;
             $this->children[] = $item;
 
         } else {
 
-            throw new \InvalidArgumentException('The first argument must either be a \\Sabre\\VObject\\Element or a string');
+            throw new \InvalidArgumentException('The first argument must either be a \\Sabre\\VObject\\Node or a string');
 
         }
 
@@ -266,6 +265,11 @@ class Component extends Element {
 
     /**
      * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
+     *
      * An array is returned with warnings.
      *
      * Every item in the array has the following properties:
@@ -273,19 +277,18 @@ class Component extends Element {
      *    * message - (human readable message)
      *    * node - (reference to the offending node)
      *
+     * @param int $options
      * @return array
      */
-    /*
-    public function validate() {
+    public function validate($options = 0) {
 
         $result = array();
         foreach($this->children as $child) {
-            $result = array_merge($result, $child->validate());
+            $result = array_merge($result, $child->validate($options));
         }
         return $result;
 
     }
-     */
 
     /* Magic property accessors {{{ */
 

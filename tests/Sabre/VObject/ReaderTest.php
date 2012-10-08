@@ -135,7 +135,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('PROPNAME', $result->children[0]->name);
         $this->assertEquals('propValue', $result->children[0]->value);
 
-
     }
     function testReadNestedComponent() {
 
@@ -259,6 +258,69 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($result->parameters));
         $this->assertEquals('PARAMNAME', $result->parameters[0]->name);
         $this->assertEquals('param:value', $result->parameters[0]->value);
+
+    }
+
+    function testReadForgiving() {
+
+        $data = array(
+            "BEGIN:VCALENDAR",
+            "X_PROP:propValue",
+            "END:VCALENDAR"
+        );
+
+        $caught = false;
+        try {
+            $result = Reader::read(implode("\r\n",$data));
+        } catch (ParseException $e) {
+            $caught = true;
+        }
+
+        $this->assertEquals(true, $caught);
+
+        $result = Reader::read(implode("\r\n",$data), Reader::OPTION_FORGIVING);
+
+        $expected = implode("\r\n", array(
+            "BEGIN:VCALENDAR",
+            "X_PROP:propValue",
+            "END:VCALENDAR",
+            ""
+        ));
+
+        $this->assertEquals($expected, $result->serialize());
+
+
+    }
+
+    function testReadWithInvalidLine() {
+
+        $data = array(
+            "BEGIN:VCALENDAR",
+            "DESCRIPTION:propValue",
+            "Yes, we've actually seen a file with non-idented property values on multiple lines",
+            "END:VCALENDAR"
+        );
+
+        $caught = false;
+        try {
+            $result = Reader::read(implode("\r\n",$data));
+        } catch (ParseException $e) {
+            $caught = true;
+        }
+
+        $this->assertEquals(true, $caught);
+
+        $result = Reader::read(implode("\r\n",$data), Reader::OPTION_IGNORE_INVALID_LINES);
+
+        $expected = implode("\r\n", array(
+            "BEGIN:VCALENDAR",
+            "DESCRIPTION:propValue",
+            "END:VCALENDAR",
+            ""
+        ));
+
+        $this->assertEquals($expected, $result->serialize());
+
 
     }
 

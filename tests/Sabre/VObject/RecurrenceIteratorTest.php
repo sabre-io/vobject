@@ -22,6 +22,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
+        $this->assertTrue($it->isInfinite());
         $this->assertEquals(array(10), $it->byHour);
         $this->assertEquals(array(5), $it->byMinute);
         $this->assertEquals(array(16), $it->bySecond);

@@ -38,6 +38,10 @@ class Parameter extends Node {
      */
     public function __construct($name, $value = null) {
 
+        if (!is_scalar($value) && !is_null($value)) {
+            throw new \InvalidArgumentException('The value argument must be a scalar value or null');
+        }
+
         $this->name = strtoupper($name);
         $this->value = $value;
 

@@ -64,5 +64,28 @@ class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestC
 
     }
 
+    /**
+     * Something, somewhere produced an ics with an interval set to 0. Because
+     * this means we increase the current day (or week, month) by 0, this also
+     * results in an infinite loop.
+     *
+     * @expectedException InvalidArgumentException
+     * @return void
+     */
+    function testZeroInterval() {
+
+        $ev = Component::create('VEVENT');
+        $ev->UID = 'uuid';
+        $ev->DTSTART = '20120824T145700Z';
+        $ev->RRULE = 'FREQ=YEARLY;INTERVAL=0';
+        $cal = Component::create('VCALENDAR');
+        $cal->add($ev);
+
+        $it = new RecurrenceIterator($cal,'uuid');
+        $it->fastForward(new DateTime('2013-01-01 23:00:00', new DateTimeZone('UTC')));
+
+        // if we got this far.. it means we are no longer infinitely looping
+
+    }
 
 }

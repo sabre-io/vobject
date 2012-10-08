@@ -378,6 +378,9 @@ class RecurrenceIterator implements \Iterator {
 
                 case 'INTERVAL' :
                     $this->interval = (int)$value;
+                    if ($this->interval < 1) {
+                        throw new \InvalidArgumentException('INTERVAL in RRULE must be a positive integer!');
+                    }
                     break;
 
                 case 'BYSECOND' :

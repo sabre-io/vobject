@@ -17,7 +17,7 @@ namespace Sabre\VObject;
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Property extends Element {
+class Property extends Node {
 
     /**
      * Propertyname
@@ -67,6 +67,10 @@ class Property extends Element {
         'LAST-MODIFIED' => 'Sabre\\VObject\\Property\\DateTime',
         'RECURRENCE-ID' => 'Sabre\\VObject\\Property\\DateTime',
         'TRIGGER'       => 'Sabre\\VObject\\Property\\DateTime',
+        'N'             => 'Sabre\\VObject\\Property\\Compound',
+        'ORG'           => 'Sabre\\VObject\\Property\\Compound',
+        'ADR'           => 'Sabre\\VObject\\Property\\Compound',
+        'CATEGORIES'    => 'Sabre\\VObject\\Property\\Compound',
     );
 
     /**
@@ -114,6 +118,10 @@ class Property extends Element {
      */
     public function __construct($name, $value = null, array $parameters = array()) {
 
+        if (!is_scalar($value) && !is_null($value)) {
+            throw new \InvalidArgumentException('The value argument must be scalar or null');
+        }
+
         $name = strtoupper($name);
         $group = null;
         if (strpos($name,'.')!==false) {
@@ -159,13 +167,12 @@ class Property extends Element {
         $str = $this->name;
         if ($this->group) $str = $this->group . '.' . $this->name;
 
-        if (count($this->parameters)) {
-            foreach($this->parameters as $param) {
+        foreach($this->parameters as $param) {
 
-                $str.=';' . $param->serialize();
+            $str.=';' . $param->serialize();
 
-            }
         }
+
         $src = array(
             '\\',
             "\n",
@@ -217,16 +224,13 @@ class Property extends Element {
             $this->parameters[] = $item;
         } elseif(is_string($item)) {
 
-            if (!is_scalar($itemValue) && !is_null($itemValue)) {
-                throw new \InvalidArgumentException('The second argument must be scalar');
-            }
             $parameter = new Parameter($item,$itemValue);
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
 
         } else {
 
-            throw new \InvalidArgumentException('The first argument must either be a Element or a string');
+            throw new \InvalidArgumentException('The first argument must either be a Node a string');
 
         }
 
@@ -257,7 +261,7 @@ class Property extends Element {
      * Returns a parameter, or parameter list.
      *
      * @param string $name
-     * @return Element
+     * @return Node
      */
     public function offsetGet($name) {
 
@@ -359,6 +363,67 @@ class Property extends Element {
             $this->parameters[$key] = clone $child;
             $this->parameters[$key]->parent = $this;
         }
+
+    }
+
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
+     *
+     * An array is returned with warnings.
+     *
+     * Every item in the array has the following properties:
+     *    * level - (number between 1 and 3 with severity information)
+     *    * message - (human readable message)
+     *    * node - (reference to the offending node)
+     *
+     * @param int $options
+     * @return array
+     */
+    public function validate($options = 0) {
+
+        $warnings = array();
+
+        // Checking if our value is UTF-8
+        if (!StringUtil::isUTF8($this->value)) {
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'Property is not valid UTF-8!',
+                'node' => $this,
+            );
+            if ($options & self::REPAIR) {
+                $this->value = StringUtil::convertToUTF8($this->value);
+            }
+        }
+
+        // Checking if the propertyname does not contain any invalid bytes.
+        if (!preg_match('/^([A-Z0-9-]+)$/', $this->name)) {
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'The propertyname: ' . $this->name . ' contains invalid characters. Only A-Z, 0-9 and - are allowed',
+                'node' => $this,
+            );
+            if ($options & self::REPAIR) {
+                // Uppercasing and converting underscores to dashes.
+                $this->name = strtoupper(
+                    str_replace('_', '-', $this->name)
+                );
+                // Removing every other invalid character
+                $this->name = preg_replace('/([^A-Z0-9-])/u', '', $this->name);
+
+            }
+
+        }
+
+        // Validating inner parameters
+        foreach($this->parameters as $param) {
+            $warnings = array_merge($warnings, $param->validate($options));
+        }
+
+        return $warnings;
 
     }
 
