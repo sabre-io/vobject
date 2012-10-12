@@ -616,6 +616,10 @@ class RecurrenceIterator implements \Iterator {
                 // Otherwise, we calculate it
                 switch($this->frequency) {
 
+                    case 'hourly' :
+                        $this->nextHourly();
+                        break;
+
                     case 'daily' :
                         $this->nextDaily();
                         break;
@@ -676,6 +680,34 @@ class RecurrenceIterator implements \Iterator {
         }*/
 
         $this->counter++;
+
+    }
+
+    /**
+     * Does the processing for advancing the iterator for hourly frequency.
+     *
+     * @return void
+     */
+    protected function nextHourly() {
+
+        if (!$this->byHour) {
+            $this->currentDate->modify('+' . $this->interval . ' hours');
+            return;
+        }
+
+        $recurrenceHours = array();
+        foreach($this->byHour as $byHour) {
+            $recurrenceHours[] = $this->hourMap[$byHour];
+        }
+
+        do {
+
+            $this->currentDate->modify('+' . $this->interval . ' hours');
+
+            // Current hour of the day
+            $currentHour = $this->currentDate->format('N');
+
+        } while (!in_array($currentHour, $recurrenceHours));
 
     }
 
