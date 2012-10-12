@@ -697,7 +697,7 @@ class RecurrenceIterator implements \Iterator {
 
         $recurrenceHours = array();
         foreach($this->byHour as $byHour) {
-            $recurrenceHours[] = $this->hourMap[$byHour];
+            $recurrenceHours[] = $byHour;
         }
 
         do {
