@@ -74,6 +74,75 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testValues
      */
+    function testHourly() {
+
+        $ev = new Component('VEVENT');
+        $ev->UID = 'bla';
+        $ev->RRULE = 'FREQ=HOURLY;UNTIL=20111025T000000Z';
+        $dtStart = new Property\DateTime('DTSTART');
+        $dtStart->setDateTime(new DateTime('2011-10-24 00:00:00', new DateTimeZone('UTC')),Property\DateTime::UTC);
+
+        $ev->add($dtStart);
+
+        $vcal = Component::create('VCALENDAR');
+        $vcal->add($ev);
+
+        $it = new RecurrenceIterator($vcal,$ev->uid);
+
+        $this->assertEquals('hourly', $it->frequency);
+        $this->assertEquals(1, $it->interval);
+        $this->assertEquals(new DateTime('2011-10-25 00:00:00', new DateTimeZone('UTC')), $it->until);
+
+        // Max is to prevent overflow
+        $max = 30;
+        $result = array();
+        foreach($it as $item) {
+
+            $result[] = $item;
+            $max--;
+
+            if (!$max) break;
+
+        }
+
+        $tz = new DateTimeZone('UTC');
+
+        $this->assertEquals(
+            array(
+                new DateTime('2011-10-24 00:00:00', $tz),
+                new DateTime('2011-10-24 01:00:00', $tz),
+                new DateTime('2011-10-24 02:00:00', $tz),
+                new DateTime('2011-10-24 03:00:00', $tz),
+                new DateTime('2011-10-24 04:00:00', $tz),
+                new DateTime('2011-10-24 05:00:00', $tz),
+                new DateTime('2011-10-24 06:00:00', $tz),
+                new DateTime('2011-10-24 07:00:00', $tz),
+                new DateTime('2011-10-24 08:00:00', $tz),
+                new DateTime('2011-10-24 09:00:00', $tz),
+                new DateTime('2011-10-24 10:00:00', $tz),
+                new DateTime('2011-10-24 11:00:00', $tz),
+                new DateTime('2011-10-24 12:00:00', $tz),
+                new DateTime('2011-10-24 13:00:00', $tz),
+                new DateTime('2011-10-24 14:00:00', $tz),
+                new DateTime('2011-10-24 15:00:00', $tz),
+                new DateTime('2011-10-24 16:00:00', $tz),
+                new DateTime('2011-10-24 17:00:00', $tz),
+                new DateTime('2011-10-24 18:00:00', $tz),
+                new DateTime('2011-10-24 19:00:00', $tz),
+                new DateTime('2011-10-24 20:00:00', $tz),
+                new DateTime('2011-10-24 21:00:00', $tz),
+                new DateTime('2011-10-24 22:00:00', $tz),
+                new DateTime('2011-10-24 23:00:00', $tz),
+                new DateTime('2011-10-25 00:00:00', $tz),
+            ),
+            $result
+        );
+
+    }
+
+    /**
+     * @depends testValues
+     */
     function testDaily() {
 
         $ev = new Component('VEVENT');
@@ -159,6 +228,62 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(
             array(
                 new DateTime('2011-10-07', $tz),
+            ),
+            $result
+        );
+
+    }
+
+    /**
+     * @depends testValues
+     */
+    function testHourlyByHour() {
+
+        $ev = new Component('VEVENT');
+        $ev->UID = 'bla';
+        $ev->RRULE = 'FREQ=HOURLY;BYHOUR=7,8,9';
+        $dtStart = new Property\DateTime('DTSTART');
+        $dtStart->setDateTime(new DateTime('2011-10-24 00:00:00', new DateTimeZone('UTC')),Property\DateTime::UTC);
+
+        $ev->add($dtStart);
+
+        $vcal = Component::create('VCALENDAR');
+        $vcal->add($ev);
+
+        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+
+        $this->assertEquals('hourly', $it->frequency);
+        $this->assertEquals(1, $it->interval);
+        $this->assertEquals(array('7','8','9'), $it->byHour);
+
+        // Grabbing the next 12 items
+        $max = 12;
+        $result = array();
+        foreach($it as $item) {
+
+            $result[] = $item;
+            $max--;
+
+            if (!$max) break;
+
+        }
+
+        $tz = new DateTimeZone('UTC');
+
+        $this->assertEquals(
+            array(
+                new DateTime('2011-10-24 00:00:00', $tz),
+                new DateTime('2011-10-24 07:00:00', $tz),
+                new DateTime('2011-10-24 08:00:00', $tz),
+                new DateTime('2011-10-24 09:00:00', $tz),
+                new DateTime('2011-10-25 07:00:00', $tz),
+                new DateTime('2011-10-25 08:00:00', $tz),
+                new DateTime('2011-10-25 09:00:00', $tz),
+                new DateTime('2011-10-26 07:00:00', $tz),
+                new DateTime('2011-10-26 08:00:00', $tz),
+                new DateTime('2011-10-26 09:00:00', $tz),
+                new DateTime('2011-10-27 07:00:00', $tz),
+                new DateTime('2011-10-27 08:00:00', $tz),
             ),
             $result
         );
@@ -983,7 +1108,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev2);
 
-        // ev3 overrides an event, and puts it 2 days and 2 hours later 
+        // ev3 overrides an event, and puts it 2 days and 2 hours later
         $ev3 = Component::create('VEVENT');
         $ev3->UID = 'overridden';
         $ev3->{'RECURRENCE-ID'} = '20120113T120000Z';
@@ -1114,13 +1239,13 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $dates = array();
         $summaries = array();
 
-        // The reported problem was specifically related to the VCALENDAR 
-        // expansion. In this parcitular case, we had to forward to the 28th of 
+        // The reported problem was specifically related to the VCALENDAR
+        // expansion. In this parcitular case, we had to forward to the 28th of
         // january.
         $it->fastForward(new DateTime('2012-01-28 23:00:00'));
 
-        // We stop the loop when it hits the 6th of februari. Normally this 
-        // iterator would hit 24, 25 (overriden from 31) and 7 feb but because 
+        // We stop the loop when it hits the 6th of februari. Normally this
+        // iterator would hit 24, 25 (overriden from 31) and 7 feb but because
         // we 'filter' from the 28th till the 6th, we should get 0 results.
         while($it->valid() && $it->getDTSTart() < new DateTime('2012-02-06 23:00:00')) {
 
