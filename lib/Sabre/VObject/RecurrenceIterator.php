@@ -705,7 +705,7 @@ class RecurrenceIterator implements \Iterator {
             $this->currentDate->modify('+' . $this->interval . ' hours');
 
             // Current hour of the day
-            $currentHour = $this->currentDate->format('H');
+            $currentHour = $this->currentDate->format('G');
 
         } while (!in_array($currentHour, $recurrenceHours));
 
