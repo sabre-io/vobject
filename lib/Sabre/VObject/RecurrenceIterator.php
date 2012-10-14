@@ -686,29 +686,62 @@ class RecurrenceIterator implements \Iterator {
      */
     protected function nextDaily() {
 
-        if (!$this->byDay) {
+        if (!$this->byHour && !$this->byDay) {
             $this->currentDate->modify('+' . $this->interval . ' days');
             return;
         }
 
-        $recurrenceDays = array();
-        foreach($this->byDay as $byDay) {
+        if (isset($this->byHour)) {
+            $recurrenceHours = array();
+            foreach($this->byHour as $byHour) {
+                $recurrenceHours[] = $byHour;
+            }
+        }
 
-            // The day may be preceeded with a positive (+n) or
-            // negative (-n) integer. However, this does not make
-            // sense in 'weekly' so we ignore it here.
-            $recurrenceDays[] = $this->dayMap[substr($byDay,-2)];
+        if (isset($this->byDay)) {
+            $recurrenceDays = array();
+            foreach($this->byDay as $byDay) {
 
+                // The day may be preceeded with a positive (+n) or
+                // negative (-n) integer. However, this does not make
+                // sense in 'weekly' so we ignore it here.
+                $recurrenceDays[] = $this->dayMap[substr($byDay,-2)];
+
+            }
         }
 
         do {
 
-            $this->currentDate->modify('+' . $this->interval . ' days');
+            if ($this->byHour && $this->byDay) {
+                if ($this->currentDate->format('G') == '23') {
+                    // to obey the interval rule
+                    $this->currentDate->modify('+' . $this->interval-1 . ' days');
+                }
+                $this->currentDate->modify('+1 hours');
 
-            // Current day of the week
-            $currentDay = $this->currentDate->format('w');
+            } elseif ($this->byHour) {
+                if ($this->currentDate->format('G') == '23') {
+                    // to obey the interval rule
+                    $this->currentDate->modify('+' . $this->interval-1 . ' days');
+                }
 
-        } while (!in_array($currentDay, $recurrenceDays));
+                $this->currentDate->modify('+1 hours');
+
+            } else {
+                $this->currentDate->modify('+' . $this->interval . ' days');
+
+            }
+
+            if ($this->byDay) {
+                // Current day of the week
+                $currentDay = $this->currentDate->format('w');
+            }
+            if ($this->byHour) {
+                // Current hour of the day
+                $currentHour = $this->currentDate->format('G');
+            }
+
+        } while ((isset($currentDay) && !in_array($currentDay, $recurrenceDays)) || (isset($currentHour) && !in_array($currentHour, $recurrenceHours)));
 
     }
 
