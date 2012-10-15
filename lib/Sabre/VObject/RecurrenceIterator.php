@@ -771,49 +771,32 @@ class RecurrenceIterator implements \Iterator {
 
         $recurrenceDays = $this->getDays();
 
-        // Current day of the week
-        $currentDay = $this->currentDate->format('w');
-
         // First day of the week:
         $firstDay = $this->dayMap[$this->weekStart];
 
-        $time = array(
-            $this->currentDate->format('H'),
-            $this->currentDate->format('i'),
-            $this->currentDate->format('s')
-        );
-
-        // Increasing the 'current day' until we find our next
-        // occurrence.
         while(true) {
 
-            $currentDay++;
+            $this->currentDate->modify('+1 days');
 
-            if ($currentDay>6) {
-                $currentDay = 0;
-            }
+            // Current day of the week
+            $currentDay = (int) $this->currentDate->format('w');
 
             // We need to roll over to the next week
             if ($currentDay === $firstDay) {
-                $this->currentDate->modify('+' . $this->interval . ' weeks');
+                $this->currentDate->modify('+' . $this->interval-1 . ' weeks');
 
                 // We need to go to the first day of this week, but only if we
                 // are not already on this first day of this week.
                 if($this->currentDate->format('w') != $firstDay) {
                     $this->currentDate->modify('last ' . $this->dayNames[$this->dayMap[$this->weekStart]]);
-                    $this->currentDate->setTime($time[0],$time[1],$time[2]);
                 }
             }
 
             // We have a match
             if (in_array($currentDay ,$recurrenceDays)) {
-                $this->currentDate->modify($this->dayNames[$currentDay]);
-                $this->currentDate->setTime($time[0],$time[1],$time[2]);
                 break;
             }
-
         }
-
     }
 
     /**
