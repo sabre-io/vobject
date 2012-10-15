@@ -74,6 +74,62 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testValues
      */
+    function testHourly() {
+
+        $ev = new Component('VEVENT');
+        $ev->UID = 'bla';
+        $ev->RRULE = 'FREQ=HOURLY;INTERVAL=3;UNTIL=20111025T000000Z';
+        $dtStart = new Property\DateTime('DTSTART');
+        $dtStart->setDateTime(new DateTime('2011-10-07 12:00:00', new DateTimeZone('UTC')),Property\DateTime::UTC);
+
+        $ev->add($dtStart);
+
+        $vcal = Component::create('VCALENDAR');
+        $vcal->add($ev);
+
+        $it = new RecurrenceIterator($vcal,$ev->uid);
+
+        $this->assertEquals('hourly', $it->frequency);
+        $this->assertEquals(3, $it->interval);
+        $this->assertEquals(new DateTime('2011-10-25', new DateTimeZone('UTC')), $it->until);
+
+        // Max is to prevent overflow
+        $max = 12;
+        $result = array();
+        foreach($it as $item) {
+
+            $result[] = $item;
+            $max--;
+
+            if (!$max) break;
+
+        }
+
+        $tz = new DateTimeZone('UTC');
+
+        $this->assertEquals(
+            array(
+                new DateTime('2011-10-07 12:00:00', $tz),
+                new DateTime('2011-10-07 15:00:00', $tz),
+                new DateTime('2011-10-07 18:00:00', $tz),
+                new DateTime('2011-10-07 21:00:00', $tz),
+                new DateTime('2011-10-08 00:00:00', $tz),
+                new DateTime('2011-10-08 03:00:00', $tz),
+                new DateTime('2011-10-08 06:00:00', $tz),
+                new DateTime('2011-10-08 09:00:00', $tz),
+                new DateTime('2011-10-08 12:00:00', $tz),
+                new DateTime('2011-10-08 15:00:00', $tz),
+                new DateTime('2011-10-08 18:00:00', $tz),
+                new DateTime('2011-10-08 21:00:00', $tz),
+            ),
+            $result
+        );
+
+    }
+
+    /**
+     * @depends testValues
+     */
     function testDaily() {
 
         $ev = new Component('VEVENT');

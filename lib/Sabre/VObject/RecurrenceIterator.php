@@ -695,18 +695,6 @@ class RecurrenceIterator implements \Iterator {
             $this->currentDate->modify('+' . $this->interval . ' hours');
             return;
         }
-
-        $recurrenceHours = $this->getHours();
-
-        do {
-
-            $this->currentDate->modify('+' . $this->interval . ' hours');
-
-            // Current day of the week
-            $currentHour = $this->currentDate->format('w');
-
-        } while (!in_array($currentHour, $recurrenceHours));
-
     }
 
     /**
