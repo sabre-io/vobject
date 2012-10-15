@@ -744,16 +744,13 @@ class RecurrenceIterator implements \Iterator {
 
             }
 
-            if ($this->byDay) {
-                // Current day of the week
-                $currentDay = $this->currentDate->format('w');
-            }
-            if ($this->byHour) {
-                // Current hour of the day
-                $currentHour = $this->currentDate->format('G');
-            }
+            // Current day of the week
+            $currentDay = $this->currentDate->format('w');
 
-        } while ((isset($currentDay) && !in_array($currentDay, $recurrenceDays)) || (isset($currentHour) && !in_array($currentHour, $recurrenceHours)));
+            // Current hour of the day
+            $currentHour = $this->currentDate->format('G');
+
+        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)));
 
     }
 
@@ -764,25 +761,38 @@ class RecurrenceIterator implements \Iterator {
      */
     protected function nextWeekly() {
 
-        if (!$this->byDay) {
+        if (!$this->byHour && !$this->byDay) {
             $this->currentDate->modify('+' . $this->interval . ' weeks');
             return;
         }
 
-        $recurrenceDays = $this->getDays();
+        if ($this->byHour) {
+            $recurrenceHours = $this->getHours();
+        }
+
+        if ($this->byDay) {
+            $recurrenceDays = $this->getDays();
+        }
 
         // First day of the week:
         $firstDay = $this->dayMap[$this->weekStart];
 
-        while(true) {
+        do {
 
-            $this->currentDate->modify('+1 days');
+            if ($this->byHour) {
+                $this->currentDate->modify('+1 hours');
+            } else {
+                $this->currentDate->modify('+1 days');
+            }
 
             // Current day of the week
             $currentDay = (int) $this->currentDate->format('w');
 
+            // Current hour of the day
+            $currentHour = (int) $this->currentDate->format('G');
+
             // We need to roll over to the next week
-            if ($currentDay === $firstDay) {
+            if ($currentDay === $firstDay && (!$this->byHour || $currentHour == '0')) {
                 $this->currentDate->modify('+' . $this->interval-1 . ' weeks');
 
                 // We need to go to the first day of this week, but only if we
@@ -793,10 +803,7 @@ class RecurrenceIterator implements \Iterator {
             }
 
             // We have a match
-            if (in_array($currentDay ,$recurrenceDays)) {
-                break;
-            }
-        }
+        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)));
     }
 
     /**
