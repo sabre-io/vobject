@@ -696,15 +696,7 @@ class RecurrenceIterator implements \Iterator {
             return;
         }
 
-        $recurrenceHours = array();
-        foreach($this->byHour as $byHour) {
-
-            // The day may be preceeded with a positive (+n) or
-            // negative (-n) integer. However, this does not make
-            // sense in 'weekly' so we ignore it here.
-            $recurrenceHours[] = $this->hourMap[$byHour];
-
-        }
+        $recurrenceHours = $this->getHours();
 
         do {
 
@@ -730,22 +722,11 @@ class RecurrenceIterator implements \Iterator {
         }
 
         if (isset($this->byHour)) {
-            $recurrenceHours = array();
-            foreach($this->byHour as $byHour) {
-                $recurrenceHours[] = $byHour;
-            }
+            $recurrenceHours = $this->getHours();
         }
 
         if (isset($this->byDay)) {
-            $recurrenceDays = array();
-            foreach($this->byDay as $byDay) {
-
-                // The day may be preceeded with a positive (+n) or
-                // negative (-n) integer. However, this does not make
-                // sense in 'weekly' so we ignore it here.
-                $recurrenceDays[] = $this->dayMap[substr($byDay,-2)];
-
-            }
+            $recurrenceDays = $this->getDays();
         }
 
         do {
@@ -788,15 +769,7 @@ class RecurrenceIterator implements \Iterator {
             return;
         }
 
-        $recurrenceDays = array();
-        foreach($this->byDay as $byDay) {
-
-            // The day may be preceeded with a positive (+n) or
-            // negative (-n) integer. However, this does not make
-            // sense in 'weekly' so we ignore it here.
-            $recurrenceDays[] = $this->dayMap[substr($byDay,-2)];
-
-        }
+        $recurrenceDays = $this->getDays();
 
         // Current day of the week
         $currentDay = $this->currentDate->format('w');
@@ -1120,6 +1093,29 @@ class RecurrenceIterator implements \Iterator {
 
     }
 
+    protected function getHours()
+    {
+        $recurrenceHours = array();
+        foreach($this->byHour as $byHour) {
+            $recurrenceHours[] = $byHour;
+        }
 
+        return $recurrenceHours;
+    }
+
+    protected function getDays()
+    {
+        $recurrenceDays = array();
+        foreach($this->byDay as $byDay) {
+
+            // The day may be preceeded with a positive (+n) or
+            // negative (-n) integer. However, this does not make
+            // sense in 'weekly' so we ignore it here.
+            $recurrenceDays[] = $this->dayMap[substr($byDay,-2)];
+
+        }
+
+        return $recurrenceDays;
+    }
 }
 
