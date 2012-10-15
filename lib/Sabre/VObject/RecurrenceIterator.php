@@ -23,6 +23,7 @@ namespace Sabre\VObject;
  *   * COUNT
  *   * FREQ=DAILY
  *     * BYDAY
+ *     * BYHOUR
  *   * FREQ=WEEKLY
  *     * BYDAY
  *     * WKST
@@ -749,14 +750,7 @@ class RecurrenceIterator implements \Iterator {
 
         do {
 
-            if ($this->byHour && $this->byDay) {
-                if ($this->currentDate->format('G') == '23') {
-                    // to obey the interval rule
-                    $this->currentDate->modify('+' . $this->interval-1 . ' days');
-                }
-                $this->currentDate->modify('+1 hours');
-
-            } elseif ($this->byHour) {
+            if ($this->byHour) {
                 if ($this->currentDate->format('G') == '23') {
                     // to obey the interval rule
                     $this->currentDate->modify('+' . $this->interval-1 . ' days');
