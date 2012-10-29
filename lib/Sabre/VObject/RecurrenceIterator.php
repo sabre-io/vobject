@@ -371,6 +371,12 @@ class RecurrenceIterator implements \Iterator {
 
                 case 'UNTIL' :
                     $this->until = DateTimeParser::parse($value);
+
+                    // If we have an UNTIL date thats smaller than DTSTART, we have to fix the UNTIL date,
+                    // so we'll set it to DTSTART instead
+                    if($this->until < $this->baseEvent->DTSTART->getDateTime()) {
+                        $this->until = $this->baseEvent->DTSTART->getDateTime();
+                    }
                     break;
 
                 case 'COUNT' :
