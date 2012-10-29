@@ -1,12 +1,13 @@
 2.0.3-stable (2012-??-??)
-	* Added: Support for BYHOUR in FREQ=DAILY (@hollodk).
 	* Added: Support for 'GMT+????' format in TZID's.
 	* Added: Support for formats like SystemV/EST5EDT in TZID's.
 	* Fixed: RecurrenceIterator now repairs recurrence rules where UNTIL < DTSTART.
+	* Added: Support for BYHOUR in FREQ=DAILY (@hollodk).
+	* Added: Support for BYHOUR and BYDAY in FREQ=WEEKLY.
 
 2.0.2-stable (2012-10-06)
 	* Added: includes.php file, to load the entire library in one go.
-	* Fixed: A problem with determining alarm triggers for TODO's. 
+	* Fixed: A problem with determining alarm triggers for TODO's.
 
 2.0.1-stable (2012-09-22)
 	* Removed: Element class. It wasn't used.
