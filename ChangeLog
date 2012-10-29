@@ -1,5 +1,7 @@
 2.0.3-stable (2012-??-??)
 	* Added: Support for BYHOUR in FREQ=DAILY (@hollodk).
+	* Added: Support for 'GMT+????' format in TZID's.
+	* Added: Support for formats like SystemV/EST5EDT in TZID's.
 	* Fixed: RecurrenceIterator now repairs recurrence rules where UNTIL < DTSTART.
 
 2.0.2-stable (2012-10-06)
