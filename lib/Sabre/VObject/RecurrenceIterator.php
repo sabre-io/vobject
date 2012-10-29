@@ -623,6 +623,10 @@ class RecurrenceIterator implements \Iterator {
                 // Otherwise, we calculate it
                 switch($this->frequency) {
 
+                    case 'hourly' :
+                        $this->nextHourly();
+                        break;
+
                     case 'daily' :
                         $this->nextDaily();
                         break;
@@ -687,6 +691,19 @@ class RecurrenceIterator implements \Iterator {
     }
 
     /**
+     * Does the processing for advancing the iterator for hourly frequency.
+     *
+     * @return void
+     */
+    protected function nextHourly() {
+
+        if (!$this->byHour) {
+            $this->currentDate->modify('+' . $this->interval . ' hours');
+            return;
+        }
+    }
+
+    /**
      * Does the processing for advancing the iterator for daily frequency.
      *
      * @return void
@@ -699,22 +716,11 @@ class RecurrenceIterator implements \Iterator {
         }
 
         if (isset($this->byHour)) {
-            $recurrenceHours = array();
-            foreach($this->byHour as $byHour) {
-                $recurrenceHours[] = $byHour;
-            }
+            $recurrenceHours = $this->getHours();
         }
 
         if (isset($this->byDay)) {
-            $recurrenceDays = array();
-            foreach($this->byDay as $byDay) {
-
-                // The day may be preceeded with a positive (+n) or
-                // negative (-n) integer. However, this does not make
-                // sense in 'weekly' so we ignore it here.
-                $recurrenceDays[] = $this->dayMap[substr($byDay,-2)];
-
-            }
+            $recurrenceDays = $this->getDays();
         }
 
         do {
@@ -732,16 +738,13 @@ class RecurrenceIterator implements \Iterator {
 
             }
 
-            if ($this->byDay) {
-                // Current day of the week
-                $currentDay = $this->currentDate->format('w');
-            }
-            if ($this->byHour) {
-                // Current hour of the day
-                $currentHour = $this->currentDate->format('G');
-            }
+            // Current day of the week
+            $currentDay = $this->currentDate->format('w');
 
-        } while ((isset($currentDay) && !in_array($currentDay, $recurrenceDays)) || (isset($currentHour) && !in_array($currentHour, $recurrenceHours)));
+            // Current hour of the day
+            $currentHour = $this->currentDate->format('G');
+
+        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)));
 
     }
 
@@ -752,64 +755,49 @@ class RecurrenceIterator implements \Iterator {
      */
     protected function nextWeekly() {
 
-        if (!$this->byDay) {
+        if (!$this->byHour && !$this->byDay) {
             $this->currentDate->modify('+' . $this->interval . ' weeks');
             return;
         }
 
-        $recurrenceDays = array();
-        foreach($this->byDay as $byDay) {
-
-            // The day may be preceeded with a positive (+n) or
-            // negative (-n) integer. However, this does not make
-            // sense in 'weekly' so we ignore it here.
-            $recurrenceDays[] = $this->dayMap[substr($byDay,-2)];
-
+        if ($this->byHour) {
+            $recurrenceHours = $this->getHours();
         }
 
-        // Current day of the week
-        $currentDay = $this->currentDate->format('w');
+        if ($this->byDay) {
+            $recurrenceDays = $this->getDays();
+        }
 
         // First day of the week:
         $firstDay = $this->dayMap[$this->weekStart];
 
-        $time = array(
-            $this->currentDate->format('H'),
-            $this->currentDate->format('i'),
-            $this->currentDate->format('s')
-        );
+        do {
 
-        // Increasing the 'current day' until we find our next
-        // occurrence.
-        while(true) {
-
-            $currentDay++;
-
-            if ($currentDay>6) {
-                $currentDay = 0;
+            if ($this->byHour) {
+                $this->currentDate->modify('+1 hours');
+            } else {
+                $this->currentDate->modify('+1 days');
             }
 
+            // Current day of the week
+            $currentDay = (int) $this->currentDate->format('w');
+
+            // Current hour of the day
+            $currentHour = (int) $this->currentDate->format('G');
+
             // We need to roll over to the next week
-            if ($currentDay === $firstDay) {
-                $this->currentDate->modify('+' . $this->interval . ' weeks');
+            if ($currentDay === $firstDay && (!$this->byHour || $currentHour == '0')) {
+                $this->currentDate->modify('+' . $this->interval-1 . ' weeks');
 
                 // We need to go to the first day of this week, but only if we
                 // are not already on this first day of this week.
                 if($this->currentDate->format('w') != $firstDay) {
                     $this->currentDate->modify('last ' . $this->dayNames[$this->dayMap[$this->weekStart]]);
-                    $this->currentDate->setTime($time[0],$time[1],$time[2]);
                 }
             }
 
             // We have a match
-            if (in_array($currentDay ,$recurrenceDays)) {
-                $this->currentDate->modify($this->dayNames[$currentDay]);
-                $this->currentDate->setTime($time[0],$time[1],$time[2]);
-                break;
-            }
-
-        }
-
+        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)));
     }
 
     /**
@@ -1089,6 +1077,29 @@ class RecurrenceIterator implements \Iterator {
 
     }
 
+    protected function getHours()
+    {
+        $recurrenceHours = array();
+        foreach($this->byHour as $byHour) {
+            $recurrenceHours[] = $byHour;
+        }
 
+        return $recurrenceHours;
+    }
+
+    protected function getDays()
+    {
+        $recurrenceDays = array();
+        foreach($this->byDay as $byDay) {
+
+            // The day may be preceeded with a positive (+n) or
+            // negative (-n) integer. However, this does not make
+            // sense in 'weekly' so we ignore it here.
+            $recurrenceDays[] = $this->dayMap[substr($byDay,-2)];
+
+        }
+
+        return $recurrenceDays;
+    }
 }
 
