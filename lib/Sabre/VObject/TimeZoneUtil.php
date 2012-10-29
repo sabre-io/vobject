@@ -294,13 +294,18 @@ class TimeZoneUtil {
      * You must pass the contents of the TZID parameter, as well as the full
      * calendar.
      *
-     * If the lookup fails, this method will return UTC.
+     * If the lookup fails, this method will return the default PHP timezone
+     * (as configured using date_default_timezone_set, or the date.timezone ini
+     * setting).
+     *
+     * Alternatively, if $failIfUncertain is set to true, it will throw an
+     * exception if we cannot accurately determine the timezone.
      *
      * @param string $tzid
      * @param Sabre\VObject\Component $vcalendar
      * @return DateTimeZone
      */
-    static public function getTimeZone($tzid, Component $vcalendar = null) {
+    static public function getTimeZone($tzid, Component $vcalendar = null, $failIfUncertain = false) {
 
         // First we will just see if the tzid is a support timezone identifier.
         try {
@@ -313,6 +318,12 @@ class TimeZoneUtil {
             return new \DateTimeZone(self::$map[$tzid]);
         }
 
+        // Maybe the author was hyper-lazy and just included an offset. We
+        // support it, but we aren't happy about it.
+        if (preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches)) {
+            return new \DateTimeZone('Etc/GMT' . $matches[1] . ltrim(substr($matches[2],0,2),'0'));
+        }
+
         if ($vcalendar) {
 
             // If that didn't work, we will scan VTIMEZONE objects
@@ -322,8 +333,18 @@ class TimeZoneUtil {
 
                     // Some clients add 'X-LIC-LOCATION' with the olson name.
                     if (isset($vtimezone->{'X-LIC-LOCATION'})) {
+
+                        $lic = (string)$vtimezone->{'X-LIC-LOCATION'};
+
+                        // Libical generators may specify strings like
+                        // "SystemV/EST5EDT". For those we must remove the
+                        // SystemV part.
+                        if (substr($lic,0,8)==='SystemV/') {
+                            $lic = substr($lic,8);
+                        }
+
                         try {
-                            return new \DateTimeZone($vtimezone->{'X-LIC-LOCATION'});
+                            return new \DateTimeZone($lic);
                         } catch (\Exception $e) {
                         }
 
@@ -335,17 +356,20 @@ class TimeZoneUtil {
                             return new \DateTimeZone(self::$microsoftExchangeMap[(int)$vtimezone->{'X-MICROSOFT-CDO-TZID'}->value]);
                         }
                     }
+
                 }
 
             }
 
         }
 
+        if ($failIfUncertain) {
+            throw new \InvalidArgumentException('We were unable to determine the correct PHP timezone for tzid: ' . $tzid);
+        }
+
         // If we got all the way here, we default to UTC.
         return new \DateTimeZone(date_default_timezone_get());
 
-
     }
-
 
 }

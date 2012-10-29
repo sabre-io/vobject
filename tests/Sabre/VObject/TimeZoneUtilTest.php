@@ -61,8 +61,9 @@ END:VCALENDAR
 HI;
 
         $tz = TimeZoneUtil::getTimeZone('foo', Reader::read($vobj));
+        $ex = new \DateTimeZone('Europe/Lisbon');
 
-        $this->assertEquals(new \DateTimeZone('Europe/Sarajevo'), $tz);
+        $this->assertEquals($ex->getName(), $tz->getName());
 
     }
 
@@ -102,15 +103,33 @@ END:VCALENDAR
 HI;
 
         $tz = TimeZoneUtil::getTimeZone('foo', Reader::read($vobj));
-
-        $this->assertEquals(new \DateTimeZone(date_default_timezone_get()), $tz);
+        $ex = new \DateTimeZone(date_default_timezone_get());
+        $this->assertEquals($ex->getName(), $tz->getName());
 
     }
 
     function testWindowsTimeZone() {
 
         $tz = TimeZoneUtil::getTimeZone('Eastern Standard Time');
-        $this->assertEquals(new \DateTimeZone('America/New_York'), $tz);
+        $ex = new \DateTimeZone('America/New_York');
+        $this->assertEquals($ex->getName(), $tz->getName());
+
+    }
+
+    function testTimezoneOffset() {
+
+        $tz = TimeZoneUtil::getTimeZone('GMT-0400', null, true);
+        $ex = new \DateTimeZone('Etc/GMT-4');
+        $this->assertEquals($ex->getName(), $tz->getName());
+
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    function testTimezoneFail() {
+
+        $tz = TimeZoneUtil::getTimeZone('FooBar',null,true);
 
     }
 
@@ -146,9 +165,107 @@ UID:040000008200E00074C5B7101A82E0080000000010DA091DC31BCD01000000000000000
 END:VEVENT
 END:VCALENDAR
 HI;
-        $tz = TimeZoneUtil::getTimeZone('foo', Reader::read($vobj));
 
-        $this->assertEquals(new \DateTimeZone(date_default_timezone_get()), $tz);
+        $tz = TimeZoneUtil::getTimeZone('foo', Reader::read($vobj));
+        $ex = new \DateTimeZone(date_default_timezone_get());
+        $this->assertEquals($ex->getName(), $tz->getName());
+
+    }
+
+    function testLjubljanaBug() {
+
+        $vobj = <<<HI
+BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+PRODID:-//Ximian//NONSGML Evolution Calendar//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/freeassociation.sourceforge.net/Tzfile/Europe/Ljubljana
+X-LIC-LOCATION:Europe/Ljubljana
+BEGIN:STANDARD
+TZNAME:CET
+DTSTART:19701028T030000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:CEST
+DTSTART:19700325T020000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:foo
+DTSTART;TZID=/freeassociation.sourceforge.net/Tzfile/Europe/Ljubljana:
+ 20121003T080000
+DTEND;TZID=/freeassociation.sourceforge.net/Tzfile/Europe/Ljubljana:
+ 20121003T083000
+TRANSP:OPAQUE
+SEQUENCE:2
+SUMMARY:testing
+CREATED:20121002T172613Z
+LAST-MODIFIED:20121002T172613Z
+END:VEVENT
+END:VCALENDAR
+
+HI;
+
+
+        $tz = TimeZoneUtil::getTimeZone('/freeassociation.sourceforge.net/Tzfile/Europe/Ljubljana', Reader::read($vobj));
+        $ex = new \DateTimeZone('Europe/Ljubljana');
+        $this->assertEquals($ex->getName(), $tz->getName());
+
+    }
+
+    function testWeirdSystemVLICs() {
+
+$vobj = <<<HI
+BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+PRODID:-//Ximian//NONSGML Evolution Calendar//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/freeassociation.sourceforge.net/Tzfile/SystemV/EST5EDT
+X-LIC-LOCATION:SystemV/EST5EDT
+BEGIN:STANDARD
+TZNAME:EST
+DTSTART:19701104T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=11
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:EDT
+DTSTART:19700311T020000
+RRULE:FREQ=YEARLY;BYDAY=2SU;BYMONTH=3
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:20121026T021107Z-6301-1000-1-0@chAir
+DTSTAMP:20120905T172126Z
+DTSTART;TZID=/freeassociation.sourceforge.net/Tzfile/SystemV/EST5EDT:
+ 20121026T153000
+DTEND;TZID=/freeassociation.sourceforge.net/Tzfile/SystemV/EST5EDT:
+ 20121026T160000
+TRANSP:OPAQUE
+SEQUENCE:5
+SUMMARY:pick up Ibby
+CLASS:PUBLIC
+CREATED:20121026T021108Z
+LAST-MODIFIED:20121026T021118Z
+X-EVOLUTION-MOVE-CALENDAR:1
+END:VEVENT
+END:VCALENDAR
+HI;
+
+        $tz = TimeZoneUtil::getTimeZone('/freeassociation.sourceforge.net/Tzfile/SystemV/EST5EDT', Reader::read($vobj), true);
+        $ex = new \DateTimeZone('EST5EDT');
+        $this->assertEquals($ex->getName(), $tz->getName());
 
     }
 

@@ -168,6 +168,119 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testValues
      */
+    function testDailyByDayByHour() {
+
+        $ev = new Component('VEVENT');
+        $ev->UID = 'bla';
+        $ev->RRULE = 'FREQ=DAILY;BYDAY=SA,SU;BYHOUR=6,7';
+        $dtStart = new Property\DateTime('DTSTART');
+        $dtStart->setDateTime(new DateTime('2011-10-08 06:00:00', new DateTimeZone('UTC')),Property\DateTime::UTC);
+
+        $ev->add($dtStart);
+
+        $vcal = Component::create('VCALENDAR');
+        $vcal->add($ev);
+
+        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+
+        $this->assertEquals('daily', $it->frequency);
+        $this->assertEquals(1, $it->interval);
+        $this->assertEquals(array('6','7'), $it->byHour);
+        $this->assertEquals(array('SA','SU'), $it->byDay);
+
+        // Grabbing the next 12 items
+        $max = 12;
+        $result = array();
+        foreach($it as $item) {
+
+            $result[] = $item;
+            $max--;
+
+            if (!$max) break;
+
+        }
+
+        $tz = new DateTimeZone('UTC');
+
+        $this->assertEquals(
+            array(
+                new datetime('2011-10-08 06:00:00', $tz),
+                new datetime('2011-10-08 07:00:00', $tz),
+                new datetime('2011-10-09 06:00:00', $tz),
+                new datetime('2011-10-09 07:00:00', $tz),
+                new datetime('2011-10-15 06:00:00', $tz),
+                new datetime('2011-10-15 07:00:00', $tz),
+                new datetime('2011-10-16 06:00:00', $tz),
+                new datetime('2011-10-16 07:00:00', $tz),
+                new datetime('2011-10-22 06:00:00', $tz),
+                new datetime('2011-10-22 07:00:00', $tz),
+                new datetime('2011-10-23 06:00:00', $tz),
+                new datetime('2011-10-23 07:00:00', $tz),
+            ),
+            $result
+        );
+
+    }
+
+    /**
+     * @depends testValues
+     */
+    function testDailyByHour() {
+
+        $ev = new Component('VEVENT');
+        $ev->UID = 'bla';
+        $ev->RRULE = 'FREQ=DAILY;INTERVAL=2;BYHOUR=10,11,12,13,14,15';
+        $dtStart = new Property\DateTime('DTSTART');
+        $dtStart->setDateTime(new DateTime('2012-10-11 12:00:00', new DateTimeZone('UTC')),Property\DateTime::UTC);
+
+        $ev->add($dtStart);
+
+        $vcal = Component::create('VCALENDAR');
+        $vcal->add($ev);
+
+        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+
+        $this->assertEquals('daily', $it->frequency);
+        $this->assertEquals(2, $it->interval);
+        $this->assertEquals(array('10','11','12','13','14','15'), $it->byHour);
+
+        // Grabbing the next 12 items
+        $max = 12;
+        $result = array();
+        foreach($it as $item) {
+
+            $result[] = $item;
+            $max--;
+
+            if (!$max) break;
+
+        }
+
+        $tz = new DateTimeZone('UTC');
+
+        $this->assertEquals(
+            array(
+                new datetime('2012-10-11 12:00:00', $tz),
+                new datetime('2012-10-11 13:00:00', $tz),
+                new datetime('2012-10-11 14:00:00', $tz),
+                new datetime('2012-10-11 15:00:00', $tz),
+                new datetime('2012-10-13 10:00:00', $tz),
+                new datetime('2012-10-13 11:00:00', $tz),
+                new datetime('2012-10-13 12:00:00', $tz),
+                new datetime('2012-10-13 13:00:00', $tz),
+                new datetime('2012-10-13 14:00:00', $tz),
+                new datetime('2012-10-13 15:00:00', $tz),
+                new datetime('2012-10-15 10:00:00', $tz),
+                new datetime('2012-10-15 11:00:00', $tz),
+            ),
+            $result
+        );
+
+    }
+
+    /**
+     * @depends testValues
+     */
     function testDailyByDay() {
 
         $ev = new Component('VEVENT');
@@ -983,7 +1096,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev2);
 
-        // ev3 overrides an event, and puts it 2 days and 2 hours later 
+        // ev3 overrides an event, and puts it 2 days and 2 hours later
         $ev3 = Component::create('VEVENT');
         $ev3->UID = 'overridden';
         $ev3->{'RECURRENCE-ID'} = '20120113T120000Z';
@@ -1114,13 +1227,13 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $dates = array();
         $summaries = array();
 
-        // The reported problem was specifically related to the VCALENDAR 
-        // expansion. In this parcitular case, we had to forward to the 28th of 
+        // The reported problem was specifically related to the VCALENDAR
+        // expansion. In this parcitular case, we had to forward to the 28th of
         // january.
         $it->fastForward(new DateTime('2012-01-28 23:00:00'));
 
-        // We stop the loop when it hits the 6th of februari. Normally this 
-        // iterator would hit 24, 25 (overriden from 31) and 7 feb but because 
+        // We stop the loop when it hits the 6th of februari. Normally this
+        // iterator would hit 24, 25 (overriden from 31) and 7 feb but because
         // we 'filter' from the 28th till the 6th, we should get 0 results.
         while($it->valid() && $it->getDTSTart() < new DateTime('2012-02-06 23:00:00')) {
 
