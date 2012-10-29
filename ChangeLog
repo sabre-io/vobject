@@ -1,4 +1,4 @@
-2.0.3-stable (2012-??-??)
+2.0.3-stable (2012-10-29)
 	* Added: Support for 'GMT+????' format in TZID's.
 	* Added: Support for formats like SystemV/EST5EDT in TZID's.
 	* Fixed: RecurrenceIterator now repairs recurrence rules where UNTIL < DTSTART.
