@@ -372,8 +372,14 @@ class RecurrenceIterator implements \Iterator {
                 case 'UNTIL' :
                     $this->until = DateTimeParser::parse($value);
 
-                    // If we have an UNTIL date thats smaller than DTSTART, we have to fix the UNTIL date,
-                    // so we'll set it to DTSTART instead
+                    // In some cases events are generated with an UNTIL=
+                    // parameter before the actual start of the event.
+                    //
+                    // Not sure why this is happening. We assume that the
+                    // intention was that the event only recurs once.
+                    //
+                    // So we are modifying the parameter so our code doesn't
+                    // break.
                     if($this->until < $this->baseEvent->DTSTART->getDateTime()) {
                         $this->until = $this->baseEvent->DTSTART->getDateTime();
                     }
