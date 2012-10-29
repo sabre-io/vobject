@@ -26,6 +26,7 @@ namespace Sabre\VObject;
  *     * BYHOUR
  *   * FREQ=WEEKLY
  *     * BYDAY
+ *     * BYHOUR
  *     * WKST
  *   * FREQ=MONTHLY
  *     * BYMONTHDAY
