@@ -61,8 +61,9 @@ END:VCALENDAR
 HI;
 
         $tz = TimeZoneUtil::getTimeZone('foo', Reader::read($vobj));
+        $ex = new \DateTimeZone('Europe/Lisbon');
 
-        $this->assertEquals(new \DateTimeZone('Europe/Sarajevo'), $tz);
+        $this->assertEquals($ex->getName(), $tz->getName());
 
     }
 
@@ -102,15 +103,24 @@ END:VCALENDAR
 HI;
 
         $tz = TimeZoneUtil::getTimeZone('foo', Reader::read($vobj));
-
-        $this->assertEquals(new \DateTimeZone(date_default_timezone_get()), $tz);
+        $ex = new \DateTimeZone(date_default_timezone_get());
+        $this->assertEquals($ex->getName(), $tz->getName());
 
     }
 
     function testWindowsTimeZone() {
 
         $tz = TimeZoneUtil::getTimeZone('Eastern Standard Time');
-        $this->assertEquals(new \DateTimeZone('America/New_York'), $tz);
+        $ex = new \DateTimeZone('America/New_York');
+        $this->assertEquals($ex->getName(), $tz->getName());
+
+    }
+
+    function testTimezoneOffset() {
+
+        $tz = TimeZoneUtil::getTimeZone('GMT-0400');
+        $ex = new \DateTimeZone('Etc/GMT-4');
+        $this->assertEquals($ex->getName(), $tz->getName());
 
     }
 
@@ -147,7 +157,6 @@ END:VEVENT
 END:VCALENDAR
 HI;
         $tz = TimeZoneUtil::getTimeZone('foo', Reader::read($vobj));
-
         $this->assertEquals(new \DateTimeZone(date_default_timezone_get()), $tz);
 
     }

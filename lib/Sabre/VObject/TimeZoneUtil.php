@@ -313,6 +313,12 @@ class TimeZoneUtil {
             return new \DateTimeZone(self::$map[$tzid]);
         }
 
+        // Maybe the author was hyper-lazy and just included an offset. We
+        // support it, but we aren't happy about it.
+        if (preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches)) {
+            return new \DateTimeZone('Etc/GMT' . $matches[1] . ltrim(substr($matches[2],0,2),'0'));
+        }
+
         if ($vcalendar) {
 
             // If that didn't work, we will scan VTIMEZONE objects

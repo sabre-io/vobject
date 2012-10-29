@@ -1,5 +1,6 @@
 2.0.3-stable (2012-??-??)
 	* Added: Support for BYHOUR in FREQ=DAILY (@hollodk).
+	* Added: Support for 'GMT+????' format in TZID.
 
 2.0.2-stable (2012-10-06)
 	* Added: includes.php file, to load the entire library in one go.
