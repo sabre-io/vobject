@@ -277,26 +277,26 @@ class FreeBusyGenerator {
         if ($this->baseObject) {
             $calendar = $this->baseObject;
         } else {
-            $calendar = new Component('VCALENDAR');
+            $calendar = Component::create('VCALENDAR');
             $calendar->version = '2.0';
             $calendar->prodid = '-//Sabre//Sabre VObject ' . Version::VERSION . '//EN';
             $calendar->calscale = 'GREGORIAN';
         }
 
-        $vfreebusy = new Component('VFREEBUSY');
+        $vfreebusy = Component::create('VFREEBUSY');
         $calendar->add($vfreebusy);
 
         if ($this->start) {
-            $dtstart = new Property\DateTime('DTSTART');
+            $dtstart = Property::create('DTSTART');
             $dtstart->setDateTime($this->start,Property\DateTime::UTC);
             $vfreebusy->add($dtstart);
         }
         if ($this->end) {
-            $dtend = new Property\DateTime('DTEND');
+            $dtend = Property::create('DTEND');
             $dtend->setDateTime($this->end,Property\DateTime::UTC);
             $vfreebusy->add($dtend);
         }
-        $dtstamp = new Property\DateTime('DTSTAMP');
+        $dtstamp = Property::create('DTSTAMP');
         $dtstamp->setDateTime(new \DateTime('now'), Property\DateTime::UTC);
         $vfreebusy->add($dtstamp);
 
@@ -305,7 +305,7 @@ class FreeBusyGenerator {
             $busyTime[0]->setTimeZone(new \DateTimeZone('UTC'));
             $busyTime[1]->setTimeZone(new \DateTimeZone('UTC'));
 
-            $prop = new Property(
+            $prop = Property::create(
                 'FREEBUSY',
                 $busyTime[0]->format('Ymd\\THis\\Z') . '/' . $busyTime[1]->format('Ymd\\THis\\Z')
             );
