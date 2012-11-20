@@ -1,3 +1,5 @@
+2.0.6-stable (2012-??-??)
+
 2.0.5-stable (2012-11-05)
 	* Fixed: The FreeBusyGenerator is now properly using the factory methods
 	  for creation of components and properties.
