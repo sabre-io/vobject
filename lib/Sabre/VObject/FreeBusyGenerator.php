@@ -12,7 +12,7 @@ namespace Sabre\VObject;
  * VFREEBUSY components are described in RFC5545, The rules for what should
  * go in a single freebusy report is taken from RFC4791, section 7.10.
  *
- * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */

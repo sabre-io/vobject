@@ -13,7 +13,7 @@ use Sabre\VObject;
  * class checks for BEGIN:VCARD and END:VCARD and parses each encountered
  * component individually.
  *
- * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+ * @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
  * @author Dominik Tobschall
  * @author Armin Hackmann
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License

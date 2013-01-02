@@ -23,7 +23,7 @@ use Sabre\VObject;
 * @author Thomas Tanghus (http://tanghus.net/)
 * @author Lars Kneschke
 * @author Evert Pot (http://www.rooftopsolutions.nl/)
-* @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
+* @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
 * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
 */
 
