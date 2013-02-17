@@ -185,7 +185,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('propValue', $result->value);
         $this->assertEquals(1, count($result->parameters));
         $this->assertEquals('PARAMNAME', $result->parameters[0]->name);
-        $this->assertEquals('', $result->parameters[0]->value);
+
+        $this->assertNull($result->parameters[0]->value);
 
     }
 

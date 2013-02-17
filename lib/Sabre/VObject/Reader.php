@@ -188,22 +188,28 @@ class Reader {
         $params = array();
         foreach($matches as $match) {
 
-            $value = isset($match['paramValue'])?$match['paramValue']:null;
+            if (!isset($match['paramValue'])) {
 
-            if (isset($value[0])) {
-                // Stripping quotes, if needed
-                if ($value[0] === '"') $value = substr($value,1,strlen($value)-2);
+                $value = null;
+
             } else {
-                $value = '';
-            }
 
-            $value = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
-                if ($matches[2]==='n' || $matches[2]==='N') {
-                    return "\n";
-                } else {
-                    return $matches[2];
+                $value = $match['paramValue'];
+
+                if (isset($value[0]) && $value[0]==='"') {
+                    // Stripping quotes, if needed
+                    $value = substr($value,1,strlen($value)-2);
                 }
-            }, $value);
+
+                $value = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
+                    if ($matches[2]==='n' || $matches[2]==='N') {
+                        return "\n";
+                    } else {
+                        return $matches[2];
+                    }
+                }, $value);
+
+            }
 
             $params[] = new Parameter($match['paramName'], $value);
 
