@@ -20,4 +20,17 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testSerialize() {
+
+        $param = new Parameter('name','value');
+        $this->assertEquals('NAME=value',$param->serialize());
+
+    }
+
+    function testSerializeEmpty() {
+
+        $param = new Parameter('name',null);
+        $this->assertEquals('NAME',$param->serialize());
+
+    }
 }
