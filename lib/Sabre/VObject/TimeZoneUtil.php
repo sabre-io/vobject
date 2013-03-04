@@ -300,9 +300,18 @@ class TimeZoneUtil {
         'Tonga'                  => 'Pacific/Tongatapu',
     );
 
+    /**
+     * List of microsoft exchange timezone ids.
+     *
+     * Source: http://msdn.microsoft.com/en-us/library/aa563018(loband).aspx
+     */
     public static $microsoftExchangeMap = array(
         0  => 'UTC',
         31 => 'Africa/Casablanca',
+
+        // Insanely, id #2 is used for both Europe/Lisbon, and Europe/Sarajevo.
+        // I'm not even kidding.. We handle this special case in the
+        // getTimeZone method.
         2  => 'Europe/Lisbon',
         1  => 'Europe/London',
         4  => 'Europe/Berlin',
@@ -443,8 +452,15 @@ class TimeZoneUtil {
                     // Microsoft may add a magic number, which we also have an
                     // answer for.
                     if (isset($vtimezone->{'X-MICROSOFT-CDO-TZID'})) {
-                        if (isset(self::$microsoftExchangeMap[(int)$vtimezone->{'X-MICROSOFT-CDO-TZID'}->value])) {
-                            return new \DateTimeZone(self::$microsoftExchangeMap[(int)$vtimezone->{'X-MICROSOFT-CDO-TZID'}->value]);
+                        $cdoId = (int)$vtimezone->{'X-MICROSOFT-CDO-TZID'}->value;
+
+                        // 2 can mean both Europe/Lisbon and Europe/Sarajevo.
+                        if ($cdoId===2 && strpos((string)$vtimezone->TZID, 'Sarajevo')!==false) {
+                            return new \DateTimeZone('Europe/Sarajevo');
+                        }
+
+                        if (isset(self::$microsoftExchangeMap[$cdoId])) {
+                            return new \DateTimeZone(self::$microsoftExchangeMap[$cdoId]);
                         }
                     }
 
