@@ -1,3 +1,7 @@
+2.0.8-stable (2013-??-??)
+	* Fixed: Issue 19: Issues with encoding ; and ,. This won't fix it for
+	  every single situation, but it should for most of the obvious properties.
+
 2.0.7-stable (2013-03-05)
 	* Fixed: Microsoft re-uses their magic numbers for different timezones,
 	  specifically id 2 for both Sarajevo and Lisbon). A workaround was added
