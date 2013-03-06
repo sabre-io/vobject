@@ -71,19 +71,6 @@ class Property extends Node {
         'ORG'           => 'Sabre\\VObject\\Property\\Compound',
         'ADR'           => 'Sabre\\VObject\\Property\\Compound',
         'CATEGORIES'    => 'Sabre\\VObject\\Property\\Compound',
-
-        // Properties that are always single-value text values are in this
-        // list.
-        'FN'            => 'Sabre\\VObject\\Property\\Text',
-        'TITLE'         => 'Sabre\\VObject\\Property\\Text',
-        'ROLE'          => 'Sabre\\VObject\\Property\\Text',
-        'NOTE'          => 'Sabre\\VObject\\Property\\Text',
-
-        'PRODID'        => 'Sabre\\VObject\\Property\\Text',
-        'DESCRIPTION'   => 'Sabre\\VObject\\Property\\Text',
-        'LOCATION'      => 'Sabre\\VObject\\Property\\Text',
-        'SUMMARY'       => 'Sabre\\VObject\\Property\\Text',
-
     );
 
     /**
