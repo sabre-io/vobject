@@ -41,7 +41,7 @@ following characters:
 
 * semicolon - `\;`
 * newline - `\n` or `\N`
-* comma - `\`,
+* comma - `\,`
 * slash - `\\`
 
 The only spec that's totally unclear about this is vCard 2.1. It only really
