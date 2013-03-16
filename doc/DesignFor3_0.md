@@ -21,7 +21,7 @@ Relevant documents
 We care about pretty much all of them, with the exception of vCalendar 1.0.
 This particular format is at this point so outdated, it's pretty much irrelevant.
 
-We may add support for that one it later though.
+We may add support for that one later though.
 
 We also don't really care about the old iCalendar 2.0 spec. There are some
 differences, but they are not relevant to us at the moment.
@@ -63,7 +63,7 @@ http://tools.ietf.org/html/rfc6868
 Delimiters
 ----------
 
-The reason ; and , are escaped, is because properties may have multiple values,
+The reason `;` and `,` are escaped, is because properties may have multiple values,
 and when they do.. they are separated by either `;` or `,`.
 
 Un-escaping in VObject 2.1
@@ -99,10 +99,10 @@ xCal, xCard, jCal and jCard.
 ### VObject 3.0 approach
 
 Every property-class will get a static deserialize() method, responsible for
-doign all deserializing.
+doing all deserializing.
 
 The constructor for every property-class will receive a value that's logical
-for PHP, and allow for total serializating and deserializating.
+for PHP, and allow for total serialization and deserialization.
 
 This means that for single-value properties, it will be a string, and for
 multiple-value properties it will be an array.
@@ -111,7 +111,7 @@ Since every property class knows to fully serialize and deserialize itself,
 they should have full flexibility and no data-loss.
 
 Then, when we want to add (x|j card|calendar) support, each format will get
-each own serializer and static deserializer method.
+its own serializer and static deserializer method.
 
 The `VALUE=` argument
 ---------------------
@@ -143,7 +143,7 @@ parameters that are used instead.
 
 ### Multiple values
 
-The problem with that approach, is that many properties have single value,
+The problem with that approach, is that many properties have a single value,
 but some have multiple values.
 
 `DTSTART`, `DUE`, `BDAY` and many others contain a single `DATE-TIME` or
@@ -182,7 +182,7 @@ and deal with these differences.
 ### Conclusion
 
 When these modifications are implemented, I believe we should be able to handle
-any future oddity in the real of vCard and iCalendar.
+any future oddity in the realm of vCard and iCalendar.
 
 I really want to push this library to the point where it's the one and only
 choice for PHP to deal with these formats, and really these two major issues
