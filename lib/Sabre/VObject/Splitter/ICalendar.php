@@ -13,7 +13,7 @@ use Sabre\VObject;
  * calendar-objects inside. Objects with identical UID's will be combined into
  * a single object.
  *
- * @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
+ * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
  * @author Dominik Tobschall
  * @author Armin Hackmann
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License

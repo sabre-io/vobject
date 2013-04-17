@@ -7,9 +7,9 @@ namespace Sabre\VObject;
  *
  * This file translates well-known time zone names into "Olson database" time zone names.
  *
- * @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
+ * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
  * @author Frank Edelhaeuser (fedel@users.sourceforge.net)
- * @author Evert Pot (http://www.rooftopsolutions.nl/)
+ * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class TimeZoneUtil {

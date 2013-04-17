@@ -8,22 +8,22 @@ use Sabre\VObject;
  * The VCalendar component
  *
  * This component adds functionality to a component, specific for a VCALENDAR.
- * 
- * @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ *
+ * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class VCalendar extends VObject\Component {
 
     /**
-     * Returns a list of all 'base components'. For instance, if an Event has 
-     * a recurrence rule, and one instance is overridden, the overridden event 
+     * Returns a list of all 'base components'. For instance, if an Event has
+     * a recurrence rule, and one instance is overridden, the overridden event
      * will have the same UID, but will be excluded from this list.
      *
-     * VTIMEZONE components will always be excluded. 
+     * VTIMEZONE components will always be excluded.
      *
-     * @param string $componentName filter by component name 
-     * @return array 
+     * @param string $componentName filter by component name
+     * @return array
      */
     public function getBaseComponents($componentName = null) {
 
@@ -33,10 +33,10 @@ class VCalendar extends VObject\Component {
             if (!$component instanceof VObject\Component)
                 continue;
 
-            if (isset($component->{'RECURRENCE-ID'})) 
+            if (isset($component->{'RECURRENCE-ID'}))
                 continue;
 
-            if ($componentName && $component->name !== strtoupper($componentName)) 
+            if ($componentName && $component->name !== strtoupper($componentName))
                 continue;
 
             if ($component->name === 'VTIMEZONE')
@@ -51,24 +51,24 @@ class VCalendar extends VObject\Component {
     }
 
     /**
-     * If this calendar object, has events with recurrence rules, this method 
+     * If this calendar object, has events with recurrence rules, this method
      * can be used to expand the event into multiple sub-events.
      *
-     * Each event will be stripped from it's recurrence information, and only 
-     * the instances of the event in the specified timerange will be left 
+     * Each event will be stripped from it's recurrence information, and only
+     * the instances of the event in the specified timerange will be left
      * alone.
      *
-     * In addition, this method will cause timezone information to be stripped, 
+     * In addition, this method will cause timezone information to be stripped,
      * and normalized to UTC.
      *
      * This method will alter the VCalendar. This cannot be reversed.
      *
-     * This functionality is specifically used by the CalDAV standard. It is 
-     * possible for clients to request expand events, if they are rather simple 
+     * This functionality is specifically used by the CalDAV standard. It is
+     * possible for clients to request expand events, if they are rather simple
      * clients and do not have the possibility to calculate recurrences.
      *
      * @param DateTime $start
-     * @param DateTime $end 
+     * @param DateTime $end
      * @return void
      */
     public function expand(\DateTime $start, \DateTime $end) {
@@ -80,7 +80,7 @@ class VCalendar extends VObject\Component {
             if (isset($vevent->{'RECURRENCE-ID'})) {
                 unset($this->children[$key]);
                 continue;
-            } 
+            }
 
 
             if (!$vevent->rrule) {
@@ -129,7 +129,7 @@ class VCalendar extends VObject\Component {
         // Removing all VTIMEZONE components
         unset($this->VTIMEZONE);
 
-    } 
+    }
 
     /**
      * Validates the node for correctness.
@@ -139,8 +139,8 @@ class VCalendar extends VObject\Component {
      *    * level - (number between 1 and 3 with severity information)
      *    * message - (human readable message)
      *    * node - (reference to the offending node)
-     * 
-     * @return array 
+     *
+     * @return array
      */
     /*
     public function validate() {
@@ -162,7 +162,7 @@ class VCalendar extends VObject\Component {
                     'node' => $this,
                 );
             }
-        } 
+        }
         $version = $this->select('PRODID');
         if (count($version)!==1) {
             $warnings[] = array(

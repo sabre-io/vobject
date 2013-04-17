@@ -22,8 +22,8 @@ use Sabre\VObject;
  *
  * @author Thomas Tanghus (http://tanghus.net/)
  * @author Lars Kneschke
- * @author Evert Pot (http://www.rooftopsolutions.nl/)
- * @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
+ * @author Evert Pot (http://evertpot.com/)
+ * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Compound extends VObject\Property {

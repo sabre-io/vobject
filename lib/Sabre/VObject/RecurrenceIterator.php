@@ -41,8 +41,8 @@ namespace Sabre\VObject;
  * you may get unexpected results. The effect is that in some applications the
  * specified recurrence may look incorrect, or is missing.
  *
- * @copyright Copyright (C) 2007-2013 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/)
+ * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class RecurrenceIterator implements \Iterator {
