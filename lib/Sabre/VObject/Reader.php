@@ -122,6 +122,10 @@ class Reader {
             return $obj;
 
         }
+        return self::parseLine($line, $lines, $lineNr, $options);
+    }
+
+    static private function parseLine($line, &$lines, $lineNr, $options) {
 
         // Properties
         //$result = preg_match('/(?P<name>[A-Z0-9-]+)(?:;(?P<parameters>^(?<!:):))(.*)$/',$line,$matches);
