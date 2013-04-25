@@ -167,6 +167,28 @@ class Reader {
 
         }
 
+        if (substr($line, -7) === '=0D=0A=') {
+            $param = $obj['encoding'];
+            if ($param !== null) {
+                $value = strtoupper((string)$param);
+                if ($value === 'QUOTED-PRINTABLE') {
+                    while (($nextLine = strtoupper(substr(current($lines),0,4))) !== "END:") {
+                        // try to parse next line
+                        $parsed = self::parseLine($nextLine, $lines, 0, $options | self::OPTION_IGNORE_INVALID_LINES);
+
+                        if ($parsed) {
+                            // next line is valid => stop trying to parse invalid next lines
+                            break;
+                        } else {
+                            // next line is unparsable => append to current line
+                            $obj->value .= $nextLine;
+                            next($lines);
+                        }
+                    }
+                }
+            }
+        }
+
         return $obj;
 
 
