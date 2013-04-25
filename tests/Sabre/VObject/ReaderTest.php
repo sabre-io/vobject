@@ -325,4 +325,40 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testReadQuotedValidEnding() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nEND:VCARD";
+
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+
+    }
+
+    function testReadQuotedValidEndingTwice() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nNOTE;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nEND:VCARD";
+
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+
+    }
+
+    function testReadQuotedInvalidEndingMS() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nDeutschland\r\nEND:VCARD";
+
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+
+    }
+
 }
