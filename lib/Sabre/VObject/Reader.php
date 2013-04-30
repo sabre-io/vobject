@@ -90,10 +90,19 @@ class Reader {
             $obj = Component::create($obj->value);
 
             do {
-                $parsed = $this->readComponent();
+                $pos = $this->tell();
 
-                if (is_null($parsed)) {
-                    continue;
+                try{
+                    $parsed = $this->readComponent();
+                }
+                catch(ParseException $error) {
+                    if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
+                        $this->seek($pos);
+
+                        $this->readLine();
+                        continue;
+                    }
+                    throw $error;
                 }
 
                 // Checking component name of the 'END:' line.
@@ -248,21 +257,22 @@ class Reader {
 
     private function error($str)
     {
-//         if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
-//             return null;
-//         } else {
-            $lineNr = $this->getLineNr();
+        $lineNr = $this->getLineNr();
 
-            try {
-                $pos = $this->tell();
-                $line = $this->readLine();
-                $this->seek($pos);
-            }
-            catch (\Exception $e) {
-                $line = '<end>';
-            }
-            throw new ParseException('Invalid VObject, line ' . $lineNr . ' did not follow the icalendar/vcard format: ' . $str . ': ' . var_export($line, true));
-//         }
+        $pos = $this->tell();
+
+        $nl = strrpos(substr($this->buffer, 0, $pos), "\n");
+        if ($nl === false) {
+            $this->seek(0);
+        } else {
+            $this->seek($nl + 1);
+        }
+
+        $line = $this->readLine();
+
+        $this->seek($pos);
+
+        throw new ParseException('Invalid VObject: ' . $str . ': Line ' . $lineNr . ' did not follow the icalendar/vcard format:' . var_export($line, true));
     }
 
     private function readLine()
