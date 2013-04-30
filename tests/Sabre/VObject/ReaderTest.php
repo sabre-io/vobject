@@ -403,6 +403,34 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testReadQuotedPrintableCompatibilityMSSeveral() {
+
+        $data = <<<EOT
+BEGIN:VCARD
+N
+ I
+ C
+ K
+ NAME:folder
+LABEL;WORK;PREF;ENCODING=QUOTED-PRINTABLE:M=FCnster
+ADR;CHARSET=Windows-1252;ENCODING=QUO
+ TED-PRINTABLE:;B=FCro =
+D=FCtschland\\r\\n
+NOTE:ENCODING=QUOTED-PRINTABLE:Test=0D=0A
+END:VCARD
+EOT;
+
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(4, count($result->children));
+        $this->assertEquals('folder', $result->nickname);
+        $this->assertEquals('Münster', $this->getPropertyValue($result->label));
+        $this->assertEquals(";Büro Dütschland\\r\\n", $this->getPropertyValue($result->adr));
+        $this->assertEquals("ENCODING=QUOTED-PRINTABLE:Test=0D=0A", $this->getPropertyValue($result->note));
+    }
+
     private function getPropertyValue(Property $property)
     {
         $value = (string)$property;
@@ -416,6 +444,17 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
                 throw new Exception();
             }
         }
+
+        $param = $property['charset'];
+        if ($param !== null) {
+            $charset = strtoupper((string)$param);
+            if ($charset !== 'UTF-8') {
+                $value = mb_convert_encoding($value, 'UTF-8', $charset);
+            }
+        } else {
+            $value = StringUtil::convertToUTF8($value);
+        }
+
         return $value;
     }
 
