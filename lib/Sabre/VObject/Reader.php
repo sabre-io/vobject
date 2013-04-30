@@ -292,23 +292,27 @@ class Reader {
     {
         $lineNr = $this->getLineNr();
 
-        $pos = $this->tell();
-
-        // jump to start of line
-        $nl = strrpos(substr($this->buffer, 0, $pos), "\n");
-        if ($nl === false) {
-            $startpos = 0;
+        if ($this->buffer === '') {
+            $line = '';
         } else {
-            $startpos = $nl + 1;
+            $pos = $this->tell();
+
+            // jump to start of line
+            $nl = strrpos(substr($this->buffer, 0, $pos), "\n");
+            if ($nl === false) {
+                $startpos = 0;
+            } else {
+                $startpos = $nl + 1;
+            }
+
+            $this->seek($startpos);
+            $line = $this->readLine();
+            $this->seek($pos);
+
+            // include marker at our current position in this line
+            $offset = $pos - $startpos;
+            $line = substr($line, 0, $offset) . '↦' . substr($line, $offset);
         }
-
-        $this->seek($startpos);
-        $line = $this->readLine();
-        $this->seek($pos);
-
-        // include marker at our current position in this line
-        $offset = $pos - $startpos;
-        $line = substr($line, 0, $offset) . '↦' . substr($line, $offset);
 
         throw new ParseException('Invalid VObject: ' . $str . ': Line ' . $lineNr . ' did not follow the icalendar/vcard format:' . var_export($line, true));
     }
@@ -365,6 +369,9 @@ class Reader {
      */
     private function getLineNr()
     {
+        if ($this->pos === 0) {
+            return 1;
+        }
         return substr_count($this->buffer, "\n", 0, $this->pos) + 1;
     }
 
