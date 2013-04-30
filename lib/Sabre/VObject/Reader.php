@@ -143,10 +143,15 @@ class Reader {
         }
         $propertyName = strtoupper($match);
 
+        $isQuotedPrintable = false;
         $propertyParams = array();
         while ($this->literal(';')) {
             $parameter = $this->readParameter();
             $propertyParams []= $parameter;
+
+            if ($parameter->name === 'ENCODING' && strtoupper($parameter->value) === 'QUOTED-PRINTABLE') {
+                $isQuotedPrintable = true;
+            }
         }
 
         if (!$this->literal(':')) {
@@ -157,21 +162,16 @@ class Reader {
 
 
         // peek at next lines if this is a quoted-printable encoding
-        // $param = $obj['encoding']; // TODO: check if encoding is actually set
-        $param = null;
-        if ($param !== null) {
-            $value = strtoupper((string)$param);
-            if ($value === 'QUOTED-PRINTABLE') {
-                while (substr($propertyValue, -1) === '=') {
-                    $line = $this->readLine();
+        if ($isQuotedPrintable) {
+            while (substr($propertyValue, -1) === '=') {
+                $line = $this->readLine();
 
-                    if (true) {
-                        $line = ltrim($line);
-                    }
-
-                    // next line is unparsable => append to current line
-                    $propertyValue = substr($propertyValue, 0, -1) . $line;
+                if (true) {
+                    $line = ltrim($line);
                 }
+
+                // next line is unparsable => append to current line
+                $propertyValue = substr($propertyValue, 0, -1) . $line;
             }
         }
 
