@@ -158,7 +158,7 @@ class Reader {
         if ($param !== null) {
             $value = strtoupper((string)$param);
             if ($value === 'QUOTED-PRINTABLE') {
-                while (substr($obj->value, -1) === '=') {
+                while (substr($propertyValue, -1) === '=') {
                     $line = $this->readLine();
 
                     if (true) {
@@ -166,21 +166,21 @@ class Reader {
                     }
 
                     // next line is unparsable => append to current line
-                    $obj->value = substr($obj->value, 0, -1) . $line;
+                    $propertyValue = substr($propertyValue, 0, -1) . $line;
                 }
             }
         }
 
         // peek at following lines to check for line-folding
         while (true) {
-            $pos = $this->pos;
+            $pos = $this->tell();
             $line = $this->readLine();
 
             if ($line[0]===" " || $line[0]==="\t") {
                 $propertyValue .= substr($line, 1);
             } else {
                 // reset position
-                $this->pos = $pos;
+                $this->seek($pos);
                 break;
             }
         }
@@ -278,6 +278,30 @@ class Reader {
         }
 
         return $ret;
+    }
+
+    /**
+     * get current position in buffer
+     *
+     * @return int
+     */
+    private function tell()
+    {
+        return $this->pos;
+    }
+
+    /**
+     * set buffer position
+     *
+     * @param int $pos
+     * @throws \Exception
+     */
+    private function seek($pos)
+    {
+        if ($pos < 0 || $pos > strlen($this->buffer)) {
+            throw new \Exception('Invalid offset given');
+        }
+        $this->pos = $pos;
     }
 
     /**
