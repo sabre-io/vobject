@@ -130,43 +130,31 @@ class Reader {
         } else {
             $token = '[A-Z0-9-\.]+';
         }
-        $parameters = "(?:;(?P<parameters>([^:^\"]|\"([^\"]*)\")*))?";
-        $regex = "/^(?P<name>$token)$parameters:(?P<value>.*)$/i";
 
-        $result = preg_match($regex,$line,$matches);
+        if (!$this->match('/(' . $token . ')/i', $matches)) {
+            return $this->error('Expected property name');
+        }
+        $propertyName = strtoupper($matches[1]);
 
-        if (!$result) {
-            if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
-                return null;
+        $propertyParams = array();
+        while ($this->literal(';')) {
+            if ($this->parameter($parameter)) {
+                $propertyParams []= $parameter;
             } else {
-                throw new ParseException('Invalid VObject, line ' . $this->getLineNr() . ' did not follow the icalendar/vcard format: ' . var_export($line, true));
+                return $this->error('Parameter expected');
             }
         }
 
-        $propertyName = strtoupper($matches['name']);
-        $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
-            if ($matches[2]==='n' || $matches[2]==='N') {
-                return "\n";
-            } else {
-                return $matches[2];
-            }
-        }, $matches['value']);
-
-        $obj = Property::create($propertyName, $propertyValue);
-
-        if ($matches['parameters']) {
-
-            foreach($this->readParameters($matches['parameters']) as $param) {
-                $obj->add($param);
-            }
-
+        if (!$this->literal(':')) {
+            return $this->error('Missing colon after property value');
         }
 
-        // return $obj;
+        $propertyValue = $this->readLine();
 
 
         // peek at next lines if this is a quoted-printable encoding
-        $param = $obj['encoding'];
+        // $param = $obj['encoding']; // TODO: check if encoding is actually set
+        $param = null;
         if ($param !== null) {
             $value = strtoupper((string)$param);
             if ($value === 'QUOTED-PRINTABLE') {
@@ -189,7 +177,7 @@ class Reader {
             $line = $this->readLine();
 
             if ($line[0]===" " || $line[0]==="\t") {
-                $obj->value .= substr($line, 1);
+                $propertyValue .= substr($line, 1);
             } else {
                 // reset position
                 $this->pos = $pos;
@@ -197,32 +185,21 @@ class Reader {
             }
         }
 
-        return $obj;
+        $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
+            if ($matches[2]==='n' || $matches[2]==='N') {
+                return "\n";
+            } else {
+                return $matches[2];
+            }
+        }, $propertyValue);
 
-
+        return Property::create($propertyName, $propertyValue, $propertyParams);
     }
 
-    private function getLineNr()
+    private function parameter(&$parameter)
     {
-        return substr_count($this->buffer, "\n", 0, $this->pos) + 1;
-    }
-
-    private function readLine()
-    {
-        $pos = strpos($this->buffer, "\n", $this->pos);
-
-        if ($pos === false) {
-            $ret = substr($this->buffer, $this->pos);
-            $this->pos = strlen($this->buffer);
-
-            // throw new \Exception('No line ending found');
-        } else {
-            $ret = (string)substr($this->buffer, $this->pos, ($pos - $this->pos));
-
-            $this->pos = $pos + 1;
-        }
-
-        return $ret;
+        // TODO: match parameter
+        return false;
     }
 
     /**
@@ -276,5 +253,93 @@ class Reader {
 
     }
 
+    private function error($str)
+    {
+        if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
+            return null;
+        } else {
+            throw new ParseException('Invalid VObject, line ' . $this->getLineNr() . ' did not follow the icalendar/vcard format: ' . $str . ': ' . var_export($this->readLine(), true));
+        }
+    }
 
+    private function readLine()
+    {
+        $pos = strpos($this->buffer, "\n", $this->pos);
+
+        if ($pos === false) {
+            $ret = substr($this->buffer, $this->pos);
+            $this->pos = strlen($this->buffer);
+
+            // throw new \Exception('No line ending found');
+        } else {
+            $ret = (string)substr($this->buffer, $this->pos, ($pos - $this->pos));
+
+            $this->pos = $pos + 1;
+        }
+
+        return $ret;
+    }
+
+    /**
+     * get line number for given buffer position
+     *
+     * @return int
+     */
+    private function getLineNr()
+    {
+        return substr_count($this->buffer, "\n", 0, $this->pos) + 1;
+    }
+
+    /**
+     * try to match given regex on current buffer position (and advance behind match)
+     *
+     * @param string $regex
+     * @param array  $ret
+     * @return boolean
+     * @uses preg_match()
+     */
+    private function match($regex, &$ret)
+    {
+        if (preg_match($regex, $this->buffer, $ret, null, $this->pos)) {
+            $this->pos += strlen($ret[0]);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * match given literal string in buffer (and advance behind literal)
+     *
+     * @param string $expect
+     * @return boolean
+     */
+    private function literal($expect)
+    {
+        $l = strlen($expect);
+        if (substr($this->buffer, $this->pos, $l) === (string)$expect) {
+            $this->pos += $l;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * read from buffer until $end is found ($end will not be returned and advance behind end)
+     *
+     * @param string $end
+     * @param string $out
+     * @return boolean
+     */
+    private function until($end, &$out)
+    {
+        $pos = strpos($this->buffer, $end, $this->pos);
+        if ($pos === false) {
+            return false;
+        }
+
+        $out = substr($this->buffer, $this->pos, ($pos - $this->pos));
+        $this->pos = $pos + strlen($end);
+
+        return true;
+    }
 }
