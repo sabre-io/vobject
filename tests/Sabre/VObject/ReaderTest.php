@@ -377,7 +377,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     function testReadQuotedPrintableCompatibilityMSTwice() {
 
-        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nDeutschland=0D=0A=DE\r\nNOTE;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nist=0D=0A=\r\ntoll\r\nEND:VCARD";
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nDeutschland=0D=0A=\r\nDE\r\nNOTE;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nist=0D=0A=\r\ntoll\r\nEND:VCARD";
 
         $result = Reader::read($data);
 
