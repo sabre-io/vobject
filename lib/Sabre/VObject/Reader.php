@@ -109,7 +109,7 @@ class Reader {
                 if ($parsed instanceof Property) {
                     if ($parsed->name === 'END') {
                         if ($parsed->value !== $obj->name) {
-                            throw new ParseException('Invalid VObject, expected: "END:' . $obj->name . '" got: "END:' . $parsed->value . '"');
+                           throw new ParseException('Invalid VObject, expected: "END:' . $obj->name . '" got: "END:' . $parsed->value . '"');
                         }
                         break;
                     }/* else if($obj->name === 'BEGIN') {
@@ -232,7 +232,9 @@ class Reader {
                 }
             } else {
                 $paramValue = '';
-                $this->tokens('A-Z0-9\-\_', $paramValue);
+                // TODO: proper tokens?
+                // TODO: escaped semicolons
+                $this->tokens('A-Z0-9\-\_\\\,', $paramValue);
             }
 
             $paramValue = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
@@ -248,7 +250,7 @@ class Reader {
 
     private function tokens($token, &$out)
     {
-        if ($this->match('/([' . $token . ']+)/i', $match)) {
+        if ($this->match('/^([' . $token . ']+)/i', $match)) {
             $out = $match[1];
             return true;
         }
@@ -261,12 +263,15 @@ class Reader {
 
         $pos = $this->tell();
 
+        // jump to start of line
         $nl = strrpos(substr($this->buffer, 0, $pos), "\n");
         if ($nl === false) {
-            $this->seek(0);
+            $startpos = 0;
         } else {
-            $this->seek($nl + 1);
+            $startpos = $nl + 1;
         }
+
+        $this->seek($startpos);
 
         $line = $this->readLine();
 
@@ -340,8 +345,31 @@ class Reader {
      */
     private function match($regex, &$ret)
     {
-        if (preg_match($regex, $this->buffer, $ret, null, $this->pos)) {
-            $this->pos += strlen($ret[0]);
+        // create temporary buffer which ignores line folding
+        $buffer = substr($this->buffer, $this->pos);
+        $buffer = str_replace("\n ", '', $buffer);
+        $buffer = str_replace("\n\t", '', $buffer);
+
+        if (preg_match($regex, $buffer, $ret)) {
+
+            // we can't just advance by the returned length - we have to account for folded lines
+            $len = strlen($ret[0]);
+            // $this->pos += $len;
+
+            for ($pos = $this->pos, $i = 0; $i < $len ; ++$pos) {
+                $this->pos++;
+                if (substr($this->buffer, $pos, 1) === "\n") {
+                    $next = substr($this->buffer, $pos + 1, 1);
+                    if ($next === ' ' || $next === "\t") {
+                        $this->pos++;
+                    } else {
+                        $i++;
+                    }
+                } else {
+                    $i++;
+                }
+            }
+
             return true;
         }
         return false;
@@ -355,12 +383,14 @@ class Reader {
      */
     private function literal($expect)
     {
-        $l = strlen($expect);
-        if (substr($this->buffer, $this->pos, $l) === (string)$expect) {
-            $this->pos += $l;
-            return true;
-        }
-        return false;
+        return $this->match('/^'.preg_quote($expect).'/', $ignore);
+
+//         $l = strlen($expect);
+//         if (substr($this->buffer, $this->pos, $l) === (string)$expect) {
+//             $this->pos += $l;
+//             return true;
+//         }
+//         return false;
     }
 
     /**
@@ -372,14 +402,20 @@ class Reader {
      */
     private function until($end, &$out)
     {
-        $pos = strpos($this->buffer, $end, $this->pos);
-        if ($pos === false) {
-            return false;
+        if ($this->match('/^(.*?)' . preg_quote($end) . '/', $match)) {
+            $out = $match[1];
+            return true;
         }
+        return false;
 
-        $out = substr($this->buffer, $this->pos, ($pos - $this->pos));
-        $this->pos = $pos + strlen($end);
+//         $pos = strpos($this->buffer, $end, $this->pos);
+//         if ($pos === false) {
+//             return false;
+//         }
 
-        return true;
+//         $out = substr($this->buffer, $this->pos, ($pos - $this->pos));
+//         $this->pos = $pos + strlen($end);
+
+//         return true;
     }
 }
