@@ -48,26 +48,17 @@ class Reader {
 
         $lines = explode("\n", $data);
 
-        // Unfolding lines
-        $lines2 = array();
-        foreach($lines as $line) {
-
-            // Skipping empty lines
-            if (!$line) continue;
-
-            if ($line[0]===" " || $line[0]==="\t") {
-                $lines2[count($lines2)-1].=substr($line,1);
-            } else {
-                $lines2[] = $line;
+        // Skipping empty lines
+        foreach($lines as $i => $line) {
+            if (!$line) {
+                // only remove its index => keep line numbers intact otherwise
+                unset($lines[$i]);
             }
-
         }
 
-        unset($lines);
+        reset($lines);
 
-        reset($lines2);
-
-        return self::readLine($lines2, $options);
+        return self::readComponent($lines, $options);
 
     }
 
@@ -84,48 +75,46 @@ class Reader {
      * @param int $options See the OPTIONS constants.
      * @return Node
      */
-    static private function readLine(&$lines, $options = 0) {
+    static private function readComponent(&$lines, $options = 0) {
+        $obj = self::readProperty($lines, $options);
+
+        if ($obj instanceof Property && $obj->name === 'BEGIN') {
+            $obj = Component::create($obj->value);
+
+            do {
+                $parsed = self::readComponent($lines, $options);
+
+                if (is_null($parsed)) {
+                    continue;
+                }
+
+                // Checking component name of the 'END:' line.
+                if ($parsed instanceof Property) {
+                    if ($parsed->name === 'END') {
+                        if ($parsed->value !== $obj->name) {
+                            throw new ParseException('Invalid VObject, expected: "END:' . $obj->name . '" got: "END:' . $parsed->value . '"');
+                        }
+                        break;
+                    }/* else if($obj->name === 'BEGIN') {
+                        throw new ParseException('Invalid VObject, expected: "END: ' . $obj->name .'" GOT "' . $parsed->serialize() . '"');
+                    }*/
+                }
+
+                $obj->add($parsed);
+
+                if (current($lines) === false)
+                    throw new ParseException('Invalid VObject. Document ended prematurely. Expected: "END:' . $obj->name.'"');
+
+            } while(true);
+        }
+        return $obj;
+    }
+
+    static private function readProperty(&$lines, $options) {
 
         $line = current($lines);
         $lineNr = key($lines);
         next($lines);
-
-        // Components
-        if (strtoupper(substr($line,0,6)) === "BEGIN:") {
-
-            $componentName = strtoupper(substr($line,6));
-            $obj = Component::create($componentName);
-
-            $nextLine = current($lines);
-
-            while(strtoupper(substr($nextLine,0,4))!=="END:") {
-
-                $parsedLine = self::readLine($lines, $options);
-                $nextLine = current($lines);
-
-                if (is_null($parsedLine)) {
-                    continue;
-                }
-                $obj->add($parsedLine);
-
-                if ($nextLine===false)
-                    throw new ParseException('Invalid VObject. Document ended prematurely.');
-
-            }
-
-            // Checking component name of the 'END:' line.
-            if (substr($nextLine,4)!==$obj->name) {
-                throw new ParseException('Invalid VObject, expected: "END:' . $obj->name . '" got: "' . $nextLine . '"');
-            }
-            next($lines);
-
-            return $obj;
-
-        }
-        return self::parseLine($line, $lines, $lineNr, $options);
-    }
-
-    static private function parseLine($line, &$lines, $lineNr, $options) {
 
         // Properties
         //$result = preg_match('/(?P<name>[A-Z0-9-]+)(?:;(?P<parameters>^(?<!:):))(.*)$/',$line,$matches);
@@ -167,25 +156,37 @@ class Reader {
 
         }
 
-        if (substr($line, -7) === '=0D=0A=') {
-            $param = $obj['encoding'];
-            if ($param !== null) {
-                $value = strtoupper((string)$param);
-                if ($value === 'QUOTED-PRINTABLE') {
-                    while (($nextLine = strtoupper(substr(current($lines),0,4))) !== "END:") {
-                        // try to parse next line
-                        $parsed = self::parseLine($nextLine, $lines, 0, $options | self::OPTION_IGNORE_INVALID_LINES);
+        // return $obj;
 
-                        if ($parsed) {
-                            // next line is valid => stop trying to parse invalid next lines
-                            break;
-                        } else {
-                            // next line is unparsable => append to current line
-                            $obj->value .= $nextLine;
-                            next($lines);
-                        }
+
+        // peek at next lines if this is a quoted-printable encoding
+        $param = $obj['encoding'];
+        if ($param !== null) {
+            $value = strtoupper((string)$param);
+            if ($value === 'QUOTED-PRINTABLE') {
+                while (substr($obj->value, -1) === '!=') {
+                    $line = current($lines);
+                    next($lines);
+
+                    if (true) {
+                        $line = ltrim($line);
                     }
+
+                    // next line is unparsable => append to current line
+                    $obj->value = substr($obj->value, 0, -1) . $line;
                 }
+            }
+        }
+
+        // peek at following lines to check for line-folding
+        while (true) {
+            $line = current($lines);
+
+            if ($line[0]===" " || $line[0]==="\t") {
+                $obj->value .= substr($line, 1);
+                next($lines);
+            } else {
+                break;
             }
         }
 
