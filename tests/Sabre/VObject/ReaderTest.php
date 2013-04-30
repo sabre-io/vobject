@@ -262,6 +262,20 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testReadPropertyParameterEscapedSemicolon() {
+
+        $data = "PROPNAME;PARAMNAME=first\\;second\\,third:propValue";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertEquals('PROPNAME', $result->name);
+        $this->assertEquals('propValue', $result->value);
+        $this->assertEquals(1, count($result->parameters));
+        $this->assertEquals('PARAMNAME', $result->parameters[0]->name);
+        $this->assertEquals('first;second,third', $result->parameters[0]->value);
+
+    }
+
     function testReadForgiving() {
 
         $data = array(
