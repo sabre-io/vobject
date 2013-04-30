@@ -232,9 +232,27 @@ class Reader {
                 }
             } else {
                 $paramValue = '';
-                // TODO: proper tokens?
-                // TODO: escaped semicolons
-                $this->tokens('A-Z0-9\-\_\\\,', $paramValue);
+                $pos = $this->tell();
+                $escaped = false;
+
+                // read any number of characters
+                while ($this->char($char)) {
+                    if ($escaped) {
+                        $escaped = false;
+                    } else {
+                        // those must not be included in parameter value => seek to previous valid position and stop
+                        if ($char === ';' || $char === ':') {
+                            $this->seek($pos);
+                            break;
+                        } else if ($char === '\\') {
+                            // the following char is escaped
+                            $escaped = true;
+                        }
+                    }
+
+                    $paramValue .= $char;
+                    $pos = $this->tell();
+                }
             }
 
             $paramValue = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
@@ -255,6 +273,19 @@ class Reader {
             return true;
         }
         return false;
+    }
+
+    private function char(&$char)
+    {
+        $tmp = substr($this->buffer, $this->pos, 3);
+        if ($tmp[0] === "\n" && ($tmp[1] === ' ' || $tmp[1] === "\t")) {
+            $char = $tmp[2];
+            $this->pos += 3;
+        } else {
+            $char = $tmp[0];
+            $this->pos += 1;
+        }
+        return true;
     }
 
     private function error($str)
