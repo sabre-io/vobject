@@ -120,29 +120,24 @@ class Reader {
 
     private function readProperty()
     {
-        $line = $this->readLine();
-
         // Properties
         //$result = preg_match('/(?P<name>[A-Z0-9-]+)(?:;(?P<parameters>^(?<!:):))(.*)$/',$line,$matches);
 
         if ($this->options & self::OPTION_FORGIVING) {
-            $token = '[A-Z0-9-\._]+';
+            $token = 'A-Z0-9\-\._';
         } else {
-            $token = '[A-Z0-9-\.]+';
+            $token = 'A-Z0-9\-\.';
         }
 
-        if (!$this->match('/(' . $token . ')/i', $matches)) {
+        if (!$this->tokens($token, $match)) {
             return $this->error('Expected property name');
         }
-        $propertyName = strtoupper($matches[1]);
+        $propertyName = strtoupper($match);
 
         $propertyParams = array();
         while ($this->literal(';')) {
-            if ($this->parameter($parameter)) {
-                $propertyParams []= $parameter;
-            } else {
-                return $this->error('Parameter expected');
-            }
+            $parameter = $this->readParameter();
+            $propertyParams []= $parameter;
         }
 
         if (!$this->literal(':')) {
@@ -174,7 +169,12 @@ class Reader {
         // peek at following lines to check for line-folding
         while (true) {
             $pos = $this->tell();
-            $line = $this->readLine();
+            try {
+                $line = $this->readLine();
+            }
+            catch (\Exception $e) {
+                break;
+            }
 
             if ($line[0]===" " || $line[0]==="\t") {
                 $propertyValue .= substr($line, 1);
@@ -193,77 +193,83 @@ class Reader {
             }
         }, $propertyValue);
 
-        return Property::create($propertyName, $propertyValue, $propertyParams);
-    }
-
-    private function parameter(&$parameter)
-    {
-        // TODO: match parameter
-        return false;
+        $property = Property::create($propertyName, $propertyValue);
+        foreach ($propertyParams as $param) {
+            $property->add($param);
+        }
+        return $property;
     }
 
     /**
-     * Reads a parameter list from a property
+     * Reads a single property parameter from buffer (and advance buffer behind this parameter)
      *
-     * This method returns an array of Parameter
-     *
-     * @param string $parameters
-     * @return array
+     * @param Parameter $parameter
+     * @return boolean
      */
-    private function readParameters($parameters) {
+    private function readParameter()
+    {
+        $token = 'A-Z0-9\-';
 
-        $token = '[A-Z0-9-]+';
+        if (!$this->tokens($token, $paramName)) {
+            return $this->error('Invalid parameter name');
+        }
+        $paramValue = null;
 
-        $paramValue = '(?P<paramValue>[^\"^;]*|"[^"]*")';
-
-        $regex = "/(?<=^|;)(?P<paramName>$token)(=$paramValue(?=$|;))?/i";
-        preg_match_all($regex, $parameters, $matches,  PREG_SET_ORDER);
-
-        $params = array();
-        foreach($matches as $match) {
-
-            if (!isset($match['paramValue'])) {
-
-                $value = null;
-
-            } else {
-
-                $value = $match['paramValue'];
-
-                if (isset($value[0]) && $value[0]==='"') {
-                    // Stripping quotes, if needed
-                    $value = substr($value,1,strlen($value)-2);
+        if ($this->literal('=')) {
+            if ($this->literal('"')) {
+                // TODO: escaped quotes?
+                if (!$this->until('"', $paramValue)) {
+                    return $this->error('Missing parameter quote end delimiter');
                 }
-
-                $value = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
-                    if ($matches[2]==='n' || $matches[2]==='N') {
-                        return "\n";
-                    } else {
-                        return $matches[2];
-                    }
-                }, $value);
-
+            } else {
+                $paramValue = '';
+                $this->tokens('A-Z0-9\-\_', $paramValue);
             }
 
-            $params[] = new Parameter($match['paramName'], $value);
-
+            $paramValue = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
+                if ($matches[2]==='n' || $matches[2]==='N') {
+                    return "\n";
+                } else {
+                    return $matches[2];
+                }
+            }, $paramValue);
         }
+        return new Parameter($paramName, $paramValue);
+    }
 
-        return $params;
-
+    private function tokens($token, &$out)
+    {
+        if ($this->match('/([' . $token . ']+)/i', $match)) {
+            $out = $match[1];
+            return true;
+        }
+        return false;
     }
 
     private function error($str)
     {
-        if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
-            return null;
-        } else {
-            throw new ParseException('Invalid VObject, line ' . $this->getLineNr() . ' did not follow the icalendar/vcard format: ' . $str . ': ' . var_export($this->readLine(), true));
-        }
+//         if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
+//             return null;
+//         } else {
+            $lineNr = $this->getLineNr();
+
+            try {
+                $pos = $this->tell();
+                $line = $this->readLine();
+                $this->seek($pos);
+            }
+            catch (\Exception $e) {
+                $line = '<end>';
+            }
+            throw new ParseException('Invalid VObject, line ' . $lineNr . ' did not follow the icalendar/vcard format: ' . $str . ': ' . var_export($line, true));
+//         }
     }
 
     private function readLine()
     {
+        if ($this->pos >= strlen($this->buffer)) {
+            throw new \Exception('Buffer drained');
+        }
         $pos = strpos($this->buffer, "\n", $this->pos);
 
         if ($pos === false) {
