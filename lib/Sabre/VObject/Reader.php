@@ -42,24 +42,17 @@ class Reader {
      * @return Node
      */
     static function read($data, $options = 0) {
+        $parser = new self($options);
 
-        // Normalizing newlines
-        $data = str_replace(array("\r","\n\n"), array("\n","\n"), $data);
+        return $parser->parseComponent($data);
+    }
 
-        $lines = explode("\n", $data);
+    private $buffer;
+    private $pos;
 
-        // Skipping empty lines
-        foreach($lines as $i => $line) {
-            if (!$line) {
-                // only remove its index => keep line numbers intact otherwise
-                unset($lines[$i]);
-            }
-        }
-
-        reset($lines);
-
-        return self::readComponent($lines, $options);
-
+    private function __construct($options = 0)
+    {
+        $this->options = $options;
     }
 
     /**
@@ -75,14 +68,29 @@ class Reader {
      * @param int $options See the OPTIONS constants.
      * @return Node
      */
-    static private function readComponent(&$lines, $options = 0) {
-        $obj = self::readProperty($lines, $options);
+    public function parseComponent($buffer)
+    {
+        $this->buffer = $this->normalizeNewlines($buffer);
+        $this->pos = 0;
+
+        return $this->readComponent();
+    }
+
+    private function normalizeNewlines($data)
+    {
+        // TODO: skip empty lines?
+        return str_replace(array("\r\n", "\r"),"\n", $data);
+    }
+
+    private function readComponent()
+    {
+        $obj = $this->readProperty();
 
         if ($obj instanceof Property && $obj->name === 'BEGIN') {
             $obj = Component::create($obj->value);
 
             do {
-                $parsed = self::readComponent($lines, $options);
+                $parsed = $this->readComponent();
 
                 if (is_null($parsed)) {
                     continue;
@@ -102,24 +110,22 @@ class Reader {
 
                 $obj->add($parsed);
 
-                if (current($lines) === false)
-                    throw new ParseException('Invalid VObject. Document ended prematurely. Expected: "END:' . $obj->name.'"');
+//                 if (current($lines) === false)
+//                     throw new ParseException('Invalid VObject. Document ended prematurely. Expected: "END:' . $obj->name.'"');
 
             } while(true);
         }
         return $obj;
     }
 
-    static private function readProperty(&$lines, $options) {
-
-        $line = current($lines);
-        $lineNr = key($lines);
-        next($lines);
+    private function readProperty()
+    {
+        $line = $this->readLine();
 
         // Properties
         //$result = preg_match('/(?P<name>[A-Z0-9-]+)(?:;(?P<parameters>^(?<!:):))(.*)$/',$line,$matches);
 
-        if ($options & self::OPTION_FORGIVING) {
+        if ($this->options & self::OPTION_FORGIVING) {
             $token = '[A-Z0-9-\._]+';
         } else {
             $token = '[A-Z0-9-\.]+';
@@ -130,10 +136,10 @@ class Reader {
         $result = preg_match($regex,$line,$matches);
 
         if (!$result) {
-            if ($options & self::OPTION_IGNORE_INVALID_LINES) {
+            if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
                 return null;
             } else {
-                throw new ParseException('Invalid VObject, line ' . ($lineNr+1) . ' did not follow the icalendar/vcard format');
+                throw new ParseException('Invalid VObject, line ' . $this->getLineNr() . ' did not follow the icalendar/vcard format: ' . var_export($line, true));
             }
         }
 
@@ -150,7 +156,7 @@ class Reader {
 
         if ($matches['parameters']) {
 
-            foreach(self::readParameters($matches['parameters']) as $param) {
+            foreach($this->readParameters($matches['parameters']) as $param) {
                 $obj->add($param);
             }
 
@@ -164,9 +170,8 @@ class Reader {
         if ($param !== null) {
             $value = strtoupper((string)$param);
             if ($value === 'QUOTED-PRINTABLE') {
-                while (substr($obj->value, -1) === '!=') {
-                    $line = current($lines);
-                    next($lines);
+                while (substr($obj->value, -1) === '=') {
+                    $line = $this->readLine();
 
                     if (true) {
                         $line = ltrim($line);
@@ -180,12 +185,14 @@ class Reader {
 
         // peek at following lines to check for line-folding
         while (true) {
-            $line = current($lines);
+            $pos = $this->pos;
+            $line = $this->readLine();
 
             if ($line[0]===" " || $line[0]==="\t") {
                 $obj->value .= substr($line, 1);
-                next($lines);
             } else {
+                // reset position
+                $this->pos = $pos;
                 break;
             }
         }
@@ -193,6 +200,29 @@ class Reader {
         return $obj;
 
 
+    }
+
+    private function getLineNr()
+    {
+        return substr_count($this->buffer, "\n", 0, $this->pos) + 1;
+    }
+
+    private function readLine()
+    {
+        $pos = strpos($this->buffer, "\n", $this->pos);
+
+        if ($pos === false) {
+            $ret = substr($this->buffer, $this->pos);
+            $this->pos = strlen($this->buffer);
+
+            // throw new \Exception('No line ending found');
+        } else {
+            $ret = (string)substr($this->buffer, $this->pos, ($pos - $this->pos));
+
+            $this->pos = $pos + 1;
+        }
+
+        return $ret;
     }
 
     /**
@@ -203,7 +233,7 @@ class Reader {
      * @param string $parameters
      * @return array
      */
-    static private function readParameters($parameters) {
+    private function readParameters($parameters) {
 
         $token = '[A-Z0-9-]+';
 
