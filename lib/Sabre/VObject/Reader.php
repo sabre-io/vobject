@@ -109,7 +109,7 @@ class Reader {
                 if ($parsed instanceof Property) {
                     if ($parsed->name === 'END') {
                         if ($parsed->value !== $obj->name) {
-                           throw new ParseException('Invalid VObject, expected: "END:' . $obj->name . '" got: "END:' . $parsed->value . '"');
+                            $this->error('Expected "END:' . $obj->name . '", but got "END:' . $parsed->value . '"');
                         }
                         break;
                     }/* else if($obj->name === 'BEGIN') {
@@ -150,7 +150,7 @@ class Reader {
         }
 
         if (!$this->literal(':')) {
-            return $this->error('Missing colon after property value');
+            return $this->error('Missing colon after property parameters');
         }
 
         $propertyValue = $this->readLine();
@@ -272,10 +272,12 @@ class Reader {
         }
 
         $this->seek($startpos);
-
         $line = $this->readLine();
-
         $this->seek($pos);
+
+        // include marker at our current position in this line
+        $offset = $pos - $startpos;
+        $line = substr($line, 0, $offset) . '↦' . substr($line, $offset);
 
         throw new ParseException('Invalid VObject: ' . $str . ': Line ' . $lineNr . ' did not follow the icalendar/vcard format:' . var_export($line, true));
     }
