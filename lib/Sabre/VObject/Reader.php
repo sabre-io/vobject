@@ -160,9 +160,8 @@ class Reader {
 
         $propertyValue = $this->readLine();
 
-
-        // peek at next lines if this is a quoted-printable encoding
         if ($isQuotedPrintable) {
+            // peek at next lines if this is a quoted-printable encoding
             while (substr($propertyValue, -1) === '=') {
                 $line = $this->readLine();
 
@@ -173,34 +172,35 @@ class Reader {
                 // next line is unparsable => append to current line
                 $propertyValue = substr($propertyValue, 0, -1) . $line;
             }
+        } else {
+            // peek at following lines to check for line-folding
+            while (true) {
+                $pos = $this->tell();
+                try {
+                    $line = $this->readLine();
+                }
+                catch (\Exception $e) {
+                    break;
+                }
+
+                if ($line[0]===" " || $line[0]==="\t") {
+                    $propertyValue .= substr($line, 1);
+                } else {
+                    // reset position
+                    $this->seek($pos);
+                    break;
+                }
+            }
+
+            // unescape backslash-escaped values
+            $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
+                if ($matches[2]==='n' || $matches[2]==='N') {
+                    return "\n";
+                } else {
+                    return $matches[2];
+                }
+            }, $propertyValue);
         }
-
-        // peek at following lines to check for line-folding
-        while (true) {
-            $pos = $this->tell();
-            try {
-                $line = $this->readLine();
-            }
-            catch (\Exception $e) {
-                break;
-            }
-
-            if ($line[0]===" " || $line[0]==="\t") {
-                $propertyValue .= substr($line, 1);
-            } else {
-                // reset position
-                $this->seek($pos);
-                break;
-            }
-        }
-
-        $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
-            if ($matches[2]==='n' || $matches[2]==='N') {
-                return "\n";
-            } else {
-                return $matches[2];
-            }
-        }, $propertyValue);
 
         $property = Property::create($propertyName, $propertyValue);
         foreach ($propertyParams as $param) {
