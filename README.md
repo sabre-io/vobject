@@ -1,7 +1,7 @@
 SabreTooth VObject library
 ==========================
 
-[![Build Status](https://secure.travis-ci.org/evert/sabre-vobject.png?branch=master)](http://travis-ci.org/evert/sabre-vobject)
+[![Build Status](https://secure.travis-ci.org/fruux/sabre-vobject.png?branch=master)](http://travis-ci.org/evert/sabre-vobject)
 
 The VObject library allows you to easily parse and manipulate [iCalendar](https://tools.ietf.org/html/rfc5545)
 and [vCard](https://tools.ietf.org/html/rfc6350) objects using PHP.
