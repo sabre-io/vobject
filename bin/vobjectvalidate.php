@@ -67,7 +67,7 @@ respectively.
 
 All other output from this script is sent to STDERR.
 
-https://github.com/evert/sabre-vobject
+https://github.com/fruux/sabre-vobject
 
 HELP
 );
