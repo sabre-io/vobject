@@ -1,4 +1,5 @@
-# SabreTooth VObject library
+SabreTooth VObject library
+==========================
 
 [![Build Status](https://secure.travis-ci.org/evert/sabre-vobject.png?branch=master)](http://travis-ci.org/evert/sabre-vobject)
 
@@ -9,7 +10,8 @@ The goal of the VObject library is to create a very complete library, with an ea
 This project is a spin-off from [SabreDAV](http://code.google.com/p/sabredav/), where it has
 been used for several years. The VObject library has 100% unittest coverage.
 
-# Installation
+Installation
+------------
 
 VObject requires PHP 5.3, and should be installed using composer.
 The general composer instructions can be found on the [composer website](http://getcomposer.org/doc/00-intro.md composer website).
@@ -24,9 +26,10 @@ After that, just declare the vobject dependency as follows:
 
 Then, run `composer.phar update` and you should be good.
 
-# Usage
+Usage
+-----
 
-## Parsing
+### Parsing
 
 For our example, we will be using the following vcard:
 
@@ -55,7 +58,7 @@ $card = VObject\Reader::read($data);
 echo $card->FN;
 ```
 
-## Changing properties
+### Changing properties
 
 Creating properties is pretty similar. If we like to add his birthday, we just
 set the property:
@@ -72,7 +75,7 @@ we can do this with the `add` method.
 $card->add('EMAIL','max@example.org');
 ```
 
-## Parameters
+### Parameters
 
 If we want to also specify that this is max' home email addresses, we can do this with
 a third parameter:
@@ -92,7 +95,7 @@ foreach($card->EMAIL as $email) {
 }
 ```
 
-## Groups
+### Groups
 
 In our example, you can see that the TEL properties are prefixed. These are 'groups' and
 allow you to group multiple related properties together. The group can be any user-defined
@@ -128,7 +131,7 @@ foreach($card->TEL as $tel) {
 }
 ```
 
-## Serializing / Saving
+### Serializing / Saving
 
 If you want to generate your updated VObject, you can simply call the serialize() method.
 
@@ -136,7 +139,7 @@ If you want to generate your updated VObject, you can simply call the serialize(
 echo $card->serialize();
 ```
 
-## Components
+### Components
 
 iCalendar, unlike vCards always have sub-components. Where vCards are often just a flat
 list, iCalendar objects tend to have a tree-like structure. For the following paragraphs,
@@ -182,7 +185,7 @@ $clonedEvent = clone $calendar->VEVENT[0];
 $calendar->add($clonedEvent);
 ```
 
-## Date and time handling
+### Date and time handling
 
 If you ever had to deal with iCalendar timezones, you know it can be complicated.
 The way timezones are specified is flawed, which is something I may write an essay about some
@@ -218,7 +221,7 @@ A few important notes:
 * When a `TZID` is specified, there should also be a matching `VTIMEZONE` object with all the timezone information. VObject cannot currently automatically embed this. However, in reality other clients seem to do fine without this information. Yet, for completeness, this will be added in the future.
 * As mentioned, the timezone-determination process may sometimes fail. Report any issues you find, and I'll be quick to add workarounds!
 
-## Recurrence rules
+### Recurrence rules
 
 Recurrence rules allow events to recur, for example for a weekly meeting, or an anniversary.
 This is done with the `RRULE` property. The `RRULE` property allows for a LOT of different
@@ -249,12 +252,13 @@ So, if we have a meeting every 2nd monday of the month, this would be specified 
 
 ```
 BEGIN:VCALENDAR
-  VERSION:2.0
-  BEGIN:VEVENT
-    UID:1102c450-e0d7-11e1-9b23-0800200c9a66
-    DTSTART:20120109T140000Z
-    RRULE:FREQ=MONTHLY;BYDAY=MO;BYSETPOS=2
-  END:VEVENT
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 2.0//EN
+BEGIN:VEVENT
+UID:1102c450-e0d7-11e1-9b23-0800200c9a66
+DTSTART:20120109T140000Z
+RRULE:FREQ=MONTHLY;BYDAY=MO;BYSETPOS=2
+END:VEVENT
 END:VCALENDAR
 ```
 
@@ -280,6 +284,7 @@ This results in something like this:
 ```
 BEGIN:VCALENDAR
   VERSION:2.0
+  PRODID:-//Sabre//Sabre VObject 2.0//EN
   BEGIN:VEVENT
     UID:1102c450-e0d7-11e1-9b23-0800200c9a66
     DTSTART:20120109T140000Z
@@ -313,7 +318,8 @@ some recurrence rules can be 'never ending'.
 You should make sure you pick a sane date-range. Because if you pick a 50 year
 time-range, for a daily recurring event; this would result in over 18K objects.
 
-# Free-busy report generation
+Free-busy report generation
+---------------------------
 
 Some calendaring software can make use of FREEBUSY reports to show when people are
 available.
@@ -366,3 +372,13 @@ FREEBUSY;FBTYPE=BUSY:20121210T140000Z/20121210T140000Z
 END:VFREEBUSY
 END:VCALENDAR
 ```
+
+Support
+-------
+
+Head over to the [SabreDAV mailing list](http://groups.google.com/group/sabredav-discuss) for any questions.
+
+Made at fruux
+-------------
+
+This library is being developed by [fruux](https://fruux.com/). Drop us a line for commercial services or enterprise support.
