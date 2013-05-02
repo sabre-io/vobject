@@ -74,7 +74,7 @@ class Reader {
         $this->buffer = $this->normalizeNewlines($buffer);
         $this->pos = 0;
 
-        return $this->readComponent();
+        return $this->readComponentOrProperty();
     }
 
     private function normalizeNewlines($data) {
@@ -83,47 +83,87 @@ class Reader {
         return str_replace(array("\r\n", "\r"),"\n", $data);
     }
 
+    /**
+     * reads either a whole Component (BEGIN:{NAME} to END:{NAME}) or a single Property
+     *
+     * @return Component|Property
+     * @throws ParseException
+     */
+    private function readComponentOrProperty() {
+
+        $property = $this->readProperty();
+
+        if ($property->name === 'BEGIN') {
+            return $this->readIntoComponent(Component::create($property->value));
+        }
+        return $property;
+    }
+
+    /**
+     * reads a whole Componenet (BEGIN:{NAME} to END:{NAME})
+     *
+     * @return Component
+     * @throws ParseException
+     */
     private function readComponent() {
 
-        $obj = $this->readProperty();
+        $obj = $this->readComponentOrProperty();
 
-        if ($obj instanceof Property && $obj->name === 'BEGIN') {
-            $obj = Component::create($obj->value);
-
-            do {
-                $pos = $this->tell();
-
-                try{
-                    $parsed = $this->readComponent();
-                }
-                catch(ParseException $error) {
-                    if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
-                        $this->seek($pos);
-
-                        $this->readLine();
-                        continue;
-                    }
-                    throw $error;
-                }
-
-                // Checking component name of the 'END:' line.
-                if ($parsed instanceof Property && $parsed->name === 'END') {
-                    if ($parsed->value !== $obj->name) {
-                        throw $this->createException('Expected "END:' . $obj->name . '", but got "END:' . $parsed->value . '"');
-                    }
-                    break;
-                }
-
-                $obj->add($parsed);
-
-                if ($this->eof())
-                    throw new ParseException('Invalid VObject. Document ended prematurely. Expected: "END:' . $obj->name.'"');
-
-            } while(true);
+        if ($obj instanceof Property) {
+            throw $this->createException('Expected component begin "BEGIN:{NAME}", but god "' . $obj->serialize() . '"');
         }
         return $obj;
     }
 
+    /**
+     * reads any number of sub-Components and Properties into the given Component
+     *
+     * @param Component $component
+     * @return Component
+     * @throws ParseException
+     */
+    private function readIntoComponent($component) {
+
+        do {
+            $pos = $this->tell();
+
+            try{
+                $parsed = $this->readComponentOrProperty();
+            }
+            catch(ParseException $error) {
+                if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
+                    $this->seek($pos);
+
+                    $this->readLine();
+                    continue;
+                }
+                throw $error;
+            }
+
+            // Checking component name of the 'END:' line.
+            if ($parsed instanceof Property && $parsed->name === 'END') {
+                if ($parsed->value !== $component->name) {
+                    throw $this->createException('Expected "END:' . $component->name . '", but got "END:' . $parsed->value . '"');
+                }
+                break;
+            }
+
+            $component->add($parsed);
+
+            if ($this->eof())
+                throw new ParseException('Invalid VObject. Document ended prematurely. Expected: "END:' . $component->name.'"');
+
+        } while(true);
+
+        return $component;
+    }
+
+    /**
+     * reads a single Property alongs with its name, Parameters and value
+     *
+     * @return Property
+     * @throws ParseException
+     */
     private function readProperty() {
 
         // Properties
@@ -209,8 +249,8 @@ class Reader {
     /**
      * Reads a single property parameter from buffer (and advance buffer behind this parameter)
      *
-     * @param Parameter $parameter
-     * @return boolean
+     * @return Parameter
+     * @throws ParseException
      */
     private function readParameter() {
 
