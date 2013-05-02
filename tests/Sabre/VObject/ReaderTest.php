@@ -63,6 +63,28 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @expectedException Sabre\VObject\ParseException
+     */
+    function testReadComponentIncomplete() {
+
+        $data = "BEGIN:VCALENDAR\r\nVERSION:2\r\n";
+
+        $result = Reader::read($data);
+
+    }
+
+    /**
+     * @expectedException Sabre\VObject\ParseException
+     */
+    function testReadComponentIncompleteNested() {
+
+        $data = "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nEND:VCALENDAR";
+
+        $result = Reader::read($data);
+
+    }
+
     function testReadProperty() {
 
         $data = "PROPNAME:propValue";
