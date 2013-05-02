@@ -120,8 +120,8 @@ class Reader {
 
                 $obj->add($parsed);
 
-//                 if (current($lines) === false)
-//                     throw new ParseException('Invalid VObject. Document ended prematurely. Expected: "END:' . $obj->name.'"');
+                if ($this->eof())
+                    throw new ParseException('Invalid VObject. Document ended prematurely. Expected: "END:' . $obj->name.'"');
 
             } while(true);
         }
@@ -361,6 +361,16 @@ class Reader {
             throw new \Exception('Invalid offset given');
         }
         $this->pos = $pos;
+    }
+
+    /**
+     * check if buffer is drained (end-of-file)
+     *
+     * @return boolean
+     */
+    private function eof() {
+
+        return ($this->pos >= strlen($this->buffer));
     }
 
     /**
