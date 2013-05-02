@@ -264,6 +264,12 @@ abstract class Parser {
         return $component;
     }
 
+    /**
+     * normalize all line breaks (CRLF and mac CR) as unix LF only
+     *
+     * @param string $data
+     * @return string
+     */
     protected function normalizeNewlines($data) {
 
         // TODO: skip empty lines?
