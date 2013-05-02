@@ -263,6 +263,13 @@ class Reader {
         return new Parameter($paramName, $paramValue);
     }
 
+    /**
+     * match any number of the given tokens (and advance behind tokens)
+     *
+     * @param string $token
+     * @param string $out
+     * @return boolean
+     */
     private function tokens($token, &$out) {
 
         if ($this->match('/^([' . $token . ']+)/i', $match)) {
@@ -272,7 +279,17 @@ class Reader {
         return false;
     }
 
+    /**
+     * read a single character from the buffer (and advance behind char)
+     *
+     * @param string $char
+     * @return boolean
+     */
     private function char(&$char) {
+
+        if ($this->eof()) {
+            return false;
+        }
 
         $tmp = substr($this->buffer, $this->pos, 3);
         if ($tmp[0] === "\n" && ($tmp[1] === ' ' || $tmp[1] === "\t")) {
@@ -285,6 +302,12 @@ class Reader {
         return true;
     }
 
+    /**
+     * throw ParseException along with given error $str
+     *
+     * @param string $str
+     * @throws ParseException
+     */
     private function error($str) {
 
         $lineNr = $this->getLineNr();
@@ -314,9 +337,15 @@ class Reader {
         throw new ParseException('Invalid VObject: ' . $str . ': Line ' . $lineNr . ' did not follow the icalendar/vcard format:' . var_export($line, true));
     }
 
+    /**
+     * read remainder of the current line from the buffer (line break will not be included and advance behind line break)
+     *
+     * @return string
+     * @throws \Exception if the buffer is already drained (end-of-file)
+     */
     private function readLine() {
 
-        if ($this->pos >= strlen($this->buffer)) {
+        if ($this->eof()) {
             throw new \Exception('Buffer drained');
         }
         $pos = strpos($this->buffer, "\n", $this->pos);
