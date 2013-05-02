@@ -109,7 +109,7 @@ class Reader {
                 // Checking component name of the 'END:' line.
                 if ($parsed instanceof Property && $parsed->name === 'END') {
                     if ($parsed->value !== $obj->name) {
-                        $this->error('Expected "END:' . $obj->name . '", but got "END:' . $parsed->value . '"');
+                        throw $this->createException('Expected "END:' . $obj->name . '", but got "END:' . $parsed->value . '"');
                     }
                     break;
                 }
@@ -136,7 +136,7 @@ class Reader {
         }
 
         if (!$this->tokens($token, $match)) {
-            return $this->error('Expected property name');
+            throw $this->createException('Expected property name');
         }
         $propertyName = strtoupper($match);
 
@@ -152,7 +152,7 @@ class Reader {
         }
 
         if (!$this->literal(':')) {
-            return $this->error('Missing colon after property parameters');
+            throw $this->createException('Missing colon after property parameters');
         }
 
         $propertyValue = $this->readLine();
@@ -217,7 +217,7 @@ class Reader {
         $token = 'A-Z0-9\-';
 
         if (!$this->tokens($token, $paramName)) {
-            return $this->error('Invalid parameter name');
+            throw $this->createException('Invalid parameter name');
         }
         $paramValue = null;
 
@@ -225,7 +225,7 @@ class Reader {
             if ($this->literal('"')) {
                 // TODO: escaped quotes?
                 if (!$this->until('"', $paramValue)) {
-                    return $this->error('Missing parameter quote end delimiter');
+                    throw $this->createException('Missing parameter quote end delimiter');
                 }
             } else {
                 $paramValue = '';
@@ -303,12 +303,12 @@ class Reader {
     }
 
     /**
-     * throw ParseException along with given error $str
+     * create ParseException along with given $error
      *
      * @param string $str
-     * @throws ParseException
+     * @return ParseException
      */
-    private function error($str) {
+    private function createException($error) {
 
         $lineNr = $this->getLineNr();
 
@@ -334,7 +334,7 @@ class Reader {
             $line = substr($line, 0, $offset) . '↦' . substr($line, $offset);
         }
 
-        throw new ParseException('Invalid VObject: ' . $str . ': Line ' . $lineNr . ' did not follow the icalendar/vcard format:' . var_export($line, true));
+        return new ParseException('Invalid VObject: ' . $error . ': Line ' . $lineNr . ' did not follow the icalendar/vcard format:' . var_export($line, true));
     }
 
     /**
