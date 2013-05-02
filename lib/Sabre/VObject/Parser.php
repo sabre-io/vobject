@@ -34,12 +34,6 @@ abstract class Parser {
      */
     const OPTION_IGNORE_INVALID_LINES = 2;
 
-    protected function normalizeNewlines($data) {
-
-        // TODO: skip empty lines?
-        return str_replace(array("\r\n", "\r"),"\n", $data);
-    }
-
     /**
      * reads either a whole Component (BEGIN:{NAME} to END:{NAME}) or a single Property
      *
@@ -71,49 +65,6 @@ abstract class Parser {
             throw $this->createException('Expected component begin "BEGIN:{NAME}", but god "' . $obj->serialize() . '"');
         }
         return $obj;
-    }
-
-    /**
-     * reads any number of sub-Components and Properties into the given Component
-     *
-     * @param Component $component
-     * @return Component
-     * @throws ParseException
-     */
-    protected function readIntoComponent($component) {
-
-        do {
-            $pos = $this->tell();
-
-            try{
-                $parsed = $this->readComponentOrProperty();
-            }
-            catch(ParseException $error) {
-                if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
-                    $this->seek($pos);
-
-                    $this->readLine();
-                    continue;
-                }
-                throw $error;
-            }
-
-            // Checking component name of the 'END:' line.
-            if ($parsed instanceof Property && $parsed->name === 'END') {
-                if ($parsed->value !== $component->name) {
-                    throw $this->createException('Expected "END:' . $component->name . '", but got "END:' . $parsed->value . '"');
-                }
-                break;
-            }
-
-            $component->add($parsed);
-
-            if ($this->eof())
-                throw new ParseException('Invalid VObject. Document ended prematurely. Expected: "END:' . $component->name.'"');
-
-        } while(true);
-
-        return $component;
     }
 
     /**
@@ -259,6 +210,57 @@ abstract class Parser {
             }, $paramValue);
         }
         return new Parameter($paramName, $paramValue);
+    }
+
+    // non-public helper methods:
+
+    /**
+     * reads any number of sub-Components and Properties into the given Component
+     *
+     * @param Component $component
+     * @return Component
+     * @throws ParseException
+     */
+    protected function readIntoComponent($component) {
+
+        do {
+            $pos = $this->tell();
+
+            try{
+                $parsed = $this->readComponentOrProperty();
+            }
+            catch(ParseException $error) {
+                if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
+                    $this->seek($pos);
+
+                    $this->readLine();
+                    continue;
+                }
+                throw $error;
+            }
+
+            // Checking component name of the 'END:' line.
+            if ($parsed instanceof Property && $parsed->name === 'END') {
+                if ($parsed->value !== $component->name) {
+                    throw $this->createException('Expected "END:' . $component->name . '", but got "END:' . $parsed->value . '"');
+                }
+                break;
+            }
+
+            $component->add($parsed);
+
+            if ($this->eof())
+                throw new ParseException('Invalid VObject. Document ended prematurely. Expected: "END:' . $component->name.'"');
+
+        } while(true);
+
+        return $component;
+    }
+
+    protected function normalizeNewlines($data) {
+
+        // TODO: skip empty lines?
+        return str_replace(array("\r\n", "\r"),"\n", $data);
     }
 
     /**
