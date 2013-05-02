@@ -431,8 +431,8 @@ EOT;
         $this->assertEquals("ENCODING=QUOTED-PRINTABLE:Test=0D=0A", $this->getPropertyValue($result->note));
     }
 
-    private function getPropertyValue(Property $property)
-    {
+    private function getPropertyValue(Property $property) {
+
         $value = (string)$property;
 
         $param = $property['encoding'];

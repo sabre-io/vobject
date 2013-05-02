@@ -42,6 +42,7 @@ class Reader {
      * @return Node
      */
     static function read($data, $options = 0) {
+
         $parser = new self($options);
 
         return $parser->parseComponent($data);
@@ -50,8 +51,8 @@ class Reader {
     private $buffer;
     private $pos;
 
-    private function __construct($options = 0)
-    {
+    private function __construct($options = 0) {
+
         $this->options = $options;
     }
 
@@ -68,22 +69,22 @@ class Reader {
      * @param int $options See the OPTIONS constants.
      * @return Node
      */
-    public function parseComponent($buffer)
-    {
+    public function parseComponent($buffer) {
+
         $this->buffer = $this->normalizeNewlines($buffer);
         $this->pos = 0;
 
         return $this->readComponent();
     }
 
-    private function normalizeNewlines($data)
-    {
+    private function normalizeNewlines($data) {
+
         // TODO: skip empty lines?
         return str_replace(array("\r\n", "\r"),"\n", $data);
     }
 
-    private function readComponent()
-    {
+    private function readComponent() {
+
         $obj = $this->readProperty();
 
         if ($obj instanceof Property && $obj->name === 'BEGIN') {
@@ -127,8 +128,8 @@ class Reader {
         return $obj;
     }
 
-    private function readProperty()
-    {
+    private function readProperty() {
+
         // Properties
         //$result = preg_match('/(?P<name>[A-Z0-9-]+)(?:;(?P<parameters>^(?<!:):))(.*)$/',$line,$matches);
 
@@ -215,8 +216,8 @@ class Reader {
      * @param Parameter $parameter
      * @return boolean
      */
-    private function readParameter()
-    {
+    private function readParameter() {
+
         $token = 'A-Z0-9\-';
 
         if (!$this->tokens($token, $paramName)) {
@@ -266,8 +267,8 @@ class Reader {
         return new Parameter($paramName, $paramValue);
     }
 
-    private function tokens($token, &$out)
-    {
+    private function tokens($token, &$out) {
+
         if ($this->match('/^([' . $token . ']+)/i', $match)) {
             $out = $match[1];
             return true;
@@ -275,8 +276,8 @@ class Reader {
         return false;
     }
 
-    private function char(&$char)
-    {
+    private function char(&$char) {
+
         $tmp = substr($this->buffer, $this->pos, 3);
         if ($tmp[0] === "\n" && ($tmp[1] === ' ' || $tmp[1] === "\t")) {
             $char = $tmp[2];
@@ -288,8 +289,8 @@ class Reader {
         return true;
     }
 
-    private function error($str)
-    {
+    private function error($str) {
+
         $lineNr = $this->getLineNr();
 
         if ($this->buffer === '') {
@@ -317,8 +318,8 @@ class Reader {
         throw new ParseException('Invalid VObject: ' . $str . ': Line ' . $lineNr . ' did not follow the icalendar/vcard format:' . var_export($line, true));
     }
 
-    private function readLine()
-    {
+    private function readLine() {
+
         if ($this->pos >= strlen($this->buffer)) {
             throw new \Exception('Buffer drained');
         }
@@ -343,8 +344,8 @@ class Reader {
      *
      * @return int
      */
-    private function tell()
-    {
+    private function tell() {
+
         return $this->pos;
     }
 
@@ -354,8 +355,8 @@ class Reader {
      * @param int $pos
      * @throws \Exception
      */
-    private function seek($pos)
-    {
+    private function seek($pos) {
+
         if ($pos < 0 || $pos > strlen($this->buffer)) {
             throw new \Exception('Invalid offset given');
         }
@@ -367,8 +368,8 @@ class Reader {
      *
      * @return int
      */
-    private function getLineNr()
-    {
+    private function getLineNr() {
+
         if ($this->pos === 0) {
             return 1;
         }
@@ -383,8 +384,8 @@ class Reader {
      * @return boolean
      * @uses preg_match()
      */
-    private function match($regex, &$ret)
-    {
+    private function match($regex, &$ret) {
+
         // create temporary buffer which ignores line folding
         $buffer = substr($this->buffer, $this->pos);
         $buffer = str_replace("\n ", '', $buffer);
@@ -421,8 +422,8 @@ class Reader {
      * @param string $expect
      * @return boolean
      */
-    private function literal($expect)
-    {
+    private function literal($expect) {
+
         return $this->match('/^'.preg_quote($expect).'/', $ignore);
 
 //         $l = strlen($expect);
@@ -440,8 +441,8 @@ class Reader {
      * @param string $out
      * @return boolean
      */
-    private function until($end, &$out)
-    {
+    private function until($end, &$out) {
+
         if ($this->match('/^(.*?)' . preg_quote($end) . '/', $match)) {
             $out = $match[1];
             return true;
