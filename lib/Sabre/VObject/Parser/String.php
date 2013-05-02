@@ -17,7 +17,18 @@ use Sabre\VObject\ParseException;
  */
 class String extends VObject\Parser {
 
+    /**
+     * input string buffer we're operating on
+     *
+     * @var string
+     */
     protected $buffer;
+
+    /**
+     * current position/offset into the buffer
+     *
+     * @var int
+     */
     protected $pos;
 
     /**
@@ -28,7 +39,6 @@ class String extends VObject\Parser {
      *
      * @param string $buffer
      * @param int $options See the OPTIONS constants.
-     * @return Node
      */
     public function __construct($buffer, $options = 0) {
 

@@ -35,6 +35,13 @@ abstract class Parser {
     const OPTION_IGNORE_INVALID_LINES = 2;
 
     /**
+     * See the OPTIONS constants.
+     *
+     * @var int
+     */
+    protected $options = 0;
+
+    /**
      * reads either a whole Component (BEGIN:{NAME} to END:{NAME}) or a single Property
      *
      * @return Component|Property
