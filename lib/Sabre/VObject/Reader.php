@@ -39,42 +39,36 @@ class Reader {
      *
      * @param string $data
      * @param int $options
-     * @return Node
+     * @return Component|Property
      */
     static function read($data, $options = 0) {
 
-        $parser = new self($options);
+        $parser = new self($data, $options);
 
-        return $parser->parseComponent($data);
+        return $parser->readComponentOrProperty();
     }
 
     private $buffer;
     private $pos;
 
-    private function __construct($options = 0) {
-
-        $this->options = $options;
-    }
-
     /**
-     * Reads and parses a single line.
+     * Instanciate a StringParser
      *
-     * This method receives the full array of lines. The array pointer is used
-     * to traverse.
+     * this Parser receives an input string consisting of several lines.
+     * A string offset (`$pos`) is used to traverse.
      *
-     * This method returns null if an invalid line was encountered, and the
+     * TODO: Consider which methods should return null if an invalid line was encountered, and the
      * IGNORE_INVALID_LINES option was turned on.
      *
-     * @param array $lines
+     * @param string $buffer
      * @param int $options See the OPTIONS constants.
      * @return Node
      */
-    public function parseComponent($buffer) {
+    private function __construct($buffer, $options = 0) {
 
         $this->buffer = $this->normalizeNewlines($buffer);
         $this->pos = 0;
-
-        return $this->readComponentOrProperty();
+        $this->options = $options;
     }
 
     private function normalizeNewlines($data) {
