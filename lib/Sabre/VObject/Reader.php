@@ -107,15 +107,11 @@ class Reader {
                 }
 
                 // Checking component name of the 'END:' line.
-                if ($parsed instanceof Property) {
-                    if ($parsed->name === 'END') {
-                        if ($parsed->value !== $obj->name) {
-                            $this->error('Expected "END:' . $obj->name . '", but got "END:' . $parsed->value . '"');
-                        }
-                        break;
-                    }/* else if($obj->name === 'BEGIN') {
-                        throw new ParseException('Invalid VObject, expected: "END: ' . $obj->name .'" GOT "' . $parsed->serialize() . '"');
-                    }*/
+                if ($parsed instanceof Property && $parsed->name === 'END') {
+                    if ($parsed->value !== $obj->name) {
+                        $this->error('Expected "END:' . $obj->name . '", but got "END:' . $parsed->value . '"');
+                    }
+                    break;
                 }
 
                 $obj->add($parsed);
