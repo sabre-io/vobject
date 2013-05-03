@@ -91,10 +91,9 @@ abstract class Parser {
             $token = 'A-Z0-9\-\.';
         }
 
-        if (!$this->tokens($token, $match)) {
+        if (!$this->tokens($token, $propertyName)) {
             throw $this->createException('Expected property name');
         }
-        $propertyName = strtoupper($match);
 
         $isQuotedPrintable = false;
         $propertyParams = array();
