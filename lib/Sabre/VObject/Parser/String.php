@@ -226,4 +226,24 @@ class String extends VObject\Parser {
         }
         return false;
     }
+
+    /**
+     * improved version to read from buffer until $end is found ($end will not be returned and advance behind end)
+     *
+     * @param string $end
+     * @param string $out
+     * @return boolean
+     */
+    protected function until($end, &$out) {
+
+        $pos = strpos($this->buffer, $end, $this->pos);
+        if ($pos === false) {
+            return false;
+        }
+
+        $out = $this->unfold(substr($this->buffer, $this->pos, ($pos - $this->pos)));
+        $this->pos = $pos + strlen($end);
+
+        return true;
+    }
 }

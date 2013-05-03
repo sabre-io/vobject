@@ -341,13 +341,6 @@ abstract class Parser {
     protected function literal($expect) {
 
         return $this->match('/(?:\\n[ \\t])?' . preg_quote($expect) . '/A', $ignore);
-
-//         $l = strlen($expect);
-//         if (substr($this->buffer, $this->pos, $l) === (string)$expect) {
-//             $this->pos += $l;
-//             return true;
-//         }
-//         return false;
     }
 
     /**
@@ -364,16 +357,6 @@ abstract class Parser {
             return true;
         }
         return false;
-
-//         $pos = strpos($this->buffer, $end, $this->pos);
-//         if ($pos === false) {
-//             return false;
-//         }
-
-//         $out = $this->unfold(substr($this->buffer, $this->pos, ($pos - $this->pos)));
-//         $this->pos = $pos + strlen($end);
-
-//         return true;
     }
 
     protected function unfold($str) {
