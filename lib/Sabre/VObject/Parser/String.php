@@ -189,30 +189,8 @@ class String extends VObject\Parser {
      */
     protected function match($regex, &$ret) {
 
-        // create temporary buffer which ignores line folding
-        $buffer = substr($this->buffer, $this->pos);
-        $buffer = str_replace("\n ", '', $buffer);
-        $buffer = str_replace("\n\t", '', $buffer);
-
-        if (preg_match($regex, $buffer, $ret)) {
-
-            // we can't just advance by the returned length - we have to account for folded lines
-            $len = strlen($ret[0]);
-            // $this->pos += $len;
-
-            for ($pos = $this->pos, $i = 0; $i < $len ; ++$pos) {
-                $this->pos++;
-                if (substr($this->buffer, $pos, 1) === "\n") {
-                    $next = substr($this->buffer, $pos + 1, 1);
-                    if ($next === ' ' || $next === "\t") {
-                        $this->pos++;
-                    } else {
-                        $i++;
-                    }
-                } else {
-                    $i++;
-                }
-            }
+        if (preg_match($regex, $this->buffer, $ret, null, $this->pos)) {
+            $this->pos += strlen($ret[0]);
 
             return true;
         }

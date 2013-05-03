@@ -277,22 +277,6 @@ abstract class Parser {
     }
 
     /**
-     * match any number of the given tokens (and advance behind tokens)
-     *
-     * @param string $token
-     * @param string $out
-     * @return boolean
-     */
-    protected function tokens($token, &$out) {
-
-        if ($this->match('/^([' . $token . ']+)/i', $match)) {
-            $out = $match[1];
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * read a single character from the buffer (and advance behind char)
      *
      * @param string $char
@@ -356,6 +340,22 @@ abstract class Parser {
     abstract protected function match($regex, &$ret);
 
     /**
+     * match any number of the given tokens (and advance behind tokens)
+     *
+     * @param string $token
+     * @param string $out
+     * @return boolean
+     */
+    protected function tokens($token, &$out) {
+
+        if ($this->match('/((?:\n[ \t])?[' . $token . ']+(?:\n[ \t][ '. $token . ']+)*)/Ai', $match)) {
+            $out = $this->unfold($match[1]);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * match given literal string in buffer (and advance behind literal)
      *
      * @param string $expect
@@ -363,7 +363,7 @@ abstract class Parser {
      */
     protected function literal($expect) {
 
-        return $this->match('/^'.preg_quote($expect).'/', $ignore);
+        return $this->match('/(?:\\n[ \\t])?' . preg_quote($expect) . '/A', $ignore);
 
 //         $l = strlen($expect);
 //         if (substr($this->buffer, $this->pos, $l) === (string)$expect) {
@@ -382,8 +382,8 @@ abstract class Parser {
      */
     protected function until($end, &$out) {
 
-        if ($this->match('/^(.*?)' . preg_quote($end) . '/', $match)) {
-            $out = $match[1];
+        if ($this->match('/(.*?)' . preg_quote($end) . '/A', $match)) {
+            $out = $this->unfold($match[1]);
             return true;
         }
         return false;
@@ -393,9 +393,14 @@ abstract class Parser {
 //             return false;
 //         }
 
-//         $out = substr($this->buffer, $this->pos, ($pos - $this->pos));
+//         $out = $this->unfold(substr($this->buffer, $this->pos, ($pos - $this->pos)));
 //         $this->pos = $pos + strlen($end);
 
 //         return true;
+    }
+
+    protected function unfold($str) {
+
+        return str_replace(array("\n ", "\n\t"), '', $str);
     }
 }
