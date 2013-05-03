@@ -159,8 +159,10 @@ abstract class Parser {
         }
         $paramValue = null;
 
-        if ($this->literal('=')) {
-            if ($this->literal('"')) {
+        // optionally match equal sign + optional quote start
+        if ($this->match('/(?:\n[ \t])?=((?:\n[ \t])?\")?/A', $match)) {
+            // parameter value is enclosed in quotes
+            if (isset($match[1])) {
                 // TODO: escaped quotes?
                 if (!$this->until('"', $paramValue)) {
                     throw $this->createException('Missing parameter quote end delimiter');
