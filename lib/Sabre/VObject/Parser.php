@@ -185,26 +185,20 @@ abstract class Parser {
                 }
             } else {
                 $paramValue = '';
-                $pos = $this->tell();
-                $escaped = false;
 
-                // read any number of characters
-                while ($this->char($char)) {
-                    if ($escaped) {
-                        $escaped = false;
+                // match any number of characters as parameter value (until the first colon and semicolon)
+                while ($this->tokens('^\:\;', $part)) {
+                    $paramValue .= $part;
+
+                    // the last character was a backslash, so add trailing colon or semicolon and continue reading
+                    // TODO: consider: name=value\\:
+                    if (substr($part, -1) === '\\') {
+                        $this->char($next);
+                        $paramValue .= $next;
+                        // continue
                     } else {
-                        // those must not be included in parameter value => seek to previous valid position and stop
-                        if ($char === ';' || $char === ':') {
-                            $this->seek($pos);
-                            break;
-                        } else if ($char === '\\') {
-                            // the following char is escaped
-                            $escaped = true;
-                        }
+                        break;
                     }
-
-                    $paramValue .= $char;
-                    $pos = $this->tell();
                 }
             }
 
