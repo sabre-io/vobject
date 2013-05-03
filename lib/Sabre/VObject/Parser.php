@@ -107,15 +107,11 @@ abstract class Parser {
             }
         }
 
-        if (!$this->literal(':')) {
-            throw $this->createException('Missing colon after property parameters');
+        // match colon + remainder of line + perform unfolding to concat next lines
+        if (!$this->match('/:(.*(?:\n[ \t].+)*)(?:\n)?/A', $match)) {
+            throw $this->createException('Expected colon and property value');
         }
-
-        $propertyValue = '';
-        // match remainder of line + perform unfolding to concat next lines
-        if ($this->match('/(.*(?:\n[ \t].+)*)(?:\n)?/A', $match)) {
-            $propertyValue = $match[1];
-        }
+        $propertyValue = $match[1];
 
         if ($isQuotedPrintable) {
             // quoted-printable soft line break at line end => try to read next lines
