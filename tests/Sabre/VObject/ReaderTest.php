@@ -63,6 +63,28 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @expectedException Sabre\VObject\ParseException
+     */
+    function testReadComponentIncomplete() {
+
+        $data = "BEGIN:VCALENDAR\r\nVERSION:2\r\n";
+
+        $result = Reader::read($data);
+
+    }
+
+    /**
+     * @expectedException Sabre\VObject\ParseException
+     */
+    function testReadComponentIncompleteNested() {
+
+        $data = "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nEND:VCALENDAR";
+
+        $result = Reader::read($data);
+
+    }
+
     function testReadProperty() {
 
         $data = "PROPNAME:propValue";
@@ -262,6 +284,20 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testReadPropertyParameterEscapedSemicolon() {
+
+        $data = "PROPNAME;PARAMNAME=first\\;second\\,third:propValue";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertEquals('PROPNAME', $result->name);
+        $this->assertEquals('propValue', $result->value);
+        $this->assertEquals(1, count($result->parameters));
+        $this->assertEquals('PARAMNAME', $result->parameters[0]->name);
+        $this->assertEquals('first;second,third', $result->parameters[0]->value);
+
+    }
+
     function testReadForgiving() {
 
         $data = array(
@@ -323,6 +359,125 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $result->serialize());
 
 
+    }
+
+    function testReadQuotedPrintableSimple() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aach=65n\r\nEND:VCARD";
+
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+        $this->assertEquals("Aachen", $this->getPropertyValue($result->label));
+
+    }
+
+    function testReadQuotedPrintableNewlineSoft() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aa=\r\n ch=\r\n en\r\nEND:VCARD";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+        $this->assertEquals("Aachen", $this->getPropertyValue($result->label));
+
+    }
+
+    function testReadQuotedPrintableNewlineHard() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\n Germany\r\nEND:VCARD";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+        $this->assertEquals("Aachen\r\nGermany", $this->getPropertyValue($result->label));
+
+
+    }
+
+    function testReadQuotedPrintableCompatibilityMS() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nDeutschland:okay\r\nEND:VCARD";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+        $this->assertEquals("Aachen\r\nDeutschland:okay", $this->getPropertyValue($result->label));
+
+    }
+
+    function testReadQuotedPrintableCompatibilityMSTwice() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nDeutschland=0D=0A=\r\nDE\r\nNOTE;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nist=0D=0A=\r\ntoll\r\nEND:VCARD";
+
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(2, count($result->children));
+        $this->assertEquals("Aachen\r\nDeutschland\r\nDE", $this->getPropertyValue($result->label));
+        $this->assertEquals("Aachen\r\nist\r\ntoll", $this->getPropertyValue($result->note));
+
+    }
+
+    function testReadQuotedPrintableCompatibilityMSSeveral() {
+
+        $data = <<<EOT
+BEGIN:VCARD
+N
+ I
+ C
+ K
+ NAME:folder
+LABEL;WORK;PREF;ENCODING=QUOTED-PRINTABLE:M=FCnster
+ADR;CHARSET=Windows-1252;ENCODING=QUO
+ TED-PRINTABLE:;B=FCro =
+D=FCtschland\\r\\n
+NOTE:ENCODING=QUOTED-PRINTABLE:Test=0D=0A
+END:VCARD
+EOT;
+
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(4, count($result->children));
+        $this->assertEquals('folder', $result->nickname);
+        $this->assertEquals('Münster', $this->getPropertyValue($result->label));
+        $this->assertEquals(";Büro Dütschland\\r\\n", $this->getPropertyValue($result->adr));
+        $this->assertEquals("ENCODING=QUOTED-PRINTABLE:Test=0D=0A", $this->getPropertyValue($result->note));
+    }
+
+    private function getPropertyValue(Property $property) {
+
+        $value = (string)$property;
+
+        $param = $property['encoding'];
+        if ($param !== null) {
+            $encoding = strtoupper((string)$param);
+            if ($encoding === 'QUOTED-PRINTABLE') {
+                $value = quoted_printable_decode($value);
+            } else {
+                throw new Exception();
+            }
+        }
+
+        $param = $property['charset'];
+        if ($param !== null) {
+            $charset = strtoupper((string)$param);
+            if ($charset !== 'UTF-8') {
+                $value = mb_convert_encoding($value, 'UTF-8', $charset);
+            }
+        } else {
+            $value = StringUtil::convertToUTF8($value);
+        }
+
+        return $value;
     }
 
 }
