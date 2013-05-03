@@ -204,4 +204,26 @@ class String extends VObject\Parser {
         }
         return false;
     }
+
+    /**
+     * improved version to match given literal character in buffer (and advance behind literal)
+     *
+     * @param string $expect
+     * @return boolean
+     */
+    protected function literal($expect) {
+
+        if (isset($this->buffer[$this->pos])) {
+            if ($this->buffer[$this->pos] === $expect) {
+                // literal character is the first character in buffer
+                $this->pos += 1;
+                return true;
+            } else if (isset($this->buffer[$this->pos + 2]) && $this->buffer[$this->pos + 2] === $expect && $this->buffer[$this->pos] === "\n" && ($this->buffer[$this->pos + 1] === ' ' || $this->buffer[$this->pos + 1] === "\t")) {
+                // literal character is right behind line fold
+                $this->pos += 3;
+                return true;
+            }
+        }
+        return false;
+    }
 }
