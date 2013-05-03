@@ -111,40 +111,26 @@ abstract class Parser {
             throw $this->createException('Missing colon after property parameters');
         }
 
-        $propertyValue = $this->readLine();
+        $propertyValue = '';
+        // match remainder of line + perform unfolding to concat next lines
+        if ($this->match('/(.*(?:\n[ \t].+)*)(?:\n)?/A', $match)) {
+            $propertyValue = $match[1];
+        }
 
         if ($isQuotedPrintable) {
-            // peek at next lines if this is a quoted-printable encoding
+            // quoted-printable soft line break at line end => try to read next lines
             while (substr($propertyValue, -1) === '=') {
-                $line = $this->readLine();
-
-                if (true) {
-                    $line = ltrim($line);
-                }
-
-                // next line is unparsable => append to current line
-                $propertyValue = substr($propertyValue, 0, -1) . $line;
-            }
-        } else {
-            // peek at following lines to check for line-folding
-            while (true) {
-                $pos = $this->tell();
-                try {
-                    $line = $this->readLine();
-                }
-                catch (\Exception $e) {
-                    break;
-                }
-
-                if ($line[0]===" " || $line[0]==="\t") {
-                    $propertyValue .= substr($line, 1);
+                // TODO: use single match instead of looping (performance)
+                if ($this->match('/(.*)(?:\n)?/A', $match)) {
+                    $propertyValue .= "\n" . $match[1];
                 } else {
-                    // reset position
-                    $this->seek($pos);
-                    break;
+                    throw $this->createException('');
                 }
             }
 
+            $propertyValue = preg_replace('/=\n[ \t]?/', '', $propertyValue);
+            $propertyValue = $this->unfold($propertyValue);
+        } else {
             // unescape backslash-escaped values
             $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
                 if ($matches[2]==='n' || $matches[2]==='N') {
@@ -152,7 +138,7 @@ abstract class Parser {
                 } else {
                     return $matches[2];
                 }
-            }, $propertyValue);
+            }, $this->unfold($propertyValue));
         }
 
         $property = Property::create($propertyName, $propertyValue);
