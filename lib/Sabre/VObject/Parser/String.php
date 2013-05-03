@@ -32,6 +32,13 @@ class String extends VObject\Parser {
     protected $pos;
 
     /**
+     * total length of input buffer
+     *
+     * @var int
+     */
+    protected $length;
+
+    /**
      * Instanciate a StringParser
      *
      * This Parser receives an input string consisting of several lines.
@@ -43,6 +50,7 @@ class String extends VObject\Parser {
     public function __construct($buffer, $options = 0) {
 
         $this->buffer = $this->normalizeNewlines($buffer);
+        $this->length = strlen($this->buffer);
         $this->pos = 0;
         $this->options = $options;
     }
@@ -120,7 +128,7 @@ class String extends VObject\Parser {
 
         if ($pos === false) {
             $ret = substr($this->buffer, $this->pos);
-            $this->pos = strlen($this->buffer);
+            $this->pos = $this->length;
 
             // throw new \Exception('No line ending found');
         } else {
@@ -150,7 +158,7 @@ class String extends VObject\Parser {
      */
     protected function seek($pos) {
 
-        if ($pos < 0 || $pos > strlen($this->buffer)) {
+        if ($pos < 0 || $pos > $this->length) {
             throw new \Exception('Invalid offset given');
         }
         $this->pos = $pos;
@@ -163,7 +171,7 @@ class String extends VObject\Parser {
      */
     protected function eof() {
 
-        return ($this->pos >= strlen($this->buffer));
+        return ($this->pos >= $this->length);
     }
 
     /**
