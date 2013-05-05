@@ -241,7 +241,7 @@ class MimeDir {
         }
 
         // Matches the property name, group, and wether it ends with a ; or a :
-        if (!preg_match('/^(?P<name>[' . $token . ']+)(?P<endtoken>:|;)/', $line, $matches)) {
+        if (!preg_match('/^(?P<name>[' . $token . ']+)(?P<endtoken>:|;)/i', $line, $matches)) {
             throw new ParseException('Invalid MimeDir file, line ' . ($this->startLine) . ' did not follow iCalendar/vCard specifications');
         }
 
@@ -304,15 +304,16 @@ class MimeDir {
 
         do {
 
-            if (!preg_match('/^(?P<name>[' . $nameToken . ']+)(?:='.$paramValueToken.')?'.$endToken.'/', substr($line, $lineOffset), $matches)) {
+            if (!preg_match('/^(?P<name>[' . $nameToken . ']+)(?P<hasValue>='.$paramValueToken.')?'.$endToken.'/i', substr($line, $lineOffset), $matches)) {
                 throw new ParseException('Invalid Mimedir file. The parameter on line ' . $this->startLine . ', column ' . $lineOffset . ' did not follow iCalendar/vCard specifications');
             }
+            $hasValue = $matches['hasValue'];
 
             $paramName = strtolower($matches['name']);
 
             while(true) {
                 $lineOffset += strlen($matches[0]);
-                $value = $matches['qvalue']?:$matches['value'];
+                $value = $hasValue ? ($matches['qvalue']?:$matches['value']) : null;
 
                 if (isset($parameters[$paramName])) {
                     if (is_array($parameters[$paramName])) {

@@ -43,181 +43,57 @@ class Reader {
      */
     static function read($data, $options = 0) {
 
-        // Normalizing newlines
-        $data = str_replace(array("\r","\n\n"), array("\n","\n"), $data);
+        $parser = new Parser\MimeDir();
+        $result = $parser->parse($data, $options);
 
-        $lines = explode("\n", $data);
-
-        // Unfolding lines
-        $lines2 = array();
-        foreach($lines as $line) {
-
-            // Skipping empty lines
-            if (!$line) continue;
-
-            if ($line[0]===" " || $line[0]==="\t") {
-                $lines2[count($lines2)-1].=substr($line,1);
-            } else {
-                $lines2[] = $line;
-            }
-
-        }
-
-        unset($lines);
-
-        reset($lines2);
-
-        return self::readLine($lines2, $options);
-
+        return self::mapComponent($result);
+       
     }
 
-    /**
-     * Reads and parses a single line.
-     *
-     * This method receives the full array of lines. The array pointer is used
-     * to traverse.
-     *
-     * This method returns null if an invalid line was encountered, and the
-     * IGNORE_INVALID_LINES option was turned on.
-     *
-     * @param array $lines
-     * @param int $options See the OPTIONS constants.
-     * @return Node
-     */
-    static private function readLine(&$lines, $options = 0) {
+    static private function mapComponent($componentInfo) {
 
-        $line = current($lines);
-        $lineNr = key($lines);
-        next($lines);
+        $obj = Component::create(
+            strtoupper($componentInfo[0])
+        );
 
-        // Components
-        if (strtoupper(substr($line,0,6)) === "BEGIN:") {
+        foreach($componentInfo[1] as $propInfo) {
 
-            $componentName = strtoupper(substr($line,6));
-            $obj = Component::create($componentName);
-
-            $nextLine = current($lines);
-
-            while(strtoupper(substr($nextLine,0,4))!=="END:") {
-
-                $parsedLine = self::readLine($lines, $options);
-                $nextLine = current($lines);
-
-                if (is_null($parsedLine)) {
-                    continue;
-                }
-                $obj->add($parsedLine);
-
-                if ($nextLine===false)
-                    throw new ParseException('Invalid VObject. Document ended prematurely.');
-
-            }
-
-            // Checking component name of the 'END:' line.
-            if (substr($nextLine,4)!==$obj->name) {
-                throw new ParseException('Invalid VObject, expected: "END:' . $obj->name . '" got: "' . $nextLine . '"');
-            }
-            next($lines);
-
-            return $obj;
+            $obj->add(
+                self::mapProperty($propInfo)
+            );
 
         }
 
-        // Properties
-        //$result = preg_match('/(?P<name>[A-Z0-9-]+)(?:;(?P<parameters>^(?<!:):))(.*)$/',$line,$matches);
+        foreach($componentInfo[2] as $compInfo) {
 
-        if ($options & self::OPTION_FORGIVING) {
-            $token = '[A-Z0-9-\._]+';
-        } else {
-            $token = '[A-Z0-9-\.]+';
-        }
-        $parameters = "(?:;(?P<parameters>([^:^\"]|\"([^\"]*)\")*))?";
-        $regex = "/^(?P<name>$token)$parameters:(?P<value>.*)$/i";
-
-        $result = preg_match($regex,$line,$matches);
-
-        if (!$result) {
-            if ($options & self::OPTION_IGNORE_INVALID_LINES) {
-                return null;
-            } else {
-                throw new ParseException('Invalid VObject, line ' . ($lineNr+1) . ' did not follow the icalendar/vcard format');
-            }
-        }
-
-        $propertyName = strtoupper($matches['name']);
-        $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
-            if ($matches[2]==='n' || $matches[2]==='N') {
-                return "\n";
-            } else {
-                return $matches[2];
-            }
-        }, $matches['value']);
-
-        $obj = Property::create($propertyName, $propertyValue);
-
-        if ($matches['parameters']) {
-
-            foreach(self::readParameters($matches['parameters']) as $param) {
-                $obj->add($param);
-            }
+            $obj->add(
+                self::mapComponent($compInfo)
+            );
 
         }
 
         return $obj;
 
-
     }
 
-    /**
-     * Reads a parameter list from a property
-     *
-     * This method returns an array of Parameter
-     *
-     * @param string $parameters
-     * @return array
-     */
-    static private function readParameters($parameters) {
+    static private function mapProperty($propInfo) {
 
-        $token = '[A-Z0-9-]+';
+        $obj = Property::create(
+            strtoupper($propInfo[0]),
+            $propInfo[3]
+        );
 
-        $paramValue = '(?P<paramValue>[^\"^;]*|"[^"]*")';
-
-        $regex = "/(?<=^|;)(?P<paramName>$token)(=$paramValue(?=$|;))?/i";
-        preg_match_all($regex, $parameters, $matches,  PREG_SET_ORDER);
-
-        $params = array();
-        foreach($matches as $match) {
-
-            if (!isset($match['paramValue'])) {
-
-                $value = null;
-
-            } else {
-
-                $value = $match['paramValue'];
-
-                if (isset($value[0]) && $value[0]==='"') {
-                    // Stripping quotes, if needed
-                    $value = substr($value,1,strlen($value)-2);
-                }
-
-                $value = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
-                    if ($matches[2]==='n' || $matches[2]==='N') {
-                        return "\n";
-                    } else {
-                        return $matches[2];
-                    }
-                }, $value);
-
-            }
-
-            $params[] = new Parameter($match['paramName'], $value);
-
+        foreach($propInfo[1] as $paramName=>$paramValue) {
+            if (is_array($paramValue)) {
+                $paramValue = implode(',', $paramValue);
+            };
+            $obj->add(
+                new Parameter( $paramName, $paramValue )
+            );
         }
 
-        return $params;
+        return $obj;
 
     }
-
 
 }
