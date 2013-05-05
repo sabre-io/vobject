@@ -4,18 +4,18 @@ namespace Sabre\VObject\Parser;
 
 class MimeDirTest extends \PHPUnit_Framework_TestCase {
 
-    function parse($input) {
+    function parse($input, $options) {
 
         $parser = new MimeDir();
-        return $parser->parse($input);
+        return $parser->parse($input, $options);
 
     }
 
-    function assertParse($expected, $input) {
+    function assertParse($expected, $input, $options = 0) {
 
         $this->assertEquals(
             $expected,
-            $this->parse($input)
+            $this->parse($input, $options)
         );
 
     }
@@ -226,4 +226,120 @@ ICS;
         $this->assertParse($expected, $input);
 
     }
+
+    function testReadQuotedPrintableSimple() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aach=65n\r\nEND:VCARD";
+
+        $expected = array(
+            'vcard',
+            array(
+                array(
+                    'label',
+                    array(
+                        'encoding' => 'QUOTED-PRINTABLE',
+                    ),
+                    null,
+                    'Aachen',
+                ),
+            ),
+            array(),
+        );
+
+        $this->assertParse($expected, $data, MimeDir::OPTION_FORGIVING);
+
+    }
+
+    function testReadQuotedPrintableNewlineSoft() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aa=\r\n ch=\r\n en\r\nEND:VCARD";
+        $expected = array(
+            'vcard',
+            array(
+                array(
+                    'label',
+                    array(
+                        'encoding' => 'QUOTED-PRINTABLE',
+                    ),
+                    null,
+                    'Aachen',
+                ),
+            ),
+            array(),
+        );
+
+        $this->assertParse($expected, $data, MimeDir::OPTION_FORGIVING);
+
+    }
+
+    /*
+    function testReadQuotedPrintableNewlineHard() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\n Germany\r\nEND:VCARD";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+        $this->assertEquals("Aachen\r\nGermany", $this->getPropertyValue($result->label));
+
+
+    }
+
+    function testReadQuotedPrintableCompatibilityMS() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nDeutschland:okay\r\nEND:VCARD";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+        $this->assertEquals("Aachen\r\nDeutschland:okay", $this->getPropertyValue($result->label));
+
+    }
+
+    function testReadQuotedPrintableCompatibilityMSTwice() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nDeutschland=0D=0A=\r\nDE\r\nNOTE;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nist=0D=0A=\r\ntoll\r\nEND:VCARD";
+
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(2, count($result->children));
+        $this->assertEquals("Aachen\r\nDeutschland\r\nDE", $this->getPropertyValue($result->label));
+        $this->assertEquals("Aachen\r\nist\r\ntoll", $this->getPropertyValue($result->note));
+
+    }
+
+    function testReadQuotedPrintableCompatibilityMSSeveral() {
+
+        $data = <<<EOT
+BEGIN:VCARD
+N
+I
+C
+K
+NAME:folder
+LABEL;WORK;PREF;ENCODING=QUOTED-PRINTABLE:M=FCnster
+ADR;CHARSET=Windows-1252;ENCODING=QUO
+TED-PRINTABLE:;B=FCro =
+D=FCtschland\\r\\n
+NOTE:ENCODING=QUOTED-PRINTABLE:Test=0D=0A
+END:VCARD
+EOT;
+
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(4, count($result->children));
+        $this->assertEquals('folder', $result->nickname);
+        $this->assertEquals('Münster', $this->getPropertyValue($result->label));
+        $this->assertEquals(";Büro Dütschland\\r\\n", $this->getPropertyValue($result->adr));
+        $this->assertEquals("ENCODING=QUOTED-PRINTABLE:Test=0D=0A", $this->getPropertyValue($result->note));
+    }
+
+     */
+
 }

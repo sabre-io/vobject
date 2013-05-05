@@ -113,6 +113,7 @@ class MimeDir {
         $property = $this->readProperty($line);
 
         switch($property['name']) {
+
             case 'begin' :
                 // It's actually the start of a new component!
                 $component = array(
@@ -252,10 +253,34 @@ class MimeDir {
             $parameters = $this->readParameters($line, $lineOffset);
         }
 
+        $value = substr($line, $lineOffset);
+
+        if (
+            isset($parameters['encoding']) &&
+            strtoupper($parameters['encoding'])==='QUOTED-PRINTABLE'
+        ) {
+
+            if ($this->options & self::OPTION_FORGIVING) {
+                // MS Office may generate badly formatted vcards. When the encoding
+                // is QUOTED-PRINTABLE and the value is spread over multiple lines.
+
+                // quoted-printable soft line break at line end => try to read next
+                // lines
+                echo "\n", $value, "\n";
+                while (substr($value, -1) === '=') {
+                    echo "\n", $value, "\n";
+                    $value.= "\n" . $this->readLine();
+                }
+            }
+
+            $value = quoted_printable_decode($value);
+
+        }
+
         return array(
             'name' => $name,
             'parameters' => $parameters,
-            'value' => substr($line, $lineOffset),
+            'value' => $value,
         );
 
     }
