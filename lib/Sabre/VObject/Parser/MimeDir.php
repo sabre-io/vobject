@@ -68,7 +68,7 @@ class MimeDir {
         $this->options = $options;
 
         while($this->parseLine()) { }
-            
+
         return $this->rootComponent;
 
     }
@@ -96,9 +96,9 @@ class MimeDir {
     protected $componentStack = array();
 
     /**
-     * The top-level component 
+     * The top-level component
      *
-     * @var array 
+     * @var array
      */
     protected $rootComponent = null;
 
@@ -248,16 +248,38 @@ class MimeDir {
 
         $lineOffset = strlen($matches[0]);
 
+        if ($matches['endtoken']===';') {
+            $parameters = $this->readParameters($line, $lineOffset);
+        }
+
+        return array(
+            'name' => $name,
+            'parameters' => $parameters,
+            'value' => substr($line, $lineOffset),
+        );
+
+    }
+
+    /**
+     * Reads the list of parameters for a property
+     *
+     * @param string $line
+     * @param int $lineOffset How far we are into reading the line
+     * @return void
+     */
+    protected function readParameters($line, &$lineOffset) {
+
+        $nameToken = 'A-Z0-9\-';
         $safeChar = '^"^;^:^,';
         $qSafeChar = '^"';
         $paramValueToken = '((?P<value>[' . $safeChar . ']+)|"(?P<qvalue>[' . $qSafeChar . ']+)")';
         $endToken = '(?P<endtoken>:|;|,)';
 
-        while($matches['endtoken']===';') {
+        $parameters = array();
 
-            $token = 'A-Z0-9\-';
+        do {
 
-            if (!preg_match('/^(?P<name>[' . $token . ']+)(?:='.$paramValueToken.')?'.$endToken.'/', substr($line, $lineOffset), $matches)) {
+            if (!preg_match('/^(?P<name>[' . $nameToken . ']+)(?:='.$paramValueToken.')?'.$endToken.'/', substr($line, $lineOffset), $matches)) {
                 throw new ParseException('Invalid Mimedir file. The parameter on line ' . $this->startLine . ', column ' . $lineOffset . ' did not follow iCalendar/vCard specifications');
             }
 
@@ -289,15 +311,11 @@ class MimeDir {
                 }
 
             }
-                 
 
-        }
 
-        return array(
-            'name' => $name,
-            'parameters' => $parameters,
-            'value' => substr($line, $lineOffset),
-        );
+        } while ($matches['endtoken']===';');
+
+        return $parameters;
 
     }
 

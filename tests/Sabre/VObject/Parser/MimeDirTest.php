@@ -182,7 +182,7 @@ BEGIN:VCARD
 VERSION:4.0
 TEL;TYPE=PREF;TYPE=VOICE:123
 TEL;TYPE=PREF,FAX:123
-TEL;TYPE="PREF","PAGER":123
+TEL;TYPE="PREF","PAGER","FAX":123
 END:VCARD
 ICS;
 
@@ -214,7 +214,7 @@ ICS;
                 array(
                     'tel',
                     array(
-                        'type' => array('PREF', 'PAGER'),
+                        'type' => array('PREF', 'PAGER', 'FAX'),
                     ),
                     null,
                     '123',
