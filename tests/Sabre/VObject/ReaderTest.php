@@ -313,7 +313,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     function testReadWithInvalidLine() {
 
-        $this->markTestSkipped('This one does not make a lot of sense at the moment');
         $data = array(
             "BEGIN:VCALENDAR",
             "DESCRIPTION:propValue",

@@ -120,6 +120,10 @@ class MimeDir {
 
         $line = $this->readLine();
         $property = $this->readProperty($line);
+        if (!$property) {
+            // Ignored line
+            return true;
+        }
 
         switch($property['name']) {
 
@@ -316,7 +320,7 @@ class MimeDir {
                 $property['value'] = $this->unescapeValue($match['propValue']);
                 continue;
             }
-            if (isset($match['name'])) {
+            if (isset($match['name']) && $match['name']) {
                 $property['name'] = strtoupper($match['name']);
                 continue;
             }
@@ -326,6 +330,9 @@ class MimeDir {
         }
 
         if (is_null($property['value']) || !$property['name']) {
+            if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
+                return false;
+            }
             throw new ParseException('Invalid Mimedir file. Line starting at ' . $this->startLine . ' did not follow iCalendar/vCard conventions');
         }
 
