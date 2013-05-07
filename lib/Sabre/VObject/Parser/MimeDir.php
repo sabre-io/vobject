@@ -386,11 +386,28 @@ class MimeDir {
             (?: "[^"]")* # A parameter in double quotes
             : # start of the value we really care about
             (.*)$
-        /xm';
+        /xs';
 
         preg_match($regex, $this->rawLine, $matches);
 
-        return quoted_printable_decode($matches[1]);
+        $value = $matches[1];
+        // Removing the first whitespace character from every line. Kind of
+        // like unfolding, but we keep the newline.
+        $value = str_replace("\n ", "\n", $value);
+
+        // Microsoft products don't always correctly fold lines, they may be
+        // missing a whitespace. So if 'forgiving' is turned on, we will take
+        // those as well.
+        if ($this->options & self::OPTION_FORGIVING) {
+            while(substr($value,-1) === '=') {
+                // Reading the line
+                $this->readLine();
+                // Grabbing the raw form
+                $value.="\n" . $this->rawLine;
+            }
+        }
+
+        return quoted_printable_decode($value);
 
     }
 
