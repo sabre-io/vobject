@@ -39,6 +39,8 @@ class MimeDir {
      */
     protected $options;
 
+    protected $tokens = array();
+
     /**
      * Parses an iCalendar or vCard file
      *
@@ -230,118 +232,97 @@ class MimeDir {
      */
     protected function readProperty($line) {
 
-        $name = null;
-        $parameters = array();
-        $value = null;
-
-        if ($this->options & self::OPTION_FORGIVING) {
-            $token = 'A-Z0-9\-\._';
-        } else {
-            $token = 'A-Z0-9\-\.';
-        }
-
-        // Matches the property name, group, and wether it ends with a ; or a :
-        if (!preg_match('/^(?P<name>[' . $token . ']+)(?P<endtoken>:|;)/i', $line, $matches)) {
-            throw new ParseException('Invalid MimeDir file, line ' . ($this->startLine) . ' did not follow iCalendar/vCard specifications');
-        }
-
-        $name = strtolower($matches['name']);
-
-        $lineOffset = strlen($matches[0]);
-
-        if ($matches['endtoken']===';') {
-            $parameters = $this->readParameters($line, $lineOffset);
-        }
-
-        $value = substr($line, $lineOffset);
-
-        if (
-            isset($parameters['encoding']) &&
-            strtoupper($parameters['encoding'])==='QUOTED-PRINTABLE'
-        ) {
-
-            if ($this->options & self::OPTION_FORGIVING) {
-                // MS Office may generate badly formatted vcards. When the encoding
-                // is QUOTED-PRINTABLE and the value is spread over multiple lines.
-
-                // quoted-printable soft line break at line end => try to read next
-                // lines
-                echo "\n", $value, "\n";
-                while (substr($value, -1) === '=') {
-                    echo "\n", $value, "\n";
-                    $value.= "\n" . $this->readLine();
-                }
-            }
-
-            $value = quoted_printable_decode($value);
-
-        }
-
-        return array(
-            'name' => $name,
-            'parameters' => $parameters,
-            'value' => $value,
-        );
-
-    }
-
-    /**
-     * Reads the list of parameters for a property
-     *
-     * @param string $line
-     * @param int $lineOffset How far we are into reading the line
-     * @return void
-     */
-    protected function readParameters($line, &$lineOffset) {
-
-        $nameToken = 'A-Z0-9\-';
+        $paramNameToken = 'A-Z0-9\-';
         $safeChar = '^"^;^:^,';
         $qSafeChar = '^"';
-        $paramValueToken = '((?P<value>[' . $safeChar . ']+)|"(?P<qvalue>[' . $qSafeChar . ']+)")';
-        $endToken = '(?P<endtoken>:|;|,)';
 
-        $parameters = array();
+        $regex = "/
+            ^(?P<name> [A-Z0-9\-\.]+ ) (?=[;:])             # property name
+            |
+            (?<=:)(?P<propValue> .*)$                      # property value
+            |
+            ;(?P<paramName> [$paramNameToken]+) (?=[=;])   # parameter name
+            |
+            =(?P<paramValue>                               # parameter value
+                (?: [$safeChar]+) |
+                \"(?: [$qSafeChar]+)\"
+            ) (?=[;:,])
+            |
+            ,(?P<paramValue2>                              # secondary parameter value
+                (?: [$safeChar]+) |
+                \"(?: [$qSafeChar]+)\"
+            ) (?=[;:,])
+            /xi";
 
-        do {
+        //echo $regex, "\n"; die();
+        preg_match_all($regex, $line, $matches,  PREG_SET_ORDER );
 
-            if (!preg_match('/^(?P<name>[' . $nameToken . ']+)(?P<hasValue>='.$paramValueToken.')?'.$endToken.'/i', substr($line, $lineOffset), $matches)) {
-                throw new ParseException('Invalid Mimedir file. The parameter on line ' . $this->startLine . ', column ' . $lineOffset . ' did not follow iCalendar/vCard specifications');
-            }
-            $hasValue = $matches['hasValue'];
+        $property = array(
+            'name' => null,
+            'parameters' => array(),
+            'value' => null
+        );
 
-            $paramName = strtolower($matches['name']);
+        $lastParam = null;
 
-            while(true) {
-                $lineOffset += strlen($matches[0]);
-                $value = $hasValue ? ($matches['qvalue']?:$matches['value']) : null;
+        /**
+         * Looping through all the tokens.
+         *
+         * Note that we are looping through them in reverse order, because if a
+         * sub-pattern matched, the subsequent named patterns will not show up
+         * in the result.
+         */
+        foreach($matches as $match) {
 
-                if (isset($parameters[$paramName])) {
-                    if (is_array($parameters[$paramName])) {
-                        $parameters[$paramName][] = $value;
-                    } else {
-                        $parameters[$paramName] = array(
-                            $parameters[$paramName],
-                            $value,
-                        );
-                    }
+            if (isset($match['paramValue2'])) {
+                if ($match['paramValue2'][0] === '"') {
+                    $value = substr($match['paramValue2'], 1, -1);
                 } else {
-                    $parameters[$paramName] = $value;
+                    $value = $match['paramValue2'];
                 }
 
-                if ($matches['endtoken']!==',') {
-                    break;
+                if (is_array($property['parameters'][$lastParam])) {
+                    $property['parameters'][$lastParam][] = $match['paramValue2'];
                 } else {
-                    if (!preg_match('/^'.$paramValueToken . $endToken .'/', substr($line, $lineOffset), $matches)) {
-                        throw new ParseException('Invalid Mimedir file. The parameter on line ' . $this->startLine . ', column ' . $lineOffset . ' did not follow iCalendar/vCard specifications');
-                    }
+                    $property['parameters'][$lastParam] = array(
+                        $property['parameters'][$lastParam],
+                        $match['paramValue2']
+                    );
                 }
-
+                continue;
+            }
+            if (isset($match['paramValue'])) {
+                if ($match['paramValue'][0] === '"') {
+                    $value = substr($match['paramValue'],1, -1);
+                } else {
+                    $value = $match['paramValue'];
+                }
+                $property['parameters'][$lastParam] = $value;
+                continue;
+            }
+            if (isset($match['paramName'])) {
+                $lastParam = strtolower($match['paramName']);
+                $property['parameters'][$lastParam] = null;
+                continue;
+            }
+            if (isset($match['propValue'])) {
+                $property['value'] = $match['propValue'];
+                continue;
+            }
+            if (isset($match['name'])) {
+                $property['name'] = strtolower($match['name']);
+                continue;
             }
 
+            throw new \LogicException('This code should not be reachable');
 
-        } while ($matches['endtoken']===';');
+        }
 
-        return $parameters;
+        if (is_null($property['value'])) {
+            throw new ParseException('Invalid Mimedir file. Line starting at ' . $this->startLine . ' did not follow iCalendar/vCard conventions');
+        }
+
+        return $property;
 
     }
 
