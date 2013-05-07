@@ -191,6 +191,13 @@ class MimeDir {
     protected $startLine = 0;
 
     /**
+     * Contains a 'raw' representation of the current line.
+     *
+     * @var string
+     */
+    protected $rawLine;
+
+    /**
      * Reads a single line from the buffer.
      *
      * This method strips any newlines and also takes care of unfolding.
@@ -200,9 +207,9 @@ class MimeDir {
     protected function readLine() {
 
         if (!is_null($this->lineBuffer)) {
-            $line = $this->lineBuffer;
+            $rawLine = $line = $this->lineBuffer;
         } else {
-            $line = rtrim(fgets($this->input), "\r\n");
+            $rawLine = $line = rtrim(fgets($this->input), "\r\n");
             $this->lineIndex++;
         }
 
@@ -218,12 +225,14 @@ class MimeDir {
             }
             if ($nextLine[0] === "\t" || $nextLine[0] === " ") {
                 $line.=substr($nextLine,1);
+                $rawLine.="\n " . substr($nextLine,1);
             } else {
                 $this->lineBuffer = $nextLine;
                 break;
             }
 
         }
+        $this->rawLine = $rawLine;
         return $line;
 
     }
@@ -329,6 +338,9 @@ class MimeDir {
 
         }
 
+        if (isset($property['parameters']['ENCODING']) && strtoupper($property['parameters']['ENCODING']) === 'QUOTED-PRINTABLE') {
+            $property['value'] = $this->extractQuotedPrintableValue();
+        }
         if (is_null($property['value']) || !$property['name']) {
             if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
                 return false;
@@ -355,6 +367,30 @@ class MimeDir {
             '\n'   => "\n",
             '\N'   => "\n",
         ));
+
+    }
+
+    /**
+     * Gets the quoted-printable value, and decodes it.
+     *
+     * @return void
+     */
+    private function extractQuotedPrintableValue() {
+
+        // We need to parse the raw line again to get the start of the value.
+        //
+        // We are basically looking for the first colon (:), but we need to
+        // skip over the parameters first, as they may contain one.
+        $regex = '/^
+            (?: [^:])+ # Anything but a colon
+            (?: "[^"]")* # A parameter in double quotes
+            : # start of the value we really care about
+            (.*)$
+        /xm';
+
+        preg_match($regex, $this->rawLine, $matches);
+
+        return quoted_printable_decode($matches[1]);
 
     }
 
