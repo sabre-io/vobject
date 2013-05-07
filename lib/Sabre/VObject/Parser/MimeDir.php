@@ -261,12 +261,7 @@ class MimeDir {
             |
             ;(?P<paramName> [$paramNameToken]+) (?=[=;:])  # parameter name
             |
-            =(?P<paramValue>                               # parameter value
-                (?: [$safeChar]+) |
-                \"(?: [$qSafeChar]+)\"
-            ) (?=[;:,])
-            |
-            ,(?P<paramValue2>                              # secondary parameter value
+            (=|,)(?P<paramValue>                               # parameter value
                 (?: [$safeChar]+) |
                 \"(?: [$qSafeChar]+)\"
             ) (?=[;:,])
@@ -292,16 +287,18 @@ class MimeDir {
          */
         foreach($matches as $match) {
 
-            if (isset($match['paramValue2'])) {
-                if ($match['paramValue2'][0] === '"') {
-                    $value = substr($match['paramValue2'], 1, -1);
+            if (isset($match['paramValue'])) {
+                if ($match['paramValue'][0] === '"') {
+                    $value = substr($match['paramValue'], 1, -1);
                 } else {
-                    $value = $match['paramValue2'];
+                    $value = $match['paramValue'];
                 }
 
                 $value = $this->unescapeValue($value);
 
-                if (is_array($property['parameters'][$lastParam])) {
+                if (is_null($property['parameters'][$lastParam])) {
+                    $property['parameters'][$lastParam] = $value;
+                } elseif (is_array($property['parameters'][$lastParam])) {
                     $property['parameters'][$lastParam][] = $value;
                 } else {
                     $property['parameters'][$lastParam] = array(
@@ -309,15 +306,6 @@ class MimeDir {
                         $value
                     );
                 }
-                continue;
-            }
-            if (isset($match['paramValue'])) {
-                if ($match['paramValue'][0] === '"') {
-                    $value = substr($match['paramValue'],1, -1);
-                } else {
-                    $value = $this->unescapeValue($match['paramValue']);
-                }
-                $property['parameters'][$lastParam] = $value;
                 continue;
             }
             if (isset($match['paramName'])) {
