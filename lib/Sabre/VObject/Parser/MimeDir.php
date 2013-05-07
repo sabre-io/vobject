@@ -39,8 +39,6 @@ class MimeDir {
      */
     protected $options;
 
-    protected $tokens = array();
-
     /**
      * Parses an iCalendar or vCard file
      *
