@@ -46,54 +46,10 @@ class Reader {
         $parser = new Parser\MimeDir();
         $result = $parser->parse($data, $options);
 
-        return self::mapComponent($result);
+        return $result;
+
+        // return self::mapComponent($result);
        
-    }
-
-    static private function mapComponent($componentInfo) {
-
-        $obj = Component::create(
-            strtoupper($componentInfo[0])
-        );
-
-        foreach($componentInfo[1] as $propInfo) {
-
-            $obj->add(
-                self::mapProperty($propInfo)
-            );
-
-        }
-
-        foreach($componentInfo[2] as $compInfo) {
-
-            $obj->add(
-                self::mapComponent($compInfo)
-            );
-
-        }
-
-        return $obj;
-
-    }
-
-    static private function mapProperty($propInfo) {
-
-        $obj = Property::create(
-            strtoupper($propInfo[0]),
-            $propInfo[3]
-        );
-
-        foreach($propInfo[1] as $paramName=>$paramValue) {
-            if (is_array($paramValue)) {
-                $paramValue = implode(',', $paramValue);
-            };
-            $obj->add(
-                new Parameter( $paramName, $paramValue )
-            );
-        }
-
-        return $obj;
-
     }
 
 }

@@ -2,7 +2,10 @@
 
 namespace Sabre\VObject\Parser;
 
-use Sabre\VObject\ParseException;
+use
+    Sabre\VObject\ParseException,
+    Sabre\VObject\Component,
+    Sabre\VObject\Property;
 
 /**
  * MimeDir parser.
@@ -116,24 +119,21 @@ class MimeDir {
 
             case 'begin' :
                 // It's actually the start of a new component!
-                $component = array(
-                    strtolower($property['value']),
-                    array(),
-                    array(),
-                );
+                $component = Component::create($property['value']);
+
                 if ($this->currentComponent) {
-                    $this->currentComponent[2][] =& $component;
+                    $this->currentComponent->add($component);
                 } else {
-                    $this->rootComponent =& $component;
+                    $this->rootComponent = $component;
                 }
-                $this->componentStack[] =& $component;
-                $this->currentComponent =& $component;
+                $this->componentStack[] = $component;
+                $this->currentComponent = $component;
                 break;
 
             case 'end' :
                 $name = strtolower($property['value']);
-                if ($name!==$this->currentComponent[0]) {
-                    throw new ParseException('Invalid MimeDir file. expected: "END:' . strtoupper($this->currentComponent[0]) . '" got: "END:' . strtoupper($name) . '"');
+                if (strtoupper($name)!==$this->currentComponent->name) {
+                    throw new ParseException('Invalid MimeDir file. expected: "END:' . strtoupper($this->currentComponent->name) . '" got: "END:' . strtoupper($name) . '"');
                 }
                 // Unrolling the stack
                 array_pop($this->componentStack);
@@ -144,17 +144,13 @@ class MimeDir {
                 }
 
                 end($this->componentStack);
-                $this->currentComponent =& $this->componentStack[ key($this->componentStack) ];
+                $this->currentComponent = $this->componentStack[ key($this->componentStack) ];
 
                 break;
 
             default :
-                $this->currentComponent[1][] = array(
-                    $property['name'],
-                    $property['parameters'],
-                    null, // This is the type identifier in jCal/jCard, but we're skipping it here.
-                    $property['value']
-                );
+                $property = Property::create($property['name'], $property['value'], $property['parameters']);
+                $this->currentComponent->add($property);
                 break;
 
         }
