@@ -29,6 +29,12 @@ class MimeDir {
     const OPTION_FORGIVING = 1;
 
     /**
+     * If this option is turned on, any lines we cannot parse will be ignored
+     * by the reader.
+     */
+    const OPTION_IGNORE_INVALID_LINES = 2;
+
+    /**
      * The input stream.
      *
      * @var resource
@@ -117,7 +123,7 @@ class MimeDir {
 
         switch($property['name']) {
 
-            case 'begin' :
+            case 'BEGIN' :
                 // It's actually the start of a new component!
                 $component = Component::create($property['value']);
 
@@ -130,10 +136,10 @@ class MimeDir {
                 $this->currentComponent = $component;
                 break;
 
-            case 'end' :
-                $name = strtolower($property['value']);
-                if (strtoupper($name)!==$this->currentComponent->name) {
-                    throw new ParseException('Invalid MimeDir file. expected: "END:' . strtoupper($this->currentComponent->name) . '" got: "END:' . strtoupper($name) . '"');
+            case 'END' :
+                $name = strtoupper($property['value']);
+                if ($name!==$this->currentComponent->name) {
+                    throw new ParseException('Invalid MimeDir file. expected: "END:' . $this->currentComponent->name . '" got: "END:' . $name . '"');
                 }
                 // Unrolling the stack
                 array_pop($this->componentStack);
@@ -145,7 +151,6 @@ class MimeDir {
 
                 end($this->componentStack);
                 $this->currentComponent = $this->componentStack[ key($this->componentStack) ];
-
                 break;
 
             default :
@@ -226,16 +231,22 @@ class MimeDir {
      */
     protected function readProperty($line) {
 
+        if ($this->options & self::OPTION_FORGIVING) {
+            $propNameToken = 'A-Z0-9\-\._';
+        } else {
+            $propNameToken = 'A-Z0-9\-\.';
+        }
+
         $paramNameToken = 'A-Z0-9\-';
         $safeChar = '^"^;^:^,';
         $qSafeChar = '^"';
 
         $regex = "/
-            ^(?P<name> [A-Z0-9\-\.]+ ) (?=[;:])             # property name
+            ^(?P<name> [$propNameToken]+ ) (?=[;:])        # property name
             |
             (?<=:)(?P<propValue> .*)$                      # property value
             |
-            ;(?P<paramName> [$paramNameToken]+) (?=[=;])   # parameter name
+            ;(?P<paramName> [$paramNameToken]+) (?=[=;:])  # parameter name
             |
             =(?P<paramValue>                               # parameter value
                 (?: [$safeChar]+) |
@@ -275,12 +286,14 @@ class MimeDir {
                     $value = $match['paramValue2'];
                 }
 
+                $value = $this->unescapeValue($value);
+
                 if (is_array($property['parameters'][$lastParam])) {
-                    $property['parameters'][$lastParam][] = $match['paramValue2'];
+                    $property['parameters'][$lastParam][] = $value;
                 } else {
                     $property['parameters'][$lastParam] = array(
                         $property['parameters'][$lastParam],
-                        $match['paramValue2']
+                        $value
                     );
                 }
                 continue;
@@ -289,22 +302,22 @@ class MimeDir {
                 if ($match['paramValue'][0] === '"') {
                     $value = substr($match['paramValue'],1, -1);
                 } else {
-                    $value = $match['paramValue'];
+                    $value = $this->unescapeValue($match['paramValue']);
                 }
                 $property['parameters'][$lastParam] = $value;
                 continue;
             }
             if (isset($match['paramName'])) {
-                $lastParam = strtolower($match['paramName']);
+                $lastParam = strtoupper($match['paramName']);
                 $property['parameters'][$lastParam] = null;
                 continue;
             }
             if (isset($match['propValue'])) {
-                $property['value'] = $match['propValue'];
+                $property['value'] = $this->unescapeValue($match['propValue']);
                 continue;
             }
             if (isset($match['name'])) {
-                $property['name'] = strtolower($match['name']);
+                $property['name'] = strtoupper($match['name']);
                 continue;
             }
 
@@ -312,11 +325,29 @@ class MimeDir {
 
         }
 
-        if (is_null($property['value'])) {
+        if (is_null($property['value']) || !$property['name']) {
             throw new ParseException('Invalid Mimedir file. Line starting at ' . $this->startLine . ' did not follow iCalendar/vCard conventions');
         }
 
         return $property;
+
+    }
+
+    /**
+     * This is what needs to be fixed for vobject 3.0
+     *
+     * @param string $input
+     * @return void
+     */
+    private function unescapeValue($input) {
+
+        return preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
+            if ($matches[2]==='n' || $matches[2]==='N') {
+                return "\n";
+            } else {
+                return $matches[2];
+            }
+        }, $input);
 
     }
 
