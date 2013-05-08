@@ -69,7 +69,7 @@ abstract class NodeFactory {
      */
     static public function createProperty($name, $value, array $parameters = array()) {
 
-        return new Property($name, $value, $parameters);
+        return new Property\Text($name, $value, $parameters);
 
     }
 

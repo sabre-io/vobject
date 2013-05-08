@@ -8,7 +8,6 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
         $property = new Property('propname','propvalue');
         $this->assertEquals('PROPNAME', $property->name);
-        $this->assertEquals('propvalue', $property->value);
         $this->assertEquals('propvalue', $property->__toString());
         $this->assertEquals('propvalue', (string)$property);
 
@@ -62,7 +61,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1,count($property->parameters()));
         $this->assertInstanceOf('Sabre\\VObject\\Parameter', $property->parameters[0]);
         $this->assertEquals('PARAMNAME',$property->parameters[0]->name);
-        $this->assertEquals('paramvalue',$property->parameters[0]->value);
+        $this->assertEquals('paramvalue',$property->parameters[0]->getValue());
 
     }
 
@@ -208,7 +207,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertTrue($property->parameters[0] instanceof Parameter);
         $this->assertEquals('MYPARAM',$property->parameters[0]->name);
-        $this->assertEquals('value',$property->parameters[0]->value);
+        $this->assertEquals('value',$property->parameters[0]->getValue());
 
     }
 
@@ -290,7 +289,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $result = $property->validate(Property::REPAIR);
 
         $this->assertEquals('Property is not valid UTF-8!', $result[0]['message']);
-        $this->assertEquals('Bla', $property->value);
+        $this->assertEquals('Bla', $property->getValue());
 
     }
 

@@ -92,7 +92,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
         $comp->myProp = 'myValue';
 
         $this->assertInstanceOf('Sabre\\VObject\\Property',$comp->MYPROP);
-        $this->assertEquals('myValue',$comp->MYPROP->value);
+        $this->assertEquals('myValue',(string)$comp->MYPROP);
 
 
     }
@@ -105,7 +105,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(1,count($comp->children()));
         $this->assertInstanceOf('Sabre\\VObject\\Property',$comp->MYPROP);
-        $this->assertEquals('myValue',$comp->MYPROP->value);
+        $this->assertEquals('myValue',(string)$comp->MYPROP);
 
     }
 
@@ -205,7 +205,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertTrue($bla instanceof Property);
         $this->assertEquals('MYPROP',$bla->name);
-        $this->assertEquals('value',$bla->value);
+        $this->assertEquals('value',(string)$bla);
 
     }
 
@@ -221,13 +221,13 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Sabre\\VObject\\Property', $bla);
         $this->assertEquals('MYPROP',$bla->name);
-        $this->assertEquals('value',$bla->value);
+        $this->assertEquals('value', (string)$bla);
 
         $this->assertEquals(1, count($bla->parameters()));
 
         $this->assertInstanceOf('Sabre\\VObject\\Parameter', $bla->parameters[0]);
         $this->assertEquals('PARAM1',$bla->parameters[0]->name);
-        $this->assertEquals('value1',$bla->parameters[0]->value);
+        $this->assertEquals('value1',$bla->parameters[0]->getValue());
 
     }
 

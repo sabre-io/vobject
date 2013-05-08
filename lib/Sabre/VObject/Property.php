@@ -40,6 +40,13 @@ class Property extends Node {
     public $parameters = array();
 
     /**
+     * Current value
+     *
+     * @var mixed
+     */
+    protected $value;
+
+    /**
      * Factory method for creating new properties
      *
      * This method automatically searches for the correct property class, based
@@ -82,7 +89,7 @@ class Property extends Node {
             $this->name = strtoupper($name);
         }
 
-        $this->value = $value;
+        $this->setValue($value);
         foreach($parameters as $k=>$child) {
             if ($child instanceof Parameter) {
 
@@ -94,6 +101,34 @@ class Property extends Node {
                 $this->add($k, $child);
             }
         }
+
+    }
+
+    /**
+     * Updates the current value.
+     *
+     * This may be either a single, or multiple strings in an array.
+     *
+     * @param string|array $value
+     * @return void
+     */
+    public function setValue($value) {
+
+        $this->value = $value;
+
+    }
+
+    /**
+     * Returns the current value
+     *
+     * This may be either a single, or multiple strings in an array.
+     *
+     * @param string|array $value
+     * @return void
+     */
+    public function getValue() {
+
+        return $this->value;
 
     }
 
@@ -169,7 +204,7 @@ class Property extends Node {
             '\\\\',
             '\n',
         );
-        $str.=':' . str_replace($src, $out, $this->value);
+        $str.=':' . str_replace($src, $out, $this->getValue());
 
         $out = '';
         while(strlen($str)>0) {
@@ -198,7 +233,7 @@ class Property extends Node {
      */
     public function __toString() {
 
-        return (string)$this->value;
+        return (string)$this->getValue();
 
     }
 

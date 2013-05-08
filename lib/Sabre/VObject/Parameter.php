@@ -28,7 +28,7 @@ class Parameter extends Node {
      *
      * @var string
      */
-    public $value;
+    protected $value;
 
     /**
      * Creates a new parameter
@@ -54,7 +54,35 @@ class Parameter extends Node {
     public function __construct($name, $value = null) {
 
         $this->name = strtoupper($name);
+        $this->setValue($value);
+
+    }
+
+    /**
+     * Updates the current value.
+     *
+     * This may be either a single, or multiple strings in an array.
+     *
+     * @param string|array $value
+     * @return void
+     */
+    public function setValue($value) {
+
         $this->value = $value;
+
+    }
+
+    /**
+     * Returns the current value
+     *
+     * This may be either a single, or multiple strings in an array.
+     *
+     * @param string|array $value
+     * @return void
+     */
+    public function getValue() {
+
+        return $this->value;
 
     }
 
@@ -65,6 +93,7 @@ class Parameter extends Node {
      */
     public function serialize() {
 
+        $value = $this->getValue();
         if (is_null($this->value)) {
             return $this->name;
         }
@@ -81,7 +110,7 @@ class Parameter extends Node {
             '\,',
         );
 
-        return $this->name . '=' . str_replace($src, $out, $this->value);
+        return $this->name . '=' . str_replace($src, $out, $this->getValue());
 
     }
 
@@ -92,7 +121,7 @@ class Parameter extends Node {
      */
     public function __toString() {
 
-        return $this->value;
+        return $this->getValue();
 
     }
 
