@@ -14,11 +14,11 @@ class Version {
     /**
      * Full version number
      */
-    const VERSION = '2.0.7';
+    const VERSION = '3.0.0';
 
     /**
      * Stability : alpha, beta, stable
      */
-    const STABILITY = 'stable';
+    const STABILITY = 'alpha';
 
 }
