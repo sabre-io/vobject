@@ -76,7 +76,7 @@ class MimeDir {
 
         $this->options = $options;
 
-        while($this->parseLine()) { }
+        while($this->parseLine( $this->readLine() ) ) { }
 
         return $this->rootComponent;
 
@@ -112,17 +112,17 @@ class MimeDir {
     protected $rootComponent = null;
 
     /**
-     * Responsible for parsing a single line.
+     * Parses a line, and if it hits a component, it will also attempt to parse
+     * the entire component
      *
-     * @return string
+     * @param string $line Unfolded line
+     * @return bool
      */
-    protected function parseLine() {
+    protected function parseLine($line) {
 
-        $line = $this->readLine();
-
+        // Start of a new component
         if (strtoupper(substr($line, 0, 6)) === 'BEGIN:') {
 
-            // It's actually the start of a new component!
             $component = Component::create(substr($line,6));
             if ($this->currentComponent) {
                 $this->currentComponent->add($component);
@@ -132,7 +132,17 @@ class MimeDir {
             $this->componentStack[] = $component;
             $this->currentComponent = $component;
 
-        } elseif (strtoupper(substr($line, 0, 4)) === 'END:') {
+            while(true) {
+
+                // Reading until we hit END:
+                $line = $this->readLine();
+                if (strtoupper(substr($line,0,4)) === 'END:') {
+                    break;
+                }
+                $this->parseLine($line);
+
+            }
+
             $name = strtoupper(substr($line, 4));
             if ($name!==$this->currentComponent->name) {
                 throw new ParseException('Invalid MimeDir file. expected: "END:' . $this->currentComponent->name . '" got: "END:' . $name . '"');
@@ -149,6 +159,8 @@ class MimeDir {
             $this->currentComponent = $this->componentStack[ key($this->componentStack) ];
 
         } else {
+
+            // Property reader
             $property = $this->readProperty($line);
             if (!$property) {
                 // Ignored line
