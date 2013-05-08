@@ -141,7 +141,7 @@ class MimeDir {
                 break;
 
             case 'END' :
-                $name = strtoupper($property['value']);
+                $name = $property['value'];
                 if ($name!==$this->currentComponent->name) {
                     throw new ParseException('Invalid MimeDir file. expected: "END:' . $this->currentComponent->name . '" got: "END:' . $name . '"');
                 }
@@ -244,6 +244,24 @@ class MimeDir {
      */
     protected function readProperty($line) {
 
+        /**
+        if (strtoupper(substr($line,0,6))==='BEGIN:') {
+            return array(
+                'name'  => 'BEGIN',
+                'value' => strtoupper(substr($line,6)),
+                'parameters' => array(),
+            );
+        }
+
+        if (strtoupper(substr($line,0,4))==='END:') {
+            return array(
+                'name'  => 'END',
+                'value' => strtoupper(substr($line,4)),
+                'parameters' => array(),
+            );
+        }
+        **/
+
         if ($this->options & self::OPTION_FORGIVING) {
             $propNameToken = 'A-Z0-9\-\._';
         } else {
@@ -294,7 +312,7 @@ class MimeDir {
                     $value = $match['paramValue'];
                 }
 
-                $value = $this->unescapeValue($value);
+                $value = $this->unescapeParam($value);
 
                 if (is_null($property['parameters'][$lastParam])) {
                     $property['parameters'][$lastParam] = $value;
@@ -328,6 +346,7 @@ class MimeDir {
 
         if (isset($property['parameters']['ENCODING']) && strtoupper($property['parameters']['ENCODING']) === 'QUOTED-PRINTABLE') {
             $property['value'] = $this->extractQuotedPrintableValue();
+
         }
         if (is_null($property['value']) || !$property['name']) {
             if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
@@ -348,13 +367,33 @@ class MimeDir {
      */
     private function unescapeValue($input) {
 
-        return strtr($input, array(
-            '\\\\' => '\\',
-            '\;'   => ';',
-            '\,'   => ',',
-            '\n'   => "\n",
-            '\N'   => "\n",
-        ));
+        return
+            preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
+                if ($matches[2]==='n' || $matches[2]==='N') {
+                    return "\n";
+                } else {
+                    return $matches[2];
+                }
+            }, $input);
+
+    }
+
+    /**
+     * This is what needs to be fixed for vobject 3.0
+     *
+     * @param string $input
+     * @return void
+     */
+    private function unescapeParam($input) {
+
+        return
+            preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
+                if ($matches[2]==='n' || $matches[2]==='N') {
+                    return "\n";
+                } else {
+                    return $matches[2];
+                }
+            }, $input);
 
     }
 
