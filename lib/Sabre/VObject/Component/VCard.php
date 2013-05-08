@@ -14,7 +14,29 @@ use Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class VCard extends VObject\Component {
+class VCard extends VObject\Document {
+
+    /**
+     * Returns the current document type.
+     *
+     * @return void
+     */
+    public function getDocumentType() {
+
+        $version = $this->select('VERSION');
+        switch($version->getValue()) {
+            case '2.1' :
+                return self::VCARD21;
+            case '3.0' :
+                return self::VCARD30;
+            case '4.0' :
+                return self::VCARD40;
+            default :
+                return self::UNKNOWN;
+
+        }
+
+    }
 
     /**
      * VCards with version 2.1, 3.0 and 4.0 are found.

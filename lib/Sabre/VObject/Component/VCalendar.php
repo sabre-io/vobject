@@ -13,7 +13,18 @@ use Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class VCalendar extends VObject\Component {
+class VCalendar extends VObject\Document {
+
+    /**
+     * Returns the current document type.
+     *
+     * @return void
+     */
+    public function getDocumentType() {
+
+        return self::ICALENDAR20;
+
+    }
 
     /**
      * Returns a list of all 'base components'. For instance, if an Event has
