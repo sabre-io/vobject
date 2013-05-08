@@ -311,10 +311,29 @@ class MimeDir {
     }
 
     /**
-     * This is what needs to be fixed for vobject 3.0
+     * Unescapes a property value.
+     *
+     * vCard 2.1 says that _only_ semi-colons are escaped with a backslash. It
+     * mentions nothing about using the double-backslash to escape backslashes.
+     *
+     * vCard 2.1 says that any values spanning multiple lines should be encoded
+     * as quoted-printable.
+     *
+     * vCard 3.0 says
+     *   * todo (complicated)
+     *
+     * vCard 4.0 says
+     *   * commas must be escaped
+     *   * semi-colons may be escaped, an unescaped semi-colon _may_ be a
+     *     delimiter, depending on the property.
+     *   * backslashes must be escaped
+     *   * newlines must be escaped as either \N or \n.
+     *
+     * iCalendar 2.0 says:
+     *   * todo
      *
      * @param string $input
-     * @return void
+     * @return string|array
      */
     private function unescapeValue($input) {
 
