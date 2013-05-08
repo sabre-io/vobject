@@ -60,9 +60,6 @@ class MimeDir {
         // Resetting the parser
         $this->lineIndex = 0;
         $this->startLine = 0;
-        $this->componentStack = array();
-        $this->currentComponent = null;
-        $this->rootComponent = null;
 
         if (is_string($input)) {
             // Convering to a stream.
@@ -76,47 +73,16 @@ class MimeDir {
 
         $this->options = $options;
 
-        while($this->parseLine( $this->readLine() ) ) { }
-
-        return $this->rootComponent;
+        return $this->parseLine( $this->readLine() );
 
     }
-
-
-
-    /**
-     * The current component in the stack that we're parsing.
-     * This is a fixed-length array with 3 elements:
-     *
-     * 0. name
-     * 1. array of properties
-     * 2. array of sub-components
-     *
-     * @var mixed
-     */
-    protected $currentComponent;
-
-    /**
-     * The component stack. When we start parsing a new component and item will
-     * be pushed, when we are finished parsing a component, we pop it again.
-     *
-     * @var array
-     */
-    protected $componentStack = array();
-
-    /**
-     * The top-level component
-     *
-     * @var array
-     */
-    protected $rootComponent = null;
 
     /**
      * Parses a line, and if it hits a component, it will also attempt to parse
      * the entire component
      *
      * @param string $line Unfolded line
-     * @return bool
+     * @return Node
      */
     protected function parseLine($line) {
 
@@ -124,13 +90,6 @@ class MimeDir {
         if (strtoupper(substr($line, 0, 6)) === 'BEGIN:') {
 
             $component = Component::create(substr($line,6));
-            if ($this->currentComponent) {
-                $this->currentComponent->add($component);
-            } else {
-                $this->rootComponent = $component;
-            }
-            $this->componentStack[] = $component;
-            $this->currentComponent = $component;
 
             while(true) {
 
@@ -139,24 +98,19 @@ class MimeDir {
                 if (strtoupper(substr($line,0,4)) === 'END:') {
                     break;
                 }
-                $this->parseLine($line);
+                $result = $this->parseLine($line);
+                if ($result) {
+                    $component->add($result);
+                }
 
             }
 
             $name = strtoupper(substr($line, 4));
-            if ($name!==$this->currentComponent->name) {
-                throw new ParseException('Invalid MimeDir file. expected: "END:' . $this->currentComponent->name . '" got: "END:' . $name . '"');
-            }
-            // Unrolling the stack
-            array_pop($this->componentStack);
-
-            if (count($this->componentStack)===0) {
-                // End of document reached
-                return false;
+            if ($name!==$component->name) {
+                throw new ParseException('Invalid MimeDir file. expected: "END:' . $component->name . '" got: "END:' . $name . '"');
             }
 
-            end($this->componentStack);
-            $this->currentComponent = $this->componentStack[ key($this->componentStack) ];
+            return $component;
 
         } else {
 
@@ -164,13 +118,13 @@ class MimeDir {
             $property = $this->readProperty($line);
             if (!$property) {
                 // Ignored line
-                return true;
+                return false;
             }
             $property = Property::create($property['name'], $property['value'], $property['parameters']);
-            $this->currentComponent->add($property);
+
+            return $property;
 
         }
-        return true;
 
     }
 
