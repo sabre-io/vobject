@@ -283,8 +283,6 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testValidateNonUTF8() {
 
-        $this->markTestSkipped('Validation is not yet implemented');
-
         $property = Property::create('X-PROP', "Bla\x00");
         $result = $property->validate(Property::REPAIR);
 
@@ -295,8 +293,6 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
 
     function testValidateBadPropertyName() {
-
-        $this->markTestSkipped('Validation is not yet implemented');
 
         $property = Property::create("X_*&PROP*", "Bla");
         $result = $property->validate(Property::REPAIR);

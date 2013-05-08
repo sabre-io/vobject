@@ -378,4 +378,31 @@ class Component extends Node {
 
     }
 
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
+     *
+     * An array is returned with warnings.
+     *
+     * Every item in the array has the following properties:
+     *    * level - (number between 1 and 3 with severity information)
+     *    * message - (human readable message)
+     *    * node - (reference to the offending node)
+     *
+     * @param int $options
+     * @return array
+     */
+    public function validate($options = 0) {
+
+        $result = array();
+        foreach($this->children as $child) {
+            $result = array_merge($result, $child->validate($options));
+        }
+        return $result;
+
+    }
+
 }

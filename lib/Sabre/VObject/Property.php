@@ -355,4 +355,65 @@ class Property extends Node {
 
     }
 
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
+     *
+     * An array is returned with warnings.
+     *
+     * Every item in the array has the following properties:
+     *    * level - (number between 1 and 3 with severity information)
+     *    * message - (human readable message)
+     *    * node - (reference to the offending node)
+     *
+     * @param int $options
+     * @return array
+     */
+    public function validate($options = 0) {
+
+        $warnings = array();
+
+        // Checking if our value is UTF-8
+        if (!StringUtil::isUTF8($this->value)) {
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'Property is not valid UTF-8!',
+                'node' => $this,
+            );
+            if ($options & self::REPAIR) {
+                $this->value = StringUtil::convertToUTF8($this->value);
+            }
+        }
+
+        // Checking if the propertyname does not contain any invalid bytes.
+        if (!preg_match('/^([A-Z0-9-]+)$/', $this->name)) {
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'The propertyname: ' . $this->name . ' contains invalid characters. Only A-Z, 0-9 and - are allowed',
+                'node' => $this,
+            );
+            if ($options & self::REPAIR) {
+                // Uppercasing and converting underscores to dashes.
+                $this->name = strtoupper(
+                    str_replace('_', '-', $this->name)
+                );
+                // Removing every other invalid character
+                $this->name = preg_replace('/([^A-Z0-9-])/u', '', $this->name);
+
+            }
+
+        }
+
+        // Validating inner parameters
+        foreach($this->parameters as $param) {
+            $warnings = array_merge($warnings, $param->validate($options));
+        }
+
+        return $warnings;
+
+    }
+
 }
