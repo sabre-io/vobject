@@ -28,7 +28,7 @@ class Component extends Node {
      *
      * @var array
      */
-    protected $children = array();
+    public $children = array();
 
     /**
      * Factory method for creating new components.

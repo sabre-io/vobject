@@ -37,7 +37,7 @@ class Property extends Node {
      *
      * @var string
      */
-    protected $parameters = array();
+    public $parameters = array();
 
     /**
      * Factory method for creating new properties
