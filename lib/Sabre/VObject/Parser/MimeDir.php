@@ -222,7 +222,7 @@ class MimeDir {
             |
             ;(?P<paramName> [$paramNameToken]+) (?=[=;:])  # parameter name
             |
-            (=|,)(?P<paramValue>                               # parameter value
+            (=|,)(?P<paramValue>                           # parameter value
                 (?: [$safeChar]+) |
                 \"(?: [$qSafeChar]+)\"
             ) (?=[;:,])
