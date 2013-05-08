@@ -3,82 +3,189 @@
 namespace Sabre\VObject;
 
 /**
- * VObject Component
+ * Component
  *
- * This class represents a VCALENDAR/VCARD component. A component is for example
- * VEVENT, VTODO and also VCALENDAR. It starts with BEGIN:COMPONENTNAME and
- * ends with END:COMPONENTNAME
+ * A component represents a group of properties, such as VCALENDAR, VEVENT, or
+ * VCARD.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Component extends Node {
 
     /**
-     * Name, for example VEVENT
+     * Component name.
+     *
+     * This will contain a string such as VEVENT, VTODO, VCALENDAR, VCARD.
      *
      * @var string
      */
     public $name;
 
     /**
-     * Children properties and components
+     * A list of properties and/or sub-components.
      *
      * @var array
      */
-    public $children = array();
+    protected $children = array();
 
     /**
-     * If components are added to this map, they will be automatically mapped
-     * to their respective classes, if parsed by the reader or constructed with
-     * the 'create' method.
+     * Factory method for creating new components.
      *
-     * @var array
-     */
-    static public $classMap = array(
-        'VALARM'        => 'Sabre\\VObject\\Component\\VAlarm',
-        'VCALENDAR'     => 'Sabre\\VObject\\Component\\VCalendar',
-        'VCARD'         => 'Sabre\\VObject\\Component\\VCard',
-        'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
-        'VJOURNAL'      => 'Sabre\\VObject\\Component\\VJournal',
-        'VTODO'         => 'Sabre\\VObject\\Component\\VTodo',
-        'VFREEBUSY'     => 'Sabre\\VObject\\Component\\VFreeBusy',
-    );
-
-    /**
-     * Creates the new component by name, but in addition will also see if
-     * there's a class mapped to the property name.
+     * This method automatically searches for the correct component class, based
+     * on its name.
+     *
+     * You can specify the children either in key=>value syntax, in which case
+     * properties will automatically be created, or you can just pass a list of
+     * Component and Property object.
      *
      * @param string $name
-     * @param string $value
+     * @param array $children
      * @return Component
      */
-    static public function create($name, $value = null) {
+    static public function create($name, array $children = array()) {
 
-        $name = strtoupper($name);
-
-        if (isset(self::$classMap[$name])) {
-            return new self::$classMap[$name]($name, $value);
-        } else {
-            return new self($name, $value);
-        }
+        return NodeFactory::createComponent($name, $children);
 
     }
 
     /**
      * Creates a new component.
      *
-     * By default this object will iterate over its own children, but this can
-     * be overridden with the iterator argument
+     * You can specify the children either in key=>value syntax, in which case
+     * properties will automatically be created, or you can just pass a list of
+     * Component and Property object.
      *
-     * @param string $name
-     * @param ElementList $iterator
+     * @param string $name such as VCALENDAR, VEVENT.
+     * @param array $children
+     * @return void
      */
-    public function __construct($name, ElementList $iterator = null) {
+    public function __construct($name, array $children = array()) {
 
         $this->name = strtoupper($name);
-        if (!is_null($iterator)) $this->iterator = $iterator;
+        foreach($children as $k=>$child) {
+            if ($child instanceof Node) {
+
+                // Component or Property
+                $this->add($child);
+            } else {
+
+                // Property key=>value
+                $this->add($k, $child);
+            }
+        }
+
+    }
+
+    /**
+     * Adds a new property or component, and returns the new item.
+     *
+     * This method has 3 possible signatures:
+     *
+     * add(Component $comp) // Adds a new component
+     * add(Property $prop)  // Adds a new property
+     * add($name, $value, array $parameters = array()) // Adds a new property
+     * by name.
+     *
+     * @return Node
+     */
+    public function add($a1, $a2 = null, array $a3 = array()) {
+
+        if ($a1 instanceof Node) {
+            if (!is_null($a2)) {
+                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject Node');
+            }
+            $a1->parent = $this;
+            $this->children[] = $a1;
+
+            return $a1;
+
+        } elseif(is_string($a1)) {
+
+            $item = Property::create($a1, $a2, $a3);
+            $item->parent = $this;
+            $this->children[] = $item;
+
+            return $item;
+
+        } else {
+
+            throw new \InvalidArgumentException('The first argument must either be a \\Sabre\\VObject\\Node or a string');
+
+        }
+
+    }
+
+    /**
+     * Returns an iterable list of children
+     *
+     * @return array
+     */
+    public function children() {
+
+        return $this->children;
+
+    }
+
+    /**
+     * This method only returns a list of sub-components. Properties are
+     * ignored.
+     *
+     * @return array
+     */
+    public function getComponents() {
+
+        $result = array();
+        foreach($this->children as $child) {
+            if ($child instanceof Component) {
+                $result[] = $child;
+            }
+        }
+
+        return $result;
+
+    }
+
+    /**
+     * Returns an array with elements that match the specified name.
+     *
+     * This function is also aware of MIME-Directory groups (as they appear in
+     * vcards). This means that if a property is grouped as "HOME.EMAIL", it
+     * will also be returned when searching for just "EMAIL". If you want to
+     * search for a property in a specific group, you can select on the entire
+     * string ("HOME.EMAIL"). If you want to search on a specific property that
+     * has not been assigned a group, specify ".EMAIL".
+     *
+     * Keys are retained from the 'children' array, which may be confusing in
+     * certain cases.
+     *
+     * @param string $name
+     * @return array
+     */
+    public function select($name) {
+
+        $group = null;
+        $name = strtoupper($name);
+        if (strpos($name,'.')!==false) {
+            list($group,$name) = explode('.', $name, 2);
+        }
+
+        $result = array();
+        foreach($this->children as $key=>$child) {
+
+            if (
+                strtoupper($child->name) === $name &&
+                (is_null($group) || ( $child instanceof Property && strtoupper($child->group) === $group))
+            ) {
+
+                $result[$key] = $child;
+
+            }
+        }
+
+        reset($result);
+        return $result;
 
     }
 
@@ -154,149 +261,17 @@ class Component extends Node {
 
     }
 
-    /**
-     * Adds a new component or element
-     *
-     * You can call this method with the following syntaxes:
-     *
-     * add(Node $node)
-     * add(string $name, $value, array $parameters = array())
-     *
-     * The first version adds an Element
-     * The second adds a property as a string.
-     *
-     * @param mixed $item
-     * @param mixed $itemValue
-     * @return void
-     */
-    public function add($item, $itemValue = null, array $parameters = array()) {
-
-        if ($item instanceof Node) {
-            if (!is_null($itemValue)) {
-                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject Node');
-            }
-            $item->parent = $this;
-            $this->children[] = $item;
-        } elseif(is_string($item)) {
-
-            $item = Property::create($item,$itemValue, $parameters);
-            $item->parent = $this;
-            $this->children[] = $item;
-
-        } else {
-
-            throw new \InvalidArgumentException('The first argument must either be a \\Sabre\\VObject\\Node or a string');
-
-        }
-
-    }
-
-    /**
-     * Returns an iterable list of children
-     *
-     * @return ElementList
-     */
-    public function children() {
-
-        return new ElementList($this->children);
-
-    }
-
-    /**
-     * Returns an array with elements that match the specified name.
-     *
-     * This function is also aware of MIME-Directory groups (as they appear in
-     * vcards). This means that if a property is grouped as "HOME.EMAIL", it
-     * will also be returned when searching for just "EMAIL". If you want to
-     * search for a property in a specific group, you can select on the entire
-     * string ("HOME.EMAIL"). If you want to search on a specific property that
-     * has not been assigned a group, specify ".EMAIL".
-     *
-     * Keys are retained from the 'children' array, which may be confusing in
-     * certain cases.
-     *
-     * @param string $name
-     * @return array
-     */
-    public function select($name) {
-
-        $group = null;
-        $name = strtoupper($name);
-        if (strpos($name,'.')!==false) {
-            list($group,$name) = explode('.', $name, 2);
-        }
-
-        $result = array();
-        foreach($this->children as $key=>$child) {
-
-            if (
-                strtoupper($child->name) === $name &&
-                (is_null($group) || ( $child instanceof Property && strtoupper($child->group) === $group))
-            ) {
-
-                $result[$key] = $child;
-
-            }
-        }
-
-        reset($result);
-        return $result;
-
-    }
-
-    /**
-     * This method only returns a list of sub-components. Properties are
-     * ignored.
-     *
-     * @return array
-     */
-    public function getComponents() {
-
-        $result = array();
-        foreach($this->children as $child) {
-            if ($child instanceof Component) {
-                $result[] = $child;
-            }
-        }
-
-        return $result;
-
-    }
-
-    /**
-     * Validates the node for correctness.
-     *
-     * The following options are supported:
-     *   - Node::REPAIR - If something is broken, and automatic repair may
-     *                    be attempted.
-     *
-     * An array is returned with warnings.
-     *
-     * Every item in the array has the following properties:
-     *    * level - (number between 1 and 3 with severity information)
-     *    * message - (human readable message)
-     *    * node - (reference to the offending node)
-     *
-     * @param int $options
-     * @return array
-     */
-    public function validate($options = 0) {
-
-        $result = array();
-        foreach($this->children as $child) {
-            $result = array_merge($result, $child->validate($options));
-        }
-        return $result;
-
-    }
-
     /* Magic property accessors {{{ */
 
     /**
-     * Using 'get' you will either get a property or component,
+     * Using 'get' you will either get a property or component.
      *
      * If there were no child-elements found with the specified name,
      * null is returned.
+     *
+     * To use this, this may look something like this:
+     *
+     * $event = $calendar->VEVENT;
      *
      * @param string $name
      * @return Property
@@ -368,7 +343,8 @@ class Component extends Node {
     }
 
     /**
-     * Removes all properties and components within this component.
+     * Removes all properties and components within this component with the
+     * specified name.
      *
      * @param string $name
      * @return void

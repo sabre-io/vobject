@@ -49,6 +49,13 @@ class MimeDir {
     protected $options;
 
     /**
+     * Root component
+     *
+     * @var Component
+     */
+    protected $root;
+
+    /**
      * Parses an iCalendar or vCard file
      *
      * @param string|resource $input
@@ -60,6 +67,7 @@ class MimeDir {
         // Resetting the parser
         $this->lineIndex = 0;
         $this->startLine = 0;
+        $this->root = null;
 
         if (is_string($input)) {
             // Convering to a stream.

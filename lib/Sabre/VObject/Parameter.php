@@ -31,16 +31,27 @@ class Parameter extends Node {
     public $value;
 
     /**
-     * Sets up the object
+     * Creates a new parameter
+     *
+     * @param string $name
+     * @param string|array $value
+     * @return Parameter
+     */
+    static public function create($name, $value) {
+
+        return NodeFactory::createParameter($name, $value);
+
+    }
+
+    /**
+     * Sets up the object.
+     *
+     * It's recommended to use the create:: factory method instead.
      *
      * @param string $name
      * @param string $value
      */
     public function __construct($name, $value = null) {
-
-        if (!is_scalar($value) && !is_null($value)) {
-            throw new \InvalidArgumentException('The value argument must be a scalar value or null');
-        }
 
         $this->name = strtoupper($name);
         $this->value = $value;

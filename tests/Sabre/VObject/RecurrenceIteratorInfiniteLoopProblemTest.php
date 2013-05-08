@@ -7,6 +7,12 @@ use DateTimeZone;
 
 class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestCase {
 
+    public function setUp() {
+
+        $this->markTestSkipped('This test relies on custom properties, which isn\'t ready yet');
+
+    }
+
     /**
      * This bug came from a Fruux customer. This would result in a never-ending
      * request.

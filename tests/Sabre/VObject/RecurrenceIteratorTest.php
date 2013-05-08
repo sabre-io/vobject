@@ -7,6 +7,12 @@ use DateTimeZone;
 
 class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
+    public function setUp() {
+
+        $this->markTestSkipped('This test relies on custom properties, which isn\'t ready yet');
+
+    }
+
     function testValues() {
 
         $ev = new Component('VEVENT');

@@ -3,157 +3,145 @@
 namespace Sabre\VObject;
 
 /**
- * VObject Property
+ * Property
  *
- * A property in VObject is usually in the form PARAMNAME:paramValue.
- * An example is : SUMMARY:Weekly meeting
+ * A property is always in a KEY:VALUE structure, and may optionally contain
+ * parameters.
  *
- * Properties can also have parameters:
- * SUMMARY;LANG=en:Weekly meeting.
- *
- * Parameters can be accessed using the ArrayAccess interface.
- *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Property extends Node {
 
     /**
-     * Propertyname
+     * Property name.
+     *
+     * This will contain a string such as DTSTART, SUMMARY, FN.
      *
      * @var string
      */
     public $name;
 
     /**
-     * Group name
+     * Property group.
      *
-     * This may be something like 'HOME' for vcards.
+     * This is only used in vcards
      *
      * @var string
      */
     public $group;
 
     /**
-     * Property parameters
-     *
-     * @var array
-     */
-    public $parameters = array();
-
-    /**
-     * Property value
+     * List of parameters
      *
      * @var string
      */
-    public $value;
+    protected $parameters = array();
 
     /**
-     * If properties are added to this map, they will be automatically mapped
-     * to their respective classes, if parsed by the reader or constructed with
-     * the 'create' method.
+     * Factory method for creating new properties
      *
-     * @var array
-     */
-    static public $classMap = array(
-        'COMPLETED'     => 'Sabre\\VObject\\Property\\DateTime',
-        'CREATED'       => 'Sabre\\VObject\\Property\\DateTime',
-        'DTEND'         => 'Sabre\\VObject\\Property\\DateTime',
-        'DTSTAMP'       => 'Sabre\\VObject\\Property\\DateTime',
-        'DTSTART'       => 'Sabre\\VObject\\Property\\DateTime',
-        'DUE'           => 'Sabre\\VObject\\Property\\DateTime',
-        'EXDATE'        => 'Sabre\\VObject\\Property\\MultiDateTime',
-        'LAST-MODIFIED' => 'Sabre\\VObject\\Property\\DateTime',
-        'RECURRENCE-ID' => 'Sabre\\VObject\\Property\\DateTime',
-        'TRIGGER'       => 'Sabre\\VObject\\Property\\DateTime',
-        'N'             => 'Sabre\\VObject\\Property\\Compound',
-        'ORG'           => 'Sabre\\VObject\\Property\\Compound',
-        'ADR'           => 'Sabre\\VObject\\Property\\Compound',
-        'CATEGORIES'    => 'Sabre\\VObject\\Property\\Compound',
-    );
-
-    /**
-     * Creates the new property by name, but in addition will also see if
-     * there's a class mapped to the property name.
+     * This method automatically searches for the correct property class, based
+     * on its name.
      *
-     * Parameters can be specified with the optional third argument. Parameters
-     * must be a key->value map of the parameter name, and value. If the value
-     * is specified as an array, it is assumed that multiple parameters with
-     * the same name should be added.
+     * You can specify the parameters either in key=>value syntax, in which case
+     * parameters will automatically be created, or you can just pass a list of
+     * Parameter objects.
      *
      * @param string $name
-     * @param string $value
+     * @param string|null|array $value
      * @param array $parameters
      * @return Property
      */
     static public function create($name, $value = null, array $parameters = array()) {
 
-        $name = strtoupper($name);
-        $shortName = $name;
-        $group = null;
-        if (strpos($shortName,'.')!==false) {
-            list($group, $shortName) = explode('.', $shortName);
-        }
-
-        if (isset(self::$classMap[$shortName])) {
-            return new self::$classMap[$shortName]($name, $value, $parameters);
-        } else {
-            return new self($name, $value, $parameters);
-        }
+        return NodeFactory::createProperty($name, $value, $parameters);
 
     }
 
     /**
-     * Creates a new property object
+     * Creates the generic property.
      *
-     * Parameters can be specified with the optional third argument. Parameters
-     * must be a key->value map of the parameter name, and value. If the value
-     * is specified as an array, it is assumed that multiple parameters with
-     * the same name should be added.
+     * You can specify the parameters either in key=>value syntax, in which case
+     * parameters will automatically be created, or you can just pass a list of
+     * Parameter objects.
      *
      * @param string $name
-     * @param string $value
-     * @param array $parameters
+     * @param string|array|null $value
+     * @param array $parameters List of parameters
+     * @return void
      */
     public function __construct($name, $value = null, array $parameters = array()) {
 
-        if (!is_scalar($value) && !is_null($value)) {
-            throw new \InvalidArgumentException('The value argument must be scalar or null');
+        if (strpos($name,'.')) {
+            $p = explode('.', $name, 2);
+            $this->group = $p[0];
+            $this->name = strtoupper($p[1]);
+        } else {
+            $this->name = strtoupper($name);
         }
 
-        $name = strtoupper($name);
-        $group = null;
-        if (strpos($name,'.')!==false) {
-            list($group, $name) = explode('.', $name);
+        $this->value = $value;
+        foreach($parameters as $k=>$child) {
+            if ($child instanceof Parameter) {
+
+                // Parameter object
+                $this->add($child);
+            } else {
+
+                // Parameter key=>value
+                $this->add($k, $child);
+            }
         }
-        $this->name = $name;
-        $this->group = $group;
-        $this->setValue($value);
 
-        foreach($parameters as $paramName => $paramValues) {
+    }
 
-            if (!is_array($paramValues)) {
-                $paramValues = array($paramValues);
+    /**
+     * Adds a new parameter, and returns the new item.
+     *
+     * This method has 2 possible signatures:
+     *
+     * add(Parameter $param) // Adds a new parameter as an object.
+     * add($name, string|array $value) // Adds a new parameter by name.
+     *
+     * @return Node
+     */
+    public function add($a1, $a2 = null) {
+
+        if ($a1 instanceof Parameter) {
+            if (!is_null($a2)) {
+                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject');
             }
+            $a1->parent = $this;
+            $this->parameters[] = $a1;
 
-            foreach($paramValues as $paramValue) {
-                $this->add($paramName, $paramValue);
-            }
+            return $a1;
+
+        } elseif(is_string($a1)) {
+
+            $parameter = new Parameter($a1, $a2);
+            $parameter->parent = $this;
+            $this->parameters[] = $parameter;
+
+            return $parameter;
+
+        } else {
+
+            throw new \InvalidArgumentException('The first argument must either be a Node a string');
 
         }
 
     }
 
     /**
-     * Updates the internal value
+     * Returns an iterable list of children
      *
-     * @param string $value
-     * @return void
+     * @return array
      */
-    public function setValue($value) {
+    public function parameters() {
 
-        $this->value = $value;
+        return $this->parameters;
 
     }
 
@@ -200,39 +188,17 @@ class Property extends Node {
     }
 
     /**
-     * Adds a new componenten or element
+     * Called when this object is being cast to a string.
      *
-     * You can call this method with the following syntaxes:
+     * If the property only had a single value, you will get just that. In the
+     * case the property had multiple values, the contents will be escaped and
+     * combined with ,.
      *
-     * add(Parameter $element)
-     * add(string $name, $value)
-     *
-     * The first version adds an Parameter
-     * The second adds a property as a string.
-     *
-     * @param mixed $item
-     * @param mixed $itemValue
-     * @return void
+     * @return string
      */
-    public function add($item, $itemValue = null) {
+    public function __toString() {
 
-        if ($item instanceof Parameter) {
-            if (!is_null($itemValue)) {
-                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject');
-            }
-            $item->parent = $this;
-            $this->parameters[] = $item;
-        } elseif(is_string($item)) {
-
-            $parameter = new Parameter($item,$itemValue);
-            $parameter->parent = $this;
-            $this->parameters[] = $parameter;
-
-        } else {
-
-            throw new \InvalidArgumentException('The first argument must either be a Node a string');
-
-        }
+        return (string)$this->value;
 
     }
 
@@ -337,19 +303,7 @@ class Property extends Node {
         }
 
     }
-
     /* }}} */
-
-    /**
-     * Called when this object is being cast to a string
-     *
-     * @return string
-     */
-    public function __toString() {
-
-        return (string)$this->value;
-
-    }
 
     /**
      * This method is automatically called when the object is cloned.
@@ -363,67 +317,6 @@ class Property extends Node {
             $this->parameters[$key] = clone $child;
             $this->parameters[$key]->parent = $this;
         }
-
-    }
-
-    /**
-     * Validates the node for correctness.
-     *
-     * The following options are supported:
-     *   - Node::REPAIR - If something is broken, and automatic repair may
-     *                    be attempted.
-     *
-     * An array is returned with warnings.
-     *
-     * Every item in the array has the following properties:
-     *    * level - (number between 1 and 3 with severity information)
-     *    * message - (human readable message)
-     *    * node - (reference to the offending node)
-     *
-     * @param int $options
-     * @return array
-     */
-    public function validate($options = 0) {
-
-        $warnings = array();
-
-        // Checking if our value is UTF-8
-        if (!StringUtil::isUTF8($this->value)) {
-            $warnings[] = array(
-                'level' => 1,
-                'message' => 'Property is not valid UTF-8!',
-                'node' => $this,
-            );
-            if ($options & self::REPAIR) {
-                $this->value = StringUtil::convertToUTF8($this->value);
-            }
-        }
-
-        // Checking if the propertyname does not contain any invalid bytes.
-        if (!preg_match('/^([A-Z0-9-]+)$/', $this->name)) {
-            $warnings[] = array(
-                'level' => 1,
-                'message' => 'The propertyname: ' . $this->name . ' contains invalid characters. Only A-Z, 0-9 and - are allowed',
-                'node' => $this,
-            );
-            if ($options & self::REPAIR) {
-                // Uppercasing and converting underscores to dashes.
-                $this->name = strtoupper(
-                    str_replace('_', '-', $this->name)
-                );
-                // Removing every other invalid character
-                $this->name = preg_replace('/([^A-Z0-9-])/u', '', $this->name);
-
-            }
-
-        }
-
-        // Validating inner parameters
-        foreach($this->parameters as $param) {
-            $warnings = array_merge($warnings, $param->validate($options));
-        }
-
-        return $warnings;
 
     }
 

@@ -11,6 +11,7 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
      */
     function testValidate($input, $expectedWarnings, $expectedRepairedOutput) {
 
+        $this->markTestSkipped('validation is not yet ported.');
         $vcard = VObject\Reader::read($input);
 
         $warnings = $vcard->validate();

@@ -15,7 +15,7 @@ class QuotedPrintableTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCARD', $result->name);
-        $this->assertEquals(1, count($result->children));
+        $this->assertEquals(1, count($result->children()));
         $this->assertEquals("Aachen", $this->getPropertyValue($result->label));
 
     }
@@ -27,7 +27,7 @@ class QuotedPrintableTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCARD', $result->name);
-        $this->assertEquals(1, count($result->children));
+        $this->assertEquals(1, count($result->children()));
         $this->assertEquals("Aachen", $this->getPropertyValue($result->label));
 
     }
@@ -39,7 +39,7 @@ class QuotedPrintableTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCARD', $result->name);
-        $this->assertEquals(1, count($result->children));
+        $this->assertEquals(1, count($result->children()));
         $this->assertEquals("Aachen\r\nGermany", $this->getPropertyValue($result->label));
 
 
@@ -52,7 +52,7 @@ class QuotedPrintableTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCARD', $result->name);
-        $this->assertEquals(1, count($result->children));
+        $this->assertEquals(1, count($result->children()));
         $this->assertEquals("Aachen\r\nDeutschland:okay", $this->getPropertyValue($result->label));
 
     }

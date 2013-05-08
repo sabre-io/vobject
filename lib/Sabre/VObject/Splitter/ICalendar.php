@@ -47,7 +47,7 @@ class ICalendar implements SplitterInterface {
         $vtimezones = array();
         $components = array();
 
-        foreach($data->children as $component) {
+        foreach($data->children() as $component) {
             if (!$component instanceof VObject\Component) {
                 continue;
             }
