@@ -119,48 +119,43 @@ class MimeDir {
     protected function parseLine() {
 
         $line = $this->readLine();
-        $property = $this->readProperty($line);
-        if (!$property) {
-            // Ignored line
-            return true;
-        }
 
-        switch($property['name']) {
+        if (strtoupper(substr($line, 0, 6)) === 'BEGIN:') {
 
-            case 'BEGIN' :
-                // It's actually the start of a new component!
-                $component = Component::create($property['value']);
+            // It's actually the start of a new component!
+            $component = Component::create(substr($line,6));
+            if ($this->currentComponent) {
+                $this->currentComponent->add($component);
+            } else {
+                $this->rootComponent = $component;
+            }
+            $this->componentStack[] = $component;
+            $this->currentComponent = $component;
 
-                if ($this->currentComponent) {
-                    $this->currentComponent->add($component);
-                } else {
-                    $this->rootComponent = $component;
-                }
-                $this->componentStack[] = $component;
-                $this->currentComponent = $component;
-                break;
+        } elseif (strtoupper(substr($line, 0, 4)) === 'END:') {
+            $name = strtoupper(substr($line, 4));
+            if ($name!==$this->currentComponent->name) {
+                throw new ParseException('Invalid MimeDir file. expected: "END:' . $this->currentComponent->name . '" got: "END:' . $name . '"');
+            }
+            // Unrolling the stack
+            array_pop($this->componentStack);
 
-            case 'END' :
-                $name = $property['value'];
-                if ($name!==$this->currentComponent->name) {
-                    throw new ParseException('Invalid MimeDir file. expected: "END:' . $this->currentComponent->name . '" got: "END:' . $name . '"');
-                }
-                // Unrolling the stack
-                array_pop($this->componentStack);
+            if (count($this->componentStack)===0) {
+                // End of document reached
+                return false;
+            }
 
-                if (count($this->componentStack)===0) {
-                    // End of document reached
-                    return false;
-                }
+            end($this->componentStack);
+            $this->currentComponent = $this->componentStack[ key($this->componentStack) ];
 
-                end($this->componentStack);
-                $this->currentComponent = $this->componentStack[ key($this->componentStack) ];
-                break;
-
-            default :
-                $property = Property::create($property['name'], $property['value'], $property['parameters']);
-                $this->currentComponent->add($property);
-                break;
+        } else {
+            $property = $this->readProperty($line);
+            if (!$property) {
+                // Ignored line
+                return true;
+            }
+            $property = Property::create($property['name'], $property['value'], $property['parameters']);
+            $this->currentComponent->add($property);
 
         }
         return true;
@@ -243,24 +238,6 @@ class MimeDir {
      * @return void
      */
     protected function readProperty($line) {
-
-        /**
-        if (strtoupper(substr($line,0,6))==='BEGIN:') {
-            return array(
-                'name'  => 'BEGIN',
-                'value' => strtoupper(substr($line,6)),
-                'parameters' => array(),
-            );
-        }
-
-        if (strtoupper(substr($line,0,4))==='END:') {
-            return array(
-                'name'  => 'END',
-                'value' => strtoupper(substr($line,4)),
-                'parameters' => array(),
-            );
-        }
-        **/
 
         if ($this->options & self::OPTION_FORGIVING) {
             $propNameToken = 'A-Z0-9\-\._';
