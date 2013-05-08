@@ -18,6 +18,7 @@ include __DIR__ . '/FreeBusyGenerator.php';
 include __DIR__ . '/Node.php';
 include __DIR__ . '/Parameter.php';
 include __DIR__ . '/ParseException.php';
+include __DIR__ . '/Parser/MimeDir.php';
 include __DIR__ . '/Property.php';
 include __DIR__ . '/Reader.php';
 include __DIR__ . '/RecurrenceIterator.php';
