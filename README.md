@@ -10,6 +10,14 @@ The goal of the VObject library is to create a very complete library, with an ea
 This project is a spin-off from [SabreDAV](http://code.google.com/p/sabredav/), where it has
 been used for several years. The VObject library has 100% unittest coverage.
 
+Build status
+------------
+
+| branch | status |
+| ------ | ------ |
+| master | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=master)](https://travis-ci.org/fruux/sabre-vobject) |
+| 2.0    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=2.0)](https://travis-ci.org/fruux/sabre-vobject) |
+
 Installation
 ------------
 
