@@ -313,24 +313,53 @@ class MimeDir {
     /**
      * Unescapes a property value.
      *
-     * vCard 2.1 says that _only_ semi-colons are escaped with a backslash. It
-     * mentions nothing about using the double-backslash to escape backslashes.
+     * vCard 2.1 says:
+     *   * Semi-colons must be escaped in some property values, specifically
+     *     ADR, ORG and N.
+     *   * Semi-colons must be escaped in parameter values, because semi-colons
+     *     are also use to separate values.
+     *   * No mention of escaping backslashes with another backslash.
+     *   * newlines are not escaped either, instead QUOTED-PRINTABLE is used to
+     *     span values over more than 1 line.
      *
-     * vCard 2.1 says that any values spanning multiple lines should be encoded
-     * as quoted-printable.
+     * vCard 3.0 says:
+     *   * (rfc2425) Backslashes, newlines (\n or \N) and comma's must be
+     *     escaped, all time time.
+     *   * Comma's are used for delimeters in multiple values
+     *   * (rfc2426) Adds to to this that the semi-colon MUST also be escaped,
+     *     as in some properties semi-colon is used for separators.
+     *   * Properties using semi-colons: N, ADR, GEO, ORG
+     *   * Both ADR and N's individual parts may be broken up further with a
+     *     comma.
+     *   * Properties using commas: NICKNAME, CATEGORIES
      *
-     * vCard 3.0 says
-     *   * todo (complicated)
-     *
-     * vCard 4.0 says
-     *   * commas must be escaped
-     *   * semi-colons may be escaped, an unescaped semi-colon _may_ be a
+     * vCard 4.0 (rfc6350) says:
+     *   * Commas must be escaped.
+     *   * Semi-colons may be escaped, an unescaped semi-colon _may_ be a
      *     delimiter, depending on the property.
-     *   * backslashes must be escaped
-     *   * newlines must be escaped as either \N or \n.
+     *   * Backslashes must be escaped
+     *   * Newlines must be escaped as either \N or \n.
+     *   * Some compound properties may contain multiple parts themselves, so a
+     *     comma within a semi-colon delimited property may also be unescaped
+     *     to denote multiple parts _within_ the compound property.
+     *   * Text-properties using semi-colons: N, ADR, ORG, CLIENTPIDMAP.
+     *   * Text-properties using commas: NICKNAME, RELATED, CATEGORIES, PID.
      *
-     * iCalendar 2.0 says:
-     *   * todo
+     * Even though the spec says that commas must always be escaped, the
+     * example for GEO in Section 6.5.2 seems to violate this.
+     *
+     * iCalendar 2.0 (rfc5545) says:
+     *   * Commas or semi-colons may be used as delimiters, depending on the
+     *     property.
+     *   * Commas, semi-colons, backslashes, newline (\N or \n) are always
+     *     escaped, unless they are delimiters.
+     *   * Colons shall not be escaped.
+     *   * Commas can be considered the 'default delimiter' and is described as
+     *     the delimiter in cases where the order of the multiple values is
+     *     insignificant.
+     *   * Semi-colons are described as the delimiter for 'structured values'.
+     *     They are specifically used in Semi-colons are used as a delimiter in
+     *     REQUEST-STATUS, RRULE, GEO and EXRULE. EXRULE is deprecated however.
      *
      * @param string $input
      * @return string|array
@@ -349,7 +378,34 @@ class MimeDir {
     }
 
     /**
-     * This is what needs to be fixed for vobject 3.0
+     * Unescapes a parameter value.
+     *
+     * vCard 2.1:
+     *   * Does not mention a mechanism for this. In addition, double quotes
+     *     are never used to wrap values.
+     *   * This means that parameters can simply not contain colons or
+     *     semi-colons.
+     *
+     * vCard 3.0 (rfc2425, rfc2426):
+     *   * Parameters _may_ be surrounded by double quotes.
+     *   * If this is not the case, semi-colon, colon and comma may simply not
+     *     occur (the comma used for multiple parameter values though).
+     *   * If it is surrounded by double-quotes, it may simply not contain
+     *     double-quotes.
+     *   * This means that a parameter can in no case encode double-quotes, or
+     *     newlines.
+     *
+     * vCard 4.0 (rfc6350)
+     *   * Behavior seems to be identical to vCard 3.0
+     *
+     * iCalendar 2.0 (rfc5545)
+     *   * Behavior seems to be identical to vCard 3.0
+     *
+     * Parameter escaping mechanism (rfc6868) :
+     *   * This rfc describes a new way to escape parameter values.
+     *   * New-line is encoded as ^n
+     *   * ^ is encoded as ^^.
+     *   * " is encoded as ^'
      *
      * @param string $input
      * @return void
