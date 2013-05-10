@@ -220,7 +220,7 @@ class MimeDir {
         }
 
         $paramNameToken = 'A-Z0-9\-';
-        $safeChar = '^"^;^:^,';
+        $safeChar = '^";:,';
         $qSafeChar = '^"';
 
         $regex = "/
@@ -413,8 +413,8 @@ class MimeDir {
     private function unescapeParam($input) {
 
         return
-            preg_replace_callback('#(?:^(^||n|\'|))#',function($matches) {
-                switch($matches[1]) {
+            preg_replace_callback('#(\^(\^|n|\'))#',function($matches) {
+                switch($matches[2]) {
                     case 'n' :
                         return "\n";
                     case '^' :

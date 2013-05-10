@@ -254,7 +254,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
     }
     function testReadPropertyParameterNewLines() {
 
-        $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue1\\nvalue2\\\\nvalue3:propValue\r\nEND:VCALENDAR";
+        $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue1^nvalue2^^nvalue3:propValue\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
         $result = $result->propname;
@@ -265,7 +265,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(1, count($result->parameters()));
         $this->assertEquals('PARAMNAME', $result->parameters[0]->name);
-        $this->assertEquals("paramvalue1\nvalue2\\nvalue3", $result->parameters[0]->getValue());
+        $this->assertEquals("paramvalue1\nvalue2^nvalue3", $result->parameters[0]->getValue());
 
     }
 
