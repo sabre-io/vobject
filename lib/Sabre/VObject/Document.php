@@ -18,12 +18,35 @@ namespace Sabre\VObject;
  */
 abstract class Document extends Component {
 
-    const UNKNOWN = 0;
-    const VCALENDAR10 = 1;
-    const ICALENDAR20 = 2;
-    const VCARD21 = 3;
-    const VCARD30 = 4;
-    const VCARD40 = 5;
+    /**
+     * Unknown document type
+     */
+    const UNKNOWN = 1;
+
+    /**
+     * vCalendar 1.0
+     */
+    const VCALENDAR10 = 2;
+
+    /**
+     * iCalendar 2.0
+     */
+    const ICALENDAR20 = 3;
+
+    /**
+     * vCard 2.1
+     */
+    const VCARD21 = 4;
+
+    /**
+     * vCard 3.0
+     */
+    const VCARD30 = 5;
+
+    /**
+     * vCard 4.0
+     */
+    const VCARD40 = 6;
 
     /**
      * Returns the current document type.

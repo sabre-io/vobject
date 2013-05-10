@@ -58,7 +58,7 @@ class VCard extends VObject\Document {
      *
      * If the VCARD doesn't know its version, 4.0 is assumed.
      */
-    const DEFAULT_VERSION = '4.0';
+    const DEFAULT_VERSION = self::VCARD40;
 
     /**
      * Validates the node for correctness.
