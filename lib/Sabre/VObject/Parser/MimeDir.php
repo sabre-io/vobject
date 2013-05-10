@@ -413,11 +413,14 @@ class MimeDir {
     private function unescapeParam($input) {
 
         return
-            preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
-                if ($matches[2]==='n' || $matches[2]==='N') {
-                    return "\n";
-                } else {
-                    return $matches[2];
+            preg_replace_callback('#(?:^(^||n|\'|))#',function($matches) {
+                switch($matches[1]) {
+                    case 'n' :
+                        return "\n";
+                    case '^' :
+                        return '^';
+                    case '\'' :
+                        return '"';
                 }
             }, $input);
 
