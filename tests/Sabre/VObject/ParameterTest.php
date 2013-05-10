@@ -6,7 +6,9 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
 
     function testSetup() {
 
-        $param = new Parameter('name','value');
+        $cal = new Component\VCalendar();
+
+        $param = $cal->createParameter('name','value');
         $this->assertEquals('NAME',$param->name);
         $this->assertEquals('value',$param->getValue());
 
@@ -14,7 +16,8 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
 
     function testCastToString() {
 
-        $param = new Parameter('name','value');
+        $cal = new Component\VCalendar();
+        $param = $cal->createParameter('name','value');
         $this->assertEquals('value',$param->__toString());
         $this->assertEquals('value',(string)$param);
 
@@ -22,14 +25,16 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
 
     function testSerialize() {
 
-        $param = new Parameter('name','value');
+        $cal = new Component\VCalendar();
+        $param = $cal->createParameter('name','value');
         $this->assertEquals('NAME=value',$param->serialize());
 
     }
 
     function testSerializeEmpty() {
 
-        $param = new Parameter('name',null);
+        $cal = new Component\VCalendar();
+        $param = $cal->createParameter('name',null);
         $this->assertEquals('NAME',$param->serialize());
 
     }

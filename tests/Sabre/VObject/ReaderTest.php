@@ -122,7 +122,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
      */
     function testReadBrokenLine() {
 
-        $data = "PROPNAME;propValue";
+        $data = "BEGIN:VCALENDAR\r\nPROPNAME;propValue";
         $result = Reader::read($data);
 
     }

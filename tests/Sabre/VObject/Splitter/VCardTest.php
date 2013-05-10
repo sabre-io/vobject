@@ -4,7 +4,7 @@ namespace Sabre\VObject\Splitter;
 
 use Sabre\VObject;
 
-class VCardSplitterTest extends \PHPUnit_Framework_TestCase {
+class VCardTest extends \PHPUnit_Framework_TestCase {
 
     function createStream($data) {
 
@@ -81,7 +81,7 @@ EOT;
     }
 
     /**
-     * @expectedException        InvalidArgumentException
+     * @expectedException \Sabre\VObject\ParseException 
      */
     function testVCardImportCheckInvalidArgumentException() {
         $data = <<<EOT

@@ -5,7 +5,9 @@ namespace Sabre\VObject\Parser;
 use
     Sabre\VObject\ParseException,
     Sabre\VObject\Component,
-    Sabre\VObject\Property;
+    Sabre\VObject\Property,
+    Sabre\VObject\Component\VCalendar,
+    Sabre\VObject\Component\VCard;
 
 /**
  * MimeDir parser.
@@ -81,7 +83,49 @@ class MimeDir {
 
         $this->options = $options;
 
-        return $this->parseLine( $this->readLine() );
+        $this->parseDocument();
+
+        return $this->root;
+
+    }
+
+    /**
+     * Parses an entire document.
+     *
+     * @return void
+     */
+    protected function parseDocument() {
+
+        $line = $this->readLine();
+        switch(strtoupper($line)) {
+            case 'BEGIN:VCALENDAR' :
+                $this->root = new VCalendar();
+                break;
+            case 'BEGIN:VCARD' :
+                $this->root = new VCard();
+                break;
+            default :
+                throw new ParseException('This parser only support VCARD and VCALENDAR files');
+        }
+
+        while(true) {
+
+            // Reading until we hit END:
+            $line = $this->readLine();
+            if (strtoupper(substr($line,0,4)) === 'END:') {
+                break;
+            }
+            $result = $this->parseLine($line);
+            if ($result) {
+                $this->root->add($result);
+            }
+
+        }
+
+        $name = strtoupper(substr($line, 4));
+        if ($name!==$this->root->name) {
+            throw new ParseException('Invalid MimeDir file. expected: "END:' . $this->root->name . '" got: "END:' . $name . '"');
+        }
 
     }
 
@@ -97,7 +141,7 @@ class MimeDir {
         // Start of a new component
         if (strtoupper(substr($line, 0, 6)) === 'BEGIN:') {
 
-            $component = Component::create(substr($line,6));
+            $component = $this->root->createComponent(substr($line,6));
 
             while(true) {
 
@@ -128,7 +172,7 @@ class MimeDir {
                 // Ignored line
                 return false;
             }
-            $property = Property::create($property['name'], $property['value'], $property['parameters']);
+            $property = $this->root->createProperty($property['name'], $property['value'], $property['parameters']);
 
             return $property;
 

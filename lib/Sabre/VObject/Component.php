@@ -31,24 +31,11 @@ class Component extends Node {
     public $children = array();
 
     /**
-     * Factory method for creating new components.
+     * This is a list of components, and which classes they should map to.
      *
-     * This method automatically searches for the correct component class, based
-     * on its name.
-     *
-     * You can specify the children either in key=>value syntax, in which case
-     * properties will automatically be created, or you can just pass a list of
-     * Component and Property object.
-     *
-     * @param string $name
-     * @param array $children
-     * @return Component
+     * @var array
      */
-    static public function create($name, array $children = array()) {
-
-        return NodeFactory::createComponent($name, $children);
-
-    }
+    public $componentMap = array();
 
     /**
      * Creates a new component.
@@ -61,9 +48,11 @@ class Component extends Node {
      * @param array $children
      * @return void
      */
-    public function __construct($name, array $children = array()) {
+    public function __construct(Document $root, $name, array $children = array()) {
 
         $this->name = strtoupper($name);
+        $this->root = $root;
+
         foreach($children as $k=>$child) {
             if ($child instanceof Node) {
 
@@ -103,7 +92,7 @@ class Component extends Node {
 
         } elseif(is_string($a1)) {
 
-            $item = Property::create($a1, $a2, $a3);
+            $item = $this->root->createProperty($a1, $a2, $a3);
             $item->parent = $this;
             $this->children[] = $item;
 
@@ -329,7 +318,7 @@ class Component extends Node {
                 $this->children[] = $value;
             }
         } elseif (is_scalar($value)) {
-            $property = Property::create($name,$value);
+            $property = $this->root->createProperty($name,$value);
             $property->parent = $this;
             if (!is_null($overWrite)) {
                 $this->children[$overWrite] = $property;

@@ -31,19 +31,6 @@ class Parameter extends Node {
     protected $value;
 
     /**
-     * Creates a new parameter
-     *
-     * @param string $name
-     * @param string|array $value
-     * @return Parameter
-     */
-    static public function create($name, $value) {
-
-        return NodeFactory::createParameter($name, $value);
-
-    }
-
-    /**
      * Sets up the object.
      *
      * It's recommended to use the create:: factory method instead.
@@ -51,9 +38,10 @@ class Parameter extends Node {
      * @param string $name
      * @param string $value
      */
-    public function __construct($name, $value = null) {
+    public function __construct(Document $root, $name, $value = null) {
 
         $this->name = strtoupper($name);
+        $this->root = $root;
         $this->setValue($value);
 
     }

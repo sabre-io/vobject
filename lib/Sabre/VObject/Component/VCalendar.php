@@ -16,6 +16,27 @@ use Sabre\VObject;
 class VCalendar extends VObject\Document {
 
     /**
+     * The default name for this component.
+     *
+     * This should be 'VCALENDAR' or 'VCARD'.
+     *
+     * @var string
+     */
+    static $defaultName = 'VCALENDAR';
+
+    /**
+     * This is a list of components, and which classes they should map to.
+     *
+     * @var array
+     */
+    public $componentMap = array(
+        'VEVENT'    => 'VEvent',
+        'VFREEBUSY' => 'VFreeBusy',
+        'VJOURNAL'  => 'VJournal',
+        'VTODO'     => 'VTodo',
+    );
+
+    /**
      * Returns the current document type.
      *
      * @return void

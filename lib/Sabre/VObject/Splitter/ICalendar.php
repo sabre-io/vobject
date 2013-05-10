@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject\Splitter;
 
-use Sabre\VObject;
+use
+    Sabre\VObject,
+    Sabre\VObject\Component\VCalendar;
 
 /**
  * Splitter
@@ -68,7 +70,7 @@ class ICalendar implements SplitterInterface {
 
             // Take care of recurring events
             if (!array_key_exists($uid, $this->objects)) {
-                $this->objects[$uid] = VObject\Component::create('VCALENDAR');
+                $this->objects[$uid] = new VCalendar();
             }
 
             $this->objects[$uid]->add(clone $component);

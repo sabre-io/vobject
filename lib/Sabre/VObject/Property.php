@@ -47,27 +47,6 @@ class Property extends Node {
     protected $value;
 
     /**
-     * Factory method for creating new properties
-     *
-     * This method automatically searches for the correct property class, based
-     * on its name.
-     *
-     * You can specify the parameters either in key=>value syntax, in which case
-     * parameters will automatically be created, or you can just pass a list of
-     * Parameter objects.
-     *
-     * @param string $name
-     * @param string|null|array $value
-     * @param array $parameters
-     * @return Property
-     */
-    static public function create($name, $value = null, array $parameters = array()) {
-
-        return NodeFactory::createProperty($name, $value, $parameters);
-
-    }
-
-    /**
      * Creates the generic property.
      *
      * You can specify the parameters either in key=>value syntax, in which case
@@ -79,7 +58,7 @@ class Property extends Node {
      * @param array $parameters List of parameters
      * @return void
      */
-    public function __construct($name, $value = null, array $parameters = array()) {
+    public function __construct(Component $root, $name, $value = null, array $parameters = array()) {
 
         if (strpos($name,'.')) {
             $p = explode('.', $name, 2);
@@ -89,7 +68,12 @@ class Property extends Node {
             $this->name = strtoupper($name);
         }
 
-        $this->setValue($value);
+        $this->root = $root;
+
+        if (!is_null($value)) {
+            $this->setValue($value);
+        }
+
         foreach($parameters as $k=>$child) {
             if ($child instanceof Parameter) {
 
@@ -155,7 +139,7 @@ class Property extends Node {
 
         } elseif(is_string($a1)) {
 
-            $parameter = new Parameter($a1, $a2);
+            $parameter = $this->root->createParameter($a1, $a2);
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
 
@@ -302,7 +286,7 @@ class Property extends Node {
                 throw new \InvalidArgumentException('A parameter name must be specified. This means you cannot use the $array[]="string" to add parameters.');
 
             $this->offsetUnset($name);
-            $parameter = new Parameter($name, $value);
+            $parameter = $this->root->createParameter($name, $value);
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
 

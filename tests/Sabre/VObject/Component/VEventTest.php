@@ -25,7 +25,9 @@ class VEventTest extends \PHPUnit_Framework_TestCase {
 
         $tests = array();
 
-        $vevent = new VEvent('VEVENT');
+        $calendar = new VCalendar();
+
+        $vevent = $calendar->createComponent('VEVENT');
         $vevent->DTSTART = '20111223T120000Z';
         $tests[] = array($vevent, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true);
         $tests[] = array($vevent, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false);

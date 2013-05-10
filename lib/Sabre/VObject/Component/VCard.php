@@ -17,6 +17,15 @@ use Sabre\VObject;
 class VCard extends VObject\Document {
 
     /**
+     * The default name for this component.
+     *
+     * This should be 'VCALENDAR' or 'VCARD'.
+     *
+     * @var string
+     */
+    static $defaultName = 'VCARD';
+
+    /**
      * Caching the version number
      *
      * @var int

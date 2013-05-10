@@ -2,11 +2,16 @@
 
 namespace Sabre\VObject;
 
+use
+    Sabre\VObject\Component\VCalendar;
+
 class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testToString() {
 
-        $property = new Property('propname','propvalue');
+        $cal = new VCalendar();
+
+        $property = $cal->createProperty('propname','propvalue');
         $this->assertEquals('PROPNAME', $property->name);
         $this->assertEquals('propvalue', $property->__toString());
         $this->assertEquals('propvalue', (string)$property);
@@ -15,8 +20,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testParameterExists() {
 
-        $property = new Property('propname','propvalue');
-        $property[] = new Parameter('paramname','paramvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
+        $property[] = $cal->createParameter('paramname','paramvalue');
 
         $this->assertTrue(isset($property['PARAMNAME']));
         $this->assertTrue(isset($property['paramname']));
@@ -26,8 +32,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testParameterGet() {
 
-        $property = new Property('propname','propvalue');
-        $property[] = new Parameter('paramname','paramvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
+        $property[] = $cal->createParameter('paramname','paramvalue');
 
         $this->assertInstanceOf('Sabre\\VObject\\Parameter',$property['paramname']);
 
@@ -35,8 +42,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testParameterNotExists() {
 
-        $property = new Property('propname','propvalue');
-        $property[] = new Parameter('paramname','paramvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
+        $property[] = $cal->createParameter('paramname','paramvalue');
 
         $this->assertInternalType('null',$property['foo']);
 
@@ -44,9 +52,10 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testParameterMultiple() {
 
-        $property = new Property('propname','propvalue');
-        $property[] = new Parameter('paramname','paramvalue');
-        $property[] = new Parameter('paramname','paramvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
+        $property[] = $cal->createParameter('paramname','paramvalue');
+        $property[] = $cal->createParameter('paramname','paramvalue');
 
         $this->assertInstanceOf('Sabre\\VObject\\Parameter',$property['paramname']);
         $this->assertEquals(2,count($property['paramname']));
@@ -55,7 +64,8 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testSetParameterAsString() {
 
-        $property = new Property('propname','propvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
         $property['paramname'] = 'paramvalue';
 
         $this->assertEquals(1,count($property->parameters()));
@@ -70,15 +80,17 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSetParameterAsStringNoKey() {
 
-        $property = new Property('propname','propvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
         $property[] = 'paramvalue';
 
     }
 
     public function testSetParameterObject() {
 
-        $property = new Property('propname','propvalue');
-        $param = new Parameter('paramname','paramvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
+        $param = $cal->createParameter('paramname','paramvalue');
 
         $property[] = $param;
 
@@ -92,8 +104,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSetParameterObjectWithKey() {
 
-        $property = new Property('propname','propvalue');
-        $param = new Parameter('paramname','paramvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
+        $param = $cal->createParameter('paramname','paramvalue');
 
         $property['key'] = $param;
 
@@ -105,15 +118,17 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSetParameterObjectRandomObject() {
 
-        $property = new Property('propname','propvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
         $property[] = new \StdClass();
 
     }
 
     public function testUnsetParameter() {
 
-        $property = new Property('propname','propvalue');
-        $param = new Parameter('paramname','paramvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
+        $param = $cal->createParameter('paramname','paramvalue');
         $property[] = $param;
 
         unset($property['PARAMNAME']);
@@ -123,8 +138,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testParamCount() {
 
-        $property = new Property('propname','propvalue');
-        $param = new Parameter('paramname','paramvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
+        $param = $cal->createParameter('paramname','paramvalue');
         $property[] = $param;
         $property[] = clone $param;
 
@@ -134,7 +150,8 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testSerialize() {
 
-        $property = new Property('propname','propvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
 
         $this->assertEquals("PROPNAME:propvalue\r\n",$property->serialize());
 
@@ -142,9 +159,10 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testSerializeParam() {
 
-        $property = new Property('propname','propvalue');
-        $property->add(new Parameter('paramname','paramvalue'));
-        $property->add(new Parameter('paramname2','paramvalue2'));
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
+        $property->add($cal->createParameter('paramname','paramvalue'));
+        $property->add($cal->createParameter('paramname2','paramvalue2'));
 
         $this->assertEquals("PROPNAME;PARAMNAME=paramvalue;PARAMNAME2=paramvalue2:propvalue\r\n",$property->serialize());
 
@@ -152,7 +170,8 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testSerializeNewLine() {
 
-        $property = new Property('propname',"line1\nline2");
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname',"line1\nline2");
 
         $this->assertEquals("PROPNAME:line1\\nline2\r\n",$property->serialize());
 
@@ -160,8 +179,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testSerializeLongLine() {
 
+        $cal = new VCalendar();
         $value = str_repeat('!',200);
-        $property = new Property('propname',$value);
+        $property = $cal->createProperty('propname',$value);
 
         $expected = "PROPNAME:" . str_repeat('!',66) . "\r\n " . str_repeat('!',74) . "\r\n " . str_repeat('!',60) . "\r\n";
 
@@ -171,8 +191,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testSerializeUTF8LineFold() {
 
+        $cal = new VCalendar();
         $value = str_repeat('!',65) . "\xc3\xa4bla"; // inserted umlaut-a
-        $property = new Property('propname', $value);
+        $property = $cal->createProperty('propname', $value);
         $expected = "PROPNAME:" . str_repeat('!',65) . "\r\n \xc3\xa4bla\r\n";
         $this->assertEquals($expected, $property->serialize());
 
@@ -180,8 +201,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetIterator() {
 
+        $cal = new VCalendar();
         $it = new ElementList(array());
-        $property = new Property('propname','propvalue');
+        $property = $cal->createProperty('propname','propvalue');
         $property->setIterator($it);
         $this->assertEquals($it,$property->getIterator());
 
@@ -190,7 +212,8 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetIteratorDefault() {
 
-        $property = new Property('propname','propvalue');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('propname','propvalue');
         $it = $property->getIterator();
         $this->assertTrue($it instanceof ElementList);
         $this->assertEquals(1,count($it));
@@ -199,7 +222,8 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testAddScalar() {
 
-        $property = new Property('EMAIL');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('EMAIL');
 
         $property->add('myparam','value');
 
@@ -213,9 +237,10 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testAddParameter() {
 
-        $prop = new Property('EMAIL');
+        $cal = new VCalendar();
+        $prop = $cal->createProperty('EMAIL');
 
-        $prop->add(new Parameter('MYPARAM','value'));
+        $prop->add($cal->createParameter('MYPARAM','value'));
 
         $this->assertEquals(1, count($prop->parameters()));
         $this->assertEquals('MYPARAM',$prop['myparam']->name);
@@ -224,10 +249,11 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testAddParameterTwice() {
 
-        $prop = new Property('EMAIL');
+        $cal = new VCalendar();
+        $prop = $cal->createProperty('EMAIL');
 
-        $prop->add(new Parameter('MYPARAM', 'value1'));
-        $prop->add(new Parameter('MYPARAM', 'value2'));
+        $prop->add($cal->createParameter('MYPARAM', 'value1'));
+        $prop->add($cal->createParameter('MYPARAM', 'value2'));
 
         $this->assertEquals(2, count($prop->parameters()));
 
@@ -240,8 +266,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
      */
     function testAddArgFail() {
 
-        $prop = new Property('EMAIL');
-        $prop->add(new Parameter('MPARAM'),'hello');
+        $cal = new VCalendar();
+        $prop = $cal->createProperty('EMAIL');
+        $prop->add($cal->createParameter('MPARAM'),'hello');
 
     }
 
@@ -250,14 +277,16 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
      */
     function testAddArgFail2() {
 
-        $property = new Property('EMAIL','value');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('EMAIL','value');
         $property->add(array());
 
     }
 
     function testClone() {
 
-        $property = new Property('EMAIL','value');
+        $cal = new VCalendar();
+        $property = $cal->createProperty('EMAIL','value');
         $property['FOO'] = 'BAR';
 
         $property2 = clone $property;
@@ -283,7 +312,8 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testValidateNonUTF8() {
 
-        $property = Property::create('X-PROP', "Bla\x00");
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('X-PROP', "Bla\x00");
         $result = $property->validate(Property::REPAIR);
 
         $this->assertEquals('Property is not valid UTF-8!', $result[0]['message']);
@@ -294,7 +324,8 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testValidateBadPropertyName() {
 
-        $property = Property::create("X_*&PROP*", "Bla");
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty("X_*&PROP*", "Bla");
         $result = $property->validate(Property::REPAIR);
 
         $this->assertEquals($result[0]['message'], 'The propertyname: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed');

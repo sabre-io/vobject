@@ -30,6 +30,12 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      */
     protected $iterator = null;
 
+    /**
+     * The root document
+     *
+     * @var Component
+     */
+    protected $root;
 
     /**
      * Serializes the node into a mimedir format
