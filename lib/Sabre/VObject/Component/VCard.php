@@ -17,24 +17,39 @@ use Sabre\VObject;
 class VCard extends VObject\Document {
 
     /**
+     * Caching the version number
+     *
+     * @var int
+     */
+    private $version = null;
+
+    /**
      * Returns the current document type.
      *
      * @return void
      */
     public function getDocumentType() {
 
-        $version = $this->select('VERSION');
-        switch($version->getValue()) {
-            case '2.1' :
-                return self::VCARD21;
-            case '3.0' :
-                return self::VCARD30;
-            case '4.0' :
-                return self::VCARD40;
-            default :
-                return self::UNKNOWN;
+        if (!$this->version) {
+            $version = $this->select('VERSION');
+            switch($version->getValue()) {
+                case '2.1' :
+                    $this->version = self::VCARD21;
+                    break;
+                case '3.0' :
+                    $this->version = self::VCARD30;
+                    break;
+                case '4.0' :
+                    $this->version = self::VCARD40;
+                    break;
+                default :
+                    $this->version = self::UNKNOWN;
+                    break;
 
+            }
         }
+
+        return $this->version;
 
     }
 
