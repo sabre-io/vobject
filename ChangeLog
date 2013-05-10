@@ -1,7 +1,9 @@
 3.0.0-alpha (2013-??-??)
 	* Added: Support for broken 2.1 vCards produced by microsoft.
 	* Added: Automatically decoding quoted-printable values.
-	* Added: Fancy new mimedir parser.
+	* Added: Decoding RFC6868 parameter values (uses ^ as an escape
+	  character).
+	* Added: Fancy new MimeDir parser.
 
 2.0.7-stable (2013-03-05)
 	* Fixed: Microsoft re-uses their magic numbers for different timezones,
