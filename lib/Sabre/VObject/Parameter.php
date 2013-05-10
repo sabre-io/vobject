@@ -94,23 +94,25 @@ class Parameter extends Node {
     public function serialize() {
 
         $value = $this->getValue();
+
         if (is_null($this->value)) {
             return $this->name;
         }
-        $src = array(
-            '\\',
-            "\n",
-            ';',
-            ',',
-        );
-        $out = array(
-            '\\\\',
-            '\n',
-            '\;',
-            '\,',
-        );
 
-        return $this->name . '=' . str_replace($src, $out, $this->getValue());
+        // If there's no special characters in the string, we'll use the simple
+        // format
+        if (!preg_match('#(?: [\n":;^] )#x', $value)) {
+            return $this->name . '=' . $value;
+        } else {
+            // Enclosing in double-quotes, and using RFC6868 for encoding any
+            // special characters
+            $value = strtr(array(
+                '^'  => '^^',
+                "\n" => '^n',
+                '"'  => '^',
+            ), $value);
+            return $this->name . '="' . $value . '"';
+        }
 
     }
 
