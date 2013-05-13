@@ -340,7 +340,10 @@ abstract class Property extends Node {
      */
     public function offsetSet($name, $value) {
 
-        if (is_int($name)) parent::offsetSet($name, $value);
+        if (is_int($name)) {
+            parent::offsetSet($name, $value);
+            return;
+        }
 
         if (is_scalar($value)) {
             if (!is_string($name))
@@ -391,7 +394,11 @@ abstract class Property extends Node {
      */
     public function offsetUnset($name) {
 
-        if (is_int($name)) parent::offsetUnset($name);
+        if (is_int($name)) {
+            parent::offsetUnset($name);
+            return;
+        }
+
         $name = strtoupper($name);
 
         foreach($this->parameters as $key=>$parameter) {
