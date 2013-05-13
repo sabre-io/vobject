@@ -298,15 +298,14 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testCreateParams() {
 
-        $this->markTestSkipped('This MUST be fixed');
-
-        $property = Property::create('X-PROP', 'value', array(
+        $cal = new VCalendar();
+        $property = $cal->createProperty('X-PROP','value', array(
             'param1' => 'value1',
             'param2' => array('value2', 'value3')
         ));
 
-        $this->assertEquals(1, count($property['PARAM1']));
-        $this->assertEquals(2, count($property['PARAM2']));
+        $this->assertEquals(1, count($property['PARAM1']->getParts()));
+        $this->assertEquals(2, count($property['PARAM2']->getParts()));
 
     }
 

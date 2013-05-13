@@ -43,19 +43,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    function testReadComponentMacNewLine() {
-
-        $this->markTestSkipped('Not supporting mac newlines');
-        $data = "BEGIN:VCALENDAR\rEND:VCALENDAR";
-
-        $result = Reader::read($data);
-
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertEquals(0, count($result->children));
-
-    }
-
     function testReadComponentLineFold() {
 
         $data = "BEGIN:\r\n\tVCALENDAR\r\nE\r\n ND:VCALENDAR";
@@ -220,9 +207,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
         $this->assertEquals('PARAMNAME', $result->parameters[0]->name);
-        $this->assertEquals('paramvalue1', $result->parameters[0]->getValue());
-        $this->assertEquals('PARAMNAME', $result->parameters[1]->name);
-        $this->assertEquals('paramvalue2', $result->parameters[1]->getValue());
+        $this->assertEquals('paramvalue1,paramvalue2', $result->parameters[0]->getValue());
+        $this->assertEquals(array('paramvalue1','paramvalue2'), $result->parameters[0]->getParts());
 
     }
 

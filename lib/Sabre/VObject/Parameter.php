@@ -63,14 +63,67 @@ class Parameter extends Node {
     /**
      * Returns the current value
      *
-     * This may be either a single, or multiple strings in an array.
+     * This method will always return a string, or null. If there were multiple
+     * values, it will automatically concatinate them (separated by comma).
      *
-     * @param string|array $value
-     * @return void
+     * @return string|null
      */
     public function getValue() {
 
-        return $this->value;
+        if (is_null($this->value) || is_scalar($this->value)) {
+            return $this->value;
+        } elseif (is_array($this->value)) {
+            return implode(',' , $this->value);
+        }
+
+    }
+
+    /**
+     * Sets multiple values for this parameter.
+     *
+     * @param array $value
+     * @return void
+     */
+    public function setParts(array $value) {
+
+        $this->value = $value;
+
+    }
+
+    /**
+     * Returns all values for this parameter.
+     *
+     * If there were no values, an empty array will be returned.
+     *
+     * @return array
+     */
+    public function getParts() {
+
+        if (is_null($this->value)) {
+            return array();
+        } elseif (is_scalar($this->value)) {
+            return array($this->value);
+        } elseif (is_array($this->value)) {
+            return $this->value;
+        }
+
+    }
+
+    /**
+     * Adds a value to this parameter
+     *
+     * @param string $part
+     * @return void
+     */
+    public function addValue($part) {
+
+        if (is_null($this->value)) {
+            $this->value = $part;
+        } elseif (is_scalar($this->value)) {
+            $this->value = array($this->value, $part);
+        } elseif (is_array($this->value)) {
+            $this->value[] = $part;
+        }
 
     }
 
@@ -81,26 +134,34 @@ class Parameter extends Node {
      */
     public function serialize() {
 
-        $value = $this->getValue();
+        $value = $this->getParts();
 
-        if (is_null($this->value)) {
+        if (count($value)===0) {
             return $this->name;
         }
 
-        // If there's no special characters in the string, we'll use the simple
-        // format
-        if (!preg_match('#(?: [\n":;^] )#x', $value)) {
-            return $this->name . '=' . $value;
-        } else {
-            // Enclosing in double-quotes, and using RFC6868 for encoding any
-            // special characters
-            $value = strtr(array(
-                '^'  => '^^',
-                "\n" => '^n',
-                '"'  => '^',
-            ), $value);
-            return $this->name . '="' . $value . '"';
-        }
+        $out = $this->name . '=';
+
+        return $this->name . '=' . array_reduce($value, function($out, $item) {
+
+            if (!is_null($out)) $out.=',';
+
+            // If there's no special characters in the string, we'll use the simple
+            // format
+            if (!preg_match('#(?: [\n":;^] )#x', $item)) {
+                return $item;
+            } else {
+                // Enclosing in double-quotes, and using RFC6868 for encoding any
+                // special characters
+                $val = strtr(array(
+                    '^'  => '^^',
+                    "\n" => '^n',
+                    '"'  => '^',
+                ), $val);
+                return  '="' . $item . '"';
+            }
+
+        });
 
     }
 

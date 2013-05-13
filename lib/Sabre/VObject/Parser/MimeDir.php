@@ -321,7 +321,9 @@ class MimeDir {
             }
             if (isset($match['paramName'])) {
                 $lastParam = strtoupper($match['paramName']);
-                $property['parameters'][$lastParam] = null;
+                if (!isset($property['parameters'][$lastParam])) {
+                    $property['parameters'][$lastParam] = null;
+                }
                 continue;
             }
             if (isset($match['propValue'])) {

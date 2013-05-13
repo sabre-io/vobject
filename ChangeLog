@@ -4,6 +4,8 @@
 	* Added: Decoding RFC6868 parameter values (uses ^ as an escape
 	  character).
 	* Added: Fancy new MimeDir parser.
+	* BC Break: No support for mac newlines (\r). Never came across these
+	  anyway.
 
 2.0.7-stable (2013-03-05)
 	* Fixed: Microsoft re-uses their magic numbers for different timezones,
