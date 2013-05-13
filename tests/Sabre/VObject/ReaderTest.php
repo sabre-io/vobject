@@ -15,6 +15,21 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, count($result->children));
 
     }
+    function testReadStream() {
+
+        $data = "BEGIN:VCALENDAR\r\nEND:VCALENDAR";
+
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $data);
+        rewind($stream);
+
+        $result = Reader::read($stream);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCALENDAR', $result->name);
+        $this->assertEquals(0, count($result->children));
+
+    }
 
     function testReadComponentUnixNewLine() {
 
@@ -59,6 +74,17 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
     function testReadCorruptComponent() {
 
         $data = "BEGIN:VCALENDAR\r\nEND:FOO";
+
+        $result = Reader::read($data);
+
+    }
+
+    /**
+     * @expectedException Sabre\VObject\ParseException
+     */
+    function testReadCorruptSubComponent() {
+
+        $data = "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nEND:FOO\r\nEND:VCALENDAR";
 
         $result = Reader::read($data);
 
@@ -179,6 +205,24 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($result->parameters()));
         $this->assertEquals('PARAMNAME', $result->parameters[0]->name);
         $this->assertEquals('paramvalue', $result->parameters[0]->getValue());
+
+    }
+
+    function testReadPropertyRepeatingParameter() {
+
+        $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue1;PARAMNAME=paramvalue2:propValue\r\nEND:VCALENDAR";
+        $result = Reader::read($data);
+
+        $result = $result->PROPNAME;
+
+        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertEquals('PROPNAME', $result->name);
+        $this->assertEquals('propValue', $result->getValue());
+        $this->assertEquals(1, count($result->parameters()));
+        $this->assertEquals('PARAMNAME', $result->parameters[0]->name);
+        $this->assertEquals('paramvalue1', $result->parameters[0]->getValue());
+        $this->assertEquals('PARAMNAME', $result->parameters[1]->name);
+        $this->assertEquals('paramvalue2', $result->parameters[1]->getValue());
 
     }
 

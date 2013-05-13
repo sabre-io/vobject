@@ -40,8 +40,8 @@ class VCard extends VObject\Document {
     public function getDocumentType() {
 
         if (!$this->version) {
-            $version = $this->select('VERSION');
-            switch($version->getValue()) {
+            $version = (string)$this->VERSION;
+            switch($version) {
                 case '2.1' :
                     $this->version = self::VCARD21;
                     break;

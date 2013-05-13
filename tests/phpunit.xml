@@ -11,7 +11,10 @@
 
   <filter>
     <whitelist addUncoveredFilesFromWhitelist="true">
-       <directory suffix=".php">../lib/</directory>
-    </whitelist>
+        <directory suffix=".php">../lib/</directory>
+        <exclude>
+            <file>../lib/Sabre/VObject/includes.php</file>
+        </exclude>
+   </whitelist>
   </filter>
 </phpunit>

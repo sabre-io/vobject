@@ -242,4 +242,11 @@ END:VCALENDAR
 
     }
 
+    function testGetDocumentType() {
+
+        $vcard = new VCalendar();
+        $vcard->VERSION = '2.0';
+        $this->assertEquals(VCalendar::ICALENDAR20, $vcard->getDocumentType());
+
+    }
 }
