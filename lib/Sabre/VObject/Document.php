@@ -171,17 +171,15 @@ abstract class Document extends Component {
         $class = null;
 
         // If a VALUE parameter is supplied, this will get precedence.
-        if (isset($parameters['VALUE']) && isset($this->valueMap[strtoupper($parameters['VALUE'])])) {
-            $class=$this->valueMap[strtoupper($parameters['VALUE'])];
+        if (isset($parameters['VALUE'])) {
+            $class=$this->getClassNameForPropertyValue($parameters['VALUE']);
         }
         if (is_null($class) && isset($this->propertyMap[$name])) {
-            $class=$this->propertyMap[$name];
+            $class='Sabre\\VObject\\Property\\' .$this->propertyMap[$name];
         }
         if (is_null($class)) {
-            $class='Text';
+            $class='Sabre\\VObject\\Property\\Text';
         }
-
-        $class = 'Sabre\\VObject\\Property\\' . $class;
 
         return new $class($this, $name, $value, $parameters, $group);
 
@@ -202,7 +200,7 @@ abstract class Document extends Component {
 
         $valueParam = strtoupper($valueParam);
         if (isset($this->valueMap[$valueParam])) {
-            return $this->valueMap[$valueParam];
+            return 'Sabre\\VObject\\Property\\' . $this->valueMap[$valueParam];
         }
 
     }
