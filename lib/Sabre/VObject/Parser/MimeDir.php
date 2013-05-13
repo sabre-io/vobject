@@ -335,7 +335,9 @@ class MimeDir {
                 continue;
             }
 
+            // @codeCoverageIgnoreStart
             throw new \LogicException('This code should not be reachable');
+            // @codeCoverageIgnoreEnd
 
         }
 
@@ -509,7 +511,10 @@ class MimeDir {
                         return '^';
                     case '\'' :
                         return '"';
+
+                // @codeCoverageIgnoreStart
                 }
+                // @codeCoverageIgnoreEnd
             }, $input);
 
     }

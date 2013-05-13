@@ -372,7 +372,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testSerializeOrderCompAndProp() {
-        
+
         $comp = new VCalendar();
         $comp->add($comp->createComponent('VEVENT'));
         $comp->add('PROP1','BLABLA');
@@ -412,4 +412,27 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testInstantiateWithChildren() {
+
+        $comp = new VCard(array(
+            'ORG' => array('Acme Inc.', 'Section 9'),
+            'FN' => 'Finn The Human',
+        ));
+
+        $this->assertEquals(array('Acme Inc.', 'Section 9'), $comp->ORG->getParts());
+        $this->assertEquals('Finn The Human', $comp->FN->getValue());
+
+    }
+
+    function testInstantiateSubComponent() {
+
+        $comp = new VCalendar();
+        $event = $comp->createComponent('VEVENT', array(
+            $comp->createProperty('UID', '12345'),
+        ));
+        $comp->add($event);
+
+        $this->assertEquals('12345', $comp->VEVENT->UID->getValue());
+
+    }
 }

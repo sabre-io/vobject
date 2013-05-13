@@ -77,13 +77,31 @@ abstract class Document extends Component {
     );
 
     /**
-     * Creates a new document
-
+     * Creates a new document.
+     *
+     * We're changing the default behavior slightly here. First, we don't want
+     * to have to specify a name (we already know it), and we want to allow
+     * children to be specified in the first argument.
+     *
+     * But, the default behavior also works.
+     *
+     * So the two sigs:
+     *
+     * new Document(array $children = array());
+     * new Document(string $name, array $children = array())
+     *
+     * @param string|array $name
+     * @param array $children
      * @return void
      */
-    public function __construct() {
+    public function __construct($name = array(), array $children = array()) {
 
-        parent::__construct($this, static::$defaultName, array());
+        if (is_array($name)) {
+            parent::__construct($this, static::$defaultName, $name);
+        } else {
+            // default
+            parent::__construct($this, $name, $children);
+        }
 
     }
 

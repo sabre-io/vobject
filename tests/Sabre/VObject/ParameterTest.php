@@ -38,4 +38,12 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('NAME',$param->serialize());
 
     }
+
+    function testSerializeComplex() {
+
+        $cal = new Component\VCalendar();
+        $param = $cal->createParameter('name',array("val1", "val2;", "val3^", "val4\n", "val5\""));
+        $this->assertEquals('NAME=val1,"val2;","val3^^","val4^n","val5^\'"',$param->serialize());
+
+    }
 }

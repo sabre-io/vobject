@@ -308,7 +308,7 @@ class RecurrenceIterator implements \Iterator {
     public function __construct(Component $vcal, $uid=null) {
 
         if (is_null($uid)) {
-            if ($vcal->name === 'VCALENDAR') {
+            if ($vcal instanceof Component\VCalendar) {
                 throw new \InvalidArgumentException('If you pass a VCALENDAR object, you must pass a uid argument as well');
             }
             $components = array($vcal);
@@ -345,8 +345,7 @@ class RecurrenceIterator implements \Iterator {
         }
         $this->currentDate = clone $this->startDate;
 
-        $rrule = (string)$this->baseEvent->RRULE;
-
+        $rrule = $this->baseEvent->RRULE;
         $parts = explode(';', $rrule);
 
         // If no rrule was specified, we create a default setting

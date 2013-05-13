@@ -197,7 +197,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     function testReadPropertyRepeatingParameter() {
 
-        $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue1;PARAMNAME=paramvalue2:propValue\r\nEND:VCALENDAR";
+        $data = "BEGIN:VCALENDAR\r\nPROPNAME;N=1;N=2;N=3,4;N=\"5\",6;N=\"7,8\";N=9,10;N=^'11^':propValue\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -206,9 +206,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
-        $this->assertEquals('PARAMNAME', $result->parameters[0]->name);
-        $this->assertEquals('paramvalue1,paramvalue2', $result->parameters[0]->getValue());
-        $this->assertEquals(array('paramvalue1','paramvalue2'), $result->parameters[0]->getParts());
+        $this->assertEquals('N', $result->parameters[0]->name);
+        $this->assertEquals('1,2,3,4,5,6,7,8,9,10,"11"', $result->parameters[0]->getValue());
+        $this->assertEquals(array(1,2,3,4,5,6,"7,8",9,10,'"11"'), $result->parameters[0]->getParts());
 
     }
 
