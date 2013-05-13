@@ -342,6 +342,7 @@ abstract class Property extends Node {
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
 
+            /**
             if (strtoupper($name === 'VALUE') && !is_null($this->parent)) {
                 // We have to do some crazy stuff if 'value' changed. Our
                 // properties are automatically mapped to classes based on
@@ -359,7 +360,7 @@ abstract class Property extends Node {
                     $this->parent->add($newProperty);
 
                 }
-            }
+            }*/
 
         } elseif ($value instanceof Parameter) {
             if (!is_null($name))
