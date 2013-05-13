@@ -70,10 +70,10 @@ class Parameter extends Node {
      */
     public function getValue() {
 
-        if (is_null($this->value) || is_scalar($this->value)) {
-            return $this->value;
-        } elseif (is_array($this->value)) {
+        if (is_array($this->value)) {
             return implode(',' , $this->value);
+        } else {
+            return $this->value;
         }
 
     }
@@ -99,12 +99,12 @@ class Parameter extends Node {
      */
     public function getParts() {
 
-        if (is_null($this->value)) {
-            return array();
-        } elseif (is_scalar($this->value)) {
-            return array($this->value);
-        } elseif (is_array($this->value)) {
+        if (is_array($this->value)) {
             return $this->value;
+        } elseif (is_null($this->value)) {
+            return array();
+        } else {
+            return array($this->value);
         }
 
     }

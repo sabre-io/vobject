@@ -14,6 +14,26 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testModify() {
+
+        $cal = new Component\VCalendar();
+
+        $param = $cal->createParameter('name',null);
+        $param->addValue(1);
+        $this->assertEquals(array(1), $param->getParts());
+
+        $param->setParts(array(1,2));
+        $this->assertEquals(array(1,2), $param->getParts());
+
+        $param->addValue(3);
+        $this->assertEquals(array(1,2,3), $param->getParts());
+
+        $param->setValue(4);
+        $param->addValue(5);
+        $this->assertEquals(array(4,5), $param->getParts());
+
+    }
+
     function testCastToString() {
 
         $cal = new Component\VCalendar();
