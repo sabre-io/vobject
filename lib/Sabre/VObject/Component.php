@@ -107,6 +107,39 @@ class Component extends Node {
     }
 
     /**
+     * This method removes a component or property from this component.
+     *
+     * You can either specify the item by name (like DTSTART), in which case
+     * all properties/components with that name will be removed, or you can
+     * pass an instance of a property or component, in which case only that
+     * exact item will be removed.
+     *
+     * The removed item will be returned. In case there were more than 1 items
+     * removed, only the last one will be returned.
+     *
+     * @param mixed $item
+     * @return void
+     */
+    public function remove($item) {
+
+        if (is_string($item)) {
+            $children = $this->select($item);
+            foreach($children as $k=>$child) {
+                unset($this->children[$k]);
+            }
+            return $child;
+        } else {
+            foreach($this->children as $k => $child) {
+                if ($child===$item) {
+                    unset($this->children[$k]);
+                    return $child;
+                }
+            }
+        }
+
+    }
+
+    /**
      * Returns an iterable list of children
      *
      * @return array

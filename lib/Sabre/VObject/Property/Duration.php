@@ -7,17 +7,17 @@ use
     Sabre\VObject\Parser\MimeDir;
 
 /**
- * Period property
+ * Duration property
  *
- * This object represents PERIOD values, as defined here:
+ * This object represents DURATION values, as defined here:
  *
- * http://tools.ietf.org/html/rfc5545#section-3.8.2.6
+ * http://tools.ietf.org/html/rfc5545#section-3.3.6
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Period extends Property {
+class Duration extends Property {
 
     /**
      * In case this is a multi-value property. This string will be used as a

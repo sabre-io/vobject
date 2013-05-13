@@ -65,6 +65,18 @@ abstract class Document extends Component {
     public $propertyMap = array();
 
     /**
+     * List of value-types, and which classes they map to.
+     *
+     * @var array
+     */
+    public $valueMap = array(
+        'TEXT'      => 'Text',
+        'DATE'      => 'Date',
+        'DATE-TIME' => 'DateTime',
+        'DURATION'  => 'Duration',
+    );
+
+    /**
      * Creates a new document
 
      * @return void
@@ -130,14 +142,42 @@ abstract class Document extends Component {
     public function createProperty($name, $value = null, array $parameters = array()) {
 
         $name = strtoupper($name);
-        $class = 'Sabre\\VObject\\Property';
+        $class = null;
 
-        if (isset($this->propertyMap[$name])) {
-            $class.='\\' . $this->propertyMap[$name];
-        } else {
-            $class.='\\Text';
+        // If a VALUE parameter is supplied, this will get precedence.
+        if (isset($parameters['VALUE']) && isset($this->valueMap[strtoupper($parameters['VALUE'])])) {
+            $class=$this->valueMap[strtoupper($parameters['VALUE'])];
         }
+        if (is_null($class) && isset($this->propertyMap[$name])) {
+            $class=$this->propertyMap[$name];
+        }
+        if (is_null($class)) {
+            $class='Text';
+        }
+
+        $class = 'Sabre\\VObject\\Property\\' . $class;
+
         return new $class($this, $name, $value, $parameters);
+
+    }
+
+    /**
+     * This method returns a full class-name for a value parameter.
+     *
+     * For instance, DTSTART may have VALUE=DATE. In that case we will look in
+     * our valueMap table and return the appropriate class name.
+     *
+     * This method returns null if we don't have a specialized class.
+     *
+     * @param string $valueParam
+     * @return void
+     */
+    public function getClassNameForPropertyValue($valueParam) {
+
+        $valueParam = strtoupper($valueParam);
+        if (isset($this->valueMap[$valueParam])) {
+            return $this->valueMap[$valueParam];
+        }
 
     }
 

@@ -34,6 +34,7 @@ class VCalendar extends VObject\Document {
         'VFREEBUSY' => 'VFreeBusy',
         'VJOURNAL'  => 'VJournal',
         'VTODO'     => 'VTodo',
+        'VALARM'    => 'VAlarm',
     );
 
     /**
@@ -42,7 +43,15 @@ class VCalendar extends VObject\Document {
      * @var array
      */
     public $propertyMap = array(
-        'FREEBUSY'  => 'Period',
+        'COMPLETED'     => 'DateTime',
+        'CREATED'       => 'DateTime',
+        'DTEND'         => 'DateTime',
+        'DTSTAMP'       => 'DateTime',
+        'DTSTART'       => 'DateTime',
+        'DUE'           => 'DateTime',
+        'FREEBUSY'      => 'Period',
+        'LAST-MODIFIED' => 'DateTime',
+        'TRIGGER'       => 'Duration',
     );
 
     /**

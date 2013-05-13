@@ -271,7 +271,7 @@ abstract class Property extends Node {
     public function __toString() {
 
         $val = $this->getValue();
-        return is_array($val) ? $this->getRawMimeDirValue() : $val;
+        return is_array($val) ? $this->getRawMimeDirValue() : (string)$val;
 
     }
 
@@ -343,6 +343,22 @@ abstract class Property extends Node {
             $parameter = $this->root->createParameter($name, $value);
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
+
+            if (strtoupper($name === 'VALUE')) {
+                // We have to do some crazy stuff if 'value' changed. Our
+                // properties are automatically mapped to classes based on
+                // their value. So if 'VALUE' changed, we may need to replace
+                // this property entirely for the new version.
+                $newClass = $this->root->getClassNameForPropertyValue(strtoupper($value));
+                if (get_class($this) !== $newClass) {
+                    $newProperty = $this->root->createProperty($this->group . $this->name, $this->getParts(), $this->parameters());
+
+                    // Replacing the object
+                    $this->parent->remove($this);
+                    $this->parent->add($newProperty);
+
+                }
+            }
 
         } elseif ($value instanceof Parameter) {
             if (!is_null($name))

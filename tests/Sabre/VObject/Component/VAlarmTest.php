@@ -8,12 +8,6 @@ use Sabre\VObject\Reader;
 
 class VAlarmTest extends \PHPUnit_Framework_TestCase {
 
-    public function setUp() {
-
-        $this->markTestSkipped('This test relies on custom properties, which isn\'t ready yet');
-
-    }
-
     /**
      * @dataProvider timeRangeTestData
      */
@@ -31,16 +25,18 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
 
         // Hard date and time        
         $valarm1 = $calendar->createComponent('VALARM');
-        $valarm1->TRIGGER = '20120312T130000Z';
-        $valarm1->TRIGGER['VALUE'] = 'DATE-TIME';
+        $valarm1->add(
+            $calendar->createProperty('TRIGGER', '20120312T130000Z', array('VALUE' => 'DATE-TIME'))
+        );
 
         $tests[] = array($valarm1, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true);
         $tests[] = array($valarm1, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false);
 
         // Relation to start time of event
         $valarm2 = $calendar->createComponent('VALARM');
-        $valarm2->TRIGGER = '-P1D';
-        $valarm2->TRIGGER['VALUE'] = 'DURATION';
+        $valarm2->add(
+            $calendar->createProperty('TRIGGER', '-P1D', array('VALUE' => 'DURATION'))
+        );
 
         $vevent2 = $calendar->createComponent('VEVENT');
         $vevent2->DTSTART = '20120313T130000Z';
@@ -51,9 +47,7 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
 
         // Relation to end time of event
         $valarm3 = $calendar->createComponent('VALARM');
-        $valarm3->TRIGGER = '-P1D';
-        $valarm3->TRIGGER['VALUE'] = 'DURATION';
-        $valarm3->TRIGGER['RELATED']= 'END';
+        $valarm3->add( $calendar->createProperty('TRIGGER', '-P1D', array('VALUE'=>'DURATION', 'RELATED' => 'END')) );
 
         $vevent3 = $calendar->createComponent('VEVENT');
         $vevent3->DTSTART = '20120301T130000Z';
@@ -140,6 +134,7 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
      */
     public function testInTimeRangeInvalidComponent() {
 
+        $calendar = new VCalendar();
         $valarm = $calendar->createComponent('VALARM');
         $valarm->TRIGGER = '-P1D';
         $valarm->TRIGGER['RELATED'] = 'END';
