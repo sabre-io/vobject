@@ -90,6 +90,12 @@ class VCard extends VObject\Document {
 
         $warnings = array();
 
+        $versionMap = array(
+            self::VCARD21 => '2.1',
+            self::VCARD30 => '3.0',
+            self::VCARD40 => '4.0',
+        );
+
         $version = $this->select('VERSION');
         if (count($version)!==1) {
             $warnings[] = array(
@@ -98,7 +104,7 @@ class VCard extends VObject\Document {
                 'node' => $this,
             );
             if ($options & self::REPAIR) {
-                $this->VERSION = self::DEFAULT_VERSION;
+                $this->VERSION = $versionMap[self::DEFAULT_VERSION];
             }
         } else {
             $version = (string)$this->VERSION;
