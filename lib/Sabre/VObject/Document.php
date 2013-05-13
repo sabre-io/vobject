@@ -71,7 +71,7 @@ abstract class Document extends Component {
      */
     public $valueMap = array(
         'TEXT'      => 'Text',
-        'DATE'      => 'Date',
+        'DATE'      => 'DateTime',
         'DATE-TIME' => 'DateTime',
         'DURATION'  => 'Duration',
     );
@@ -141,7 +141,15 @@ abstract class Document extends Component {
      */
     public function createProperty($name, $value = null, array $parameters = array()) {
 
-        $name = strtoupper($name);
+        // If there's a . in the name, it means it's prefixed by a groupname.
+        if (($i=strpos($name,'.'))!==false) {
+            $group = substr($name, 0, $i);
+            $name = strtoupper(substr($name, $i+1));
+        } else {
+            $name = strtoupper($name);
+            $group = null;
+        }
+
         $class = null;
 
         // If a VALUE parameter is supplied, this will get precedence.
@@ -157,7 +165,7 @@ abstract class Document extends Component {
 
         $class = 'Sabre\\VObject\\Property\\' . $class;
 
-        return new $class($this, $name, $value, $parameters);
+        return new $class($this, $name, $value, $parameters, $group);
 
     }
 

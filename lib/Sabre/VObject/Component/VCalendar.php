@@ -170,7 +170,7 @@ class VCalendar extends VObject\Document {
         foreach($newEvents as $newEvent) {
 
             foreach($newEvent->children as $child) {
-                if ($child instanceof VObject\Property\DateTime) {
+                if ($child instanceof VObject\Property\DateTime && $child->hasTime()) {
                     $dt = $child->getDateTimes();
                     $dt[0]->setTimeZone(new \DateTimeZone('UTC'));
                     $child->setDateTimes($dt);

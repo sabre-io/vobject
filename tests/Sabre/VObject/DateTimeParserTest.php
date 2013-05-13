@@ -91,7 +91,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
         $dateTime = DateTimeParser::parseDateTime('20100316T141405', new DateTimeZone('Europe/Amsterdam'));
 
-        $compare = new DateTime('2010-03-16 13:14:05',new DateTimeZone('UTC'));
+        $compare = new DateTime('2010-03-16 14:14:05',new DateTimeZone('Europe/Amsterdam'));
         $this->assertEquals($compare, $dateTime);
 
     }

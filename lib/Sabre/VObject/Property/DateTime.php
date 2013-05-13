@@ -11,10 +11,10 @@ use
 /**
  * DateTime property
  *
- * This object represents DATE-TIME values, as defined here:
+ * This object represents DATE-TIME and DATE values, as defined here:
  *
+ * http://tools.ietf.org/html/rfc5545#section-3.3.4
  * http://tools.ietf.org/html/rfc5545#section-3.3.5
- *
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
@@ -57,6 +57,17 @@ class DateTime extends Property {
     }
 
     /**
+     * Returns true if this is a DATE-TIME value, false if it's a DATE.
+     *
+     * @return bool
+     */
+    public function hasTime() {
+
+        return strtoupper((string)$this['VALUE']) !== 'DATE';
+
+    }
+
+    /**
      * Returns a date-time value.
      *
      * Note that if this property contained more than 1 date-time, only the
@@ -68,6 +79,8 @@ class DateTime extends Property {
     public function getDateTime() {
 
         $dt = $this->getDateTimes();
+        if (!$dt) return null;
+
         return $dt[0];
 
     }
@@ -88,7 +101,7 @@ class DateTime extends Property {
 
         $dts = array();
         foreach($this->getParts() as $part) {
-            $dts[] = DateTimeParser::parseDateTime($part, $tz);
+            $dts[] = DateTimeParser::parse($part, $tz);
         }
         return $dts;
 
@@ -118,26 +131,41 @@ class DateTime extends Property {
     public function setDateTimes(array $dt) {
 
         $values = array();
-        $tz = null;
 
-        foreach($dt as $d) {
+        if($this->hasTime()) {
 
-            if (is_null($tz)) {
-                $tz = $d->getTimeZone();
-                if ($tz->getName() !== 'UTC') {
-                    $this->offsetSet('TZID', $tz->getName());
-                    $this->offsetSet('VALUE','DATE-TIME');
+            $tz = null;
+            $isUtc = false;
+
+            foreach($dt as $d) {
+
+                if (is_null($tz)) {
+                    $tz = $d->getTimeZone();
+                    $isUtc = in_array($tz->getName() , array('UTC', 'GMT', 'Z'));
+                    if (!$isUtc) {
+                        $this->offsetSet('TZID', $tz->getName());
+                        $this->offsetSet('VALUE','DATE-TIME');
+                    } else {
+                        $this->offsetUnset('TZID');
+                    }
                 } else {
-                    $this->offsetUnset('TZID');
+                    $d->setTimeZone($tz);
                 }
-            } else {
-                $d->setTimeZone($tz);
+
+                if ($isUtc) {
+                    $values[] = $d->format('Ymd\\THis\\Z');
+                } else {
+                    $values[] = $d->format('Ymd\\THis');
+                }
+
             }
 
-            if ($tz->getName()==='UTC') {
-                $values[] = $d->format('Ymd\\THis\\Z');
-            } else {
-                $values[] = $d->format('Ymd\\THis');
+        } else {
+
+            foreach($dt as $d) {
+
+                $values[] = $d->format('Ymd');
+
             }
 
         }
@@ -145,4 +173,5 @@ class DateTime extends Property {
         $this->setParts($values);
 
     }
+
 }

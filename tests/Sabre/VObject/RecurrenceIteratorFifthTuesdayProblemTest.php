@@ -4,13 +4,6 @@ namespace Sabre\VObject;
 
 class RecurrenceIteratorFifthTuesdayProblemTest extends \PHPUnit_Framework_TestCase {
 
-    public function setUp() {
-
-        $this->markTestSkipped('This test relies on custom properties, which isn\'t ready yet');
-
-    }
-
-
     function testGetDTEnd() {
 
         $ics = <<<ICS

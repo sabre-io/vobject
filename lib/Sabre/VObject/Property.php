@@ -62,20 +62,17 @@ abstract class Property extends Node {
      * parameters will automatically be created, or you can just pass a list of
      * Parameter objects.
      *
+     * @param Component $root The root document
      * @param string $name
      * @param string|array|null $value
      * @param array $parameters List of parameters
+     * @param string $group The vcard property group
      * @return void
      */
-    public function __construct(Component $root, $name, $value = null, array $parameters = array()) {
+    public function __construct(Component $root, $name, $value = null, array $parameters = array(), $group = null) {
 
-        if (strpos($name,'.')) {
-            $p = explode('.', $name, 2);
-            $this->group = $p[0];
-            $this->name = strtoupper($p[1]);
-        } else {
-            $this->name = strtoupper($name);
-        }
+        $this->name = $name;
+        $this->group = $group;
 
         $this->root = $root;
 
@@ -125,7 +122,13 @@ abstract class Property extends Node {
     public function getValue() {
 
         if (is_array($this->value)) {
-            return implode($this->delimiter, $this->value);
+            if (count($this->value)==0) {
+                return null;
+            } elseif (count($this->value)===1) {
+                return $this->value[0];
+            } else {
+                return $this->getRawMimeDirValue($this->value);
+            }
         } else {
             return $this->value;
         }
@@ -154,7 +157,13 @@ abstract class Property extends Node {
      */
     public function getParts() {
 
-        return is_array($this->value) ? $this->value : array($this->value);
+        if (is_null($this->value)) {
+            return array();
+        } elseif (is_array($this->value)) {
+            return $this->value;
+        } else {
+            return array($this->value);
+        }
 
     }
 
@@ -342,7 +351,7 @@ abstract class Property extends Node {
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
 
-            /**
+            /*
             if (strtoupper($name === 'VALUE') && !is_null($this->parent)) {
                 // We have to do some crazy stuff if 'value' changed. Our
                 // properties are automatically mapped to classes based on

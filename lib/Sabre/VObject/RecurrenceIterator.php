@@ -338,8 +338,8 @@ class RecurrenceIterator implements \Iterator {
         } else {
             $this->endDate = clone $this->startDate;
             if (isset($this->baseEvent->DURATION)) {
-                $this->endDate->add(DateTimeParser::parse($this->baseEvent->DURATION->value));
-            } elseif ($this->baseEvent->DTSTART instanceof Property\Date) {
+                $this->endDate->add(DateTimeParser::parse((string)$this->baseEvent->DURATION));
+            } elseif (!$this->baseEvent->DTSTART->hasTime()) {
                 $this->endDate->modify('+1 day');
             }
         }

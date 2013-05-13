@@ -4,12 +4,6 @@ namespace Sabre\VObject;
 
 class EmClientTest extends \PHPUnit_Framework_TestCase {
 
-    public function setUp() {
-
-        $this->markTestSkipped('This test relies on custom properties, which isn\'t ready yet');
-
-    }
-
     function testParseTz() {
 
         $str = 'BEGIN:VCALENDAR

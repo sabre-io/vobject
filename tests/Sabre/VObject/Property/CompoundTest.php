@@ -1,15 +1,10 @@
 <?php
 
 namespace Sabre\VObject\Property;
-use Sabre\VObject\Component;
+
+use Sabre\VObject\Component\VCard;
 
 class CompoundTest extends \PHPUnit_Framework_TestCase {
-
-    public function setUp() {
-
-        $this->markTestSkipped('This test relies on custom properties, which isn\'t ready yet');
-
-    }
 
     function testSetParts() {
 
@@ -19,10 +14,11 @@ class CompoundTest extends \PHPUnit_Framework_TestCase {
             'Marketing;Sales',
         );
 
-        $elem = new Compound('ORG');
+        $vcard = new VCard();
+        $elem = $vcard->createProperty('ORG');
         $elem->setParts($arr);
 
-        $this->assertEquals('ABC\, Inc.;North American Division;Marketing\;Sales', $elem->value);
+        $this->assertEquals('ABC\, Inc.;North American Division;Marketing\;Sales', $elem->getValue());
         $this->assertEquals(3, count($elem->getParts()));
         $parts = $elem->getParts();
         $this->assertEquals('Marketing;Sales', $parts[2]);
@@ -33,33 +29,22 @@ class CompoundTest extends \PHPUnit_Framework_TestCase {
 
         $str = 'ABC\, Inc.;North American Division;Marketing\;Sales';
 
-        $elem = new Compound('ORG', $str);
+        $vcard = new VCard();
+        $elem = $vcard->createProperty('ORG');
+        $elem->setRawMimeDirValue($str);
 
         $this->assertEquals(3, count($elem->getParts()));
         $parts = $elem->getParts();
         $this->assertEquals('Marketing;Sales', $parts[2]);
     }
 
-    function testGetPartsDefaultDelimiter() {
-
-        $str = 'Hi!;Hello!';
-
-        $elem = new Compound('X-FOO', $str);
-
-        $this->assertEquals(array(
-            'Hi!',
-            'Hello!',
-        ), $elem->getParts());
-
-    }
-
     function testGetPartsNull() {
 
-        $str = 'ABC\, Inc.;North American Division;Marketing\;Sales';
-
-        $elem = new Compound('ORG', null);
+        $vcard = new VCard();
+        $elem = $vcard->createProperty('ORG', null);
 
         $this->assertEquals(0, count($elem->getParts()));
 
     }
+
 }

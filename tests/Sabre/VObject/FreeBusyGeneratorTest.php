@@ -4,12 +4,6 @@ namespace Sabre\VObject;
 
 class FreeBusyGeneratorTest extends \PHPUnit_Framework_TestCase {
 
-    public function setUp() {
-
-        $this->markTestSkipped('This test relies on custom properties, which isn\'t ready yet');
-
-    }
-
     function getInput() {
 
         // shows up
@@ -96,14 +90,16 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+
     // Day-long event, shows up
 $blob9 = <<<ICS
 BEGIN:VCALENDAR
 BEGIN:VEVENT
-DTSTART;TYPE=DATE:20110102
+DTSTART;VALUE=DATE:20110102
 END:VEVENT
 END:VCALENDAR
 ICS;
+
 
 // No duration, does not show up
 $blob10 = <<<ICS
@@ -223,7 +219,7 @@ ICS;
 
     function testGeneratorBaseObject() {
 
-        $obj = new Component('VCALENDAR');
+        $obj = new Component\VCalendar();
         $obj->METHOD = 'PUBLISH';
 
         $gen = new FreeBusyGenerator();
@@ -232,7 +228,7 @@ ICS;
 
         $result = $gen->getResult();
 
-        $this->assertEquals('PUBLISH', $result->METHOD->value);
+        $this->assertEquals('PUBLISH', $result->METHOD->getValue());
 
     }
 

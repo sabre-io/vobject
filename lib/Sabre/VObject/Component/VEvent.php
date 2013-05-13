@@ -55,7 +55,7 @@ class VEvent extends VObject\Component {
         } elseif (isset($this->DURATION)) {
             $effectiveEnd = clone $effectiveStart;
             $effectiveEnd->add( VObject\DateTimeParser::parseDuration($this->DURATION) );
-        } elseif ($this->DTSTART instanceof VObject\Property\Date) {
+        } elseif (!$this->DTSTART->hasTime()) {
             $effectiveEnd = clone $effectiveStart;
             $effectiveEnd->modify('+1 day');
         } else {

@@ -2,14 +2,16 @@
 
 namespace Sabre\VObject;
 
-use DateTime;
-use DateTimeZone;
+use
+    DateTime,
+    DateTimeZone,
+    Sabre\VObject\Component\VCalendar;
 
 class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
 
-        $this->markTestSkipped('This test relies on custom properties, which isn\'t ready yet');
+        $this->vcal = new VCalendar();
 
     }
 
@@ -19,7 +21,7 @@ class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestC
      */
     function testFastForwardTooFar() {
 
-        $ev = Component::create('VEVENT');
+        $ev = $this->vcal->createComponent('VEVENT');
         $ev->DTSTART = '20090420T180000Z';
         $ev->RRULE = 'FREQ=WEEKLY;BYDAY=MO;UNTIL=20090704T205959Z;INTERVAL=1';
 
@@ -32,7 +34,7 @@ class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestC
      */
     function testYearlyByMonthLoop() {
 
-        $ev = Component::create('VEVENT');
+        $ev = $this->vcal->createComponent('VEVENT');
         $ev->UID = 'uuid';
         $ev->DTSTART = '20120101T154500';
         $ev->DTSTART['TZID'] = 'Europe/Berlin';
@@ -46,10 +48,9 @@ class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestC
         // The BYDAY part expands this to every day of the month, but the
         // BYSETPOS limits this to only the 1st day of the month. Very crazy
         // way to specify this, and could have certainly been a lot easier.
-        $cal = Component::create('VCALENDAR');
-        $cal->add($ev);
+        $this->vcal->add($ev);
 
-        $it = new RecurrenceIterator($cal,'uuid');
+        $it = new RecurrenceIterator($this->vcal,'uuid');
         $it->fastForward(new DateTime('2012-01-29 23:00:00', new DateTimeZone('UTC')));
 
         $collect = array();
@@ -80,14 +81,13 @@ class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestC
      */
     function testZeroInterval() {
 
-        $ev = Component::create('VEVENT');
+        $ev = $this->vcal->createComponent('VEVENT');
         $ev->UID = 'uuid';
         $ev->DTSTART = '20120824T145700Z';
         $ev->RRULE = 'FREQ=YEARLY;INTERVAL=0';
-        $cal = Component::create('VCALENDAR');
-        $cal->add($ev);
+        $this->vcal->add($ev);
 
-        $it = new RecurrenceIterator($cal,'uuid');
+        $it = new RecurrenceIterator($this->vcal,'uuid');
         $it->fastForward(new DateTime('2013-01-01 23:00:00', new DateTimeZone('UTC')));
 
         // if we got this far.. it means we are no longer infinitely looping

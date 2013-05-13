@@ -90,8 +90,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     function testReadMappedProperty() {
 
-        $this->markTestSkipped('Mapped properties are not yet implemented');
-
         $data = "BEGIN:VCALENDAR\r\nDTSTART:20110529\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
@@ -103,8 +101,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testReadMappedPropertyGrouped() {
-
-        $this->markTestSkipped('Mapped properties are not yet implemented');
 
         $data = "BEGIN:VCALENDAR\r\nfoo.DTSTART:20110529\r\nEND:VCALENDAR";
         $result = Reader::read($data);
