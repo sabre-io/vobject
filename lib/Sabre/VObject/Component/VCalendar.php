@@ -37,6 +37,15 @@ class VCalendar extends VObject\Document {
     );
 
     /**
+     * List of properties, and which classes they map to.
+     *
+     * @var array
+     */
+    public $propertyMap = array(
+        'FREEBUSY'  => 'Period',
+    );
+
+    /**
      * Returns the current document type.
      *
      * @return void

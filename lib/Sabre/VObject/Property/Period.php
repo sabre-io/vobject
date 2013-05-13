@@ -7,15 +7,25 @@ use
     Sabre\VObject\Parser\MimeDir;
 
 /**
- * Text property
+ * Period property
  *
- * This object represents TEXT values.
+ * This object represents PERIOD values, as defined here:
+ *
+ * http://tools.ietf.org/html/rfc5545#section-3.8.2.6
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Text extends Property {
+class Period extends Property {
+
+    /**
+     * In case this is a multi-value property. This string will be used as a
+     * delimiter.
+     *
+     * @var string
+     */
+    protected $delimiter = ',';
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -28,7 +38,7 @@ class Text extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->setValue(MimeDir::unescapeValue($val, $this->delimiter));
+        $this->setValue(explode($this->delimiter, $val));
 
     }
 
@@ -39,20 +49,7 @@ class Text extends Property {
      */
     public function getRawMimeDirValue() {
 
-        $val = $this->getParts();
-
-        foreach($val as &$item) {
-
-            $item = strtr($item, array(
-                '\\' => '\\\\',
-                ';'  => '\;',
-                ','  => '\,',
-                "\n" => '\n',
-            ));
-
-        }
-
-        return implode($this->delimiter, $val);
+        return implode($this->delimiter, $this->getValue());
 
     }
 

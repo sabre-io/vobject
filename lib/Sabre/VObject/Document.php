@@ -58,6 +58,13 @@ abstract class Document extends Component {
     static $defaultName;
 
     /**
+     * List of properties, and which classes they map to.
+     *
+     * @var array
+     */
+    public $propertyMap = array();
+
+    /**
      * Creates a new document
 
      * @return void
@@ -122,7 +129,15 @@ abstract class Document extends Component {
      */
     public function createProperty($name, $value = null, array $parameters = array()) {
 
-        return new Property\Text($this, $name, $value, $parameters);
+        $name = strtoupper($name);
+        $class = 'Sabre\\VObject\\Property';
+
+        if (isset($this->propertyMap[$name])) {
+            $class.='\\' . $this->propertyMap[$name];
+        } else {
+            $class.='\\Text';
+        }
+        return new $class($this, $name, $value, $parameters);
 
     }
 

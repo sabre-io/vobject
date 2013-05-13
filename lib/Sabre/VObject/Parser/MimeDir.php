@@ -172,8 +172,6 @@ class MimeDir {
                 // Ignored line
                 return false;
             }
-            $property = $this->root->createProperty($property['name'], $property['value'], $property['parameters']);
-
             return $property;
 
         }
@@ -327,7 +325,7 @@ class MimeDir {
                 continue;
             }
             if (isset($match['propValue'])) {
-                $property['value'] = $this->unescapeValue($match['propValue']);
+                $property['value'] = $match['propValue'];
                 continue;
             }
             if (isset($match['name']) && $match['name']) {
@@ -339,10 +337,6 @@ class MimeDir {
 
         }
 
-        if (isset($property['parameters']['ENCODING']) && strtoupper($property['parameters']['ENCODING']) === 'QUOTED-PRINTABLE') {
-            $property['value'] = $this->extractQuotedPrintableValue();
-
-        }
         if (is_null($property['value']) || !$property['name']) {
             if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
                 return false;
@@ -350,7 +344,15 @@ class MimeDir {
             throw new ParseException('Invalid Mimedir file. Line starting at ' . $this->startLine . ' did not follow iCalendar/vCard conventions');
         }
 
-        return $property;
+        $propObj = $this->root->createProperty($property['name'], null, $property['parameters']);
+
+        if (isset($property['parameters']['ENCODING']) && strtoupper($property['parameters']['ENCODING']) === 'QUOTED-PRINTABLE') {
+            $propObj->setValue($this->extractQuotedPrintableValue());
+        } else {
+            $propObj->setRawMimeDirValue($property['value']);
+        }
+
+        return $propObj;
 
     }
 
@@ -405,19 +407,59 @@ class MimeDir {
      *     They are specifically used in Semi-colons are used as a delimiter in
      *     REQUEST-STATUS, RRULE, GEO and EXRULE. EXRULE is deprecated however.
      *
+     * Now for the parameters
+     *
+     * If delimiter is not set (null) this method will just return a string.
+     * If it's a comma or a semi-colon the string will be split on those
+     * characters, and always return an array.
+     *
      * @param string $input
+     * @param string $delimiter
      * @return string|array
      */
-    private function unescapeValue($input) {
+    static public function unescapeValue($input, $delimiter = ';') {
 
-        return
-            preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
-                if ($matches[2]==='n' || $matches[2]==='N') {
-                    return "\n";
-                } else {
-                    return $matches[2];
-                }
-            }, $input);
+        $regex = '#  (?: (\\\\ (?: \\\\ | N | n | ; | , ) )';
+        if ($delimiter) {
+            $regex.= ' | (' . $delimiter . ')';
+        }
+        $regex .= ') #x';
+
+        $matches = preg_split($regex, $input, -1, PREG_SPLIT_DELIM_CAPTURE  |  PREG_SPLIT_NO_EMPTY );
+
+        $resultArray = array();
+        $result = '';
+
+        foreach($matches as $match) {
+
+            switch ($match) {
+                case '\\\\' :
+                    $result.='\\';
+                    break;
+                case '\N' :
+                case '\n' :
+                    $result.="\n";
+                    break;
+                case '\;' :
+                    $result.=';';
+                    break;
+                case '\,' :
+                    $result.=',';
+                    break;
+                case $delimiter :
+                    $resultArray[] = $result;
+                    $result='';
+                    break;
+                default :
+                    $result.=$match;
+                    break;
+
+            }
+
+        }
+
+        $resultArray[] = $result;
+        return $delimiter ? $resultArray : $result;
 
     }
 
