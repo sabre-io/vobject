@@ -4,7 +4,8 @@ namespace Sabre\VObject\Property;
 
 use
     Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir;
+    Sabre\VObject\Parser\MimeDir,
+    Sabre\VObject\DateTimeParser;
 
 /**
  * Date property
@@ -53,4 +54,69 @@ class Date extends Property {
 
     }
 
+    /**
+     * Returns a date-time value.
+     *
+     * Note that if this property contained more than 1 date-time, only the
+     * first will be returned. To get an array with multiple values, call
+     * getDateTimes.
+     *
+     * @return \DateTime
+     */
+    public function getDateTime() {
+
+        $dt = $this->getDateTimes();
+        return $dt[0];
+
+    }
+
+    /**
+     * Returns multiple date-time values.
+     *
+     * @return \DateTime[]
+     */
+    public function getDateTimes() {
+
+        $dts = array();
+        foreach($this->getParts() as $part) {
+            $dts[] = DateTimeParser::parseDate($part);
+        }
+        return $dts;
+
+    }
+
+    /**
+     * Sets the property as a DateTime object.
+     *
+     * @param \DateTime $dt
+     * @return void
+     */
+    public function setDateTime(\DateTime $dt) {
+
+        $this->setDateTimes(array($dt));
+
+    }
+
+    /**
+     * Sets the property as multiple date-time objects.
+     *
+     * The first value will be used as a reference for the timezones, and all
+     * the otehr values will be adjusted for that timezone
+     *
+     * @param \DateTime[] $dt
+     * @return void
+     */
+    public function setDateTimes(array $dt) {
+
+        $values = array();
+
+        foreach($dt as $d) {
+
+            $values[] = $d->format('Ymd');
+
+        }
+
+        $this->setParts($values);
+
+    }
 }

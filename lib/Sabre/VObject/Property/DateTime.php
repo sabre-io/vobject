@@ -5,7 +5,8 @@ namespace Sabre\VObject\Property;
 use
     Sabre\VObject\Property,
     Sabre\VObject\Parser\MimeDir,
-    Sabre\VObject\DateTimeParser;
+    Sabre\VObject\DateTimeParser,
+    Sabre\VObject\TimeZoneUtil;
 
 /**
  * DateTime property
@@ -82,7 +83,7 @@ class DateTime extends Property {
         $tz = $this['TZID'];
 
         if ($tz) {
-            $tz = VObject\TimeZoneUtil::getTimeZone((string)$tzid, $root);
+            $tz = TimeZoneUtil::getTimeZone((string)$tz, $this->root);
         }
 
         $dts = array();
@@ -122,9 +123,9 @@ class DateTime extends Property {
         foreach($dt as $d) {
 
             if (is_null($tz)) {
-                $tz = $dt->getTimeZone();
+                $tz = $d->getTimeZone();
                 if ($tz->getName() !== 'UTC') {
-                    $this->offsetSet('TZID', $tz);
+                    $this->offsetSet('TZID', $tz->getName());
                     $this->offsetSet('VALUE','DATE-TIME');
                 } else {
                     $this->offsetUnset('TZID');
@@ -133,10 +134,10 @@ class DateTime extends Property {
                 $d->setTimeZone($tz);
             }
 
-            if ($tz==='UTC') {
-                $values[] = $dt->format('Ymd\\THis\\Z');
+            if ($tz->getName()==='UTC') {
+                $values[] = $d->format('Ymd\\THis\\Z');
             } else {
-                $values[] = $dt->format('Ymd\\THis');
+                $values[] = $d->format('Ymd\\THis');
             }
 
         }

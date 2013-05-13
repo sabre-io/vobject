@@ -342,13 +342,16 @@ abstract class Property extends Node {
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
 
-            if (strtoupper($name === 'VALUE')) {
+            if (strtoupper($name === 'VALUE') && !is_null($this->parent)) {
                 // We have to do some crazy stuff if 'value' changed. Our
                 // properties are automatically mapped to classes based on
                 // their value. So if 'VALUE' changed, we may need to replace
                 // this property entirely for the new version.
+                //
+                // Unfortunately we can only do this, if we actually have a
+                // parent :(
                 $newClass = $this->root->getClassNameForPropertyValue(strtoupper($value));
-                if (get_class($this) !== $newClass) {
+                if (!is_null($newClass) && get_class($this) !== $newClass) {
                     $newProperty = $this->root->createProperty($this->group . $this->name, $this->getParts(), $this->parameters());
 
                     // Replacing the object

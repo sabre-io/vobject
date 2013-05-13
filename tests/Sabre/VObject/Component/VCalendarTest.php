@@ -6,12 +6,6 @@ use Sabre\VObject;
 
 class VCalendarTest extends \PHPUnit_Framework_TestCase {
 
-    public function setUp() {
-
-        $this->markTestSkipped('This test relies on custom properties, which isn\'t ready yet');
-
-    }
-
     /**
      * @dataProvider expandData
      */
@@ -97,7 +91,7 @@ VERSION:2.0
 BEGIN:VEVENT
 UID:bla4
 SUMMARY:RemoveTZ info
-DTSTART;VALUE=DATE-TIME:20111203T120102Z
+DTSTART:20111203T120102Z
 END:VEVENT
 END:VCALENDAR
 ';

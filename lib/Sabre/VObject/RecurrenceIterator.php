@@ -339,7 +339,7 @@ class RecurrenceIterator implements \Iterator {
             $this->endDate = clone $this->startDate;
             if (isset($this->baseEvent->DURATION)) {
                 $this->endDate->add(DateTimeParser::parse($this->baseEvent->DURATION->value));
-            } elseif ($this->baseEvent->DTSTART->getDateType()===Property\DateTime::DATE) {
+            } elseif ($this->baseEvent->DTSTART instanceof Property\Date) {
                 $this->endDate->modify('+1 day');
             }
         }
@@ -519,9 +519,9 @@ class RecurrenceIterator implements \Iterator {
         unset($event->RDATE);
         unset($event->EXRULE);
 
-        $event->DTSTART->setDateTime($this->getDTStart(), $event->DTSTART->getDateType());
+        $event->DTSTART->setDateTime($this->getDTStart());
         if (isset($event->DTEND)) {
-            $event->DTEND->setDateTime($this->getDtEnd(), $event->DTSTART->getDateType());
+            $event->DTEND->setDateTime($this->getDtEnd());
         }
         if ($this->counter > 0) {
             $event->{'RECURRENCE-ID'} = (string)$event->DTSTART;

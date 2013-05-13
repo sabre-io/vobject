@@ -49,8 +49,11 @@ class VCalendar extends VObject\Document {
         'DTSTAMP'       => 'DateTime',
         'DTSTART'       => 'DateTime',
         'DUE'           => 'DateTime',
+        'EXDATE'        => 'DateTime',
         'FREEBUSY'      => 'Period',
         'LAST-MODIFIED' => 'DateTime',
+        'RDATE'         => 'DateTime',
+        'RECURRENCE-ID' => 'DateTime',
         'TRIGGER'       => 'Duration',
     );
 
@@ -163,13 +166,16 @@ class VCalendar extends VObject\Document {
 
         }
 
+        // Setting all properties to UTC time.
         foreach($newEvents as $newEvent) {
 
             foreach($newEvent->children as $child) {
-                if ($child instanceof VObject\Property\DateTime &&
-                    $child->getDateType() == VObject\Property\DateTime::LOCALTZ) {
-                        $child->setDateTime($child->getDateTime(),VObject\Property\DateTime::UTC);
-                    }
+                if ($child instanceof VObject\Property\DateTime) {
+                    $dt = $child->getDateTimes();
+                    $dt[0]->setTimeZone(new \DateTimeZone('UTC'));
+                    $child->setDateTimes($dt);
+                }
+
             }
 
             $this->add($newEvent);

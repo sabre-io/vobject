@@ -40,7 +40,7 @@ class DateTimeParser {
         $date = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] .':' . $matches[6], $tz);
 
         // Still resetting the timezone, to normalize everything to UTC
-        $date->setTimeZone(new \DateTimeZone('UTC'));
+        // $date->setTimeZone(new \DateTimeZone('UTC'));
         return $date;
 
     }
