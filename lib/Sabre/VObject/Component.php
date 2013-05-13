@@ -350,7 +350,7 @@ class Component extends Node {
             } else {
                 $this->children[] = $value;
             }
-        } elseif (is_scalar($value)) {
+        } elseif (is_scalar($value) || is_array($value)) {
             $property = $this->root->createProperty($name,$value);
             $property->parent = $this;
             if (!is_null($overWrite)) {

@@ -352,7 +352,7 @@ abstract class Property extends Node {
             $this->parameters[] = $parameter;
 
             /*
-            if (strtoupper($name === 'VALUE') && !is_null($this->parent)) {
+            if (strtoupper($name) === 'VALUE' && !is_null($this->parent)) {
                 // We have to do some crazy stuff if 'value' changed. Our
                 // properties are automatically mapped to classes based on
                 // their value. So if 'VALUE' changed, we may need to replace

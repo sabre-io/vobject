@@ -172,6 +172,9 @@ class VCalendar extends VObject\Document {
             foreach($newEvent->children as $child) {
                 if ($child instanceof VObject\Property\DateTime && $child->hasTime()) {
                     $dt = $child->getDateTimes();
+                    // We only need to update the first timezone, because
+                    // setDateTimes will match all other timezones to the
+                    // first.
                     $dt[0]->setTimeZone(new \DateTimeZone('UTC'));
                     $child->setDateTimes($dt);
                 }

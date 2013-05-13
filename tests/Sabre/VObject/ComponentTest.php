@@ -113,6 +113,16 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testMagicSetArray() {
+
+        $comp = new VCalendar();
+        $comp->ORG = array('Acme Inc', 'Section 9');
+
+        $this->assertInstanceOf('Sabre\\VObject\\Property',$comp->ORG);
+        $this->assertEquals(array('Acme Inc', 'Section 9'),$comp->ORG->getParts());
+
+    }
+
     function testMagicSetComponent() {
 
         $comp = new VCalendar();
