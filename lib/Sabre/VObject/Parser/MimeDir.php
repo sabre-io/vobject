@@ -415,13 +415,13 @@ class MimeDir {
      *
      * @param string $input
      * @param string $delimiter
-     * @return string|array
+     * @return string|string[]
      */
     static public function unescapeValue($input, $delimiter = ';') {
 
         $regex = '#  (?: (\\\\ (?: \\\\ | N | n | ; | , ) )';
         if ($delimiter) {
-            $regex.= ' | (' . $delimiter . ')';
+            $regex .= ' | (' . $delimiter . ')';
         }
         $regex .= ') #x';
 
@@ -434,24 +434,24 @@ class MimeDir {
 
             switch ($match) {
                 case '\\\\' :
-                    $result.='\\';
+                    $result .='\\';
                     break;
                 case '\N' :
                 case '\n' :
-                    $result.="\n";
+                    $result .="\n";
                     break;
                 case '\;' :
-                    $result.=';';
+                    $result .=';';
                     break;
                 case '\,' :
-                    $result.=',';
+                    $result .=',';
                     break;
                 case $delimiter :
                     $resultArray[] = $result;
-                    $result='';
+                    $result = '';
                     break;
                 default :
-                    $result.=$match;
+                    $result .= $match;
                     break;
 
             }

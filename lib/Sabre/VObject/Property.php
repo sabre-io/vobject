@@ -120,8 +120,7 @@ abstract class Property extends Node {
      *
      * To get the correct multi-value version, use getParts.
      *
-     * @param string|array $value
-     * @return void
+     * @return string
      */
     public function getValue() {
 
@@ -270,8 +269,7 @@ abstract class Property extends Node {
      */
     public function __toString() {
 
-        $val = $this->getValue();
-        return is_array($val) ? $this->getRawMimeDirValue() : (string)$val;
+        return (string)$this->getValue();
 
     }
 
