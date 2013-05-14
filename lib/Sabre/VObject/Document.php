@@ -74,6 +74,7 @@ abstract class Document extends Component {
         'DATE'      => 'DateTime',
         'DATE-TIME' => 'DateTime',
         'DURATION'  => 'Duration',
+        'URL'       => 'Url',
     );
 
     /**

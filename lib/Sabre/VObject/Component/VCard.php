@@ -33,6 +33,64 @@ class VCard extends VObject\Document {
     private $version = null;
 
     /**
+     * List of properties, and which classes they map to.
+     *
+     * @var array
+     */
+    public $propertyMap = array(
+
+        // vCard 2.1 properties and up
+        'N'       => 'Text',
+        'FN'      => 'FlatText',
+        'PHOTO'   => 'Binary', // Todo: we should add a class for Binary values.
+        'BDAY'    => 'DateTime',
+        'ADR'     => 'Text',
+        'LABEL'   => 'FlatText', // Removed in vCard 4.0
+        'TEL'     => 'FlatText',
+        'EMAIL'   => 'FlatText',
+        'MAILER'  => 'FlatText', // Removed in vCard 4.0
+        'GEO'     => 'FlatText',
+        'TITLE'   => 'FlatText',
+        'ROLE'    => 'FlatText',
+        'LOGO'    => 'Binary',
+        // 'AGENT'   => '',      // Todo: is an embedded vCard. Probably rare, so
+                                 // not supported at the moment
+        'ORG'     => 'Text',
+        'NOTE'    => 'FlatText',
+        'REV'     => 'DateTime',
+        'SOUND'   => 'FlatText',
+        'URL'     => 'Url',
+        'UID'     => 'FlatText',
+        'VERSION' => 'FlatText',
+        'KEY'     => 'FlatText',
+
+        // vCard 3.0 properties
+        'CATEGORIES'  => 'CommaSeparatedText',
+        'SORT-STRING' => 'FlatText',
+        'PRODID'      => 'FlatText',
+        'NICKNAME'    => 'CommaSeparatedText',
+        'CLASS'       => 'FlatText', // Removed in vCard 4.0
+
+        // rfc2739 properties
+        'FBURL'        => 'Url',
+        'CAPURI'       => 'Url',
+        'CALURI'       => 'Url',
+
+        // rfc4770 properties
+        'IMPP'         => 'Url',
+
+        // vCard 4.0 properties
+        'XML'          => 'FlatText',
+        'ANNIVERSARY'  => 'DateTime',
+        'CLIENTPIDMAP' => 'Text',
+        'LANG'         => 'FlatText',
+        'GENDER'       => 'Text',
+        'KIND'         => 'FlatText',
+
+
+    );
+
+    /**
      * Returns the current document type.
      *
      * @return void

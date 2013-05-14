@@ -332,4 +332,28 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testGetValue() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty("X-PROP", null);
+        $this->assertEquals(array(), $property->getParts());
+        $this->assertNull($property->getValue());
+
+        $property->setValue(array());
+        $this->assertEquals(array(), $property->getParts());
+        $this->assertNull($property->getValue());
+
+        $property->setValue(array(1));
+        $this->assertEquals(array(1), $property->getParts());
+        $this->assertEquals(1, $property->getValue());
+
+        $property->setValue(array(1,2));
+        $this->assertEquals(array(1,2), $property->getParts());
+        $this->assertEquals('1;2', $property->getValue());
+
+        $property->setValue('str');
+        $this->assertEquals(array('str'), $property->getParts());
+        $this->assertEquals('str', $property->getValue());
+    }
+
 }

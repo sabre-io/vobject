@@ -43,18 +43,78 @@ class VCalendar extends VObject\Document {
      * @var array
      */
     public $propertyMap = array(
+        // Calendar properties
+        'CALSCALE'      => 'FlatText',
+        'METHOD'        => 'FlatText',
+        'PRODID'        => 'FlatText',
+        'VERSION'       => 'FlatText',
+
+        // Component properties
+        'ATTACH'            => 'Binary',
+        'CATEGORIES'        => 'CommaSeparatedText',
+        'CLASS'             => 'FlatText',
+        'COMMENT'           => 'FlatText',
+        'DESCRIPTION'       => 'FlatText',
+        'GEO'               => 'Text',
+        'LOCATION'          => 'FlatText',
+        'PERCENT-COMPLETE'  => 'FlatText',
+        'PRIORITY'          => 'FlatText',
+        'RESOURCES'         => 'CommaSeparatedText',
+        'STATUS'            => 'FlatText',
+        'SUMMARY'           => 'FlatText',
+
+        // Date and Time Component Properties
         'COMPLETED'     => 'DateTime',
-        'CREATED'       => 'DateTime',
         'DTEND'         => 'DateTime',
-        'DTSTAMP'       => 'DateTime',
-        'DTSTART'       => 'DateTime',
         'DUE'           => 'DateTime',
-        'EXDATE'        => 'DateTime',
+        'DTSTART'       => 'DateTime',
+        'DURATION'      => 'Duration',
         'FREEBUSY'      => 'Period',
-        'LAST-MODIFIED' => 'DateTime',
-        'RDATE'         => 'DateTime',
+        'TRANSP'        => 'FlatText',
+
+        // Time Zone Component Properties
+        'TZID'          => 'FlatText',
+        'TZNAME'        => 'FlatText',
+        'TZOFFSETFROM'  => 'FlatText',
+        'TZOFFSETTO'    => 'FlatText',
+        'TZURL'         => 'Url',
+
+        // Relationship Component Properties
+        'ATTENDEE'      => 'Url',
+        'CONTACT'       => 'FlatText',
+        'ORGANIZER'     => 'Url',
         'RECURRENCE-ID' => 'DateTime',
+        'RELATED-TO'    => 'FlatText',
+        'URL'           => 'Url',
+        'UID'           => 'FlatText',
+
+        // Recurrence Component Properties
+        'EXDATE'        => 'DateTime',
+        'RDATE'         => 'DateTime',
+        'RRULE'         => 'Recur',
+        'EXRULE'        => 'Recur', // Deprecated since rfc5545
+
+        // Alarm Component Properties
+        'ACTION'        => 'FlatText',
+        'REPEAT'        => 'FlatText',
         'TRIGGER'       => 'Duration',
+
+        // Change Management Component Properties
+        'CREATED'       => 'DateTime',
+        'DTSTAMP'       => 'DateTime',
+        'LAST-MODIFIED' => 'DateTime',
+        'SEQUENCE'      => 'FlatText',
+
+        // Request Status
+        'REQUEST-STATUS' => 'Text',
+
+
+
+
+        'RDATE'         => 'DateTime',
+
+
+
     );
 
     /**
