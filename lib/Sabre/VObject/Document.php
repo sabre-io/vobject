@@ -70,11 +70,25 @@ abstract class Document extends Component {
      * @var array
      */
     public $valueMap = array(
-        'TEXT'      => 'Text',
-        'DATE'      => 'DateTime',
-        'DATE-TIME' => 'DateTime',
-        'DURATION'  => 'Duration',
-        'URL'       => 'Url',
+        'BINARY'           => 'Binary',
+        'BOOLEAN'          => 'Boolean',
+        'CONTENT-ID'       => 'FlatText', // vCard 2.1 only
+        'CAL-ADDRESS'      => 'Url',      // iCalendar only
+        'DATE'             => 'DateTime',
+        'DATE-TIME'        => 'DateTime',
+        'DATE-AND-OR-TIME' => 'FlatText', // vCard only
+        'DURATION'         => 'Duration', // iCalendar only
+        'FLOAT'            => 'Text',
+        'INTEGER'          => 'Integer',
+        'LANGUAGE-TAG'     => 'FlatText', // vCard only
+        'PERIOD'           => 'Period',   // iCalendar only
+        'RECUR'            => 'Recur',    // iCalendar only
+        'TIMESTAMP'        => 'FlatText', // vCard only
+        'TEXT'             => 'Text',
+        'TIME'             => 'Text',
+        'URI'              => 'Uri',
+        'URL'              => 'Uri', // vCard 2.1 only
+        'UTC-OFFSET'       => 'FlatText',
     );
 
     /**

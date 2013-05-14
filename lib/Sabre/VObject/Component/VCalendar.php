@@ -57,8 +57,8 @@ class VCalendar extends VObject\Document {
         'DESCRIPTION'       => 'FlatText',
         'GEO'               => 'Text',
         'LOCATION'          => 'FlatText',
-        'PERCENT-COMPLETE'  => 'FlatText',
-        'PRIORITY'          => 'FlatText',
+        'PERCENT-COMPLETE'  => 'Integer',
+        'PRIORITY'          => 'Integer',
         'RESOURCES'         => 'CommaSeparatedText',
         'STATUS'            => 'FlatText',
         'SUMMARY'           => 'FlatText',
@@ -96,14 +96,14 @@ class VCalendar extends VObject\Document {
 
         // Alarm Component Properties
         'ACTION'        => 'FlatText',
-        'REPEAT'        => 'FlatText',
+        'REPEAT'        => 'Integer',
         'TRIGGER'       => 'Duration',
 
         // Change Management Component Properties
         'CREATED'       => 'DateTime',
         'DTSTAMP'       => 'DateTime',
         'LAST-MODIFIED' => 'DateTime',
-        'SEQUENCE'      => 'FlatText',
+        'SEQUENCE'      => 'Integer',
 
         // Request Status
         'REQUEST-STATUS' => 'Text',
