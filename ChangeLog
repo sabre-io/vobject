@@ -1,11 +1,28 @@
 3.0.0-alpha (2013-??-??)
+	* Fixed: Now correctly dealing with escaping of properties. This solves
+	  the problem with double-backslashes where they don't belong.
+	* Added: Easy support for properties with more than one value, using
+	  setParts and getParts.
 	* Added: Support for broken 2.1 vCards produced by microsoft.
 	* Added: Automatically decoding quoted-printable values.
+	* Added: Automatically decoding base64 values.
 	* Added: Decoding RFC6868 parameter values (uses ^ as an escape
 	  character).
-	* Added: Fancy new MimeDir parser.
+	* Added: Fancy new MimeDir parser that can also parse streams.
+	* Added: Automatically mapping many, many properties to a property-class
+	  with specialized API's.
+	* Added: remove() method for easily removing properties and sub-components
+	  components.
+	* Changed: Components, Properties and Parameters can no longer be created
+	  with Component::create, Property::create and Parameter::create. They
+	  must instead be created through the root component. (A VCalendar or
+	  VCard object).
+	* Changed: API for DateTime properties has slightly changed.
+	* Changed: the ->value property is now protected everywhere. Use
+	  getParts() and getValue() instead.
 	* BC Break: No support for mac newlines (\r). Never came across these
 	  anyway.
+	* Added: add() method to the Property class.
 
 2.0.7-stable (2013-03-05)
 	* Fixed: Microsoft re-uses their magic numbers for different timezones,
