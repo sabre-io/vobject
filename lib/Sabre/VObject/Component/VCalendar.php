@@ -77,15 +77,15 @@ class VCalendar extends VObject\Document {
         'TZNAME'        => 'FlatText',
         'TZOFFSETFROM'  => 'FlatText',
         'TZOFFSETTO'    => 'FlatText',
-        'TZURL'         => 'Url',
+        'TZURL'         => 'Uri',
 
         // Relationship Component Properties
-        'ATTENDEE'      => 'Url',
+        'ATTENDEE'      => 'Uri',
         'CONTACT'       => 'FlatText',
-        'ORGANIZER'     => 'Url',
+        'ORGANIZER'     => 'Uri',
         'RECURRENCE-ID' => 'DateTime',
         'RELATED-TO'    => 'FlatText',
-        'URL'           => 'Url',
+        'URL'           => 'Uri',
         'UID'           => 'FlatText',
 
         // Recurrence Component Properties

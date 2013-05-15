@@ -3,19 +3,26 @@
 namespace Sabre\VObject\Property;
 
 use
+    LogicException,
     Sabre\VObject\Property;
 
 /**
- * Integer property
+ * BINARY property
  *
- * This object represents INTEGER values. These are always a single integer.
- * They may be preceeded by either + or -.
+ * This object represents BINARY values.
+ *
+ * Binary values are most commonly used by the iCalendar ATTACH property, and
+ * the vCard PHOTO property.
+ *
+ * This property will transparently encode and decode to base64.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Integer extends Property {
+class Binary extends Property {
+
+    protected $delimiter = null;
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -28,7 +35,7 @@ class Integer extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->setValue((int)$val);
+        $this->value = base64_decode($val);
 
     }
 
@@ -39,7 +46,7 @@ class Integer extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return $this->value;
+        return base64_encode($this->value);
 
     }
 

@@ -42,6 +42,10 @@ class Recur extends Property {
             $newValue = array();
             foreach(explode(';', $value) as $part) {
 
+                // Skipping empty parts.
+                if (empty($part)) {
+                    continue;
+                }
                 list($partName, $partValue) = explode('=', $part);
                 $newValue[$partName] = $partValue;
 

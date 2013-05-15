@@ -2,10 +2,6 @@
 
 namespace Sabre\VObject\Property;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir;
-
 /**
  * FlatText property
  *

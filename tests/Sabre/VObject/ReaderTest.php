@@ -378,7 +378,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
      *
      * @expectedException \Sabre\VObject\ParseException
      */
-    function testReadIncompleteFile() {
+    public function testReadIncompleteFile() {
 
         $input = <<<ICS
 BEGIN:VCALENDAR
