@@ -7,7 +7,7 @@ use
     Sabre\VObject\Parser\MimeDir;
 
 /**
- * Text property
+ * Integer property
  *
  * This object represents INTEGER values. These are always a single integer.
  * They may be preceeded by either + or -.
