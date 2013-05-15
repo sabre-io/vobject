@@ -346,15 +346,12 @@ class RecurrenceIterator implements \Iterator {
         $this->currentDate = clone $this->startDate;
 
         $rrule = $this->baseEvent->RRULE;
-        $parts = explode(';', $rrule);
 
         // If no rrule was specified, we create a default setting
         if (!$rrule) {
             $this->frequency = 'daily';
             $this->count = 1;
-        } else foreach($parts as $part) {
-
-            list($key, $value) = explode('=', $part, 2);
+        } else foreach($rrule->getParts() as $key=>$value) {
 
             switch(strtoupper($key)) {
 
