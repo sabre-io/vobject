@@ -156,7 +156,8 @@ $calendar = Sabre\VObject\Reader::read($stream);
 The remove method allows for much better manipulation of existing objects.
 To remove all fax numbers from a vCard, the following syntax may be used:
 
-```
+```php
+<?php
 foreach($card->TEL as $tel) {
 
     if ((string)$tel->TYPE === 'FAX') {
@@ -164,6 +165,7 @@ foreach($card->TEL as $tel) {
     }
 
 }
+?>
 ```
 
 Aside from removing objects (`$tel` in the prevous example), you can also just
@@ -172,13 +174,13 @@ stripped.
 
 ### Every property, parameter and component has a reference to the document.
 
-By calling $property->root, you can easily obtain a reference to the top-level
+By calling `$property->root`, you can easily obtain a reference to the top-level
 component.
 
 ### Documents have a getDocumentType method.
 
 The 2 document classes (`Component\VCalendar` and `Component\VCard`) have a
-getDocumentType() method, which return one of the following constants:
+`getDocumentType()` method, which return one of the following constants:
 
 * `Document::ICALENDAR20`
 * `Document::VCARD21`
@@ -242,6 +244,50 @@ $vcalendar->add('VEVENT', [
     'summary' => 'Birthday party!',
 ]);
 ```
+
+### Creating properties
+
+Creating properties works the _exact_ same way.
+
+Old:
+
+```php
+<?php
+
+$location = new \Sabre\VObject\Property('LOCATION', 'Home');
+
+// Or:
+
+$location = \Sabre\VObject\Property::create('LOCATION', 'Home');
+
+?>
+```
+
+Now you must also use the document:
+
+Example:
+
+```php
+<?php
+
+$card = new \Sabre\VObject\Component\VCard();
+$location = $card->createProperty('LOCATION','Home');
+
+?>
+```
+
+Note that in most cases, this syntax is highly recommended instead:
+
+```php
+<?php
+
+$card = new \Sabre\VObject\Component\VCard();
+$location = $card->add('LOCATION','Home');
+
+?>
+
+In this case it doesn't make much of a difference, but when constructing
+highly complex objects with sub-components, this _will_ make a big difference.
 
 ### Component::children() and Property::parameters() return arrays.
 
