@@ -33,18 +33,15 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
     function testSetDateTimeLOCAL() {
 
-        $this->markTestSkipped('No supported yet for floating times');
-
         $tz = new \DateTimeZone('Europe/Amsterdam');
         $dt = new \DateTime('1985-07-04 01:30:00', $tz);
         $dt->setTimeZone($tz);
 
         $elem = $this->vcal->createProperty('DTSTART');
-        $elem->setDateTime($dt, DateTime::LOCAL);
+        $elem->setDateTime($dt, $isFloating = true);
 
-        $this->assertEquals('19850704T013000', $elem->value);
+        $this->assertEquals('19850704T013000', (string)$elem);
         $this->assertNull($elem['TZID']);
-        $this->assertEquals('DATE-TIME', (string)$elem['VALUE']);
 
     }
 

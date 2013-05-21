@@ -111,11 +111,12 @@ class DateTime extends Property {
      * Sets the property as a DateTime object.
      *
      * @param \DateTime $dt
+     * @param bool isFloating If set to true, timezones will be ignored.
      * @return void
      */
-    public function setDateTime(\DateTime $dt) {
+    public function setDateTime(\DateTime $dt, $isFloating = false) {
 
-        $this->setDateTimes(array($dt));
+        $this->setDateTimes(array($dt), $isFloating);
 
     }
 
@@ -126,9 +127,10 @@ class DateTime extends Property {
      * the otehr values will be adjusted for that timezone
      *
      * @param \DateTime[] $dt
+     * @param bool isFloating If set to true, timezones will be ignored.
      * @return void
      */
-    public function setDateTimes(array $dt) {
+    public function setDateTimes(array $dt, $isFloating = false) {
 
         $values = array();
 
@@ -139,6 +141,11 @@ class DateTime extends Property {
 
             foreach($dt as $d) {
 
+                if ($isFloating) {
+                    $values[] = $d->format('Ymd\\THis');
+                    $this->offsetUnset('TZID');
+                    continue;
+                }
                 if (is_null($tz)) {
                     $tz = $d->getTimeZone();
                     $isUtc = in_array($tz->getName() , array('UTC', 'GMT', 'Z'));
