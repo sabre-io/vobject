@@ -1,4 +1,4 @@
-3.0.0-alpha (2013-??-??)
+3.0.0-alpha1 (2013-05-21)
 	* Fixed: Now correctly dealing with escaping of properties. This solves
 	  the problem with double-backslashes where they don't belong.
 	* Added: Easy support for properties with more than one value, using
@@ -23,6 +23,13 @@
 	* BC Break: No support for mac newlines (\r). Never came across these
 	  anyway.
 	* Added: add() method to the Property class.
+	* Added: It's now possible to easy set multi-value properties as arrays.
+	* Added: When setting date-time properties you can just pass PHP's
+	  DateTime object.
+	* Added: New components automatically get a bunch of default properties,
+	  such as VERSION and CALSCALE.
+	* Added: You can add new sub-components much quicker with the magic
+	  setters, and add() method.
 
 2.0.7-stable (2013-03-05)
 	* Fixed: Microsoft re-uses their magic numbers for different timezones,
