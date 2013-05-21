@@ -48,8 +48,6 @@ class Reader {
 
         return $result;
 
-        // return self::mapComponent($result);
-       
     }
 
 }

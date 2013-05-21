@@ -281,9 +281,6 @@ class FreeBusyGenerator {
             $calendar = $this->baseObject;
         } else {
             $calendar = new VCalendar();
-            $calendar->version = '2.0';
-            $calendar->prodid = '-//Sabre//Sabre VObject ' . Version::VERSION . '//EN';
-            $calendar->calscale = 'GREGORIAN';
         }
 
         $vfreebusy = $calendar->createComponent('VFREEBUSY');
