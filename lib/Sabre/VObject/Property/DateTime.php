@@ -31,6 +31,46 @@ class DateTime extends Property {
     protected $delimiter = ',';
 
     /**
+     * Sets a multi-valued property.
+     *
+     * You may also specify DateTime objects here.
+     *
+     * @param array $parts
+     * @return void
+     */
+    public function setParts(array $parts) {
+
+        if (isset($parts[0]) && $parts[0] instanceof \DateTime) {
+            $this->setDateTimes($parts);
+        } else {
+            parent::setParts($parts);
+        }
+
+    }
+
+    /**
+     * Updates the current value.
+     *
+     * This may be either a single, or multiple strings in an array.
+     *
+     * Instead of strings, you may also use DateTime here.
+     *
+     * @param string|array|\DateTime $value
+     * @return void
+     */
+    public function setValue($value) {
+
+        if (is_array($value) && isset($value[0]) && $value[0] instanceof \DateTime) {
+            $this->setDateTimes($value);
+        } elseif ($value instanceof \DateTime) {
+            $this->setDateTimes(array($value));
+        } else {
+            parent::setValue($value);
+        }
+
+    }
+
+    /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
      *
      * This has been 'unfolded', so only 1 line will be passed. Unescaping is
