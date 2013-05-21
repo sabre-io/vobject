@@ -149,6 +149,7 @@ $stream = fopen('hugecalendar.ics','r');
 $calendar = Sabre\VObject\Reader::read($stream);
 
 ?>
+```
 
 ### Added a remove() method to Component
 
@@ -192,7 +193,7 @@ their data encoded as base64. This is now automatically encoded and decoded.
 
 Just set the file and you're good:
 
-```
+```php
 $vcard->PHOTO = file_get_contents('yourface.jpg');
 ```
 
