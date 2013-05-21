@@ -211,5 +211,19 @@ class VCard extends VObject\Document {
 
     }
 
+    /**
+     * This method should return a list of default property values.
+     *
+     * @return array
+     */
+    protected function getDefaults() {
+
+        return array(
+            'VERSION' => '3.0',
+            'PRODID' => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
+        );
+
+    }
+
 }
 

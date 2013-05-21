@@ -10,7 +10,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testIterate() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         $sub = $comp->createComponent('VEVENT');
         $comp->add($sub);
@@ -32,7 +32,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testMagicGet() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         $sub = $comp->createComponent('VEVENT');
         $comp->add($sub);
@@ -103,7 +103,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testMagicSetScalarTwice() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
         $comp->myProp = 'myValue';
         $comp->myProp = 'myValue';
 
@@ -138,7 +138,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testMagicSetTwice() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         $comp->VEVENT = $comp->createComponent('VEVENT');
         $comp->VEVENT = $comp->createComponent('VEVENT');
@@ -151,7 +151,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testArrayAccessGet() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         $event = $comp->createComponent('VEVENT');
         $event->summary = 'Event 1';
@@ -209,7 +209,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testAddScalar() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         $comp->add('myprop','value');
 
@@ -225,7 +225,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testAddScalarParams() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         $comp->add('myprop','value',array('param1'=>'value1'));
 
@@ -248,7 +248,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testAddComponent() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         $comp->add($comp->createComponent('VEVENT'));
 
@@ -260,7 +260,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testAddComponentTwice() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         $comp->add($comp->createComponent('VEVENT'));
         $comp->add($comp->createComponent('VEVENT'));
@@ -296,20 +296,16 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
      */
     function testMagicSetInvalid() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         // Note that 'myProp' is ignored here.
         $comp->myProp = new \StdClass();
-
-        $this->assertEquals(1, count($comp->children));
-
-        $this->assertEquals('VEVENT',$comp->VEVENT->name);
 
     }
 
     function testMagicUnset() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
         $comp->add($comp->createComponent('VEVENT'));
 
         unset($comp->vevent);
@@ -328,7 +324,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testChildren() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
 
         // Note that 'myProp' is ignored here.
         $comp->add($comp->createComponent('VEVENT'));
@@ -354,14 +350,14 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testSerialize() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
         $this->assertEquals("BEGIN:VCALENDAR\r\nEND:VCALENDAR\r\n", $comp->serialize());
 
     }
 
     function testSerializeChildren() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
         $comp->add($comp->createComponent('VEVENT'));
         $comp->add($comp->createComponent('VTODO'));
 
@@ -373,7 +369,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     function testSerializeOrderCompAndProp() {
 
-        $comp = new VCalendar();
+        $comp = new VCalendar(array(), false);
         $comp->add($comp->createComponent('VEVENT'));
         $comp->add('PROP1','BLABLA');
         $comp->add('VERSION','2.0');
@@ -389,7 +385,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $prop4s=array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10');
 
-        $comp = new VCard();
+        $comp = new VCard(array(), false);
 
         $comp->__set('SOMEPROP','FOO');
         $comp->__set('ANOTHERPROP','FOO');

@@ -108,13 +108,6 @@ class VCalendar extends VObject\Document {
         // Request Status
         'REQUEST-STATUS' => 'Text',
 
-
-
-
-        'RDATE'         => 'DateTime',
-
-
-
     );
 
     /**
@@ -247,6 +240,21 @@ class VCalendar extends VObject\Document {
 
         // Removing all VTIMEZONE components
         unset($this->VTIMEZONE);
+
+    }
+
+    /**
+     * This method should return a list of default property values.
+     *
+     * @return array
+     */
+    protected function getDefaults() {
+
+        return array(
+            'VERSION' => '2.0',
+            'PRODID' => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
+            'CALSCALE' => 'GREGORIAN',
+        );
 
     }
 

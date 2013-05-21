@@ -99,19 +99,19 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
 
     function testGetDocumentType() {
 
-        $vcard = new VCard();
+        $vcard = new VCard(array(), false);
         $vcard->VERSION = '2.1';
         $this->assertEquals(VCard::VCARD21, $vcard->getDocumentType());
 
-        $vcard = new VCard();
+        $vcard = new VCard(array(), false);
         $vcard->VERSION = '3.0';
         $this->assertEquals(VCard::VCARD30, $vcard->getDocumentType());
 
-        $vcard = new VCard();
+        $vcard = new VCard(array(), false);
         $vcard->VERSION = '4.0';
         $this->assertEquals(VCard::VCARD40, $vcard->getDocumentType());
 
-        $vcard = new VCard();
+        $vcard = new VCard(array(), false);
         $this->assertEquals(VCard::UNKNOWN, $vcard->getDocumentType());
     }
 

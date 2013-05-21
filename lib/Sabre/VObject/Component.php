@@ -37,14 +37,24 @@ class Component extends Node {
      * properties will automatically be created, or you can just pass a list of
      * Component and Property object.
      *
+     * By default, a set of sensible values will be added to the component. For
+     * an iCalendar object, this may be something like CALSCALE:GREGORIAN. To
+     * ensure that this does not happen, set $defaults to false.
+     *
+     * @param Document $root
      * @param string $name such as VCALENDAR, VEVENT.
      * @param array $children
+     * @param bool $defaults
      * @return void
      */
-    public function __construct(Document $root, $name, array $children = array()) {
+    public function __construct(Document $root, $name, array $children = array(), $defaults = true) {
 
         $this->name = strtoupper($name);
         $this->root = $root;
+
+        if ($defaults) {
+            $children += $this->getDefaults();
+        }
 
         foreach($children as $k=>$child) {
             if ($child instanceof Node) {
@@ -273,6 +283,17 @@ class Component extends Node {
         $str.= "END:" . $this->name . "\r\n";
 
         return $str;
+
+    }
+
+    /**
+     * This method should return a list of default property values.
+     *
+     * @return array
+     */
+    protected function getDefaults() {
+
+        return array();
 
     }
 

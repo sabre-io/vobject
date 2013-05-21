@@ -109,20 +109,20 @@ abstract class Document extends Component {
      *
      * So the two sigs:
      *
-     * new Document(array $children = array());
-     * new Document(string $name, array $children = array())
+     * new Document(array $children = array(), $defaults = true);
+     * new Document(string $name, array $children = array(), $defaults = true)
      *
-     * @param string|array $name
-     * @param array $children
      * @return void
      */
-    public function __construct($name = array(), array $children = array()) {
+    public function __construct() {
 
-        if (is_array($name)) {
-            parent::__construct($this, static::$defaultName, $name);
+        $args = func_get_args();
+        if (count($args)===0 || is_array($args[0])) {
+            array_unshift($args, $this, static::$defaultName);
+            call_user_func_array(array('parent', '__construct'), $args);
         } else {
-            // default
-            parent::__construct($this, $name, $children);
+            array_unshift($args, $this);
+            call_user_func_array(array('parent', '__construct'), $args);
         }
 
     }
@@ -172,11 +172,16 @@ abstract class Document extends Component {
      * properties will automatically be created, or you can just pass a list of
      * Component and Property object.
      *
+     * By default, a set of sensible values will be added to the component. For
+     * an iCalendar object, this may be something like CALSCALE:GREGORIAN. To
+     * ensure that this does not happen, set $defaults to false.
+     *
      * @param string $name
      * @param array $children
+     * @param bool $defaults
      * @return Component
      */
-    public function createComponent($name, array $children = array()) {
+    public function createComponent($name, array $children = array(), $defaults = true) {
 
         $name = strtoupper($name);
         $class = 'Sabre\\VObject\\Component';
@@ -184,7 +189,7 @@ abstract class Document extends Component {
         if (isset($this->componentMap[$name])) {
             $class.='\\' . $this->componentMap[$name];
         }
-        return new $class($this, $name, $children);
+        return new $class($this, $name, $children, $defaults);
 
     }
 

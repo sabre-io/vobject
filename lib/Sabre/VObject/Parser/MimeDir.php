@@ -99,10 +99,10 @@ class MimeDir {
         $line = $this->readLine();
         switch(strtoupper($line)) {
             case 'BEGIN:VCALENDAR' :
-                $this->root = new VCalendar();
+                $this->root = new VCalendar(array(), false);
                 break;
             case 'BEGIN:VCARD' :
-                $this->root = new VCard();
+                $this->root = new VCard(array(), false);
                 break;
             default :
                 throw new ParseException('This parser only support VCARD and VCALENDAR files');
@@ -141,7 +141,7 @@ class MimeDir {
         // Start of a new component
         if (strtoupper(substr($line, 0, 6)) === 'BEGIN:') {
 
-            $component = $this->root->createComponent(substr($line,6));
+            $component = $this->root->createComponent(substr($line,6), array(), false);
 
             while(true) {
 
