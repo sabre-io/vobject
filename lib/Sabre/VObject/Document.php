@@ -65,6 +65,13 @@ abstract class Document extends Component {
     public $propertyMap = array();
 
     /**
+     * List of components, along with which classes they map to.
+     *
+     * @var array
+     */
+    public $componentMap = array();
+
+    /**
      * List of value-types, and which classes they map to.
      *
      * @var array
@@ -128,6 +135,30 @@ abstract class Document extends Component {
     public function getDocumentType() {
 
         return self::UNKNOWN;
+
+    }
+
+    /**
+     * Creates a new component or property.
+     *
+     * If it's a known component, we will automatically call createComponent.
+     * otherwise, we'll assume it's a property and call createProperty instead.
+     *
+     * @param string $name
+     * @param string $arg1,... Unlimited number of args
+     * @return mixed
+     */
+    public function create($name) {
+
+        if (isset($this->componentMap[strtoupper($name)])) {
+
+            return call_user_func_array(array($this,'createComponent'), func_get_args());
+
+        } else {
+
+            return call_user_func_array(array($this,'createProperty'), func_get_args());
+
+        }
 
     }
 

@@ -31,13 +31,6 @@ class Component extends Node {
     public $children = array();
 
     /**
-     * This is a list of components, and which classes they should map to.
-     *
-     * @var array
-     */
-    public $componentMap = array();
-
-    /**
      * Creates a new component.
      *
      * You can specify the children either in key=>value syntax, in which case
@@ -92,7 +85,7 @@ class Component extends Node {
 
         } elseif(is_string($a1)) {
 
-            $item = $this->root->createProperty($a1, $a2, $a3);
+            $item = $this->root->create($a1, $a2, $a3);
             $item->parent = $this;
             $this->children[] = $item;
 
@@ -351,7 +344,7 @@ class Component extends Node {
                 $this->children[] = $value;
             }
         } elseif (is_scalar($value) || is_array($value)) {
-            $property = $this->root->createProperty($name,$value);
+            $property = $this->root->create($name,$value);
             $property->parent = $this;
             if (!is_null($overWrite)) {
                 $this->children[$overWrite] = $property;
