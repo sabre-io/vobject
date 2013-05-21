@@ -24,7 +24,6 @@ Example:
 ```php
 <?php
 
-// Setting datetime objects was not supported before.
 $card->ORG = ['Company', 'Department'];
 
 echo (string)$card->ORG; // Will echo "Company, Department";
@@ -37,8 +36,8 @@ The new `getParts()` method will now always return an array, regardless of
 the number of elements. `getValue()` or `(string)$property` will always try
 to combine the array into a string.
 
-In addition, SabreDAV now has a record will all known property names that may
-contain a multiple values, and also whether they use a comma, or a semi-colon
+In addition, SabreDAV now has a record with all known property names that may
+contain multiple values, and also whether they use a comma, or a semi-colon
 for a separator.
 
 If a comma or semi-colon was embedded unescaped, and it was not expected that
@@ -65,7 +64,8 @@ A syntax like this is now supported to create a document:
 
 $properties = [
     'FN' => 'Evert Pot',
-    'N' => array('Pot','Evert'),
+    'N' => ['Pot','Evert'],
+    'ORG' => ['fruux GmbH', 'dev team'],
 ];
 $card = new Sabre\VObject\Component\VCard($properties);
 
@@ -115,7 +115,7 @@ Both the parser and serializer now support this syntax.
 Before, an `INGORE_INVALID_LINES` option had to be passed to the parser to just
 get these to parse, albeit not exactly how you'd expect.
 
-Now the parser can properly detect microsofts broken vCards, and will
+Now the parser can properly detect Microsoft's broken vCards, will
 automatically repair them, and decode the `QUOTED-PRINTABLE` format.
 
 To use this new behaviour, you must pass the `FORGIVING` option to the parser.
@@ -389,5 +389,35 @@ print_r($org->getParts());
 The `ATTACH`, `LOGO` and `PHOTO` properties now automatically de- and encode
 their binary values. In vObject 2 they were accessed by their raw base64
 values.
+
+### Components and documents get injected with default properties.
+
+When creating a new `VCalendar`, it will automatically get the `VERSION`,
+`CALSCALE` and `PRODID` properties.
+
+If you were adding your own with this syntax:
+
+```php
+<?php
+
+$calendar = new Sabre\VObject\Component\VCalendar();
+$calendar->VERSION = '2.0';
+
+?>
+```
+
+Then nothing will go wrong, and the properties will simply be overridden.
+However, if you used `add()` before in this manner:
+
+```php
+<?php
+
+$calendar = new Sabre\VObject\Component\VCalendar();
+$calendar->add('version', '2.0');
+
+?>
+```
+
+You will end up with 2 VERSION properties, making the document invalid.
 
 [1]: http://tools.ietf.org/html/rfc6868
