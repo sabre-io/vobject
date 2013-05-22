@@ -106,20 +106,4 @@ abstract class Document extends Component {
 
     }
 
-    /**
-     * Factory method for creating new parameters
-     *
-     * This method automatically searches for the correct parameter class, based
-     * on its name.
-     *
-     * @param string $name
-     * @param string|array|null $value
-     * @return Parameter
-     */
-    public function createParameter($name, $value = null) {
-
-        return new Parameter($this, $name, $value);
-
-    }
-
 }

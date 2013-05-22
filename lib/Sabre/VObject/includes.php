@@ -27,6 +27,7 @@ include __DIR__ . '/TimeZoneUtil.php';
 include __DIR__ . '/Version.php';
 include __DIR__ . '/Splitter/VCard.php';
 include __DIR__ . '/Component.php';
+include __DIR__ . '/Document.php';
 include __DIR__ . '/Property/Compound.php';
 include __DIR__ . '/Property/DateTime.php';
 include __DIR__ . '/Property/MultiDateTime.php';
