@@ -1,4 +1,4 @@
-3.0.0-alpha2 (2013-05-??)
+3.0.0-alpha2 (2013-05-22)
 	* Fixed: vCard URL properties were referencing a non-existant class.
 
 3.0.0-alpha1 (2013-05-21)
