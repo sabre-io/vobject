@@ -158,6 +158,18 @@ class Property extends Node {
     }
 
     /**
+     * Returns the internal value
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getValue() {
+
+        return $this->value;
+
+    }
+
+    /**
      * Turns the object back into a serialized blob.
      *
      * @return string

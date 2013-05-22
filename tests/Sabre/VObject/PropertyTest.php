@@ -11,6 +11,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('propvalue', $property->value);
         $this->assertEquals('propvalue', $property->__toString());
         $this->assertEquals('propvalue', (string)$property);
+        $this->assertEquals('propvalue', $property->getValue());
 
     }
 
