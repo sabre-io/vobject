@@ -20,7 +20,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase {
 
     function testCreateComponent() {
 
-        $vcal = new Component\VCalendar();
+        $vcal = new Component\VCalendar(array(), false);
 
         $event = $vcal->createComponent('VEVENT');
 
