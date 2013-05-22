@@ -9,6 +9,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
         $param = new Parameter('name','value');
         $this->assertEquals('NAME',$param->name);
         $this->assertEquals('value',$param->value);
+        $this->assertEquals('value',$param->getValue());
 
     }
 
