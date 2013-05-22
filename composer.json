@@ -26,5 +26,10 @@
     },
     "bin" : [
         "bin/vobjectvalidate.php"
-    ]
+    ],
+    "extra" : {
+        "branch-alias" : {
+            "dev-master" : "3.0.x-dev"
+        }
+    }
 }
