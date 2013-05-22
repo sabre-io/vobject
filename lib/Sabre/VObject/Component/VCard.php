@@ -16,6 +16,8 @@ use Sabre\VObject;
  */
 class VCard extends VObject\Component {
 
+    static $defaultName = 'VCARD';
+
     /**
      * VCards with version 2.1, 3.0 and 4.0 are found.
      *

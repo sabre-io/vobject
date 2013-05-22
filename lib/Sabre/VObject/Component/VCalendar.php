@@ -13,7 +13,9 @@ use Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class VCalendar extends VObject\Component {
+class VCalendar extends VObject\Document {
+
+    static $defaultName = 'VCALENDAR';
 
     /**
      * Returns a list of all 'base components'. For instance, if an Event has
