@@ -165,4 +165,16 @@ class MultiDateTime extends VObject\Property {
 
     }
 
+    /**
+     * This method will return true, if the property had a date and a time, as
+     * opposed to only a date.
+     *
+     * @return bool
+     */
+    public function hasTime() {
+
+        return $this->getDateType()!==DateTime::DATE;
+
+    }
+
 }

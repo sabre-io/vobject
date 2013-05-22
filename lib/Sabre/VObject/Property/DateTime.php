@@ -145,6 +145,18 @@ class DateTime extends VObject\Property {
     }
 
     /**
+     * This method will return true, if the property had a date and a time, as
+     * opposed to only a date.
+     *
+     * @return bool
+     */
+    public function hasTime() {
+
+        return $this->getDateType()!==self::DATE;
+
+    }
+
+    /**
      * Parses the internal data structure to figure out what the current date
      * and time is.
      *

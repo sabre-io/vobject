@@ -1,3 +1,13 @@
+2.1.0-stable (2013-??-??)
+	* This version is fully backwards compatible with 2.0.*. However, it
+	  contains a few new API's that mimic the VObject 3 API. This allows it to
+	  be used a 'bridge' version.
+	  Specifically, this new version exists so SabreDAV 1.7 and 1.8 can run with
+	  both the 2 and 3 versions of this library.
+	* Added: Property\DateTime::hasTime().
+	* Added: Property\MultiDateTime::hasTime().
+
+
 2.0.7-stable (2013-03-05)
 	* Fixed: Microsoft re-uses their magic numbers for different timezones,
 	  specifically id 2 for both Sarajevo and Lisbon). A workaround was added
