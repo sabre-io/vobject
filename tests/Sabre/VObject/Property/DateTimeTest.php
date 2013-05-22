@@ -29,6 +29,8 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
         $this->assertEquals('DATE-TIME', (string)$elem['VALUE']);
 
+        $this->assertTrue($elem->hasTime());
+
     }
 
     function testSetDateTimeLOCAL() {
@@ -43,6 +45,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('19850704T013000', (string)$elem);
         $this->assertNull($elem['TZID']);
 
+        $this->assertTrue($elem->hasTime());
     }
 
     function testSetDateTimeUTC() {
@@ -57,6 +60,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('19850704T013000Z', (string)$elem);
         $this->assertNull($elem['TZID']);
 
+        $this->assertTrue($elem->hasTime());
     }
 
     function testSetDateTimeLOCALTZ() {
@@ -71,6 +75,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('19850704T013000', (string)$elem);
         $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
 
+        $this->assertTrue($elem->hasTime());
     }
 
     function testSetDateTimeDATE() {
@@ -87,6 +92,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $this->assertNull($elem['TZID']);
         $this->assertEquals('DATE', (string)$elem['VALUE']);
 
+        $this->assertFalse($elem->hasTime());
     }
 
     function testGetDateTimeCached() {
