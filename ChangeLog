@@ -1,3 +1,6 @@
+3.0.0-alpha2 (2013-05-??)
+	* Fixed: vCard URL properties were referencing a non-existant class.
+
 3.0.0-alpha1 (2013-05-21)
 	* Fixed: Now correctly dealing with escaping of properties. This solves
 	  the problem with double-backslashes where they don't belong.

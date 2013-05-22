@@ -59,7 +59,7 @@ class VCard extends VObject\Document {
         'NOTE'    => 'FlatText',
         'REV'     => 'DateTime',
         'SOUND'   => 'FlatText',
-        'URL'     => 'Url',
+        'URL'     => 'Uri',
         'UID'     => 'FlatText',
         'VERSION' => 'FlatText',
         'KEY'     => 'FlatText',
@@ -72,12 +72,12 @@ class VCard extends VObject\Document {
         'CLASS'       => 'FlatText', // Removed in vCard 4.0
 
         // rfc2739 properties
-        'FBURL'        => 'Url',
-        'CAPURI'       => 'Url',
-        'CALURI'       => 'Url',
+        'FBURL'        => 'Uri',
+        'CAPURI'       => 'Uri',
+        'CALURI'       => 'Uri',
 
         // rfc4770 properties
-        'IMPP'         => 'Url',
+        'IMPP'         => 'Uri',
 
         // vCard 4.0 properties
         'XML'          => 'FlatText',
