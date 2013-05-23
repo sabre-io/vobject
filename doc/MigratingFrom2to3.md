@@ -285,6 +285,7 @@ $card = new \Sabre\VObject\Component\VCard();
 $location = $card->add('LOCATION','Home');
 
 ?>
+```
 
 In this case it doesn't make much of a difference, but when constructing
 highly complex objects with sub-components, this _will_ make a big difference.
@@ -406,7 +407,7 @@ $calendar->VERSION = '2.0';
 ?>
 ```
 
-Then nothing will go wrong, and the properties will simply be overridden.
+Then nothing will go wrong, and the properties will simply be overwritten.
 However, if you used `add()` before in this manner:
 
 ```php
