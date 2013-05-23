@@ -29,7 +29,7 @@ class VCalendar extends VObject\Document {
      *
      * @var array
      */
-    public $componentMap = array(
+    static public $componentMap = array(
         'VEVENT'    => 'VEvent',
         'VFREEBUSY' => 'VFreeBusy',
         'VJOURNAL'  => 'VJournal',
@@ -42,7 +42,7 @@ class VCalendar extends VObject\Document {
      *
      * @var array
      */
-    public $propertyMap = array(
+    static public $propertyMap = array(
         // Calendar properties
         'CALSCALE'      => 'FlatText',
         'METHOD'        => 'FlatText',

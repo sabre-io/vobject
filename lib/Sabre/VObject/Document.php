@@ -62,21 +62,21 @@ abstract class Document extends Component {
      *
      * @var array
      */
-    public $propertyMap = array();
+    static public $propertyMap = array();
 
     /**
      * List of components, along with which classes they map to.
      *
      * @var array
      */
-    public $componentMap = array();
+    static public $componentMap = array();
 
     /**
      * List of value-types, and which classes they map to.
      *
      * @var array
      */
-    public $valueMap = array(
+    static public $valueMap = array(
         'BINARY'           => 'Binary',
         'BOOLEAN'          => 'Boolean',
         'CONTENT-ID'       => 'FlatText', // vCard 2.1 only
@@ -150,7 +150,7 @@ abstract class Document extends Component {
      */
     public function create($name) {
 
-        if (isset($this->componentMap[strtoupper($name)])) {
+        if (isset(static::$componentMap[strtoupper($name)])) {
 
             return call_user_func_array(array($this,'createComponent'), func_get_args());
 
@@ -186,8 +186,8 @@ abstract class Document extends Component {
         $name = strtoupper($name);
         $class = 'Sabre\\VObject\\Component';
 
-        if (isset($this->componentMap[$name])) {
-            $class.='\\' . $this->componentMap[$name];
+        if (isset(static::$componentMap[$name])) {
+            $class.='\\' . static::$componentMap[$name];
         }
         return new $class($this, $name, $children, $defaults);
 
@@ -225,8 +225,8 @@ abstract class Document extends Component {
         if (isset($parameters['VALUE'])) {
             $class=$this->getClassNameForPropertyValue($parameters['VALUE']);
         }
-        if (is_null($class) && isset($this->propertyMap[$name])) {
-            $class='Sabre\\VObject\\Property\\' .$this->propertyMap[$name];
+        if (is_null($class) && isset(static::$propertyMap[$name])) {
+            $class='Sabre\\VObject\\Property\\' .static::$propertyMap[$name];
         }
         if (is_null($class)) {
             $class='Sabre\\VObject\\Property\\Text';
@@ -250,8 +250,8 @@ abstract class Document extends Component {
     public function getClassNameForPropertyValue($valueParam) {
 
         $valueParam = strtoupper($valueParam);
-        if (isset($this->valueMap[$valueParam])) {
-            return 'Sabre\\VObject\\Property\\' . $this->valueMap[$valueParam];
+        if (isset(static::$valueMap[$valueParam])) {
+            return 'Sabre\\VObject\\Property\\' . static::$valueMap[$valueParam];
         }
 
     }

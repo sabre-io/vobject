@@ -37,7 +37,7 @@ class VCard extends VObject\Document {
      *
      * @var array
      */
-    public $propertyMap = array(
+    static public $propertyMap = array(
 
         // vCard 2.1 properties and up
         'N'       => 'Text',
