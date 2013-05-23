@@ -1,6 +1,8 @@
 3.0.0-alpha3 (2013-05-??)
 	* Changed: propertyMap, valueMap and componentMap are now static
 	  properties.
+	* Changed: Component::remove() will throw an exception when trying to
+	  a node that's not a child of said component.
 
 3.0.0-alpha2 (2013-05-22)
 	* Fixed: vCard URL properties were referencing a non-existant class.
