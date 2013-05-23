@@ -19,6 +19,22 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testCreate() {
+
+        $cal = new VCalendar();
+
+        $params = array(
+            'param1' => 'value1',
+            $cal->createParameter('param2','value2'),
+        );
+
+        $property = $cal->createProperty('propname','propvalue', $params);
+
+        $this->assertEquals('value1', $property['param1']->getValue());
+        $this->assertEquals('value2', $property['param2']->getValue());
+
+    }
+
     public function testParameterExists() {
 
         $cal = new VCalendar();
@@ -291,7 +307,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $property['FOO'] = 'BAR';
 
         $property2 = clone $property;
-        
+
         $property['FOO'] = 'BAZ';
         $this->assertEquals('BAR', (string)$property2['FOO']);
 
@@ -357,4 +373,33 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('str', $property->getValue());
     }
 
+    /**
+     * ElementList should reject this.
+     *
+     * @expectedException \LogicException
+     */
+    public function testArrayAccessSetInt() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty("X-PROP", null);
+
+        $calendar->add($property);
+        $calendar->{'X-PROP'}[0] = 'Something!';
+
+    }
+
+    /**
+     * ElementList should reject this.
+     *
+     * @expectedException \LogicException
+     */
+    public function testArrayAccessUnsetInt() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty("X-PROP", null);
+
+        $calendar->add($property);
+        unset($calendar->{'X-PROP'}[0]);
+
+    }
 }

@@ -431,4 +431,40 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('12345', $comp->VEVENT->UID->getValue());
 
     }
+
+    function testRemoveByName() {
+
+        $comp = new VCalendar(array(), false);
+        $comp->add('prop1','val1');
+        $comp->add('prop2','val2');
+        $comp->add('prop2','val2');
+
+        $comp->remove('prop2');
+        $this->assertFalse(isset($comp->prop2));
+        $this->assertTrue(isset($comp->prop1));
+
+    }
+
+    function testRemoveByObj() {
+
+        $comp = new VCalendar(array(), false);
+        $comp->add('prop1','val1');
+        $prop = $comp->add('prop2','val2');
+
+        $comp->remove($prop);
+        $this->assertFalse(isset($comp->prop2));
+        $this->assertTrue(isset($comp->prop1));
+
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    function testRemoveNotFound() {
+
+        $comp = new VCalendar(array(), false);
+        $prop = $comp->createProperty('A','B');
+        $comp->remove($prop);
+
+    }
 }

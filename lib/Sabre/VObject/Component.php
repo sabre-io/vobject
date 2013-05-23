@@ -138,6 +138,9 @@ class Component extends Node {
                     return $child;
                 }
             }
+
+            throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
+
         }
 
     }

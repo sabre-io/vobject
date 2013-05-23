@@ -342,7 +342,11 @@ abstract class Property extends Node {
 
         if (is_int($name)) {
             parent::offsetSet($name, $value);
+            // @codeCoverageIgnoreStart
+            // This will never be reached, because an exception is always
+            // thrown.
             return;
+            // @codeCoverageIgnoreEnd
         }
 
         if (is_scalar($value)) {
@@ -396,7 +400,11 @@ abstract class Property extends Node {
 
         if (is_int($name)) {
             parent::offsetUnset($name);
+            // @codeCoverageIgnoreStart
+            // This will never be reached, because an exception is always
+            // thrown.
             return;
+            // @codeCoverageIgnoreEnd
         }
 
         $name = strtoupper($name);
