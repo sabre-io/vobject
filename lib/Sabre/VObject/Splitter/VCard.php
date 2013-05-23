@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject\Splitter;
 
-use Sabre\VObject;
+use
+    Sabre\VObject,
+    Sabre\VObject\Parser\MimeDir;
 
 /**
  * Splitter
@@ -28,6 +30,13 @@ class VCard implements SplitterInterface {
     protected $input;
 
     /**
+     * Persistent parser
+     *
+     * @var MimeDir
+     */
+    protected $parser;
+
+    /**
      * Constructor
      *
      * The splitter should receive an readable file stream as it's input.
@@ -37,6 +46,7 @@ class VCard implements SplitterInterface {
     public function __construct($input) {
 
         $this->input = $input;
+        $this->parser = new MimeDir($input);
 
     }
 
@@ -50,23 +60,10 @@ class VCard implements SplitterInterface {
      */
     public function getNext() {
 
-        $vcard = '';
-
-        do {
-
-            if (feof($this->input)) {
-                return false;
-            }
-
-            $line = fgets($this->input);
-            $vcard .= $line;
-
-        } while(strtoupper(substr($line,0,4))!=="END:");
-
-        $object = VObject\Reader::read($vcard);
-
-        if($object->name !== 'VCARD') {
-            throw new \InvalidArgumentException("Thats no vCard!", 1);
+        try {
+            $object = $this->parser->parse();
+        } catch (VObject\EofException $e) {
+            return null;
         }
 
         return $object;

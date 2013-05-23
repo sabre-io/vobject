@@ -37,7 +37,7 @@ EOT;
         $data = <<<EOT
 BEGIN:VCARD
 UID:card-in-foo1-and-foo2
-CATEGORIES:foo1\,foo2
+CATEGORIES:foo1,foo2
 END:VCARD
 BEGIN:VCARD
 UID:card-in-foo1
@@ -54,14 +54,14 @@ END:VCARD
 EOT;
         $tempFile = $this->createStream($data);
 
-        $objects = new VCard($tempFile);
+        $splitter = new VCard($tempFile);
 
-        $return = "";
-        while($object=$objects->getNext()) {
-            $return .= $object->serialize();
+        $count = 0;
+        while($object=$splitter->getNext()) {
+            $count++;
         }
+        $this->assertEquals(4, $count);
 
-        VObject\Reader::read($return);
     }
 
     function testVCardImportEndOfData() {
@@ -75,7 +75,7 @@ EOT;
         $objects = new VCard($tempFile);
         $object=$objects->getNext();
 
-        $this->assertFalse($object=$objects->getNext());
+        $this->assertNull($objects->getNext());
 
 
     }

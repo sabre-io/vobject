@@ -4,6 +4,7 @@ namespace Sabre\VObject\Parser;
 
 use
     Sabre\VObject\ParseException,
+    Sabre\VObject\EofException,
     Sabre\VObject\Component,
     Sabre\VObject\Property,
     Sabre\VObject\Component\VCalendar,
@@ -58,18 +59,59 @@ class MimeDir {
     protected $root;
 
     /**
+     * Creates the parser.
+     *
+     * Optionally, it's possible to parse the input stream here.
+     *
+     * @param resource|null|string $input
+     * @return void
+     */
+    public function __construct($input = null) {
+
+        if (!is_null($input)) {
+            $this->setInput($input);
+        }
+
+    }
+
+    /**
      * Parses an iCalendar or vCard file
      *
-     * @param string|resource $input
+     * Pass a stream or a string. If null is parsed, the existing buffer is
+     * used.
+     *
+     * @param string|resource|null $input
      * @param int $options
      * @return array
      */
-    public function parse($input, $options = 0) {
+    public function parse($input = null, $options = 0) {
+
+        $this->root = null;
+        if (!is_null($input)) {
+
+            $this->setInput($input);
+
+        }
+
+        $this->options = $options;
+
+        $this->parseDocument();
+
+        return $this->root;
+
+    }
+
+    /**
+     * Sets the input buffer. Must be a string or stream.
+     *
+     * @param resource|string $input
+     * @return void
+     */
+    public function setInput($input) {
 
         // Resetting the parser
         $this->lineIndex = 0;
         $this->startLine = 0;
-        $this->root = null;
 
         if (is_string($input)) {
             // Convering to a stream.
@@ -80,12 +122,6 @@ class MimeDir {
         } else {
             $this->input = $input;
         }
-
-        $this->options = $options;
-
-        $this->parseDocument();
-
-        return $this->root;
 
     }
 
@@ -218,11 +254,19 @@ class MimeDir {
     protected function readLine() {
 
         if (!is_null($this->lineBuffer)) {
-            $rawLine = $line = $this->lineBuffer;
+            $rawLine = $this->lineBuffer;
+            $this->lineBuffer = null;
         } else {
-            $rawLine = $line = rtrim(fgets($this->input), "\r\n");
+            do {
+                $rawLine = fgets($this->input);
+                if ($rawLine === false && feof($this->input)) {
+                    throw new EofException('End of document reached prematurely');
+                }
+            } while ($rawLine===''); // Skipping empty lines
+            $rawLine = rtrim($rawLine, "\r\n");
             $this->lineIndex++;
         }
+        $line = $rawLine;
 
         $this->startLine = $this->lineIndex;
 

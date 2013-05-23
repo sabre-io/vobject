@@ -45,7 +45,7 @@ class ICalendar implements SplitterInterface {
      */
     public function __construct($input) {
 
-        $data = VObject\Reader::read(stream_get_contents($input));
+        $data = VObject\Reader::read($input);
         $vtimezones = array();
         $components = array();
 
