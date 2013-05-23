@@ -421,4 +421,17 @@ $calendar->add('version', '2.0');
 
 You will end up with 2 VERSION properties, making the document invalid.
 
+### componentMap and propertyMap properties have moved.
+
+When you wanted to automatically map certain components or properties to
+certain PHP classes, you could do so with `Component::$componentMap` and
+`Property::$propertyMap`.
+
+These properties have now moved to the document classes:
+
+* `Component\VCalendar::$propertyMap`
+* `Component\VCalendar::$componentMap`
+* `Component\VCard::$propertyMap`
+* `Component\VCalaendar::$componentMap`
+
 [1]: http://tools.ietf.org/html/rfc6868
