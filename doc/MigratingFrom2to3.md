@@ -432,6 +432,6 @@ These properties have now moved to the document classes:
 * `Component\VCalendar::$propertyMap`
 * `Component\VCalendar::$componentMap`
 * `Component\VCard::$propertyMap`
-* `Component\VCalaendar::$componentMap`
+* `Component\VCard::$componentMap`
 
 [1]: http://tools.ietf.org/html/rfc6868
