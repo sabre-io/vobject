@@ -353,7 +353,7 @@ class RecurrenceIterator implements \Iterator {
             $this->count = 1;
         } else foreach($rrule->getParts() as $key=>$value) {
 
-            switch(strtoupper($key)) {
+            switch($key) {
 
                 case 'FREQ' :
                     if (!in_array(

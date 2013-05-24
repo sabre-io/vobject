@@ -42,10 +42,12 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
         $ev->RRULE = 'FREQ=SMONTHLY;INTERVAL=3;UNTIL=20111025T000000Z';
+        $ev->UID = 'foo';
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new DateTime('2011-10-07', new DateTimeZone('UTC')));
 
         $ev->add($dtStart);
+        $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 

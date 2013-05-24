@@ -36,6 +36,27 @@ class DocumentTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals("BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nX-PROP;X-PARAM=3:1234256\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n", $out);
 
     }
+
+    function testCreate() {
+
+        $vcal = new Component\VCalendar(array(), false);
+
+        $event = $vcal->create('VEVENT');
+        $this->assertInstanceOf('Sabre\VObject\Component\VEvent', $event);
+
+        $event = $vcal->create('CALSCALE');
+        $this->assertInstanceOf('Sabre\VObject\Property\Text', $event);
+
+    }
+
+    function testGetClassNameForPropertyValue() {
+
+        $vcal = new Component\VCalendar(array(), false);
+        $this->assertEquals('Sabre\\VObject\\Property\\Text', $vcal->getClassNameForPropertyValue('TEXT'));
+        $this->assertNull($vcal->getClassNameForPropertyValue('FOO'));
+
+    }
+
 }
 
 
