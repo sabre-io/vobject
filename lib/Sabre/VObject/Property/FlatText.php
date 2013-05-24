@@ -26,4 +26,19 @@ class FlatText extends Text {
 
     protected $delimiter = null;
 
+    /**
+     * Sets the value as a quoted-printable encoded string.
+     *
+     * Overriding this so we're not splitting on a ; delimiter.
+     *
+     * @param string $val
+     * @return void
+     */
+    public function setQuotedPrintableValue($val) {
+
+        $val = quoted_printable_decode($val);
+        $this->setValue($val);
+
+    }
+
 }

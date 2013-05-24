@@ -33,6 +33,28 @@ class Text extends Property {
     }
 
     /**
+     * Sets the value as a quoted-printable encoded string.
+     *
+     * @param string $val
+     * @return void
+     */
+    public function setQuotedPrintableValue($val) {
+
+        $val = quoted_printable_decode($val);
+
+        // Quoted printable only appears in vCard 2.1, and the only character
+        // that may be escaped there is ;. So we are simply splitting on just
+        // that.
+        //
+        // We also don't have to unescape \\, so all we need to look for is a ;
+        // that's not preceeded with a \.
+        $regex = '# (?<!\\\\) ; #x';
+        $matches = preg_split($regex, $val);
+        $this->setValue($val);
+
+    }
+
+    /**
      * Returns a raw mime-dir representation of the value.
      *
      * @return string

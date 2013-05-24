@@ -395,7 +395,7 @@ class MimeDir {
         $propObj = $this->root->createProperty($property['name'], null, $property['parameters']);
 
         if (isset($property['parameters']['ENCODING']) && strtoupper($property['parameters']['ENCODING']) === 'QUOTED-PRINTABLE') {
-            $propObj->setValue($this->extractQuotedPrintableValue());
+            $propObj->setQuotedPrintableValue($this->extractQuotedPrintableValue());
         } else {
             $propObj->setRawMimeDirValue($property['value']);
         }
@@ -564,9 +564,14 @@ class MimeDir {
     }
 
     /**
-     * Gets the quoted-printable value, and decodes it.
+     * Gets the full quoted printable value.
      *
-     * @return void
+     * We need a special method for this, because newlines have both a meaning
+     * in vCards, and in QuotedPrintable.
+     *
+     * This method does not do any decoding.
+     *
+     * @return string
      */
     private function extractQuotedPrintableValue() {
 
@@ -600,7 +605,7 @@ class MimeDir {
             }
         }
 
-        return quoted_printable_decode($value);
+        return $value;
 
     }
 
