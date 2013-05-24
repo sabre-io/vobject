@@ -421,7 +421,7 @@ class Component extends Node {
      * Validates the node for correctness.
      *
      * The following options are supported:
-     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *   - Node::REPAIR - If something is broken, an automatic repair may
      *                    be attempted.
      *
      * An array is returned with warnings.
