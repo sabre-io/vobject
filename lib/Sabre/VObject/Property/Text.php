@@ -48,6 +48,7 @@ class Text extends Property {
                 ';'  => '\;',
                 ','  => '\,',
                 "\n" => '\n',
+                "\r" => "",
             ));
 
         }
