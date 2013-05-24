@@ -36,7 +36,11 @@ class Recur extends Property {
     public function setValue($value) {
 
         if (is_array($value)) {
-            $this->value = $value;
+            $newVal = array();
+            foreach($value as $k=>$v) {
+                $newVal[strtoupper($k)] = strtoupper($v);
+            }
+            $this->value = $newVal;
         } elseif (is_string($value)) {
             $value = strtoupper($value);
             $newValue = array();

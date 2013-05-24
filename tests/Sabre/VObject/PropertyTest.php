@@ -35,6 +35,18 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testSetValue() {
+
+        $cal = new VCalendar();
+
+        $property = $cal->createProperty('propname','propvalue');
+        $property->setValue('value2');
+
+        $this->assertEquals('PROPNAME', $property->name);
+        $this->assertEquals('value2', $property->__toString());
+
+    }
+
     public function testParameterExists() {
 
         $cal = new VCalendar();
@@ -402,4 +414,5 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         unset($calendar->{'X-PROP'}[0]);
 
     }
+
 }

@@ -95,6 +95,62 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($elem->hasTime());
     }
 
+    function testSetValue() {
+
+        $tz = new \DateTimeZone('Europe/Amsterdam');
+        $dt = new \DateTime('1985-07-04 01:30:00', $tz);
+        $dt->setTimeZone($tz);
+
+        $elem = $this->vcal->createProperty('DTSTART');
+        $elem->setValue($dt);
+
+        $this->assertEquals('19850704T013000', (string)$elem);
+        $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
+        $this->assertEquals('DATE-TIME', (string)$elem['VALUE']);
+
+        $this->assertTrue($elem->hasTime());
+
+    }
+
+    function testSetValueArray() {
+
+        $tz = new \DateTimeZone('Europe/Amsterdam');
+        $dt1 = new \DateTime('1985-07-04 01:30:00', $tz);
+        $dt2 = new \DateTime('1985-07-04 02:30:00', $tz);
+        $dt1->setTimeZone($tz);
+        $dt2->setTimeZone($tz);
+
+        $elem = $this->vcal->createProperty('DTSTART');
+        $elem->setValue(array($dt1,$dt2));
+
+        $this->assertEquals('19850704T013000,19850704T023000', (string)$elem);
+        $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
+        $this->assertEquals('DATE-TIME', (string)$elem['VALUE']);
+
+        $this->assertTrue($elem->hasTime());
+
+    }
+
+    function testSetParts() {
+
+        $tz = new \DateTimeZone('Europe/Amsterdam');
+        $dt1 = new \DateTime('1985-07-04 01:30:00', $tz);
+        $dt2 = new \DateTime('1985-07-04 02:30:00', $tz);
+        $dt1->setTimeZone($tz);
+        $dt2->setTimeZone($tz);
+
+        $elem = $this->vcal->createProperty('DTSTART');
+        $elem->setParts(array($dt1,$dt2));
+
+        $this->assertEquals('19850704T013000,19850704T023000', (string)$elem);
+        $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
+        $this->assertEquals('DATE-TIME', (string)$elem['VALUE']);
+
+        $this->assertTrue($elem->hasTime());
+
+    }
+
+
     function testGetDateTimeCached() {
 
         $tz = new \DateTimeZone('Europe/Amsterdam');

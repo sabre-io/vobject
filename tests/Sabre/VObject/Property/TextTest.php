@@ -43,6 +43,15 @@ class TextTest extends \PHPUnit_Framework_TestCase {
         );
 
     }
+    function testSerializeVCard21Fold() {
+
+        $this->assertVCard21Serialization(
+            str_repeat('x',80),
+            'PROP;P1=V1:' . str_repeat('x',64) . "\r\n " . str_repeat('x',16)
+        );
+
+    }
+
 
 
     function testSerializeQuotedPrintable() {
