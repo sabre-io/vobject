@@ -125,7 +125,7 @@ class VCard extends VObject\Document {
      *
      * If the VCARD doesn't know its version, 4.0 is assumed.
      */
-    const DEFAULT_VERSION = self::VCARD40;
+    const DEFAULT_VERSION = self::VCARD21;
 
     /**
      * Validates the node for correctness.
@@ -173,7 +173,7 @@ class VCard extends VObject\Document {
                     'node' => $this,
                 );
                 if ($options & self::REPAIR) {
-                    $this->VERSION = '4.0';
+                    $this->VERSION = $versionMap[self::DEFAULT_VERSION];
                 }
             }
 

@@ -48,7 +48,7 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
             array(
                 'The VERSION property must appear in the VCARD component exactly 1 time',
             ),
-            "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:John Doe\r\nEND:VCARD\r\n",
+            "BEGIN:VCARD\r\nVERSION:2.1\r\nFN:John Doe\r\nEND:VCARD\r\n",
         );
 
         // Unknown version
@@ -57,7 +57,7 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
             array(
                 'Only vcard version 4.0 (RFC6350), version 3.0 (RFC2426) or version 2.1 (icm-vcard-2.1) are supported.',
             ),
-            "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:John Doe\r\nEND:VCARD\r\n",
+            "BEGIN:VCARD\r\nVERSION:2.1\r\nFN:John Doe\r\nEND:VCARD\r\n",
         );
 
         // No FN
