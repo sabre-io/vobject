@@ -4,7 +4,8 @@ namespace Sabre\VObject\Property;
 
 use
     Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir;
+    Sabre\VObject\Parser\MimeDir,
+    Sabre\VObject\Document;
 
 /**
  * Text property
@@ -55,6 +56,30 @@ class Text extends Property {
     }
 
     /**
+     * Returns a quoted-printable encoded string.
+     *
+     * @return string
+     */
+    public function getQuotedPrintableValue() {
+
+        $val = $this->getParts();
+
+        // Imploding multiple parts into a single value, and splitting the
+        // values with ;.
+        if (count($val)>1) {
+            foreach($val as $k=>$v) {
+                $val[$k] = str_replace(';','\;', $v);
+            }
+            $val = implode(';', $val);
+        }
+
+        $val = quoted_printable_decode($val);
+
+        return $val;
+
+    }
+
+    /**
      * Returns a raw mime-dir representation of the value.
      *
      * @return string
@@ -76,6 +101,95 @@ class Text extends Property {
         }
 
         return implode($this->delimiter, $val);
+
+    }
+
+    /**
+     * Turns the object back into a serialized blob.
+     *
+     * @return string
+     */
+    public function serialize() {
+
+        // We need to kick in a special type of encoding, if it's a 2.1 vcard.
+        if ($this->root->getDocumentType() !== Document::VCARD21) {
+            return parent::serialize();
+        }
+
+        $val = $this->getParts();
+
+        // Imploding multiple parts into a single value, and splitting the
+        // values with ;.
+        if (count($val)>1) {
+            foreach($val as $k=>$v) {
+                $val[$k] = str_replace(';','\;', $v);
+            }
+            $val = implode(';', $val);
+        } else {
+            $val = $val[0];
+        }
+
+        $str = $this->name;
+        if ($this->group) $str = $this->group . '.' . $this->name;
+        foreach($this->parameters as $param) {
+
+            if ($param->getValue() === 'QUOTED-PRINTABLE') {
+                continue;
+            }
+            $str.=';' . $param->serialize();
+
+        }
+
+
+
+        // If the resulting value contains a \n, we must encode it as
+        // quoted-printable.
+        if (strpos($val,"\n") !== false) {
+
+            $str.=';ENCODING=QUOTED-PRINTABLE:';
+            $lastLine=$str;
+            $out = null;
+
+            // The PHP built-in quoted-printable-encode does not correctly
+            // encode newlines for us. Specifically, the \r\n sequence must in
+            // vcards be encoded as =0D=OA and we must insert soft-newlines
+            // every 75 bytes.
+            for($ii=0;$ii<strlen($val);$ii++) {
+                $ord = ord($val[$ii]);
+                // These characters are encoded as themselves.
+                if ($ord >= 32 && $ord <=126) {
+                    $lastLine.=$val[$ii];
+                } else {
+                    $lastLine.='=' . strtoupper(bin2hex($val[$ii]));
+                }
+                if (strlen($lastLine)>=75) {
+                    // Soft line break
+                    $out.=$lastLine. "=\r\n ";
+                    $lastLine = null;
+                }
+
+            }
+            if (!is_null($lastLine)) $out.= $lastLine . "\r\n";
+            return $out;
+
+        } else {
+            $str.=':' . $val;
+            $out = '';
+            while(strlen($str)>0) {
+                if (strlen($str)>75) {
+                    $out.= mb_strcut($str,0,75,'utf-8') . "\r\n";
+                    $str = ' ' . mb_strcut($str,75,strlen($str),'utf-8');
+                } else {
+                    $out.=$str . "\r\n";
+                    $str='';
+                    break;
+                }
+            }
+
+            return $out;
+
+
+        }
 
     }
 
