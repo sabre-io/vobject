@@ -56,30 +56,6 @@ class Text extends Property {
     }
 
     /**
-     * Returns a quoted-printable encoded string.
-     *
-     * @return string
-     */
-    public function getQuotedPrintableValue() {
-
-        $val = $this->getParts();
-
-        // Imploding multiple parts into a single value, and splitting the
-        // values with ;.
-        if (count($val)>1) {
-            foreach($val as $k=>$v) {
-                $val[$k] = str_replace(';','\;', $v);
-            }
-            $val = implode(';', $val);
-        }
-
-        $val = quoted_printable_decode($val);
-
-        return $val;
-
-    }
-
-    /**
      * Returns a raw mime-dir representation of the value.
      *
      * @return string
