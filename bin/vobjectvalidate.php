@@ -91,49 +91,46 @@ if (isset($posArgs[1]) && $posArgs[1]!=='-') {
     $output = STDOUT;
 }
 
-// This is a bit of a hack to easily support multiple objects in a single file.
-$inputStr = "BEGIN:X-SABRE-WRAPPER\r\n" . stream_get_contents($input);
+$parser = new Parser\MimeDir($input);
 
-$inputStr = rtrim($inputStr, "\r\n") . "\r\nEND:X-SABRE-WRAPPER\r\n";
+try {
 
-// Now the actual work.
-$vObj = Reader::read($inputStr);
+    while($vObj = $parser->parse()) {
 
-$objects = $vObj->children();
+        switch($vObj->name) {
+            case 'VCALENDAR' :
+                fwrite(STDERR, "iCalendar: " . (string)$vObj->VERSION . "\n");
+                break;
+            case 'VCARD' :
+                fwrite(STDERR, "vCard: " . (string)$vObj->VERSION . "\n");
+                break;
+            default :
+                fwrite(STDERR, "This was an unknown object, but it did parse. It's likely that validation will give you unexpected results.\n");
+                break;
+        }
 
-foreach($objects as $child) {
+        $options = 0;
+        if ($repair) $options |= Node::REPAIR;
 
-    switch($child->name) {
-        case 'VCALENDAR' :
-            fwrite(STDERR, "iCalendar: " . (string)$child->VERSION . "\n");
-            break;
-        case 'VCARD' :
-            fwrite(STDERR, "vCard: " . (string)$child->VERSION . "\n");
-            break;
-        default :
-            fwrite(STDERR, "This was an unknown object, but it did parse. It's likely that validation will give you unexpected results.\n");
-            break;
-    }
+        $warnings = $vObj->validate($options);
 
-    $options = 0;
-    if ($repair) $options |= Node::REPAIR;
+        if (!count($warnings)) {
+            fwrite(STDERR, "[GOOD NEWS] No warnings!\n");
+        } else {
+            foreach($warnings as $warn) {
 
-    $warnings = $child->validate($options);
+                fwrite(STDERR, $warn['message'] . "\n");
 
-    if (!count($warnings)) {
-        fwrite(STDERR, "[GOOD NEWS] No warnings!\n");
-    } else {
-        foreach($warnings as $warn) {
+            }
 
-            fwrite(STDERR, $warn['message'] . "\n");
+        }
 
+        if ($repair) {
+            fwrite($output, $vObj->serialize());
         }
 
     }
 
-    if ($repair) {
-        fwrite($output, $child->serialize());
-    }
-
+} catch (EofException $e) {
+    //noop
 }
-

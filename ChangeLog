@@ -7,6 +7,7 @@
 	  reported and use less memory.
 	* Added: MimeDir parser can now continue parsing with the same stream
 	  buffer.
+	* Fixed: vobjectvalidate.php is operational again.
 
 3.0.0-alpha2 (2013-05-22)
 	* Fixed: vCard URL properties were referencing a non-existant class.
