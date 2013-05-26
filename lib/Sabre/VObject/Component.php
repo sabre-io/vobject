@@ -53,7 +53,7 @@ class Component extends Node {
         $this->root = $root;
 
         if ($defaults) {
-            $children += $this->getDefaults();
+            $children = array_merge($this->getDefaults(), $children);
         }
 
         foreach($children as $k=>$child) {
