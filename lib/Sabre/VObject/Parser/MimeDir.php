@@ -64,13 +64,15 @@ class MimeDir {
      * Optionally, it's possible to parse the input stream here.
      *
      * @param resource|null|string $input
+     * @param int $options Any parser options (OPTION constants).
      * @return void
      */
-    public function __construct($input = null) {
+    public function __construct($input = null, $options = 0) {
 
         if (!is_null($input)) {
             $this->setInput($input);
         }
+        $this->options = $options;
 
     }
 
@@ -81,10 +83,10 @@ class MimeDir {
      * used.
      *
      * @param string|resource|null $input
-     * @param int $options
+     * @param int|null $options
      * @return array
      */
-    public function parse($input = null, $options = 0) {
+    public function parse($input = null, $options = null) {
 
         $this->root = null;
         if (!is_null($input)) {
@@ -93,7 +95,7 @@ class MimeDir {
 
         }
 
-        $this->options = $options;
+        if (!is_null($options)) $this->options = $options;
 
         $this->parseDocument();
 

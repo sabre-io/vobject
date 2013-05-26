@@ -42,10 +42,11 @@ class ICalendar implements SplitterInterface {
      * The splitter should receive an readable file stream as it's input.
      *
      * @param resource $input
+     * @param int $options Parser options, see the OPTIONS constants.
      */
-    public function __construct($input) {
+    public function __construct($input, $options = 0) {
 
-        $data = VObject\Reader::read($input);
+        $data = VObject\Reader::read($input, $options);
         $vtimezones = array();
         $components = array();
 

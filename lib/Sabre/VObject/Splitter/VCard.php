@@ -42,11 +42,12 @@ class VCard implements SplitterInterface {
      * The splitter should receive an readable file stream as it's input.
      *
      * @param resource $input
+     * @param int $options Parser options, see the OPTIONS constants.
      */
-    public function __construct($input) {
+    public function __construct($input, $options = 0) {
 
         $this->input = $input;
-        $this->parser = new MimeDir($input);
+        $this->parser = new MimeDir($input, $options);
 
     }
 

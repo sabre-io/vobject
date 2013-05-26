@@ -1,3 +1,6 @@
+3.0.0-alpha4 (2013-05-??)
+	* Added: It's now possible to send parser options to the splitter classes.
+
 3.0.0-alpha3 (2013-05-13)
 	* Changed: propertyMap, valueMap and componentMap are now static
 	  properties.
