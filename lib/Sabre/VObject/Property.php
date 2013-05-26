@@ -309,6 +309,11 @@ abstract class Property extends Node {
             }
             $parameters[$parameter->name] = $parameter->jsonSerialize();
         }
+        // In jCard, we need to encode the property-group as a separate 'group'
+        // parameter.
+        if ($this->group) {
+            $parameters['group'] = $this->group;
+        }
 
         return array_merge(
             array(

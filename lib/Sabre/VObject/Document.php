@@ -87,7 +87,7 @@ abstract class Document extends Component {
         'DURATION'         => 'Duration', // iCalendar only
         'FLOAT'            => 'Float',
         'INTEGER'          => 'Integer',
-        'LANGUAGE-TAG'     => 'FlatText', // vCard only
+        'LANGUAGE-TAG'     => 'LanguageTag', // vCard only
         'PERIOD'           => 'Period',   // iCalendar only
         'RECUR'            => 'Recur',    // iCalendar only
         'TIMESTAMP'        => 'FlatText', // vCard only

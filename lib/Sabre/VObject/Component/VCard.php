@@ -83,7 +83,7 @@ class VCard extends VObject\Document {
         'XML'          => 'FlatText',
         'ANNIVERSARY'  => 'DateTime',
         'CLIENTPIDMAP' => 'Text',
-        'LANG'         => 'FlatText',
+        'LANG'         => 'LanguageTag',
         'GENDER'       => 'Text',
         'KIND'         => 'FlatText',
 
@@ -221,6 +221,29 @@ class VCard extends VObject\Document {
         return array(
             'VERSION' => '3.0',
             'PRODID' => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
+        );
+
+    }
+
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in json. This is used to create jCard or jCal documents.
+     *
+     * @return array
+     */
+    public function jsonSerialize() {
+
+        // A vcard does not have sub-components, so we're overriding this
+        // method to remove that array element.
+        $properties = array();
+
+        foreach($this->children as $child) {
+            $properties[] = $child->jsonSerialize();
+        }
+
+        return array(
+            strtolower($this->name),
+            $properties,
         );
 
     }
