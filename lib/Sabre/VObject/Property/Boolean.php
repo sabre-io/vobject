@@ -30,7 +30,7 @@ class Boolean extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $val = strtolower($val)==='TRUE'?true:false;
+        $val = strtoupper($val)==='TRUE'?true:false;
         $this->setValue($val);
 
     }
