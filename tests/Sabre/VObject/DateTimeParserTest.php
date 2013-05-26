@@ -150,4 +150,205 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
         $dateTime = DateTimeParser::parseDate('20100316T141405');
 
     }
+
+    /**
+     * @dataProvider vcardDates
+     */
+    function testVCardDate($input, $output) {
+
+        $this->assertEquals(
+            $output,
+            DateTimeParser::parseVCardDateTime($input)
+        );
+
+    }
+
+    function vcardDates() {
+
+        return array(
+            array(
+                "19961022T140000",
+                array(
+                    "year" => 1996,
+                    "month" => 10,
+                    "date" => 22,
+                    "hour" => 14,
+                    "minute" => 00,
+                    "second" => 00,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "--1022T1400",
+                array(
+                    "year" => null,
+                    "month" => 10,
+                    "date" => 22,
+                    "hour" => 14,
+                    "minute" => 00,
+                    "second" => null,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "---22T14",
+                array(
+                    "year" => null,
+                    "month" => null,
+                    "date" => 22,
+                    "hour" => 14,
+                    "minute" => null,
+                    "second" => null,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "19850412",
+                array(
+                    "year" => 1985,
+                    "month" => 4,
+                    "date" => 12,
+                    "hour" => null,
+                    "minute" => null,
+                    "second" => null,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "1985-04",
+                array(
+                    "year" => 1985,
+                    "month" => null,
+                    "date" => 04,
+                    "hour" => null,
+                    "minute" => null,
+                    "second" => null,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "1985",
+                array(
+                    "year" => 1985,
+                    "month" => null,
+                    "date" => null,
+                    "hour" => null,
+                    "minute" => null,
+                    "second" => null,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "--0412",
+                array(
+                    "year" => null,
+                    "month" => 4,
+                    "date" => 12,
+                    "hour" => null,
+                    "minute" => null,
+                    "second" => null,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "---12",
+                array(
+                    "year" => null,
+                    "month" => null,
+                    "date" => 12,
+                    "hour" => null,
+                    "minute" => null,
+                    "second" => null,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "T102200",
+                array(
+                    "year" => null,
+                    "month" => null,
+                    "date" => null,
+                    "hour" => 10,
+                    "minute" => 22,
+                    "second" => 0,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "T1022",
+                array(
+                    "year" => null,
+                    "month" => null,
+                    "date" => null,
+                    "hour" => 10,
+                    "minute" => 22,
+                    "second" => null,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "T10",
+                array(
+                    "year" => null,
+                    "month" => null,
+                    "date" => null,
+                    "hour" => 10,
+                    "minute" => null,
+                    "second" => null,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "T-2200",
+                array(
+                    "year" => null,
+                    "month" => null,
+                    "date" => null,
+                    "hour" => null,
+                    "minute" => 22,
+                    "second" => 00,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "T--00",
+                array(
+                    "year" => null,
+                    "month" => null,
+                    "date" => null,
+                    "hour" => null,
+                    "minute" => null,
+                    "second" => 00,
+                    "timezone" => null
+                ),
+            ),
+            array(
+                "T102200Z",
+                array(
+                    "year" => null,
+                    "month" => null,
+                    "date" => null,
+                    "hour" => 10,
+                    "minute" => 22,
+                    "second" => 00,
+                    "timezone" => 'Z'
+                ),
+            ),
+            array(
+                "T102200-0800",
+                array(
+                    "year" => null,
+                    "month" => null,
+                    "date" => null,
+                    "hour" => 10,
+                    "minute" => 22,
+                    "second" => 00,
+                    "timezone" => '-0800'
+                ),
+            ),
+        );
+
+    }
+
+
 }
