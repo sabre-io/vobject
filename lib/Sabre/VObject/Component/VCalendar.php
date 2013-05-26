@@ -259,22 +259,6 @@ class VCalendar extends VObject\Document {
     }
 
     /**
-     * This method returns an array, with the representation as it should be
-     * encoded in json. This is used to create jCard or jCal documents.
-     *
-     * @return array
-     */
-    public function jsonSerialize() {
-
-        // The top-level document gets nested 1 level further.
-        return array(
-            "icalendar",
-            parent::jsonSerialize(),
-        );
-
-    }
-
-    /**
      * Validates the node for correctness.
      * An array is returned with warnings.
      *
