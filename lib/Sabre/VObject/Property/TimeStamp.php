@@ -3,15 +3,15 @@
 namespace Sabre\VObject\Property;
 
 /**
- * UtcOffset property
+ * TimeStamp property
  *
- * This object encodes UTC-OFFSET values.
+ * This object encodes TIMESTAMP values.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class UtcOffset extends Text {
+class TimeStamp extends Text {
 
     protected $delimiter = null;
 
@@ -25,7 +25,7 @@ class UtcOffset extends Text {
      */
     public function getValueType() {
 
-        return "UTC-OFFSET";
+        return "TIMESTAMP";
 
     }
 }
