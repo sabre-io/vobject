@@ -43,7 +43,7 @@ class VCard extends VObject\Document {
         'N'       => 'Text',
         'FN'      => 'FlatText',
         'PHOTO'   => 'Binary', // Todo: we should add a class for Binary values.
-        'BDAY'    => 'DateTime',
+        'BDAY'    => 'DateAndOrTime',
         'ADR'     => 'Text',
         'LABEL'   => 'FlatText', // Removed in vCard 4.0
         'TEL'     => 'FlatText',
@@ -57,7 +57,7 @@ class VCard extends VObject\Document {
                                  // not supported at the moment
         'ORG'     => 'Text',
         'NOTE'    => 'FlatText',
-        'REV'     => 'DateTime',
+        'REV'     => 'TimeStamp',
         'SOUND'   => 'FlatText',
         'URL'     => 'Uri',
         'UID'     => 'FlatText',
@@ -81,7 +81,7 @@ class VCard extends VObject\Document {
 
         // vCard 4.0 properties
         'XML'          => 'FlatText',
-        'ANNIVERSARY'  => 'DateTime',
+        'ANNIVERSARY'  => 'DateAndOrTime',
         'CLIENTPIDMAP' => 'Text',
         'LANG'         => 'LanguageTag',
         'GENDER'       => 'Text',
