@@ -75,8 +75,8 @@ class VCalendar extends VObject\Document {
         // Time Zone Component Properties
         'TZID'          => 'FlatText',
         'TZNAME'        => 'FlatText',
-        'TZOFFSETFROM'  => 'FlatText',
-        'TZOFFSETTO'    => 'FlatText',
+        'TZOFFSETFROM'  => 'UtcOffset',
+        'TZOFFSETTO'    => 'UtcOffset',
         'TZURL'         => 'Uri',
 
         // Relationship Component Properties

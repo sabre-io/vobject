@@ -87,7 +87,6 @@ class VCard extends VObject\Document {
         'GENDER'       => 'Text',
         'KIND'         => 'FlatText',
 
-
     );
 
     /**

@@ -4,7 +4,8 @@ namespace Sabre\VObject\Property;
 
 use
     Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir;
+    Sabre\VObject\Parser\MimeDir,
+    Sabre\VObject\DateTimeParser;
 
 /**
  * Period property

@@ -66,8 +66,7 @@ class Integer extends Property {
      */
     public function getJsonValue() {
 
-        // Ensuring we are getting a real integer.
-        return (int)$this->getValue();
+        return array((int)$this->getValue());
 
     }
 }
