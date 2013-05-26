@@ -50,4 +50,32 @@ class Binary extends Property {
 
     }
 
+    /**
+     * Returns the type of value.
+     *
+     * This corresponds to the VALUE= parameter. Every property also has a
+     * 'default' valueType.
+     *
+     * @return string
+     */
+    public function getValueType() {
+
+        return 'BINARY';
+
+    }
+
+    /**
+     * Returns the value, in the format it should be encoded for json.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getJsonValue() {
+
+        return array(base64_encode($this->getValue()));
+
+    }
+
+
 }

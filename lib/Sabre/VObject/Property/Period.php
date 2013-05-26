@@ -53,4 +53,49 @@ class Period extends Property {
 
     }
 
+    /**
+     * Returns the type of value.
+     *
+     * This corresponds to the VALUE= parameter. Every property also has a
+     * 'default' valueType.
+     *
+     * @return string
+     */
+    public function getValueType() {
+
+        return "PERIOD";
+
+    }
+
+    /**
+     * Returns the value, in the format it should be encoded for json.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getJsonValue() {
+
+        $return = array();
+        foreach($this->getParts() as $item) {
+
+            list($start, $end) = explode('/', $item, 2);
+
+            $start = DateTimeParser::parseDateTime($start);
+            $return[] = $start->format('Y-m-d\\TH:i:s');
+
+            // This is a duration value.
+            if ($end[0]==='P') {
+                $return[] = $end;
+            } else {
+                $end = DateTimeParser::parseDateTime($end);
+                $return[] = $end->format('Y-m-d\\TH:i:s');
+            }
+
+        }
+
+        return $return;
+
+    }
+
 }

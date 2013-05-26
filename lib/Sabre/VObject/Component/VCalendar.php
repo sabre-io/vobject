@@ -55,7 +55,7 @@ class VCalendar extends VObject\Document {
         'CLASS'             => 'FlatText',
         'COMMENT'           => 'FlatText',
         'DESCRIPTION'       => 'FlatText',
-        'GEO'               => 'Text',
+        'GEO'               => 'Float',
         'LOCATION'          => 'FlatText',
         'PERCENT-COMPLETE'  => 'Integer',
         'PRIORITY'          => 'Integer',
@@ -80,9 +80,9 @@ class VCalendar extends VObject\Document {
         'TZURL'         => 'Uri',
 
         // Relationship Component Properties
-        'ATTENDEE'      => 'Uri',
+        'ATTENDEE'      => 'CalAddress',
         'CONTACT'       => 'FlatText',
-        'ORGANIZER'     => 'Uri',
+        'ORGANIZER'     => 'CalAddress',
         'RECURRENCE-ID' => 'DateTime',
         'RELATED-TO'    => 'FlatText',
         'URL'           => 'Uri',
@@ -254,6 +254,22 @@ class VCalendar extends VObject\Document {
             'VERSION' => '2.0',
             'PRODID' => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
             'CALSCALE' => 'GREGORIAN',
+        );
+
+    }
+
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in json. This is used to create jCard or jCal documents.
+     *
+     * @return array
+     */
+    public function jsonSerialize() {
+
+        // The top-level document gets nested 1 level further.
+        return array(
+            "icalendar",
+            parent::jsonSerialize(),
         );
 
     }

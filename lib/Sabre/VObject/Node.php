@@ -44,6 +44,14 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      */
     abstract function serialize();
 
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in json. This is used to create jCard or jCal documents.
+     *
+     * @return array
+     */
+    abstract function jsonSerialize();
+
     /* {{{ IteratorAggregator interface */
 
     /**

@@ -290,6 +290,33 @@ class Component extends Node {
     }
 
     /**
+     * This method returns an array, with the representation as it should be
+     * encoded in json. This is used to create jCard or jCal documents.
+     *
+     * @return array
+     */
+    public function jsonSerialize() {
+
+        $components = array();
+        $properties = array();
+
+        foreach($this->children as $child) {
+            if ($child instanceof Component) {
+                $components[] = $child->jsonSerialize();
+            } else {
+                $properties[] = $child->jsonSerialize();
+            }
+        }
+
+        return array(
+            strtolower($this->name),
+            $properties,
+            $components
+        );
+
+    }
+
+    /**
      * This method should return a list of default property values.
      *
      * @return array

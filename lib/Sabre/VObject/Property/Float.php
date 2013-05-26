@@ -6,16 +6,24 @@ use
     Sabre\VObject\Property;
 
 /**
- * Integer property
+ * Float property
  *
- * This object represents INTEGER values. These are always a single integer.
- * They may be preceeded by either + or -.
+ * This object represents FLOAT values. These can be 1 or more floating-point
+ * numbers.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Integer extends Property {
+class Float extends Property {
+
+    /**
+     * In case this is a multi-value property. This string will be used as a
+     * delimiter.
+     *
+     * @var string
+     */
+    protected $delimiter = ';';
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -28,7 +36,11 @@ class Integer extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->setValue((int)$val);
+        $val = explode($this->delimiter, $val);
+        foreach($val as &$item) {
+            $item = (float)$item;
+        }
+        $this->setParts($val);
 
     }
 
@@ -39,7 +51,10 @@ class Integer extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return $this->value;
+        return implode(
+            $this->delimiter,
+            $this->getParts()
+        );
 
     }
 
@@ -53,7 +68,7 @@ class Integer extends Property {
      */
     public function getValueType() {
 
-        return "INTEGER";
+        return "FLOAT";
 
     }
 
@@ -66,8 +81,12 @@ class Integer extends Property {
      */
     public function getJsonValue() {
 
-        // Ensuring we are getting a real integer.
-        return (int)$this->getValue();
+        // Ensuring we are getting real floating-point numbers.
+        return array_map(function($item) {
+
+            return (float)$item;
+
+        }, $this->getParts());
 
     }
 }

@@ -81,6 +81,20 @@ class Text extends Property {
     }
 
     /**
+     * Returns the type of value.
+     *
+     * This corresponds to the VALUE= parameter. Every property also has a
+     * 'default' valueType.
+     *
+     * @return string
+     */
+    public function getValueType() {
+
+        return "TEXT";
+
+    }
+
+    /**
      * Turns the object back into a serialized blob.
      *
      * @return string

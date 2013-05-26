@@ -79,13 +79,13 @@ abstract class Document extends Component {
     static public $valueMap = array(
         'BINARY'           => 'Binary',
         'BOOLEAN'          => 'Boolean',
-        'CONTENT-ID'       => 'FlatText', // vCard 2.1 only
-        'CAL-ADDRESS'      => 'Uri',      // iCalendar only
+        'CONTENT-ID'       => 'FlatText',   // vCard 2.1 only
+        'CAL-ADDRESS'      => 'CalAddress', // iCalendar only
         'DATE'             => 'DateTime',
         'DATE-TIME'        => 'DateTime',
         'DATE-AND-OR-TIME' => 'FlatText', // vCard only
         'DURATION'         => 'Duration', // iCalendar only
-        'FLOAT'            => 'Text',
+        'FLOAT'            => 'Float',
         'INTEGER'          => 'Integer',
         'LANGUAGE-TAG'     => 'FlatText', // vCard only
         'PERIOD'           => 'Period',   // iCalendar only
@@ -95,7 +95,7 @@ abstract class Document extends Component {
         'TIME'             => 'Text',
         'URI'              => 'Uri',
         'URL'              => 'Uri', // vCard 2.1 only
-        'UTC-OFFSET'       => 'FlatText',
+        'UTC-OFFSET'       => 'UtcOffset',
     );
 
     /**

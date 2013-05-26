@@ -6,16 +6,18 @@ use
     Sabre\VObject\Property;
 
 /**
- * Integer property
+ * Boolean property
  *
- * This object represents INTEGER values. These are always a single integer.
- * They may be preceeded by either + or -.
+ * This object represents BOOLEAN values. These are always the case-insenstive
+ * string TRUE or FALSE.
+ *
+ * Automatic conversion to PHP's true and false are done.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Integer extends Property {
+class Boolean extends Property {
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -28,7 +30,8 @@ class Integer extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->setValue((int)$val);
+        $val = strtolower($val)==='TRUE':true:false;
+        $this->setValue($val);
 
     }
 
@@ -39,7 +42,7 @@ class Integer extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return $this->value;
+        return $this->value?'TRUE':'FALSE';
 
     }
 
@@ -53,21 +56,8 @@ class Integer extends Property {
      */
     public function getValueType() {
 
-        return "INTEGER";
+        return 'BOOLEAN';
 
     }
 
-    /**
-     * Returns the value, in the format it should be encoded for json.
-     *
-     * This method must always return an array.
-     *
-     * @return array
-     */
-    public function getJsonValue() {
-
-        // Ensuring we are getting a real integer.
-        return (int)$this->getValue();
-
-    }
 }
