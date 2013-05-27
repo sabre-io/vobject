@@ -136,6 +136,32 @@ class Text extends Property {
     }
 
     /**
+     * Returns the value, in the format it should be encoded for json.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getJsonValue() {
+
+        // Structured text values should always be returned as a single
+        // array-item. Multi-value text should be returned as multiple items in
+        // the top-array.
+        //
+        // But: only in jCard, not jCal :)
+        if ($this->root->getDocumentType() === Document::ICALENDAR20) {
+            return $this->getParts();
+        } else {
+            if (in_array($this->name, $this->structuredValues)) {
+                return array($this->getParts());
+            } else {
+                return $this->getParts();
+            }
+        }
+
+    }
+
+    /**
      * Returns the type of value.
      *
      * This corresponds to the VALUE= parameter. Every property also has a
