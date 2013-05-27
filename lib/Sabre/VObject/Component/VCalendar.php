@@ -51,7 +51,7 @@ class VCalendar extends VObject\Document {
 
         // Component properties
         'ATTACH'            => 'Binary',
-        'CATEGORIES'        => 'CommaSeparatedText',
+        'CATEGORIES'        => 'Text',
         'CLASS'             => 'FlatText',
         'COMMENT'           => 'FlatText',
         'DESCRIPTION'       => 'FlatText',
@@ -59,7 +59,7 @@ class VCalendar extends VObject\Document {
         'LOCATION'          => 'FlatText',
         'PERCENT-COMPLETE'  => 'Integer',
         'PRIORITY'          => 'Integer',
-        'RESOURCES'         => 'CommaSeparatedText',
+        'RESOURCES'         => 'Text',
         'STATUS'            => 'FlatText',
         'SUMMARY'           => 'FlatText',
 

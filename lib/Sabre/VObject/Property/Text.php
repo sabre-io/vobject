@@ -4,6 +4,7 @@ namespace Sabre\VObject\Property;
 
 use
     Sabre\VObject\Property,
+    Sabre\VObject\Component,
     Sabre\VObject\Parser\MimeDir,
     Sabre\VObject\Document;
 
@@ -17,6 +18,60 @@ use
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Text extends Property {
+
+    /**
+     * In case this is a multi-value property. This string will be used as a
+     * delimiter.
+     *
+     * @var string
+     */
+    protected $delimiter = ',';
+
+    /**
+     * List of properties that are considered 'structured'.
+     *
+     * @var array
+     */
+    protected $structuredValues = array(
+        // vCard
+        'N',
+        'ADR',
+        'ORG',
+        'GENDER',
+
+        // iCalendar
+        'REQUEST-STATUS',
+    );
+
+    /**
+     * Creates the property.
+     *
+     * You can specify the parameters either in key=>value syntax, in which case
+     * parameters will automatically be created, or you can just pass a list of
+     * Parameter objects.
+     *
+     * @param Component $root The root document
+     * @param string $name
+     * @param string|array|null $value
+     * @param array $parameters List of parameters
+     * @param string $group The vcard property group
+     * @return void
+     */
+    public function __construct(Component $root, $name, $value = null, array $parameters = array(), $group = null) {
+
+        // There's two types of multi-valued text properties:
+        // 1. multivalue properties.
+        // 2. structured value properties
+        //
+        // The former is always separated by a comma, the latter by semi-colon.
+        if (in_array($name, $this->structuredValues)) {
+            $this->delimiter = ';';
+        }
+
+        parent::__construct($root, $name, $value, $parameters, $group);
+
+    }
+
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.

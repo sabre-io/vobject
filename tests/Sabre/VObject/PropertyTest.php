@@ -378,7 +378,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
         $property->setValue(array(1,2));
         $this->assertEquals(array(1,2), $property->getParts());
-        $this->assertEquals('1;2', $property->getValue());
+        $this->assertEquals('1,2', $property->getValue());
 
         $property->setValue('str');
         $this->assertEquals(array('str'), $property->getParts());

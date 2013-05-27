@@ -65,10 +65,10 @@ class VCard extends VObject\Document {
         'KEY'     => 'FlatText',
 
         // vCard 3.0 properties
-        'CATEGORIES'  => 'CommaSeparatedText',
+        'CATEGORIES'  => 'Text',
         'SORT-STRING' => 'FlatText',
         'PRODID'      => 'FlatText',
-        'NICKNAME'    => 'CommaSeparatedText',
+        'NICKNAME'    => 'Text',
         'CLASS'       => 'FlatText', // Removed in vCard 4.0
 
         // rfc2739 properties
