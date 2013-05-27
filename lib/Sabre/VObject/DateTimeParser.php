@@ -237,7 +237,7 @@ class DateTimeParser {
         $result = array();
         foreach($parts as $part) {
 
-            if (!isset($matches[$part]) || !$matches[$part]) {
+            if (empty($matches[$part])) {
                 $result[$part] = null;
             } elseif ($matches[$part] === '-' || $matches[$part] === '--') {
                 $result[$part] = null;
