@@ -47,7 +47,7 @@ class Recur extends Property {
                         $v = explode(',', $v);
                     }
                 } else {
-                    foreach($v as &$subValue) $subValue = strtoupper($subValue);
+                    $v = array_map('strtoupper', $v);
                 }
 
                 $newVal[strtoupper($k)] = $v;
