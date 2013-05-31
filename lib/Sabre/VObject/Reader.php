@@ -50,4 +50,24 @@ class Reader {
 
     }
 
+    /**
+     * Parses a jCal or jCard object.
+     *
+     * It's possible to either supply a string or stream (for the raw json
+     * data), or an array, in case it had already been passed through
+     * json_decode().
+     *
+     * @param string|array|string $data
+     * @param int $options
+     * @return Node
+     */
+    static function readJson($data, $options = 0) {
+
+        $parser = new Parser\Json();
+        $result = $parser->parse($data, $options);
+
+        return $result;
+
+    }
+
 }
