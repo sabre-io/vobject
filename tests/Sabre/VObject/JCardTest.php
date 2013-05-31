@@ -36,7 +36,7 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                 array(
                     "bday",
                     new \StdClass(),
-                    "date",
+                    "date-and-or-time",
                     "1985-04-07",
                 ),
             ),
