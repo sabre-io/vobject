@@ -122,6 +122,10 @@ class Json extends Parser {
 
         $value = array_slice($jProp, 3);
 
+        if (count($value)===1) {
+            $value = $value[0];
+        }
+
         $parameters['VALUE'] = strtoupper($valueType);
 
         if (isset($parameters['group'])) {
