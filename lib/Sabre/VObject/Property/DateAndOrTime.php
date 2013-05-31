@@ -116,7 +116,7 @@ class DateAndOrTime extends Text {
             }
         } else {
             if (isset($parts['second'])) {
-                // Dash for empty month
+                // Dash for empty minute
                 $dateStr.='-';
             }
         }

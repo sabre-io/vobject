@@ -222,11 +222,7 @@ abstract class Property extends Node {
      *
      * @return string
      */
-    public function getValueType() {
-
-        return "UNKNOWN";
-
-    }
+    abstract public function getValueType();
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
