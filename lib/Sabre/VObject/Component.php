@@ -78,11 +78,12 @@ class Component extends Node {
      * add(Component $comp) // Adds a new component
      * add(Property $prop)  // Adds a new property
      * add($name, $value, array $parameters = array()) // Adds a new property
+     * add($name, array $children = array()) // Adds a new component
      * by name.
      *
      * @return Node
      */
-    public function add($a1, $a2 = null, array $a3 = array()) {
+    public function add($a1, $a2 = null, $a3 = null) {
 
         if ($a1 instanceof Node) {
             if (!is_null($a2)) {
@@ -367,7 +368,7 @@ class Component extends Node {
             } else {
                 $this->children[] = $value;
             }
-        } elseif (is_scalar($value) || is_array($value)) {
+        } elseif (is_scalar($value) || is_array($value) || is_null($value)) {
             $property = $this->root->create($name,$value);
             $property->parent = $this;
             if (!is_null($overWrite)) {
