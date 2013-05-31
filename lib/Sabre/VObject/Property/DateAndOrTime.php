@@ -135,4 +135,51 @@ class DateAndOrTime extends Text {
 
     }
 
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in json. This is used to create jCard or jCal documents.
+     *
+     * We are overriding this, because there is no DATE-AND-OR-TIME value in
+     * jCard. Instead, we need to check what the type is, and encode it as
+     * DATE-TIME, DATE or TIME.
+     *
+     * @return array
+     */
+    public function jsonSerialize() {
+
+        $parameters = array();
+
+        foreach($this->parameters as $parameter) {
+            if ($parameter->name === 'VALUE') {
+                continue;
+            }
+            $parameters[$parameter->name] = $parameter->jsonSerialize();
+        }
+        // In jCard, we need to encode the property-group as a separate 'group'
+        // parameter.
+        if ($this->group) {
+            $parameters['group'] = $this->group;
+        }
+
+        $valueType = 'date-time';
+        $value = $this->getJsonValue()[0];
+
+        $tPos = strpos($value, 'T');
+        // If the string starts with a T, it's a time-only value.
+        if ($tPos === 0) {
+            $valueType = 'time';
+        // If there's no T in the string it all, it's a date-only value.
+        } elseif ($tPos === false) {
+            $valueType = 'date';
+        }
+
+        return array_merge(
+            array(
+                strtolower($this->name),
+                (object)$parameters,
+                $valueType,
+            ),
+            array($value)
+        );
+    }
 }
