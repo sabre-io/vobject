@@ -177,5 +177,78 @@ class DateTimeParser {
 
     }
 
+    /**
+     * This method parses a vCard date and or time value.
+     *
+     * This can be used for the DATE, TIME, DATE-TIME, TIMESTAMP and
+     * DATE-AND-OR-TIME value.
+     *
+     * This method returns an array, not a DateTime value.
+     *
+     * The elements in the array are in the following order:
+     * year, month, date, hour, minute, second, timezone
+     *
+     * Almost any part of the string may be omitted. It's for example legal to
+     * just specify seconds, leave out the year, etc.
+     *
+     * Timezone is either returned as 'Z' or as '+08:00'
+     *
+     * For any non-specified values null is returned.
+     *
+     * @param string $date
+     * @return array
+     */
+    static public function parseVCardDateTime($date) {
+
+        $regex = '/^
+            (?:  # date part
+                (?P<year> [0-9]{4} | --)
+                (?P<month> [0-9]{2} | -)?
+                (?P<date> [0-9]{2})?
+            )?
+            (?:T  # time part
+                (?P<hour> [0-9]{2} | -)
+                (?P<minute> [0-9]{2} | -)?
+                (?P<second> [0-9]{2})?
+
+                (?P<timezone> # timezone offset
+
+                    Z | (?: \+|-)(?: [0-9]{4})
+
+                )?
+
+            )?
+            $/x';
+
+
+        if (!preg_match($regex, $date, $matches)) {
+            throw new \InvalidArgumentException('Invalid vCard date-time string: ' . $date);
+        }
+        $parts = array(
+            'year',
+            'month',
+            'date',
+            'hour',
+            'minute',
+            'second',
+            'timezone'
+        );
+
+        $result = array();
+        foreach($parts as $part) {
+
+            if (empty($matches[$part])) {
+                $result[$part] = null;
+            } elseif ($matches[$part] === '-' || $matches[$part] === '--') {
+                $result[$part] = null;
+            } else {
+                $result[$part] = $matches[$part];
+            }
+
+        }
+
+        return $result;
+
+    }
 
 }

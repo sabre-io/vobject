@@ -53,7 +53,7 @@ class Component extends Node {
         $this->root = $root;
 
         if ($defaults) {
-            $children += $this->getDefaults();
+            $children = array_merge($this->getDefaults(), $children);
         }
 
         foreach($children as $k=>$child) {
@@ -287,6 +287,33 @@ class Component extends Node {
         $str.= "END:" . $this->name . "\r\n";
 
         return $str;
+
+    }
+
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in json. This is used to create jCard or jCal documents.
+     *
+     * @return array
+     */
+    public function jsonSerialize() {
+
+        $components = array();
+        $properties = array();
+
+        foreach($this->children as $child) {
+            if ($child instanceof Component) {
+                $components[] = $child->jsonSerialize();
+            } else {
+                $properties[] = $child->jsonSerialize();
+            }
+        }
+
+        return array(
+            strtolower($this->name),
+            $properties,
+            $components
+        );
 
     }
 

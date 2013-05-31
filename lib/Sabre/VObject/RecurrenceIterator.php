@@ -394,39 +394,39 @@ class RecurrenceIterator implements \Iterator {
                     break;
 
                 case 'BYSECOND' :
-                    $this->bySecond = explode(',', $value);
+                    $this->bySecond = (array)$value;
                     break;
 
                 case 'BYMINUTE' :
-                    $this->byMinute = explode(',', $value);
+                    $this->byMinute = (array)$value;
                     break;
 
                 case 'BYHOUR' :
-                    $this->byHour = explode(',', $value);
+                    $this->byHour = (array)$value;
                     break;
 
                 case 'BYDAY' :
-                    $this->byDay = explode(',', strtoupper($value));
+                    $this->byDay = (array)$value;
                     break;
 
                 case 'BYMONTHDAY' :
-                    $this->byMonthDay = explode(',', $value);
+                    $this->byMonthDay = (array)$value;
                     break;
 
                 case 'BYYEARDAY' :
-                    $this->byYearDay = explode(',', $value);
+                    $this->byYearDay = (array)$value;
                     break;
 
                 case 'BYWEEKNO' :
-                    $this->byWeekNo = explode(',', $value);
+                    $this->byWeekNo = (array)$value;
                     break;
 
                 case 'BYMONTH' :
-                    $this->byMonth = explode(',', $value);
+                    $this->byMonth = (array)$value;
                     break;
 
                 case 'BYSETPOS' :
-                    $this->bySetPos = explode(',', $value);
+                    $this->bySetPos = (array)$value;
                     break;
 
                 case 'WKST' :

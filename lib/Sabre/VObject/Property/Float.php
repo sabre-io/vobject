@@ -3,22 +3,19 @@
 namespace Sabre\VObject\Property;
 
 use
-    Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir,
-    Sabre\VObject\DateTimeParser;
+    Sabre\VObject\Property;
 
 /**
- * Period property
+ * Float property
  *
- * This object represents PERIOD values, as defined here:
- *
- * http://tools.ietf.org/html/rfc5545#section-3.8.2.6
+ * This object represents FLOAT values. These can be 1 or more floating-point
+ * numbers.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Period extends Property {
+class Float extends Property {
 
     /**
      * In case this is a multi-value property. This string will be used as a
@@ -26,7 +23,7 @@ class Period extends Property {
      *
      * @var string
      */
-    protected $delimiter = ',';
+    protected $delimiter = ';';
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -39,7 +36,11 @@ class Period extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->setValue(explode($this->delimiter, $val));
+        $val = explode($this->delimiter, $val);
+        foreach($val as &$item) {
+            $item = (float)$item;
+        }
+        $this->setParts($val);
 
     }
 
@@ -50,7 +51,10 @@ class Period extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return implode($this->delimiter, $this->getParts());
+        return implode(
+            $this->delimiter,
+            $this->getParts()
+        );
 
     }
 
@@ -64,7 +68,7 @@ class Period extends Property {
      */
     public function getValueType() {
 
-        return "PERIOD";
+        return "FLOAT";
 
     }
 
@@ -77,26 +81,12 @@ class Period extends Property {
      */
     public function getJsonValue() {
 
-        $return = array();
-        foreach($this->getParts() as $item) {
+        // Ensuring we are getting real floating-point numbers.
+        return array_map(function($item) {
 
-            list($start, $end) = explode('/', $item, 2);
+            return (float)$item;
 
-            $start = DateTimeParser::parseDateTime($start);
-            $return[] = $start->format('Y-m-d\\TH:i:s');
-
-            // This is a duration value.
-            if ($end[0]==='P') {
-                $return[] = $end;
-            } else {
-                $end = DateTimeParser::parseDateTime($end);
-                $return[] = $end->format('Y-m-d\\TH:i:s');
-            }
-
-        }
-
-        return $return;
+        }, $this->getParts());
 
     }
-
 }

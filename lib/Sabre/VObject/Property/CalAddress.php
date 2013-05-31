@@ -3,15 +3,15 @@
 namespace Sabre\VObject\Property;
 
 /**
- * URI property
+ * CalAddress property
  *
- * This object encodes URI values. vCard 2.1 calls these URL.
+ * This object encodes CAL-ADDRESS values, as defined in rfc5545
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Uri extends Text {
+class CalAddress extends Text {
 
     protected $delimiter = null;
 
@@ -25,7 +25,8 @@ class Uri extends Text {
      */
     public function getValueType() {
 
-        return "URI";
+        return 'CAL-ADDRESS';
 
     }
+
 }

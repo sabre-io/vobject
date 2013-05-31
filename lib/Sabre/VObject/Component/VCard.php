@@ -43,7 +43,7 @@ class VCard extends VObject\Document {
         'N'       => 'Text',
         'FN'      => 'FlatText',
         'PHOTO'   => 'Binary', // Todo: we should add a class for Binary values.
-        'BDAY'    => 'DateTime',
+        'BDAY'    => 'DateAndOrTime',
         'ADR'     => 'Text',
         'LABEL'   => 'FlatText', // Removed in vCard 4.0
         'TEL'     => 'FlatText',
@@ -57,7 +57,7 @@ class VCard extends VObject\Document {
                                  // not supported at the moment
         'ORG'     => 'Text',
         'NOTE'    => 'FlatText',
-        'REV'     => 'DateTime',
+        'REV'     => 'TimeStamp',
         'SOUND'   => 'FlatText',
         'URL'     => 'Uri',
         'UID'     => 'FlatText',
@@ -65,10 +65,10 @@ class VCard extends VObject\Document {
         'KEY'     => 'FlatText',
 
         // vCard 3.0 properties
-        'CATEGORIES'  => 'CommaSeparatedText',
+        'CATEGORIES'  => 'Text',
         'SORT-STRING' => 'FlatText',
         'PRODID'      => 'FlatText',
-        'NICKNAME'    => 'CommaSeparatedText',
+        'NICKNAME'    => 'Text',
         'CLASS'       => 'FlatText', // Removed in vCard 4.0
 
         // rfc2739 properties
@@ -81,12 +81,11 @@ class VCard extends VObject\Document {
 
         // vCard 4.0 properties
         'XML'          => 'FlatText',
-        'ANNIVERSARY'  => 'DateTime',
+        'ANNIVERSARY'  => 'DateAndOrTime',
         'CLIENTPIDMAP' => 'Text',
-        'LANG'         => 'FlatText',
+        'LANG'         => 'LanguageTag',
         'GENDER'       => 'Text',
         'KIND'         => 'FlatText',
-
 
     );
 
@@ -221,6 +220,29 @@ class VCard extends VObject\Document {
         return array(
             'VERSION' => '3.0',
             'PRODID' => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
+        );
+
+    }
+
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in json. This is used to create jCard or jCal documents.
+     *
+     * @return array
+     */
+    public function jsonSerialize() {
+
+        // A vcard does not have sub-components, so we're overriding this
+        // method to remove that array element.
+        $properties = array();
+
+        foreach($this->children as $child) {
+            $properties[] = $child->jsonSerialize();
+        }
+
+        return array(
+            strtolower($this->name),
+            $properties,
         );
 
     }

@@ -21,21 +21,7 @@ use
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class MimeDir {
-
-    /**
-     * Turning on this option makes the parser more forgiving.
-     *
-     * All it changes at the moment, is that underscores are allowed in
-     * property names.
-     */
-    const OPTION_FORGIVING = 1;
-
-    /**
-     * If this option is turned on, any lines we cannot parse will be ignored
-     * by the reader.
-     */
-    const OPTION_IGNORE_INVALID_LINES = 2;
+class MimeDir extends Parser {
 
     /**
      * The input stream.
@@ -43,13 +29,6 @@ class MimeDir {
      * @var resource
      */
     protected $input;
-
-    /**
-     * Bitmask of parser options
-     *
-     * @var int
-     */
-    protected $options;
 
     /**
      * Root component

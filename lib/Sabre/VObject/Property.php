@@ -54,7 +54,6 @@ abstract class Property extends Node {
      */
     protected $delimiter = ';';
 
-
     /**
      * Creates the generic property.
      *
@@ -216,6 +215,16 @@ abstract class Property extends Node {
     }
 
     /**
+     * Returns the type of value.
+     *
+     * This corresponds to the VALUE= parameter. Every property also has a
+     * 'default' valueType.
+     *
+     * @return string
+     */
+    abstract public function getValueType();
+
+    /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
      *
      * This has been 'unfolded', so only 1 line will be passed. Unescaping is
@@ -266,6 +275,52 @@ abstract class Property extends Node {
         return $out;
 
     }
+
+    /**
+     * Returns the value, in the format it should be encoded for json.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getJsonValue() {
+
+        return $this->getParts();
+
+    }
+
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in json. This is used to create jCard or jCal documents.
+     *
+     * @return array
+     */
+    public function jsonSerialize() {
+
+        $parameters = array();
+
+        foreach($this->parameters as $parameter) {
+            if ($parameter->name === 'VALUE') {
+                continue;
+            }
+            $parameters[$parameter->name] = $parameter->jsonSerialize();
+        }
+        // In jCard, we need to encode the property-group as a separate 'group'
+        // parameter.
+        if ($this->group) {
+            $parameters['group'] = $this->group;
+        }
+
+        return array_merge(
+            array(
+                strtolower($this->name),
+                (object)$parameters,
+                strtolower($this->getValueType()),
+            ),
+            $this->getJsonValue()
+        );
+    }
+
 
     /**
      * Called when this object is being cast to a string.

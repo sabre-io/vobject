@@ -3,26 +3,18 @@
 namespace Sabre\VObject\Property;
 
 use
-    LogicException,
     Sabre\VObject\Property;
 
 /**
- * BINARY property
+ * LanguageTag property
  *
- * This object represents BINARY values.
- *
- * Binary values are most commonly used by the iCalendar ATTACH property, and
- * the vCard PHOTO property.
- *
- * This property will transparently encode and decode to base64.
+ * This object represents LANGUAGE-TAG values as used in vCards.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Binary extends Property {
-
-    protected $delimiter = null;
+class LanguageTag extends Property {
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -35,7 +27,7 @@ class Binary extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->value = base64_decode($val);
+        $this->setValue($val);
 
     }
 
@@ -46,7 +38,7 @@ class Binary extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return base64_encode($this->value);
+        return $this->value;
 
     }
 
@@ -60,22 +52,8 @@ class Binary extends Property {
      */
     public function getValueType() {
 
-        return 'BINARY';
+        return "LANGUAGE-TAG";
 
     }
-
-    /**
-     * Returns the value, in the format it should be encoded for json.
-     *
-     * This method must always return an array.
-     *
-     * @return array
-     */
-    public function getJsonValue() {
-
-        return array(base64_encode($this->getValue()));
-
-    }
-
 
 }

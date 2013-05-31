@@ -38,7 +38,19 @@ class Recur extends Property {
         if (is_array($value)) {
             $newVal = array();
             foreach($value as $k=>$v) {
-                $newVal[strtoupper($k)] = strtoupper($v);
+
+                if (is_string($v)) {
+                    $v = strtoupper($v);
+
+                    // The value had multiple sub-values
+                    if (strpos($v,',')!==false) {
+                        $v = explode(',', $v);
+                    }
+                } else {
+                    $v = array_map('strtoupper', $v);
+                }
+
+                $newVal[strtoupper($k)] = $v;
             }
             $this->value = $newVal;
         } elseif (is_string($value)) {
@@ -51,6 +63,11 @@ class Recur extends Property {
                     continue;
                 }
                 list($partName, $partValue) = explode('=', $part);
+
+                // The value itself had multiple values..
+                if (strpos($partValue,',')!==false) {
+                    $partValue=explode(',', $partValue);
+                }
                 $newValue[$partName] = $partValue;
 
             }
@@ -76,7 +93,7 @@ class Recur extends Property {
 
         $out = array();
         foreach($this->value as $key=>$value) {
-            $out[] = $key . '=' . $value;
+            $out[] = $key . '=' . (is_array($value)?implode(',', $value):$value);
         }
         return strtoupper(implode(';',$out));
 
@@ -131,6 +148,20 @@ class Recur extends Property {
     public function getRawMimeDirValue() {
 
         return $this->getValue();
+
+    }
+
+    /**
+     * Returns the type of value.
+     *
+     * This corresponds to the VALUE= parameter. Every property also has a
+     * 'default' valueType.
+     *
+     * @return string
+     */
+    public function getValueType() {
+
+        return "RECUR";
 
     }
 

@@ -221,4 +221,45 @@ class DateTime extends Property {
 
     }
 
+    /**
+     * Returns the type of value.
+     *
+     * This corresponds to the VALUE= parameter. Every property also has a
+     * 'default' valueType.
+     *
+     * @return string
+     */
+    public function getValueType() {
+
+        return $this->hasTime()?'DATE-TIME':'DATE';
+
+    }
+
+    /**
+     * Returns the value, in the format it should be encoded for json.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getJsonValue() {
+
+        $dts = $this->getDateTimes();
+        $hasTime = $this->hasTime();
+
+        $tz = $dts[0]->getTimeZone();
+        $isUtc = in_array($tz->getName() , array('UTC', 'GMT', 'Z'));
+
+        return array_map(function($dt) use ($hasTime, $isUtc) {
+
+            if ($hasTime) {
+                return $dt->format('Y-m-d\\TH:i:s') . ($isUtc?'Z':'');
+            } else {
+                return $dt->format('Y-m-d');
+            }
+
+        }, $dts);
+
+    }
+
 }

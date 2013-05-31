@@ -51,15 +51,15 @@ class VCalendar extends VObject\Document {
 
         // Component properties
         'ATTACH'            => 'Binary',
-        'CATEGORIES'        => 'CommaSeparatedText',
+        'CATEGORIES'        => 'Text',
         'CLASS'             => 'FlatText',
         'COMMENT'           => 'FlatText',
         'DESCRIPTION'       => 'FlatText',
-        'GEO'               => 'Text',
+        'GEO'               => 'Float',
         'LOCATION'          => 'FlatText',
         'PERCENT-COMPLETE'  => 'Integer',
         'PRIORITY'          => 'Integer',
-        'RESOURCES'         => 'CommaSeparatedText',
+        'RESOURCES'         => 'Text',
         'STATUS'            => 'FlatText',
         'SUMMARY'           => 'FlatText',
 
@@ -75,14 +75,14 @@ class VCalendar extends VObject\Document {
         // Time Zone Component Properties
         'TZID'          => 'FlatText',
         'TZNAME'        => 'FlatText',
-        'TZOFFSETFROM'  => 'FlatText',
-        'TZOFFSETTO'    => 'FlatText',
+        'TZOFFSETFROM'  => 'UtcOffset',
+        'TZOFFSETTO'    => 'UtcOffset',
         'TZURL'         => 'Uri',
 
         // Relationship Component Properties
-        'ATTENDEE'      => 'Uri',
+        'ATTENDEE'      => 'CalAddress',
         'CONTACT'       => 'FlatText',
-        'ORGANIZER'     => 'Uri',
+        'ORGANIZER'     => 'CalAddress',
         'RECURRENCE-ID' => 'DateTime',
         'RELATED-TO'    => 'FlatText',
         'URL'           => 'Uri',
