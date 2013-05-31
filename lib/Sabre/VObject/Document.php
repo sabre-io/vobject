@@ -181,7 +181,7 @@ abstract class Document extends Component {
      * @param bool $defaults
      * @return Component
      */
-    public function createComponent($name, array $children = array(), $defaults = true) {
+    public function createComponent($name, array $children = null, $defaults = true) {
 
         $name = strtoupper($name);
         $class = 'Sabre\\VObject\\Component';
@@ -189,6 +189,7 @@ abstract class Document extends Component {
         if (isset(static::$componentMap[$name])) {
             $class.='\\' . static::$componentMap[$name];
         }
+        if (is_null($children)) $children = array();
         return new $class($this, $name, $children, $defaults);
 
     }
@@ -208,7 +209,7 @@ abstract class Document extends Component {
      * @param array $parameters
      * @return Property
      */
-    public function createProperty($name, $value = null, array $parameters = array()) {
+    public function createProperty($name, $value = null, array $parameters = null) {
 
         // If there's a . in the name, it means it's prefixed by a groupname.
         if (($i=strpos($name,'.'))!==false) {
@@ -231,6 +232,7 @@ abstract class Document extends Component {
         if (is_null($class)) {
             $class='Sabre\\VObject\\Property\\Text';
         }
+        if (is_null($parameters)) $parameters = array();
 
         return new $class($this, $name, $value, $parameters, $group);
 
