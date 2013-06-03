@@ -39,7 +39,7 @@ class DateAndOrTimeTest extends \PHPUnit_Framework_TestCase {
             ),
             array(
                 "1985-04",
-                "1985--04",
+                "1985-04",
             ),
             array(
                 "1985",
@@ -72,10 +72,6 @@ class DateAndOrTimeTest extends \PHPUnit_Framework_TestCase {
             array(
                 "T102200-0800",
                 "T10:22:00-0800",
-            ),
-            array(
-                "T10-00",
-                "T10-00 intentionally left broken. Need to verify correctness",
             ),
         );
 
