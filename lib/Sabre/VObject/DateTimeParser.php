@@ -195,6 +195,27 @@ class DateTimeParser {
      *
      * For any non-specified values null is returned.
      *
+     * List of date formats that are supported:
+     * YYYY
+     * YYYY-MM
+     * YYYYMMDD
+     * --MMDD
+     * ---DD
+     *
+     * List of supported time formats:
+     *
+     * HH
+     * HHMM
+     * HHMMSS
+     * -MMSS
+     * --SS
+     *
+     * A full date-time string looks like :
+     * 20130603T133901
+     *
+     * Times may be postfixed by a timezone offset. This can be either 'Z' for
+     * UTC, or a string like -0500 or +1100.
+     *
      * @param string $date
      * @return array
      */
@@ -202,8 +223,10 @@ class DateTimeParser {
 
         $regex = '/^
             (?:  # date part
-                (?P<year> [0-9]{4} | --)
-                (?P<month> [0-9]{2} | -)?
+                (?:
+                    (?: (?P<year> [0-9]{4}) (?: -)?| --)
+                    (?P<month> [0-9]{2})?
+                |---)
                 (?P<date> [0-9]{2})?
             )?
             (?:T  # time part

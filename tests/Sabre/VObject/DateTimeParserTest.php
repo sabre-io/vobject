@@ -218,8 +218,8 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                 "1985-04",
                 array(
                     "year" => 1985,
-                    "month" => null,
-                    "date" => 04,
+                    "month" => 04,
+                    "date" => null,
                     "hour" => null,
                     "minute" => null,
                     "second" => null,
