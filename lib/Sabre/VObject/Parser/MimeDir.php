@@ -38,24 +38,6 @@ class MimeDir extends Parser {
     protected $root;
 
     /**
-     * Creates the parser.
-     *
-     * Optionally, it's possible to parse the input stream here.
-     *
-     * @param resource|null|string $input
-     * @param int $options Any parser options (OPTION constants).
-     * @return void
-     */
-    public function __construct($input = null, $options = 0) {
-
-        if (!is_null($input)) {
-            $this->setInput($input);
-        }
-        $this->options = $options;
-
-    }
-
-    /**
      * Parses an iCalendar or vCard file
      *
      * Pass a stream or a string. If null is parsed, the existing buffer is
