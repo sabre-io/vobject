@@ -10,6 +10,7 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
             "VERSION" => "4.0",
             "UID" => "foo",
             "BDAY" => "19850407",
+            "REV"  => "19951031T222710Z",
         ));
 
         $expected = array(
@@ -38,6 +39,12 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                     new \StdClass(),
                     "date-and-or-time",
                     "1985-04-07",
+                ),
+                array(
+                    "rev",
+                    new \StdClass(),
+                    "timestamp",
+                    "1995-10-31T22:27:10Z",
                 ),
             ),
         );

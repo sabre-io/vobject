@@ -2,6 +2,9 @@
 
 namespace Sabre\VObject\Property;
 
+use
+    Sabre\VObject\DateTimeParser;
+
 /**
  * TimeStamp property
  *
@@ -26,6 +29,34 @@ class TimeStamp extends Text {
     public function getValueType() {
 
         return "TIMESTAMP";
+
+    }
+
+    /**
+     * Returns the value, in the format it should be encoded for json.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getJsonValue() {
+
+        $parts = DateTimeParser::parseVCardDateTime($this->getValue());
+
+        $dateStr =
+            $parts['year'] . '-' .
+            $parts['month'] . '-' .
+            $parts['date'] . 'T' .
+            $parts['hour'] . ':' .
+            $parts['minute'] . ':' .
+            $parts['second'];
+
+        // Timezone
+        if (!is_null($parts['timezone'])) {
+            $dateStr.=$parts['timezone'];
+        }
+
+        return array($dateStr);
 
     }
 }

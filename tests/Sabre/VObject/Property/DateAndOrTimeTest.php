@@ -73,6 +73,10 @@ class DateAndOrTimeTest extends \PHPUnit_Framework_TestCase {
                 "T102200-0800",
                 "T10:22:00-0800",
             ),
+            array(
+                "T--00",
+                "T--00",
+            ),
         );
 
     }
