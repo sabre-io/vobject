@@ -13,6 +13,8 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
             "REV"  => "19951031T222710Z",
             "LANG" => "nl",
             "N" => array("Last", "First", "Middle", "", ""),
+            "item1.TEL" => "+1 555 123456",
+            "item1.X-AB-LABEL" => "Walkie Talkie",
         ));
 
         $expected = array(
@@ -59,6 +61,22 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                     new \StdClass(),
                     "text",
                     array("Last", "First", "Middle", "", ""),
+                ),
+                array(
+                    "tel",
+                    (object)array(
+                        "group" => "item1",
+                    ),
+                    "text",
+                    "+1 555 123456",
+                ),
+                array(
+                    "x-ab-label",
+                    (object)array(
+                        "group" => "item1",
+                    ),
+                    "unknown",
+                    "Walkie Talkie",
                 ),
             ),
         );

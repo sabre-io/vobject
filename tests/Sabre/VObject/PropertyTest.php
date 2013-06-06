@@ -200,9 +200,9 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
     public function testSerializeNewLine() {
 
         $cal = new VCalendar();
-        $property = $cal->createProperty('propname',"line1\nline2");
+        $property = $cal->createProperty('SUMMARY',"line1\nline2");
 
-        $this->assertEquals("PROPNAME:line1\\nline2\r\n",$property->serialize());
+        $this->assertEquals("SUMMARY:line1\\nline2\r\n",$property->serialize());
 
     }
 
@@ -364,7 +364,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
     function testGetValue() {
 
         $calendar = new VCalendar();
-        $property = $calendar->createProperty("X-PROP", null);
+        $property = $calendar->createProperty("SUMMARY", null);
         $this->assertEquals(array(), $property->getParts());
         $this->assertNull($property->getValue());
 

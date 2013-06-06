@@ -230,7 +230,7 @@ abstract class Document extends Component {
             $class='Sabre\\VObject\\Property\\' .static::$propertyMap[$name];
         }
         if (is_null($class)) {
-            $class='Sabre\\VObject\\Property\\Text';
+            $class='Sabre\\VObject\\Property\\Unknown';
         }
         if (is_null($parameters)) $parameters = array();
 

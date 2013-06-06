@@ -79,24 +79,24 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     function testReadProperty() {
 
-        $data = "BEGIN:VCALENDAR\r\nPROPNAME:propValue\r\nEND:VCALENDAR";
+        $data = "BEGIN:VCALENDAR\r\nSUMMARY:propValue\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
-        $result = $result->PROPNAME;
+        $result = $result->SUMMARY;
         $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
-        $this->assertEquals('PROPNAME', $result->name);
+        $this->assertEquals('SUMMARY', $result->name);
         $this->assertEquals('propValue', $result->getValue());
 
     }
 
     function testReadPropertyWithNewLine() {
 
-        $data = "BEGIN:VCALENDAR\r\nPROPNAME:Line1\\nLine2\\NLine3\\\\Not the 4th line!\r\nEND:VCALENDAR";
+        $data = "BEGIN:VCALENDAR\r\nSUMMARY:Line1\\nLine2\\NLine3\\\\Not the 4th line!\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
-        $result = $result->PROPNAME;
+        $result = $result->SUMMARY;
         $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
-        $this->assertEquals('PROPNAME', $result->name);
+        $this->assertEquals('SUMMARY', $result->name);
         $this->assertEquals("Line1\nLine2\nLine3\\Not the 4th line!", $result->getValue());
 
     }
