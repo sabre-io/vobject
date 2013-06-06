@@ -303,7 +303,7 @@ abstract class Property extends Node {
             if ($parameter->name === 'VALUE') {
                 continue;
             }
-            $parameters[$parameter->name] = $parameter->jsonSerialize();
+            $parameters[strtolower($parameter->name)] = $parameter->jsonSerialize();
         }
         // In jCard, we need to encode the property-group as a separate 'group'
         // parameter.

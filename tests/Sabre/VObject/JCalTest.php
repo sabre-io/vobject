@@ -29,6 +29,8 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
         $event->add("X-BOOL", true, array('VALUE' => 'BOOLEAN'));
         $event->add("X-TIME", "08:00:00", array('VALUE' => 'TIME'));
 
+        $event->add("ATTENDEE", "mailto:dominik@example.org", array("CN" => "Dominik", "PARTSTAT" => "DECLINED"));
+
         $expected = array(
             "vcalendar",
             array(
@@ -102,6 +104,15 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                         array(
                             "x-time", new \StdClass(), "time", "08:00:00",
                         ),
+                        array(
+                            "attendee",
+                            (object)array(
+                                "cn" => "Dominik",
+                                "partstat" => "DECLINED",
+                            ),
+                            "cal-address",
+                            "mailto:dominik@example.org"
+                        )
                     ),
                     array(),
                 )
