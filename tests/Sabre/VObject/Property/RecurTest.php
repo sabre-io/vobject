@@ -30,4 +30,17 @@ class RecurTest extends \PHPUnit_Framework_TestCase {
         $recur->setValue(new \StdClass());
 
     }
+
+    function testSetSubParts() {
+
+        $vcal = new VCalendar();
+        $recur = $vcal->add('RRULE', array('FREQ'=>'DAILY', 'BYDAY'=>'mo,tu', 'BYMONTH' => array(0,1)));
+
+        $this->assertEquals(array(
+            'FREQ'=>'DAILY',
+            'BYDAY' => array('MO','TU'),
+            'BYMONTH' => array(0,1),
+        ), $recur->getParts());
+
+    }
 }

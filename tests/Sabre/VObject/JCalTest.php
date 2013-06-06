@@ -21,6 +21,7 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
             "FREEBUSY" => array("20130526T210213Z/PT1H", "20130626T120000Z/20130626T130000Z"),
             "URL" => "http://example.org/",
             "TZOFFSETFROM" => "+05:00",
+            "RRULE" => array('FREQ' => 'WEEKLY', 'BYDAY' => array('MO','TU')),
         ));
 
         // Modifying DTSTART to be a date-only.
@@ -90,12 +91,17 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                             "tzoffsetfrom", new \StdClass(), "utc-offset", "+05:00",
                         ),
                         array(
+                            "rrule", new \StdClass(), "recur", array(
+                                'freq' => 'WEEKLY',
+                                'byday' => array('MO', 'TU'),
+                            ),
+                        ),
+                        array(
                             "x-bool", new \StdClass(), "boolean", true
                         ),
                         array(
                             "x-time", new \StdClass(), "time", "08:00:00",
                         ),
-
                     ),
                     array(),
                 )

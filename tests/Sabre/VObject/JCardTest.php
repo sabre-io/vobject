@@ -11,6 +11,8 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
             "UID" => "foo",
             "BDAY" => "19850407",
             "REV"  => "19951031T222710Z",
+            "LANG" => "nl",
+            "N" => array("Last", "First", "Middle", "", ""),
         ));
 
         $expected = array(
@@ -45,6 +47,18 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                     new \StdClass(),
                     "timestamp",
                     "1995-10-31T22:27:10Z",
+                ),
+                array(
+                    "lang",
+                    new \StdClass(),
+                    "language-tag",
+                    "nl",
+                ),
+                array(
+                    "n",
+                    new \StdClass(),
+                    "text",
+                    array("Last", "First", "Middle", "", ""),
                 ),
             ),
         );

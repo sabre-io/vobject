@@ -165,4 +165,20 @@ class Recur extends Property {
 
     }
 
+    /**
+     * Returns the value, in the format it should be encoded for json.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getJsonValue() {
+
+        $values = array();
+        foreach($this->getParts() as $k=>$v) {
+            $values[strtolower($k)] = $v;
+        }
+        return array($values);
+
+    }
 }
