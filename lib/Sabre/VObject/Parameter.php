@@ -147,7 +147,7 @@ class Parameter extends Node {
             // If there's no special characters in the string, we'll use the simple
             // format
             if (!preg_match('#(?: [\n":;\^,] )#x', $item)) {
-                return $item;
+                return $out.$item;
             } else {
                 // Enclosing in double-quotes, and using RFC6868 for encoding any
                 // special characters
@@ -156,7 +156,7 @@ class Parameter extends Node {
                     "\n" => '^n',
                     '"'  => '^\'',
                 )) . '"';
-                return  $out;
+                return $out;
             }
 
         });

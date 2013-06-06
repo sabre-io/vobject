@@ -35,7 +35,7 @@ abstract class Property extends Node {
     /**
      * List of parameters
      *
-     * @var string
+     * @var array
      */
     public $parameters = array();
 
@@ -57,9 +57,7 @@ abstract class Property extends Node {
     /**
      * Creates the generic property.
      *
-     * You can specify the parameters either in key=>value syntax, in which case
-     * parameters will automatically be created, or you can just pass a list of
-     * Parameter objects.
+     * Parameters must be specified in key=>value syntax.
      *
      * @param Component $root The root document
      * @param string $name
@@ -79,16 +77,8 @@ abstract class Property extends Node {
             $this->setValue($value);
         }
 
-        foreach($parameters as $k=>$child) {
-            if ($child instanceof Parameter) {
-
-                // Parameter object
-                $this->add($child);
-            } else {
-
-                // Parameter key=>value
-                $this->add($k, $child);
-            }
+        foreach($parameters as $k=>$v) {
+            $this->add($k, $v);
         }
 
     }
@@ -169,36 +159,20 @@ abstract class Property extends Node {
     /**
      * Adds a new parameter, and returns the new item.
      *
-     * This method has 2 possible signatures:
+     * If a parameter with same name already existed, the values will be
+     * combined.
      *
-     * add(Parameter $param) // Adds a new parameter as an object.
-     * add($name, string|array $value) // Adds a new parameter by name.
-     *
+     * @param string $name
+     * @param string|null|array $value
      * @return Node
      */
-    public function add($a1, $a2 = null) {
+    public function add($name, $value = null) {
 
-        if ($a1 instanceof Parameter) {
-            if (!is_null($a2)) {
-                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject');
-            }
-            $a1->parent = $this;
-            $this->parameters[] = $a1;
-
-            return $a1;
-
-        } elseif(is_string($a1)) {
-
-            $parameter = $this->root->createParameter($a1, $a2);
-            $parameter->parent = $this;
-            $this->parameters[] = $parameter;
-
-            return $parameter;
-
+        $name = strtoupper($name);
+        if (isset($this->parameters[$name])) {
+            $this->parameters[$name]->addValue($value);
         } else {
-
-            throw new \InvalidArgumentException('The first argument must either be a Node a string');
-
+            $this->parameters[$name] = new Parameter($this->root, $name, $value);
         }
 
     }
@@ -404,44 +378,8 @@ abstract class Property extends Node {
             // @codeCoverageIgnoreEnd
         }
 
-        if (is_scalar($value)) {
-            if (!is_string($name))
-                throw new \InvalidArgumentException('A parameter name must be specified. This means you cannot use the $array[]="string" to add parameters.');
 
-            $this->offsetUnset($name);
-            $parameter = $this->root->createParameter($name, $value);
-            $parameter->parent = $this;
-            $this->parameters[] = $parameter;
-
-            /*
-            if (strtoupper($name) === 'VALUE' && !is_null($this->parent)) {
-                // We have to do some crazy stuff if 'value' changed. Our
-                // properties are automatically mapped to classes based on
-                // their value. So if 'VALUE' changed, we may need to replace
-                // this property entirely for the new version.
-                //
-                // Unfortunately we can only do this, if we actually have a
-                // parent :(
-                $newClass = $this->root->getClassNameForPropertyValue(strtoupper($value));
-                if (!is_null($newClass) && get_class($this) !== $newClass) {
-                    $newProperty = $this->root->createProperty($this->group . $this->name, $this->getParts(), $this->parameters());
-
-                    // Replacing the object
-                    $this->parent->remove($this);
-                    $this->parent->add($newProperty);
-
-                }
-            }*/
-
-        } elseif ($value instanceof Parameter) {
-            if (!is_null($name))
-                throw new \InvalidArgumentException('Don\'t specify a parameter name if you\'re passing a \\Sabre\\VObject\\Parameter. Add using $array[]=$parameterObject.');
-
-            $value->parent = $this;
-            $this->parameters[] = $value;
-        } else {
-            throw new \InvalidArgumentException('You can only add parameters to the property object');
-        }
+        $this->parameters[strtoupper($name)] = new Parameter($this->root, $name, $value);
 
     }
 
@@ -462,15 +400,7 @@ abstract class Property extends Node {
             // @codeCoverageIgnoreEnd
         }
 
-        $name = strtoupper($name);
-
-        foreach($this->parameters as $key=>$parameter) {
-            if ($parameter->name == $name) {
-                $parameter->parent = null;
-                unset($this->parameters[$key]);
-            }
-
-        }
+        unset($this->parameters[strtoupper($name)]);
 
     }
     /* }}} */
