@@ -93,6 +93,7 @@ abstract class Document extends Component {
         'TIMESTAMP'        => 'TimeStamp', // vCard only
         'TEXT'             => 'Text',
         'TIME'             => 'Time',
+        'UNKNOWN'          => 'Unknown', // jCard / jCal-only.
         'URI'              => 'Uri',
         'URL'              => 'Uri', // vCard 2.1 only
         'UTC-OFFSET'       => 'UtcOffset',
