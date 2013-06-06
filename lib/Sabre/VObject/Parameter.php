@@ -146,7 +146,7 @@ class Parameter extends Node {
 
             // If there's no special characters in the string, we'll use the simple
             // format
-            if (!preg_match('#(?: [\n":;\^] )#x', $item)) {
+            if (!preg_match('#(?: [\n":;\^,] )#x', $item)) {
                 return $item;
             } else {
                 // Enclosing in double-quotes, and using RFC6868 for encoding any
