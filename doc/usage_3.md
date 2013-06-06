@@ -16,7 +16,7 @@ Notable new stuff:
 * Better support for vCard 2.1
 * Support for RFC6868.
 * Serializing to jCard/jCal.
-* Lots of tiny API improvements that combined make everything much easier. 
+* Lots of tiny API improvements that combined make everything much easier.
 
 Installation
 ------------
@@ -180,22 +180,6 @@ foreach($vcard->ADR as $adr) {
 
 ```
 
-### Converting to jCard
-
-To create a json-version of this object, simply call `jsonSerialize` on your
-vcard:
-
-```php
-<?php
-
-echo json_encode($vcard->jsonSerialize());
-
-```
-
-The json format is based on this draft RFC:
-
-http://tools.ietf.org/html/draft-ietf-jcardcal-jcard-03
-
 
 ### iCalendar
 
@@ -205,7 +189,7 @@ that vCard does not.
 First, in vCard there's only 1 component (everything between `BEGIN:VCARD`
 and `END:VCARD`), but in iCalendar, there are nested components.
 
-A simple illustration, lets create an iCalendar that contains an event. 
+A simple illustration, lets create an iCalendar that contains an event.
 
 ```php
 <?php
@@ -346,7 +330,7 @@ VObject supports the following options:
 6. `FREQ=MONTHLY` to recur every month, `BYMONTHDAY` to expand this to certain days in a month, `BYDAY` to expand it to certain weekdays occuring in a month, and `BYSETPOS` to limit the last two expansions.
 7. `FREQ=YEARLY` to recur every year, `BYMONTH` to expand that to certain months in a year, and `BYDAY` and `BYWEEKDAY` to expand the `BYMONTH` rule even further.
 
-VObject supports the `EXDATE` property for exclusions, but not yet the `RDATE` and `EXRULE` 
+VObject supports the `EXDATE` property for exclusions, but not yet the `RDATE` and `EXRULE`
 properties. If you're interested in this, please file a github issue, as this will put it
 on my radar.
 
@@ -482,6 +466,27 @@ FREEBUSY;FBTYPE=BUSY:20121210T140000Z/20121210T140000Z
 END:VFREEBUSY
 END:VCALENDAR
 ```
+
+### Converting to jCard
+
+To create a json-version of your calendar or vcard, simply call
+`jsonSerialize` on your component:
+
+```php
+<?php
+
+echo json_encode($vcard->jsonSerialize());
+
+```
+
+The json formats are based on these draft RFCs:
+
+* http://tools.ietf.org/html/draft-ietf-jcardcal-jcard-03
+* http://tools.ietf.org/html/draft-kewisch-et-al-icalendar-in-json-02
+
+Because these are still in draft, so is the jsonSerialize implementation. The
+output format may therefore break between versions to comply with the latest
+version of the spec.
 
 Support
 -------
