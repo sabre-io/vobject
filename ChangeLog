@@ -4,6 +4,10 @@
 	* Added: Specialized classes for FLOAT, LANGUAGE-TAG, TIME, TIMESTAMP,
 	  DATE-AND-OR-TIME, CAL-ADDRESS, UNKNOWN and UTC-OFFSET properties.
 	* Removed: CommaSeparatedText property. Now included into Text.
+	* Fixed: Multiple parameters with the same name are now correctly encoded.
+	* Fixed: Parameter values containing a comma are now enclosed in
+	  double-quotes.
+	* Fixed: Iterating parameter values should now fully work as expected.
 
 3.0.0-alpha4 (2013-05-31)
 	* Added: It's now possible to send parser options to the splitter classes.

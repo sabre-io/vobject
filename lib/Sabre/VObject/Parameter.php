@@ -2,6 +2,9 @@
 
 namespace Sabre\VObject;
 
+use
+    ArrayObject;
+
 /**
  * VObject Parameter
  *
@@ -45,6 +48,7 @@ class Parameter extends Node {
         $this->setValue($value);
 
     }
+
 
     /**
      * Updates the current value.
@@ -183,6 +187,20 @@ class Parameter extends Node {
     public function __toString() {
 
         return $this->getValue();
+
+    }
+
+    /**
+     * Returns the iterator for this object
+     *
+     * @return ElementList
+     */
+    public function getIterator() {
+
+        if (!is_null($this->iterator))
+            return $this->iterator;
+
+        return new ArrayObject((array)$this->value);
 
     }
 

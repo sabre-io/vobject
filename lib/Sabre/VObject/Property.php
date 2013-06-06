@@ -333,7 +333,9 @@ abstract class Property extends Node {
     }
 
     /**
-     * Returns a parameter, or parameter list.
+     * Returns a parameter.
+     *
+     * If the parameter does not exist, null is returned.
      *
      * @param string $name
      * @return Node
@@ -343,20 +345,11 @@ abstract class Property extends Node {
         if (is_int($name)) return parent::offsetGet($name);
         $name = strtoupper($name);
 
-        $result = array();
-        foreach($this->parameters as $parameter) {
-            if ($parameter->name == $name)
-                $result[] = $parameter;
+        if (!isset($this->parameters[$name])) {
+            return null;
         }
 
-        if (count($result)===0) {
-            return null;
-        } elseif (count($result)===1) {
-            return $result[0];
-        } else {
-            $result[0]->setIterator(new ElementList($result));
-            return $result[0];
-        }
+        return $this->parameters[$name];
 
     }
 
