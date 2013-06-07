@@ -200,7 +200,7 @@ class Parameter extends Node {
         if (!is_null($this->iterator))
             return $this->iterator;
 
-        return new ArrayObject((array)$this->value);
+        return $this->iterator = new ArrayObject((array)$this->value);
 
     }
 
