@@ -77,26 +77,26 @@ abstract class Document extends Component {
      * @var array
      */
     static public $valueMap = array(
-        'BINARY'           => 'Binary',
-        'BOOLEAN'          => 'Boolean',
-        'CONTENT-ID'       => 'FlatText',   // vCard 2.1 only
-        'CAL-ADDRESS'      => 'CalAddress', // iCalendar only
-        'DATE'             => 'DateTime',
-        'DATE-TIME'        => 'DateTime',
-        'DATE-AND-OR-TIME' => 'DateAndOrTime', // vCard only
-        'DURATION'         => 'Duration', // iCalendar only
-        'FLOAT'            => 'Float',
-        'INTEGER'          => 'Integer',
-        'LANGUAGE-TAG'     => 'LanguageTag', // vCard only
-        'PERIOD'           => 'Period',   // iCalendar only
-        'RECUR'            => 'Recur',    // iCalendar only
-        'TIMESTAMP'        => 'TimeStamp', // vCard only
-        'TEXT'             => 'Text',
-        'TIME'             => 'Time',
-        'UNKNOWN'          => 'Unknown', // jCard / jCal-only.
-        'URI'              => 'Uri',
-        'URL'              => 'Uri', // vCard 2.1 only
-        'UTC-OFFSET'       => 'UtcOffset',
+        'BINARY'           => 'Sabre\\VObject\\Property\\Binary',
+        'BOOLEAN'          => 'Sabre\\VObject\\Property\\Boolean',
+        'CONTENT-ID'       => 'Sabre\\VObject\\Property\\FlatText',   // vCard 2.1 only
+        'CAL-ADDRESS'      => 'Sabre\\VObject\\Property\\CalAddress', // iCalendar only
+        'DATE'             => 'Sabre\\VObject\\Property\\DateTime',
+        'DATE-TIME'        => 'Sabre\\VObject\\Property\\DateTime',
+        'DATE-AND-OR-TIME' => 'Sabre\\VObject\\Property\\DateAndOrTime', // vCard only
+        'DURATION'         => 'Sabre\\VObject\\Property\\Duration', // iCalendar only
+        'FLOAT'            => 'Sabre\\VObject\\Property\\Float',
+        'INTEGER'          => 'Sabre\\VObject\\Property\\Integer',
+        'LANGUAGE-TAG'     => 'Sabre\\VObject\\Property\\LanguageTag', // vCard only
+        'PERIOD'           => 'Sabre\\VObject\\Property\\Period',   // iCalendar only
+        'RECUR'            => 'Sabre\\VObject\\Property\\Recur',    // iCalendar only
+        'TIMESTAMP'        => 'Sabre\\VObject\\Property\\TimeStamp', // vCard only
+        'TEXT'             => 'Sabre\\VObject\\Property\\Text',
+        'TIME'             => 'Sabre\\VObject\\Property\\Time',
+        'UNKNOWN'          => 'Sabre\\VObject\\Property\\Unknown', // jCard / jCal-only.
+        'URI'              => 'Sabre\\VObject\\Property\\Uri',
+        'URL'              => 'Sabre\\VObject\\Property\\Uri', // vCard 2.1 only
+        'UTC-OFFSET'       => 'Sabre\\VObject\\Property\\UtcOffset',
     );
 
     /**
@@ -188,7 +188,7 @@ abstract class Document extends Component {
         $class = 'Sabre\\VObject\\Component';
 
         if (isset(static::$componentMap[$name])) {
-            $class.='\\' . static::$componentMap[$name];
+            $class=static::$componentMap[$name];
         }
         if (is_null($children)) $children = array();
         return new $class($this, $name, $children, $defaults);
@@ -228,7 +228,7 @@ abstract class Document extends Component {
             $class=$this->getClassNameForPropertyValue($parameters['VALUE']);
         }
         if (is_null($class) && isset(static::$propertyMap[$name])) {
-            $class='Sabre\\VObject\\Property\\' .static::$propertyMap[$name];
+            $class=static::$propertyMap[$name];
         }
         if (is_null($class)) {
             $class='Sabre\\VObject\\Property\\Unknown';
@@ -254,7 +254,7 @@ abstract class Document extends Component {
 
         $valueParam = strtoupper($valueParam);
         if (isset(static::$valueMap[$valueParam])) {
-            return 'Sabre\\VObject\\Property\\' . static::$valueMap[$valueParam];
+            return static::$valueMap[$valueParam];
         }
 
     }

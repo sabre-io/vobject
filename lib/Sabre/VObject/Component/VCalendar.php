@@ -30,11 +30,11 @@ class VCalendar extends VObject\Document {
      * @var array
      */
     static public $componentMap = array(
-        'VEVENT'    => 'VEvent',
-        'VFREEBUSY' => 'VFreeBusy',
-        'VJOURNAL'  => 'VJournal',
-        'VTODO'     => 'VTodo',
-        'VALARM'    => 'VAlarm',
+        'VEVENT'    => 'Sabre\\VObject\\Component\\VEvent',
+        'VFREEBUSY' => 'Sabre\\VObject\\Component\\VFreeBusy',
+        'VJOURNAL'  => 'Sabre\\VObject\\Component\\VJournal',
+        'VTODO'     => 'Sabre\\VObject\\Component\\VTodo',
+        'VALARM'    => 'Sabre\\VObject\\Component\\VAlarm',
     );
 
     /**
@@ -44,69 +44,69 @@ class VCalendar extends VObject\Document {
      */
     static public $propertyMap = array(
         // Calendar properties
-        'CALSCALE'      => 'FlatText',
-        'METHOD'        => 'FlatText',
-        'PRODID'        => 'FlatText',
-        'VERSION'       => 'FlatText',
+        'CALSCALE'      => 'Sabre\\VObject\\Property\\FlatText',
+        'METHOD'        => 'Sabre\\VObject\\Property\\FlatText',
+        'PRODID'        => 'Sabre\\VObject\\Property\\FlatText',
+        'VERSION'       => 'Sabre\\VObject\\Property\\FlatText',
 
         // Component properties
-        'ATTACH'            => 'Binary',
-        'CATEGORIES'        => 'Text',
-        'CLASS'             => 'FlatText',
-        'COMMENT'           => 'FlatText',
-        'DESCRIPTION'       => 'FlatText',
-        'GEO'               => 'Float',
-        'LOCATION'          => 'FlatText',
-        'PERCENT-COMPLETE'  => 'Integer',
-        'PRIORITY'          => 'Integer',
-        'RESOURCES'         => 'Text',
-        'STATUS'            => 'FlatText',
-        'SUMMARY'           => 'FlatText',
+        'ATTACH'            => 'Sabre\\VObject\\Property\\Binary',
+        'CATEGORIES'        => 'Sabre\\VObject\\Property\\Text',
+        'CLASS'             => 'Sabre\\VObject\\Property\\FlatText',
+        'COMMENT'           => 'Sabre\\VObject\\Property\\FlatText',
+        'DESCRIPTION'       => 'Sabre\\VObject\\Property\\FlatText',
+        'GEO'               => 'Sabre\\VObject\\Property\\Float',
+        'LOCATION'          => 'Sabre\\VObject\\Property\\FlatText',
+        'PERCENT-COMPLETE'  => 'Sabre\\VObject\\Property\\Integer',
+        'PRIORITY'          => 'Sabre\\VObject\\Property\\Integer',
+        'RESOURCES'         => 'Sabre\\VObject\\Property\\Text',
+        'STATUS'            => 'Sabre\\VObject\\Property\\FlatText',
+        'SUMMARY'           => 'Sabre\\VObject\\Property\\FlatText',
 
         // Date and Time Component Properties
-        'COMPLETED'     => 'DateTime',
-        'DTEND'         => 'DateTime',
-        'DUE'           => 'DateTime',
-        'DTSTART'       => 'DateTime',
-        'DURATION'      => 'Duration',
-        'FREEBUSY'      => 'Period',
-        'TRANSP'        => 'FlatText',
+        'COMPLETED'     => 'Sabre\\VObject\\Property\\DateTime',
+        'DTEND'         => 'Sabre\\VObject\\Property\\DateTime',
+        'DUE'           => 'Sabre\\VObject\\Property\\DateTime',
+        'DTSTART'       => 'Sabre\\VObject\\Property\\DateTime',
+        'DURATION'      => 'Sabre\\VObject\\Property\\Duration',
+        'FREEBUSY'      => 'Sabre\\VObject\\Property\\Period',
+        'TRANSP'        => 'Sabre\\VObject\\Property\\FlatText',
 
         // Time Zone Component Properties
-        'TZID'          => 'FlatText',
-        'TZNAME'        => 'FlatText',
-        'TZOFFSETFROM'  => 'UtcOffset',
-        'TZOFFSETTO'    => 'UtcOffset',
-        'TZURL'         => 'Uri',
+        'TZID'          => 'Sabre\\VObject\\Property\\FlatText',
+        'TZNAME'        => 'Sabre\\VObject\\Property\\FlatText',
+        'TZOFFSETFROM'  => 'Sabre\\VObject\\Property\\UtcOffset',
+        'TZOFFSETTO'    => 'Sabre\\VObject\\Property\\UtcOffset',
+        'TZURL'         => 'Sabre\\VObject\\Property\\Uri',
 
         // Relationship Component Properties
-        'ATTENDEE'      => 'CalAddress',
-        'CONTACT'       => 'FlatText',
-        'ORGANIZER'     => 'CalAddress',
-        'RECURRENCE-ID' => 'DateTime',
-        'RELATED-TO'    => 'FlatText',
-        'URL'           => 'Uri',
-        'UID'           => 'FlatText',
+        'ATTENDEE'      => 'Sabre\\VObject\\Property\\CalAddress',
+        'CONTACT'       => 'Sabre\\VObject\\Property\\FlatText',
+        'ORGANIZER'     => 'Sabre\\VObject\\Property\\CalAddress',
+        'RECURRENCE-ID' => 'Sabre\\VObject\\Property\\DateTime',
+        'RELATED-TO'    => 'Sabre\\VObject\\Property\\FlatText',
+        'URL'           => 'Sabre\\VObject\\Property\\Uri',
+        'UID'           => 'Sabre\\VObject\\Property\\FlatText',
 
         // Recurrence Component Properties
-        'EXDATE'        => 'DateTime',
-        'RDATE'         => 'DateTime',
-        'RRULE'         => 'Recur',
-        'EXRULE'        => 'Recur', // Deprecated since rfc5545
+        'EXDATE'        => 'Sabre\\VObject\\Property\\DateTime',
+        'RDATE'         => 'Sabre\\VObject\\Property\\DateTime',
+        'RRULE'         => 'Sabre\\VObject\\Property\\Recur',
+        'EXRULE'        => 'Sabre\\VObject\\Property\\Recur', // Deprecated since rfc5545
 
         // Alarm Component Properties
-        'ACTION'        => 'FlatText',
-        'REPEAT'        => 'Integer',
-        'TRIGGER'       => 'Duration',
+        'ACTION'        => 'Sabre\\VObject\\Property\\FlatText',
+        'REPEAT'        => 'Sabre\\VObject\\Property\\Integer',
+        'TRIGGER'       => 'Sabre\\VObject\\Property\\Duration',
 
         // Change Management Component Properties
-        'CREATED'       => 'DateTime',
-        'DTSTAMP'       => 'DateTime',
-        'LAST-MODIFIED' => 'DateTime',
-        'SEQUENCE'      => 'Integer',
+        'CREATED'       => 'Sabre\\VObject\\Property\\DateTime',
+        'DTSTAMP'       => 'Sabre\\VObject\\Property\\DateTime',
+        'LAST-MODIFIED' => 'Sabre\\VObject\\Property\\DateTime',
+        'SEQUENCE'      => 'Sabre\\VObject\\Property\\Integer',
 
         // Request Status
-        'REQUEST-STATUS' => 'Text',
+        'REQUEST-STATUS' => 'Sabre\\VObject\\Property\\Text',
 
     );
 

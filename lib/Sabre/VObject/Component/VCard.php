@@ -40,52 +40,52 @@ class VCard extends VObject\Document {
     static public $propertyMap = array(
 
         // vCard 2.1 properties and up
-        'N'       => 'Text',
-        'FN'      => 'FlatText',
-        'PHOTO'   => 'Binary', // Todo: we should add a class for Binary values.
-        'BDAY'    => 'DateAndOrTime',
-        'ADR'     => 'Text',
-        'LABEL'   => 'FlatText', // Removed in vCard 4.0
-        'TEL'     => 'FlatText',
-        'EMAIL'   => 'FlatText',
-        'MAILER'  => 'FlatText', // Removed in vCard 4.0
-        'GEO'     => 'FlatText',
-        'TITLE'   => 'FlatText',
-        'ROLE'    => 'FlatText',
-        'LOGO'    => 'Binary',
-        // 'AGENT'   => '',      // Todo: is an embedded vCard. Probably rare, so
+        'N'       => 'Sabre\\VObject\\Property\\Text',
+        'FN'      => 'Sabre\\VObject\\Property\\FlatText',
+        'PHOTO'   => 'Sabre\\VObject\\Property\\Binary', // Todo: we should add a class for Binary values.
+        'BDAY'    => 'Sabre\\VObject\\Property\\DateAndOrTime',
+        'ADR'     => 'Sabre\\VObject\\Property\\Text',
+        'LABEL'   => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
+        'TEL'     => 'Sabre\\VObject\\Property\\FlatText',
+        'EMAIL'   => 'Sabre\\VObject\\Property\\FlatText',
+        'MAILER'  => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
+        'GEO'     => 'Sabre\\VObject\\Property\\FlatText',
+        'TITLE'   => 'Sabre\\VObject\\Property\\FlatText',
+        'ROLE'    => 'Sabre\\VObject\\Property\\FlatText',
+        'LOGO'    => 'Sabre\\VObject\\Property\\Binary',
+        // 'AGENT'   => 'Sabre\\VObject\\Property\\',      // Todo: is an embedded vCard. Probably rare, so
                                  // not supported at the moment
-        'ORG'     => 'Text',
-        'NOTE'    => 'FlatText',
-        'REV'     => 'TimeStamp',
-        'SOUND'   => 'FlatText',
-        'URL'     => 'Uri',
-        'UID'     => 'FlatText',
-        'VERSION' => 'FlatText',
-        'KEY'     => 'FlatText',
+        'ORG'     => 'Sabre\\VObject\\Property\\Text',
+        'NOTE'    => 'Sabre\\VObject\\Property\\FlatText',
+        'REV'     => 'Sabre\\VObject\\Property\\TimeStamp',
+        'SOUND'   => 'Sabre\\VObject\\Property\\FlatText',
+        'URL'     => 'Sabre\\VObject\\Property\\Uri',
+        'UID'     => 'Sabre\\VObject\\Property\\FlatText',
+        'VERSION' => 'Sabre\\VObject\\Property\\FlatText',
+        'KEY'     => 'Sabre\\VObject\\Property\\FlatText',
 
         // vCard 3.0 properties
-        'CATEGORIES'  => 'Text',
-        'SORT-STRING' => 'FlatText',
-        'PRODID'      => 'FlatText',
-        'NICKNAME'    => 'Text',
-        'CLASS'       => 'FlatText', // Removed in vCard 4.0
+        'CATEGORIES'  => 'Sabre\\VObject\\Property\\Text',
+        'SORT-STRING' => 'Sabre\\VObject\\Property\\FlatText',
+        'PRODID'      => 'Sabre\\VObject\\Property\\FlatText',
+        'NICKNAME'    => 'Sabre\\VObject\\Property\\Text',
+        'CLASS'       => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
 
         // rfc2739 properties
-        'FBURL'        => 'Uri',
-        'CAPURI'       => 'Uri',
-        'CALURI'       => 'Uri',
+        'FBURL'        => 'Sabre\\VObject\\Property\\Uri',
+        'CAPURI'       => 'Sabre\\VObject\\Property\\Uri',
+        'CALURI'       => 'Sabre\\VObject\\Property\\Uri',
 
         // rfc4770 properties
-        'IMPP'         => 'Uri',
+        'IMPP'         => 'Sabre\\VObject\\Property\\Uri',
 
         // vCard 4.0 properties
-        'XML'          => 'FlatText',
-        'ANNIVERSARY'  => 'DateAndOrTime',
-        'CLIENTPIDMAP' => 'Text',
-        'LANG'         => 'LanguageTag',
-        'GENDER'       => 'Text',
-        'KIND'         => 'FlatText',
+        'XML'          => 'Sabre\\VObject\\Property\\FlatText',
+        'ANNIVERSARY'  => 'Sabre\\VObject\\Property\\DateAndOrTime',
+        'CLIENTPIDMAP' => 'Sabre\\VObject\\Property\\Text',
+        'LANG'         => 'Sabre\\VObject\\Property\\LanguageTag',
+        'GENDER'       => 'Sabre\\VObject\\Property\\Text',
+        'KIND'         => 'Sabre\\VObject\\Property\\FlatText',
 
     );
 
