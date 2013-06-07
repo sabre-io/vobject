@@ -495,7 +495,41 @@ Because these are still in draft, so is the jsonSerialize implementation. The
 output format may therefore break between versions to comply with the latest
 version of the spec.
 
-### Full API documentation
+### Splitting export files
+
+Generally when software makes backups of calendars or contacts, they will
+put all the objects in a single file. In the case of vCards, this is often
+a stream of VCARD objects, in the case of iCalendar, this tends to be a
+single VCALENDAR objects, with many components.
+
+Protocols such as Card- and CalDAV expect only 1 object per resource. The
+vobject library provides 2 classes to split these backup files up into many.
+
+To do this, use the splitter objects:
+
+```php
+<?php
+
+// You can either pass a readable stream, or a string.
+$h = fopen('backupfile.vcf', 'r');
+$splitter = new VObject\Splitter\VCard($h);
+
+while($vcard = $splitter->next()) {
+
+    // $vCard is a single vCard object. You can just call serialize() on it
+    // if you were looking for the string version.
+
+}
+```
+
+Next to the VCard splitter, there's also an ICalendar splitter. The latter
+creates a `VCALENDAR` object per `VEVENT`, `VTODO` or `VJOURNAL`, and ensures
+that the `VTIMEZONE` information is kept intact, and any `VEVENT` objects that
+belong together (because they are expections for an `RRULE` and thus have the
+same `UID`) will be kept together, exactly like CalDAV expects.
+
+Full API documentation
+----------------------
 
 Full API documentation can be found on github:
 
