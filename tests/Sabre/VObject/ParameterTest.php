@@ -14,6 +14,17 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testSetupNameLess() {
+
+        $card = new Component\VCard();
+
+        $param = new Parameter($card, null,'URL');
+        $this->assertEquals('VALUE',$param->name);
+        $this->assertEquals('URL',$param->getValue());
+        $this->assertTrue($param->noName);
+
+    }
+
     function testModify() {
 
         $cal = new Component\VCalendar();
