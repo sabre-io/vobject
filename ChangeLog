@@ -1,4 +1,4 @@
-3.0.0-alpha5 (2013-07-13)
+3.0.0-beta1 (2013-07-13)
 	* Added: jsonSerialize() for creating jCal and jCard documents.
 	* Added: helper method to parse vCard dates and times.
 	* Added: Specialized classes for FLOAT, LANGUAGE-TAG, TIME, TIMESTAMP,
