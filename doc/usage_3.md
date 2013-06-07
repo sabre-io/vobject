@@ -24,7 +24,7 @@ Installation
 VObject requires PHP 5.3, and should be installed using composer.
 The general composer instructions can be found on the [composer website](http://getcomposer.org/doc/00-intro.md composer website).
 
-After that, just declare the vobject dependency as follows:
+After that, just declare the VObject dependency as follows:
 
 ```
 "require" : {
@@ -39,16 +39,16 @@ Usage
 
 A few notes about the examples:
 
-1. The assumption for every example, is that the vObject source has been
+1. The assumption for every example, is that the VObject source has been
    included.
 2. It's also assumed that `use Sabre\VObject` has been called to import the
    VObject namespace.
 3. Short-array syntax is used everywhere, which requires PHP 5.4. If you are
    still on PHP 5.3, replace `[...]` with `array(...)` where appropriate.
 
-### Creating vcards.
+### Creating vCards.
 
-To create a vcard, you can simply instantiate the vCard component, and pass
+To create a vCard, you can simply instantiate the vCard component, and pass
 the properties you need:
 
 ```php
@@ -80,7 +80,7 @@ END:VCARD
 ### Adding properties
 
 Certain properties, such as `TEL`, `ADR` or `EMAIL` may appear more than once.
-To add any additional properties, use the `add()` method on the vcard.
+To add any additional properties, use the `add()` method on the vCard.
 
 ```php
 <?php
@@ -106,7 +106,7 @@ unset($vcard->FN);
 
 // Checks for existence of a property:
 
-isset($vCard->FN);
+isset($vcard->FN);
 ```
 
 ### Manipulating parameters
@@ -180,6 +180,59 @@ foreach($vcard->ADR as $adr) {
 }
 ```
 
+### vCard property grouping
+
+It's allowed in vCards to group multiple properties together with an arbitrary
+string.
+
+Apple clients use this feature to assign custom labels to things like phone
+numbers and email addresses. Below is an example:
+
+```
+BEGIN:VCARD
+VERSION:3.0
+groupname.TEL:+1 555 12342567
+groupname.X-ABLABEL:UK number
+END:VCARD
+```
+
+
+In our example, you can see that the TEL properties are prefixed. These are 'groups' and
+allow you to group multiple related properties together.
+
+In most situations these group names are ignored, so when you execute the following
+example, the `TEL` properties are still traversed.
+
+```php
+<?php
+
+foreach($vcard->TEL as $tel) {
+    echo (string)$tel, "\n";
+}
+```
+
+But if you would like to target a specific group + property, this is possible too:
+
+```php
+<?php
+
+echo (string)$vcard->{'groupname.TEL'};
+```
+
+To expand that example a little bit; if you'd like to traverse through all phone
+numbers and display their custom labels, you'd do something like this:
+
+
+```php
+<?php
+
+foreach($vcard->TEL as $tel) {
+
+    echo (string)$vcard->{$tel->group . '.X-ABLABEL'}, ": ";
+    echo (string)$tel, "\n";
+
+}
+```
 
 ### iCalendar
 
@@ -241,65 +294,10 @@ $vevent->add('ATTENDEE','mailto:attendee1@example.org');
 $vevent->add('ATTENDEE','mailto:attendee2@example.org');
 ```
 
-### vCard property grouping
-
-It's allowed in vCards to group multiple properties together with an arbitrary
-string.
-
-Apple clients use this feature to assign custom labels to things like phone
-numbers and email addresses. Below is an example:
-
-```
-BEGIN:VCARD
-VERSION:3.0
-groupname.TEL:+1 555 12342567
-groupname.X-ABLABEL:UK number
-END:VCARD
-```
-
-
-In our example, you can see that the TEL properties are prefixed. These are 'groups' and
-allow you to group multiple related properties together.
-
-In most situations these group names are ignored, so when you execute the following
-example, the `TEL` properties are still traversed.
-
-```php
-<?php
-
-foreach($vcard->TEL as $tel) {
-    echo (string)$tel, "\n";
-}
-```
-
-But if you would like to target a specific group + property, this is possible too:
-
-```php
-<?php
-
-echo (string)$card->{'groupname.TEL'};
-```
-
-To expand that example a little bit; if you'd like to traverse through all phone
-numbers and display their custom labels, you'd do something like this:
-
-
-```php
-<?php
-
-foreach($card->TEL as $tel) {
-
-    echo (string)$card->{$tel->group . '.X-ABLABEL'}, ": ";
-    echo (string)$tel, "\n";
-
-}
-```
-
-
 ### Date and time handling
 
 Parsing Dates and Times from iCalendar and vCard can be difficult.
-Most of this is abstracted by the vObject library.
+Most of this is abstracted by the VObject library.
 
 Given an event, in a calendar, you can get a real PHP `DateTime` object using
 the following syntax:
@@ -370,10 +368,8 @@ To figure out all the meetings for this year, we can use the following syntax:
 ```php
 <?php
 
-use Sabre\VObject;
-
-$calendar = VObject\Reader::read($data);
-$calendar->expand(new DateTime('2012-01-01'), new DateTime('2012-12-31'));
+$vcalendar = VObject\Reader::read($data);
+$vcalendar->expand(new DateTime('2012-01-01'), new DateTime('2012-12-31'));
 ```
 
 What the expand method does, is look at its inner events, and expand the recurring
@@ -411,8 +407,8 @@ To show the list of dates, we would do this as such:
 ```php
 <?php
 
-foreach($calendar->VEVENT as $event) {
-    echo $event->DTSTART->getDateTime()->format(\DateTime::ATOM);
+foreach($vcalendar->VEVENT as $vevent) {
+    echo $vevent->DTSTART->getDateTime()->format(\DateTime::ATOM);
 }
 ```
 
@@ -442,7 +438,7 @@ Example based on our last event:
 $fbGenerator = new VObject\FreeBusyGenerator(
     new DateTime('2012-01-01'),
     new DateTime('2012-12-31'),
-    $calendar
+    $vcalendar
 );
 
 // Grabbing the report
@@ -481,7 +477,7 @@ END:VCALENDAR
 
 ### Converting to jCard
 
-To create a json-version of your calendar or vcard, simply call
+To create a json-version of your iCalendar or vCard, simply call
 `jsonSerialize` on your component:
 
 ```php
