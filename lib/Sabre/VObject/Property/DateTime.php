@@ -183,7 +183,6 @@ class DateTime extends Property {
 
                 if ($isFloating) {
                     $values[] = $d->format('Ymd\\THis');
-                    $this->offsetUnset('TZID');
                     continue;
                 }
                 if (is_null($tz)) {
@@ -192,8 +191,6 @@ class DateTime extends Property {
                     if (!$isUtc) {
                         $this->offsetSet('TZID', $tz->getName());
                         $this->offsetSet('VALUE','DATE-TIME');
-                    } else {
-                        $this->offsetUnset('TZID');
                     }
                 } else {
                     $d->setTimeZone($tz);
@@ -206,15 +203,18 @@ class DateTime extends Property {
                 }
 
             }
+            if ($isUtc || $isFloating) {
+                $this->offsetUnset('TZID');
+            }
 
         } else {
 
             foreach($dt as $d) {
 
                 $values[] = $d->format('Ymd');
-                $this->offsetUnset('TZID');
 
             }
+            $this->offsetUnset('TZID');
 
         }
 
