@@ -13,7 +13,7 @@ VObject 3 is the new and improved version of the library.
 Notable new stuff:
 
 * New and improved parser.
-* Better support for vCard 2.1
+* Better support for vCard 2.1.
 * Support for RFC6868.
 * Serializing to jCard/jCal.
 * Lots of tiny API improvements that combined make everything much easier.
@@ -44,7 +44,7 @@ A few notes about the examples:
 2. It's also assumed that `use Sabre\VObject` has been called to import the
    VObject namespace.
 3. Short-array syntax is used everywhere, which requires PHP 5.4. If you are
-   still on PHP 5.3, replace `[...]` with `array(...)` where approprate.
+   still on PHP 5.3, replace `[...]` with `array(...)` where appropriate.
 
 ### Creating vcards.
 
