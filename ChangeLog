@@ -1,4 +1,4 @@
-3.0.0-alpha5 (2013-??-??)
+3.0.0-alpha5 (2013-07-13)
 	* Added: jsonSerialize() for creating jCal and jCard documents.
 	* Added: helper method to parse vCard dates and times.
 	* Added: Specialized classes for FLOAT, LANGUAGE-TAG, TIME, TIMESTAMP,
@@ -11,6 +11,7 @@
 	* Fixed: Support for vCard 2.1 nameless parameters.
 	* Changed: $valueMap, $componentMap and $propertyMap now all use
 	  fully-qualified class names, so they are actually overridable.
+	* Fixed: Updating DATE-TIME to DATE values now behaves like expected.
 
 3.0.0-alpha4 (2013-05-31)
 	* Added: It's now possible to send parser options to the splitter classes.
