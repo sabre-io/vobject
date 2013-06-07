@@ -212,9 +212,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    function testReadPropertyNoValue() {
+    function testReadPropertyNoName() {
 
-        $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME:propValue\r\nEND:VCALENDAR";
+        $data = "BEGIN:VCALENDAR\r\nPROPNAME;PRODIGY:propValue\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -223,9 +223,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
-        $this->assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
-
-        $this->assertNull($result->parameters['PARAMNAME']->getValue());
+        $this->assertEquals('TYPE', $result->parameters['TYPE']->name);
+        $this->assertTrue($result->parameters['TYPE']->noName);
+        $this->assertEquals('PRODIGY', $result->parameters['TYPE']);
 
     }
 

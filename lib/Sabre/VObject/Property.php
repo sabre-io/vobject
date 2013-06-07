@@ -168,11 +168,11 @@ abstract class Property extends Node {
      */
     public function add($name, $value = null) {
 
-        $name = strtoupper($name);
-        if (isset($this->parameters[$name])) {
-            $this->parameters[$name]->addValue($value);
+        if (isset($this->parameters[strtoupper($name)])) {
+            $this->parameters[strtoupper($name)]->addValue($value);
         } else {
-            $this->parameters[$name] = new Parameter($this->root, $name, $value);
+            $param = new Parameter($this->root, $name, $value);
+            $this->parameters[$param->name] = $param;
         }
 
     }
@@ -371,8 +371,8 @@ abstract class Property extends Node {
             // @codeCoverageIgnoreEnd
         }
 
-
-        $this->parameters[strtoupper($name)] = new Parameter($this->root, $name, $value);
+        $param = new Parameter($this->root, $name, $value);
+        $this->parameters[$param->name] = $param;
 
     }
 

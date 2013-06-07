@@ -27,6 +27,15 @@ class Parameter extends Node {
     public $name;
 
     /**
+     * vCard 2.1 allows parameters to be encoded without a name.
+     *
+     * We can deduce the parameter name based on it's value.
+     *
+     * @var bool
+     */
+    public $noName = false;
+
+    /**
      * Parameter value
      *
      * @var string
@@ -45,6 +54,95 @@ class Parameter extends Node {
 
         $this->name = strtoupper($name);
         $this->root = $root;
+        if (is_null($name)) {
+            $this->noName = true;
+
+            // Figuring out what the name should have been. Note that a ton of
+            // these are rather silly in 2013 and would probably rarely be
+            // used, but we like to be complete.
+            switch(strtoupper($value)) {
+
+                // Encodings
+                case '7-BIT' :
+                case 'QUOTED-PRINTABLE' :
+                case 'BASE64' :
+                    $this->name = 'ENCODING';
+                    break;
+
+                // Common types
+                case 'WORK' :
+                case 'HOME' :
+                case 'PREF' :
+
+                // Delivery Label Type
+                case 'DOM' :
+                case 'INTL' :
+                case 'POSTAL' :
+                case 'PARCEL' :
+
+                // Telephone types
+                case 'VOICE' :
+                case 'FAX' :
+                case 'MSG' :
+                case 'CELL' :
+                case 'PAGER' :
+                case 'BBS' :
+                case 'MODEM' :
+                case 'CAR' :
+                case 'ISDN' :
+                case 'VIDEO' :
+
+                // EMAIL types (lol)
+                case 'AOL' :
+                case 'APPLELINK' :
+                case 'ATTMAIL' :
+                case 'CIS' :
+                case 'EWORLD' :
+                case 'INTERNET' :
+                case 'IBMMAIL' :
+                case 'MCIMAIL' :
+                case 'POWERSHARE' :
+                case 'PRODIGY' :
+                case 'TLX' :
+                case 'X400' :
+
+                // Photo / Logo format types
+                case 'GIF' :
+                case 'CGM' :
+                case 'WMF' :
+                case 'BMP' :
+                case 'DIB' :
+                case 'PICT' :
+                case 'TIFF' :
+                case 'PDF ':
+                case 'PS' :
+                case 'JPEG' :
+                case 'MPEG' :
+                case 'MPEG2' :
+                case 'AVI' :
+                case 'QTIME' :
+
+                // Sound Digital Audio Type
+                case 'WAVE' :
+                case 'PCM' :
+                case 'AIFF' :
+
+                // Key types
+                case 'X509' :
+                case 'PGP' :
+                    $this->name = 'TYPE';
+                    break;
+
+                // Value types
+                case 'INLINE' :
+                case 'URL' :
+                case 'CONTENT-ID' :
+                case 'CID' :
+                    $this->name = 'VALUE';
+                    break;
+
+            }
+        }
         $this->setValue($value);
 
     }
@@ -144,7 +242,7 @@ class Parameter extends Node {
             return $this->name;
         }
 
-        return $this->name . '=' . array_reduce($value, function($out, $item) {
+        return ($this->noName?:$this->name . '=') . array_reduce($value, function($out, $item) {
 
             if (!is_null($out)) $out.=',';
 

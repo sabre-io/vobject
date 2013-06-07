@@ -8,6 +8,7 @@
 	* Fixed: Parameter values containing a comma are now enclosed in
 	  double-quotes.
 	* Fixed: Iterating parameter values should now fully work as expected.
+	* Fixed: Support for vCard 2.1 nameless parameters.
 
 3.0.0-alpha4 (2013-05-31)
 	* Added: It's now possible to send parser options to the splitter classes.
