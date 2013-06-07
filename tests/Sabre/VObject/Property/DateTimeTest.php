@@ -280,4 +280,15 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         date_default_timezone_set($default);
 
     }
+
+    function testUpdateValueParameter() {
+
+        $dtStart = $this->vcal->createProperty('DTSTART', new \DateTime('2013-06-07 15:05:00'));
+        $dtStart['VALUE'] = 'DATE';
+
+        $this->assertEquals("DTSTART;VALUE=DATE:20130607\r\n", $dtStart->serialize());
+
+    }
+
+
 }

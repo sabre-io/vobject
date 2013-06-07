@@ -212,6 +212,7 @@ class DateTime extends Property {
             foreach($dt as $d) {
 
                 $values[] = $d->format('Ymd');
+                $this->offsetUnset('TZID');
 
             }
 
@@ -262,4 +263,23 @@ class DateTime extends Property {
 
     }
 
+    /**
+     * We need to intercept offsetSet, because it may be used to alter the
+     * VALUE from DATE-TIME to DATE or vice-versa.
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     */
+    public function offsetSet($name, $value) {
+
+        parent::offsetSet($name, $value);
+        if (strtoupper($name)!=='VALUE') {
+            return;
+        }
+
+        // This will ensure that dates are correctly encoded.
+        $this->setDateTimes($this->getDateTimes());
+
+    }
 }
