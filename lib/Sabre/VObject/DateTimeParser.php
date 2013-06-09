@@ -202,6 +202,10 @@ class DateTimeParser {
      * --MMDD
      * ---DD
      *
+     * YYYY-MM-DD
+     * --MM-DD
+     * ---DD
+     *
      * List of supported time formats:
      *
      * HH
@@ -210,8 +214,17 @@ class DateTimeParser {
      * -MMSS
      * --SS
      *
-     * A full date-time string looks like :
+     * HH
+     * HH:MM
+     * HH:MM:SS
+     * -MM:SS
+     * --SS
+     *
+     * A full basic-format date-time string looks like :
      * 20130603T133901
+     *
+     * A full extended-format date-time string looks like :
+     * 2013-06-03T13:39:01
      *
      * Times may be postfixed by a timezone offset. This can be either 'Z' for
      * UTC, or a string like -0500 or +1100.
@@ -245,7 +258,33 @@ class DateTimeParser {
 
 
         if (!preg_match($regex, $date, $matches)) {
-            throw new \InvalidArgumentException('Invalid vCard date-time string: ' . $date);
+
+            // Attempting to parse the extended format.
+            $regex = '/^
+                (?: # date part
+                    (?: (?P<year> [0-9]{4}) - | -- )
+                    (?P<month> [0-9]{2}) -
+                    (?P<date> [0-9]{2})
+                )?
+                (?:T # time part
+
+                    (?: (?P<hour> [0-9]{2}) : | -)
+                    (?: (?P<minute> [0-9]{2}) : | -)?
+                    (?P<second> [0-9]{2})?
+
+                    (?P<timezone> # timezone offset
+
+                        Z | (?: \+|-)(?: [0-9]{4})
+
+                    )?
+
+                )?
+                $/x';
+
+            if (!preg_match($regex, $date, $matches)) {
+                throw new \InvalidArgumentException('Invalid vCard date-time string: ' . $date);
+            }
+
         }
         $parts = array(
             'year',

@@ -1,5 +1,6 @@
 3.0.0-beta2 (2013-06-??)
 	* Fixed: Corrected includes.php file.
+	* Fixed: vCard date-time parser supported extended-format dates as well.
 
 3.0.0-beta1 (2013-06-07)
 	* Added: jsonSerialize() for creating jCal and jCard documents.
