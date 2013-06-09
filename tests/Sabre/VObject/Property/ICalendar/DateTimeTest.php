@@ -1,6 +1,6 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\ICalendar;
 
 use
     Sabre\VObject\Component,
@@ -27,7 +27,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals('19850704T013000', (string)$elem);
         $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
-        $this->assertEquals('DATE-TIME', (string)$elem['VALUE']);
+        $this->assertNull($elem['VALUE']);
 
         $this->assertTrue($elem->hasTime());
 
@@ -106,7 +106,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals('19850704T013000', (string)$elem);
         $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
-        $this->assertEquals('DATE-TIME', (string)$elem['VALUE']);
+        $this->assertNull($elem['VALUE']);
 
         $this->assertTrue($elem->hasTime());
 
@@ -125,7 +125,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals('19850704T013000,19850704T023000', (string)$elem);
         $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
-        $this->assertEquals('DATE-TIME', (string)$elem['VALUE']);
+        $this->assertNull($elem['VALUE']);
 
         $this->assertTrue($elem->hasTime());
 
@@ -144,7 +144,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals('19850704T013000,19850704T023000', (string)$elem);
         $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
-        $this->assertEquals('DATE-TIME', (string)$elem['VALUE']);
+        $this->assertNull($elem['VALUE']);
 
         $this->assertTrue($elem->hasTime());
 
