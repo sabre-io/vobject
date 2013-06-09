@@ -1,6 +1,6 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\ICalendar;
 
 use Sabre\VObject\Component\VCalendar;
 
@@ -11,7 +11,7 @@ class RecurTest extends \PHPUnit_Framework_TestCase {
         $vcal = new VCalendar();
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
 
-        $this->assertInstanceOf('Sabre\VObject\Property\Recur', $recur);
+        $this->assertInstanceOf('Sabre\VObject\Property\ICalendar\Recur', $recur);
 
         $this->assertEquals(array('FREQ'=>'DAILY'), $recur->getParts());
         $recur->setParts(array('freq'=>'MONTHLY'));

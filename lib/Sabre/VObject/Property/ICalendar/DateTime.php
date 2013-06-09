@@ -1,6 +1,6 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\ICalendar;
 
 use
     Sabre\VObject\Property,

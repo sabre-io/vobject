@@ -17,6 +17,8 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
             "item1.X-AB-LABEL" => "Walkie Talkie",
         ));
 
+        $card->add('BDAY', '1979-12-25', array('VALUE' => 'DATE'));
+
         $expected = array(
             "vcard",
             array(
@@ -78,6 +80,13 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                     "unknown",
                     "Walkie Talkie",
                 ),
+                array(
+                    "bday",
+                    new \StdClass(),
+                    "date",
+                    "1979-12-25",
+                ),
+
             ),
         );
 

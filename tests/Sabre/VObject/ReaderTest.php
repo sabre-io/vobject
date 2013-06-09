@@ -107,7 +107,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $result = Reader::read($data);
 
         $result = $result->DTSTART;
-        $this->assertInstanceOf('Sabre\\VObject\\Property\\DateTime', $result);
+        $this->assertInstanceOf('Sabre\\VObject\\Property\\ICalendar\\DateTime', $result);
         $this->assertEquals('DTSTART', $result->name);
         $this->assertEquals('20110529', $result->getValue());
 
@@ -119,7 +119,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $result = Reader::read($data);
 
         $result = $result->DTSTART;
-        $this->assertInstanceOf('Sabre\\VObject\\Property\\DateTime', $result);
+        $this->assertInstanceOf('Sabre\\VObject\\Property\\ICalendar\\DateTime', $result);
         $this->assertEquals('DTSTART', $result->name);
         $this->assertEquals('20110529', $result->getValue());
 

@@ -76,28 +76,7 @@ abstract class Document extends Component {
      *
      * @var array
      */
-    static public $valueMap = array(
-        'BINARY'           => 'Sabre\\VObject\\Property\\Binary',
-        'BOOLEAN'          => 'Sabre\\VObject\\Property\\Boolean',
-        'CONTENT-ID'       => 'Sabre\\VObject\\Property\\FlatText',   // vCard 2.1 only
-        'CAL-ADDRESS'      => 'Sabre\\VObject\\Property\\CalAddress', // iCalendar only
-        'DATE'             => 'Sabre\\VObject\\Property\\DateTime',
-        'DATE-TIME'        => 'Sabre\\VObject\\Property\\DateTime',
-        'DATE-AND-OR-TIME' => 'Sabre\\VObject\\Property\\DateAndOrTime', // vCard only
-        'DURATION'         => 'Sabre\\VObject\\Property\\Duration', // iCalendar only
-        'FLOAT'            => 'Sabre\\VObject\\Property\\Float',
-        'INTEGER'          => 'Sabre\\VObject\\Property\\Integer',
-        'LANGUAGE-TAG'     => 'Sabre\\VObject\\Property\\LanguageTag', // vCard only
-        'PERIOD'           => 'Sabre\\VObject\\Property\\Period',   // iCalendar only
-        'RECUR'            => 'Sabre\\VObject\\Property\\Recur',    // iCalendar only
-        'TIMESTAMP'        => 'Sabre\\VObject\\Property\\TimeStamp', // vCard only
-        'TEXT'             => 'Sabre\\VObject\\Property\\Text',
-        'TIME'             => 'Sabre\\VObject\\Property\\Time',
-        'UNKNOWN'          => 'Sabre\\VObject\\Property\\Unknown', // jCard / jCal-only.
-        'URI'              => 'Sabre\\VObject\\Property\\Uri',
-        'URL'              => 'Sabre\\VObject\\Property\\Uri', // vCard 2.1 only
-        'UTC-OFFSET'       => 'Sabre\\VObject\\Property\\UtcOffset',
-    );
+    static public $valueMap = array();
 
     /**
      * Creates a new document.

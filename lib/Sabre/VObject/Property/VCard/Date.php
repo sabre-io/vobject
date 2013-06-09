@@ -1,19 +1,20 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\VCard;
+
+use
+    Sabre\VObject\DateTimeParser;
 
 /**
- * CalAddress property
+ * Date property
  *
- * This object encodes CAL-ADDRESS values, as defined in rfc5545
+ * This object encodes vCard DATE values.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class CalAddress extends Text {
-
-    protected $delimiter = null;
+class Date extends DateAndOrTime {
 
     /**
      * Returns the type of value.
@@ -25,7 +26,7 @@ class CalAddress extends Text {
      */
     public function getValueType() {
 
-        return 'CAL-ADDRESS';
+        return "DATE";
 
     }
 

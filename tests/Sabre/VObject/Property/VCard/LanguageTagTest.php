@@ -1,6 +1,6 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\VCard;
 
 use Sabre\VObject;
 
@@ -13,7 +13,7 @@ class LanguageTagTest extends \PHPUnit_Framework_TestCase {
 
         $result = $mimeDir->parse($input);
 
-        $this->assertInstanceOf('Sabre\VObject\Property\LanguageTag', $result->LANG);
+        $this->assertInstanceOf('Sabre\VObject\Property\VCard\LanguageTag', $result->LANG);
 
         $this->assertEquals('nl', $result->LANG->getValue());
 

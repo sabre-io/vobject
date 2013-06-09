@@ -33,6 +33,30 @@ class VCard extends VObject\Document {
     private $version = null;
 
     /**
+     * List of value-types, and which classes they map to.
+     *
+     * @var array
+     */
+    static public $valueMap = array(
+        'BINARY'           => 'Sabre\\VObject\\Property\\Binary',
+        'BOOLEAN'          => 'Sabre\\VObject\\Property\\Boolean',
+        'CONTENT-ID'       => 'Sabre\\VObject\\Property\\FlatText',   // vCard 2.1 only
+        'DATE'             => 'Sabre\\VObject\\Property\\VCard\\Date',
+        'DATE-TIME'        => 'Sabre\\VObject\\Property\\VCard\\DateTime',
+        'DATE-AND-OR-TIME' => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime', // vCard only
+        'FLOAT'            => 'Sabre\\VObject\\Property\\Float',
+        'INTEGER'          => 'Sabre\\VObject\\Property\\Integer',
+        'LANGUAGE-TAG'     => 'Sabre\\VObject\\Property\\VCard\\LanguageTag',
+        'TIMESTAMP'        => 'Sabre\\VObject\\Property\\VCard\\TimeStamp',
+        'TEXT'             => 'Sabre\\VObject\\Property\\Text',
+        'TIME'             => 'Sabre\\VObject\\Property\\Time',
+        'UNKNOWN'          => 'Sabre\\VObject\\Property\\Unknown', // jCard / jCal-only.
+        'URI'              => 'Sabre\\VObject\\Property\\Uri',
+        'URL'              => 'Sabre\\VObject\\Property\\Uri', // vCard 2.1 only
+        'UTC-OFFSET'       => 'Sabre\\VObject\\Property\\UtcOffset',
+    );
+
+    /**
      * List of properties, and which classes they map to.
      *
      * @var array
@@ -43,7 +67,7 @@ class VCard extends VObject\Document {
         'N'       => 'Sabre\\VObject\\Property\\Text',
         'FN'      => 'Sabre\\VObject\\Property\\FlatText',
         'PHOTO'   => 'Sabre\\VObject\\Property\\Binary', // Todo: we should add a class for Binary values.
-        'BDAY'    => 'Sabre\\VObject\\Property\\DateAndOrTime',
+        'BDAY'    => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
         'ADR'     => 'Sabre\\VObject\\Property\\Text',
         'LABEL'   => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
         'TEL'     => 'Sabre\\VObject\\Property\\FlatText',
@@ -57,7 +81,7 @@ class VCard extends VObject\Document {
                                  // not supported at the moment
         'ORG'     => 'Sabre\\VObject\\Property\\Text',
         'NOTE'    => 'Sabre\\VObject\\Property\\FlatText',
-        'REV'     => 'Sabre\\VObject\\Property\\TimeStamp',
+        'REV'     => 'Sabre\\VObject\\Property\\VCard\\TimeStamp',
         'SOUND'   => 'Sabre\\VObject\\Property\\FlatText',
         'URL'     => 'Sabre\\VObject\\Property\\Uri',
         'UID'     => 'Sabre\\VObject\\Property\\FlatText',
@@ -81,9 +105,9 @@ class VCard extends VObject\Document {
 
         // vCard 4.0 properties
         'XML'          => 'Sabre\\VObject\\Property\\FlatText',
-        'ANNIVERSARY'  => 'Sabre\\VObject\\Property\\DateAndOrTime',
+        'ANNIVERSARY'  => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
         'CLIENTPIDMAP' => 'Sabre\\VObject\\Property\\Text',
-        'LANG'         => 'Sabre\\VObject\\Property\\LanguageTag',
+        'LANG'         => 'Sabre\\VObject\\Property\\VCard\\LanguageTag',
         'GENDER'       => 'Sabre\\VObject\\Property\\Text',
         'KIND'         => 'Sabre\\VObject\\Property\\FlatText',
 

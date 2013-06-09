@@ -38,6 +38,29 @@ class VCalendar extends VObject\Document {
     );
 
     /**
+     * List of value-types, and which classes they map to.
+     *
+     * @var array
+     */
+    static public $valueMap = array(
+        'BINARY'           => 'Sabre\\VObject\\Property\\Binary',
+        'BOOLEAN'          => 'Sabre\\VObject\\Property\\Boolean',
+        'CAL-ADDRESS'      => 'Sabre\\VObject\\Property\\ICalendar\\CalAddress',
+        'DATE'             => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'DATE-TIME'        => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'DURATION'         => 'Sabre\\VObject\\Property\\ICalendar\\Duration',
+        'FLOAT'            => 'Sabre\\VObject\\Property\\Float',
+        'INTEGER'          => 'Sabre\\VObject\\Property\\Integer',
+        'PERIOD'           => 'Sabre\\VObject\\Property\\ICalendar\\Period',
+        'RECUR'            => 'Sabre\\VObject\\Property\\ICalendar\\Recur',
+        'TEXT'             => 'Sabre\\VObject\\Property\\Text',
+        'TIME'             => 'Sabre\\VObject\\Property\\Time',
+        'UNKNOWN'          => 'Sabre\\VObject\\Property\\Unknown', // jCard / jCal-only.
+        'URI'              => 'Sabre\\VObject\\Property\\Uri',
+        'UTC-OFFSET'       => 'Sabre\\VObject\\Property\\UtcOffset',
+    );
+
+    /**
      * List of properties, and which classes they map to.
      *
      * @var array
@@ -64,12 +87,12 @@ class VCalendar extends VObject\Document {
         'SUMMARY'           => 'Sabre\\VObject\\Property\\FlatText',
 
         // Date and Time Component Properties
-        'COMPLETED'     => 'Sabre\\VObject\\Property\\DateTime',
-        'DTEND'         => 'Sabre\\VObject\\Property\\DateTime',
-        'DUE'           => 'Sabre\\VObject\\Property\\DateTime',
-        'DTSTART'       => 'Sabre\\VObject\\Property\\DateTime',
-        'DURATION'      => 'Sabre\\VObject\\Property\\Duration',
-        'FREEBUSY'      => 'Sabre\\VObject\\Property\\Period',
+        'COMPLETED'     => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'DTEND'         => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'DUE'           => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'DTSTART'       => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'DURATION'      => 'Sabre\\VObject\\Property\\ICalendar\\Duration',
+        'FREEBUSY'      => 'Sabre\\VObject\\Property\\ICalendar\\Period',
         'TRANSP'        => 'Sabre\\VObject\\Property\\FlatText',
 
         // Time Zone Component Properties
@@ -80,29 +103,29 @@ class VCalendar extends VObject\Document {
         'TZURL'         => 'Sabre\\VObject\\Property\\Uri',
 
         // Relationship Component Properties
-        'ATTENDEE'      => 'Sabre\\VObject\\Property\\CalAddress',
+        'ATTENDEE'      => 'Sabre\\VObject\\Property\\ICalendar\\CalAddress',
         'CONTACT'       => 'Sabre\\VObject\\Property\\FlatText',
-        'ORGANIZER'     => 'Sabre\\VObject\\Property\\CalAddress',
-        'RECURRENCE-ID' => 'Sabre\\VObject\\Property\\DateTime',
+        'ORGANIZER'     => 'Sabre\\VObject\\Property\\ICalendar\\CalAddress',
+        'RECURRENCE-ID' => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
         'RELATED-TO'    => 'Sabre\\VObject\\Property\\FlatText',
         'URL'           => 'Sabre\\VObject\\Property\\Uri',
         'UID'           => 'Sabre\\VObject\\Property\\FlatText',
 
         // Recurrence Component Properties
-        'EXDATE'        => 'Sabre\\VObject\\Property\\DateTime',
-        'RDATE'         => 'Sabre\\VObject\\Property\\DateTime',
-        'RRULE'         => 'Sabre\\VObject\\Property\\Recur',
-        'EXRULE'        => 'Sabre\\VObject\\Property\\Recur', // Deprecated since rfc5545
+        'EXDATE'        => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'RDATE'         => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'RRULE'         => 'Sabre\\VObject\\Property\\ICalendar\\Recur',
+        'EXRULE'        => 'Sabre\\VObject\\Property\\ICalendar\\Recur', // Deprecated since rfc5545
 
         // Alarm Component Properties
         'ACTION'        => 'Sabre\\VObject\\Property\\FlatText',
         'REPEAT'        => 'Sabre\\VObject\\Property\\Integer',
-        'TRIGGER'       => 'Sabre\\VObject\\Property\\Duration',
+        'TRIGGER'       => 'Sabre\\VObject\\Property\\ICalendar\\Duration',
 
         // Change Management Component Properties
-        'CREATED'       => 'Sabre\\VObject\\Property\\DateTime',
-        'DTSTAMP'       => 'Sabre\\VObject\\Property\\DateTime',
-        'LAST-MODIFIED' => 'Sabre\\VObject\\Property\\DateTime',
+        'CREATED'       => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'DTSTAMP'       => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'LAST-MODIFIED' => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
         'SEQUENCE'      => 'Sabre\\VObject\\Property\\Integer',
 
         // Request Status
@@ -223,7 +246,7 @@ class VCalendar extends VObject\Document {
         foreach($newEvents as $newEvent) {
 
             foreach($newEvent->children as $child) {
-                if ($child instanceof VObject\Property\DateTime && $child->hasTime()) {
+                if ($child instanceof VObject\Property\ICalendar\DateTime && $child->hasTime()) {
                     $dt = $child->getDateTimes();
                     // We only need to update the first timezone, because
                     // setDateTimes will match all other timezones to the
