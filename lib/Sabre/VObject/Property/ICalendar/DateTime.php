@@ -190,7 +190,6 @@ class DateTime extends Property {
                     $isUtc = in_array($tz->getName() , array('UTC', 'GMT', 'Z'));
                     if (!$isUtc) {
                         $this->offsetSet('TZID', $tz->getName());
-                        $this->offsetSet('VALUE','DATE-TIME');
                     }
                 } else {
                     $d->setTimeZone($tz);
