@@ -4,6 +4,7 @@
 	* Changed: Properties have been moved to an ICalendar or VCard directory.
 	* Fixed: Couldn't parse vCard 3 extended format dates and times.
 	* Fixed: Couldn't export jCard DATE values correctly.
+	* Fixed: Recursive loop in ICalendar\DateTime property.
 
 3.0.0-beta1 (2013-06-07)
 	* Added: jsonSerialize() for creating jCal and jCard documents.
