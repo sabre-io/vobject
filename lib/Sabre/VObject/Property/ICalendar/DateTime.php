@@ -218,7 +218,7 @@ class DateTime extends Property {
 
         }
 
-        $this->setParts($values);
+        $this->value = $values;
 
     }
 
