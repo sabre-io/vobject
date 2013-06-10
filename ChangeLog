@@ -1,4 +1,4 @@
-3.0.0-beta2 (2013-06-??)
+3.0.0-beta2 (2013-06-10)
 	* Fixed: Corrected includes.php file.
 	* Fixed: vCard date-time parser supported extended-format dates as well.
 	* Changed: Properties have been moved to an ICalendar or VCard directory.
