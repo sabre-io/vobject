@@ -109,15 +109,38 @@ unset($vcard->FN);
 isset($vcard->FN);
 ```
 
-### Manipulating parameters
+### Working with parameters
+
+To get access to a parameter, you can simply use array-access:
+
+```php
+$type = $vcard->TEL['TYPE']:
+echo (string)$type;
+```
+
+Parameters can also appear multiple times. To get to their values, just loop
+through them:
+
+```php
+if ($param = $vcard->TEL['TYPE']) {
+    foreach($param as $value) {
+      echo $value, "\n";
+    }
+}
+```
 
 To change parameters for properties, you can use array-access syntax:
 
 ```php
 <?php
 
-$tel = $vcard->FN;
-$tel['TYPE'] = ['WORK','FAX']:
+$vcard->TEL['TYPE'] = ['WORK','FAX']:
+```
+
+Or when you're working with singular parameters:
+
+```php
+$vcard->TEL['PREF'] = 1;
 ```
 
 ### Parsing vCard or iCalendar
