@@ -19,9 +19,6 @@ class Reader {
     /**
      * If this option is passed to the reader, it will be less strict about the
      * validity of the lines.
-     *
-     * Currently using this option just means, that it will accept underscores
-     * in property names.
      */
     const OPTION_FORGIVING = 1;
 

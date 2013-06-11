@@ -263,7 +263,7 @@ class MimeDir extends Parser {
     protected function readProperty($line) {
 
         if ($this->options & self::OPTION_FORGIVING) {
-            $propNameToken = 'A-Z0-9\-\._';
+            $propNameToken = 'A-Z0-9\-\._\\/';
         } else {
             $propNameToken = 'A-Z0-9\-\.';
         }

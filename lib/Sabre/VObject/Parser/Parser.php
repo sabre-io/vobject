@@ -16,8 +16,9 @@ abstract class Parser {
     /**
      * Turning on this option makes the parser more forgiving.
      *
-     * All it changes at the moment, is that underscores are allowed in
-     * property names.
+     * In the case of the MimeDir parser, this means that the parser will
+     * accept slashes and underscores in property names, and it will also
+     * attempt to fix Microsoft vCard 2.1's broken line folding.
      */
     const OPTION_FORGIVING = 1;
 
