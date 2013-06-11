@@ -1,5 +1,7 @@
 3.0.0-beta3 (????-??-??)
 	* Added: OPTION_FORGIVING now also allows slashes in property names.
+	* Fixed: DateTimeParser no longer fails on dates with years < 1000
+	  & > 4999
 
 3.0.0-beta2 (2013-06-10)
 	* Fixed: Corrected includes.php file.
