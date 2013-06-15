@@ -5,7 +5,8 @@
     "homepage" : "https://github.com/fruux/sabre-vobject",
     "license" : "BSD-3-Clause",
     "require" : {
-        "php" : ">=5.3.1"
+        "php"          : ">=5.3.1",
+        "ext-mbstring" : "*"
     },
     "authors" : [
         {
