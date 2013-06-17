@@ -87,7 +87,7 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                             "sequence", new \StdClass(), "integer", 5
                         ),
                         array(
-                            "freebusy", new \StdClass(), "period",  ["2013-05-26T21:02:13", "PT1H"], ["2013-06-26T12:00:00", "2013-06-26T13:00:00"],
+                            "freebusy", new \StdClass(), "period",  array("2013-05-26T21:02:13", "PT1H"), array("2013-06-26T12:00:00", "2013-06-26T13:00:00"),
                         ),
                         array(
                             "url", new \StdClass(), "uri", "http://example.org/",
