@@ -149,6 +149,20 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($elem->hasTime());
 
     }
+    function testSetPartsStrings() {
+
+        $dt1 = '19850704T013000Z';
+        $dt2 = '19850704T023000Z';
+
+        $elem = $this->vcal->createProperty('DTSTART');
+        $elem->setParts(array($dt1,$dt2));
+
+        $this->assertEquals('19850704T013000Z,19850704T023000Z', (string)$elem);
+        $this->assertNull($elem['VALUE']);
+
+        $this->assertTrue($elem->hasTime());
+
+    }
 
 
     function testGetDateTimeCached() {

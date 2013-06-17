@@ -27,6 +27,7 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
         ));
 
         $card->add('BDAY', '1979-12-25', array('VALUE' => 'DATE', 'X-PARAM' => array(1,2)));
+        $card->add('BDAY', '1979-12-25T02:00:00', array('VALUE' => 'DATE-TIME'));
 
 
         $card->add('X-TRUNCATED', '--1225', array('VALUE' => 'DATE'));
@@ -34,7 +35,7 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
         $card->add('X-TIME-UTC', '12:30:00Z', array('VALUE' => 'TIME'));
         $card->add('X-TIME-OFFSET', '12:30:00-08:00', array('VALUE' => 'TIME'));
         $card->add('X-TIME-REDUCED', '23', array('VALUE' => 'TIME'));
-        $card->add('X-TIME-TRUNCATED', '-30', array('VALUE' => 'TIME'));
+        $card->add('X-TIME-TRUNCATED', '--30', array('VALUE' => 'TIME'));
 
         $card->add('X-KARMA-POINTS', '42', array('VALUE' => 'INTEGER'));
         $card->add('X-GRADE', '1.3', array('VALUE' => 'FLOAT'));
@@ -125,6 +126,12 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                     "1979-12-25",
                 ),
                 array(
+                    "bday",
+                    new \StdClass(),
+                    "date-time",
+                    "1979-12-25T02:00:00",
+                ),
+                array(
                     "x-truncated",
                     new \StdClass(),
                     "date",
@@ -158,7 +165,7 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                     "x-time-truncated",
                     new \StdClass(),
                     "time",
-                    "-30"
+                    "--30"
                 ),
                 array(
                     "x-karma-points",

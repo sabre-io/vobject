@@ -173,6 +173,16 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @dataProvider vcardDates
+     * @expectedException \InvalidArgumentException
+     */
+    function testBadVCardTime() {
+
+        DateTimeParser::parseVCardTime('23:12:166');
+
+    }
+
     function vcardDates() {
 
         return array(
