@@ -1,4 +1,4 @@
-3.0.0-beta3 (????-??-??)
+3.0.0-beta3 (2013-06-17)
 	* Added: OPTION_FORGIVING now also allows slashes in property names.
 	* Fixed: DateTimeParser no longer fails on dates with years < 1000
 	  & > 4999
