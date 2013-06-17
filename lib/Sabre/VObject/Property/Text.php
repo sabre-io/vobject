@@ -154,16 +154,10 @@ class Text extends Property {
         // Structured text values should always be returned as a single
         // array-item. Multi-value text should be returned as multiple items in
         // the top-array.
-        //
-        // But: only in jCard, not jCal :)
-        if ($this->root->getDocumentType() === Document::ICALENDAR20) {
-            return $this->getParts();
+        if (in_array($this->name, $this->structuredValues)) {
+            return array($this->getParts());
         } else {
-            if (in_array($this->name, $this->structuredValues)) {
-                return array($this->getParts());
-            } else {
-                return $this->getParts();
-            }
+            return $this->getParts();
         }
 
     }

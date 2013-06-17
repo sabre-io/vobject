@@ -83,14 +83,19 @@ class Period extends Property {
             list($start, $end) = explode('/', $item, 2);
 
             $start = DateTimeParser::parseDateTime($start);
-            $return[] = $start->format('Y-m-d\\TH:i:s');
 
             // This is a duration value.
             if ($end[0]==='P') {
-                $return[] = $end;
+                $return[] = array(
+                    $start->format('Y-m-d\\TH:i:s'),
+                    $end
+                );
             } else {
                 $end = DateTimeParser::parseDateTime($end);
-                $return[] = $end->format('Y-m-d\\TH:i:s');
+                $return[] = array(
+                    $start->format('Y-m-d\\TH:i:s'),
+                    $end->format('Y-m-d\\TH:i:s'),
+                );
             }
 
         }

@@ -31,6 +31,9 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
 
         $event->add("ATTENDEE", "mailto:dominik@example.org", array("CN" => "Dominik", "PARTSTAT" => "DECLINED"));
 
+        $event->add('REQUEST-STATUS', array("2.0", "Success"));
+        $event->add('REQUEST-STATUS', array("3.7", "Invalid Calendar User", "ATTENDEE:mailto:jsmith@example.org"));
+
         $expected = array(
             "vcalendar",
             array(
@@ -78,13 +81,13 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                             "attendee", new \StdClass(), "cal-address", "mailto:armin@example.org",
                         ),
                         array(
-                            "geo", new \StdClass(), "float", 51.96668, 7.61876,
+                            "geo", new \StdClass(), "float", array(51.96668, 7.61876),
                         ),
                         array(
                             "sequence", new \StdClass(), "integer", 5
                         ),
                         array(
-                            "freebusy", new \StdClass(), "period",  "2013-05-26T21:02:13", "PT1H", "2013-06-26T12:00:00", "2013-06-26T13:00:00",
+                            "freebusy", new \StdClass(), "period",  ["2013-05-26T21:02:13", "PT1H"], ["2013-06-26T12:00:00", "2013-06-26T13:00:00"],
                         ),
                         array(
                             "url", new \StdClass(), "uri", "http://example.org/",
@@ -112,7 +115,19 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                             ),
                             "cal-address",
                             "mailto:dominik@example.org"
-                        )
+                        ),
+                        array(
+                            "request-status",
+                            new \StdClass(),
+                            "text",
+                            array("2.0", "Success"),
+                        ),
+                        array(
+                            "request-status",
+                            new \StdClass(),
+                            "text",
+                            array("3.7", "Invalid Calendar User", "ATTENDEE:mailto:jsmith@example.org"),
+                        ),
                     ),
                     array(),
                 )
