@@ -85,7 +85,7 @@
 	* Added: You can add new sub-components much quicker with the magic
 	  setters, and add() method.
 
-2.1.0-stable (2013-??-??)
+2.1.0-stable (2013-06-17)
 	* This version is fully backwards compatible with 2.0.*. However, it
 	  contains a few new API's that mimic the VObject 3 API. This allows it to
 	  be used a 'bridge' version.
