@@ -10,6 +10,7 @@ class TimezoneUtilTest extends \PHPUnit_Framework_TestCase {
     function testCorrectTZ($timezoneName) {
 
         $tz = new \DateTimeZone($timezoneName);
+        $this->assertInstanceOf('DateTimeZone', $tz);
 
     }
 
