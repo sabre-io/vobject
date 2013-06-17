@@ -15,9 +15,31 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
             "N" => array("Last", "First", "Middle", "", ""),
             "item1.TEL" => "+1 555 123456",
             "item1.X-AB-LABEL" => "Walkie Talkie",
+            "ADR" => array(
+                "",
+                "",
+                array("My Street", "Left Side", "Second Shack"),
+                "Hometown",
+                "PA",
+                "18252",
+                "U.S.A",
+            ),
         ));
 
-        $card->add('BDAY', '1979-12-25', array('VALUE' => 'DATE'));
+        $card->add('BDAY', '1979-12-25', array('VALUE' => 'DATE', 'X-PARAM' => array(1,2)));
+
+
+        $card->add('X-TRUNCATED', '--1225', array('VALUE' => 'DATE'));
+        $card->add('X-TIME-LOCAL', '123000', array('VALUE' => 'TIME'));
+        $card->add('X-TIME-UTC', '12:30:00Z', array('VALUE' => 'TIME'));
+        $card->add('X-TIME-OFFSET', '12:30:00-08:00', array('VALUE' => 'TIME'));
+        $card->add('X-TIME-REDUCED', '23', array('VALUE' => 'TIME'));
+        $card->add('X-TIME-TRUNCATED', '-30', array('VALUE' => 'TIME'));
+
+        $card->add('X-KARMA-POINTS', '42', array('VALUE' => 'INTEGER'));
+        $card->add('X-GRADE', '1.3', array('VALUE' => 'FLOAT'));
+
+        $card->add('TZ', '-05:00', array('VALUE' => 'UTC-OFFSET'));
 
         $expected = array(
             "vcard",
@@ -81,12 +103,81 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                     "Walkie Talkie",
                 ),
                 array(
-                    "bday",
+                    "adr",
                     new \StdClass(),
+                    "text",
+                        array(
+                            "",
+                            "",
+                            array("My Street", "Left Side", "Second Shack"),
+                            "Hometown",
+                            "PA",
+                            "18252",
+                            "U.S.A",
+                        ),
+                ),
+                array(
+                    "bday",
+                    (object)array(
+                        'x-param' => array(1,2),
+                    ),
                     "date",
                     "1979-12-25",
                 ),
-
+                array(
+                    "x-truncated",
+                    new \StdClass(),
+                    "date",
+                    "--12-25",
+                ),
+                array(
+                    "x-time-local",
+                    new \StdClass(),
+                    "time",
+                    "12:30:00"
+                ),
+                array(
+                    "x-time-utc",
+                    new \StdClass(),
+                    "time",
+                    "12:30:00Z"
+                ),
+                array(
+                    "x-time-offset",
+                    new \StdClass(),
+                    "time",
+                    "12:30:00-08:00"
+                ),
+                array(
+                    "x-time-reduced",
+                    new \StdClass(),
+                    "time",
+                    "23"
+                ),
+                array(
+                    "x-time-truncated",
+                    new \StdClass(),
+                    "time",
+                    "-30"
+                ),
+                array(
+                    "x-karma-points",
+                    new \StdClass(),
+                    "integer",
+                    42
+                ),
+                array(
+                    "x-grade",
+                    new \StdClass(),
+                    "float",
+                    1.3
+                ),
+                array(
+                    "tz",
+                    new \StdClass(),
+                    "utc-offset",
+                    "-05:00",
+                ),
             ),
         );
 

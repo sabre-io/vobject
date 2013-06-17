@@ -4,6 +4,7 @@
 	  & > 4999
 	* Fixed: Issue 36: Workaround for the recurrenceiterator and caldav events
 	  with a missing base event.
+	* Fixed: jCard encoding of TIME properties.
 
 3.0.0-beta2 (2013-06-10)
 	* Fixed: Corrected includes.php file.
