@@ -57,6 +57,47 @@ class QuotedPrintableTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testReadPropertyWithCharset() {
+
+        $data = "BEGIN:VCARD\r\nLABEL;CHARSET=Windows-1252:Aachen\xFC\r\nEND:VCARD";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children()));
+        $this->assertEquals("Aachenü", $this->getPropertyValue($result->label));
+
+    }
+
+    function testReadPropertyWithoutCharset() {
+
+        $data = "BEGIN:VCARD\r\nLABEL:Aachen\xFC\r\nEND:VCARD";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children()));
+        $this->assertEquals("Aachen\xFC", $this->getPropertyValue($result->label));
+
+    }
+
+    function testReadQuotedPrintableCompatibilityMSSeveral() {
+
+        $data = <<<EOT
+BEGIN:VCARD
+ADR;CHARSET=Windows-1252;ENCODING=QUOTED-PRINTABLE:;B=FCro =
+D=FCtschland\\r\\n
+END:VCARD
+EOT;
+
+        $result = Reader::read($data, Reader::OPTION_FORGIVING);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCARD', $result->name);
+        $this->assertEquals(1, count($result->children));
+        $this->assertEquals(";Büro Dütschland\\r\\n", $this->getPropertyValue($result->adr));
+    }
+
     private function getPropertyValue(\Sabre\VObject\Property $property) {
 
         return (string)$property;

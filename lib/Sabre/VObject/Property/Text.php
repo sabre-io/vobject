@@ -84,8 +84,26 @@ class Text extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->setValue(MimeDir::unescapeValue($val, $this->delimiter));
+        $this->setValue(MimeDir::unescapeValue($this->getValueTranscodedToUtf8($val), $this->delimiter));
 
+    }
+
+    /**
+     * transcode property value according to its CHARSET parameter
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function getValueTranscodedToUtf8($value)
+    {
+        $param = $this['charset'];
+        if ($param !== null) {
+            $charset = strtoupper((string)$param);
+            if ($charset !== 'UTF-8') {
+                $value = mb_convert_encoding($value, 'UTF-8', $charset);
+            }
+        }
+        return $value;
     }
 
     /**
@@ -106,7 +124,7 @@ class Text extends Property {
         // that's not preceeded with a \.
         $regex = '# (?<!\\\\) ; #x';
         $matches = preg_split($regex, $val);
-        $this->setValue($val);
+        $this->setValue($this->getValueTranscodedToUtf8($val));
 
     }
 
