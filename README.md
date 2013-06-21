@@ -28,7 +28,7 @@ After that, just declare the vobject dependency as follows:
 
 ```
 "require" : {
-    "sabre/vobject" : "2.0.*"
+    "sabre/vobject" : "~3.0.0"
 }
 ```
 
