@@ -39,6 +39,7 @@ Usage
 
 * [3.x documentation](doc/usage_3.md)
 * [2.x documentation](doc/usage_2.md)
+* [Migrating from 2.x to 3.x](doc/MigratingFrom2to3.md)
 
 Made at fruux
 -------------
