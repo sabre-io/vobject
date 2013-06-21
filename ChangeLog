@@ -1,3 +1,7 @@
+3.0.0-beta5 (2013-??-??)
+	* Fixed: includes.php file was still broken. Our tool to generate it had
+	  some bugs.
+
 3.0.0-beta4 (2013-06-21)
 	* Fixed: includes.php was no longer up to date.
 
