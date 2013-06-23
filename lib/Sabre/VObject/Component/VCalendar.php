@@ -22,7 +22,7 @@ class VCalendar extends VObject\Document {
      *
      * @var string
      */
-    static $defaultName = 'VCALENDAR';
+    static public $defaultName = 'VCALENDAR';
 
     /**
      * This is a list of components, and which classes they should map to.

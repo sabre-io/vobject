@@ -55,7 +55,7 @@ abstract class Document extends Component {
      *
      * @var string
      */
-    static $defaultName;
+    static public $defaultName;
 
     /**
      * List of properties, and which classes they map to.

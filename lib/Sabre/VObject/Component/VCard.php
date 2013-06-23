@@ -24,7 +24,7 @@ class VCard extends VObject\Document {
      *
      * @var string
      */
-    static $defaultName = 'VCARD';
+    static public $defaultName = 'VCARD';
 
     /**
      * Caching the version number
