@@ -2,6 +2,7 @@
 	* Fixed: URI properties should not escape ; and ,.
 	* Fixed: VCard 4 documents now correctly use URI as a default value-type
 	  for PHOTO and others. BINARY no longer exists in vCard 4.
+	* Added: Utility to convert 3.0 vcards to 4.0.
 
 3.0.0-stable (2013-06-21)
 	* Fixed: includes.php file was still broken. Our tool to generate it had
