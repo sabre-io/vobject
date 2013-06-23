@@ -211,7 +211,7 @@ abstract class Document extends Component {
 
         if (is_null($class) && isset($parameters['VALUE'])) {
             // If a VALUE parameter is supplied, we should use that.
-            $class=$this->getClassNameForPropertyValue($parameters['VALUE']);
+            $class = $this->getClassNameForPropertyValue($parameters['VALUE']);
         }
         if (is_null($class)) {
             $class = $this->getClassNameForPropertyName($name);
