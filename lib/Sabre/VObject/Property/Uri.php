@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject\Property;
 
+use Sabre\VObject\Property;
+
 /**
  * URI property
  *
@@ -11,7 +13,7 @@ namespace Sabre\VObject\Property;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Uri extends Text {
+class Uri extends Property {
 
     protected $delimiter = null;
 
@@ -28,4 +30,35 @@ class Uri extends Text {
         return "URI";
 
     }
+
+    /**
+     * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
+     *
+     * This has been 'unfolded', so only 1 line will be passed. Unescaping is
+     * not yet done, but parameters are not included.
+     *
+     * @param string $val
+     * @return void
+     */
+    public function setRawMimeDirValue($val) {
+
+        $this->value = $val;
+
+    }
+
+    /**
+     * Returns a raw mime-dir representation of the value.
+     *
+     * @return string
+     */
+    public function getRawMimeDirValue() {
+
+        if (is_array($this->value)) {
+            return $this->value[0];
+        } else {
+            return $this->value;
+        }
+
+    }
+
 }
