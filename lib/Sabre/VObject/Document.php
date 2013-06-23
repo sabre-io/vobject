@@ -189,7 +189,7 @@ abstract class Document extends Component {
      * @param array $parameters
      * @return Property
      */
-    public function createProperty($name, $value = null, array $parameters = null) {
+    public function createProperty($name, $value = null, array $parameters = null, $valueType = null) {
 
         // If there's a . in the name, it means it's prefixed by a groupname.
         if (($i=strpos($name,'.'))!==false) {
@@ -202,15 +202,18 @@ abstract class Document extends Component {
 
         $class = null;
 
-        // If a VALUE parameter is supplied, this will get precedence.
-        if (isset($parameters['VALUE'])) {
+        if ($valueType) {
+            // The valueType argument comes first to figure out the correct
+            // class.
+            $class = $this->getClassNameForPropertyValue($valueType);
+        }
+
+        if (is_null($class) && isset($parameters['VALUE'])) {
+            // If a VALUE parameter is supplied, we should use that.
             $class=$this->getClassNameForPropertyValue($parameters['VALUE']);
         }
-        if (is_null($class) && isset(static::$propertyMap[$name])) {
-            $class=static::$propertyMap[$name];
-        }
         if (is_null($class)) {
-            $class='Sabre\\VObject\\Property\\Unknown';
+            $class = $this->getClassNameForPropertyName($name);
         }
         if (is_null($parameters)) $parameters = array();
 
@@ -234,6 +237,22 @@ abstract class Document extends Component {
         $valueParam = strtoupper($valueParam);
         if (isset(static::$valueMap[$valueParam])) {
             return static::$valueMap[$valueParam];
+        }
+
+    }
+
+    /**
+     * Returns the default class for a property name.
+     *
+     * @param string $propertyName
+     * @return string
+     */
+    public function getClassNameForPropertyName($propertyName) {
+
+        if (isset(static::$propertyMap[$propertyName])) {
+            return static::$propertyMap[$propertyName];
+        } else {
+            return 'Sabre\\VObject\\Property\\Unknown';
         }
 
     }
