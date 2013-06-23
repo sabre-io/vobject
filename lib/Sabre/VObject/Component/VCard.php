@@ -145,11 +145,31 @@ class VCard extends VObject\Document {
     }
 
     /**
+     * Converts the document to a different vcard version.
+     *
+     * Use one of the VCARD constants for the target. This method will return
+     * a copy of the vcard in the new version.
+     *
+     * At the moment the only supported conversion is from 3.0 to 4.0.
+     *
+     * @param int $target
+     * @return VCard
+     */
+    public function convert($target) {
+
+        $converter = new VObject\VCardConverter();
+        return $converter->convert($this, $target);
+
+    }
+
+    /**
      * VCards with version 2.1, 3.0 and 4.0 are found.
      *
-     * If the VCARD doesn't know its version, 4.0 is assumed.
+     * If the VCARD doesn't know its version, 2.1 is assumed.
      */
     const DEFAULT_VERSION = self::VCARD21;
+
+
 
     /**
      * Validates the node for correctness.
