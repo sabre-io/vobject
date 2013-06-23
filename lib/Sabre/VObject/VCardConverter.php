@@ -2,6 +2,13 @@
 
 namespace Sabre\VObject;
 
+/**
+ * This utility converts vcards from one version to another.
+ *
+ * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
+ * @author Evert Pot (http://evertpot.com/)
+ * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ */
 class VCardConverter {
 
     /**
@@ -14,6 +21,11 @@ class VCardConverter {
      *
      * Currently only 3.0 and 4.0 as an input version, and 4.0 as an
      * outputversion are supported.
+     *
+     * If input and output version are identical, a clone is returned.
+     *
+     * @param Component\VCard $input
+     * @param int $targetVersion
      */
     public function convert(Component\VCard $input, $targetVersion) {
 

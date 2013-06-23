@@ -152,6 +152,8 @@ class VCard extends VObject\Document {
      *
      * At the moment the only supported conversion is from 3.0 to 4.0.
      *
+     * If input and output version are identical, a clone is returned.
+     *
      * @param int $target
      * @return VCard
      */
