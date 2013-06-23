@@ -187,6 +187,7 @@ abstract class Document extends Component {
      * @param string $name
      * @param mixed $value
      * @param array $parameters
+     * @param string $valueType Force a specific valuetype, such as URI or TEXT
      * @return Property
      */
     public function createProperty($name, $value = null, array $parameters = null, $valueType = null) {
