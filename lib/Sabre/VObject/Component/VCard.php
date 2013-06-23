@@ -2,7 +2,8 @@
 
 namespace Sabre\VObject\Component;
 
-use Sabre\VObject;
+use
+    Sabre\VObject;
 
 /**
  * The VCard component
@@ -268,6 +269,24 @@ class VCard extends VObject\Document {
             strtolower($this->name),
             $properties,
         );
+
+    }
+
+    /**
+     * Returns the default class for a property name.
+     *
+     * @param string $propertyName
+     * @return string
+     */
+    public function getClassNameForPropertyName($propertyName) {
+
+        $className = parent::getClassNameForPropertyName($propertyName);
+        // In vCard 4, BINARY no longer exists, and we need URI instead.
+
+        if ($className == 'Sabre\\VObject\\Property\\Binary' && $this->getDocumentType()===self::VCARD40) {
+            return 'Sabre\\VObject\\Property\\Uri';
+        }
+        return $className;
 
     }
 
