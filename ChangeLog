@@ -4,6 +4,7 @@
 	  for PHOTO and others. BINARY no longer exists in vCard 4.
 	* Added: Utility to convert between 4.0 and 3.0 vcards.
 	* Added: You can now add() multiple parameters to a property in one call.
+	* Changed: All $duration properties are now public.
 
 3.0.0-stable (2013-06-21)
 	* Fixed: includes.php file was still broken. Our tool to generate it had

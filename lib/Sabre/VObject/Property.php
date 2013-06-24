@@ -50,9 +50,9 @@ abstract class Property extends Node {
      * In case this is a multi-value property. This string will be used as a
      * delimiter.
      *
-     * @var string
+     * @var string|null
      */
-    protected $delimiter = ';';
+    public $delimiter = ';';
 
     /**
      * Creates the generic property.

@@ -22,7 +22,13 @@ use
  */
 class Binary extends Property {
 
-    protected $delimiter = null;
+    /**
+     * In case this is a multi-value property. This string will be used as a
+     * delimiter.
+     *
+     * @var string|null
+     */
+    public $delimiter = null;
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.

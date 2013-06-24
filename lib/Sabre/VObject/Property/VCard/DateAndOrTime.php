@@ -17,7 +17,12 @@ use
  */
 class DateAndOrTime extends Text {
 
-    protected $delimiter = null;
+    /**
+     * Field separator
+     *
+     * @var null|string
+     */
+    public $delimiter = null;
 
     /**
      * Returns the type of value.

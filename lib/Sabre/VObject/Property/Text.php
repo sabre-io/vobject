@@ -25,7 +25,7 @@ class Text extends Property {
      *
      * @var string
      */
-    protected $delimiter = ',';
+    public $delimiter = ',';
 
     /**
      * List of properties that are considered 'structured'.

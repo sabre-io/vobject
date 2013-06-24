@@ -15,7 +15,13 @@ use Sabre\VObject\Property;
  */
 class Uri extends Property {
 
-    protected $delimiter = null;
+    /**
+     * In case this is a multi-value property. This string will be used as a
+     * delimiter.
+     *
+     * @var string|null
+     */
+    public $delimiter = null;
 
     /**
      * Returns the type of value.

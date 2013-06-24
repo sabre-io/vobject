@@ -23,9 +23,9 @@ class Duration extends Property {
      * In case this is a multi-value property. This string will be used as a
      * delimiter.
      *
-     * @var string
+     * @var string|null
      */
-    protected $delimiter = ',';
+    public $delimiter = ',';
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
