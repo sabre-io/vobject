@@ -72,8 +72,7 @@ class Cli {
         if (isset($options['q'])) {
             $this->quiet = true;
         }
-        $this->log("sabre-vobject " . Version::VERSION);
-        $this->log('');
+        $this->log($this->colorize('green', "sabre-vobject ") . $this->colorize('yellow', Version::VERSION));
 
         foreach($options as $name=>$value) {
 
@@ -111,7 +110,7 @@ class Cli {
                             break;
 
                         default :
-                            $this->log('Error: unknown format: ' . $value);
+                            $this->log('Error: unknown format: ' . $value, 'red');
                             return 1;
                             break;
 
@@ -121,7 +120,7 @@ class Cli {
                     $this->pretty = true;
                     break;
                 default :
-                    $this->log('Error: unknown option: ' . $name);
+                    $this->log('Error: unknown option: ' . $name, 'red');
                     return 1;
                     break;
 
@@ -130,25 +129,24 @@ class Cli {
         }
 
         if (count($positional) === 0) {
-            $this->log('Error: command required');
             $this->showHelp();
             return 1;
         }
 
         if (count($positional) === 1) {
-            $this->log('Error: inputfile is a required argument');
+            $this->log('Error: inputfile is a required argument', 'red');
             $this->showHelp();
             return 1;
         }
 
         if (count($positional) > 3) {
-            $this->log('Error: too many arguments');
+            $this->log('Error: too many arguments', 'red');
             $this->showHelp();
             return 1;
         }
 
         if (!in_array($positional[0], array('validate','repair','convert','color'))) {
-            $this->log('Error: unknown command: ' . $positional[0]);
+            $this->log('Error: unknown command: ' . $positional[0], 'red');
             $this->showHelp();
             return 1;
         }
@@ -189,36 +187,36 @@ class Cli {
      */
     protected function showHelp() {
 
-        $help = <<<HELP
-Usage:
-  vobject [options] command [arguments]
-
-Options:
-  -q         Don't output anything.
-  --help -h  Display this help message
-  --format   Convert to a specific format. Must be one of: vcard, vcard21,
-             vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.
-  --pretty   json pretty-print
-
-Commands:
-  validate source_file              Validates a file for correctness.
-  repair source_file [output_file]  Repairs a file.
-  convert source_file [output_file] Converts a file.
-  color source_file                 Colorize a file, useful for debbugging.
+        $this->log('Usage:', 'yellow');
+        $this->log("  vobject [options] command [arguments]");
+        $this->log('');
+        $this->log('Options:', 'yellow');
+        $this->log($this->colorize('green', '  -q       ') . "Don't output anything.");
+        $this->log($this->colorize('green', '  -help -h ') . "Display this help message.");
+        $this->log($this->colorize('green', '  --format ') . "Convert to a specific format. Must be one of: vcard, vcard21,");
+        $this->log("           vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.");
+        $this->log($this->colorize('green', '  --pretty ') . "json pretty-print.");
+        $this->log('');
+        $this->log('Commands:', 'yellow');
+        $this->log($this->colorize('green', '  validate') . ' source_file              Validates a file for correctness.');
+        $this->log($this->colorize('green', '  repair') . ' source_file [output_file]  Repairs a file.');
+        $this->log($this->colorize('green', '  convert') . ' source_file [output_file] Converts a file.');
+        $this->log($this->colorize('green', '  color') . ' source_file                 Colorize a file, useful for debbugging.');
+        $this->log(<<<HELP
 
 If source_file is set as '-', STDIN will be used.
 If output_file is omitted, STDOUT will be used.
 All other output is sent to STDERR.
 
-Examples for conversion:
+HELP
+    );
 
-    vobject convert --pretty contact.vcf contact.json
-    vobject convert --format=vcard40 old.vcf new.vcf
-
-https://github.com/fruux/sabre-vobject
-HELP;
-
-        $this->log($help);
+        $this->log('Examples:', 'yellow');
+        $this->log('   vobject convert --pretty contact.vcf contact.json');
+        $this->log('   vobject convert --format=vcard40 old.vcf new.vcf');
+        $this->log('   vobject color calendar.ics');
+        $this->log('');
+        $this->log('https://github.com/fruux/sabre-vobject','purple');
 
     }
 
@@ -629,9 +627,12 @@ HELP;
      * @param string $msg
      * @return void
      */
-    protected function log($msg) {
+    protected function log($msg, $color = 'default') {
 
         if (!$this->quiet) {
+            if ($color!=='default') {
+                $msg = $this->colorize($color, $msg);
+            }
             fwrite(STDERR, $msg . "\n");
         }
 
