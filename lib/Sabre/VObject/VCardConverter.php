@@ -20,7 +20,7 @@ class VCardConverter {
      *   Document::VCARD40
      *
      * Currently only 3.0 and 4.0 as an input version, and 4.0 as an
-     * outputversion are supported.
+     * output version are supported.
      *
      * If input and output version are identical, a clone is returned.
      *
@@ -40,7 +40,7 @@ class VCardConverter {
                 // Nothing to do here
                 return clone $input;
             default :
-                throw new \InvalidArgumentException('Currently you can only convert from vCard 3');
+                throw new \InvalidArgumentException('Currently you can only convert from vCard 3.0 or 4.0');
                 break;
         }
 
