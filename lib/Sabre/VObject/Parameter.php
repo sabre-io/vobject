@@ -214,17 +214,18 @@ class Parameter extends Node {
     /**
      * Adds a value to this parameter
      *
-     * @param string $part
+     * If the argument is specified as an array, all items will be added to the
+     * parameter value list.
+     *
+     * @param string|array $part
      * @return void
      */
     public function addValue($part) {
 
         if (is_null($this->value)) {
             $this->value = $part;
-        } elseif (is_scalar($this->value)) {
-            $this->value = array($this->value, $part);
-        } elseif (is_array($this->value)) {
-            $this->value[] = $part;
+        } else {
+            $this->value = array_merge((array)$this->value, (array)$part);
         }
 
     }
