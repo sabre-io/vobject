@@ -219,9 +219,9 @@ class VCardConverter {
         $mimeType = substr($value, 5, strpos($value, ',')-5);
         if (strpos($mimeType, ';')) {
             $mimeType = substr($mimeType,0,strpos($mimeType, ';'));
-            $newProperty->setValue(base64_decode(substr($value, strpos($value,','))));
+            $newProperty->setValue(base64_decode(substr($value, strpos($value,',')+1)));
         } else {
-            $newProperty->setValue(substr($value, strpos($value,',')));
+            $newProperty->setValue(substr($value, strpos($value,',')+1));
         }
         unset($value);
 
