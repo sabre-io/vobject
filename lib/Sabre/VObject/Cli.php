@@ -2,6 +2,9 @@
 
 namespace Sabre\VObject;
 
+use
+    InvalidArgumentException;
+
 /**
  * This is the CLI interface for sabre-vobject.
  *
@@ -67,89 +70,88 @@ class Cli {
      */
     public function main(array $argv) {
 
-        list($options, $positional) = $this->parseArguments($argv);
+        try {
 
-        if (isset($options['q'])) {
-            $this->quiet = true;
-        }
-        $this->log($this->colorize('green', "sabre-vobject ") . $this->colorize('yellow', Version::VERSION));
+            list($options, $positional) = $this->parseArguments($argv);
 
-        foreach($options as $name=>$value) {
+            if (isset($options['q'])) {
+                $this->quiet = true;
+            }
+            $this->log($this->colorize('green', "sabre-vobject ") . $this->colorize('yellow', Version::VERSION));
 
-            switch($name) {
+            foreach($options as $name=>$value) {
 
-                case 'q' :
-                    // Already handled earlier.
-                    break;
-                case 'h' :
-                case 'help' :
-                    $this->showHelp();
-                    return 0;
-                    break;
-                case 'format' :
-                    switch($value) {
+                switch($name) {
 
-                        // jcard/jcal documents
-                        case 'jcard' :
-                        case 'jcal' :
+                    case 'q' :
+                        // Already handled earlier.
+                        break;
+                    case 'h' :
+                    case 'help' :
+                        $this->showHelp();
+                        return 0;
+                        break;
+                    case 'format' :
+                        switch($value) {
 
-                        // specific document versions
-                        case 'vcard21' :
-                        case 'vcard30' :
-                        case 'vcard40' :
-                        case 'icalendar20' :
+                            // jcard/jcal documents
+                            case 'jcard' :
+                            case 'jcal' :
 
-                        // specific formats
-                        case 'json' :
-                        case 'mimedir' :
+                            // specific document versions
+                            case 'vcard21' :
+                            case 'vcard30' :
+                            case 'vcard40' :
+                            case 'icalendar20' :
 
-                        // icalendar/vcad
-                        case 'icalendar' :
-                        case 'vcard' :
-                            $this->format = $value;
-                            break;
+                            // specific formats
+                            case 'json' :
+                            case 'mimedir' :
 
-                        default :
-                            $this->log('Error: unknown format: ' . $value, 'red');
-                            return 1;
-                            break;
+                            // icalendar/vcad
+                            case 'icalendar' :
+                            case 'vcard' :
+                                $this->format = $value;
+                                break;
 
-                    }
-                    break;
-                case 'pretty' :
-                    $this->pretty = true;
-                    break;
-                default :
-                    $this->log('Error: unknown option: ' . $name, 'red');
-                    return 1;
-                    break;
+                            default :
+                                throw new InvalidArgumentException('Unknown format: ' . $value);
+
+                        }
+                        break;
+                    case 'pretty' :
+                        $this->pretty = true;
+                        break;
+                    default :
+                        throw new InvalidArgumentException('Unknown option: ' . $name);
+
+                }
 
             }
 
-        }
+            if (count($positional) === 0) {
+                $this->showHelp();
+                return 1;
+            }
 
-        if (count($positional) === 0) {
+            if (count($positional) === 1) {
+                throw new InvalidArgumentException('Inputfile is a required argument');
+            }
+
+            if (count($positional) > 3) {
+                throw new InvalidArgumentException('Too many arguments');
+            }
+
+            if (!in_array($positional[0], array('validate','repair','convert','color'))) {
+                throw new InvalidArgumentException('Uknown command: ' . $positional[0]);
+            }
+
+        } catch (InvalidArgumentException $e) {
             $this->showHelp();
+            $this->log('Error: ' . $e->getMessage(),'red');
             return 1;
         }
 
-        if (count($positional) === 1) {
-            $this->log('Error: inputfile is a required argument', 'red');
-            $this->showHelp();
-            return 1;
-        }
-
-        if (count($positional) > 3) {
-            $this->log('Error: too many arguments', 'red');
-            $this->showHelp();
-            return 1;
-        }
-
-        if (!in_array($positional[0], array('validate','repair','convert','color'))) {
-            $this->log('Error: unknown command: ' . $positional[0], 'red');
-            $this->showHelp();
-            return 1;
-        }
         $command = $positional[0];
 
         $this->inputPath = $positional[1];
@@ -176,7 +178,7 @@ class Cli {
             // end of file
         }
 
-        return $returnCode;
+        return $realCode;
 
     }
 
@@ -243,9 +245,10 @@ HELP
         if (!count($warnings)) {
             $this->log("  No warnings!");
         } else {
+
+            $returnCode = 2;
             foreach($warnings as $warn) {
 
-                $returnCode = 2;
                 $this->log("  " . $warn['message']);
 
             }
@@ -468,9 +471,7 @@ HELP
             $sA = $sortScore($a, $tmp);
             $sB = $sortScore($b, $tmp);
 
-            if ($sA === $sB) return 0;
-
-            return ($sA < $sB) ? -1 : 1;
+            return $sA - $sB;
 
         });
 
