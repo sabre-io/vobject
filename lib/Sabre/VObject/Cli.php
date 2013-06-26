@@ -581,7 +581,7 @@ HELP
                     list($optionName, $optionValue) = explode('=', $optionName);
                 }
                 $options[$optionName] = $optionValue;
-            } elseif (substr($v,0,1) === '-') {
+            } elseif (substr($v,0,1) === '-' && strlen($v)>1) {
                 // This is a short-form option.
                 foreach(str_split(substr($v,1)) as $option) {
                     $options[$option] = true;
