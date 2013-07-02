@@ -2,6 +2,9 @@
 
 namespace Sabre\VObject;
 
+use
+    ArrayObject;
+
 /**
  * VObject Parameter
  *
@@ -24,6 +27,15 @@ class Parameter extends Node {
     public $name;
 
     /**
+     * vCard 2.1 allows parameters to be encoded without a name.
+     *
+     * We can deduce the parameter name based on it's value.
+     *
+     * @var bool
+     */
+    public $noName = false;
+
+    /**
      * Parameter value
      *
      * @var string
@@ -42,9 +54,99 @@ class Parameter extends Node {
 
         $this->name = strtoupper($name);
         $this->root = $root;
+        if (is_null($name)) {
+            $this->noName = true;
+
+            // Figuring out what the name should have been. Note that a ton of
+            // these are rather silly in 2013 and would probably rarely be
+            // used, but we like to be complete.
+            switch(strtoupper($value)) {
+
+                // Encodings
+                case '7-BIT' :
+                case 'QUOTED-PRINTABLE' :
+                case 'BASE64' :
+                    $this->name = 'ENCODING';
+                    break;
+
+                // Common types
+                case 'WORK' :
+                case 'HOME' :
+                case 'PREF' :
+
+                // Delivery Label Type
+                case 'DOM' :
+                case 'INTL' :
+                case 'POSTAL' :
+                case 'PARCEL' :
+
+                // Telephone types
+                case 'VOICE' :
+                case 'FAX' :
+                case 'MSG' :
+                case 'CELL' :
+                case 'PAGER' :
+                case 'BBS' :
+                case 'MODEM' :
+                case 'CAR' :
+                case 'ISDN' :
+                case 'VIDEO' :
+
+                // EMAIL types (lol)
+                case 'AOL' :
+                case 'APPLELINK' :
+                case 'ATTMAIL' :
+                case 'CIS' :
+                case 'EWORLD' :
+                case 'INTERNET' :
+                case 'IBMMAIL' :
+                case 'MCIMAIL' :
+                case 'POWERSHARE' :
+                case 'PRODIGY' :
+                case 'TLX' :
+                case 'X400' :
+
+                // Photo / Logo format types
+                case 'GIF' :
+                case 'CGM' :
+                case 'WMF' :
+                case 'BMP' :
+                case 'DIB' :
+                case 'PICT' :
+                case 'TIFF' :
+                case 'PDF ':
+                case 'PS' :
+                case 'JPEG' :
+                case 'MPEG' :
+                case 'MPEG2' :
+                case 'AVI' :
+                case 'QTIME' :
+
+                // Sound Digital Audio Type
+                case 'WAVE' :
+                case 'PCM' :
+                case 'AIFF' :
+
+                // Key types
+                case 'X509' :
+                case 'PGP' :
+                    $this->name = 'TYPE';
+                    break;
+
+                // Value types
+                case 'INLINE' :
+                case 'URL' :
+                case 'CONTENT-ID' :
+                case 'CID' :
+                    $this->name = 'VALUE';
+                    break;
+
+            }
+        }
         $this->setValue($value);
 
     }
+
 
     /**
      * Updates the current value.
@@ -112,17 +214,18 @@ class Parameter extends Node {
     /**
      * Adds a value to this parameter
      *
-     * @param string $part
+     * If the argument is specified as an array, all items will be added to the
+     * parameter value list.
+     *
+     * @param string|array $part
      * @return void
      */
     public function addValue($part) {
 
         if (is_null($this->value)) {
             $this->value = $part;
-        } elseif (is_scalar($this->value)) {
-            $this->value = array($this->value, $part);
-        } elseif (is_array($this->value)) {
-            $this->value[] = $part;
+        } else {
+            $this->value = array_merge((array)$this->value, (array)$part);
         }
 
     }
@@ -140,14 +243,14 @@ class Parameter extends Node {
             return $this->name;
         }
 
-        return $this->name . '=' . array_reduce($value, function($out, $item) {
+        return ($this->noName?:$this->name . '=') . array_reduce($value, function($out, $item) {
 
             if (!is_null($out)) $out.=',';
 
             // If there's no special characters in the string, we'll use the simple
             // format
-            if (!preg_match('#(?: [\n":;\^] )#x', $item)) {
-                return $item;
+            if (!preg_match('#(?: [\n":;\^,] )#x', $item)) {
+                return $out.$item;
             } else {
                 // Enclosing in double-quotes, and using RFC6868 for encoding any
                 // special characters
@@ -156,7 +259,7 @@ class Parameter extends Node {
                     "\n" => '^n',
                     '"'  => '^\'',
                 )) . '"';
-                return  $out;
+                return $out;
             }
 
         });
@@ -183,6 +286,20 @@ class Parameter extends Node {
     public function __toString() {
 
         return $this->getValue();
+
+    }
+
+    /**
+     * Returns the iterator for this object
+     *
+     * @return ElementList
+     */
+    public function getIterator() {
+
+        if (!is_null($this->iterator))
+            return $this->iterator;
+
+        return $this->iterator = new ArrayObject((array)$this->value);
 
     }
 

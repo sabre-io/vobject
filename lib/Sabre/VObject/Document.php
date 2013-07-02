@@ -55,7 +55,7 @@ abstract class Document extends Component {
      *
      * @var string
      */
-    static $defaultName;
+    static public $defaultName;
 
     /**
      * List of properties, and which classes they map to.
@@ -76,27 +76,7 @@ abstract class Document extends Component {
      *
      * @var array
      */
-    static public $valueMap = array(
-        'BINARY'           => 'Binary',
-        'BOOLEAN'          => 'Boolean',
-        'CONTENT-ID'       => 'FlatText',   // vCard 2.1 only
-        'CAL-ADDRESS'      => 'CalAddress', // iCalendar only
-        'DATE'             => 'DateTime',
-        'DATE-TIME'        => 'DateTime',
-        'DATE-AND-OR-TIME' => 'DateAndOrTime', // vCard only
-        'DURATION'         => 'Duration', // iCalendar only
-        'FLOAT'            => 'Float',
-        'INTEGER'          => 'Integer',
-        'LANGUAGE-TAG'     => 'LanguageTag', // vCard only
-        'PERIOD'           => 'Period',   // iCalendar only
-        'RECUR'            => 'Recur',    // iCalendar only
-        'TIMESTAMP'        => 'TimeStamp', // vCard only
-        'TEXT'             => 'Text',
-        'TIME'             => 'Time',
-        'URI'              => 'Uri',
-        'URL'              => 'Uri', // vCard 2.1 only
-        'UTC-OFFSET'       => 'UtcOffset',
-    );
+    static public $valueMap = array();
 
     /**
      * Creates a new document.
@@ -187,7 +167,7 @@ abstract class Document extends Component {
         $class = 'Sabre\\VObject\\Component';
 
         if (isset(static::$componentMap[$name])) {
-            $class.='\\' . static::$componentMap[$name];
+            $class=static::$componentMap[$name];
         }
         if (is_null($children)) $children = array();
         return new $class($this, $name, $children, $defaults);
@@ -207,9 +187,10 @@ abstract class Document extends Component {
      * @param string $name
      * @param mixed $value
      * @param array $parameters
+     * @param string $valueType Force a specific valuetype, such as URI or TEXT
      * @return Property
      */
-    public function createProperty($name, $value = null, array $parameters = null) {
+    public function createProperty($name, $value = null, array $parameters = null, $valueType = null) {
 
         // If there's a . in the name, it means it's prefixed by a groupname.
         if (($i=strpos($name,'.'))!==false) {
@@ -222,15 +203,18 @@ abstract class Document extends Component {
 
         $class = null;
 
-        // If a VALUE parameter is supplied, this will get precedence.
-        if (isset($parameters['VALUE'])) {
-            $class=$this->getClassNameForPropertyValue($parameters['VALUE']);
+        if ($valueType) {
+            // The valueType argument comes first to figure out the correct
+            // class.
+            $class = $this->getClassNameForPropertyValue($valueType);
         }
-        if (is_null($class) && isset(static::$propertyMap[$name])) {
-            $class='Sabre\\VObject\\Property\\' .static::$propertyMap[$name];
+
+        if (is_null($class) && isset($parameters['VALUE'])) {
+            // If a VALUE parameter is supplied, we should use that.
+            $class = $this->getClassNameForPropertyValue($parameters['VALUE']);
         }
         if (is_null($class)) {
-            $class='Sabre\\VObject\\Property\\Text';
+            $class = $this->getClassNameForPropertyName($name);
         }
         if (is_null($parameters)) $parameters = array();
 
@@ -253,24 +237,24 @@ abstract class Document extends Component {
 
         $valueParam = strtoupper($valueParam);
         if (isset(static::$valueMap[$valueParam])) {
-            return 'Sabre\\VObject\\Property\\' . static::$valueMap[$valueParam];
+            return static::$valueMap[$valueParam];
         }
 
     }
 
     /**
-     * Factory method for creating new parameters
+     * Returns the default class for a property name.
      *
-     * This method automatically searches for the correct parameter class, based
-     * on its name.
-     *
-     * @param string $name
-     * @param string|array|null $value
-     * @return Parameter
+     * @param string $propertyName
+     * @return string
      */
-    public function createParameter($name, $value = null) {
+    public function getClassNameForPropertyName($propertyName) {
 
-        return new Parameter($this, $name, $value);
+        if (isset(static::$propertyMap[$propertyName])) {
+            return static::$propertyMap[$propertyName];
+        } else {
+            return 'Sabre\\VObject\\Property\\Unknown';
+        }
 
     }
 

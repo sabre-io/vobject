@@ -263,7 +263,7 @@ class MimeDir extends Parser {
     protected function readProperty($line) {
 
         if ($this->options & self::OPTION_FORGIVING) {
-            $propNameToken = 'A-Z0-9\-\._';
+            $propNameToken = 'A-Z0-9\-\._\\/';
         } else {
             $propNameToken = 'A-Z0-9\-\.';
         }
@@ -355,9 +355,29 @@ class MimeDir extends Parser {
             throw new ParseException('Invalid Mimedir file. Line starting at ' . $this->startLine . ' did not follow iCalendar/vCard conventions');
         }
 
-        $propObj = $this->root->createProperty($property['name'], null, $property['parameters']);
+        // vCard 2.1 states that parameters may appear without a name, and only
+        // a value. We can deduce the value based on it's name.
+        //
+        // Our parser will get those as parameters without a value instead, so
+        // we're filtering these parameters out first.
+        $namedParameters = array();
+        $namelessParameters = array();
 
-        if (isset($property['parameters']['ENCODING']) && strtoupper($property['parameters']['ENCODING']) === 'QUOTED-PRINTABLE') {
+        foreach($property['parameters'] as $name=>$value) {
+            if (!is_null($value)) {
+                $namedParameters[$name] = $value;
+            } else {
+                $namelessParameters[] = $name;
+            }
+        }
+
+        $propObj = $this->root->createProperty($property['name'], null, $namedParameters);
+
+        foreach($namelessParameters as $namelessParameter) {
+            $propObj->add(null, $namelessParameter);
+        }
+
+        if (strtoupper($propObj['ENCODING']) === 'QUOTED-PRINTABLE') {
             $propObj->setQuotedPrintableValue($this->extractQuotedPrintableValue());
         } else {
             $propObj->setRawMimeDirValue($property['value']);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\VCard;
 
 use Sabre\VObject;
 
@@ -14,7 +14,7 @@ class DateAndOrTimeTest extends \PHPUnit_Framework_TestCase {
         $vcard = new VObject\Component\VCard();
         $prop = $vcard->createProperty('BDAY', $input);
 
-        $this->assertEquals($output, $prop->getJsonValue()[0]);
+        $this->assertEquals(array($output), $prop->getJsonValue());
 
     }
 

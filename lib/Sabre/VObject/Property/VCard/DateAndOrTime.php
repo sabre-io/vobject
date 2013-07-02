@@ -1,9 +1,10 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\VCard;
 
 use
-    Sabre\VObject\DateTimeParser;
+    Sabre\VObject\DateTimeParser,
+    Sabre\VObject\Property\Text;
 
 /**
  * DateAndOrTime property
@@ -16,7 +17,12 @@ use
  */
 class DateAndOrTime extends Text {
 
-    protected $delimiter = null;
+    /**
+     * Field separator
+     *
+     * @var null|string
+     */
+    public $delimiter = null;
 
     /**
      * Returns the type of value.

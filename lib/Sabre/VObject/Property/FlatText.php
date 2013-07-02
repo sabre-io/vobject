@@ -24,7 +24,12 @@ namespace Sabre\VObject\Property;
  */
 class FlatText extends Text {
 
-    protected $delimiter = null;
+    /**
+     * Field separator
+     *
+     * @var string
+     */
+    public $delimiter = ',';
 
     /**
      * Sets the value as a quoted-printable encoded string.

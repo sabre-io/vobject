@@ -277,9 +277,7 @@ class Component extends Node {
             $sA = $sortScore($a, $tmp);
             $sB = $sortScore($b, $tmp);
 
-            if ($sA === $sB) return 0;
-
-            return ($sA < $sB) ? -1 : 1;
+            return $sA - $sB;
 
         });
 

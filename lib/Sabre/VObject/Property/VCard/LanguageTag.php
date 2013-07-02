@@ -1,31 +1,20 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\VCard;
 
 use
-    Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir;
+    Sabre\VObject\Property;
 
 /**
- * Duration property
+ * LanguageTag property
  *
- * This object represents DURATION values, as defined here:
- *
- * http://tools.ietf.org/html/rfc5545#section-3.3.6
+ * This object represents LANGUAGE-TAG values as used in vCards.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Duration extends Property {
-
-    /**
-     * In case this is a multi-value property. This string will be used as a
-     * delimiter.
-     *
-     * @var string
-     */
-    protected $delimiter = ',';
+class LanguageTag extends Property {
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -38,7 +27,7 @@ class Duration extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->setValue(explode($this->delimiter, $val));
+        $this->setValue($val);
 
     }
 
@@ -49,7 +38,7 @@ class Duration extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return implode($this->delimiter, $this->getParts());
+        return $this->value;
 
     }
 
@@ -63,7 +52,8 @@ class Duration extends Property {
      */
     public function getValueType() {
 
-        return 'DURATION';
+        return "LANGUAGE-TAG";
 
     }
+
 }

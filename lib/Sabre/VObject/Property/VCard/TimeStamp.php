@@ -1,9 +1,10 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\VCard;
 
 use
-    Sabre\VObject\DateTimeParser;
+    Sabre\VObject\DateTimeParser,
+    Sabre\VObject\Property\Text;
 
 /**
  * TimeStamp property
@@ -16,7 +17,13 @@ use
  */
 class TimeStamp extends Text {
 
-    protected $delimiter = null;
+    /**
+     * In case this is a multi-value property. This string will be used as a
+     * delimiter.
+     *
+     * @var string|null
+     */
+    public $delimiter = null;
 
     /**
      * Returns the type of value.

@@ -25,7 +25,7 @@ class Text extends Property {
      *
      * @var string
      */
-    protected $delimiter = ',';
+    public $delimiter = ',';
 
     /**
      * List of properties that are considered 'structured'.
@@ -121,13 +121,20 @@ class Text extends Property {
 
         foreach($val as &$item) {
 
-            $item = strtr($item, array(
-                '\\' => '\\\\',
-                ';'  => '\;',
-                ','  => '\,',
-                "\n" => '\n',
-                "\r" => "",
-            ));
+            if (!is_array($item)) {
+                $item = array($item);
+            }
+
+            foreach($item as &$subItem) {
+                $subItem = strtr($subItem, array(
+                    '\\' => '\\\\',
+                    ';'  => '\;',
+                    ','  => '\,',
+                    "\n" => '\n',
+                    "\r" => "",
+                ));
+            }
+            $item = implode(',', $item);
 
         }
 
@@ -147,16 +154,10 @@ class Text extends Property {
         // Structured text values should always be returned as a single
         // array-item. Multi-value text should be returned as multiple items in
         // the top-array.
-        //
-        // But: only in jCard, not jCal :)
-        if ($this->root->getDocumentType() === Document::ICALENDAR20) {
-            return $this->getParts();
+        if (in_array($this->name, $this->structuredValues)) {
+            return array($this->getParts());
         } else {
-            if (in_array($this->name, $this->structuredValues)) {
-                return array($this->getParts());
-            } else {
-                return $this->getParts();
-            }
+            return $this->getParts();
         }
 
     }

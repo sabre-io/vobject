@@ -1,17 +1,20 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\ICalendar;
+
+use
+    Sabre\VObject\Property\Text;
 
 /**
- * UtcOffset property
+ * CalAddress property
  *
- * This object encodes UTC-OFFSET values.
+ * This object encodes CAL-ADDRESS values, as defined in rfc5545
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class UtcOffset extends Text {
+class CalAddress extends Text {
 
     /**
      * In case this is a multi-value property. This string will be used as a
@@ -31,7 +34,8 @@ class UtcOffset extends Text {
      */
     public function getValueType() {
 
-        return "UTC-OFFSET";
+        return 'CAL-ADDRESS';
 
     }
+
 }

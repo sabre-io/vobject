@@ -1,3 +1,51 @@
+3.0.1-stable (2013-??-??)
+	* Added: bad-ass new cli debugging utility (in bin/vobject).
+	* Fixed: URI properties should not escape ; and ,.
+	* Fixed: VCard 4 documents now correctly use URI as a default value-type
+	  for PHOTO and others. BINARY no longer exists in vCard 4.
+	* Added: Utility to convert between 4.0 and 3.0 vcards.
+	* Added: You can now add() multiple parameters to a property in one call.
+	* Changed: All $duration properties are now public.
+
+3.0.0-stable (2013-06-21)
+	* Fixed: includes.php file was still broken. Our tool to generate it had
+	  some bugs.
+
+3.0.0-beta4 (2013-06-21)
+	* Fixed: includes.php was no longer up to date.
+
+3.0.0-beta3 (2013-06-17)
+	* Added: OPTION_FORGIVING now also allows slashes in property names.
+	* Fixed: DateTimeParser no longer fails on dates with years < 1000
+	  & > 4999
+	* Fixed: Issue 36: Workaround for the recurrenceiterator and caldav events
+	  with a missing base event.
+	* Fixed: jCard encoding of TIME properties.
+	* Fixed: jCal encoding of REQUEST-STATUS, GEO and PERIOD values.
+
+3.0.0-beta2 (2013-06-10)
+	* Fixed: Corrected includes.php file.
+	* Fixed: vCard date-time parser supported extended-format dates as well.
+	* Changed: Properties have been moved to an ICalendar or VCard directory.
+	* Fixed: Couldn't parse vCard 3 extended format dates and times.
+	* Fixed: Couldn't export jCard DATE values correctly.
+	* Fixed: Recursive loop in ICalendar\DateTime property.
+
+3.0.0-beta1 (2013-06-07)
+	* Added: jsonSerialize() for creating jCal and jCard documents.
+	* Added: helper method to parse vCard dates and times.
+	* Added: Specialized classes for FLOAT, LANGUAGE-TAG, TIME, TIMESTAMP,
+	  DATE-AND-OR-TIME, CAL-ADDRESS, UNKNOWN and UTC-OFFSET properties.
+	* Removed: CommaSeparatedText property. Now included into Text.
+	* Fixed: Multiple parameters with the same name are now correctly encoded.
+	* Fixed: Parameter values containing a comma are now enclosed in
+	  double-quotes.
+	* Fixed: Iterating parameter values should now fully work as expected.
+	* Fixed: Support for vCard 2.1 nameless parameters.
+	* Changed: $valueMap, $componentMap and $propertyMap now all use
+	  fully-qualified class names, so they are actually overridable.
+	* Fixed: Updating DATE-TIME to DATE values now behaves like expected.
+
 3.0.0-alpha4 (2013-05-31)
 	* Added: It's now possible to send parser options to the splitter classes.
 	* Added: A few tweaks to improve component and property creation.
@@ -53,7 +101,7 @@
 	* Added: You can add new sub-components much quicker with the magic
 	  setters, and add() method.
 
-2.1.0-stable (2013-??-??)
+2.1.0-stable (2013-06-17)
 	* This version is fully backwards compatible with 2.0.*. However, it
 	  contains a few new API's that mimic the VObject 3 API. This allows it to
 	  be used a 'bridge' version.
@@ -64,6 +112,7 @@
 	* Added: Property::getValue().
 	* Added: Document class.
 	* Added: Document::createComponent and Document::createProperty.
+	* Added: Parameter::getValue().
 
 2.0.7-stable (2013-03-05)
 	* Fixed: Microsoft re-uses their magic numbers for different timezones,

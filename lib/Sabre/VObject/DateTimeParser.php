@@ -28,7 +28,7 @@ class DateTimeParser {
     static public function parseDateTime($dt,\DateTimeZone $tz = null) {
 
         // Format is YYYYMMDD + "T" + hhmmss
-        $result = preg_match('/^([1-4][0-9]{3})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/',$dt,$matches);
+        $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/',$dt,$matches);
 
         if (!$result) {
             throw new \LogicException('The supplied iCalendar datetime value is incorrect: ' . $dt);
@@ -54,7 +54,7 @@ class DateTimeParser {
     static public function parseDate($date) {
 
         // Format is YYYYMMDD
-        $result = preg_match('/^([1-4][0-9]{3})([0-1][0-9])([0-3][0-9])$/',$date,$matches);
+        $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])$/',$date,$matches);
 
         if (!$result) {
             throw new \LogicException('The supplied iCalendar date value is incorrect: ' . $date);
@@ -180,7 +180,7 @@ class DateTimeParser {
     /**
      * This method parses a vCard date and or time value.
      *
-     * This can be used for the DATE, TIME, DATE-TIME, TIMESTAMP and
+     * This can be used for the DATE, DATE-TIME, TIMESTAMP and
      * DATE-AND-OR-TIME value.
      *
      * This method returns an array, not a DateTime value.
@@ -202,6 +202,10 @@ class DateTimeParser {
      * --MMDD
      * ---DD
      *
+     * YYYY-MM-DD
+     * --MM-DD
+     * ---DD
+     *
      * List of supported time formats:
      *
      * HH
@@ -210,8 +214,17 @@ class DateTimeParser {
      * -MMSS
      * --SS
      *
-     * A full date-time string looks like :
+     * HH
+     * HH:MM
+     * HH:MM:SS
+     * -MM:SS
+     * --SS
+     *
+     * A full basic-format date-time string looks like :
      * 20130603T133901
+     *
+     * A full extended-format date-time string looks like :
+     * 2013-06-03T13:39:01
      *
      * Times may be postfixed by a timezone offset. This can be either 'Z' for
      * UTC, or a string like -0500 or +1100.
@@ -245,7 +258,33 @@ class DateTimeParser {
 
 
         if (!preg_match($regex, $date, $matches)) {
-            throw new \InvalidArgumentException('Invalid vCard date-time string: ' . $date);
+
+            // Attempting to parse the extended format.
+            $regex = '/^
+                (?: # date part
+                    (?: (?P<year> [0-9]{4}) - | -- )
+                    (?P<month> [0-9]{2}) -
+                    (?P<date> [0-9]{2})
+                )?
+                (?:T # time part
+
+                    (?: (?P<hour> [0-9]{2}) : | -)
+                    (?: (?P<minute> [0-9]{2}) : | -)?
+                    (?P<second> [0-9]{2})?
+
+                    (?P<timezone> # timezone offset
+
+                        Z | (?: \+|-)(?: [0-9]{2}:[0-9]{2})
+
+                    )?
+
+                )?
+                $/x';
+
+            if (!preg_match($regex, $date, $matches)) {
+                throw new \InvalidArgumentException('Invalid vCard date-time string: ' . $date);
+            }
+
         }
         $parts = array(
             'year',
@@ -274,4 +313,103 @@ class DateTimeParser {
 
     }
 
+    /**
+     * This method parses a vCard TIME value.
+     *
+     * This method returns an array, not a DateTime value.
+     *
+     * The elements in the array are in the following order:
+     * hour, minute, second, timezone
+     *
+     * Almost any part of the string may be omitted. It's for example legal to
+     * just specify seconds, leave out the hour etc.
+     *
+     * Timezone is either returned as 'Z' or as '+08:00'
+     *
+     * For any non-specified values null is returned.
+     *
+     * List of supported time formats:
+     *
+     * HH
+     * HHMM
+     * HHMMSS
+     * -MMSS
+     * --SS
+     *
+     * HH
+     * HH:MM
+     * HH:MM:SS
+     * -MM:SS
+     * --SS
+     *
+     * A full basic-format time string looks like :
+     * 133901
+     *
+     * A full extended-format time string looks like :
+     * 13:39:01
+     *
+     * Times may be postfixed by a timezone offset. This can be either 'Z' for
+     * UTC, or a string like -0500 or +11:00.
+     *
+     * @param string $date
+     * @return array
+     */
+    static public function parseVCardTime($date) {
+
+        $regex = '/^
+            (?P<hour> [0-9]{2} | -)
+            (?P<minute> [0-9]{2} | -)?
+            (?P<second> [0-9]{2})?
+
+            (?P<timezone> # timezone offset
+
+                Z | (?: \+|-)(?: [0-9]{4})
+
+            )?
+            $/x';
+
+
+        if (!preg_match($regex, $date, $matches)) {
+
+            // Attempting to parse the extended format.
+            $regex = '/^
+                (?: (?P<hour> [0-9]{2}) : | -)
+                (?: (?P<minute> [0-9]{2}) : | -)?
+                (?P<second> [0-9]{2})?
+
+                (?P<timezone> # timezone offset
+
+                    Z | (?: \+|-)(?: [0-9]{2}:[0-9]{2})
+
+                )?
+                $/x';
+
+            if (!preg_match($regex, $date, $matches)) {
+                throw new \InvalidArgumentException('Invalid vCard time string: ' . $date);
+            }
+
+        }
+        $parts = array(
+            'hour',
+            'minute',
+            'second',
+            'timezone'
+        );
+
+        $result = array();
+        foreach($parts as $part) {
+
+            if (empty($matches[$part])) {
+                $result[$part] = null;
+            } elseif ($matches[$part] === '-') {
+                $result[$part] = null;
+            } else {
+                $result[$part] = $matches[$part];
+            }
+
+        }
+
+        return $result;
+
+    }
 }

@@ -21,12 +21,18 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
             "FREEBUSY" => array("20130526T210213Z/PT1H", "20130626T120000Z/20130626T130000Z"),
             "URL" => "http://example.org/",
             "TZOFFSETFROM" => "+05:00",
+            "RRULE" => array('FREQ' => 'WEEKLY', 'BYDAY' => array('MO','TU')),
         ));
 
         // Modifying DTSTART to be a date-only.
         $event->dtstart['VALUE'] = 'DATE';
         $event->add("X-BOOL", true, array('VALUE' => 'BOOLEAN'));
         $event->add("X-TIME", "08:00:00", array('VALUE' => 'TIME'));
+
+        $event->add("ATTENDEE", "mailto:dominik@example.org", array("CN" => "Dominik", "PARTSTAT" => "DECLINED"));
+
+        $event->add('REQUEST-STATUS', array("2.0", "Success"));
+        $event->add('REQUEST-STATUS', array("3.7", "Invalid Calendar User", "ATTENDEE:mailto:jsmith@example.org"));
 
         $expected = array(
             "vcalendar",
@@ -75,13 +81,13 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                             "attendee", new \StdClass(), "cal-address", "mailto:armin@example.org",
                         ),
                         array(
-                            "geo", new \StdClass(), "float", 51.96668, 7.61876,
+                            "geo", new \StdClass(), "float", array(51.96668, 7.61876),
                         ),
                         array(
                             "sequence", new \StdClass(), "integer", 5
                         ),
                         array(
-                            "freebusy", new \StdClass(), "period",  "2013-05-26T21:02:13", "PT1H", "2013-06-26T12:00:00", "2013-06-26T13:00:00",
+                            "freebusy", new \StdClass(), "period",  array("2013-05-26T21:02:13", "PT1H"), array("2013-06-26T12:00:00", "2013-06-26T13:00:00"),
                         ),
                         array(
                             "url", new \StdClass(), "uri", "http://example.org/",
@@ -90,12 +96,38 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                             "tzoffsetfrom", new \StdClass(), "utc-offset", "+05:00",
                         ),
                         array(
+                            "rrule", new \StdClass(), "recur", array(
+                                'freq' => 'WEEKLY',
+                                'byday' => array('MO', 'TU'),
+                            ),
+                        ),
+                        array(
                             "x-bool", new \StdClass(), "boolean", true
                         ),
                         array(
                             "x-time", new \StdClass(), "time", "08:00:00",
                         ),
-
+                        array(
+                            "attendee",
+                            (object)array(
+                                "cn" => "Dominik",
+                                "partstat" => "DECLINED",
+                            ),
+                            "cal-address",
+                            "mailto:dominik@example.org"
+                        ),
+                        array(
+                            "request-status",
+                            new \StdClass(),
+                            "text",
+                            array("2.0", "Success"),
+                        ),
+                        array(
+                            "request-status",
+                            new \StdClass(),
+                            "text",
+                            array("3.7", "Invalid Calendar User", "ATTENDEE:mailto:jsmith@example.org"),
+                        ),
                     ),
                     array(),
                 )

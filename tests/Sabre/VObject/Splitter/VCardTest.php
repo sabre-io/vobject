@@ -25,12 +25,12 @@ EOT;
 
         $objects = new VCard($tempFile);
 
-        $return = "";
-        while($object=$objects->getNext()) {
-            $return .= $object->serialize();
+        $count = 0;
+        while($objects->getNext()) {
+            $count++;
         }
+        $this->assertEquals(1, $count);
 
-        VObject\Reader::read($return);
     }
 
     function testVCardImportValidVCardsWithCategories() {
@@ -91,9 +91,7 @@ EOT;
         $tempFile = $this->createStream($data);
 
         $objects = new VCard($tempFile);
-        while($object=$objects->getNext()) {
-            $return .= $object->serialize();
-        }
+        while($objects->getNext()) { }
 
     }
 
@@ -110,12 +108,12 @@ EOT;
 
         $objects = new VCard($tempFile);
 
-        $return = "";
-        while($object=$objects->getNext()) {
-            $return .= $object->serialize();
+        $count = 0;
+        while($objects->getNext()) {
+            $count++;
         }
+        $this->assertEquals(2, $count);
 
-        VObject\Reader::read($return);
     }
 
     function testVCardImportVCardWithoutUID() {
@@ -127,12 +125,12 @@ EOT;
 
         $objects = new VCard($tempFile);
 
-        $return = "";
-        while($object=$objects->getNext()) {
-            $return .= $object->serialize();
+        $count = 0;
+        while($objects->getNext()) {
+            $count++;
         }
 
-        VObject\Reader::read($return);
+        $this->assertEquals(1, $count);
     }
 
 }

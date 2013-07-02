@@ -1,6 +1,6 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\ICalendar;
 
 use
     Sabre\VObject\Property,
@@ -24,9 +24,9 @@ class Period extends Property {
      * In case this is a multi-value property. This string will be used as a
      * delimiter.
      *
-     * @var string
+     * @var string|null
      */
-    protected $delimiter = ',';
+    public $delimiter = ',';
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -83,14 +83,19 @@ class Period extends Property {
             list($start, $end) = explode('/', $item, 2);
 
             $start = DateTimeParser::parseDateTime($start);
-            $return[] = $start->format('Y-m-d\\TH:i:s');
 
             // This is a duration value.
             if ($end[0]==='P') {
-                $return[] = $end;
+                $return[] = array(
+                    $start->format('Y-m-d\\TH:i:s'),
+                    $end
+                );
             } else {
                 $end = DateTimeParser::parseDateTime($end);
-                $return[] = $end->format('Y-m-d\\TH:i:s');
+                $return[] = array(
+                    $start->format('Y-m-d\\TH:i:s'),
+                    $end->format('Y-m-d\\TH:i:s'),
+                );
             }
 
         }

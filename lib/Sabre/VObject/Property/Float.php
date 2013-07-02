@@ -21,9 +21,9 @@ class Float extends Property {
      * In case this is a multi-value property. This string will be used as a
      * delimiter.
      *
-     * @var string
+     * @var string|null
      */
-    protected $delimiter = ';';
+    public $delimiter = ';';
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -81,12 +81,21 @@ class Float extends Property {
      */
     public function getJsonValue() {
 
-        // Ensuring we are getting real floating-point numbers.
-        return array_map(function($item) {
+        $val = array_map(function($item) {
 
             return (float)$item;
 
         }, $this->getParts());
+
+        // Special-casing the GEO property.
+        //
+        // See:
+        // http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-04#section-3.4.1.2
+        if ($this->name==='GEO') {
+            return array($val);
+        } else {
+            return $val;
+        }
 
     }
 }

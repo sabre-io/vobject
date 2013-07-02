@@ -163,6 +163,26 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @dataProvider vcardDates
+     * @expectedException \InvalidArgumentException
+     */
+    function testBadVCardDate() {
+
+        DateTimeParser::parseVCardDateTime('1985---01');
+
+    }
+
+    /**
+     * @dataProvider vcardDates
+     * @expectedException \InvalidArgumentException
+     */
+    function testBadVCardTime() {
+
+        DateTimeParser::parseVCardTime('23:12:166');
+
+    }
+
     function vcardDates() {
 
         return array(
@@ -344,6 +364,20 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => 22,
                     "second" => 00,
                     "timezone" => '-0800'
+                ),
+            ),
+
+            // extended format
+            array(
+                "2012-11-29T15:10:53Z",
+                array(
+                    "year" => 2012,
+                    "month" => 11,
+                    "date" => 29,
+                    "hour" => 15,
+                    "minute" => 10,
+                    "second" => 53,
+                    "timezone" => 'Z'
                 ),
             ),
         );

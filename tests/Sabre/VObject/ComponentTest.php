@@ -239,9 +239,8 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(1, count($bla->parameters()));
 
-        $this->assertInstanceOf('Sabre\\VObject\\Parameter', $bla->parameters[0]);
-        $this->assertEquals('PARAM1',$bla->parameters[0]->name);
-        $this->assertEquals('value1',$bla->parameters[0]->getValue());
+        $this->assertEquals('PARAM1',$bla->parameters['PARAM1']->name);
+        $this->assertEquals('value1',$bla->parameters['PARAM1']->getValue());
 
     }
 

@@ -19,9 +19,6 @@ class Reader {
     /**
      * If this option is passed to the reader, it will be less strict about the
      * validity of the lines.
-     *
-     * Currently using this option just means, that it will accept underscores
-     * in property names.
      */
     const OPTION_FORGIVING = 1;
 
@@ -44,26 +41,6 @@ class Reader {
     static function read($data, $options = 0) {
 
         $parser = new Parser\MimeDir();
-        $result = $parser->parse($data, $options);
-
-        return $result;
-
-    }
-
-    /**
-     * Parses a jCal or jCard object.
-     *
-     * It's possible to either supply a string or stream (for the raw json
-     * data), or an array, in case it had already been passed through
-     * json_decode().
-     *
-     * @param string|array|string $data
-     * @param int $options
-     * @return Node
-     */
-    static function readJson($data, $options = 0) {
-
-        $parser = new Parser\Json();
         $result = $parser->parse($data, $options);
 
         return $result;

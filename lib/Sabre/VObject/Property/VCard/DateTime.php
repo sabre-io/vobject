@@ -1,25 +1,20 @@
 <?php
 
-namespace Sabre\VObject\Property;
+namespace Sabre\VObject\Property\VCard;
+
+use
+    Sabre\VObject\DateTimeParser;
 
 /**
- * UtcOffset property
+ * DateTime property
  *
- * This object encodes UTC-OFFSET values.
+ * This object encodes DATE-TIME values for vCards.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class UtcOffset extends Text {
-
-    /**
-     * In case this is a multi-value property. This string will be used as a
-     * delimiter.
-     *
-     * @var string|null
-     */
-    public $delimiter = null;
+class DateTime extends DateAndOrTime {
 
     /**
      * Returns the type of value.
@@ -31,7 +26,8 @@ class UtcOffset extends Text {
      */
     public function getValueType() {
 
-        return "UTC-OFFSET";
+        return "DATE-TIME";
 
     }
+
 }

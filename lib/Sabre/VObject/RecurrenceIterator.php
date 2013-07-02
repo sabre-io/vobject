@@ -41,6 +41,8 @@ namespace Sabre\VObject;
  * you may get unexpected results. The effect is that in some applications the
  * specified recurrence may look incorrect, or is missing.
  *
+ * The recurrence iterator also does not yet support THISANDFUTURE.
+ *
  * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
@@ -69,7 +71,6 @@ class RecurrenceIterator implements \Iterator {
      * @var DateTime
      */
     public $currentDate;
-
 
     /**
      * List of dates that are excluded from the rules.
@@ -327,7 +328,17 @@ class RecurrenceIterator implements \Iterator {
             }
         }
         if (!$this->baseEvent) {
-            throw new \InvalidArgumentException('Could not find a base event with uid: ' . $uid);
+            // No base event was found. CalDAV does allow cases where only
+            // overridden instances are stored.
+            //
+            // In this barticular case, we're just going to grab the first
+            // event and use that instead. This may not always give the
+            // desired result.
+            if (!count($this->overriddenEvents)) {
+                throw new \InvalidArgumentException('Could not find an event with uid: ' . $uid);
+            }
+            ksort($this->overriddenEvents, SORT_NUMERIC);
+            $this->baseEvent = array_shift($this->overriddenEvents);
         }
 
         $this->startDate = clone $this->baseEvent->DTSTART->getDateTime();
@@ -704,7 +715,9 @@ class RecurrenceIterator implements \Iterator {
             $this->currentDate->modify('+' . $this->interval . ' hours');
             return;
         }
+        // @codeCoverageIgnoreStart
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Does the processing for advancing the iterator for daily frequency.
