@@ -88,6 +88,7 @@ class VCard extends VObject\Document {
         'UID'     => 'Sabre\\VObject\\Property\\FlatText',
         'VERSION' => 'Sabre\\VObject\\Property\\FlatText',
         'KEY'     => 'Sabre\\VObject\\Property\\FlatText',
+        'TZ'      => 'Sabre\\VObject\\Property\\Text',
 
         // vCard 3.0 properties
         'CATEGORIES'  => 'Sabre\\VObject\\Property\\Text',

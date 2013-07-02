@@ -3,8 +3,9 @@
 namespace Sabre\VObject\Parser;
 
 use
-    Sabre\VObject\Document\VCalendar,
-    Sabre\VObject\Document\VCard;
+    Sabre\VObject\Component\VCalendar,
+    Sabre\VObject\Component\VCard,
+    Sabre\VObject\ParseException;
 
 /**
  * Json Parser.
@@ -53,7 +54,7 @@ class Json extends Parser {
             $this->options = $options;
         }
 
-        switch($input[0]) {
+        switch($this->input[0]) {
             case 'vcalendar' :
                 $this->root = new VCalendar(array(), false);
                 break;
@@ -64,10 +65,10 @@ class Json extends Parser {
                 throw new ParseException('The root component must either be a vcalendar, or a vcard');
 
         }
-        foreach($input[1] as $prop) {
+        foreach($this->input[1] as $prop) {
             $this->root->add($this->parseProperty($prop));
         }
-        if (isset($input[2])) foreach($input[2] as $comp) {
+        if (isset($this->input[2])) foreach($this->input[2] as $comp) {
             $this->root->add($this->parseComponent($comp));
         }
 
@@ -120,20 +121,47 @@ class Json extends Parser {
             $valueType
         ) = $jProp;
 
+        $propertyName = strtoupper($propertyName);
+
+        // This is the default class we would be using if we didn't know the
+        // value type. We're using this value later in this function.
+        $defaultPropertyClass = $this->root->getClassNameForPropertyName($propertyName);
+
+        $parameters = (array)$parameters;
+
         $value = array_slice($jProp, 3);
 
         if (count($value)===1) {
             $value = $value[0];
         }
 
-        $parameters['VALUE'] = strtoupper($valueType);
+        $valueType = strtoupper($valueType);
 
         if (isset($parameters['group'])) {
             $propertyName = $parameters['group'] . '.' . $propertyName;
             unset($parameters['group']);
         }
 
-        return $this->root->createProperty($propertyName, $value, $parameters);
+        $prop = $this->root->createProperty($propertyName, $value, $parameters, $valueType);
+
+
+
+        // We have to do something awkward here. FlatText as well as Text
+        // represents TEXT values. We have to normalize these here. In the
+        // future we can get rid of FlatText once we're allowed to break BC
+        // again.
+        if ($defaultPropertyClass === 'Sabre\VObject\Property\FlatText') {
+            $defaultPropertyClass = 'Sabre\VObject\Property\Text';
+        }
+
+        // If the value type we received (e.g.: TEXT) was not the default value
+        // type for the given property (e.g.: BDAY), we need to add a VALUE=
+        // parameter.
+        if ($defaultPropertyClass !== get_class($prop)) {
+            $prop["VALUE"] = $valueType;
+        }
+
+        return $prop;
 
     }
 
