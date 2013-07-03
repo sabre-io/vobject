@@ -158,11 +158,14 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
         $parser = new Json(json_encode($input));
         $vobj = $parser->parse();        
 
+        $version = VObject\Version::VERSION;
+
+
         $result = $vobj->serialize();
         $expected = <<<VCF
 BEGIN:VCARD
 VERSION:4.0
-PRODID:-//Sabre//Sabre VObject 3.0.1//EN
+PRODID:-//Sabre//Sabre VObject $version//EN
 UID:foo
 BDAY:1985-04-07
 REV:1995-10-31T22:27:10Z
@@ -309,10 +312,12 @@ VCF;
         $vobj = $parser->parse();        
         $result = $vobj->serialize();
 
+        $version = VObject\Version::VERSION;
+
         $expected = <<<VCF
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Sabre//Sabre VObject 3.0.1//EN
+PRODID:-//Sabre//Sabre VObject $version//EN
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
 UID:foo
