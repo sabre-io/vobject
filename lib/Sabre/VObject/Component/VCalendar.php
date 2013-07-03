@@ -46,7 +46,7 @@ class VCalendar extends VObject\Document {
         'BINARY'           => 'Sabre\\VObject\\Property\\Binary',
         'BOOLEAN'          => 'Sabre\\VObject\\Property\\Boolean',
         'CAL-ADDRESS'      => 'Sabre\\VObject\\Property\\ICalendar\\CalAddress',
-        'DATE'             => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
+        'DATE'             => 'Sabre\\VObject\\Property\\ICalendar\\Date',
         'DATE-TIME'        => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
         'DURATION'         => 'Sabre\\VObject\\Property\\ICalendar\\Duration',
         'FLOAT'            => 'Sabre\\VObject\\Property\\Float',

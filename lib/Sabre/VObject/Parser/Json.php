@@ -94,7 +94,7 @@ class Json extends Parser {
         if (isset($jComp[2])) {
 
             $components = array_map(function($jComp) use ($self) {
-                return $self->parseComponent($jProp);
+                return $self->parseComponent($jComp);
             }, $jComp[2]);
 
         } else $components = array();
@@ -131,10 +131,6 @@ class Json extends Parser {
 
         $value = array_slice($jProp, 3);
 
-        if (count($value)===1) {
-            $value = $value[0];
-        }
-
         $valueType = strtoupper($valueType);
 
         if (isset($parameters['group'])) {
@@ -142,9 +138,8 @@ class Json extends Parser {
             unset($parameters['group']);
         }
 
-        $prop = $this->root->createProperty($propertyName, $value, $parameters, $valueType);
-
-
+        $prop = $this->root->createProperty($propertyName, null, $parameters, $valueType);
+        $prop->setJsonValue($value);
 
         // We have to do something awkward here. FlatText as well as Text
         // represents TEXT values. We have to normalize these here. In the

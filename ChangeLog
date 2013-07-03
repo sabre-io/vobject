@@ -1,5 +1,6 @@
 3.0.1-stable (2013-??-??)
 	* Added: bad-ass new cli debugging utility (in bin/vobject).
+	* Added: jCal and jCard parser.
 	* Fixed: URI properties should not escape ; and ,.
 	* Fixed: VCard 4 documents now correctly use URI as a default value-type
 	  for PHOTO and others. BINARY no longer exists in vCard 4.

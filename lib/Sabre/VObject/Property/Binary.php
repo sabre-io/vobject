@@ -83,5 +83,19 @@ class Binary extends Property {
 
     }
 
+    /**
+     * Sets the json value, as it would appear in a jCard or jCal object.
+     *
+     * The value must always be an array.
+     *
+     * @param array $value
+     * @return void
+     */
+    public function setJsonValue(array $value) {
+
+        $value = array_map('base64_decode', $value);
+        parent::setJsonValue($value);
+
+    }
 
 }

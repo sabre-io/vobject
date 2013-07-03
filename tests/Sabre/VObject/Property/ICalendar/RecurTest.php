@@ -27,7 +27,7 @@ class RecurTest extends \PHPUnit_Framework_TestCase {
 
         $vcal = new VCalendar();
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
-        $recur->setValue(new \StdClass());
+        $recur->setValue(new \Exception());
 
     }
 

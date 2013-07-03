@@ -69,6 +69,25 @@ class Period extends Property {
     }
 
     /**
+     * Sets the json value, as it would appear in a jCard or jCal object.
+     *
+     * The value must always be an array.
+     *
+     * @param array $value
+     * @return void
+     */
+    public function setJsonValue(array $value) {
+
+        $value = array_map(function($item) {
+
+            return strtr(implode('/', $item), array(':' => '', '-' => ''));
+
+        }, $value);
+        parent::setJsonValue($value);
+
+    }
+
+    /**
      * Returns the value, in the format it should be encoded for json.
      *
      * This method must always return an array.

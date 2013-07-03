@@ -264,6 +264,24 @@ abstract class Property extends Node {
     }
 
     /**
+     * Sets the json value, as it would appear in a jCard or jCal object.
+     *
+     * The value must always be an array.
+     *
+     * @param array $value
+     * @return void
+     */
+    public function setJsonValue(array $value) {
+
+        if (count($value)===1) {
+            $this->setValue(reset($value));
+        } else {
+            $this->setValue($value);
+        }
+
+    }
+
+    /**
      * This method returns an array, with the representation as it should be
      * encoded in json. This is used to create jCard or jCal documents.
      *

@@ -11,10 +11,13 @@ use
 /**
  * DateTime property
  *
- * This object represents DATE-TIME and DATE values, as defined here:
+ * This object represents DATE-TIME values, as defined here:
  *
  * http://tools.ietf.org/html/rfc5545#section-3.3.4
- * http://tools.ietf.org/html/rfc5545#section-3.3.5
+ *
+ * This particular object has a bit of hackish magic that it may also in some
+ * cases represent a DATE value. This is because it's a common usecase to be
+ * able to change a DATE-TIME into a DATE.
  *
  * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
@@ -262,6 +265,27 @@ class DateTime extends Property {
 
     }
 
+    /**
+     * Sets the json value, as it would appear in a jCard or jCal object.
+     *
+     * The value must always be an array.
+     *
+     * @param array $value
+     * @return void
+     */
+    public function setJsonValue(array $value) {
+
+        // dates and times in jCal have one difference to dates and times in
+        // iCalendar. In jCal date-parts are separated by dashes, and
+        // time-parts are separated by colons. It makes sense to just remove
+        // those.
+        $this->setValue(array_map(function($item) {
+
+            return strtr($item, array(':'=>'', '-'=>''));
+
+        }, $value));
+
+    }
     /**
      * We need to intercept offsetSet, because it may be used to alter the
      * VALUE from DATE-TIME to DATE or vice-versa.

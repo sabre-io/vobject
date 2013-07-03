@@ -35,6 +35,11 @@ class Recur extends Property {
      */
     public function setValue($value) {
 
+        // If we're getting the data from json, we'll be receiving an object
+        if ($value instanceof \StdClass) {
+            $value = (array)$value;
+        }
+
         if (is_array($value)) {
             $newVal = array();
             foreach($value as $k=>$v) {
