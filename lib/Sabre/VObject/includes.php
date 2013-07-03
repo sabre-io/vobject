@@ -12,6 +12,7 @@
  */
 
 // Begin includes
+include __DIR__ . '/Cli.php';
 include __DIR__ . '/DateTimeParser.php';
 include __DIR__ . '/ElementList.php';
 include __DIR__ . '/FreeBusyGenerator.php';
@@ -26,10 +27,12 @@ include __DIR__ . '/Splitter/SplitterInterface.php';
 include __DIR__ . '/Splitter/VCard.php';
 include __DIR__ . '/StringUtil.php';
 include __DIR__ . '/TimeZoneUtil.php';
+include __DIR__ . '/VCardConverter.php';
 include __DIR__ . '/Version.php';
 include __DIR__ . '/Component.php';
 include __DIR__ . '/Document.php';
 include __DIR__ . '/EofException.php';
+include __DIR__ . '/Parser/Json.php';
 include __DIR__ . '/Parser/MimeDir.php';
 include __DIR__ . '/Property/Binary.php';
 include __DIR__ . '/Property/Boolean.php';
@@ -58,5 +61,6 @@ include __DIR__ . '/Component/VJournal.php';
 include __DIR__ . '/Component/VTodo.php';
 include __DIR__ . '/Property/FlatText.php';
 include __DIR__ . '/Property/ICalendar/CalAddress.php';
+include __DIR__ . '/Property/ICalendar/Date.php';
 include __DIR__ . '/Property/VCard/Date.php';
 // End includes
