@@ -63,7 +63,7 @@ class Reader {
      */
     static function readJson($data, $options = 0) {
 
-        $parser = new Parser\MimeDir();
+        $parser = new Parser\Json();
         $result = $parser->parse($data, $options);
 
         return $result;

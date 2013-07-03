@@ -351,7 +351,6 @@ VCF;
 
     function testParseStreamArg() {
 
-        $json = new Json();
         $input = array(
             "vcard",
             array(
@@ -365,7 +364,7 @@ VCF;
         fwrite($stream, json_encode($input));
         rewind($stream);
 
-        $result = $json->parse($stream,0);
+        $result = VObject\Reader::readJson($stream,0);
         $this->assertEquals('foo', $result->FN->getValue());
 
     }
