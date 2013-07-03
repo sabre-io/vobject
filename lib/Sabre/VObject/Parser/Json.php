@@ -82,7 +82,7 @@ class Json extends Parser {
      * @param array $jComp
      * @return \Sabre\VObject\Component
      */
-    protected function parseComponent(array $jComp) {
+    public function parseComponent(array $jComp) {
 
         // We can remove $self from PHP 5.4 onward.
         $self = $this;
@@ -113,7 +113,7 @@ class Json extends Parser {
      * @param array $jProp
      * @return \Sabre\VObject\Property
      */
-    protected function parseProperty(array $jProp) {
+    public function parseProperty(array $jProp) {
 
         list(
             $propertyName,
