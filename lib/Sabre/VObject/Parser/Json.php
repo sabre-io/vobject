@@ -5,7 +5,8 @@ namespace Sabre\VObject\Parser;
 use
     Sabre\VObject\Component\VCalendar,
     Sabre\VObject\Component\VCard,
-    Sabre\VObject\ParseException;
+    Sabre\VObject\ParseException,
+    Sabre\VObject\EofException;
 
 /**
  * Json Parser.
@@ -49,6 +50,9 @@ class Json extends Parser {
         if (!is_null($input)) {
             $this->setInput($input);
         }
+        if (is_null($this->input)) {
+            throw new EofException('End of input stream, or no input supplied');
+        }
 
         if (!is_null($options)) {
             $this->options = $options;
@@ -71,6 +75,9 @@ class Json extends Parser {
         if (isset($this->input[2])) foreach($this->input[2] as $comp) {
             $this->root->add($this->parseComponent($comp));
         }
+
+        // Resetting the input so we can throw an feof exception the next time.
+        $this->input = null;
 
         return $this->root;
 

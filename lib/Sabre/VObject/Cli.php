@@ -61,7 +61,28 @@ class Cli {
      *
      * @var resource
      */
-    protected $output;
+    protected $stdout;
+
+    /**
+     * stdin
+     *
+     * @var resource
+     */
+    protected $stdin;
+
+    /**
+     * stderr
+     *
+     * @var resource
+     */
+    protected $stderr;
+
+    /**
+     * Input format (one of json or mimedir)
+     *
+     * @var string
+     */
+    protected $inputFormat;
 
     /**
      * Main function
@@ -69,6 +90,22 @@ class Cli {
      * @return int
      */
     public function main(array $argv) {
+
+        // @codeCoverageIgnoreStart
+        // We cannot easily test this, so we'll skip it. Pretty basic anyway.
+
+        if (!$this->stderr) {
+            $this->stderr = STDERR;
+        }
+        if (!$this->stdout) {
+            $this->stdout = STDOUT;
+        }
+        if (!$this->stdin) {
+            $this->stdin = STDIN;
+        }
+
+        // @codeCoverageIgnoreEnd
+
 
         try {
 
@@ -122,6 +159,32 @@ class Cli {
                     case 'pretty' :
                         $this->pretty = true;
                         break;
+                    case 'inputformat' :
+                        switch($value) {
+                            // json formats
+                            case 'jcard' :
+                            case 'jcal' :
+                            case 'json' :
+                                $this->inputFormat = 'json';
+                                break;
+
+                            // mimedir formats
+                            case 'mimedir' :
+                            case 'icalendar' :
+                            case 'vcard' :
+                            case 'vcard21' :
+                            case 'vcard30' :
+                            case 'vcard40' :
+                            case 'icalendar20' :
+
+                                $this->inputFormat = 'mimedir';
+                                break;
+
+                            default :
+                                throw new InvalidArgumentException('Unknown format: ' . $value);
+
+                        }
+                        break;
                     default :
                         throw new InvalidArgumentException('Unknown option: ' . $name);
 
@@ -157,11 +220,25 @@ class Cli {
         $this->inputPath = $positional[1];
         $this->outputPath = isset($positional[2])?$positional[2]:'-';
 
-        if ($this->outputPath === '-') {
-            $this->output = STDOUT;
-        } else {
-            $this->output = fopen($this->outputPath,'w');
+        if ($this->outputPath !== '-') {
+            $this->stdout = fopen($this->outputPath,'w');
         }
+
+        if (!$this->inputFormat) {
+            if (substr($this->inputPath,-5)==='.json') {
+                $this->inputFormat = 'json';
+            } else {
+                $this->inputFormat = 'mimedir';
+            }
+        }
+        if (!$this->format) {
+            if (substr($this->outputPath,-5)==='.json') {
+                $this->format = 'json';
+            } else {
+                $this->format = 'mimedir';
+            }
+        }
+
 
         $realCode = 0;
 
@@ -176,6 +253,9 @@ class Cli {
 
         } catch (EofException $e) {
             // end of file
+        } catch (\Exception $e) {
+            $this->log('Error: ' . $e->getMessage(),'red');
+            return 2;
         }
 
         return $realCode;
@@ -193,11 +273,13 @@ class Cli {
         $this->log("  vobject [options] command [arguments]");
         $this->log('');
         $this->log('Options:', 'yellow');
-        $this->log($this->colorize('green', '  -q       ') . "Don't output anything.");
-        $this->log($this->colorize('green', '  -help -h ') . "Display this help message.");
-        $this->log($this->colorize('green', '  --format ') . "Convert to a specific format. Must be one of: vcard, vcard21,");
-        $this->log("           vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.");
-        $this->log($this->colorize('green', '  --pretty ') . "json pretty-print.");
+        $this->log($this->colorize('green', '  -q            ') . "Don't output anything.");
+        $this->log($this->colorize('green', '  -help -h      ') . "Display this help message.");
+        $this->log($this->colorize('green', '  --format      ') . "Convert to a specific format. Must be one of: vcard, vcard21,");
+        $this->log("                vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.");
+        $this->log($this->colorize('green', '  --inputformat ') . "If the input format cannot be guessed from the extension, it");
+        $this->log("                must be specified here.");
+        $this->log($this->colorize('green', '  --pretty      ') . "json pretty-print.");
         $this->log('');
         $this->log('Commands:', 'yellow');
         $this->log($this->colorize('green', '  validate') . ' source_file              Validates a file for correctness.');
@@ -216,6 +298,7 @@ HELP
         $this->log('Examples:', 'yellow');
         $this->log('   vobject convert --pretty contact.vcf contact.json');
         $this->log('   vobject convert --format=vcard40 old.vcf new.vcf');
+        $this->log('   vobject convert --inputformat=json --format=mimedir - -');
         $this->log('   vobject color calendar.ics');
         $this->log('');
         $this->log('https://github.com/fruux/sabre-vobject','purple');
@@ -290,7 +373,7 @@ HELP
             }
 
         }
-        fwrite($this->output, $vObj->serialize());
+        fwrite($this->stdout, $vObj->serialize());
 
         return $returnCode;
 
@@ -303,14 +386,6 @@ HELP
      * @return int
      */
     protected function convert($vObj) {
-
-        if (!$this->format) {
-            if (substr($this->outputPath, strrpos($this->outputPath,'.')+1) === 'json') {
-                $this->format = 'json';
-            } else {
-                $this->format = 'mimedir';
-            }
-        }
 
         $json = false;
         $convertVersion = null;
@@ -350,7 +425,7 @@ HELP
         }
 
         if ($forceInput && $vObj->name !== $forceInput) {
-            $this->log('Error: you cannot convert a ' . strtolower($vObj->name) . ' to ' . $this->format);
+            throw new \Exception('You cannot convert a ' . strtolower($vObj->name) . ' to ' . $this->format);
         }
         if ($convertVersion) {
             $vObj = $vObj->convert($convertVersion);
@@ -360,9 +435,9 @@ HELP
             if ($this->pretty) {
                 $jsonOptions = JSON_PRETTY_PRINT;
             }
-            fwrite($this->output, json_encode($vObj->jsonSerialize(), $jsonOptions));
+            fwrite($this->stdout, json_encode($vObj->jsonSerialize(), $jsonOptions));
         } else {
-            fwrite($this->output, $vObj->serialize());
+            fwrite($this->stdout, $vObj->serialize());
         }
 
         return 0;
@@ -377,7 +452,7 @@ HELP
      */
     protected function color($vObj) {
 
-        fwrite($this->output, $this->serializeComponent($vObj));
+        fwrite($this->stdout, $this->serializeComponent($vObj));
 
     }
 
@@ -411,7 +486,7 @@ HELP
      */
     protected function cWrite($color, $str) {
 
-        fwrite($this->output, $this->colorize($color, $str));
+        fwrite($this->stdout, $this->colorize($color, $str));
 
     }
 
@@ -609,13 +684,15 @@ HELP
     protected function readInput() {
 
         if (!$this->parser) {
-            if ($this->inputPath==='-') {
-                $input = STDIN;
-            } else {
-                $input = fopen($this->inputPath,'r');
+            if ($this->inputPath!=='-') {
+                $this->stdin = fopen($this->inputPath,'r');
             }
 
-            $this->parser = new Parser\MimeDir($input);
+            if ($this->inputFormat === 'mimedir') {
+                $this->parser = new Parser\MimeDir($this->stdin);
+            } else {
+                $this->parser = new Parser\Json($this->stdin);
+            }
         }
 
         return $this->parser->parse();
@@ -634,7 +711,7 @@ HELP
             if ($color!=='default') {
                 $msg = $this->colorize($color, $msg);
             }
-            fwrite(STDERR, $msg . "\n");
+            fwrite($this->stderr, $msg . "\n");
         }
 
     }
