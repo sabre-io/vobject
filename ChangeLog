@@ -6,6 +6,9 @@
 	  for PHOTO and others. BINARY no longer exists in vCard 4.
 	* Added: Utility to convert between 4.0 and 3.0 vcards.
 	* Added: You can now add() multiple parameters to a property in one call.
+	* Added: Parameter::has() for easily checking if a parameter value exists.
+	* Added: VCard::preferred() to find a preferred email, phone number, etc
+	  for a contact.
 	* Changed: All $duration properties are now public.
 
 3.0.0-stable (2013-06-21)

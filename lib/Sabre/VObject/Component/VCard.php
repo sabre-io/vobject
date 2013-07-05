@@ -259,6 +259,42 @@ class VCard extends VObject\Document {
     }
 
     /**
+     * Returns a preferred field.
+     *
+     * VCards can indicate wether a field such as ADR, TEL or EMAIL is
+     * preferred by specifying TYPE=PREF (vcard 2.1, 3) or PREF=x (vcard 4, x
+     * being a number between 1 and 100).
+     *
+     * If neither of those parameters are specified, the first is returned, if
+     * a field with that name does not exist, null is returned.
+     *
+     * @param string $fieldName
+     * @return VObject\Property|null
+     */
+    public function preferred($propertyName) {
+
+        $preferred = null;
+        $lastPref = 101;
+        foreach($this->select($propertyName) as $field) {
+
+            $pref = 101;
+            if (isset($field['TYPE']) && $field['TYPE']->has('PREF')) {
+                $pref = 1;
+            } elseif (isset($field['PREF'])) {
+                $pref = $field['PREF']->getValue();
+            }
+
+            if ($pref < $lastPref || is_null($preferred)) {
+                $preferred = $field;
+                $lastPref = $pref;
+            }
+
+        }
+        return $preferred;
+
+    }
+
+    /**
      * This method should return a list of default property values.
      *
      * @return array

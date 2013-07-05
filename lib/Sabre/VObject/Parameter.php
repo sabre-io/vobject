@@ -231,6 +231,25 @@ class Parameter extends Node {
     }
 
     /**
+     * Checks if this parameter contains the specified value.
+     *
+     * This is a case-insensitive match. It makes sense to call this for for
+     * instance the TYPE parameter, to see if it contains a keyword such as
+     * 'WORK' or 'FAX'.
+     *
+     * @param string $value
+     * @return bool
+     */
+    public function has($value) {
+
+        return in_array(
+            strtolower($value),
+            array_map('strtolower', (array)$this->value)
+        );
+
+    }
+
+    /**
      * Turns the object back into a serialized blob.
      *
      * @return string

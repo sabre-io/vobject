@@ -115,4 +115,62 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(VCard::UNKNOWN, $vcard->getDocumentType());
     }
 
+    function testPreferredNoPref() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+EMAIL:1@example.org
+EMAIL:2@example.org
+END:VCARD
+VCF;
+
+        $vcard = VObject\Reader::read($vcard);
+        $this->assertEquals('1@example.org', $vcard->preferred('EMAIL')->getValue());
+
+    }
+
+    function testPreferredWithPref() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+EMAIL:1@example.org
+EMAIL;TYPE=PREF:2@example.org
+END:VCARD
+VCF;
+
+        $vcard = VObject\Reader::read($vcard);
+        $this->assertEquals('2@example.org', $vcard->preferred('EMAIL')->getValue());
+
+    }
+
+    function testPreferredWith40Pref() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:4.0
+EMAIL:1@example.org
+EMAIL;PREF=3:2@example.org
+EMAIL;PREF=2:3@example.org
+END:VCARD
+VCF;
+
+        $vcard = VObject\Reader::read($vcard);
+        $this->assertEquals('3@example.org', $vcard->preferred('EMAIL')->getValue());
+
+    }
+
+    function testPreferredNotFound() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:4.0
+END:VCARD
+VCF;
+
+        $vcard = VObject\Reader::read($vcard);
+        $this->assertNull($vcard->preferred('EMAIL'));
+
+    }
 }
