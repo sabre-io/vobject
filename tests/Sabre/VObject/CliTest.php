@@ -125,16 +125,6 @@ class CliTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testPretty() {
-
-        $this->assertEquals(
-            1,
-            $this->cli->main(array('vobject', '--pretty'))
-        );
-        $this->assertTrue($this->cli->pretty);
-
-    }
-
     public function testConvertJson() {
 
         $inputStream = fopen('php://memory','r+');
@@ -163,6 +153,10 @@ ICS
     }
 
     public function testConvertJCardPretty() {
+
+        if (version_compare(PHP_VERSION, '5.4.0') < 0) {
+            $this->markTestSkipped('This test required PHP 5.4.0');
+        }
 
         $inputStream = fopen('php://memory','r+');
 
