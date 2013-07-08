@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject\Component;
 
-use Sabre\VObject;
+use
+    Sabre\VObject,
+    Sabre\VObject\Component;
 
 /**
  * The VCalendar component
@@ -292,7 +294,6 @@ class VCalendar extends VObject\Document {
      *
      * @return array
      */
-    /*
     public function validate() {
 
         $warnings = array();
@@ -386,7 +387,6 @@ class VCalendar extends VObject\Document {
         );
 
     }
-     */
 
 }
 

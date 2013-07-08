@@ -423,6 +423,216 @@ VCARD
 
     }
 
+    function testValidate() {
+
+        $inputStream = fopen('php://memory','r+');
+
+        fwrite($inputStream, <<<VCARD
+BEGIN:VCARD
+VERSION:4.0
+PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+FN:Cowboy Henk
+END:VCARD
+
+VCARD
+    );
+        rewind($inputStream);
+        $this->cli->stdin = $inputStream;
+        // vCard 2.1 is not supported yet, so this returns a failure.
+        $this->assertEquals(
+            0,
+            $this->cli->main(array('vobject', 'validate', '-'))
+        );
+
+    }
+
+    function testValidateFail() {
+
+        $inputStream = fopen('php://memory','r+');
+
+        fwrite($inputStream, <<<VCARD
+BEGIN:VCALENDAR
+VERSION:2.0
+END:VCARD
+
+VCARD
+    );
+        rewind($inputStream);
+        $this->cli->stdin = $inputStream;
+        // vCard 2.1 is not supported yet, so this returns a failure.
+        $this->assertEquals(
+            2,
+            $this->cli->main(array('vobject', 'validate', '-'))
+        );
+
+    }
+
+    function testValidateFail2() {
+
+        $inputStream = fopen('php://memory','r+');
+
+        fwrite($inputStream, <<<VCARD
+BEGIN:VCALENDAR
+VERSION:5.0
+END:VCALENDAR
+
+VCARD
+    );
+        rewind($inputStream);
+        $this->cli->stdin = $inputStream;
+        // vCard 2.1 is not supported yet, so this returns a failure.
+        $this->assertEquals(
+            2,
+            $this->cli->main(array('vobject', 'validate', '-'))
+        );
+
+    }
+
+    function testRepair() {
+
+        $inputStream = fopen('php://memory','r+');
+
+        fwrite($inputStream, <<<VCARD
+BEGIN:VCARD
+VERSION:5.0
+END:VCARD
+
+VCARD
+    );
+        rewind($inputStream);
+        $this->cli->stdin = $inputStream;
+        // vCard 2.1 is not supported yet, so this returns a failure.
+        $this->assertEquals(
+            2,
+            $this->cli->main(array('vobject', 'repair', '-'))
+        );
+
+        rewind($this->cli->stdout);
+        $this->assertEquals("BEGIN:VCARD\r\nVERSION:2.1\r\nEND:VCARD\r\n", stream_get_contents($this->cli->stdout));
+
+    }
+
+    function testRepairNothing() {
+
+        $inputStream = fopen('php://memory','r+');
+
+        fwrite($inputStream, <<<VCARD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+BEGIN:VEVENT
+END:VEVENT
+END:VCALENDAR
+
+VCARD
+    );
+        rewind($inputStream);
+        $this->cli->stdin = $inputStream;
+        // vCard 2.1 is not supported yet, so this returns a failure.
+
+        $result = $this->cli->main(array('vobject', 'repair', '-'));
+
+        rewind($this->cli->stderr);
+        $error = stream_get_contents($this->cli->stderr);
+
+        $this->assertEquals(
+            0,
+            $result,
+            "This should have been error free. stderr output:\n" . $error
+        );
+
+    }
+
+    /**
+     * Note: this is a very shallow test, doesn't dig into the actual output,
+     * but just makes sure there's no errors thrown.
+     *
+     * The colorizer is not a critical component, it's mostly a debugging tool.
+     */
+    function testColorCalendar() {
+
+        $inputStream = fopen('php://memory','r+');
+
+        $version = Version::VERSION;
+
+        /**
+         * This object is not valid, but it's designed to hit every part of the
+         * colorizer source.
+         */
+        fwrite($inputStream, <<<VCARD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject {$version}//EN
+BEGIN:VTIMEZONE
+END:VTIMEZONE
+BEGIN:VEVENT
+ATTENDEE;RSVP=TRUE:mailto:foo@example.org
+REQUEST-STATUS:5;foo
+ATTACH:blabla
+END:VEVENT
+END:VCALENDAR
+
+VCARD
+    );
+        rewind($inputStream);
+        $this->cli->stdin = $inputStream;
+        // vCard 2.1 is not supported yet, so this returns a failure.
+
+        $result = $this->cli->main(array('vobject', 'color', '-'));
+
+        rewind($this->cli->stderr);
+        $error = stream_get_contents($this->cli->stderr);
+
+        $this->assertEquals(
+            0,
+            $result,
+            "This should have been error free. stderr output:\n" . $error
+        );
+
+    }
+
+    /**
+     * Note: this is a very shallow test, doesn't dig into the actual output,
+     * but just makes sure there's no errors thrown.
+     *
+     * The colorizer is not a critical component, it's mostly a debugging tool.
+     */
+    function testColorVCard() {
+
+        $inputStream = fopen('php://memory','r+');
+
+        $version = Version::VERSION;
+
+        /**
+         * This object is not valid, but it's designed to hit every part of the
+         * colorizer source.
+         */
+        fwrite($inputStream, <<<VCARD
+BEGIN:VCARD
+VERSION:4.0
+PRODID:-//Sabre//Sabre VObject {$version}//EN
+ADR:1;2;3;4a,4b;5;6
+group.TEL:123454768
+END:VCARD
+
+VCARD
+    );
+        rewind($inputStream);
+        $this->cli->stdin = $inputStream;
+        // vCard 2.1 is not supported yet, so this returns a failure.
+
+        $result = $this->cli->main(array('vobject', 'color', '-'));
+
+        rewind($this->cli->stderr);
+        $error = stream_get_contents($this->cli->stderr);
+
+        $this->assertEquals(
+            0,
+            $result,
+            "This should have been error free. stderr output:\n" . $error
+        );
+
+    }
 }
 
 class CliMock extends Cli {
