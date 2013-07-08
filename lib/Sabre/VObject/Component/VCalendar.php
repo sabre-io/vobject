@@ -294,7 +294,7 @@ class VCalendar extends VObject\Document {
      *
      * @return array
      */
-    public function validate() {
+    public function validate($options = 0) {
 
         $warnings = array();
 
