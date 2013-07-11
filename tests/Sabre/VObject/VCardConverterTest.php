@@ -197,4 +197,53 @@ OUT;
 
     }
 
+    function testConvertGroupCard() {
+
+        $version = Version::VERSION;
+
+        $input = <<<IN
+BEGIN:VCARD
+VERSION:3.0
+PRODID:foo
+X-ADDRESSBOOKSERVER-KIND:GROUP
+END:VCARD
+
+IN;
+
+        $output = <<<OUT
+BEGIN:VCARD
+VERSION:4.0
+PRODID:-//Sabre//Sabre VObject {$version}//EN
+KIND:group
+END:VCARD
+
+OUT;
+
+        $vcard = \Sabre\VObject\Reader::read($input);
+        $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD40);
+
+        $this->assertEquals(
+            $output,
+            str_replace("\r", "", $vcard->serialize())
+        );
+
+        $input = $output;
+        $output = <<<OUT
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject {$version}//EN
+X-ADDRESSBOOKSERVER-KIND:GROUP
+END:VCARD
+
+OUT;
+
+        $vcard = \Sabre\VObject\Reader::read($input);
+        $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD30);
+
+        $this->assertEquals(
+            $output,
+            str_replace("\r", "", $vcard->serialize())
+        );
+
+    }
 }

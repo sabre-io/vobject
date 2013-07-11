@@ -101,6 +101,10 @@ class VCardConverter {
                         // Individual is implied, so we can just skip it.
                         return;
 
+                    case 'group' :
+                        // OS X addressbook property
+                        $newProperty = $output->createProperty('X-ADDRESSBOOKSERVER-KIND','GROUP');
+                        break;
                 }
 
 
@@ -112,10 +116,19 @@ class VCardConverter {
 
                 $newProperty = $this->convertBinaryToUri($output, $property, $parameters);
 
-            }
-            if ($property->name === 'X-ABSHOWAS' && strtoupper($property->getValue()) === 'COMPANY') {
-
-                $newProperty = $output->createProperty('KIND','org');
+            } else {
+                switch($property->name) {
+                    case 'X-ABSHOWAS' :
+                        if (strtoupper($property->getValue()) === 'COMPANY') {
+                            $newProperty = $output->createProperty('KIND','org');
+                        }
+                        break;
+                    case 'X-ADDRESSBOOKSERVER-KIND' :
+                        if (strtoupper($property->getValue()) === 'GROUP') {
+                            $newProperty = $output->createProperty('KIND','group');
+                        }
+                        break;
+                }
 
             }
 
