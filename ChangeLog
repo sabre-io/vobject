@@ -10,6 +10,7 @@
 	* Added: VCard::preferred() to find a preferred email, phone number, etc
 	  for a contact.
 	* Changed: All $duration properties are now public.
+	* Added: A few validators for iCalendar documents.
 
 3.0.0-stable (2013-06-21)
 	* Fixed: includes.php file was still broken. Our tool to generate it had

@@ -90,12 +90,32 @@ class VCardConverter {
                 $newProperty = $this->convertUriToBinary($output, $property, $parameters);
 
             }
+            if ($property->name === 'KIND') {
+
+                switch(strtolower($property->getValue())) {
+                    case 'org' :
+                        // OS X addressbook property.
+                        $newProperty = $output->createProperty('X-ABSHOWAS','COMPANY');
+                        break;
+                    case 'individual' :
+                        // Individual is implied, so we can just skip it.
+                        return;
+
+                }
+
+
+            }
 
         }
         if ($targetVersion===Document::VCARD40) {
             if ($property instanceOf Property\Binary) {
 
                 $newProperty = $this->convertBinaryToUri($output, $property, $parameters);
+
+            }
+            if ($property->name === 'X-ABSHOWAS' && strtoupper($property->getValue()) === 'COMPANY') {
+
+                $newProperty = $output->createProperty('KIND','org');
 
             }
 
