@@ -89,8 +89,7 @@ class VCardConverter {
 
                 $newProperty = $this->convertUriToBinary($output, $property, $parameters);
 
-            }
-            if ($property->name === 'KIND') {
+            } elseif ($property->name === 'KIND') {
 
                 switch(strtolower($property->getValue())) {
                     case 'org' :
@@ -110,8 +109,7 @@ class VCardConverter {
 
             }
 
-        }
-        if ($targetVersion===Document::VCARD40) {
+        } elseif ($targetVersion===Document::VCARD40) {
             if ($property instanceOf Property\Binary) {
 
                 $newProperty = $this->convertBinaryToUri($output, $property, $parameters);
