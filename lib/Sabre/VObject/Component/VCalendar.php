@@ -337,39 +337,10 @@ class VCalendar extends VObject\Document {
             );
         }
 
-        $allowedComponents = array(
-            'VEVENT',
-            'VTODO',
-            'VJOURNAL',
-            'VFREEBUSY',
-            'VTIMEZONE',
-        );
-        $allowedProperties = array(
-            'PRODID',
-            'VERSION',
-            'CALSCALE',
-            'METHOD',
-        );
         $componentsFound = 0;
         foreach($this->children as $child) {
             if($child instanceof Component) {
                 $componentsFound++;
-                if (!in_array($child->name, $allowedComponents)) {
-                    $warnings[] = array(
-                        'level' => 1,
-                        'message' => 'The ' . $child->name . " component is not allowed in the VCALENDAR component",
-                        'node' => $this,
-                    );
-                }
-            }
-            if ($child instanceof Property) {
-                if (!in_array($child->name, $allowedProperties)) {
-                    $warnings[] = array(
-                        'level' => 2,
-                        'message' => 'The ' . $child->name . " property is not allowed in the VCALENDAR component",
-                        'node' => $this,
-                    );
-                }
             }
         }
 

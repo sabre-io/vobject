@@ -249,4 +249,88 @@ END:VCALENDAR
         $this->assertEquals(VCalendar::ICALENDAR20, $vcard->getDocumentType());
 
     }
+
+    function testValidateCorrect() {
+
+        $input = 'BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:2.0
+PRODID:foo
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20111202
+END:VEVENT
+END:VCALENDAR
+';
+
+        $vcal = VObject\Reader::read($input);
+        $this->assertEquals(array(), $vcal->validate(), 'Got an error');
+
+    }
+
+    function testValidateNoVersion() {
+
+        $input = 'BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+PRODID:foo
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20111202
+END:VEVENT
+END:VCALENDAR
+';
+
+        $vcal = VObject\Reader::read($input);
+        $this->assertEquals(1, count($vcal->validate()));
+
+    }
+
+    function testValidateWrongVersion() {
+
+        $input = 'BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:3.0
+PRODID:foo
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20111202
+END:VEVENT
+END:VCALENDAR
+';
+
+        $vcal = VObject\Reader::read($input);
+        $this->assertEquals(1, count($vcal->validate()));
+
+    }
+
+    function testValidateNoProdId() {
+
+        $input = 'BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20111202
+END:VEVENT
+END:VCALENDAR
+';
+
+        $vcal = VObject\Reader::read($input);
+        $this->assertEquals(1, count($vcal->validate()));
+
+    }
+
+    function testValidateDoubleCalScale() {
+
+        $input = 'BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:foo
+CALSCALE:GREGORIAN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20111202
+END:VEVENT
+END:VCALENDAR
+';
+
+        $vcal = VObject\Reader::read($input);
+        $this->assertEquals(1, count($vcal->validate()));
+
+    }
 }
