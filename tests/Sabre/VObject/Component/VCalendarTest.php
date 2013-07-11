@@ -153,6 +153,8 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        $tests[] = array($input, $output);
+
         // Recurrence rule + override
         $input = 'BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
