@@ -326,6 +326,9 @@ class RecurrenceIterator implements \Iterator {
                 }
             }
         }
+
+        ksort($this->overriddenEvents);
+
         if (!$this->baseEvent) {
             throw new \InvalidArgumentException('Could not find a base event with uid: ' . $uid);
         }
