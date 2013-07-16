@@ -327,6 +327,9 @@ class RecurrenceIterator implements \Iterator {
                 }
             }
         }
+
+        ksort($this->overriddenEvents);
+
         if (!$this->baseEvent) {
             // No base event was found. CalDAV does allow cases where only
             // overridden instances are stored.

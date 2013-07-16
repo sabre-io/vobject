@@ -11,6 +11,8 @@
 	  for a contact.
 	* Changed: All $duration properties are now public.
 	* Added: A few validators for iCalendar documents.
+	* Fixed: Issue #50. RecurrenceIterator gives incorrect result when
+	  exception events are out of order in the iCalendar file.
 
 3.0.0-stable (2013-06-21)
 	* Fixed: includes.php file was still broken. Our tool to generate it had
@@ -105,6 +107,10 @@
 	  such as VERSION and CALSCALE.
 	* Added: You can add new sub-components much quicker with the magic
 	  setters, and add() method.
+
+2.1.1-stable (2013-??-??)
+	* Fixed: Issue #50. RecurrenceIterator gives incorrect result when
+	  exception events are out of order in the iCalendar file.
 
 2.1.0-stable (2013-06-17)
 	* This version is fully backwards compatible with 2.0.*. However, it
