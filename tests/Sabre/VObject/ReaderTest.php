@@ -212,6 +212,22 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testReadPropertyRepeatingNamelessGuessedParameter() {
+        $data = "BEGIN:VCALENDAR\r\nPROPNAME;WORK;VOICE;PREF:propValue\r\nEND:VCALENDAR";
+        $result = Reader::read($data);
+
+        $result = $result->PROPNAME;
+
+        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertEquals('PROPNAME', $result->name);
+        $this->assertEquals('propValue', $result->getValue());
+        $this->assertEquals(1, count($result->parameters()));
+        $this->assertEquals('TYPE', $result->parameters['TYPE']->name);
+        $this->assertEquals('WORK,VOICE,PREF', $result->parameters['TYPE']->getValue());
+        $this->assertEquals(array('WORK', 'VOICE', 'PREF'), $result->parameters['TYPE']->getParts());
+
+    }
+
     function testReadPropertyNoName() {
 
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PRODIGY:propValue\r\nEND:VCALENDAR";
