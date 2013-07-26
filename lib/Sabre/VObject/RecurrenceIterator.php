@@ -105,7 +105,6 @@ class RecurrenceIterator implements \Iterator {
      */
     public $overriddenEvents = array();
 
-
     /**
      * Frequency is one of: secondly, minutely, hourly, daily, weekly, monthly,
      * yearly.
@@ -555,8 +554,18 @@ class RecurrenceIterator implements \Iterator {
         if (!is_null($this->count)) {
             return $this->counter < $this->count;
         }
-        if (!is_null($this->until)) {
-            return $this->currentDate <= $this->until;
+        if (!is_null($this->until) && $this->currentDate > $this->until) {
+
+            // Need to make sure there's no overridden events past the
+            // until date.
+            foreach($this->overriddenEvents as $overriddenEvent) {
+
+                if ($overriddenEvent->DTSTART->getDateTime() >= $this->currentDate) {
+
+                    return true;
+                }
+            }
+            return false;
         }
         return true;
 
