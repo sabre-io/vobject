@@ -1,4 +1,4 @@
-Migrating from vObject 2.0 to 3.0
+Migrating from vObject 2.x to 3.x
 =================================
 
 vObject 3.0 got a major overhaul, and much better built-in support for all
@@ -229,6 +229,20 @@ Just set the file and you're good:
 ```php
 $vcard->PHOTO = file_get_contents('yourface.jpg');
 ```
+
+### Added a cli tool
+
+Since vObject 3.1, a new cli tool is shipped in the bin/ directory.
+
+This tool has the following features:
+
+* A `validate` command.
+* A `repair` command to repair objects that are slightly broken.
+* A `color` command, to show an iCalendar object or vCard on the console with
+  ansi-colors, which may help debugging.
+* A `convert` command, allowing you to convert between iCalendar 2.0, vCard 2.1,
+  vCard 3.0, vCard 4.0, jCard and jCal.
+
 
 Backwards compatibility breaks
 ------------------------------

@@ -4,7 +4,7 @@
 	* Fixed: URI properties should not escape ; and ,.
 	* Fixed: VCard 4 documents now correctly use URI as a default value-type
 	  for PHOTO and others. BINARY no longer exists in vCard 4.
-	* Added: Utility to convert between 4.0 and 3.0 vcards.
+	* Added: Utility to convert between 2.1, 3.0 and 4.0 vCards.
 	* Added: You can now add() multiple parameters to a property in one call.
 	* Added: Parameter::has() for easily checking if a parameter value exists.
 	* Added: VCard::preferred() to find a preferred email, phone number, etc

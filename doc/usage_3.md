@@ -518,6 +518,24 @@ Because these are still in draft, so is the jsonSerialize implementation. The
 output format may therefore break between versions to comply with the latest
 version of the spec.
 
+### Parsing jCard and jCal.
+
+To parse a jCard or jCal object, use the following snippet:
+
+```php
+<?php
+
+$input = 'jcard.json';
+$jCard = VObject\Reader::readJson(fopen('jcard.json', 'r'));
+
+?>
+```
+
+You can pass either a json string, a readable stream, or an array if you
+already called json_decode on the input.
+
+This feature was added in sabre/vobject 3.1.
+
 ### Splitting export files
 
 Generally when software makes backups of calendars or contacts, they will
@@ -551,6 +569,46 @@ that the `VTIMEZONE` information is kept intact, and any `VEVENT` objects that
 belong together (because they are expections for an `RRULE` and thus have the
 same `UID`) will be kept together, exactly like CalDAV expects.
 
+### Converting between different vCard versions.
+
+Since sabre/vobject 3.1, there's also a feature to convert between various
+vCard versions. Currently it's possible to convert from vCard 2.1, 3.0 and
+4.0 and to 3.0 and 4.0. It's not yet possible to convert to vCard 2.1.
+
+To do this, simply call the convert() method on the vCard object.
+
+```php
+<?php
+
+$input = <<<VCARD
+BEGIN:VCARD
+VERSION:2.1
+FN;CHARSET=UTF-8:Foo
+TEL;PREF;HOME:+1 555 555 555
+END:VCARD
+VCARD;
+
+$vCard = VObject\Reader::read($input);
+$vCard->convert(VObject\Document::VCARD40);
+
+echo $vcard->serialize();
+
+// This will output:
+/*
+BEGIN:VCARD
+VERSION:4.0
+FN:Foo
+TEL;PREF=1;TYPE=HOME:+1 555 555 555
+END:VCARD
+*/
+?>
+```
+
+Note that not everything can cleanly convert between versions, and it's
+probable that there's a few properties that could be converted between
+versions, but isn't yet. If you find something, open a feature request ticket
+on Github.
+
 Full API documentation
 ----------------------
 
@@ -559,6 +617,24 @@ Full API documentation can be found on github:
 https://github.com/fruux/sabre-vobject/wiki/ApiIndex
 
 Reading the source may also be helpful instead :)
+
+CLI tool
+--------
+
+Since vObject 3.1, a new cli tool is shipped in the bin/ directory.
+
+This tool has the following features:
+
+* A `validate` command.
+* A `repair` command to repair objects that are slightly broken.
+* A `color` command, to show an iCalendar object or vCard on the console with
+  ansi-colors, which may help debugging.
+* A `convert` command, allowing you to convert between iCalendar 2.0, vCard 2.1,
+  vCard 3.0, vCard 4.0, jCard and jCal.
+
+Just run it using `bin/vobject`. Composer will automatically also put a
+symlink in `vendor/bin` as well, or a directory of your choosing if you set
+the `bin-dir` setting in your composer.json.
 
 Support
 -------
