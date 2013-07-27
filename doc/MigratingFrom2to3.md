@@ -274,4 +274,4 @@ These properties have now moved to the document classes:
 [1]: http://tools.ietf.org/html/rfc6868
 [2]: http://tools.ietf.org/html/draft-ietf-jcardcal-jcard-03
 [3]: http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-04$
-[4]: usage_3
+[4]: usage_3.md
