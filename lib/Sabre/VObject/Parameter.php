@@ -56,97 +56,109 @@ class Parameter extends Node {
         $this->root = $root;
         if (is_null($name)) {
             $this->noName = true;
-
-            // Figuring out what the name should have been. Note that a ton of
-            // these are rather silly in 2013 and would probably rarely be
-            // used, but we like to be complete.
-            switch(strtoupper($value)) {
-
-                // Encodings
-                case '7-BIT' :
-                case 'QUOTED-PRINTABLE' :
-                case 'BASE64' :
-                    $this->name = 'ENCODING';
-                    break;
-
-                // Common types
-                case 'WORK' :
-                case 'HOME' :
-                case 'PREF' :
-
-                // Delivery Label Type
-                case 'DOM' :
-                case 'INTL' :
-                case 'POSTAL' :
-                case 'PARCEL' :
-
-                // Telephone types
-                case 'VOICE' :
-                case 'FAX' :
-                case 'MSG' :
-                case 'CELL' :
-                case 'PAGER' :
-                case 'BBS' :
-                case 'MODEM' :
-                case 'CAR' :
-                case 'ISDN' :
-                case 'VIDEO' :
-
-                // EMAIL types (lol)
-                case 'AOL' :
-                case 'APPLELINK' :
-                case 'ATTMAIL' :
-                case 'CIS' :
-                case 'EWORLD' :
-                case 'INTERNET' :
-                case 'IBMMAIL' :
-                case 'MCIMAIL' :
-                case 'POWERSHARE' :
-                case 'PRODIGY' :
-                case 'TLX' :
-                case 'X400' :
-
-                // Photo / Logo format types
-                case 'GIF' :
-                case 'CGM' :
-                case 'WMF' :
-                case 'BMP' :
-                case 'DIB' :
-                case 'PICT' :
-                case 'TIFF' :
-                case 'PDF ':
-                case 'PS' :
-                case 'JPEG' :
-                case 'MPEG' :
-                case 'MPEG2' :
-                case 'AVI' :
-                case 'QTIME' :
-
-                // Sound Digital Audio Type
-                case 'WAVE' :
-                case 'PCM' :
-                case 'AIFF' :
-
-                // Key types
-                case 'X509' :
-                case 'PGP' :
-                    $this->name = 'TYPE';
-                    break;
-
-                // Value types
-                case 'INLINE' :
-                case 'URL' :
-                case 'CONTENT-ID' :
-                case 'CID' :
-                    $this->name = 'VALUE';
-                    break;
-
-            }
+            $this->name = static::guessParameterNameByValue($value);
         }
         $this->setValue($value);
-
     }
 
+    /**
+     * Try to guess property name by value, can be used for vCard 2.1 nameless parameters.
+     *
+     * Figuring out what the name should have been. Note that a ton of
+     * these are rather silly in 2013 and would probably rarely be
+     * used, but we like to be complete.
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function guessParameterNameByValue($value) {
+        switch(strtoupper($value)) {
+
+            // Encodings
+            case '7-BIT' :
+            case 'QUOTED-PRINTABLE' :
+            case 'BASE64' :
+                $name = 'ENCODING';
+                break;
+
+            // Common types
+            case 'WORK' :
+            case 'HOME' :
+            case 'PREF' :
+
+                // Delivery Label Type
+            case 'DOM' :
+            case 'INTL' :
+            case 'POSTAL' :
+            case 'PARCEL' :
+
+                // Telephone types
+            case 'VOICE' :
+            case 'FAX' :
+            case 'MSG' :
+            case 'CELL' :
+            case 'PAGER' :
+            case 'BBS' :
+            case 'MODEM' :
+            case 'CAR' :
+            case 'ISDN' :
+            case 'VIDEO' :
+
+                // EMAIL types (lol)
+            case 'AOL' :
+            case 'APPLELINK' :
+            case 'ATTMAIL' :
+            case 'CIS' :
+            case 'EWORLD' :
+            case 'INTERNET' :
+            case 'IBMMAIL' :
+            case 'MCIMAIL' :
+            case 'POWERSHARE' :
+            case 'PRODIGY' :
+            case 'TLX' :
+            case 'X400' :
+
+                // Photo / Logo format types
+            case 'GIF' :
+            case 'CGM' :
+            case 'WMF' :
+            case 'BMP' :
+            case 'DIB' :
+            case 'PICT' :
+            case 'TIFF' :
+            case 'PDF ':
+            case 'PS' :
+            case 'JPEG' :
+            case 'MPEG' :
+            case 'MPEG2' :
+            case 'AVI' :
+            case 'QTIME' :
+
+                // Sound Digital Audio Type
+            case 'WAVE' :
+            case 'PCM' :
+            case 'AIFF' :
+
+                // Key types
+            case 'X509' :
+            case 'PGP' :
+                $name = 'TYPE';
+                break;
+
+            // Value types
+            case 'INLINE' :
+            case 'URL' :
+            case 'CONTENT-ID' :
+            case 'CID' :
+                $name = 'VALUE';
+                break;
+
+            default:
+                $name = '';
+        }
+
+        return $name;
+    }
 
     /**
      * Updates the current value.
