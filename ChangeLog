@@ -17,6 +17,8 @@
 	  past the UNTIL date were ignored.
 	* Added: getDuration for DURATION values such as TRIGGER.
 	  Thanks to @SimonSimCity.
+	* Fixed: Issue #52. vCard 2.1 parameters with no name may lose values if
+	  there's more than 1. Thanks to @Vedmak.
 
 3.0.0-stable (2013-06-21)
 	* Fixed: includes.php file was still broken. Our tool to generate it had
