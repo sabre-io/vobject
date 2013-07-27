@@ -161,20 +161,27 @@ abstract class Property extends Node {
      *
      * If a parameter with same name already existed, the values will be
      * combined.
+     * If nameless parameter is added, we try to guess it's name.
      *
      * @param string $name
      * @param string|null|array $value
      * @return Node
      */
     public function add($name, $value = null) {
+        $noName = false;
+        if ($name === null) {
+            $name = Parameter::guessParameterNameByValue($value);
+            $noName = true;
+        }
 
         if (isset($this->parameters[strtoupper($name)])) {
             $this->parameters[strtoupper($name)]->addValue($value);
-        } else {
+        }
+        else {
             $param = new Parameter($this->root, $name, $value);
+            $param->noName = $noName;
             $this->parameters[$param->name] = $param;
         }
-
     }
 
     /**
