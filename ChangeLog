@@ -13,6 +13,8 @@
 	* Added: A few validators for iCalendar documents.
 	* Fixed: Issue #50. RecurrenceIterator gives incorrect result when
 	  exception events are out of order in the iCalendar file.
+	* Fixed: Issue #48. Overridden events in the recurrence iterator that were
+	  past the UNTIL date were ignored.
 
 3.0.0-stable (2013-06-21)
 	* Fixed: includes.php file was still broken. Our tool to generate it had
