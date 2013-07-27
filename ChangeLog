@@ -114,7 +114,7 @@
 	* Added: You can add new sub-components much quicker with the magic
 	  setters, and add() method.
 
-2.1.1-stable (2013-??-??)
+2.1.1-stable (2013-07-27)
 	* Fixed: Issue #50. RecurrenceIterator gives incorrect result when
 	  exception events are out of order in the iCalendar file.
 	* Fixed: Issue #48. Overridden events in the recurrence iterator that were
