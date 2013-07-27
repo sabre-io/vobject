@@ -4,7 +4,8 @@ namespace Sabre\VObject\Property\ICalendar;
 
 use
     Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir;
+    Sabre\VObject\Parser\MimeDir,
+    Sabre\VObject\DateTimeParser;
 
 /**
  * Duration property
@@ -66,4 +67,20 @@ class Duration extends Property {
         return 'DURATION';
 
     }
+
+    /**
+     * Returns a DateInterval representation of the Duration property.
+     *
+     * If the property has more than one value, only the first is returned.
+     *
+     * @return \DateInterval
+     */
+    public function getDateInterval() {
+
+        $parts = $this->getParts();
+        $value = $parts[0];
+        return DateTimeParser::parseDuration($value);
+
+    }
+
 }
