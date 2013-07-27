@@ -1,6 +1,8 @@
 2.1.1-stable (2013-??-??)
 	* Fixed: Issue #50. RecurrenceIterator gives incorrect result when
 	  exception events are out of order in the iCalendar file.
+	* Fixed: Issue #48. Overridden events in the recurrence iterator that were
+	  past the UNTIL date were ignored.
 
 2.1.0-stable (2013-06-17)
 	* This version is fully backwards compatible with 2.0.*. However, it
