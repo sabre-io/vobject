@@ -145,8 +145,9 @@ ICS
         );
 
         rewind($this->cli->stdout);
+        $version = Version::VERSION;
         $this->assertEquals(
-            '["vcard",[["version",{},"text","4.0"],["prodid",{},"text","-\/\/Sabre\/\/Sabre VObject 3.1.0\/\/EN"],["fn",{},"text","Cowboy Henk"]]]',
+            '["vcard",[["version",{},"text","4.0"],["prodid",{},"text","-\/\/Sabre\/\/Sabre VObject '. $version .'\/\/EN"],["fn",{},"text","Cowboy Henk"]]]',
             stream_get_contents($this->cli->stdout)
         );
 
@@ -176,6 +177,7 @@ ICS
         );
 
         rewind($this->cli->stdout);
+        $version = Version::VERSION;
         $expected = <<<JCARD
 [
     "vcard",
@@ -194,7 +196,7 @@ ICS
 
             },
             "text",
-            "-\/\/Sabre\/\/Sabre VObject 3.1.0\/\/EN"
+            "-\/\/Sabre\/\/Sabre VObject $version\/\/EN"
         ],
         [
             "fn",
@@ -345,10 +347,12 @@ VCARD
         );
 
         rewind($this->cli->stdout);
+
+        $version = Version::VERSION;
         $expected = <<<VCF
 BEGIN:VCARD
 VERSION:4.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+PRODID:-//Sabre//Sabre VObject $version//EN
 FN:Cowboy Henk
 END:VCARD
 
@@ -382,11 +386,13 @@ VCARD
             $this->cli->main(array('vobject', 'convert','--format=vcard30', '--pretty', '-'))
         );
 
+        $version = Version::VERSION;
+
         rewind($this->cli->stdout);
         $expected = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+PRODID:-//Sabre//Sabre VObject $version//EN
 FN:Cowboy Henk
 END:VCARD
 
