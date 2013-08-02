@@ -297,6 +297,13 @@ class RecurrenceIterator implements \Iterator {
     private $nextDate;
 
     /**
+     * This counts the number of overridden events we've handled so far
+     *
+     * @var int
+     */
+    private $handledOverridden = 0;
+
+    /**
      * Creates the iterator
      *
      * You should pass a VCALENDAR component, as well as the UID of the event
@@ -703,14 +710,29 @@ class RecurrenceIterator implements \Iterator {
 
         }
 
+
+
         // Is the date we have actually higher than the next overiddenEvent?
         if ($overriddenDate && $this->currentDate > $overriddenDate) {
             $this->nextDate = clone $this->currentDate;
             $this->currentDate = clone $overriddenDate;
             $this->currentOverriddenEvent = $overriddenEvent;
+            $this->handledOverridden++;
         }
-
         $this->counter++;
+
+
+        /*
+         * If we have overridden events left in the queue, but our counter is
+         * running out, we should grab one of those.
+         */
+        if (!is_null($overriddenEvent) && !is_null($this->count) && count($this->overriddenEvents) - $this->handledOverridden >= ($this->count - $this->counter)) {
+
+            $this->currentOverriddenEvent = $overriddenEvent;
+            $this->currentDate = clone $overriddenDate;
+            $this->handledOverridden++;
+
+        }
 
     }
 
