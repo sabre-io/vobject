@@ -33,7 +33,7 @@ ICS;
         $vcal = Reader::read($input);
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
 
-        $vcal->expand(new DateTime('2011-01-01'), new DateTime('2014-01-01'));
+        $vcal->expand(new DateTime('2011-01-01'), new DateTime('2015-01-01'));
 
         $result = $vcal->serialize();
 
@@ -47,16 +47,16 @@ DURATION:PT1H
 SUMMARY:A
 END:VEVENT
 BEGIN:VEVENT
+RECURRENCE-ID:20130728T120000Z
 UID:foo
-DTSTART;VALUE=DATE-TIME:20140101T120000Z
+DTSTART:20140101T120000Z
 DURATION:PT1H
 SUMMARY:B
-RECCURENCE-ID:20130728T120000Z
 END:VEVENT
 END:VCALENDAR
 
 ICS;
-        $this->assertEquals($output, $result);
+        $this->assertEquals($output, str_replace("\r","",$result));
     
     }
 
