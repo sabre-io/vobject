@@ -104,7 +104,7 @@ class MimeDir extends Parser {
                 $this->root = new VCard(array(), false);
                 break;
             default :
-                throw new ParseException('This parser only support VCARD and VCALENDAR files');
+                throw new ParseException('This parser only supports VCARD and VCALENDAR files');
         }
 
         while(true) {
