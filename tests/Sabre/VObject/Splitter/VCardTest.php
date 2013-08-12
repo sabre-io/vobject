@@ -81,7 +81,7 @@ EOT;
     }
 
     /**
-     * @expectedException \Sabre\VObject\ParseException 
+     * @expectedException \Sabre\VObject\ParseException
      */
     function testVCardImportCheckInvalidArgumentException() {
         $data = <<<EOT
@@ -114,6 +114,29 @@ EOT;
         }
         $this->assertEquals(2, $count);
 
+    }
+
+    function testImportMultipleSeparatedWithNewLines() {
+        $data = <<<EOT
+BEGIN:VCARD
+UID:foo
+END:VCARD
+
+
+BEGIN:VCARD
+UID:foo
+END:VCARD
+
+
+EOT;
+        $tempFile = $this->createStream($data);
+        $objects = new VCard($tempFile);
+
+        $count = 0;
+        while ($objects->getNext()) {
+            $count++;
+        }
+        $this->assertEquals(2, $count);
     }
 
     function testVCardImportVCardWithoutUID() {
