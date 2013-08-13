@@ -144,6 +144,8 @@ class VCardConverter {
 
         }
 
+        // set property group
+        $newProperty->group = $property->group;
 
         if ($targetVersion===Document::VCARD40) {
             $this->convertParameters40($newProperty, $parameters);
