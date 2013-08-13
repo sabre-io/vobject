@@ -10,7 +10,8 @@ class SlashRTest extends \PHPUnit_Framework_TestCase {
 
     function testEncode() {
 
-        $prop = new \Sabre\VObject\Property('test', "abc\r\ndef");
+        $vcal = new Component\VCalendar();
+        $prop = $vcal->add('test', "abc\r\ndef");
         $this->assertEquals("TEST:abc\\ndef\r\n", $prop->serialize());
 
     }
