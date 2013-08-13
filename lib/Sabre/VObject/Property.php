@@ -188,10 +188,12 @@ class Property extends Node {
         $src = array(
             '\\',
             "\n",
+            "\r",
         );
         $out = array(
             '\\\\',
             '\n',
+            '',
         );
         $str.=':' . str_replace($src, $out, $this->value);
 
