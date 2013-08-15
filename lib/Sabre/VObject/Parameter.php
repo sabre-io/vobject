@@ -276,7 +276,7 @@ class Parameter extends Node {
 
         if ($this->root->getDocumentType() === Document::VCARD21 && $this->noName) {
 
-            return implode(';', $this->value);
+            return implode(';', $value);
 
         }
 

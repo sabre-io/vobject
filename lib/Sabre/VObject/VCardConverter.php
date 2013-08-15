@@ -21,6 +21,9 @@ class VCardConverter {
      *
      * Currently only 3.0 and 4.0 as input and output versions.
      *
+     * 2.1 has some minor support for the input version, it's incomplete at the
+     * moment though.
+     *
      * If input and output version are identical, a clone is returned.
      *
      * @param Component\VCard $input
@@ -33,9 +36,11 @@ class VCardConverter {
             return clone $input;
         }
 
-        if (!in_array($inputVersion, array(Document::VCARD30, Document::VCARD40)) ||
-            !in_array($targetVersion, array(Document::VCARD30, Document::VCARD40))) {
-            throw new \InvalidArgumentException('You can only convert between vCard 3.0 and 4.0');
+        if (!in_array($inputVersion, array(Document::VCARD21, Document::VCARD30, Document::VCARD40))) {
+            throw new \InvalidArgumentException('Only vCard 2.1, 3.0 and 4.0 are supported for the input data');
+        }
+        if (!in_array($targetVersion, array(Document::VCARD30, Document::VCARD40))) {
+            throw new \InvalidArgumentException('You can only use vCard 3.0 or 4.0 for the target version');
         }
 
         $newVersion = $targetVersion===Document::VCARD40?'4.0':'3.0';
@@ -110,6 +115,12 @@ class VCardConverter {
             }
 
         } elseif ($targetVersion===Document::VCARD40) {
+
+            // These properties were removed in vCard 4.0
+            if (in_array($property->name, array('NAME', 'MAILER', 'LABEL', 'CLASS'))) {
+                return;
+            }
+
             if ($property instanceOf Property\Binary) {
 
                 $newProperty = $this->convertBinaryToUri($output, $property, $parameters);
@@ -290,6 +301,9 @@ class VCardConverter {
         // Adding all parameters.
         foreach($parameters as $param) {
 
+            // vCard 2.1 allowed parameters with no name
+            if ($param->noName) $param->noName = false;
+
             switch($param->name) {
 
                 // We need to see if there's any TYPE=PREF, because in vCard 4
@@ -331,6 +345,9 @@ class VCardConverter {
 
         // Adding all parameters.
         foreach($parameters as $param) {
+
+            // vCard 2.1 allowed parameters with no name
+            if ($param->noName) $param->noName = false;
 
             switch($param->name) {
 

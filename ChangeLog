@@ -5,6 +5,14 @@
 	  than one newline. Thanks @Vedmak for the patch.
 	* Fixed: Serializing vcard 2.1 parameters with no name caused a literal
 	  '1' to be inserted.
+	* Added: VCardConverter removed properties that are no longer supported in
+	  vCard 4.0.
+	* Added: vCards with a minimum number of values (such as N), but don't
+	  have that many, are now automatically padded with empty components.
+	* Added: The vCard validator now also checks for a minimum number of
+	  components, and has the ability to repair these.
+	* Added: Some support for vCard 2.1 in the VCard converter, to upgrade to
+	  vCard 3.0 or 4.0.
 
 3.1.2-stable (2013-08-13)
 	* Fixed: Setting correct property group on VCard conversion

@@ -94,9 +94,6 @@ OUT;
 
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     function testConvert21to40() {
 
         $version = Version::VERSION;
@@ -104,14 +101,38 @@ OUT;
         $input = <<<IN
 BEGIN:VCARD
 VERSION:2.1
-PRODID:-//Sabre//Sabre VObject {$version}//EN
-FN:Steve
+N:Family;Johnson
+FN:Johnson Family
+TEL;HOME;VOICE:555-12345-345
+ADR;HOME:;;100 Street Lane;Saubel Beach;ON;H0H0H0
+LABEL;HOME;ENCODING=QUOTED-PRINTABLE:100 Street Lane=0D=0ASaubel Beach,
+ ON H0H0H0
+REV:20110731T040251Z
+UID:12345678
 END:VCARD
-
 IN;
 
+        $output = <<<OUT
+BEGIN:VCARD
+VERSION:4.0
+PRODID:-//Sabre//Sabre VObject {$version}//EN
+N:Family;Johnson;;;
+FN:Johnson Family
+TEL;TYPE=HOME,VOICE:555-12345-345
+ADR;TYPE=HOME:;;100 Street Lane;Saubel Beach;ON;H0H0H0;
+REV:20110731T040251Z
+UID:12345678
+END:VCARD
+
+OUT;
+
         $vcard = \Sabre\VObject\Reader::read($input);
-        $vcard->convert(\Sabre\VObject\Document::VCARD40);
+        $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD40);
+
+        $this->assertEquals(
+            $output,
+            str_replace("\r", "", $vcard->serialize())
+        );
 
     }
 

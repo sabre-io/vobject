@@ -44,6 +44,19 @@ class Text extends Property {
     );
 
     /**
+     * Some text components have a minimum number of components.
+     *
+     * N must for instance be represented as 5 components, separated by ;, even
+     * if the last few components are unused.
+     *
+     * @var array
+     */
+    protected $minimumPropertyValues = array(
+        'N' => 5,
+        'ADR' => 7,
+    );
+
+    /**
      * Creates the property.
      *
      * You can specify the parameters either in key=>value syntax, in which case
@@ -119,6 +132,10 @@ class Text extends Property {
 
         $val = $this->getParts();
 
+        if (isset($this->minimumPropertyValues[$this->name])) {
+            $val = array_pad($val, $this->minimumPropertyValues[$this->name], '');
+        }
+
         foreach($val as &$item) {
 
             if (!is_array($item)) {
@@ -189,6 +206,10 @@ class Text extends Property {
         }
 
         $val = $this->getParts();
+
+        if (isset($this->minimuPropertyValues[$this->name])) {
+            $val = array_pad($val, $this->minimumPropertyValues[$this->name], '');
+        }
 
         // Imploding multiple parts into a single value, and splitting the
         // values with ;.
@@ -265,4 +286,45 @@ class Text extends Property {
 
     }
 
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
+     *
+     * An array is returned with warnings.
+     *
+     * Every item in the array has the following properties:
+     *    * level - (number between 1 and 3 with severity information)
+     *    * message - (human readable message)
+     *    * node - (reference to the offending node)
+     *
+     * @param int $options
+     * @return array
+     */
+    public function validate($options = 0) {
+
+        $warnings = parent::validate($options);
+
+        if (isset($this->minimumPropertyValues[$this->name])) {
+
+            $minimum = $this->minimumPropertyValues[$this->name];
+            $parts = $this->getParts();
+            if (count($parts) < $minimum) {
+                $warnings[] = array(
+                    'level' => 1,
+                    'message' => 'This property must have at least ' . $minimum . ' components. It only has ' . count($parts),
+                    'node' => $this,
+                );
+                if ($options & self::REPAIR) {
+                    $parts = array_pad($parts, $minimum, '');
+                    $this->setParts($parts);
+                }
+            }
+
+        }
+        return $warnings;
+
+    }
 }
