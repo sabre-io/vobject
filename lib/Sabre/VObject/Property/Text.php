@@ -207,7 +207,7 @@ class Text extends Property {
 
         $val = $this->getParts();
 
-        if (isset($this->minimuPropertyValues[$this->name])) {
+        if (isset($this->minimumPropertyValues[$this->name])) {
             $val = array_pad($val, $this->minimumPropertyValues[$this->name], '');
         }
 
