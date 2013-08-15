@@ -274,7 +274,13 @@ class Parameter extends Node {
             return $this->name;
         }
 
-        return ($this->noName?:$this->name . '=') . array_reduce($value, function($out, $item) {
+        if ($this->root->getDocumentType() === Document::VCARD21 && $this->noName) {
+
+            return implode(';', $this->value);
+
+        }
+
+        return $this->name . '=' . array_reduce($value, function($out, $item) {
 
             if (!is_null($out)) $out.=',';
 

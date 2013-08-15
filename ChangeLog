@@ -3,6 +3,8 @@
 	  Issue #56.
 	* Fixed: Issue #54. Parsing a stream of multiple vcards separated by more
 	  than one newline. Thanks @Vedmak for the patch.
+	* Fixed: Serializing vcard 2.1 parameters with no name caused a literal
+	  '1' to be inserted.
 
 3.1.2-stable (2013-08-13)
 	* Fixed: Setting correct property group on VCard conversion
