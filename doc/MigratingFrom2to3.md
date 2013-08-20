@@ -152,7 +152,7 @@ $dt->setDateTime($now, Property\DateTime::LOCALTZ); // Local to timezone informa
 
 This has completely changed:
 
-```
+```php
 <?php
 
 // Date only
