@@ -135,7 +135,7 @@ class VCalendar extends VObject\Document {
 
         // Additions from draft-daboo-valarm-extensions-04
         'ALARM-AGENT'    => 'Sabre\\VObject\\Property\\Text',
-        'ACKNOWLEDGED'   => 'Sabre\\VObject\\Property\\DateTime',
+        'ACKNOWLEDGED'   => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
         'PROXIMITY'      => 'Sabre\\VObject\\Property\\Text',
         'DEFAULT-ALARM'  => 'Sabre\\VObject\\Property\\Boolean',
 
