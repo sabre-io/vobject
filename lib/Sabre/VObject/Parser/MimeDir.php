@@ -100,12 +100,12 @@ class MimeDir extends Parser {
             case 'BEGIN:VCALENDAR' :
                 $class = isset(VCalendar::$componentMap['VCALENDAR'])
                     ? VCalendar::$componentMap[$name]
-                    : 'VCalendar';
+                    : 'Sabre\\VObject\\Component\\VCalendar';
                 break;
             case 'BEGIN:VCARD' :
                 $class = isset(VCard::$componentMap['VCARD'])
                     ? VCard::$componentMap['VCARD']
-                    : 'VCard';
+                    : 'Sabre\\VObject\\Component\\VCard';
                 break;
             default :
                 throw new ParseException('This parser only supports VCARD and VCALENDAR files');
