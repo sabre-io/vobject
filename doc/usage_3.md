@@ -143,6 +143,19 @@ Or when you're working with singular parameters:
 $vcard->TEL['PREF'] = 1;
 ```
 
+It is also possible add a list of parameters while creating the property.
+
+```php
+$vcard->add(
+    'EMAIL',
+    'foo@example.org',
+    [
+        'type' => ['home', 'work'],
+        'pref' => 1,
+    ]
+);
+```
+
 ### Parsing vCard or iCalendar
 
 To parse a vCard or iCalendar object, simply call:
