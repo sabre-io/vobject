@@ -13,6 +13,8 @@
 	  components, and has the ability to repair these.
 	* Added: Some support for vCard 2.1 in the VCard converter, to upgrade to
 	  vCard 3.0 or 4.0.
+	* Fixed: Issue 60 Use Document::$componentMap when instantiating the
+	  top-level VCalendar and VCard components.
 
 3.1.2-stable (2013-08-13)
 	* Fixed: Setting correct property group on VCard conversion
