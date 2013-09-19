@@ -351,6 +351,14 @@ class VCardConverter {
 
             switch($param->name) {
 
+                case 'ENCODING' :
+                    // This value only existed in vCard 2.1, and should be
+                    // removed for anything else.
+                    if (strtoupper($param->getValue())!=='QUOTED-PRINTABLE') {
+                        $newProperty->add($param->name, $param->getParts());
+                    }
+                    break;
+
                 /*
                  * Converting PREF=1 to TYPE=PREF.
                  *
