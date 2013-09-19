@@ -287,7 +287,7 @@ class MimeDir extends Parser {
             ;(?P<paramName> [$paramNameToken]+) (?=[=;:])  # parameter name
             |
             (=|,)(?P<paramValue>                           # parameter value
-                (?: [$safeChar]+) |
+                (?: [$safeChar]*) |
                 \"(?: [$qSafeChar]+)\"
             ) (?=[;:,])
             /xi";
@@ -313,7 +313,7 @@ class MimeDir extends Parser {
         foreach($matches as $match) {
 
             if (isset($match['paramValue'])) {
-                if ($match['paramValue'][0] === '"') {
+                if ($match['paramValue'] && $match['paramValue'][0] === '"') {
                     $value = substr($match['paramValue'], 1, -1);
                 } else {
                     $value = $match['paramValue'];
@@ -337,6 +337,9 @@ class MimeDir extends Parser {
                 $lastParam = strtoupper($match['paramName']);
                 if (!isset($property['parameters'][$lastParam])) {
                     $property['parameters'][$lastParam] = null;
+                    if (substr($match[0], strlen($match[0])-1)==="=") {
+                        $property['parameters'][$lastParam] = '';
+                    }
                 }
                 continue;
             }
