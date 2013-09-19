@@ -337,9 +337,6 @@ class MimeDir extends Parser {
                 $lastParam = strtoupper($match['paramName']);
                 if (!isset($property['parameters'][$lastParam])) {
                     $property['parameters'][$lastParam] = null;
-                    if (substr($match[0], strlen($match[0])-1)==="=") {
-                        $property['parameters'][$lastParam] = '';
-                    }
                 }
                 continue;
             }
