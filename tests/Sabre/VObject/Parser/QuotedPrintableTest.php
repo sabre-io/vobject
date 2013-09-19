@@ -57,6 +57,26 @@ class QuotedPrintableTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testReadQuotesPrintableCompoundValues() {
+
+        $data = <<<VCF
+BEGIN:VCARD
+VERSION:2.1
+N:Doe;John;;;
+FN:John Doe
+ADR;WORK;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:;;M=C3=BCnster =
+Str. 1;M=C3=BCnster;;48143;Deutschland
+END:VCARD
+VCF;
+
+        $result = Reader::read($data, Reader::OPTION_FORGIVING);
+        $this->assertEquals(array(
+            '','','Münster Str. 1','Münster','','48143','Deutschland'
+        ), $result->ADR->getParts());
+
+
+    }
+
     private function getPropertyValue(\Sabre\VObject\Property $property) {
 
         return (string)$property;

@@ -119,7 +119,7 @@ class Text extends Property {
         // that's not preceeded with a \.
         $regex = '# (?<!\\\\) ; #x';
         $matches = preg_split($regex, $val);
-        $this->setValue($val);
+        $this->setValue($matches);
 
     }
 
