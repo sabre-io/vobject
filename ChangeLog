@@ -16,6 +16,7 @@
 	* Fixed: Issue 60 Use Document::$componentMap when instantiating the
 	  top-level VCalendar and VCard components.
 	* Fixed: Issue 62: Parsing iCalendar parameters with no value.
+	* Added: --forgiving option to vobject utility.
 
 3.1.2-stable (2013-08-13)
 	* Fixed: Setting correct property group on VCard conversion

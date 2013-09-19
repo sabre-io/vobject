@@ -85,6 +85,13 @@ class Cli {
     protected $inputFormat;
 
     /**
+     * Makes the parser less strict.
+     *
+     * @var bool
+     */
+    protected $forgiving = false;
+
+    /**
      * Main function
      *
      * @return int
@@ -160,6 +167,9 @@ class Cli {
                         if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
                             $this->pretty = true;
                         }
+                        break;
+                    case 'forgiving' :
+                        $this->forgiving = true;
                         break;
                     case 'inputformat' :
                         switch($value) {
@@ -278,6 +288,7 @@ class Cli {
         $this->log($this->colorize('green', '  -q            ') . "Don't output anything.");
         $this->log($this->colorize('green', '  -help -h      ') . "Display this help message.");
         $this->log($this->colorize('green', '  --format      ') . "Convert to a specific format. Must be one of: vcard, vcard21,");
+        $this->log($this->colorize('green', '  --forgiving   ') . "Makes the parser less strict.");
         $this->log("                vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.");
         $this->log($this->colorize('green', '  --inputformat ') . "If the input format cannot be guessed from the extension, it");
         $this->log("                must be specified here.");
@@ -694,9 +705,9 @@ HELP
             }
 
             if ($this->inputFormat === 'mimedir') {
-                $this->parser = new Parser\MimeDir($this->stdin);
+                $this->parser = new Parser\MimeDir($this->stdin, ($this->forgiving?Reader::OPTION_FORGIVING:0));
             } else {
-                $this->parser = new Parser\Json($this->stdin);
+                $this->parser = new Parser\Json($this->stdin, ($this->forgiving?Reader::OPTION_FORGIVING:0));
             }
         }
 
