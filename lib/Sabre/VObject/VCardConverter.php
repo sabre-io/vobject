@@ -94,6 +94,10 @@ class VCardConverter {
 
                 $newProperty = $this->convertUriToBinary($output, $property, $parameters);
 
+            } elseif ($property instanceof Property\Binary && in_array($property->name, array('PHOTO'))) {
+
+                $newProperty = $output->createProperty('PHOTO', $property->getValue());
+
             } elseif ($property->name === 'KIND') {
 
                 switch(strtolower($property->getValue())) {
