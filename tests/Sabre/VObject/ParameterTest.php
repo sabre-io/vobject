@@ -34,4 +34,11 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('NAME',$param->serialize());
 
     }
+
+    function testSerializeColon() {
+
+        $param = new Parameter('name','va:lue');
+        $this->assertEquals('NAME="va:lue"',$param->serialize());
+
+    }
 }

@@ -82,7 +82,11 @@ class Parameter extends Node {
             '\,',
         );
 
-        return $this->name . '=' . str_replace($src, $out, $this->value);
+        $value = str_replace($src, $out, $this->value);
+        if (strpos($value,":")!==false) {
+            $value = '"' . $value . '"';
+        }
+        return $this->name . '=' . $value;
 
     }
 

@@ -1,5 +1,7 @@
 2.1.3-stable (2013-??-??)
 	* Fixed: Issue #55. \r must be stripped from property values.
+	* Fixed: Issue #65. Putting quotes around parameter values that contain a
+	  colon.
 
 2.1.2-stable (2013-08-02)
 	* Fixed: Issue #53. A regression in RecurrenceIterator.
