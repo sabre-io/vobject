@@ -1,4 +1,4 @@
-3.1.3-stable (2013-??-??)
+3.1.3-stable (2013-10-02)
 	* Fixed: Support from properties from draft-daboo-valarm-extensions-04.
 	  Issue #56.
 	* Fixed: Issue #54. Parsing a stream of multiple vcards separated by more
