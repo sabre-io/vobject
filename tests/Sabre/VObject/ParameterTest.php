@@ -92,4 +92,12 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(array(1,2,3,4), $result);
 
     }
+
+    function testSerializeColon() {
+
+        $cal = new Component\VCalendar();
+        $param = new Parameter($cal, 'name','va:lue');
+        $this->assertEquals('NAME="va:lue"',$param->serialize());
+
+    }
 }
