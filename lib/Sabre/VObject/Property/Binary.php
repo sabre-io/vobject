@@ -31,6 +31,32 @@ class Binary extends Property {
     public $delimiter = null;
 
     /**
+     * Updates the current value.
+     *
+     * This may be either a single, or multiple strings in an array.
+     *
+     * @param string|array $value
+     * @return void
+     */
+    public function setValue($value) {
+
+        if(is_array($value)) {
+
+            if(count($value) === 1) {
+                $this->value = $value[0];
+            } else {
+                throw new \InvalidArgumentException('The argument must either be a string or an array with only one child');
+            }
+
+        } else {
+
+            $this->value = $value;
+
+        }
+
+    }
+
+    /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
      *
      * This has been 'unfolded', so only 1 line will be passed. Unescaping is
