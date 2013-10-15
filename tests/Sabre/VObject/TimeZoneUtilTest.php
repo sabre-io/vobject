@@ -16,6 +16,8 @@ class TimezoneUtilTest extends \PHPUnit_Framework_TestCase {
 
     function getMapping() {
 
+        TimeZoneUtil::loadTzMaps();
+
         // PHPUNit requires an array of arrays
         return array_map(
             function($value) {
