@@ -195,6 +195,15 @@ class Property extends Node {
             '\n',
             '',
         );
+
+        // avoid double-escaping of \, and \; from Compound properties
+        if (method_exists($this, 'setParts')) {
+            $src[] = '\\\\,';
+            $out[] = '\\,';
+            $src[] = '\\\\;';
+            $out[] = '\\;';
+        }
+
         $str.=':' . str_replace($src, $out, $this->value);
 
         $out = '';
