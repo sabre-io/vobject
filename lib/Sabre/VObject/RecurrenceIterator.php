@@ -24,6 +24,7 @@ namespace Sabre\VObject;
  *   * FREQ=DAILY
  *     * BYDAY
  *     * BYHOUR
+ *     * BYMONTH
  *   * FREQ=WEEKLY
  *     * BYDAY
  *     * BYHOUR
@@ -693,7 +694,6 @@ class RecurrenceIterator implements \Iterator {
             }
             $currentStamp = $this->currentDate->getTimeStamp();
 
-
             // Checking exception dates
             foreach($this->exceptionDates as $exceptionDate) {
                 if ($this->currentDate == $exceptionDate) {
@@ -771,8 +771,11 @@ class RecurrenceIterator implements \Iterator {
             $recurrenceDays = $this->getDays();
         }
 
-        do {
+        if (isset($this->byMonth)) {
+            $recurrenceMonths = $this->getMonths();
+        }
 
+        do {
             if ($this->byHour) {
                 if ($this->currentDate->format('G') == '23') {
                     // to obey the interval rule
@@ -786,13 +789,16 @@ class RecurrenceIterator implements \Iterator {
 
             }
 
+            // Current month of the year
+            $currentMonth = $this->currentDate->format('n');
+
             // Current day of the week
             $currentDay = $this->currentDate->format('w');
 
             // Current hour of the day
             $currentHour = $this->currentDate->format('G');
 
-        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)));
+        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)) || ($this->byMonth && !in_array($currentMonth, $recurrenceMonths)));
 
     }
 
@@ -1149,5 +1155,14 @@ class RecurrenceIterator implements \Iterator {
 
         return $recurrenceDays;
     }
-}
 
+    protected function getMonths()
+    {
+        $recurrenceMonths = array();
+        foreach($this->byMonth as $byMonth) {
+            $recurrenceMonths[] = $byMonth;
+        }
+
+        return $recurrenceMonths;
+    }
+}
