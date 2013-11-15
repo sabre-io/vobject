@@ -282,7 +282,7 @@ class MimeDir extends Parser {
         $regex = "/
             ^(?P<name> [$propNameToken]+ ) (?=[;:])        # property name
             |
-            (?<=:)(?P<propValue> .*)$                      # property value
+            (?<=:)(?P<propValue> .+)$                      # property value
             |
             ;(?P<paramName> [$paramNameToken]+) (?=[=;:])  # parameter name
             |
@@ -355,7 +355,10 @@ class MimeDir extends Parser {
 
         }
 
-        if (is_null($property['value']) || !$property['name']) {
+        if (is_null($property['value'])) {
+            $property['value'] = '';
+        }
+        if (!$property['name']) {
             if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
                 return false;
             }
