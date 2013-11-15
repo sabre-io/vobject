@@ -8,6 +8,9 @@
         "php"          : ">=5.3.1",
         "ext-mbstring" : "*"
     },
+    "require-dev" : {
+        "phpunit/phpunit" : "*"
+    },
     "authors" : [
         {
             "name" : "Evert Pot",
@@ -32,5 +35,8 @@
         "branch-alias" : {
             "dev-master" : "3.1.x-dev"
         }
+    },
+    "config" : {
+        "bin-dir" : "bin"
     }
 }
