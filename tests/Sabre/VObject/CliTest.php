@@ -302,10 +302,11 @@ VCF;
     public function testConvertDefaultFormats() {
 
         $inputStream = fopen('php://memory','r+');
+        $outputFile = SABRE_TEMPDIR . 'bar.json';
 
         $this->assertEquals(
             2,
-            $this->cli->main(array('vobject', 'convert','foo.json','bar.json'))
+            $this->cli->main(array('vobject', 'convert','foo.json',$outputFile))
         );
 
         $this->assertEquals('json', $this->cli->inputFormat);
@@ -315,9 +316,11 @@ VCF;
 
     public function testConvertDefaultFormats2() {
 
+        $outputFile = SABRE_TEMPDIR . 'bar.ics';
+
         $this->assertEquals(
             2,
-            $this->cli->main(array('vobject', 'convert','foo.ics','bar.ics'))
+            $this->cli->main(array('vobject', 'convert','foo.ics',$outputFile))
         );
 
         $this->assertEquals('mimedir', $this->cli->inputFormat);
