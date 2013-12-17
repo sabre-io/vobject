@@ -387,7 +387,7 @@ class RecurrenceIterator implements \Iterator {
                     break;
 
                 case 'UNTIL' :
-                    $this->until = DateTimeParser::parse($value);
+                    $this->until = DateTimeParser::parse($value, $this->startDate->getTimezone());
 
                     // In some cases events are generated with an UNTIL=
                     // parameter before the actual start of the event.
