@@ -32,7 +32,8 @@ class StringUtilTest extends \PHPUnit_Framework_TestCase {
 
         $string = StringUtil::convertToUTF8(chr('0xbf'));
 
-        $this->assertEquals(utf8_encode(chr('0xbf')), $string);
+        // apply a string operation to get hhvm to cast the resulting binary string to a string
+        $this->assertEquals(trim(utf8_encode(chr('0xbf'))), $string);
 
     }
 
