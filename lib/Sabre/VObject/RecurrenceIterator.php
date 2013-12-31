@@ -1039,8 +1039,7 @@ class RecurrenceIterator implements \Iterator {
             // all wednesdays in this month.
             $dayHits = array();
 
-            $checkDate = clone $startDate;
-            $checkDate->modify('first day of this month');
+            $checkDate = new \DateTime($startDate->format('Y-m-1'));
             $checkDate->modify($dayName);
 
             do {
