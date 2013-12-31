@@ -52,14 +52,14 @@ class RecurrenceIterator implements \Iterator {
     /**
      * The initial event date
      *
-     * @var DateTime
+     * @var \DateTime
      */
     public $startDate;
 
     /**
      * The end-date of the initial event
      *
-     * @var DateTime
+     * @var \DateTime
      */
     public $endDate;
 
@@ -68,7 +68,7 @@ class RecurrenceIterator implements \Iterator {
      *
      * This will be increased for every iteration.
      *
-     * @var DateTime
+     * @var \DateTime
      */
     public $currentDate;
 
@@ -117,7 +117,7 @@ class RecurrenceIterator implements \Iterator {
     /**
      * The last instance of this recurrence, inclusively
      *
-     * @var DateTime|null
+     * @var \DateTime|null
      */
     public $until;
 
@@ -292,7 +292,7 @@ class RecurrenceIterator implements \Iterator {
      * This date is calculated sometimes a bit early, before overridden events
      * are evaluated.
      *
-     * @var DateTime
+     * @var \DateTime
      */
     private $nextDate;
 
@@ -477,7 +477,7 @@ class RecurrenceIterator implements \Iterator {
     /**
      * Returns the current item in the list
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function current() {
 
@@ -490,7 +490,7 @@ class RecurrenceIterator implements \Iterator {
      * This method returns the startdate for the current iteration of the
      * event.
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDtStart() {
 
@@ -503,7 +503,7 @@ class RecurrenceIterator implements \Iterator {
      * This method returns the enddate for the current iteration of the
      * event.
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDtEnd() {
 
@@ -605,7 +605,7 @@ class RecurrenceIterator implements \Iterator {
      * means that if you forward to January 1st, the iterator will stop at the
      * first event that ends *after* January 1st.
      *
-     * @param DateTime $dt
+     * @param \DateTime $dt
      * @return void
      */
     public function fastForward(\DateTime $dt) {
