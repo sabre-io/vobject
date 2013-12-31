@@ -52,14 +52,14 @@ class RecurrenceIterator implements \Iterator {
     /**
      * The initial event date
      *
-     * @var DateTime
+     * @var \DateTime
      */
     public $startDate;
 
     /**
      * The end-date of the initial event
      *
-     * @var DateTime
+     * @var \DateTime
      */
     public $endDate;
 
@@ -68,7 +68,7 @@ class RecurrenceIterator implements \Iterator {
      *
      * This will be increased for every iteration.
      *
-     * @var DateTime
+     * @var \DateTime
      */
     public $currentDate;
 
@@ -117,7 +117,7 @@ class RecurrenceIterator implements \Iterator {
     /**
      * The last instance of this recurrence, inclusively
      *
-     * @var DateTime|null
+     * @var \DateTime|null
      */
     public $until;
 
@@ -292,7 +292,7 @@ class RecurrenceIterator implements \Iterator {
      * This date is calculated sometimes a bit early, before overridden events
      * are evaluated.
      *
-     * @var DateTime
+     * @var \DateTime
      */
     private $nextDate;
 
@@ -477,7 +477,7 @@ class RecurrenceIterator implements \Iterator {
     /**
      * Returns the current item in the list
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function current() {
 
@@ -490,7 +490,7 @@ class RecurrenceIterator implements \Iterator {
      * This method returns the startdate for the current iteration of the
      * event.
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDtStart() {
 
@@ -503,7 +503,7 @@ class RecurrenceIterator implements \Iterator {
      * This method returns the enddate for the current iteration of the
      * event.
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDtEnd() {
 
@@ -605,7 +605,7 @@ class RecurrenceIterator implements \Iterator {
      * means that if you forward to January 1st, the iterator will stop at the
      * first event that ends *after* January 1st.
      *
-     * @param DateTime $dt
+     * @param \DateTime $dt
      * @return void
      */
     public function fastForward(\DateTime $dt) {
@@ -892,7 +892,7 @@ class RecurrenceIterator implements \Iterator {
             // If we made it all the way here, it means there were no
             // valid occurrences, and we need to advance to the next
             // month.
-            $this->currentDate->modify('first day of this month');
+            $this->currentDate = new \DateTime($this->currentDate->format('Y-m-1'));
             $this->currentDate->modify('+ ' . $this->interval . ' months');
 
             // This goes to 0 because we need to start counting at hte
@@ -1035,13 +1035,17 @@ class RecurrenceIterator implements \Iterator {
 
             $dayName = $this->dayNames[$this->dayMap[substr($day,-2)]];
 
+
             // Dayname will be something like 'wednesday'. Now we need to find
             // all wednesdays in this month.
             $dayHits = array();
 
-            $checkDate = clone $startDate;
-            $checkDate->modify('first day of this month');
-            $checkDate->modify($dayName);
+            // workaround for missing 'first day of the month' support in hhvm
+            $checkDate = new \DateTime($startDate->format('Y-m-1'));
+            // workaround modify always advancing the date even if the current day is a $dayName in hhvm
+            if ($checkDate->format('l') !== $dayName) {
+                $checkDate->modify($dayName);
+            }
 
             do {
                 $dayHits[] = $checkDate->format('j');
