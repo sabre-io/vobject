@@ -524,7 +524,7 @@ echo json_encode($vcard->jsonSerialize());
 
 The json formats are based on these RFCs:
 
-* http://tools.ietf.org/html/rfc7111
+* http://tools.ietf.org/html/rfc7095
 * http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-08
 
 Because these are still in draft, so is the jsonSerialize implementation. The
