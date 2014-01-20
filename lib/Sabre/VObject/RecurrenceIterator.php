@@ -24,6 +24,7 @@ namespace Sabre\VObject;
  *   * FREQ=DAILY
  *     * BYDAY
  *     * BYHOUR
+ *     * BYMONTH
  *   * FREQ=WEEKLY
  *     * BYDAY
  *     * BYHOUR
@@ -52,14 +53,14 @@ class RecurrenceIterator implements \Iterator {
     /**
      * The initial event date
      *
-     * @var DateTime
+     * @var \DateTime
      */
     public $startDate;
 
     /**
      * The end-date of the initial event
      *
-     * @var DateTime
+     * @var \DateTime
      */
     public $endDate;
 
@@ -68,7 +69,7 @@ class RecurrenceIterator implements \Iterator {
      *
      * This will be increased for every iteration.
      *
-     * @var DateTime
+     * @var \DateTime
      */
     public $currentDate;
 
@@ -117,7 +118,7 @@ class RecurrenceIterator implements \Iterator {
     /**
      * The last instance of this recurrence, inclusively
      *
-     * @var DateTime|null
+     * @var \DateTime|null
      */
     public $until;
 
@@ -292,7 +293,7 @@ class RecurrenceIterator implements \Iterator {
      * This date is calculated sometimes a bit early, before overridden events
      * are evaluated.
      *
-     * @var DateTime
+     * @var \DateTime
      */
     private $nextDate;
 
@@ -387,7 +388,7 @@ class RecurrenceIterator implements \Iterator {
                     break;
 
                 case 'UNTIL' :
-                    $this->until = DateTimeParser::parse($value);
+                    $this->until = DateTimeParser::parse($value, $this->startDate->getTimezone());
 
                     // In some cases events are generated with an UNTIL=
                     // parameter before the actual start of the event.
@@ -477,7 +478,7 @@ class RecurrenceIterator implements \Iterator {
     /**
      * Returns the current item in the list
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function current() {
 
@@ -490,7 +491,7 @@ class RecurrenceIterator implements \Iterator {
      * This method returns the startdate for the current iteration of the
      * event.
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDtStart() {
 
@@ -503,7 +504,7 @@ class RecurrenceIterator implements \Iterator {
      * This method returns the enddate for the current iteration of the
      * event.
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDtEnd() {
 
@@ -605,7 +606,7 @@ class RecurrenceIterator implements \Iterator {
      * means that if you forward to January 1st, the iterator will stop at the
      * first event that ends *after* January 1st.
      *
-     * @param DateTime $dt
+     * @param \DateTime $dt
      * @return void
      */
     public function fastForward(\DateTime $dt) {
@@ -693,7 +694,6 @@ class RecurrenceIterator implements \Iterator {
             }
             $currentStamp = $this->currentDate->getTimeStamp();
 
-
             // Checking exception dates
             foreach($this->exceptionDates as $exceptionDate) {
                 if ($this->currentDate == $exceptionDate) {
@@ -771,8 +771,11 @@ class RecurrenceIterator implements \Iterator {
             $recurrenceDays = $this->getDays();
         }
 
-        do {
+        if (isset($this->byMonth)) {
+            $recurrenceMonths = $this->getMonths();
+        }
 
+        do {
             if ($this->byHour) {
                 if ($this->currentDate->format('G') == '23') {
                     // to obey the interval rule
@@ -786,13 +789,16 @@ class RecurrenceIterator implements \Iterator {
 
             }
 
+            // Current month of the year
+            $currentMonth = $this->currentDate->format('n');
+
             // Current day of the week
             $currentDay = $this->currentDate->format('w');
 
             // Current hour of the day
             $currentHour = $this->currentDate->format('G');
 
-        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)));
+        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)) || ($this->byMonth && !in_array($currentMonth, $recurrenceMonths)));
 
     }
 
@@ -1149,5 +1155,14 @@ class RecurrenceIterator implements \Iterator {
 
         return $recurrenceDays;
     }
-}
 
+    protected function getMonths()
+    {
+        $recurrenceMonths = array();
+        foreach($this->byMonth as $byMonth) {
+            $recurrenceMonths[] = $byMonth;
+        }
+
+        return $recurrenceMonths;
+    }
+}

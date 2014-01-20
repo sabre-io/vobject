@@ -1,9 +1,12 @@
-3.2.0-stable (2013-??-??)
+3.2.0-stable (2014-??-??)
 	* Updated: Windows timezone mapping to latest version from unicode.org
 	* Changed: The timezone maps are now loaded in from external files, in
 	  lib/Sabre/VObject/timezonedata.
 	* Added: Fixing badly encoded URL's from google contacts vcards.
 	* Fixed: Issue #68. Couldn't decode properties ending in a colon.
+	* Fixed: Issue #72. RecurrenceIterator should respect timezone in the
+	  UNTIL clause.
+	* Fixed: Issue #67. BYMONTH limit on DAILY recurrences.
 
 3.1.3-stable (2013-10-02)
 	* Fixed: Support from properties from draft-daboo-valarm-extensions-04.
