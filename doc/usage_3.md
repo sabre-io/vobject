@@ -522,10 +522,10 @@ To create a json-version of your iCalendar or vCard, simply call
 echo json_encode($vcard->jsonSerialize());
 ```
 
-The json formats are based on these draft RFCs:
+The json formats are based on these RFCs:
 
-* http://tools.ietf.org/html/draft-ietf-jcardcal-jcard-03
-* http://tools.ietf.org/html/draft-kewisch-et-al-icalendar-in-json-02
+* http://tools.ietf.org/html/rfc7111
+* http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-08
 
 Because these are still in draft, so is the jsonSerialize implementation. The
 output format may therefore break between versions to comply with the latest

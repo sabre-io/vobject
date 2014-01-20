@@ -272,6 +272,6 @@ These properties have now moved to the document classes:
 * `Component\VCard::$componentMap`
 
 [1]: http://tools.ietf.org/html/rfc6868
-[2]: http://tools.ietf.org/html/draft-ietf-jcardcal-jcard-03
-[3]: http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-04$
+[2]: http://tools.ietf.org/html/rfc7111
+[3]: http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-08
 [4]: usage_3.md
