@@ -4,6 +4,7 @@ ChangeLog
 3.2.0 (2014-??-??)
 ------------------
 
+* Now hhvm compatible!
 * Updated: Windows timezone mapping to latest version from unicode.org
 * Changed: The timezone maps are now loaded in from external files, in
   lib/Sabre/VObject/timezonedata.
