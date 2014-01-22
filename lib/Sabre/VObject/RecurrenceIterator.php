@@ -898,7 +898,12 @@ class RecurrenceIterator implements \Iterator {
             // If we made it all the way here, it means there were no
             // valid occurrences, and we need to advance to the next
             // month.
-            $this->currentDate->modify('first day of this month');
+            //
+            // This line does not currently work in hhvm. Temporary workaround
+            // follows:
+            // $this->currentDate->modify('first day of this month');
+            $this->currentDate = new \DateTime($this->currentDate->format('Y-m-1'));
+            // end of workaround
             $this->currentDate->modify('+ ' . $this->interval . ' months');
 
             // This goes to 0 because we need to start counting at hte
