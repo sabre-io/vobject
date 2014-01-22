@@ -102,13 +102,13 @@ class Cli {
         // We cannot easily test this, so we'll skip it. Pretty basic anyway.
 
         if (!$this->stderr) {
-            $this->stderr = STDERR;
+            $this->stderr = fopen('php://stderr','w');
         }
         if (!$this->stdout) {
-            $this->stdout = STDOUT;
+            $this->stdout = fopen('php://stdout','w');
         }
         if (!$this->stdin) {
-            $this->stdin = STDIN;
+            $this->stdin = fopen('php://stdin','r');
         }
 
         // @codeCoverageIgnoreEnd
