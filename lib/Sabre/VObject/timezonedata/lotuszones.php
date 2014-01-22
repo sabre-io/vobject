@@ -16,12 +16,12 @@ return array(
     'Pacific Standard Time'  => 'America/Los_Angeles',
     'Mexico Standard Time 2' => 'America/Chihuahua',
     'Mountain'               => 'America/Denver',
-    'Mountain Standard Time' => 'America/Chihuahua',
+    'Mountain Standard Time' => 'America/Chihuahua', // conflict with windows timezones.
     'US Mountain'            => 'America/Phoenix',
     'Canada Central'         => 'America/Edmonton',
     'Central America'        => 'America/Guatemala',
     'Central'                => 'America/Chicago',
-    'Central Standard Time'  => 'America/Mexico_City',
+    // 'Central Standard Time'  => 'America/Mexico_City', // conflict with windows timezones.
     'Mexico'                 => 'America/Mexico_City',
     'Eastern'                => 'America/New_York',
     'SA Pacific'             => 'America/Bogota',
@@ -37,7 +37,7 @@ return array(
     'Greenland'              => 'America/Godthab',
     'Montevideo'             => 'America/Montevideo',
     'SA Eastern'             => 'America/Belem',
-    'Mid-Atlantic'           => 'Etc/GMT-2',
+    'Mid-Atlantic'           => 'Etc/GMT-2', // conflict with windows timezones.
     'Azores'                 => 'Atlantic/Azores',
     'Cape Verde'             => 'Atlantic/Cape_Verde',
     'Greenwich'              => 'Atlantic/Reykjavik', // No I'm serious.. Greenwich is not GMT.

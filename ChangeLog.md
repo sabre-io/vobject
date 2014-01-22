@@ -15,6 +15,7 @@ ChangeLog
 * Fixed: Issue #67. BYMONTH limit on DAILY recurrences.
 * Fixed: Issue #26. Return a more descriptive error when coming across broken
   BYDAY rules.
+* Fixed: Issue #28. Incorrect timezone detection for some timezones.
 
 
 3.1.3 (2013-10-02)
