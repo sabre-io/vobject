@@ -6,7 +6,7 @@ class StringUtilTest extends \PHPUnit_Framework_TestCase {
 
     function testNonUTF8() {
 
-        $string = StringUtil::isUTF8(chr('0xbf'));
+        $string = StringUtil::isUTF8(chr(0xbf));
 
         $this->assertEquals(false, $string);
 
@@ -22,7 +22,7 @@ class StringUtilTest extends \PHPUnit_Framework_TestCase {
 
     function testUTF8ControlChar() {
 
-        $string = StringUtil::isUTF8(chr('0x00'));
+        $string = StringUtil::isUTF8(chr(0x00));
 
         $this->assertEquals(false, $string);
 
@@ -30,9 +30,9 @@ class StringUtilTest extends \PHPUnit_Framework_TestCase {
 
     function testConvertToUTF8nonUTF8() {
 
-        $string = StringUtil::convertToUTF8(chr('0xbf'));
+        $string = StringUtil::convertToUTF8(chr(0xbf));
 
-        $this->assertEquals(utf8_encode(chr('0xbf')), $string);
+        $this->assertEquals(utf8_encode(chr(0xbf)), $string);
 
     }
 
