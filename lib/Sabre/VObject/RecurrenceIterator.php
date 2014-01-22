@@ -1043,7 +1043,7 @@ class RecurrenceIterator implements \Iterator {
 
             // Dayname will be something like 'wednesday'. Now we need to find
             // all wednesdays in this month.
-            $dayHits = [];
+            $dayHits = array();
 
             $checkDate = clone $startDate;
             $checkDate->modify('first day of this month');
