@@ -12,6 +12,8 @@ ChangeLog
 * Fixed: Issue #72. RecurrenceIterator should respect timezone in the UNTIL
   clause.
 * Fixed: Issue #67. BYMONTH limit on DAILY recurrences.
+* Fixed: Issue #26. Return a more descriptive error when coming across broken
+  BYDAY rules.
 
 
 3.1.3 (2013-10-02)

@@ -1043,7 +1043,7 @@ class RecurrenceIterator implements \Iterator {
 
             // Dayname will be something like 'wednesday'. Now we need to find
             // all wednesdays in this month.
-            $dayHits = array();
+            $dayHits = [];
 
             $checkDate = clone $startDate;
             $checkDate->modify('first day of this month');
@@ -1060,6 +1060,9 @@ class RecurrenceIterator implements \Iterator {
             if (strlen($day)>2) {
                 $offset = (int)substr($day,0,-2);
 
+                if ($offset===0) {
+                    throw new \InvalidArgumentException('The BYDAY clause contained a 0 offset, which is not valid in iCalendar');
+                }
                 if ($offset>0) {
                     // It is possible that the day does not exist, such as a
                     // 5th or 6th wednesday of the month.
