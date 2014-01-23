@@ -290,6 +290,32 @@ class VCalendar extends VObject\Document {
     }
 
     /**
+     * A simple list of validation rules.
+     *
+     * This is simply a list of properties, and how many times they either
+     * must or must not appear.
+     *
+     * Possible values per property:
+     *   * 0 - Must not appear.
+     *   * 1 - Must appear exactly once.
+     *   * + - Must appear at least once.
+     *   * * - Can appear any number of times.
+     *
+     * @var array
+     */
+    public function getValidationRules() {
+
+        return array(
+            'PRODID' => 1,
+            'VERSION' => 1,
+
+            'CALSCALE' => '?',
+            'METHOD' => '?',
+        );
+
+    }
+
+    /**
      * Validates the node for correctness.
      * An array is returned with warnings.
      *
@@ -302,66 +328,61 @@ class VCalendar extends VObject\Document {
      */
     public function validate($options = 0) {
 
-        $warnings = array();
+        $warnings = parent::validate();
 
-        $version = $this->select('VERSION');
-        if (count($version)!==1) {
-            $warnings[] = array(
-                'level' => 1,
-                'message' => 'The VERSION property must appear in the VCALENDAR component exactly 1 time',
-                'node' => $this,
-            );
-        } else {
-            if ((string)$this->VERSION !== '2.0') {
+        if ($ver = $this->VERSION) {
+            if ((string)$ver !== '2.0') {
                 $warnings[] = array(
-                    'level' => 1,
+                    'level' => 3,
                     'message' => 'Only iCalendar version 2.0 as defined in rfc5545 is supported.',
                     'node' => $this,
                 );
             }
+
         }
-        $version = $this->select('PRODID');
-        if (count($version)!==1) {
-            $warnings[] = array(
-                'level' => 2,
-                'message' => 'The PRODID property must appear in the VCALENDAR component exactly 1 time',
-                'node' => $this,
-            );
-        }
-        if (count($this->CALSCALE) > 1) {
-            $warnings[] = array(
-                'level' => 2,
-                'message' => 'The CALSCALE property must not be specified more than once.',
-                'node' => $this,
-            );
-        }
-        if (count($this->METHOD) > 1) {
-            $warnings[] = array(
-                'level' => 2,
-                'message' => 'The METHOD property must not be specified more than once.',
-                'node' => $this,
-            );
-        }
+
+        $uidList = array();
 
         $componentsFound = 0;
         foreach($this->children as $child) {
             if($child instanceof Component) {
                 $componentsFound++;
+
+                if (!in_array($child->name, array('VEVENT', 'VTODO', 'VJOURNAL'))) {
+                    continue;
+                }
+
+                $uid = (string)$child->UID;
+                $isMaster = isset($child->{'RECURRENCE-ID'})?0:1;
+                if (isset($uidList[$uid])) {
+                    $uidList[$uid]['count']++;
+                    if ($isMaster && $uidList[$uid]['hasMaster']) {
+                        $warnings[] = array(
+                            'level' => 3,
+                            'message' => 'More than one master object was found for the object with UID ' . $uid,
+                            'node' => $this,
+                        );
+                    }
+                    $uidList[$uid]['hasMaster']+=$isMaster;
+                } else {
+                    $uidList[$uid] = array(
+                        'count' => 1,
+                        'hasMaster' => $isMaster,
+                    );
+                }
+
             }
         }
 
         if ($componentsFound===0) {
             $warnings[] = array(
-                'level' => 1,
+                'level' => 3,
                 'message' => 'An iCalendar object must have at least 1 component.',
                 'node' => $this,
             );
         }
 
-        return array_merge(
-            $warnings,
-            parent::validate()
-        );
+        return $warnings;
 
     }
 

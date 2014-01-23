@@ -172,21 +172,23 @@ class VCard extends VObject\Document {
      */
     const DEFAULT_VERSION = self::VCARD21;
 
-
-
     /**
      * Validates the node for correctness.
      *
      * The following options are supported:
-     *   - Node::REPAIR - If something is broken, and automatic repair may
-     *                    be attempted.
+     *   Node::REPAIR - May attempt to automatically repair the problem.
      *
-     * An array is returned with warnings.
+     * This method returns an array with detected problems.
+     * Every element has the following properties:
      *
-     * Every item in the array has the following properties:
-     *    * level - (number between 1 and 3 with severity information)
-     *    * message - (human readable message)
-     *    * node - (reference to the offending node)
+     *  * level - problem level.
+     *  * message - A human-readable string describing the issue.
+     *  * node - A reference to the problematic node.
+     *
+     * The level means:
+     *   1 - The issue was repaired (only happens if REPAIR was turned on)
+     *   2 - An inconsequential issue
+     *   3 - A severe issue.
      *
      * @param int $options
      * @return array
@@ -202,20 +204,11 @@ class VCard extends VObject\Document {
         );
 
         $version = $this->select('VERSION');
-        if (count($version)!==1) {
-            $warnings[] = array(
-                'level' => 1,
-                'message' => 'The VERSION property must appear in the VCARD component exactly 1 time',
-                'node' => $this,
-            );
-            if ($options & self::REPAIR) {
-                $this->VERSION = $versionMap[self::DEFAULT_VERSION];
-            }
-        } else {
+        if (count($version)===1) {
             $version = (string)$this->VERSION;
             if ($version!=='2.1' && $version!=='3.0' && $version!=='4.0') {
                 $warnings[] = array(
-                    'level' => 1,
+                    'level' => 3,
                     'message' => 'Only vcard version 4.0 (RFC6350), version 3.0 (RFC2426) or version 2.1 (icm-vcard-2.1) are supported.',
                     'node' => $this,
                 );
@@ -227,11 +220,8 @@ class VCard extends VObject\Document {
         }
         $fn = $this->select('FN');
         if (count($fn)!==1) {
-            $warnings[] = array(
-                'level' => 1,
-                'message' => 'The FN property must appear in the VCARD component exactly 1 time',
-                'node' => $this,
-            );
+
+            $repaired = false;
             if (($options & self::REPAIR) && count($fn) === 0) {
                 // We're going to try to see if we can use the contents of the
                 // N property.
@@ -242,18 +232,95 @@ class VCard extends VObject\Document {
                     } else {
                         $this->FN = $value[0];
                     }
+                    $repaired = true;
 
                 // Otherwise, the ORG property may work
                 } elseif (isset($this->ORG)) {
                     $this->FN = (string)$this->ORG;
+                    $repaired = true;
                 }
 
             }
+            $warnings[] = array(
+                'level' => $repaired?1:3,
+                'message' => 'The FN property must appear in the VCARD component exactly 1 time',
+                'node' => $this,
+            );
         }
 
         return array_merge(
             parent::validate($options),
             $warnings
+        );
+
+    }
+
+    /**
+     * A simple list of validation rules.
+     *
+     * This is simply a list of properties, and how many times they either
+     * must or must not appear.
+     *
+     * Possible values per property:
+     *   * 0 - Must not appear.
+     *   * 1 - Must appear exactly once.
+     *   * + - Must appear at least once.
+     *   * * - Can appear any number of times.
+     *
+     * @var array
+     */
+    public function getValidationRules() {
+
+        return array(
+            'ADR'          => '*',
+            'ANNIVERSARY'  => '?',
+            'BDAY'         => '?',
+            'CALADRURI'    => '*',
+            'CALURI'       => '*',
+            'CATEGORIES'   => '*',
+            'CLIENTPIDMAP' => '*',
+            'EMAIL'        => '*',
+            'FBURL'        => '*',
+            'IMPP'         => '*',
+            'GENDER'       => '?',
+            'GEO'          => '*',
+            'KEY'          => '*',
+            'KIND'         => '?',
+            'LANG'         => '*',
+            'LOGO'         => '*',
+            'MEMBER'       => '*',
+            'N'            => '?',
+            'NICKNAME'     => '*',
+            'NOTE'         => '*',
+            'ORG'          => '*',
+            'PHOTO'        => '*',
+            'PRODID'       => '?',
+            'RELATED'      => '*',
+            'REV'          => '?',
+            'ROLE'         => '*',
+            'SOUND'        => '*',
+            'SOURCE'       => '*',
+            'TEL'          => '*',
+            'TITLE'        => '*',
+            'TZ'           => '*',
+            'URL'          => '*',
+            'VERSION'      => '1',
+            'XML'          => '*',
+
+            // FN is commented out, because it's already handled by the
+            // validate function, which may also try to repair it.
+            // 'FN'           => '+',
+
+            // vcard actually specifies this as '?', but in most cases not
+            // having a UID is highly undesirable. So here we're going against
+            // the spec and make it required.
+            //
+            // I would be interested to hear if this is problematic for
+            // anyone, or at least a usecase where this is undesirable.
+            //
+            // If so, I may have to add a facility that allows us to check
+            // specifically for validity in the context of 'DAV'.
+            'UID'          => '1',
         );
 
     }

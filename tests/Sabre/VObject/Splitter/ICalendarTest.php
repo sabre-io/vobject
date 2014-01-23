@@ -27,6 +27,7 @@ class ICalendarTest extends \PHPUnit_Framework_TestCase {
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 UID:foo
+DTSTAMP:20140122T233226Z
 END:VEVENT
 END:VCALENDAR
 EOT;
@@ -46,6 +47,7 @@ EOT;
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 UID:foo
+DTSTAMP:20140122T233226Z
 END:VEVENT
 END:VCALENDAR
 EOT;
@@ -76,12 +78,14 @@ EOT;
         $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo1
+DTSTAMP:20140122T233226Z
 END:VEVENT
 EOT;
 
 $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo2
+DTSTAMP:20140122T233226Z
 END:VEVENT
 EOT;
 
@@ -126,6 +130,7 @@ VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $this->version//EN
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
+DTSTAMP:20140122T233226Z
 END:VEVENT
 END:VCALENDAR
 
@@ -136,12 +141,20 @@ EOT;
 
         $return = "";
         while($object=$objects->getNext()) {
-            $expected = str_replace("\n", "\r\n", $data);
-            $this->assertEquals($expected, $object->serialize());
             $return .= $object->serialize();
         }
 
-        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
+        $messages = VObject\Reader::read($return)->validate();
+
+        if ($messages) {
+            $messages = array_map(
+                function($item) { return $item['message']; },
+                $messages
+            );
+            $this->fail('Validation errors: ' . implode("\n", $messages));
+        } else {
+            $this->assertEquals(array(), $messages);
+        }
     }
 
     function testICalendarImportMultipleVTIMEZONESAndMultipleValidEvents() {
@@ -186,18 +199,21 @@ EOT;
         $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo1
+DTSTAMP:20140122T232710Z
 END:VEVENT
 EOT;
 
         $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo2
+DTSTAMP:20140122T232710Z
 END:VEVENT
 EOT;
 
         $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo3
+DTSTAMP:20140122T232710Z
 END:VEVENT
 EOT;
 
@@ -236,7 +252,6 @@ EOT;
 
         }
 
-        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
         $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
@@ -277,7 +292,8 @@ EOT;
             $return .= $object->serialize();
         }
 
-        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
+        $messages = VObject\Reader::read($return)->validate();
+        $this->assertEquals(array(), $messages);
     }
 
 }
