@@ -341,16 +341,42 @@ class VCalendar extends VObject\Document {
 
         }
 
+        $uidList = array();
+
         $componentsFound = 0;
         foreach($this->children as $child) {
             if($child instanceof Component) {
                 $componentsFound++;
+
+                if (!in_array($child->name, array('VEVENT', 'VTODO', 'VJOURNAL'))) {
+                    continue;
+                }
+
+                $uid = (string)$child->UID;
+                $isMaster = isset($child->{'RECURRENCE-ID'})?0:1;
+                if (isset($uidList[$uid])) {
+                    $uidList[$uid]['count']++;
+                    if ($isMaster && $uidList[$uid]['hasMaster']) {
+                        $warnings[] = array(
+                            'level' => 3,
+                            'message' => 'More than one master object was found for the object with UID ' . $uid,
+                            'node' => $this,
+                        );
+                    }
+                    $uidList[$uid]['hasMaster']+=$isMaster;
+                } else {
+                    $uidList[$uid] = array(
+                        'count' => 1,
+                        'hasMaster' => $isMaster,
+                    );
+                }
+
             }
         }
 
         if ($componentsFound===0) {
             $warnings[] = array(
-                'level' => 1,
+                'level' => 3,
                 'message' => 'An iCalendar object must have at least 1 component.',
                 'node' => $this,
             );

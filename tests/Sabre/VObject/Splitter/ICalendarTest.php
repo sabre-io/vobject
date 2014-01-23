@@ -253,7 +253,6 @@ EOT;
         }
 
         $this->assertEquals(array(), VObject\Reader::read($return)->validate());
-        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportWithOutVTIMEZONES() {
