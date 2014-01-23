@@ -105,4 +105,32 @@ class VAlarm extends VObject\Component {
 
     }
 
+    /**
+     * A simple list of validation rules.
+     *
+     * This is simply a list of properties, and how many times they either
+     * must or must not appear.
+     *
+     * Possible values per property:
+     *   * 0 - Must not appear.
+     *   * 1 - Must appear exactly once.
+     *   * + - Must appear at least once.
+     *   * * - Can appear any number of times.
+     *
+     * @var array
+     */
+    public function getValidationRules() {
+
+        return array(
+            'ACTION' => 1,
+            'TRIGGER' => 1,
+
+            'DURATION' => '?',
+            'REPEAT' => '?',
+
+            'ATTACH' => '?',
+        );
+
+    }
+
 }

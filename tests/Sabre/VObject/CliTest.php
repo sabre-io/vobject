@@ -440,6 +440,7 @@ VCARD
 BEGIN:VCARD
 VERSION:4.0
 PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+UID:foo
 FN:Cowboy Henk
 END:VCARD
 
@@ -447,10 +448,11 @@ VCARD
     );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
-        // vCard 2.1 is not supported yet, so this returns a failure.
+        $result = $this->cli->main(array('vobject', 'validate', '-'));
+
         $this->assertEquals(
             0,
-            $this->cli->main(array('vobject', 'validate', '-'))
+            $result
         );
 
     }
@@ -530,6 +532,8 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject 3.1.0//EN
 BEGIN:VEVENT
+UID:foo
+DTSTAMP:20140122T233226Z
 END:VEVENT
 END:VCALENDAR
 
