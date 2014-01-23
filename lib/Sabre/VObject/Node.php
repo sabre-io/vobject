@@ -86,15 +86,19 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * Validates the node for correctness.
      *
      * The following options are supported:
-     *   - Node::REPAIR - If something is broken, and automatic repair may
-     *                    be attempted.
+     *   Node::REPAIR - May attempt to automatically repair the problem.
      *
-     * An array is returned with warnings.
+     * This method returns an array with detected problems.
+     * Every element has the following properties:
      *
-     * Every item in the array has the following properties:
-     *    * level - (number between 1 and 3 with severity information)
-     *    * message - (human readable message)
-     *    * node - (reference to the offending node)
+     *  * level - problem level.
+     *  * message - A human-readable string describing the issue.
+     *  * node - A reference to the problematic node.
+     *
+     * The level means:
+     *   1 - The issue was repaired (only happens if REPAIR was turned on)
+     *   2 - An inconsequential issue
+     *   3 - A severe issue.
      *
      * @param int $options
      * @return array

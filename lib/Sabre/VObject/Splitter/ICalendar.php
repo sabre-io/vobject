@@ -62,12 +62,10 @@ class ICalendar implements SplitterInterface {
             }
 
             // Get component UID for recurring Events search
-            if($component->UID) {
-                $uid = (string)$component->UID;
-            } else {
-                // Generating a random UID
-                $uid = sha1(microtime()) . '-vobjectimport';
+            if(!$component->UID) {
+                $component->UID = sha1(microtime()) . '-vobjectimport';
             }
+            $uid = (string)$component->UID;
 
             // Take care of recurring events
             if (!array_key_exists($uid, $this->objects)) {
