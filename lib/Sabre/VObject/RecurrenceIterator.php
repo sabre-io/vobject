@@ -24,6 +24,7 @@ namespace Sabre\VObject;
  *   * FREQ=DAILY
  *     * BYDAY
  *     * BYHOUR
+ *     * BYMONTH
  *   * FREQ=WEEKLY
  *     * BYDAY
  *     * BYHOUR
@@ -43,7 +44,7 @@ namespace Sabre\VObject;
  *
  * The recurrence iterator also does not yet support THISANDFUTURE.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
@@ -387,7 +388,7 @@ class RecurrenceIterator implements \Iterator {
                     break;
 
                 case 'UNTIL' :
-                    $this->until = DateTimeParser::parse($value);
+                    $this->until = DateTimeParser::parse($value, $this->startDate->getTimezone());
 
                     // In some cases events are generated with an UNTIL=
                     // parameter before the actual start of the event.
@@ -463,8 +464,11 @@ class RecurrenceIterator implements \Iterator {
 
                 foreach(explode(',', (string)$exDate) as $exceptionDate) {
 
-                    $this->exceptionDates[] =
-                        DateTimeParser::parse($exceptionDate, $this->startDate->getTimeZone());
+                    try {
+                        $this->exceptionDates[] =
+                            DateTimeParser::parse($exceptionDate, $this->startDate->getTimeZone());
+                    } catch (\LogicException $e) {
+                    }
 
                 }
 
@@ -693,7 +697,6 @@ class RecurrenceIterator implements \Iterator {
             }
             $currentStamp = $this->currentDate->getTimeStamp();
 
-
             // Checking exception dates
             foreach($this->exceptionDates as $exceptionDate) {
                 if ($this->currentDate == $exceptionDate) {
@@ -771,8 +774,11 @@ class RecurrenceIterator implements \Iterator {
             $recurrenceDays = $this->getDays();
         }
 
-        do {
+        if (isset($this->byMonth)) {
+            $recurrenceMonths = $this->getMonths();
+        }
 
+        do {
             if ($this->byHour) {
                 if ($this->currentDate->format('G') == '23') {
                     // to obey the interval rule
@@ -786,13 +792,16 @@ class RecurrenceIterator implements \Iterator {
 
             }
 
+            // Current month of the year
+            $currentMonth = $this->currentDate->format('n');
+
             // Current day of the week
             $currentDay = $this->currentDate->format('w');
 
             // Current hour of the day
             $currentHour = $this->currentDate->format('G');
 
-        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)));
+        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)) || ($this->byMonth && !in_array($currentMonth, $recurrenceMonths)));
 
     }
 
@@ -892,7 +901,12 @@ class RecurrenceIterator implements \Iterator {
             // If we made it all the way here, it means there were no
             // valid occurrences, and we need to advance to the next
             // month.
+            //
+            // This line does not currently work in hhvm. Temporary workaround
+            // follows:
+            // $this->currentDate->modify('first day of this month');
             $this->currentDate = new \DateTime($this->currentDate->format('Y-m-1'));
+            // end of workaround
             $this->currentDate->modify('+ ' . $this->interval . ' months');
 
             // This goes to 0 because we need to start counting at hte
@@ -1058,6 +1072,9 @@ class RecurrenceIterator implements \Iterator {
             if (strlen($day)>2) {
                 $offset = (int)substr($day,0,-2);
 
+                if ($offset===0) {
+                    throw new \InvalidArgumentException('The BYDAY clause contained a 0 offset, which is not valid in iCalendar');
+                }
                 if ($offset>0) {
                     // It is possible that the day does not exist, such as a
                     // 5th or 6th wednesday of the month.
@@ -1153,5 +1170,14 @@ class RecurrenceIterator implements \Iterator {
 
         return $recurrenceDays;
     }
-}
 
+    protected function getMonths()
+    {
+        $recurrenceMonths = array();
+        foreach($this->byMonth as $byMonth) {
+            $recurrenceMonths[] = $byMonth;
+        }
+
+        return $recurrenceMonths;
+    }
+}

@@ -13,7 +13,7 @@ use
  *   DTSTART;VALUE=DATE:20101108
  * VALUE=DATE would be the parameter name and value.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
@@ -65,7 +65,7 @@ class Parameter extends Node {
      * Try to guess property name by value, can be used for vCard 2.1 nameless parameters.
      *
      * Figuring out what the name should have been. Note that a ton of
-     * these are rather silly in 2013 and would probably rarely be
+     * these are rather silly in 2014 and would probably rarely be
      * used, but we like to be complete.
      *
      * @param string $value
@@ -322,7 +322,7 @@ class Parameter extends Node {
      */
     public function __toString() {
 
-        return $this->getValue();
+        return (string)$this->getValue();
 
     }
 

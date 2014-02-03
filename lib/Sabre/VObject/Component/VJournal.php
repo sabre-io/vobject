@@ -9,7 +9,7 @@ use Sabre\VObject;
  *
  * This component contains some additional functionality specific for VJOURNALs.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
@@ -40,7 +40,51 @@ class VJournal extends VObject\Component {
         }
         return false;
 
-
     }
 
+    /**
+     * A simple list of validation rules.
+     *
+     * This is simply a list of properties, and how many times they either
+     * must or must not appear.
+     *
+     * Possible values per property:
+     *   * 0 - Must not appear.
+     *   * 1 - Must appear exactly once.
+     *   * + - Must appear at least once.
+     *   * * - Can appear any number of times.
+     *
+     * @var array
+     */
+    public function getValidationRules() {
+
+        return array(
+            'UID' => 1,
+            'DTSTAMP' => 1,
+
+            'CLASS' => '?',
+            'CREATED' => '?',
+            'DTSTART' => '?',
+            'LAST-MODIFICATION' => '?',
+            'ORGANIZER' => '?',
+            'RECURRENCE-ID' => '?',
+            'SEQUENCE' => '?',
+            'STATUS' => '?',
+            'SUMMARY' => '?',
+            'URL' => '?',
+
+            'RRULE' => '?',
+
+            'ATTACH' => '*',
+            'ATTENDEE' => '*',
+            'CATEGORIES' => '*',
+            'COMMENT' => '*',
+            'CONTACT' => '*',
+            'DESCRIPTION' => '*',
+            'EXDATE' => '*',
+            'RELATED' => '*',
+            'RDATE' => '*',
+        );
+
+    }
 }

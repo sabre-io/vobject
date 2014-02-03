@@ -304,5 +304,13 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testValidate() {
+
+        $exDate = $this->vcal->createProperty('EXDATE', '-00011130T143000Z');
+        $messages = $exDate->validate();
+        $this->assertEquals(1, count($messages));
+        $this->assertEquals(3, $messages[0]['level']);
+
+    }
 
 }

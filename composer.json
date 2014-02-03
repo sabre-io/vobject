@@ -1,7 +1,7 @@
 {
     "name": "sabre/vobject",
     "description" : "The VObject library for PHP allows you to easily parse and manipulate iCalendar and vCard objects",
-    "keywords" : [ "VObject", "iCalendar", "vCard" ],
+    "keywords" : [ "VObject", "iCalendar", "vCard", "jCard", "jCal" ],
     "homepage" : "https://github.com/fruux/sabre-vobject",
     "license" : "BSD-3-Clause",
     "require" : {
@@ -33,7 +33,7 @@
     ],
     "extra" : {
         "branch-alias" : {
-            "dev-master" : "3.1.x-dev"
+            "dev-master" : "3.2.x-dev"
         }
     },
     "config" : {
