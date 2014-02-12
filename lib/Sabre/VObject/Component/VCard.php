@@ -113,6 +113,17 @@ class VCard extends VObject\Document {
         'GENDER'       => 'Sabre\\VObject\\Property\\Text',
         'KIND'         => 'Sabre\\VObject\\Property\\FlatText',
 
+        // rfc6474 properties
+        'BIRTHPLACE'    => 'Sabre\\VObject\\Property\\FlatText',
+        'DEATHPLACE'    => 'Sabre\\VObject\\Property\\FlatText',
+        'DEATHDATE'     => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
+
+        // rfc6715 properties
+        'EXPERTISE'     => 'Sabre\\VObject\\Property\\FlatText',
+        'HOBBY'         => 'Sabre\\VObject\\Property\\FlatText',
+        'INTEREST'      => 'Sabre\\VObject\\Property\\FlatText',
+        'ORG-DIRECTORY' => 'Sabre\\VObject\\Property\\FlatText',
+
     );
 
     /**
