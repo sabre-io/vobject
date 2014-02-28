@@ -121,7 +121,7 @@ class Cli {
             if (isset($options['q'])) {
                 $this->quiet = true;
             }
-            $this->log($this->colorize('green', "sabre-vobject ") . $this->colorize('yellow', Version::VERSION));
+            $this->log($this->colorize('green', "sabre/vobject ") . $this->colorize('yellow', Version::VERSION));
 
             foreach($options as $name=>$value) {
 
