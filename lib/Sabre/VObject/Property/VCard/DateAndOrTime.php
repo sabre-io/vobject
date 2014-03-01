@@ -70,10 +70,8 @@ class DateAndOrTime extends Property {
      */
     public function setValue($value) {
 
-        if (is_array($value) && isset($value[0]) && $value[0] instanceof \DateTime) {
-            $this->setDateTimes($value);
-        } elseif ($value instanceof \DateTime) {
-            $this->setDateTimes(array($value));
+        if ($value instanceof \DateTime) {
+            $this->setDateTime(array($value));
         } else {
             parent::setValue($value);
         }
@@ -88,42 +86,22 @@ class DateAndOrTime extends Property {
      */
     public function setDateTime(\DateTime $dt) {
 
-        $this->setDateTimes(array($dt), $isFloating);
-
-    }
-
-    /**
-     * Sets the property as multiple date-time objects.
-     *
-     * The first value will be used as a reference for the timezones, and all
-     * the otehr values will be adjusted for that timezone
-     *
-     * @param \DateTime[] $dt
-     * @param bool isFloating If set to true, timezones will be ignored.
-     * @return void
-     */
-    public function setDateTimes(array $dt) {
-
         $values = array();
 
         $tz = null;
         $isUtc = false;
 
-        foreach($dt as $d) {
+        $tz = $dt->getTimeZone();
+        $isUtc = in_array($tz->getName() , array('UTC', 'GMT', 'Z'));
 
-            $tz = $d->getTimeZone();
-            $isUtc = in_array($tz->getName() , array('UTC', 'GMT', 'Z'));
-
-            if ($isUtc) {
-                $values[] = $d->format('Ymd\\THis\\Z');
-            } else {
-                // Calculating the offset.
-                $values[] = $d->format('Ymd\\THisO');
-            }
-
+        if ($isUtc) {
+            $value = $dt->format('Ymd\\THis\\Z');
+        } else {
+            // Calculating the offset.
+            $value = $dt->format('Ymd\\THisO');
         }
 
-        $this->value = $values;
+        $this->value = $value;
 
     }
 
@@ -145,46 +123,24 @@ class DateAndOrTime extends Property {
      */
     public function getDateTime() {
 
-        $dt = $this->getDateTimes();
-        if (!$dt) return null;
-
-        return $dt[0];
-
-    }
-
-    /**
-     * Returns multiple date-time values.
-     *
-     * If no time was specified, we will always use midnight (in the default
-     * timezone) as the time.
-     *
-     * If parts of the date were omitted, such as the year, we will grab the
-     * current values for those. So at the time of writing, if the year was
-     * omitted, we would have filled in 2014.
-     *
-     * @return \DateTime[]
-     */
-    public function getDateTimes() {
-
         $dts = array();
         $now = new DateTime();
         $tzFormat = $nowParts->getTimezone()->getOffset()===0?'\\Z':'O';
         $nowParts = DateTimeParser::parseVCardDateTime($now->format('Ymd\\This' + $tzFormat));
 
-        foreach($this->getParts() as $part) {
-            $dateParts = DateTimeParser::parseVCardDateTime($part);
+        $value = $this->getValue();
 
-            // This sets all the missing parts to the current date/time.
-            // So if the year was missing for a birthday, we're making it 'this
-            // year'.
-            foreach($dateParts as $k=>$v) {
-                if (is_null($v)) {
-                    $dateParts[$k] = $nowParts[$k];
-                }
+        $dateParts = DateTimeParser::parseVCardDateTime($part);
+
+        // This sets all the missing parts to the current date/time.
+        // So if the year was missing for a birthday, we're making it 'this
+        // year'.
+        foreach($dateParts as $k=>$v) {
+            if (is_null($v)) {
+                $dateParts[$k] = $nowParts[$k];
             }
-            $dts[] = new DateTime("$dateParts[year]-$dateParts[month]-$dateParts[date] $dateParts[hour]:$dateParts[minute]:$dateParts[second] $dateParts[timezone]");
         }
-        return $dts;
+        return new DateTime("$dateParts[year]-$dateParts[month]-$dateParts[date] $dateParts[hour]:$dateParts[minute]:$dateParts[second] $dateParts[timezone]");
 
     }
 
@@ -302,7 +258,7 @@ class DateAndOrTime extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->setValue(explode($this->delimiter, $val));
+        $this->setValue($val);
 
     }
 
