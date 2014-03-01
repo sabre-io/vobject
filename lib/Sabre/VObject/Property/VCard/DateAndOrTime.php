@@ -4,7 +4,9 @@ namespace Sabre\VObject\Property\VCard;
 
 use
     Sabre\VObject\DateTimeParser,
-    Sabre\VObject\Property\Text;
+    Sabre\VObject\Property\Text,
+    Sabre\VObject\Property,
+    DateTime;
 
 /**
  * DateAndOrTime property
@@ -15,7 +17,7 @@ use
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class DateAndOrTime extends Text {
+class DateAndOrTime extends Property {
 
     /**
      * Field separator
@@ -35,6 +37,154 @@ class DateAndOrTime extends Text {
     public function getValueType() {
 
         return "DATE-AND-OR-TIME";
+
+    }
+
+    /**
+     * Sets a multi-valued property.
+     *
+     * You may also specify DateTime objects here.
+     *
+     * @param array $parts
+     * @return void
+     */
+    public function setParts(array $parts) {
+
+        if (isset($parts[0]) && $parts[0] instanceof \DateTime) {
+            $this->setDateTimes($parts);
+        } else {
+            parent::setParts($parts);
+        }
+
+    }
+
+    /**
+     * Updates the current value.
+     *
+     * This may be either a single, or multiple strings in an array.
+     *
+     * Instead of strings, you may also use DateTime here.
+     *
+     * @param string|array|\DateTime $value
+     * @return void
+     */
+    public function setValue($value) {
+
+        if (is_array($value) && isset($value[0]) && $value[0] instanceof \DateTime) {
+            $this->setDateTimes($value);
+        } elseif ($value instanceof \DateTime) {
+            $this->setDateTimes(array($value));
+        } else {
+            parent::setValue($value);
+        }
+
+    }
+
+    /**
+     * Sets the property as a DateTime object.
+     *
+     * @param \DateTime $dt
+     * @return void
+     */
+    public function setDateTime(\DateTime $dt) {
+
+        $this->setDateTimes(array($dt), $isFloating);
+
+    }
+
+    /**
+     * Sets the property as multiple date-time objects.
+     *
+     * The first value will be used as a reference for the timezones, and all
+     * the otehr values will be adjusted for that timezone
+     *
+     * @param \DateTime[] $dt
+     * @param bool isFloating If set to true, timezones will be ignored.
+     * @return void
+     */
+    public function setDateTimes(array $dt) {
+
+        $values = array();
+
+        $tz = null;
+        $isUtc = false;
+
+        foreach($dt as $d) {
+
+            $tz = $d->getTimeZone();
+            $isUtc = in_array($tz->getName() , array('UTC', 'GMT', 'Z'));
+
+            if ($isUtc) {
+                $values[] = $d->format('Ymd\\THis\\Z');
+            } else {
+                // Calculating the offset.
+                $values[] = $d->format('Ymd\\THisO');
+            }
+
+        }
+
+        $this->value = $values;
+
+    }
+
+    /**
+     * Returns a date-time value.
+     *
+     * Note that if this property contained more than 1 date-time, only the
+     * first will be returned. To get an array with multiple values, call
+     * getDateTimes.
+     *
+     * If no time was specified, we will always use midnight (in the default
+     * timezone) as the time.
+     *
+     * If parts of the date were omitted, such as the year, we will grab the
+     * current values for those. So at the time of writing, if the year was
+     * omitted, we would have filled in 2014.
+     *
+     * @return \DateTime
+     */
+    public function getDateTime() {
+
+        $dt = $this->getDateTimes();
+        if (!$dt) return null;
+
+        return $dt[0];
+
+    }
+
+    /**
+     * Returns multiple date-time values.
+     *
+     * If no time was specified, we will always use midnight (in the default
+     * timezone) as the time.
+     *
+     * If parts of the date were omitted, such as the year, we will grab the
+     * current values for those. So at the time of writing, if the year was
+     * omitted, we would have filled in 2014.
+     *
+     * @return \DateTime[]
+     */
+    public function getDateTimes() {
+
+        $dts = array();
+        $now = new DateTime();
+        $tzFormat = $nowParts->getTimezone()->getOffset()===0?'\\Z':'O';
+        $nowParts = DateTimeParser::parseVCardDateTime($now->format('Ymd\\This' + $tzFormat));
+
+        foreach($this->getParts() as $part) {
+            $dateParts = DateTimeParser::parseVCardDateTime($part);
+
+            // This sets all the missing parts to the current date/time.
+            // So if the year was missing for a birthday, we're making it 'this
+            // year'.
+            foreach($dateParts as $k=>$v) {
+                if (is_null($v)) {
+                    $dateParts[$k] = $nowParts[$k];
+                }
+            }
+            $dts[] = new DateTime("$dateParts[year]-$dateParts[month]-$dateParts[date] $dateParts[hour]:$dateParts[minute]:$dateParts[second] $dateParts[timezone]");
+        }
+        return $dts;
 
     }
 
@@ -141,4 +291,67 @@ class DateAndOrTime extends Text {
 
     }
 
+    /**
+     * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
+     *
+     * This has been 'unfolded', so only 1 line will be passed. Unescaping is
+     * not yet done, but parameters are not included.
+     *
+     * @param string $val
+     * @return void
+     */
+    public function setRawMimeDirValue($val) {
+
+        $this->setValue(explode($this->delimiter, $val));
+
+    }
+
+    /**
+     * Returns a raw mime-dir representation of the value.
+     *
+     * @return string
+     */
+    public function getRawMimeDirValue() {
+
+        return implode($this->delimiter, $this->getParts());
+
+    }
+
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   Node::REPAIR - May attempt to automatically repair the problem.
+     *
+     * This method returns an array with detected problems.
+     * Every element has the following properties:
+     *
+     *  * level - problem level.
+     *  * message - A human-readable string describing the issue.
+     *  * node - A reference to the problematic node.
+     *
+     * The level means:
+     *   1 - The issue was repaired (only happens if REPAIR was turned on)
+     *   2 - An inconsequential issue
+     *   3 - A severe issue.
+     *
+     * @param int $options
+     * @return array
+     */
+    public function validate($options = 0) {
+
+        $messages = parent::validate($options);
+        $value = $this->getValue();
+        try {
+            DateTimeParser::parseVCardDateTime($value);
+        } catch (\InvalidArgumentException $e) {
+            $messages[] = array(
+                'level' => 3,
+                'message' => 'The supplied value (' . $value . ') is not a correct DATE-AND-OR-TIME property',
+                'node' => $this,
+            );
+        }
+        return $messages;
+
+    }
 }
