@@ -20,6 +20,8 @@ ChangeLog
 * Fixed: Issue #28. Incorrect timezone detection for some timezones.
 * Fixed: Issue #70. Casting a parameter with a null value to string would fail.
 * Added: Support for rfc6715 and rfc6474.
+* Added: Support for DateTime objects in the VCard DATE-AND-OR-TIME property.
+* Added: UUIDUtil, for easily creating unique identifiers.
 
 3.1.3 (2013-10-02)
 ------------------
