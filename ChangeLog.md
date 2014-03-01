@@ -5,6 +5,8 @@ ChangeLog
 ------------------
 
 * Now hhvm compatible!
+* Added: bin/generate_vcards, a utility to generate random vcards for testing
+  purposes. Patches are welcome to add more data.
 * Updated: Windows timezone mapping to latest version from unicode.org
 * Changed: The timezone maps are now loaded in from external files, in
   lib/Sabre/VObject/timezonedata.

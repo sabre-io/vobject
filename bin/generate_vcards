@@ -52,6 +52,18 @@ if ($count < 1) {
 fwrite(STDERR, "sabre/vobject " . Version::VERSION . "\n");
 fwrite(STDERR, "Generating " . $count . " vcards in vCard 4.0 format\n");
 
+/**
+ * The following list is just some random data we compiled from various
+ * sources online.
+ *
+ * Very little thought went into compiling this list, and certainly nothing
+ * political or ethical.
+ *
+ * We would _love_ more additions to this to add more variation to this list.
+ *
+ * Send us PR's and don't be shy adding your own first and last name for fun.
+ */
+
 $sets = [
     "nl" => [
         "country" => "Netherlands",
