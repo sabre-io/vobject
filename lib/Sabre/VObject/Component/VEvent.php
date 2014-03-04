@@ -41,6 +41,11 @@ class VEvent extends VObject\Component {
 
         }
 
+        if(!$this->DTSTART instanceof VObject\Property\ICalendar\DateTime) {
+            $dateStamp = $this->DTSTAMP->getDateTime();
+            return (($start <= $dateStamp) && ($end > $dateStamp));
+        }
+
         $effectiveStart = $this->DTSTART->getDateTime();
         if (isset($this->DTEND)) {
 
