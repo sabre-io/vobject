@@ -43,8 +43,10 @@ A few notes about the examples:
    included.
 2. It's also assumed that `use Sabre\VObject` has been called to import the
    VObject namespace.
-3. Short-array syntax is used everywhere, which requires PHP 5.4. If you are
-   still on PHP 5.3, replace `[...]` with `array(...)` where appropriate.
+3. While sabre/vobject supports PHP 5.3, most of the examples in this document
+   use syntax that has been introduced in PHP 5.4. PHP 5.4 introduces a new way
+   to create arrays, which is a lot shorter and looks better. If you are
+   running PHP 5.3, you may need to replace `[` and `]` with `array(` and `)`.
 
 ### Creating vCards.
 
