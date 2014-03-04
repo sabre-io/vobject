@@ -29,7 +29,8 @@
         }
     },
     "bin" : [
-        "bin/vobject"
+        "bin/vobject",
+        "bin/generate_vcards"
     ],
     "extra" : {
         "branch-alias" : {
