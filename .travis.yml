@@ -6,6 +6,10 @@ php:
   - 5.6
   - hhvm
 
+matrix:
+    allowed_failures:
+        - rvm: hhvm
+
 script:
   - phpunit --configuration tests/phpunit.xml
   - ./bin/vobject -h
