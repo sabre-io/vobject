@@ -8,7 +8,7 @@ php:
 
 matrix:
     allowed_failures:
-        - rvm: hhvm
+        - php: hhvm
 
 script:
   - phpunit --configuration tests/phpunit.xml
