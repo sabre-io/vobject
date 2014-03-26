@@ -480,7 +480,7 @@ $fbGenerator = new VObject\FreeBusyGenerator(
 );
 
 // Grabbing the report
-$freebusy = $fbGenerator->result();
+$freebusy = $fbGenerator->getResult();
 
 // The freebusy report is another VCALENDAR object, so we can serialize it as usual:
 echo $freebusy->serialize();
