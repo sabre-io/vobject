@@ -73,12 +73,12 @@ abstract class Property extends Node {
 
         $this->root = $root;
 
-        if (!is_null($value)) {
-            $this->setValue($value);
-        }
-
         foreach($parameters as $k=>$v) {
             $this->add($k, $v);
+        }
+
+        if (!is_null($value)) {
+            $this->setValue($value);
         }
 
     }

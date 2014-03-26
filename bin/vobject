@@ -18,7 +18,7 @@ foreach($paths as $path) {
 }
 
 if (!class_exists('Sabre\\VObject\\Version')) {
-    fwrite(STDERR, "Composer autoloader could not be properly loaded.\n");
+    fwrite(STDERR, "Composer autoloader could not be loaded.\n");
     die(1);
 }
 

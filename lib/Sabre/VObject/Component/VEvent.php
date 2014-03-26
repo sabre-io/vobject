@@ -83,10 +83,11 @@ class VEvent extends VObject\Component {
      */
     public function getValidationRules() {
 
+        $hasMethod = isset($this->parent->METHOD);
         return array(
             'UID' => 1,
             'DTSTAMP' => 1,
-            'DTSTART' => '?',
+            'DTSTART' => $hasMethod?'?':'1',
             'CLASS' => '?',
             'CREATED' => '?',
             'DESCRIPTION' => '?',
