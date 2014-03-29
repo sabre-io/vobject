@@ -229,7 +229,7 @@ class MimeDir extends Parser {
         } else {
             do {
                 $rawLine = fgets($this->input);
-                if ($rawLine === false && feof($this->input)) {
+                if ($rawLine === false || feof($this->input)) {
                     throw new EofException('End of document reached prematurely');
                 }
                 $rawLine = rtrim($rawLine, "\r\n");
