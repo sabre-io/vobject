@@ -226,7 +226,7 @@ class MimeDir extends Parser {
         if (!is_null($this->lineBuffer)) {
             $rawLine = $this->lineBuffer;
             $this->lineBuffer = null;
-        } elseif (is_resource($this->input) && (get_resource_type($this->input) === 'stream' || get_resource_type($this->input) === 'socket')) {
+        } elseif (is_resource($this->input) && (($resource_type = get_resource_type($this->input)) === 'stream' || $resource_type === 'socket')) {
             do {
                 $rawLine = fgets($this->input);
                 if ($rawLine === false && feof($this->input)) {
