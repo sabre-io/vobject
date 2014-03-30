@@ -1291,7 +1291,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         }
 
-        $tz = new DateTimeZone('GMT');
+        $tz = new DateTimeZone('UTC');
         $this->assertEquals(array(
             new DateTime('2012-01-07 12:00:00',$tz),
             new DateTime('2012-01-08 12:00:00',$tz),
@@ -1356,7 +1356,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         }
 
-        $tz = new DateTimeZone('GMT');
+        $tz = new DateTimeZone('UTC');
         $this->assertEquals(array(
             new DateTime('2012-01-12 12:00:00',$tz),
             new DateTime('2012-01-13 12:00:00',$tz),
