@@ -408,9 +408,21 @@ class TimeZoneUtil {
     static public function getTimeZone($tzid, Component $vcalendar = null, $failIfUncertain = false) {
 
         // First we will just see if the tzid is a support timezone identifier.
-        try {
-            return new \DateTimeZone($tzid);
-        } catch (\Exception $e) {
+        //
+        // The only exception is if the timezone starts with (. This is to
+        // handle cases where certain microsoft products generate timezone
+        // identifiers that for instance look like:
+        //
+        // (GMT+01.00) Sarajevo/Warsaw/Zagreb
+        //
+        // Since PHP 5.5.10, the first bit will be used as the timezone and
+        // this method will return just GMT+01:00. This is wrong, because it
+        // doesn't take DST into account.
+        if ($tzid[0]!=='(') {
+            try {
+                return new \DateTimeZone($tzid);
+            } catch (\Exception $e) {
+            }
         }
 
         // Next, we check if the tzid is somewhere in our tzid map.
