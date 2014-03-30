@@ -19,6 +19,5 @@ matrix:
 
 script:
   - phpunit --configuration tests/phpunit.xml
-  - ./bin/vobject -h
 
 before_script: composer install
