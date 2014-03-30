@@ -1,3 +1,4 @@
+
 ChangeLog
 =========
 
@@ -23,6 +24,13 @@ ChangeLog
 * Added: Support for DateTime objects in the VCard DATE-AND-OR-TIME property.
 * Added: UUIDUtil, for easily creating unique identifiers.
 * Fixed: Issue #83. Creating new VALUE=DATE objects using php's DateTime.
+
+
+3.1.4 (2014-??-??)
+------------------
+* Fixed: Issue #87: Several compatibility fixes related to timezone handling
+  changes in PHP 5.5.10.
+
 
 3.1.3 (2013-10-02)
 ------------------
@@ -200,6 +208,13 @@ ChangeLog
   VERSION and CALSCALE.
 * Added: You can add new sub-components much quicker with the magic setters, and
   add() method.
+
+
+2.1.4 (????-??-??)
+------------------
+
+* Fixed: Issue #87: Several compatibility fixes related to timezone handling
+  changes in PHP 5.5.10.
 
 
 2.1.3 (2013-10-02)

@@ -10,7 +10,9 @@ php:
 
 matrix:
   allow_failures:
-    - php: 5.5.10
+    - php:
+        5.5.10
+        5.6
 
 matrix:
     allowed_failures:
