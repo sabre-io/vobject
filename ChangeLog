@@ -1,4 +1,4 @@
-3.1.4-stable (????-??-??)
+3.1.4-stable (2014-03-30)
 	* Fixed: Issue #87: Several compatibility fixes related to timezone
 	  handling changes in PHP 5.5.10.
 
