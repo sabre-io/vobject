@@ -7,6 +7,10 @@ php:
   - 5.5.10
   - 5.6
 
+matrix:
+    allowed_failures:
+        php: 5.5.10
+
 script: phpunit --configuration tests/phpunit.xml
 
 before_script: composer install
