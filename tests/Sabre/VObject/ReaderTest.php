@@ -427,5 +427,12 @@ ICS;
 
     }
 
+    /**
+     * @small
+     * @expectedException \Sabre\VObject\ParseException
+     */
+    function testReadWithInvalidArgument() {
+        @Reader::read(false);
+    }
 
 }
