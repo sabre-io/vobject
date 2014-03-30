@@ -3,8 +3,14 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - 5.5.9
+  - 5.5.10
   - 5.6
   - hhvm
+
+matrix:
+  allow_failures:
+    - php: 5.5.10
 
 matrix:
     allowed_failures:
