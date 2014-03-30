@@ -1,4 +1,3 @@
-
 ChangeLog
 =========
 
@@ -26,7 +25,7 @@ ChangeLog
 * Fixed: Issue #83. Creating new VALUE=DATE objects using php's DateTime.
 
 
-3.1.4 (2014-??-??)
+3.1.4 (2014-03-30)
 ------------------
 * Fixed: Issue #87: Several compatibility fixes related to timezone handling
   changes in PHP 5.5.10.
@@ -210,7 +209,7 @@ ChangeLog
   add() method.
 
 
-2.1.4 (????-??-??)
+2.1.4 (2014-03-30)
 ------------------
 
 * Fixed: Issue #87: Several compatibility fixes related to timezone handling
@@ -242,7 +241,7 @@ ChangeLog
 2.1.0 (2013-06-17)
 ------------------
 
-* This version is fully backwards compatible with 2.0.*. However, it contains a
+* This version is fully backwards compatible with 2.0.\*. However, it contains a
   few new API's that mimic the VObject 3 API. This allows it to be used a
   'bridge' version. Specifically, this new version exists so SabreDAV 1.7 and
   1.8 can run with both the 2 and 3 versions of this library.

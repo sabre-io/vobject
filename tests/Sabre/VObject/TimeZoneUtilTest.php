@@ -297,7 +297,11 @@ END:VCALENDAR
 HI;
 
         $tz = TimeZoneUtil::getTimeZone('/freeassociation.sourceforge.net/Tzfile/SystemV/EST5EDT', Reader::read($vobj), true);
-        $ex = new \DateTimeZone('EST5EDT');
+        if (version_compare(PHP_VERSION, '5.5.10', '>=')) {
+            $ex = new \DateTimeZone('America/New_York');
+        } else {
+            $ex = new \DateTimeZone('EST5EDT');
+        }
         $this->assertEquals($ex->getName(), $tz->getName());
 
     }

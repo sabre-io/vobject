@@ -179,10 +179,7 @@ class TimeZoneUtil {
                             $lic = substr($lic,8);
                         }
 
-                        try {
-                            return new \DateTimeZone($lic);
-                        } catch (\Exception $e) {
-                        }
+                        return self::getTimeZone($lic, null, $failIfUncertain);
 
                     }
                     // Microsoft may add a magic number, which we also have an
@@ -226,7 +223,8 @@ class TimeZoneUtil {
         self::$map = array_merge(
             include __DIR__ .  '/timezonedata/windowszones.php',
             include __DIR__ .  '/timezonedata/lotuszones.php',
-            include __DIR__ .  '/timezonedata/exchangezones.php'
+            include __DIR__ .  '/timezonedata/exchangezones.php',
+            include __DIR__ .  '/timezonedata/php-compat.php'
         );
 
     }
