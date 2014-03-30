@@ -298,6 +298,36 @@ class TimeZoneUtil {
         'Fiji'                   => 'Pacific/Fiji',
         'New Zealand'            => 'Pacific/Auckland',
         'Tonga'                  => 'Pacific/Tongatapu',
+
+        // PHP 5.5.10 failed on a few timezones that were valid before. We're
+        // normalizing them here.
+        'CST6CDT'   => 'America/Chicago',
+        'Cuba'      => 'America/Havana',
+        'Egypt'     => 'Africa/Cairo',
+        'Eire'      => 'Europe/Dublin',
+        'EST5EDT'   => 'America/New_York',
+        'Factory'   => 'UTC',
+        'GB-Eire'   => 'Europe/London',
+        'GMT0'      => 'UTC',
+        'Greenwich' => 'UTC',
+        'Hongkong'  => 'Asia/Hong_Kong',
+        'Iceland'   => 'Atlantic/Reykjavik',
+        'Iran'      => 'Asia/Tehran',
+        'Israel'    => 'Asia/Jerusalem',
+        'Jamaica'   => 'America/Jamaica',
+        'Japan'     => 'Asia/Tokyo',
+        'Kwajalein' => 'Pacific/Kwajalein',
+        'Libya'     => 'Africa/Tripoli',
+        'MST7MDT'   => 'America/Denver',
+        'Navajo'    => 'America/Denver',
+        'NZ-CHAT'   => 'Pacific/Chatham',
+        'Poland'    => 'Europe/Warsaw',
+        'Portugal'  => 'Europe/Lisbon',
+        'PST8PDT'   => 'America/Los_Angeles',
+        'Singapore' => 'Asia/Singapore',
+        'Turkey'    => 'Europe/Istanbul',
+        'Universal' => 'UTC',
+        'W-SU'      => 'Europe/Moscow',
     );
 
     /**
@@ -461,10 +491,7 @@ class TimeZoneUtil {
                             $lic = substr($lic,8);
                         }
 
-                        try {
-                            return new \DateTimeZone($lic);
-                        } catch (\Exception $e) {
-                        }
+                        return self::getTimeZone($lic, null, $failIfUncertain);
 
                     }
                     // Microsoft may add a magic number, which we also have an
