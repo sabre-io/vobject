@@ -8,8 +8,8 @@ php:
   - 5.6
 
 matrix:
-    allow_failures:
-        php: 5.5.10
+  allow_failures:
+    php: 5.5.10
 
 script: phpunit --configuration tests/phpunit.xml
 
