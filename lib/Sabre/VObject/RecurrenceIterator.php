@@ -1049,13 +1049,17 @@ class RecurrenceIterator implements \Iterator {
 
             $dayName = $this->dayNames[$this->dayMap[substr($day,-2)]];
 
+
             // Dayname will be something like 'wednesday'. Now we need to find
             // all wednesdays in this month.
             $dayHits = array();
 
-            $checkDate = clone $startDate;
-            $checkDate->modify('first day of this month');
-            $checkDate->modify($dayName);
+            // workaround for missing 'first day of the month' support in hhvm
+            $checkDate = new \DateTime($startDate->format('Y-m-1'));
+            // workaround modify always advancing the date even if the current day is a $dayName in hhvm
+            if ($checkDate->format('l') !== $dayName) {
+                $checkDate->modify($dayName);
+            }
 
             do {
                 $dayHits[] = $checkDate->format('j');

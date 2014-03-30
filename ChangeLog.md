@@ -22,6 +22,7 @@ ChangeLog
 * Added: Support for rfc6715 and rfc6474.
 * Added: Support for DateTime objects in the VCard DATE-AND-OR-TIME property.
 * Added: UUIDUtil, for easily creating unique identifiers.
+* Fixed: Issue #83. Creating new VALUE=DATE objects using php's DateTime.
 
 3.1.3 (2013-10-02)
 ------------------
