@@ -428,7 +428,7 @@ ICS;
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error_Warning
+     * @expectedException \InvalidArgumentException
      */
     public function testReadBrokenInput() {
 

@@ -82,8 +82,10 @@ class MimeDir extends Parser {
             fwrite($stream, $input);
             rewind($stream);
             $this->input = $stream;
-        } else {
+        } elseif (is_resource($input)) {
             $this->input = $input;
+        } else {
+            throw new \InvalidArgumentException('This parser can only read from strings or streams.');
         }
 
     }
