@@ -228,9 +228,14 @@ class MimeDir extends Parser {
             $this->lineBuffer = null;
         } else {
             do {
-                $rawLine = fgets($this->input);
-                if ($rawLine === false && feof($this->input)) {
+                $eof = feof($this->input);
+                if ($eof) {
                     throw new EofException('End of document reached prematurely');
+                }
+
+                $rawLine = fgets($this->input);
+                if ($rawLine === false) {
+                    throw new ParseException('Error reading from input stream');
                 }
                 $rawLine = rtrim($rawLine, "\r\n");
             } while ($rawLine === ''); // Skipping empty lines

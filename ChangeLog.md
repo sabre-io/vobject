@@ -23,7 +23,8 @@ ChangeLog
 * Added: Support for DateTime objects in the VCard DATE-AND-OR-TIME property.
 * Added: UUIDUtil, for easily creating unique identifiers.
 * Fixed: Issue #83. Creating new VALUE=DATE objects using php's DateTime.
-
+* Fixed: Issue #86. Don't go into an infinite loop when php errors are
+  disabled and an invalid file is read.
 
 3.1.4 (2014-03-30)
 ------------------

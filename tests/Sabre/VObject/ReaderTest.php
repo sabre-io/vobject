@@ -427,5 +427,13 @@ ICS;
 
     }
 
+    /**
+     * @expectedException PHPUnit_Framework_Error_Warning
+     */
+    public function testReadBrokenInput() {
+
+        Reader::read(false);
+
+    }
 
 }
