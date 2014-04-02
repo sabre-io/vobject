@@ -5,6 +5,8 @@ ChangeLog
 ------------------
 
 * Now hhvm compatible!
+* The validator can now detect a _lot_ more problems. Many rules for both
+  iCalendar and vCard were added.
 * Added: bin/generate_vcards, a utility to generate random vcards for testing
   purposes. Patches are welcome to add more data.
 * Updated: Windows timezone mapping to latest version from unicode.org

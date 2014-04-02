@@ -23,7 +23,7 @@ if (!class_exists('Sabre\\VObject\\Version')) {
 }
 
 if ($argc < 2) {
-    
+
     $version = Version::VERSION;
 
     $help = <<<HI
@@ -41,12 +41,12 @@ HI;
 
     fwrite(STDERR, $help);
     exit(2);
-} 
+}
 
 $count = (int)$argv[1];
 if ($count < 1) {
     fwrite(STDERR, "Count must be at least 1\n");
-    exit(2); 
+    exit(2);
 }
 
 fwrite(STDERR, "sabre/vobject " . Version::VERSION . "\n");
@@ -213,7 +213,7 @@ while($current < $count) {
         'FN' => $r($sets[$country][$gender]) . ' ' . $r($sets[$country]['last']),
         'UID' => UUIDUtil::getUUID(),
     ]);
-    
+
     $bdayRatio = mt_rand(0,9);
 
     if($bdayRatio < 2) {
@@ -224,14 +224,14 @@ while($current < $count) {
     } elseif ($bdayRatio < 3) {
         // 10% we only know the month and date of
         $dt = new \DateTime('@' . mt_rand($bdayStart, $bdayEnd));
-        $vcard->add('BDAY', '--' . $dt->format('md')); 
+        $vcard->add('BDAY', '--' . $dt->format('md'));
     }
     if ($result = $vcard->validate()) {
         ob_start();
         echo "\nWe produced an invalid vcard somehow!\n";
         foreach($result as $message) {
             echo "  " . $message['message'] . "\n";
-        } 
+        }
         fwrite(STDERR, ob_get_clean());
     }
     echo $vcard->serialize();
