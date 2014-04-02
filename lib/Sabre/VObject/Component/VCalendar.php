@@ -32,11 +32,12 @@ class VCalendar extends VObject\Document {
      * @var array
      */
     static public $componentMap = array(
+        'VALARM'    => 'Sabre\\VObject\\Component\\VAlarm',
         'VEVENT'    => 'Sabre\\VObject\\Component\\VEvent',
         'VFREEBUSY' => 'Sabre\\VObject\\Component\\VFreeBusy',
         'VJOURNAL'  => 'Sabre\\VObject\\Component\\VJournal',
+        'VTIMEZONE' => 'Sabre\\VObject\\Component\\VTimeZone',
         'VTODO'     => 'Sabre\\VObject\\Component\\VTodo',
-        'VALARM'    => 'Sabre\\VObject\\Component\\VAlarm',
     );
 
     /**

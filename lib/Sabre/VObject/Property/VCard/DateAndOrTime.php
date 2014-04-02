@@ -50,8 +50,11 @@ class DateAndOrTime extends Property {
      */
     public function setParts(array $parts) {
 
+        if (count($parts)>1) {
+            throw new \InvalidArgumentException('Only one value allowed');
+        }
         if (isset($parts[0]) && $parts[0] instanceof \DateTime) {
-            $this->setDateTimes($parts);
+            $this->setDateTime($parts[0]);
         } else {
             parent::setParts($parts);
         }
@@ -71,7 +74,7 @@ class DateAndOrTime extends Property {
     public function setValue($value) {
 
         if ($value instanceof \DateTime) {
-            $this->setDateTime(array($value));
+            $this->setDateTime($value);
         } else {
             parent::setValue($value);
         }
@@ -125,12 +128,13 @@ class DateAndOrTime extends Property {
 
         $dts = array();
         $now = new DateTime();
-        $tzFormat = $nowParts->getTimezone()->getOffset()===0?'\\Z':'O';
-        $nowParts = DateTimeParser::parseVCardDateTime($now->format('Ymd\\This' + $tzFormat));
+
+        $tzFormat = $now->getTimezone()->getOffset($now)===0?'\\Z':'O';
+        $nowParts = DateTimeParser::parseVCardDateTime($now->format('Ymd\\This' . $tzFormat));
 
         $value = $this->getValue();
 
-        $dateParts = DateTimeParser::parseVCardDateTime($part);
+        $dateParts = DateTimeParser::parseVCardDateTime($this->getValue());
 
         // This sets all the missing parts to the current date/time.
         // So if the year was missing for a birthday, we're making it 'this

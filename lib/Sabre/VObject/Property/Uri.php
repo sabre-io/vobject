@@ -62,9 +62,6 @@ class Uri extends Property {
             $newVal = '';
             foreach($matches as $match) {
                 switch($match) {
-                    case '\\\\' :
-                        $newVal.='\\';
-                        break;
                     case '\:' :
                         $newVal.=':';
                         break;
