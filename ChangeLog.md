@@ -1,10 +1,12 @@
 ChangeLog
 =========
 
-3.2.0 (2014-??-??)
+3.2.0 (2014-04-02)
 ------------------
 
 * Now hhvm compatible!
+* The validator can now detect a _lot_ more problems. Many rules for both
+  iCalendar and vCard were added.
 * Added: bin/generate_vcards, a utility to generate random vcards for testing
   purposes. Patches are welcome to add more data.
 * Updated: Windows timezone mapping to latest version from unicode.org
@@ -23,7 +25,8 @@ ChangeLog
 * Added: Support for DateTime objects in the VCard DATE-AND-OR-TIME property.
 * Added: UUIDUtil, for easily creating unique identifiers.
 * Fixed: Issue #83. Creating new VALUE=DATE objects using php's DateTime.
-
+* Fixed: Issue #86. Don't go into an infinite loop when php errors are
+  disabled and an invalid file is read.
 
 3.1.4 (2014-03-30)
 ------------------

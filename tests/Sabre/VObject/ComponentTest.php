@@ -466,4 +466,73 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
         $comp->remove($prop);
 
     }
+
+    /**
+     * @dataProvider ruleData
+     */
+    function testValidateRules($componentList, $errorCount) {
+
+        $vcard = new Component\VCard();
+
+        $component = new FakeComponent($vcard,'Hi', array(), $defaults = false );
+        foreach($componentList as $v) {
+            $component->add($v,'Hello.');
+        }
+
+        $this->assertEquals($errorCount, count($component->validate()));
+
+    }
+
+    function testValidateRepair() {
+
+        $vcard = new Component\VCard();
+
+        $component = new FakeComponent($vcard,'Hi', array(), $defaults = false );
+        $component->validate(Component::REPAIR);
+        $this->assertEquals('yow', $component->BAR->getValue());
+
+    }
+
+    function ruleData() {
+
+        return array(
+
+            array(array(), 2),
+            array(array('FOO'), 3),
+            array(array('BAR'), 1),
+            array(array('BAZ'), 1),
+            array(array('BAR','BAZ'), 0),
+            array(array('BAR','BAZ','ZIM',), 0),
+            array(array('BAR','BAZ','ZIM','GIR'), 0),
+            array(array('BAR','BAZ','ZIM','GIR','GIR'), 1),
+
+        );
+
+    }
+
 }
+
+class FakeComponent extends Component {
+
+    public function getValidationRules() {
+
+        return array(
+            'FOO' => '0',
+            'BAR' => '1',
+            'BAZ' => '+',
+            'ZIM' => '*',
+            'GIR' => '?',
+        );
+
+    }
+
+    public function getDefaults() {
+
+        return array(
+            'BAR' => 'yow',
+        );
+
+    }
+
+}
+

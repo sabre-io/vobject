@@ -4,6 +4,13 @@ namespace Sabre\VObject;
 
 class TimezoneUtilTest extends \PHPUnit_Framework_TestCase {
 
+    function setUp() {
+
+        // clearning the tz cache
+        TimezoneUtil::$map = null;
+
+    }
+
     /**
      * @dataProvider getMapping
      */
