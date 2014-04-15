@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Component;
 
 use Sabre\VObject\Component;
+use Sabre\VObject\Reader;
 
 class VJournalTest extends \PHPUnit_Framework_TestCase {
 
@@ -12,6 +13,61 @@ class VJournalTest extends \PHPUnit_Framework_TestCase {
     public function testInTimeRange(VJournal $vtodo,$start,$end,$outcome) {
 
         $this->assertEquals($outcome, $vtodo->isInTimeRange($start, $end));
+
+    }
+
+    public function testValidate() {
+
+        $input = <<<HI
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:YoYo
+BEGIN:VJOURNAL
+UID:12345678
+DTSTAMP:20140402T174100Z
+END:VJOURNAL
+END:VCALENDAR
+HI;
+
+        $obj = Reader::read($input);
+
+        $warnings = $obj->validate();
+        $messages = array();
+        foreach($warnings as $warning) {
+            $messages[] = $warning['message'];
+        }
+
+        $this->assertEquals(array(), $messages);
+
+    }
+
+    public function testValidateBroken() {
+
+        $input = <<<HI
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:YoYo
+BEGIN:VJOURNAL
+UID:12345678
+DTSTAMP:20140402T174100Z
+URL:http://example.org/
+URL:http://example.com/
+END:VJOURNAL
+END:VCALENDAR
+HI;
+
+        $obj = Reader::read($input);
+
+        $warnings = $obj->validate();
+        $messages = array();
+        foreach($warnings as $warning) {
+            $messages[] = $warning['message'];
+        }
+
+        $this->assertEquals(
+            array("URL MUST NOT appear more than once in a VJOURNAL component"),
+            $messages
+        );
 
     }
 
@@ -38,6 +94,8 @@ class VJournalTest extends \PHPUnit_Framework_TestCase {
 
         return $tests;
     }
+
+
 
 }
 

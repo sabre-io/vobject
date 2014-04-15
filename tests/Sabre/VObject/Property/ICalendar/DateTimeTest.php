@@ -304,5 +304,31 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testValidate() {
+
+        $exDate = $this->vcal->createProperty('EXDATE', '-00011130T143000Z');
+        $messages = $exDate->validate();
+        $this->assertEquals(1, count($messages));
+        $this->assertEquals(3, $messages[0]['level']);
+
+    }
+
+    /**
+     * This issue was discovered on the sabredav mailing list.
+     */
+    function testCreateDatePropertyThroughAdd() {
+
+        $vcal = new VCalendar();
+        $vevent = $vcal->add('VEVENT');
+
+        $dtstart = $vevent->add(
+            'DTSTART',
+            new \DateTime('2014-03-07'),
+            array('VALUE' => 'DATE')
+        );
+
+        $this->assertEquals("DTSTART;VALUE=DATE:20140307\r\n", $dtstart->serialize());
+
+    }
 
 }

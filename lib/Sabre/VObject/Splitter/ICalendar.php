@@ -15,7 +15,7 @@ use
  * calendar-objects inside. Objects with identical UID's will be combined into
  * a single object.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @author Dominik Tobschall
  * @author Armin Hackmann
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
@@ -62,12 +62,10 @@ class ICalendar implements SplitterInterface {
             }
 
             // Get component UID for recurring Events search
-            if($component->UID) {
-                $uid = (string)$component->UID;
-            } else {
-                // Generating a random UID
-                $uid = sha1(microtime()) . '-vobjectimport';
+            if(!$component->UID) {
+                $component->UID = sha1(microtime()) . '-vobjectimport';
             }
+            $uid = (string)$component->UID;
 
             // Take care of recurring events
             if (!array_key_exists($uid, $this->objects)) {

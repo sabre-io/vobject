@@ -17,7 +17,7 @@ use
  *
  * The array is identical to the format jCard/jCal use.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
+ * @copyright Copyright (C) 2007-2014 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
@@ -82,8 +82,10 @@ class MimeDir extends Parser {
             fwrite($stream, $input);
             rewind($stream);
             $this->input = $stream;
-        } else {
+        } elseif (is_resource($input)) {
             $this->input = $input;
+        } else {
+            throw new \InvalidArgumentException('This parser can only read from strings or streams.');
         }
 
     }
@@ -228,9 +230,15 @@ class MimeDir extends Parser {
             $this->lineBuffer = null;
         } else {
             do {
+                $eof = feof($this->input);
+
                 $rawLine = fgets($this->input);
-                if ($rawLine === false && feof($this->input)) {
+
+                if ($eof || (feof($this->input) && $rawLine===false)) {
                     throw new EofException('End of document reached prematurely');
+                }
+                if ($rawLine === false) {
+                    throw new ParseException('Error reading from input stream');
                 }
                 $rawLine = rtrim($rawLine, "\r\n");
             } while ($rawLine === ''); // Skipping empty lines

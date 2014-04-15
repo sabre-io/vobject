@@ -8,7 +8,7 @@ namespace Sabre\VObject;
  * A component represents a group of properties, such as VCALENDAR, VEVENT, or
  * VCARD.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH. All rights reserved.
+ * @copyright Copyright (C) 2007-2014 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
@@ -444,29 +444,122 @@ class Component extends Node {
     }
 
     /**
+     * A simple list of validation rules.
+     *
+     * This is simply a list of properties, and how many times they either
+     * must or must not appear.
+     *
+     * Possible values per property:
+     *   * 0 - Must not appear.
+     *   * 1 - Must appear exactly once.
+     *   * + - Must appear at least once.
+     *   * * - Can appear any number of times.
+     *   * ? - May appear, but not more than once.
+     *
+     * It is also possible to specify defaults and severity levels for
+     * violating the rule.
+     *
+     * See the VEVENT implementation for getValidationRules for a more complex
+     * example.
+     *
+     * @var array
+     */
+    public function getValidationRules() {
+
+        return array();
+
+    }
+
+    /**
      * Validates the node for correctness.
      *
      * The following options are supported:
-     *   - Node::REPAIR - If something is broken, an automatic repair may
-     *                    be attempted.
+     *   Node::REPAIR - May attempt to automatically repair the problem.
      *
-     * An array is returned with warnings.
+     * This method returns an array with detected problems.
+     * Every element has the following properties:
      *
-     * Every item in the array has the following properties:
-     *    * level - (number between 1 and 3 with severity information)
-     *    * message - (human readable message)
-     *    * node - (reference to the offending node)
+     *  * level - problem level.
+     *  * message - A human-readable string describing the issue.
+     *  * node - A reference to the problematic node.
+     *
+     * The level means:
+     *   1 - The issue was repaired (only happens if REPAIR was turned on)
+     *   2 - An inconsequential issue
+     *   3 - A severe issue.
      *
      * @param int $options
      * @return array
      */
     public function validate($options = 0) {
 
-        $result = array();
+        $rules = $this->getValidationRules();
+        $defaults = $this->getDefaults();
+
+        $propertyCounters = array();
+
+        $messages = array();
+
         foreach($this->children as $child) {
-            $result = array_merge($result, $child->validate($options));
+            $name = strtoupper($child->name);
+            if (!isset($propertyCounters[$name])) {
+                $propertyCounters[$name] = 1;
+            } else {
+                $propertyCounters[$name]++;
+            }
+            $messages = array_merge($messages, $child->validate($options));
         }
-        return $result;
+
+        foreach($rules as $propName => $rule) {
+
+            switch($rule) {
+                case '0' :
+                    if (isset($propertyCounters[$propName])) {
+                        $messages[] = array(
+                            'level' => 3,
+                            'message' => $propName . ' MUST NOT appear in a ' . $this->name . ' component',
+                            'node' => $this,
+                        );
+                    }
+                    break;
+                case '1' :
+                    if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName]!==1) {
+                        $repaired = false;
+                        if ($options & self::REPAIR && isset($defaults[$propName])) {
+                            $this->add($propName, $defaults[$propName]);
+                        }
+                        $messages[] = array(
+                            'level' => $repaired?1:3,
+                            'message' => $propName . ' MUST appear exactly once in a ' . $this->name . ' component',
+                            'node' => $this,
+                        );
+                    }
+                    break;
+                case '+' :
+                    if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName] < 1) {
+                        $messages[] = array(
+                            'level' => 3,
+                            'message' => $propName . ' MUST appear at least once in a ' . $this->name . ' component',
+                            'node' => $this,
+                        );
+                    }
+                    break;
+                case '*' :
+                    break;
+                case '?' :
+                    if (isset($propertyCounters[$propName]) && $propertyCounters[$propName] > 1) {
+                        $messages[] = array(
+                            'level' => 3,
+                            'message' => $propName . ' MUST NOT appear more than once in a ' . $this->name . ' component',
+                            'node' => $this,
+                        );
+                    }
+                    break;
+
+            }
+
+        }
+        return $messages;
 
     }
 

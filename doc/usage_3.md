@@ -43,8 +43,10 @@ A few notes about the examples:
    included.
 2. It's also assumed that `use Sabre\VObject` has been called to import the
    VObject namespace.
-3. Short-array syntax is used everywhere, which requires PHP 5.4. If you are
-   still on PHP 5.3, replace `[...]` with `array(...)` where appropriate.
+3. While sabre/vobject supports PHP 5.3, most of the examples in this document
+   use syntax that has been introduced in PHP 5.4. PHP 5.4 introduces a new way
+   to create arrays, which is a lot shorter and looks better. If you are
+   running PHP 5.3, you may need to replace `[` and `]` with `array(` and `)`.
 
 ### Creating vCards.
 
@@ -478,7 +480,7 @@ $fbGenerator = new VObject\FreeBusyGenerator(
 );
 
 // Grabbing the report
-$freebusy = $fbGenerator->result();
+$freebusy = $fbGenerator->getResult();
 
 // The freebusy report is another VCALENDAR object, so we can serialize it as usual:
 echo $freebusy->serialize();
@@ -522,10 +524,10 @@ To create a json-version of your iCalendar or vCard, simply call
 echo json_encode($vcard->jsonSerialize());
 ```
 
-The json formats are based on these draft RFCs:
+The json formats are based on these RFCs:
 
-* http://tools.ietf.org/html/draft-ietf-jcardcal-jcard-03
-* http://tools.ietf.org/html/draft-kewisch-et-al-icalendar-in-json-02
+* http://tools.ietf.org/html/rfc7095
+* http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-08
 
 Because these are still in draft, so is the jsonSerialize implementation. The
 output format may therefore break between versions to comply with the latest

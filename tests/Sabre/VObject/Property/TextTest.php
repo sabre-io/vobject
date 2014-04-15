@@ -76,6 +76,7 @@ class TextTest extends \PHPUnit_Framework_TestCase {
         $vcard = <<<IN
 BEGIN:VCARD
 VERSION:4.0
+UID:foo
 FN:Hi!
 N:A
 END:VCARD

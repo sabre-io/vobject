@@ -427,5 +427,13 @@ ICS;
 
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testReadBrokenInput() {
+
+        Reader::read(false);
+
+    }
 
 }

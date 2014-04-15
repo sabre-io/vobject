@@ -9,3 +9,6 @@ tests/temp
 
 #binaries
 bin/phpunit
+
+# Development stuff
+testdata/

@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject\Component;
 
-use Sabre\VObject\Component;
+use
+    Sabre\VObject\Component,
+    Sabre\VObject\Reader;
 
 class VTodoTest extends \PHPUnit_Framework_TestCase {
 
@@ -65,5 +67,55 @@ class VTodoTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testValidate() {
+
+        $input = <<<HI
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:YoYo
+BEGIN:VTODO
+UID:1234-21355-123156
+DTSTAMP:20140402T183400Z
+END:VTODO
+END:VCALENDAR
+HI;
+
+        $obj = Reader::read($input);
+
+        $warnings = $obj->validate();
+        $messages = array();
+        foreach($warnings as $warning) {
+            $messages[] = $warning['message'];
+        }
+
+        $this->assertEquals(array(), $messages);
+
+    }
+
+    public function testValidateInvalid() {
+
+        $input = <<<HI
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:YoYo
+BEGIN:VTODO
+END:VTODO
+END:VCALENDAR
+HI;
+
+        $obj = Reader::read($input);
+
+        $warnings = $obj->validate();
+        $messages = array();
+        foreach($warnings as $warning) {
+            $messages[] = $warning['message'];
+        }
+
+        $this->assertEquals(array(
+            "UID MUST appear exactly once in a VTODO component",
+            "DTSTAMP MUST appear exactly once in a VTODO component",
+        ), $messages);
+
+    }
 }
 

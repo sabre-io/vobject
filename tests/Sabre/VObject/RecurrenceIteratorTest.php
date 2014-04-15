@@ -792,7 +792,11 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * A pretty slow test. Had to be marked as 'medium' for phpunit to not die
+     * after 1 second. Would be good to optimize later.
+     *
      * @depends testValues
+     * @medium
      */
     function testMonthlyByDay() {
 
@@ -1314,7 +1318,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         }
 
-        $tz = new DateTimeZone('GMT');
+        $tz = new DateTimeZone('UTC');
         $this->assertEquals(array(
             new DateTime('2012-01-07 12:00:00',$tz),
             new DateTime('2012-01-08 12:00:00',$tz),
@@ -1379,7 +1383,7 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         }
 
-        $tz = new DateTimeZone('GMT');
+        $tz = new DateTimeZone('UTC');
         $this->assertEquals(array(
             new DateTime('2012-01-12 12:00:00',$tz),
             new DateTime('2012-01-13 12:00:00',$tz),

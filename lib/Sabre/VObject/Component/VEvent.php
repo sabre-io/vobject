@@ -8,7 +8,7 @@ use Sabre\VObject;
  *
  * This component contains some additional functionality specific for VEVENT's.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
@@ -63,6 +63,59 @@ class VEvent extends VObject\Component {
         }
         return (
             ($start <= $effectiveEnd) && ($end > $effectiveStart)
+        );
+
+    }
+
+    /**
+     * A simple list of validation rules.
+     *
+     * This is simply a list of properties, and how many times they either
+     * must or must not appear.
+     *
+     * Possible values per property:
+     *   * 0 - Must not appear.
+     *   * 1 - Must appear exactly once.
+     *   * + - Must appear at least once.
+     *   * * - Can appear any number of times.
+     *
+     * @var array
+     */
+    public function getValidationRules() {
+
+        $hasMethod = isset($this->parent->METHOD);
+        return array(
+            'UID' => 1,
+            'DTSTAMP' => 1,
+            'DTSTART' => $hasMethod?'?':'1',
+            'CLASS' => '?',
+            'CREATED' => '?',
+            'DESCRIPTION' => '?',
+            'GEO' => '?',
+            'LAST-MODIFICATION' => '?',
+            'LOCATION' => '?',
+            'ORGANIZER' => '?',
+            'PRIORITY' => '?',
+            'SEQUENCE' => '?',
+            'STATUS' => '?',
+            'SUMMARY' => '?',
+            'TRANSP' => '?',
+            'URL' => '?',
+            'RECURRENCE-ID' => '?',
+            'RRULE' => '?',
+            'DTEND' => '?',
+            'DURATION' => '?',
+
+            'ATTACH' => '*',
+            'ATTENDEE' => '*',
+            'CATEGORIES' => '*',
+            'COMMENT' => '*',
+            'CONTACT' => '*',
+            'EXDATE' => '*',
+            'REQUEST-STATUS' => '*',
+            'RELATED' => '*',
+            'RESOURCES' => '*',
+            'RDATE' => '*',
         );
 
     }
