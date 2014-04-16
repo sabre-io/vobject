@@ -364,7 +364,6 @@ class RecurrenceIterator implements \Iterator {
                 $this->endDate->modify('+1 day');
             }
         }
-        $this->currentDate = clone $this->startDate;
 
         $rrule = $this->baseEvent->RRULE;
 
@@ -476,6 +475,13 @@ class RecurrenceIterator implements \Iterator {
 
         }
 
+		$this->currentDate = clone $this->startDate;
+		if (in_array($this->currentDate, $this->exceptionDates)) {
+			while ($this->valid() && in_array($this->currentDate, $this->exceptionDates)) {
+				$this->next();
+			}
+		}
+
     }
 
     /**
@@ -585,6 +591,7 @@ class RecurrenceIterator implements \Iterator {
             }
             return false;
         }
+
         return true;
 
     }
