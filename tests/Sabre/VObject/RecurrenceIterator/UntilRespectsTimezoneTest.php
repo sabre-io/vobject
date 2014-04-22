@@ -4,7 +4,7 @@ namespace Sabre\VObject\RecurrenceIterator;
 use Sabre\VObject\RecurrenceIterator;
 use Sabre\VObject\Reader;
 
-class RecurrenceIteratorUntilRespectsTimezoneTest extends \PHPUnit_Framework_TestCase {
+class RespectsTimezoneTest extends \PHPUnit_Framework_TestCase {
 
     public function testUntilBeginHasTimezone() {
 
