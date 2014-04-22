@@ -1,10 +1,15 @@
 <?php
-namespace Sabre\VObject;
+namespace Sabre\VObject\RecurrenceIterator;
+
+use Sabre\VObject\RecurrenceIterator;
+use Sabre\VObject\Reader;
 
 class RecurrenceIteratorUntilRespectsTimezoneTest extends \PHPUnit_Framework_TestCase {
-	public function testUntilBeginHasTimezone() {
+
+    public function testUntilBeginHasTimezone() {
+
 		$filepath = realpath(__DIR__ . "/.");
-		$event = Reader::read(file_get_contents($filepath . "/RecurrenceIteratorUntilRespectsTimezoneTest.ics"));
+		$event = Reader::read(file_get_contents($filepath . "/UntilRespectsTimezoneTest.ics"));
 
 		$ri = new RecurrenceIterator($event, "10621-1440@ccbchurch.com");
 		$this->assertEquals("America/New_York", $ri->until->getTimezone()->getName());
