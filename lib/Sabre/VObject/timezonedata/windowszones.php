@@ -7,7 +7,7 @@
  * Source: http://unicode.org/repos/cldr/trunk/common/supplemental/windowsZones.xml
  *
  * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ * @license http://sabre.io/license/ Modified BSD License
  */
 
 return array (
