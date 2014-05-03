@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+3.2.1 (2014-05-03)
+------------------
+* Minor tweak to make the unittests run with the latest hhvm on travis.
+* Updated timezone definitions.
+* Updated copyright links to point to http://sabre.io/
+
 3.2.0 (2014-04-02)
 ------------------
 
