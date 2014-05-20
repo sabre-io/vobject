@@ -117,5 +117,64 @@ HI;
         ), $messages);
 
     }
+
+    public function testValidateDUEDTSTARTMisMatch() {
+
+        $input = <<<HI
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:YoYo
+BEGIN:VTODO
+UID:FOO
+DTSTART;VALUE=DATE-TIME:20140520T131600Z
+DUE;VALUE=DATE:20140520
+DTSTAMP;VALUE=DATE-TIME:20140520T131600Z
+END:VTODO
+END:VCALENDAR
+HI;
+
+        $obj = Reader::read($input);
+
+        $warnings = $obj->validate();
+        $messages = array();
+        foreach($warnings as $warning) {
+            $messages[] = $warning['message'];
+        }
+
+        $this->assertEquals(array(
+            "The value type (DATE or DATE-TIME) must be identical for DUE and DTSTART",
+        ), $messages);
+
+    }
+
+    public function testValidateDUEbeforeDTSTART() {
+
+        $input = <<<HI
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:YoYo
+BEGIN:VTODO
+UID:FOO
+DTSTART;VALUE=DATE:20140520
+DUE;VALUE=DATE:20140518
+DTSTAMP;VALUE=DATE-TIME:20140520T131600Z
+END:VTODO
+END:VCALENDAR
+HI;
+
+        $obj = Reader::read($input);
+
+        $warnings = $obj->validate();
+        $messages = array();
+        foreach($warnings as $warning) {
+            $messages[] = $warning['message'];
+        }
+
+        $this->assertEquals(array(
+            "DUE must occur after DTSTART",
+        ), $messages);
+
+    }
+
 }
 

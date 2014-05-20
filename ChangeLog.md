@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+3.2.3 (2014-??-??)
+------------------
+
+* Validator now checks if DUE and DTSTART are of the same type in VTODO, and
+  ensures that DUE is always after DTSTART.
+
+
 3.2.2 (2014-05-07)
 ------------------
 * Minor tweak in unittests to make it run on PHP 5.5.12. Json-prettifying
