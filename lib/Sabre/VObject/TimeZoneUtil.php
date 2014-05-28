@@ -134,6 +134,10 @@ class TimeZoneUtil {
         // Since PHP 5.5.10, the first bit will be used as the timezone and
         // this method will return just GMT+01:00. This is wrong, because it
         // doesn't take DST into account.
+        if (substr($tzid, 0, 40) === '/freeassociation.sourceforge.net/Tzfile/') {
+            $tzid = substr($tzid, 40);
+        }
+
         if ($tzid[0]!=='(') {
             try {
                 return new \DateTimeZone($tzid);
