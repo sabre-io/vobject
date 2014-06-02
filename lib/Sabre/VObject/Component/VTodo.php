@@ -120,4 +120,57 @@ class VTodo extends VObject\Component {
 
     }
 
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   Node::REPAIR - May attempt to automatically repair the problem.
+     *
+     * This method returns an array with detected problems.
+     * Every element has the following properties:
+     *
+     *  * level - problem level.
+     *  * message - A human-readable string describing the issue.
+     *  * node - A reference to the problematic node.
+     *
+     * The level means:
+     *   1 - The issue was repaired (only happens if REPAIR was turned on)
+     *   2 - An inconsequential issue
+     *   3 - A severe issue.
+     *
+     * @param int $options
+     * @return array
+     */
+    public function validate($options = 0) {
+
+        $result = parent::validate($options);
+        if (isset($this->DUE) && isset($this->DTSTART)) {
+
+            $due = $this->DUE;
+            $dtStart = $this->DTSTART;
+
+            if ($due->getValueType() !== $dtStart->getValueType()) {
+
+                $result[] = array(
+                    'level'   => 3,
+                    'message' => 'The value type (DATE or DATE-TIME) must be identical for DUE and DTSTART',
+                    'node' => $due,
+                );
+
+            } elseif ($due->getDateTime() < $dtStart->getDateTime()) {
+
+                $result[] = array(
+                    'level'   => 3,
+                    'message' => 'DUE must occur after DTSTART',
+                    'node' => $due,
+                );
+
+            }
+
+        }
+
+        return $result;
+
+    }
+
 }
