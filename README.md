@@ -28,7 +28,7 @@ After that, just declare the vobject dependency as follows:
 
 ```
 "require" : {
-    "sabre/vobject" : "~3.1"
+    "sabre/vobject" : "~3.2"
 }
 ```
 
@@ -37,9 +37,9 @@ Then, run `composer.phar update` and you should be good.
 Usage
 -----
 
-* [3.x documentation](doc/usage_3.md)
-* [2.x documentation](doc/usage_2.md)
-* [Migrating from 2.x to 3.x](doc/MigratingFrom2to3.md)
+* [3.x documentation](http://sabre.io/vobject/usage/)
+* [2.x documentation](http://sabre.io/vobject/usage_2/)
+* [Migrating from 2.x to 3.x](http://sabre.io/vobject/upgrade/)
 
 Made at fruux
 -------------
