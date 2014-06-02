@@ -1,8 +1,15 @@
 ChangeLog
 =========
 
+3.2.3 (2014-??-??)
+------------------
+
+* Removed documentation from source repository, to http://sabre.io/vobject/
+
+
 3.2.2 (2014-05-07)
 ------------------
+
 * Minor tweak in unittests to make it run on PHP 5.5.12. Json-prettifying
   slightly changed which caused the test to fail.
 
