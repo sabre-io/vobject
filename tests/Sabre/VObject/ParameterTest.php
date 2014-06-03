@@ -48,7 +48,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('CN="colon, with"',$param->serialize());
 
         $param = new Parameter('cn','semicolon; too');
-        $this->assertEquals('NC="semicolon; too"',$param->serialize());
+        $this->assertEquals('CN="semicolon; too"',$param->serialize());
 
     }
 }
