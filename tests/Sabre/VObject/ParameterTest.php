@@ -41,4 +41,14 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('NAME="va:lue"',$param->serialize());
 
     }
+
+    function testSerializeQuoted() {
+
+        $param = new Parameter('cn','colon, with');
+        $this->assertEquals('CN="colon, with"',$param->serialize());
+
+        $param = new Parameter('cn','semicolon; too');
+        $this->assertEquals('CN="semicolon; too"',$param->serialize());
+
+    }
 }
