@@ -41,6 +41,12 @@ Usage
 * [2.x documentation](http://sabre.io/vobject/usage_2/)
 * [Migrating from 2.x to 3.x](http://sabre.io/vobject/upgrade/)
 
+Support
+-------
+
+Head over to the [SabreDAV mailing list](http://groups.google.com/group/sabredav-discuss) for any questions.
+>>>>>>> 3.1
+
 Made at fruux
 -------------
 

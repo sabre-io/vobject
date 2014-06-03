@@ -51,6 +51,13 @@ ChangeLog
 * Fixed: Issue #86. Don't go into an infinite loop when php errors are
   disabled and an invalid file is read.
 
+
+3.1.5 (2014-??-??)
+------------------
+* Updated: Some docblocks and other documentation. Made the unittests succeed
+  on recent php versions.
+
+
 3.1.4 (2014-03-30)
 ------------------
 * Fixed: Issue #87: Several compatibility fixes related to timezone handling
@@ -233,6 +240,13 @@ ChangeLog
   VERSION and CALSCALE.
 * Added: You can add new sub-components much quicker with the magic setters, and
   add() method.
+
+
+2.1.5 (2014-06-03)
+------------------
+
+* Fixed: #94: Better parameter escaping.
+* Changed: Documentation cleanups.
 
 
 2.1.4 (2014-03-30)

@@ -12,3 +12,6 @@ bin/phpunit
 
 # Development stuff
 testdata/
+
+# OS X
+.DS_Store
