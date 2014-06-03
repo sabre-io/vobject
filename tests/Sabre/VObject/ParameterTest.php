@@ -103,7 +103,8 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
 
     function testSerializeSemiColon() {
 
-        $param = new Parameter('name','va;lue');
+        $cal = new Component\VCalendar();
+        $param = new Parameter($cal, 'name','va;lue');
         $this->assertEquals('NAME="va;lue"',$param->serialize());
 
     }
