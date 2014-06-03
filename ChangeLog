@@ -1,3 +1,7 @@
+3.1.5-stable (2014-??-??)
+	* Updated: Some docblocks and other documentation. Made the unittests
+	  succeed on recent php versions.
+
 3.1.4-stable (2014-03-30)
 	* Fixed: Issue #87: Several compatibility fixes related to timezone
 	  handling changes in PHP 5.5.10.
