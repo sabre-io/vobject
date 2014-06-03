@@ -148,8 +148,10 @@
 	* Added: You can add new sub-components much quicker with the magic
 	  setters, and add() method.
 
-2.1.4-stable (????-??-??)
-=======
+2.1.5-stable (2014-06-03)
+	* Fixed: #94: Better parameter escaping.
+	* Changed: Documentation cleanups.
+
 2.1.4-stable (2014-03-30)
 	* Fixed: Issue #87: Several compatibility fixes related to timezone
 	  handling changes in PHP 5.5.10.

@@ -5,3 +5,6 @@ tests/cov/
 
 #vim
 .*.swp
+
+# OS X
+.DS_Store
