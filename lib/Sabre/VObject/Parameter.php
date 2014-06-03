@@ -69,21 +69,8 @@ class Parameter extends Node {
         if (is_null($this->value)) {
             return $this->name;
         }
-        $src = array(
-            '\\',
-            "\n",
-            ';',
-            ',',
-        );
-        $out = array(
-            '\\\\',
-            '\n',
-            '\;',
-            '\,',
-        );
-
-        $value = str_replace($src, $out, $this->value);
-        if (strpos($value,":")!==false) {
+        $value = str_replace("\n", '\n', $this->value);
+        if (preg_match('#(?: [:;\\\\])#x', $value)) {
             $value = '"' . $value . '"';
         }
         return $this->name . '=' . $value;

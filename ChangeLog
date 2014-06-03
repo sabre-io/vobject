@@ -1,4 +1,5 @@
 2.1.5-stable (2014-06-03)
+	* Fixed: #94: Better parameter escaping.
 	* Changed: Documentation cleanups.
 
 2.1.4-stable (2014-03-30)
