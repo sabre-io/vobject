@@ -7,7 +7,8 @@ ChangeLog
 * Validator now checks if DUE and DTSTART are of the same type in VTODO, and
   ensures that DUE is always after DTSTART.
 * Removed documentation from source repository, to http://sabre.io/vobject/
-
+* Expanded the vobject cli tool validation output to make it easier to find
+  issues.
 
 
 3.2.2 (2014-05-07)

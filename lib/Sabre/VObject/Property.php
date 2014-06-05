@@ -461,14 +461,28 @@ abstract class Property extends Node {
 
         // Checking if our value is UTF-8
         if (!StringUtil::isUTF8($this->getRawMimeDirValue())) {
+
+            $oldValue = $this->getRawMimeDirValue();
+            $level = 3;
+            if ($options & self::REPAIR) {
+                $newValue = StringUtil::convertToUTF8($oldValue);
+                if (StringUtil::isUTF8($newValue)) {
+                    $this->setRawMimeDirValue($newValue);
+                    $level = 1;
+                }
+
+            }
+
+            $message = 'Property is not valid UTF-8!';
+            if (preg_match('%([\x00-\x08\x0B-\x0C\x0E\x0F])%', $oldValue, $matches)) {
+                $message = 'Property contained a control character (0x' . bin2hex($matches[1]) . ')';
+            }
+
             $warnings[] = array(
-                'level' => 1,
-                'message' => 'Property is not valid UTF-8!',
+                'level' => $level,
+                'message' => $message,
                 'node' => $this,
             );
-            if ($options & self::REPAIR) {
-                $this->setRawMimeDirValue(StringUtil::convertToUTF8($this->getRawMimeDirValue()));
-            }
         }
 
         // Checking if the propertyname does not contain any invalid bytes.

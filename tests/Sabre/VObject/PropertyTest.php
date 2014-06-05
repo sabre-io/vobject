@@ -263,7 +263,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $property = $calendar->createProperty('X-PROP', "Bla\x00");
         $result = $property->validate(Property::REPAIR);
 
-        $this->assertEquals('Property is not valid UTF-8!', $result[0]['message']);
+        $this->assertEquals('Property contained a control character (0x00)', $result[0]['message']);
         $this->assertEquals('Bla', $property->getValue());
 
     }

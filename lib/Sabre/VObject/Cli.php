@@ -345,10 +345,19 @@ HELP
             $this->log("  No warnings!");
         } else {
 
+            $levels = [
+                1 => 'REPAIRED',
+                2 => 'WARNING',
+                3 => 'ERROR',
+            ];
             $returnCode = 2;
             foreach($warnings as $warn) {
 
-                $this->log("  " . $warn['message']);
+                $extra = '';
+                if ($warn['node'] instanceof Property) {
+                    $extra = ' (property: "' . $warn['node']->name . '")';
+                }
+                $this->log("  [" . $levels[$warn['level']] . '] ' . $warn['message'] . $extra);
 
             }
 
@@ -381,10 +390,20 @@ HELP
         if (!count($warnings)) {
             $this->log("  No warnings!");
         } else {
+
+            $levels = [
+                1 => 'REPAIRED',
+                2 => 'WARNING',
+                3 => 'ERROR',
+            ];
+            $returnCode = 2;
             foreach($warnings as $warn) {
 
-                $returnCode = 2;
-                $this->log("  " . $warn['message']);
+                $extra = '';
+                if ($warn['node'] instanceof Property) {
+                    $extra = ' (property: "' . $warn['node']->name . '")';
+                }
+                $this->log("  [" . $levels[$warn['level']] . '] ' . $warn['message'] . $extra);
 
             }
 
