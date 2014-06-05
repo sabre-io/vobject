@@ -9,7 +9,7 @@ ChangeLog
 * Removed documentation from source repository, to http://sabre.io/vobject/
 * Expanded the vobject cli tool validation output to make it easier to find
   issues.
-
+* Fixed: vobject repair. It was not working for iCalendar objects.
 
 3.2.2 (2014-05-07)
 ------------------
