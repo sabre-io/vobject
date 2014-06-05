@@ -329,7 +329,7 @@ class VCalendar extends VObject\Document {
      */
     public function validate($options = 0) {
 
-        $warnings = parent::validate();
+        $warnings = parent::validate($options);
 
         if ($ver = $this->VERSION) {
             if ((string)$ver !== '2.0') {

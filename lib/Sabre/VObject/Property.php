@@ -466,16 +466,18 @@ abstract class Property extends Node {
             $level = 3;
             if ($options & self::REPAIR) {
                 $newValue = StringUtil::convertToUTF8($oldValue);
-                if (StringUtil::isUTF8($newValue)) {
+                if (true || StringUtil::isUTF8($newValue)) {
                     $this->setRawMimeDirValue($newValue);
                     $level = 1;
                 }
 
             }
 
-            $message = 'Property is not valid UTF-8!';
+
             if (preg_match('%([\x00-\x08\x0B-\x0C\x0E\x0F])%', $oldValue, $matches)) {
                 $message = 'Property contained a control character (0x' . bin2hex($matches[1]) . ')';
+            } else {
+                $message = 'Property is not valid UTF-8! ' . $oldValue;
             }
 
             $warnings[] = array(
