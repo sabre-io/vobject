@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.2.3 (2014-??-??)
+3.2.3 (2014-06-12)
 ------------------
 
 * Validator now checks if DUE and DTSTART are of the same type in VTODO, and
@@ -10,6 +10,7 @@ ChangeLog
 * Expanded the vobject cli tool validation output to make it easier to find
   issues.
 * Fixed: vobject repair. It was not working for iCalendar objects.
+
 
 3.2.2 (2014-05-07)
 ------------------
