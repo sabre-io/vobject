@@ -345,11 +345,11 @@ HELP
             $this->log("  No warnings!");
         } else {
 
-            $levels = [
+            $levels = array(
                 1 => 'REPAIRED',
                 2 => 'WARNING',
                 3 => 'ERROR',
-            ];
+            );
             $returnCode = 2;
             foreach($warnings as $warn) {
 
@@ -391,11 +391,11 @@ HELP
             $this->log("  No warnings!");
         } else {
 
-            $levels = [
+            $levels = array(
                 1 => 'REPAIRED',
                 2 => 'WARNING',
                 3 => 'ERROR',
-            ];
+            );
             $returnCode = 2;
             foreach($warnings as $warn) {
 
