@@ -9,7 +9,8 @@
         "ext-mbstring" : "*"
     },
     "require-dev" : {
-        "phpunit/phpunit" : "*"
+        "phpunit/phpunit" : "*",
+        "squizlabs/php_codesniffer": "*"
     },
     "authors" : [
         {
