@@ -58,7 +58,7 @@ class Uri extends Property {
         // assume that a backslash is always intended as an escape character.
         if ($this->name === 'URL') {
             $regex = '#  (?: (\\\\ (?: \\\\ | : ) ) ) #x';
-            $matches = preg_split($regex, $val, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+            $matches = preg_split($regex, $val, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
             $newVal = '';
             foreach($matches as $match) {
                 switch($match) {

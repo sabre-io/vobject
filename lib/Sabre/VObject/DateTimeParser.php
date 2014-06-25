@@ -25,7 +25,7 @@ class DateTimeParser {
      * @param DateTimeZone $tz
      * @return DateTime
      */
-    static public function parseDateTime($dt,\DateTimeZone $tz = null) {
+    static public function parseDateTime($dt, \DateTimeZone $tz = null) {
 
         // Format is YYYYMMDD + "T" + hhmmss
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/',$dt,$matches);
@@ -153,7 +153,9 @@ class DateTimeParser {
         }
 
         $newDur = ($matches['plusminus']==='-'?'-':'+') . trim($newDur);
-        if ($newDur === '+') { $newDur = '+0 seconds'; };
+        if ($newDur === '+') {
+            $newDur = '+0 seconds';
+        };
         return $newDur;
 
     }

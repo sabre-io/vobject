@@ -78,11 +78,14 @@ class Period extends Property {
      */
     public function setJsonValue(array $value) {
 
-        $value = array_map(function($item) {
+        $value = array_map(
+            function($item) {
 
-            return strtr(implode('/', $item), array(':' => '', '-' => ''));
+                return strtr(implode('/', $item), array(':' => '', '-' => ''));
 
-        }, $value);
+            },
+            $value
+        );
         parent::setJsonValue($value);
 
     }

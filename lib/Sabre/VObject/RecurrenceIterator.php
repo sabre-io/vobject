@@ -313,7 +313,7 @@ class RecurrenceIterator implements \Iterator {
      * @param Component $vcal
      * @param string|null $uid
      */
-    public function __construct(Component $vcal, $uid=null) {
+    public function __construct(Component $vcal, $uid = null) {
 
         if (is_null($uid)) {
             if ($vcal instanceof Component\VCalendar) {
@@ -513,7 +513,7 @@ class RecurrenceIterator implements \Iterator {
 
         if (!$this->valid()) return null;
         $dtEnd = clone $this->currentDate;
-        $dtEnd->add( $this->startDate->diff( $this->endDate ) );
+        $dtEnd->add($this->startDate->diff($this->endDate));
         return clone $dtEnd;
 
     }

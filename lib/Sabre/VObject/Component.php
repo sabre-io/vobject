@@ -272,14 +272,17 @@ class Component extends Node {
         };
 
         $tmp = $this->children;
-        uksort($this->children, function($a, $b) use ($sortScore, $tmp) {
+        uksort(
+            $this->children,
+            function($a, $b) use ($sortScore, $tmp) {
 
-            $sA = $sortScore($a, $tmp);
-            $sB = $sortScore($b, $tmp);
+                $sA = $sortScore($a, $tmp);
+                $sB = $sortScore($b, $tmp);
 
-            return $sA - $sB;
+                return $sA - $sB;
 
-        });
+            }
+        );
 
         foreach($this->children as $child) $str.=$child->serialize();
         $str.= "END:" . $this->name . "\r\n";

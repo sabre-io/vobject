@@ -253,15 +253,18 @@ class DateTime extends Property {
         $tz = $dts[0]->getTimeZone();
         $isUtc = in_array($tz->getName() , array('UTC', 'GMT', 'Z'));
 
-        return array_map(function($dt) use ($hasTime, $isUtc) {
+        return array_map(
+            function($dt) use ($hasTime, $isUtc) {
 
-            if ($hasTime) {
-                return $dt->format('Y-m-d\\TH:i:s') . ($isUtc?'Z':'');
-            } else {
-                return $dt->format('Y-m-d');
-            }
+                if ($hasTime) {
+                    return $dt->format('Y-m-d\\TH:i:s') . ($isUtc?'Z':'');
+                } else {
+                    return $dt->format('Y-m-d');
+                }
 
-        }, $dts);
+            },
+            $dts
+        );
 
     }
 
@@ -279,11 +282,16 @@ class DateTime extends Property {
         // iCalendar. In jCal date-parts are separated by dashes, and
         // time-parts are separated by colons. It makes sense to just remove
         // those.
-        $this->setValue(array_map(function($item) {
+        $this->setValue(
+            array_map(
+                function($item) {
 
-            return strtr($item, array(':'=>'', '-'=>''));
+                    return strtr($item, array(':'=>'', '-'=>''));
 
-        }, $value));
+                },
+                $value
+            )
+        );
 
     }
     /**

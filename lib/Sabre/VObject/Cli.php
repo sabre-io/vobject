@@ -102,13 +102,13 @@ class Cli {
         // We cannot easily test this, so we'll skip it. Pretty basic anyway.
 
         if (!$this->stderr) {
-            $this->stderr = fopen('php://stderr','w');
+            $this->stderr = fopen('php://stderr', 'w');
         }
         if (!$this->stdout) {
-            $this->stdout = fopen('php://stdout','w');
+            $this->stdout = fopen('php://stdout', 'w');
         }
         if (!$this->stdin) {
-            $this->stdin = fopen('php://stdin','r');
+            $this->stdin = fopen('php://stdin', 'r');
         }
 
         // @codeCoverageIgnoreEnd
@@ -223,7 +223,7 @@ class Cli {
 
         } catch (InvalidArgumentException $e) {
             $this->showHelp();
-            $this->log('Error: ' . $e->getMessage(),'red');
+            $this->log('Error: ' . $e->getMessage(), 'red');
             return 1;
         }
 
@@ -233,11 +233,11 @@ class Cli {
         $this->outputPath = isset($positional[2])?$positional[2]:'-';
 
         if ($this->outputPath !== '-') {
-            $this->stdout = fopen($this->outputPath,'w');
+            $this->stdout = fopen($this->outputPath, 'w');
         }
 
         if (!$this->inputFormat) {
-            if (substr($this->inputPath,-5)==='.json') {
+            if (substr($this->inputPath, -5)==='.json') {
                 $this->inputFormat = 'json';
             } else {
                 $this->inputFormat = 'mimedir';
@@ -302,14 +302,15 @@ class Cli {
         $this->log($this->colorize('green', '  repair') . ' source_file [output_file]  Repairs a file.');
         $this->log($this->colorize('green', '  convert') . ' source_file [output_file] Converts a file.');
         $this->log($this->colorize('green', '  color') . ' source_file                 Colorize a file, useful for debbugging.');
-        $this->log(<<<HELP
+        $this->log(
+<<<HELP
 
 If source_file is set as '-', STDIN will be used.
 If output_file is omitted, STDOUT will be used.
 All other output is sent to STDERR.
 
 HELP
-    );
+        );
 
         $this->log('Examples:', 'yellow');
         $this->log('   vobject convert contact.vcf contact.json');
@@ -576,14 +577,17 @@ HELP
         };
 
         $tmp = $vObj->children;
-        uksort($vObj->children, function($a, $b) use ($sortScore, $tmp) {
+        uksort(
+            $vObj->children,
+            function($a, $b) use ($sortScore, $tmp) {
 
-            $sA = $sortScore($a, $tmp);
-            $sB = $sortScore($b, $tmp);
+                $sA = $sortScore($a, $tmp);
+                $sB = $sortScore($b, $tmp);
 
-            return $sA - $sB;
+                return $sA - $sB;
 
-        });
+            }
+        );
 
         foreach($vObj->children as $child) {
             if ($child instanceof Component) {
@@ -648,13 +652,16 @@ HELP
                         $this->cWrite('red', ',');
                     }
 
-                    $subPart = strtr($subPart, array(
-                        '\\' => $this->colorize('purple', '\\\\', 'green'),
-                        ';'  => $this->colorize('purple', '\;', 'green'),
-                        ','  => $this->colorize('purple', '\,', 'green'),
-                        "\n" => $this->colorize('purple', "\\n\n\t", 'green'),
-                        "\r" => "",
-                    ));
+                    $subPart = strtr(
+                        $subPart,
+                        array(
+                            '\\' => $this->colorize('purple', '\\\\', 'green'),
+                            ';'  => $this->colorize('purple', '\;', 'green'),
+                            ','  => $this->colorize('purple', '\,', 'green'),
+                            "\n" => $this->colorize('purple', "\\n\n\t", 'green'),
+                            "\r" => "",
+                        )
+                    );
 
                     $this->cWrite('green', $subPart);
                 }

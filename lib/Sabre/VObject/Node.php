@@ -42,7 +42,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      *
      * @return string
      */
-    abstract function serialize();
+    abstract public function serialize();
 
     /**
      * This method returns an array, with the representation as it should be
@@ -50,7 +50,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      *
      * @return array
      */
-    abstract function jsonSerialize();
+    abstract public function jsonSerialize();
 
     /* {{{ IteratorAggregator interface */
 
@@ -169,7 +169,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * @param mixed $value
      * @return void
      */
-    public function offsetSet($offset,$value) {
+    public function offsetSet($offset, $value) {
 
         $iterator = $this->getIterator();
         $iterator->offsetSet($offset,$value);

@@ -143,13 +143,16 @@ class Text extends Property {
             }
 
             foreach($item as &$subItem) {
-                $subItem = strtr($subItem, array(
-                    '\\' => '\\\\',
-                    ';'  => '\;',
-                    ','  => '\,',
-                    "\n" => '\n',
-                    "\r" => "",
-                ));
+                $subItem = strtr(
+                    $subItem,
+                    array(
+                        '\\' => '\\\\',
+                        ';'  => '\;',
+                        ','  => '\,',
+                        "\n" => '\n',
+                        "\r" => "",
+                    )
+                );
             }
             $item = implode(',', $item);
 

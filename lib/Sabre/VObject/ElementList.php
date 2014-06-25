@@ -147,7 +147,7 @@ class ElementList implements \Iterator, \Countable, \ArrayAccess {
      * @param mixed $value
      * @return void
      */
-    public function offsetSet($offset,$value) {
+    public function offsetSet($offset, $value) {
 
         throw new \LogicException('You can not add new objects to an ElementList');
 

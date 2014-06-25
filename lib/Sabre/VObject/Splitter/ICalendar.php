@@ -107,6 +107,6 @@ class ICalendar implements SplitterInterface {
 
         }
 
-   }
+    }
 
 }

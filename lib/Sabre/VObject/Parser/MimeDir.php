@@ -301,7 +301,7 @@ class MimeDir extends Parser {
             /xi";
 
         //echo $regex, "\n"; die();
-        preg_match_all($regex, $line, $matches,  PREG_SET_ORDER );
+        preg_match_all($regex, $line, $matches,  PREG_SET_ORDER);
 
         $property = array(
             'name' => null,
@@ -474,7 +474,7 @@ class MimeDir extends Parser {
         }
         $regex .= ') #x';
 
-        $matches = preg_split($regex, $input, -1, PREG_SPLIT_DELIM_CAPTURE  |  PREG_SPLIT_NO_EMPTY );
+        $matches = preg_split($regex, $input, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
         $resultArray = array();
         $result = '';
@@ -548,20 +548,23 @@ class MimeDir extends Parser {
     private function unescapeParam($input) {
 
         return
-            preg_replace_callback('#(\^(\^|n|\'))#',function($matches) {
-                switch($matches[2]) {
-                    case 'n' :
-                        return "\n";
-                    case '^' :
-                        return '^';
-                    case '\'' :
-                        return '"';
+            preg_replace_callback(
+                '#(\^(\^|n|\'))#',
+                function($matches) {
+                    switch($matches[2]) {
+                        case 'n' :
+                            return "\n";
+                        case '^' :
+                            return '^';
+                        case '\'' :
+                            return '"';
 
-                // @codeCoverageIgnoreStart
-                }
-                // @codeCoverageIgnoreEnd
-            }, $input);
-
+                    // @codeCoverageIgnoreStart
+                    }
+                    // @codeCoverageIgnoreEnd
+                },
+                $input
+            );
     }
 
     /**

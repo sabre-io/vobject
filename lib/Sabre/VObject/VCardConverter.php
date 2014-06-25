@@ -121,7 +121,7 @@ class VCardConverter {
                 return;
             }
 
-            if ($property instanceOf Property\Binary) {
+            if ($property instanceof Property\Binary) {
 
                 $newProperty = $this->convertBinaryToUri($output, $property, $parameters);
 

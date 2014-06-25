@@ -94,21 +94,27 @@ class Json extends Parser {
         // We can remove $self from PHP 5.4 onward.
         $self = $this;
 
-        $properties = array_map(function($jProp) use ($self) {
-            return $self->parseProperty($jProp);
-        }, $jComp[1]);
+        $properties = array_map(
+            function($jProp) use ($self) {
+                return $self->parseProperty($jProp);
+            },
+            $jComp[1]
+        );
 
         if (isset($jComp[2])) {
 
-            $components = array_map(function($jComp) use ($self) {
-                return $self->parseComponent($jComp);
-            }, $jComp[2]);
+            $components = array_map(
+                function($jComp) use ($self) {
+                    return $self->parseComponent($jComp);
+                },
+                $jComp[2]
+            );
 
         } else $components = array();
 
         return $this->root->createComponent(
             $jComp[0],
-            array_merge( $properties, $components),
+            array_merge($properties, $components),
             $defaults = false
         );
 
