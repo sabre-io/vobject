@@ -94,6 +94,29 @@ class VCardConverter {
 
                 $newProperty = $this->convertUriToBinary($output, $property, $parameters);
 
+            } elseif ($property instanceof Property\VCard\DateAndOrTime) {
+
+                // In vCard 4, the birth year may be optional. This is not the
+                // case for vCard 3. Apple has a workaround for this that
+                // allows applications that support Apple's extension still
+                // omit birthyears in vCard 3, but applications that do not
+                // support this, will just use a random birthyear. We're
+                // choosing 1604 for the birthyear, because that's what apple
+                // uses.
+                $parts = DateTimeParser::parseVCardDateTime($property->getValue());
+                if (is_null($parts['year'])) {
+                    $newValue = '1604-' . $parts['month'] . '-' . $parts['date'];
+                    $newProperty = $output->createProperty(
+                        $property->name,
+                        $newValue,
+                        array(
+                            'X-APPLE-OMIT-YEAR' => '1604'
+                        ),
+                        $valueType
+                    );
+
+                }
+
             } elseif ($property->name === 'KIND') {
 
                 switch(strtolower($property->getValue())) {
@@ -124,6 +147,25 @@ class VCardConverter {
             if ($property instanceof Property\Binary) {
 
                 $newProperty = $this->convertBinaryToUri($output, $property, $parameters);
+
+            } elseif ($property instanceof Property\VCard\DateAndOrTime && isset($parameters['X-APPLE-OMIT-YEAR'])) {
+
+                // If a property such as BDAY contained 'X-APPLE-OMIT-YEAR',
+                // then we're stripping the year from the vcard 4 value.
+                $parts = DateTimeParser::parseVCardDateTime($property->getValue());
+                if ($parts['year']===$property['X-APPLE-OMIT-YEAR']->getValue()) {
+                    $newValue = '--' . $parts['month'] . '-' . $parts['date'];
+                    $newProperty = $output->createProperty(
+                        $property->name,
+                        $newValue,
+                        array(),
+                        $valueType
+                    );
+                }
+
+                // Regardless if the year matched or not, we do need to strip
+                // X-APPLE-OMIT-YEAR.
+                unset($parameters['X-APPLE-OMIT-YEAR']);
 
             } else {
                 switch($property->name) {
