@@ -26,11 +26,9 @@ The general composer instructions can be found on the [composer website](http://
 
 After that, just declare the vobject dependency as follows:
 
-```
-"require" : {
-    "sabre/vobject" : "~3.2"
-}
-```
+    "require" : {
+        "sabre/vobject" : "~3.2"
+    }
 
 Then, run `composer.phar update` and you should be good.
 
@@ -45,7 +43,6 @@ Support
 -------
 
 Head over to the [SabreDAV mailing list](http://groups.google.com/group/sabredav-discuss) for any questions.
->>>>>>> 3.1
 
 Made at fruux
 -------------
