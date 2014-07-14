@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.2.4 (2014-??-??)
+3.2.4 (2014-07-14)
 ------------------
 
 * Added: Issue #98. The VCardConverter now takes `X-APPLE-OMIT-YEAR` into
