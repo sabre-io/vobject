@@ -4,8 +4,8 @@ ChangeLog
 3.2.4 (2014-??-??)
 ------------------
 
-* Added: The VCardConverter now takes `X-APPLE-OMIT-YEAR` into consideration
-  when converting between vCard 3 and 4.
+* Added: Issue #98. The VCardConverter now takes `X-APPLE-OMIT-YEAR` into
+  consideration when converting between vCard 3 and 4.
 * Fixed: PHP 5.3 support was broken in the cli tool.
 
 
