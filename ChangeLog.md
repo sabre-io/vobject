@@ -6,6 +6,7 @@ ChangeLog
 
 * Added: Issue #98. The VCardConverter now takes `X-APPLE-OMIT-YEAR` into
   consideration when converting between vCard 3 and 4.
+* Fixed: Issue #96. Some support for Yahoo's broken vcards.
 * Fixed: PHP 5.3 support was broken in the cli tool.
 
 

@@ -13,7 +13,7 @@ use Sabre\VObject\Property;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Uri extends Property {
+class Uri extends Text {
 
     /**
      * In case this is a multi-value property. This string will be used as a
