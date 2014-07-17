@@ -39,6 +39,13 @@ class Message {
     public $method;
 
     /**
+     * The current sequence number for the event.
+     *
+     * @var int
+     */
+    public $sequence;
+
+    /**
      * The senders' email address.
      *
      * Note that this does not imply that this has to be used in a From: field

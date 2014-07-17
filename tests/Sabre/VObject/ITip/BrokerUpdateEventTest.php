@@ -2,102 +2,35 @@
 
 namespace Sabre\VObject\ITip;
 
-class BrokerTest extends \PHPUnit_Framework_TestCase {
+class BrokerUpdateTest extends \PHPUnit_Framework_TestCase {
 
-    function testNoAttendee() {
+    function testInviteChange() {
 
-        $message = <<<ICS
-BEGIN:VCALENDAR
-BEGIN:VEVENT
-UID:foobar
-END:VEVENT
-END:VCALENDAR
-ICS;
-
-        $result = $this->parse($message);
-
-    }
-
-    function testVTODO() {
-
-        $message = <<<ICS
-BEGIN:VCALENDAR
-BEGIN:VTODO
-UID:foobar
-END:VTODO
-END:VCALENDAR
-ICS;
-
-        $result = $this->parse($message);
-
-    }
-
-    function testSimpleInvite() {
-
-        $message = <<<ICS
+        $oldMessage = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 UID:foobar
-ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=White:mailto:white@example.org
-END:VEVENT
-END:VCALENDAR
-ICS;
-
-        $version = \Sabre\VObject\Version::VERSION;
-        $expectedMessage = <<<ICS
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Sabre//Sabre VObject $version//EN
-CALSCALE:GREGORIAN
-METHOD:REQUEST
-BEGIN:VEVENT
-UID:foobar
-ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=White:mailto:white@example.org
-END:VEVENT
-END:VCALENDAR
-ICS;
-
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REQUEST',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:strunk@example.org',
-                'senderName' => 'Strunk',
-                'recipient' => 'mailto:white@example.org',
-                'recipientName' => 'White',
-                'message' => $expectedMessage,
-            ),
-        );
-
-        $result = $this->parse($message, $expected);
-
-    }
-
-    function testRecurrenceInvite() {
-
-        $message = <<<ICS
-BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-UID:foobar
+SEQUENCE:1
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 DTSTART:20140716T120000Z
-RRULE:FREQ=DAILY
-EXDATE:20140717T120000Z
 END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
 BEGIN:VEVENT
 UID:foobar
-RECURRENCE-ID:20140718T120000Z
+SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 ATTENDEE;CN=Three:mailto:three@example.org
-DTSTART:20140718T120000Z
+DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR
 ICS;
@@ -107,7 +40,7 @@ ICS;
         $expected = array(
             array(
                 'uid' => 'foobar',
-                'method' => 'REQUEST',
+                'method' => 'CANCEL',
                 'component' => 'VEVENT',
                 'sender' => 'mailto:strunk@example.org',
                 'senderName' => 'Strunk',
@@ -118,15 +51,12 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
 CALSCALE:GREGORIAN
-METHOD:REQUEST
+METHOD:CANCEL
 BEGIN:VEVENT
+SEQUENCE:2
 UID:foobar
-ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
-ATTENDEE;CN=Two:mailto:two@example.org
-DTSTART:20140716T120000Z
-RRULE:FREQ=DAILY
-EXDATE:20140717T120000Z,20140718T120000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
 END:VEVENT
 END:VCALENDAR
 ICS
@@ -148,20 +78,11 @@ CALSCALE:GREGORIAN
 METHOD:REQUEST
 BEGIN:VEVENT
 UID:foobar
-ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=One:mailto:one@example.org
-ATTENDEE;CN=Two:mailto:two@example.org
-DTSTART:20140716T120000Z
-RRULE:FREQ=DAILY
-EXDATE:20140717T120000Z
-END:VEVENT
-BEGIN:VEVENT
-UID:foobar
-RECURRENCE-ID:20140718T120000Z
+SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 ATTENDEE;CN=Three:mailto:three@example.org
-DTSTART:20140718T120000Z
+DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR
 ICS
@@ -183,11 +104,11 @@ CALSCALE:GREGORIAN
 METHOD:REQUEST
 BEGIN:VEVENT
 UID:foobar
-RECURRENCE-ID:20140718T120000Z
+SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 ATTENDEE;CN=Three:mailto:three@example.org
-DTSTART:20140718T120000Z
+DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR
 ICS
@@ -195,14 +116,14 @@ ICS
             ),
         );
 
-        $result = $this->parse($message, $expected);
+        $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
-    function parse($message, $expected = array()) {
+    function parse($oldMessage, $newMessage, $expected = array()) {
 
         $broker = new Broker();
-        $result = $broker->createEvent($message);
+        $result = $broker->updateEvent($newMessage, $oldMessage);
 
         $this->assertEquals(count($expected), count($result));
 

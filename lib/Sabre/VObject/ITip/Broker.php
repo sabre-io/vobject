@@ -63,69 +63,28 @@ class Broker {
             return array();
         }
 
-        $uid = null;
-        $organizer = null;
-
-        // Now we need to collect a list of attendees, and which instances they
-        // are a part of.
-        $attendees = array();
-
-        $instances = array();
-
-        foreach($calendar->VEVENT as $vevent) {
-            if (is_null($uid)) {
-                $uid = $vevent->UID->getValue();
-            } else {
-                if ($uid !== $vevent->UID->getValue()) {
-                    throw new ITipException('If a calendar contained more than one event, they must have the same UID.');
-                }
-            }
-            if (is_null($organizer)) {
-                $organizer = $vevent->ORGANIZER->getValue();
-                $organizerName = isset($vevent->ORGANIZER['CN'])?$vevent->ORGANIZER['CN']:null;
-            } else {
-                if ($organizer !== $vevent->ORGANIZER->getValue()) {
-                    throw new ITipException('Every instance of the event must have the same organizer.');
-                }
-            }
-
-            $value = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
-            foreach($vevent->ATTENDEE as $attendee) {
-
-                if (isset($attendees[$attendee->getValue()])) {
-                    $attendees[$attendee->getValue()]['instances'][] = $value;
-                } else {
-                    $attendees[$attendee->getValue()] = array(
-                        'href' => $attendee->getValue(),
-                        'instances' => array($value),
-                        'name' => isset($attendee['CN'])?$attendee['CN']:null,
-                    );
-                }
-
-            }
-            $instances[$value] = $vevent;
-
-        }
+        $eventInfo = $this->parseEventInfo($calendar);
 
         // Now we generate an iTip message for each attendee.
         $messages = array();
 
-        foreach($attendees as $attendee) {
+        foreach($eventInfo['attendees'] as $attendee) {
 
             // An organizer can also be an attendee. We should not generate any
             // messages for those.
-            if ($attendee['href']===$organizer) {
+            if ($attendee['href']===$eventInfo['organizer']) {
                 continue;
             }
 
             $message = new Message();
-            $message->uid = $uid;
+            $message->uid = $eventInfo['uid'];
             $message->component = 'VEVENT';
             $message->method = 'REQUEST';
-            $message->sender = $organizer;
-            $message->senderName = $organizerName;
+            $message->sender = $eventInfo['organizer'];
+            $message->senderName = $eventInfo['organizerName'];
             $message->recipient = $attendee['href'];
             $message->recipientName = $attendee['name'];
+            $message->sequence = $eventInfo['sequence'];
 
             // Creating the new iCalendar body.
             $icalMsg = new VCalendar();
@@ -133,13 +92,13 @@ class Broker {
 
             foreach($attendee['instances'] as $instanceId) {
 
-                $currentEvent = clone $instances[$instanceId];
+                $currentEvent = clone $eventInfo['instances'][$instanceId];
                 if ($instanceId === 'master') {
 
                     // We need to find a list of events that the attendee
                     // is not a part of to add to the list of exceptions.
                     $exceptions = array();
-                    foreach($instances as $instanceId=>$vevent) {
+                    foreach($eventInfo['instances'] as $instanceId=>$vevent) {
                         if (!in_array($instanceId, $attendee['instances'])) {
                             $exceptions[] = $instanceId;
                         }
@@ -170,6 +129,227 @@ class Broker {
         }
 
         return $messages;
+
+    }
+
+    /**
+     * This method is used in cases where an event got updated, and we
+     * potentially need to send emails to attendees to let them know of updates
+     * in the events.
+     *
+     * We will detect which attendees got added, which got removed and create
+     * specific messages for these situations.
+     *
+     * @param VCalendar|string $calendar
+     * @param VCalendar|string $oldCalendar
+     * @return array
+     */
+    public function updateEvent($calendar, $oldCalendar) {
+
+        if (is_string($calendar)) {
+            $calendar = Reader::read($calendar);
+        }
+        if (is_string($oldCalendar)) {
+            $oldCalendar = Reader::read($oldCalendar);
+        }
+
+        $oldEventInfo = $this->parseEventInfo($oldCalendar);
+        $newEventInfo = $this->parseEventInfo($calendar);
+
+        // Shortcut for noop
+        if (!$oldEventInfo['attendees'] && !$newEventInfo['attendees']) {
+            return array();
+        }
+
+        // Merging attendee lists.
+        $attendees = array();
+        foreach($oldEventInfo['attendees'] as $attendee) {
+            $attendees[$attendee['href']] = array(
+                'href' => $attendee['href'],
+                'oldInstances' => $attendee['instances'],
+                'newInstances' => array(),
+                'name' => $attendee['name'],
+            );
+        }
+        foreach($newEventInfo['attendees'] as $attendee) {
+            if (isset($attendees[$attendee['href']])) {
+                $attendees[$attendee['href']]['name'] = $attendee['name'];
+                $attendees[$attendee['href']]['newInstances'] = $attendee['instances'];
+            } else {
+                $attendees[$attendee['href']] = array(
+                    'href' => $attendee['href'],
+                    'oldInstances' => array(),
+                    'newInstances' => $attendee['instances'],
+                    'name' => $attendee['name'],
+                );
+            }
+        }
+
+        foreach($attendees as $attendee) {
+
+            // An organizer can also be an attendee. We should not generate any
+            // messages for those.
+            if ($attendee['href']===$newEventInfo['organizer']) {
+                continue;
+            }
+
+            $message = new Message();
+            $message->uid = $newEventInfo['uid'];
+            $message->component = 'VEVENT';
+            $message->sequence = $newEventInfo['sequence'];
+            $message->sender = $newEventInfo['organizer'];
+            $message->senderName = $newEventInfo['organizerName'];
+            $message->recipient = $attendee['href'];
+            $message->recipientName = $attendee['name'];
+
+            if (!$attendee['newInstances']) {
+
+                // If there are no instances the attendee is a part of, it
+                // means the attendee was removed and we need to send him a
+                // CANCEL.
+                $message->method = 'CANCEL';
+
+                // Creating the new iCalendar body.
+                $icalMsg = new VCalendar();
+                $icalMsg->METHOD = $message->method;
+                $event = $icalMsg->add('VEVENT', array(
+                    'SEQUENCE' => $message->sequence,
+                    'UID'      => $message->uid,
+                ));
+                $event->add('ATTENDEE', $attendee['href'], array(
+                    'CN' => $attendee['name'],
+                ));
+                $org = $event->add('ORGANIZER', $newEventInfo['organizer']);
+                if ($newEventInfo['organizerName']) $org['CN'] = $newEventInfo['organizerName'];
+
+            } else {
+
+                // The attendee gets the updated event body
+                $message->method = 'REQUEST';
+
+                // Creating the new iCalendar body.
+                $icalMsg = new VCalendar();
+                $icalMsg->METHOD = $message->method;
+
+                foreach($attendee['newInstances'] as $instanceId) {
+
+                    $currentEvent = clone $newEventInfo['instances'][$instanceId];
+                    if ($instanceId === 'master') {
+
+                        // We need to find a list of events that the attendee
+                        // is not a part of to add to the list of exceptions.
+                        $exceptions = array();
+                        foreach($newEventInfo['instances'] as $instanceId=>$vevent) {
+                            if (!in_array($instanceId, $attendee['newInstances'])) {
+                                $exceptions[] = $instanceId;
+                            }
+                        }
+
+                        // If there were exceptions, we need to add it to an
+                        // existing EXDATE property, if it exists.
+                        if ($exceptions) {
+                            if (isset($currentEvent->EXDATE)) {
+                                $currentEvent->EXDATE->setParts(array_merge(
+                                    $currentEvent->EXDATE->getParts(),
+                                    $exceptions
+                                ));
+                            } else {
+                                $currentEvent->EXDATE = $exceptions;
+                            }
+                        }
+
+                    }
+
+                    $icalMsg->add($currentEvent);
+
+                }
+
+            }
+
+            $message->message = $icalMsg;
+            $messages[] = $message;
+
+        }
+
+        return $messages;
+
+
+    }
+
+
+    /**
+     * Returns attendee information and information about instances of an
+     * event.
+     *
+     * Returns an array with the following keys:
+     *
+     * 1. uid
+     * 2. organizer
+     * 3. organizerName
+     * 4. attendees
+     * 5. instances
+     *
+     * @param VCalendar $calendar
+     * @return void
+     */
+    protected function parseEventInfo(VCalendar $calendar) {
+
+        $uid = null;
+        $organizer = null;
+        $sequence = null;
+
+        // Now we need to collect a list of attendees, and which instances they
+        // are a part of.
+        $attendees = array();
+
+        $instances = array();
+
+        foreach($calendar->VEVENT as $vevent) {
+            if (is_null($uid)) {
+                $uid = $vevent->UID->getValue();
+            } else {
+                if ($uid !== $vevent->UID->getValue()) {
+                    throw new ITipException('If a calendar contained more than one event, they must have the same UID.');
+                }
+            }
+            if (is_null($organizer)) {
+                $organizer = $vevent->ORGANIZER->getValue();
+                $organizerName = isset($vevent->ORGANIZER['CN'])?$vevent->ORGANIZER['CN']:null;
+            } else {
+                if ($organizer !== $vevent->ORGANIZER->getValue()) {
+                    throw new ITipException('Every instance of the event must have the same organizer.');
+                }
+            }
+            if (is_null($sequence) && isset($vevent->SEQUENCE)) {
+                $sequence = $vevent->SEQUENCE->getValue();
+            }
+
+            $value = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
+            if(isset($vevent->ATTENDEE)) foreach($vevent->ATTENDEE as $attendee) {
+
+                if (isset($attendees[$attendee->getValue()])) {
+                    $attendees[$attendee->getValue()]['instances'][] = $value;
+                } else {
+                    $attendees[$attendee->getValue()] = array(
+                        'href' => $attendee->getValue(),
+                        'instances' => array($value),
+                        'name' => isset($attendee['CN'])?(string)$attendee['CN']:null,
+                    );
+                }
+
+            }
+            $instances[$value] = $vevent;
+
+        }
+
+        return array(
+            'uid' => $uid,
+            'organizer' => $organizer,
+            'organizerName' => $organizerName,
+            'instances' => $instances,
+            'attendees' => $attendees,
+            'sequence' => $sequence,
+        );
 
     }
 
