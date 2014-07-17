@@ -344,7 +344,7 @@ class Broker {
             $value = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
             if(isset($vevent->ATTENDEE)) foreach($vevent->ATTENDEE as $attendee) {
 
-                if ($this->followScheduleAgentRules &&
+                if ($this->scheduleAgentServerRules &&
                     isset($attendee['SCHEDULE-AGENT']) &&
                     strtoupper($attendee['SCHEDULE-AGENT']->getValue()) === 'CLIENT'
                 ) {
