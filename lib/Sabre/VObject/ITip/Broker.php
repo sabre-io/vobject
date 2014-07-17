@@ -36,6 +36,23 @@ use Sabre\VObject\Reader;
 class Broker {
 
     /**
+     * This setting determines wether the rules for the SCHEDULE-AGENT
+     * parameter should be followed.
+     *
+     * This is a parameter defined on ATTENDEE properties, introduced by RFC
+     * 6638. This parameter allows a caldav client to tell the server 'don't do
+     * any scheduling operations'.
+     *
+     * If this setting is turned on, any attendees with SCHEDULE-AGENT set to
+     * CLIENT will be ignored. This is the desired behavior for a CalDAV
+     * server, but if you're writing an iTip application that doesn't deal with
+     * CalDAV, you may want to ignore this parameter.
+     *
+     * @var bool
+     */
+    public $scheduleAgentServerRules = true;
+
+    /**
      * This function parses a VCALENDAR object, and if the object had an
      * organizer and attendees, it will generate iTip messages for every
      * attendee.
@@ -327,6 +344,12 @@ class Broker {
             $value = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
             if(isset($vevent->ATTENDEE)) foreach($vevent->ATTENDEE as $attendee) {
 
+                if ($this->followScheduleAgentRules &&
+                    isset($attendee['SCHEDULE-AGENT']) &&
+                    strtoupper($attendee['SCHEDULE-AGENT']->getValue()) === 'CLIENT'
+                ) {
+                    continue;
+                }
                 if (isset($attendees[$attendee->getValue()])) {
                     $attendees[$attendee->getValue()]['instances'][] = $value;
                 } else {
