@@ -202,7 +202,7 @@ ICS
     function parse($message, $expected = array()) {
 
         $broker = new Broker();
-        $result = $broker->createEvent($message);
+        $result = $broker->parseNewEvent($message);
 
         $this->assertEquals(count($expected), count($result));
 

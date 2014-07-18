@@ -53,6 +53,87 @@ class Broker {
     public $scheduleAgentServerRules = true;
 
     /**
+     * This method is used to process an incoming itip message.
+     *
+     * Examples:
+     *
+     * 1. A user is an attendee to an event. The organizer sends an updated
+     * meeting using a new ITip message with METHOD:REQUEST. This function
+     * will process the message * and update the attendee's event accordingly.
+     *
+     * 2. The organizer cancelled the event using METHOD:CANCEL. We will update
+     * the users event to state STATUS:CANCELLED.
+     *
+     * 3. An attendee sent a reply to an invite using METHOD:REPLY. We can
+     * update the organizers event to update the ATTENDEE with its correct
+     * PARTSTAT.
+     *
+     * The $existingObject is updated in-place. If no existing object exists
+     * (because it's a new invite for example) a new object will be created.
+     *
+     * If an existing object does not exist, and the method was CANCEL or
+     * REPLY, the message effectively gets ignored, and no 'existingObject'
+     * will be created.
+     *
+     * The updated $existingObject is also returned from this function.
+     *
+     * @param Message $itipMessage
+     * @param VCalendar $existingObject
+     * @return VCalendar
+     */
+    public function processMessage(Message $itipMessage, VCalendar $existingObject = null) {
+
+        switch($itipMessage->method) {
+
+            /**
+             * This is message from an organizer, and is either a new event
+             * invite, or an update to an existing one.
+             */
+            case 'REQUEST' :
+                if (!$existingObject) {
+                    // This is a new invite, and we're just going to copy over
+                    // all the components from the invite.
+                    $existingObject = new VCalendar();
+                    foreach($itipMessage->message->getComponents() as $component) {
+                        $existingObject->add(clone $component);
+                    }
+                } else {
+                    // We need to update an existing object with all the new
+                    // information. We can just remove all existing components
+                    // and create new ones.
+                    foreach($existingObject->getComponents() as $component) {
+                        $existingObject->remove($component);
+                    }
+                    foreach($itipMessage->message->getComponents() as $component) {
+                        $existingObject->add(clone $component);
+                    }
+                }
+                break;
+
+            /**
+             * This is a message from an organizer, and means that either an
+             * attendee got removed from an event, or an event got cancelled
+             * altogether.
+             */
+            case 'CANCEL' :
+                if (!$existingObject) {
+                    // The event didn't exist in the first place, so we're just
+                    // ignoring this message.
+                } else {
+                    foreach($existingObject->VEVENT as $vevent) {
+                        $vevent->STATUS = 'CANCELLED';
+                        $vevent->SEQUENCE = $itipMessage->sequence;
+                    }
+                }
+                break;
+
+        }
+
+       return $existingObject;
+
+    }
+
+    /**
      * This function parses a VCALENDAR object, and if the object had an
      * organizer and attendees, it will generate iTip messages for every
      * attendee.
@@ -63,7 +144,7 @@ class Broker {
      * @param VCalendar|string $calendar
      * @return array
      */
-    public function createEvent($calendar) {
+    public function parseNewEvent($calendar) {
 
         if (is_string($calendar)) {
             $calendar = Reader::read($calendar);
@@ -161,7 +242,7 @@ class Broker {
      * @param VCalendar|string $oldCalendar
      * @return array
      */
-    public function updateEvent($calendar, $oldCalendar) {
+    public function parseUpdatedEvent($calendar, $oldCalendar) {
 
         if (is_string($calendar)) {
             $calendar = Reader::read($calendar);
