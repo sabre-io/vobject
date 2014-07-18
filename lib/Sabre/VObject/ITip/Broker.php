@@ -394,6 +394,7 @@ class Broker {
 
         $uid = null;
         $organizer = null;
+        $organizerName = null;
         $sequence = null;
 
         // Now we need to collect a list of attendees, and which instances they
@@ -410,12 +411,14 @@ class Broker {
                     throw new ITipException('If a calendar contained more than one event, they must have the same UID.');
                 }
             }
-            if (is_null($organizer) && isset($vevent->ORGANIZER)) {
-                $organizer = $vevent->ORGANIZER->getValue();
-                $organizerName = isset($vevent->ORGANIZER['CN'])?$vevent->ORGANIZER['CN']:null;
-            } else {
-                if ($organizer !== $vevent->ORGANIZER->getValue()) {
-                    throw new ITipException('Every instance of the event must have the same organizer.');
+            if (isset($vevent->ORGANIZER)) {
+                if (is_null($organizer)) {
+                    $organizer = $vevent->ORGANIZER->getValue();
+                    $organizerName = isset($vevent->ORGANIZER['CN'])?$vevent->ORGANIZER['CN']:null;
+                } else {
+                    if ($organizer !== $vevent->ORGANIZER->getValue()) {
+                        throw new ITipException('Every instance of the event must have the same organizer.');
+                    }
                 }
             }
             if (is_null($sequence) && isset($vevent->SEQUENCE)) {
