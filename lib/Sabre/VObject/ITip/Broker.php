@@ -410,7 +410,7 @@ class Broker {
                     throw new ITipException('If a calendar contained more than one event, they must have the same UID.');
                 }
             }
-            if (is_null($organizer)) {
+            if (is_null($organizer) && isset($vevent->ORGANIZER)) {
                 $organizer = $vevent->ORGANIZER->getValue();
                 $organizerName = isset($vevent->ORGANIZER['CN'])?$vevent->ORGANIZER['CN']:null;
             } else {
