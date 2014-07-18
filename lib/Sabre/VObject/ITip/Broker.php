@@ -59,7 +59,7 @@ class Broker {
      *
      * 1. A user is an attendee to an event. The organizer sends an updated
      * meeting using a new ITip message with METHOD:REQUEST. This function
-     * will process the message * and update the attendee's event accordingly.
+     * will process the message and update the attendee's event accordingly.
      *
      * 2. The organizer cancelled the event using METHOD:CANCEL. We will update
      * the users event to state STATUS:CANCELLED.
