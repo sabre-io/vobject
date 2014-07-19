@@ -187,94 +187,9 @@ class Broker {
         $userHref = (array)$userHref;
         $organizer = (string)$calendar->VEVENT->ORGANIZER;
         if (in_array($organizer, $userHref)) {
-            if ($oldCalendar) {
-                return $this->parseUpdatedEventForOrganizer($calendar, $eventInfo, $oldCalendar, $oldEventInfo);
-            } else {
-                return $this->parseNewEventForOrganizer($calendar, $eventInfo);
-            }
+            return $this->parseEventForOrganizer($calendar, $eventInfo, $oldEventInfo);
         }
         return array();
-
-    }
-
-    /**
-     * This function parses a VCALENDAR object, and if the object had an
-     * organizer and attendees, it will generate iTip messages for every
-     * attendee.
-     *
-     * If the passed object did not have any attendees, no messages will be
-     * created.
-     *
-     * @param VCalendar $calendar
-     * @param array $eventInfo
-     * @return array
-     */
-    protected function parseNewEventForOrganizer(VCalendar $calendar, array $eventInfo) {
-
-        // Now we generate an iTip message for each attendee.
-        $messages = array();
-
-        foreach($eventInfo['attendees'] as $attendee) {
-
-            // An organizer can also be an attendee. We should not generate any
-            // messages for those.
-            if ($attendee['href']===$eventInfo['organizer']) {
-                continue;
-            }
-
-            $message = new Message();
-            $message->uid = $eventInfo['uid'];
-            $message->component = 'VEVENT';
-            $message->method = 'REQUEST';
-            $message->sender = $eventInfo['organizer'];
-            $message->senderName = $eventInfo['organizerName'];
-            $message->recipient = $attendee['href'];
-            $message->recipientName = $attendee['name'];
-            $message->sequence = $eventInfo['sequence'];
-
-            // Creating the new iCalendar body.
-            $icalMsg = new VCalendar();
-            $icalMsg->METHOD = $message->method;
-
-            foreach($attendee['instances'] as $instanceId) {
-
-                $currentEvent = clone $eventInfo['instances'][$instanceId];
-                if ($instanceId === 'master') {
-
-                    // We need to find a list of events that the attendee
-                    // is not a part of to add to the list of exceptions.
-                    $exceptions = array();
-                    foreach($eventInfo['instances'] as $instanceId=>$vevent) {
-                        if (!in_array($instanceId, $attendee['instances'])) {
-                            $exceptions[] = $instanceId;
-                        }
-                    }
-
-                    // If there were exceptions, we need to add it to an
-                    // existing EXDATE property, if it exists.
-                    if ($exceptions) {
-                        if (isset($currentEvent->EXDATE)) {
-                            $currentEvent->EXDATE->setParts(array_merge(
-                                $currentEvent->EXDATE->getParts(),
-                                $exceptions
-                            ));
-                        } else {
-                            $currentEvent->EXDATE = $exceptions;
-                        }
-                    }
-
-                }
-
-                $icalMsg->add($currentEvent);
-
-            }
-
-            $message->message = $icalMsg;
-            $messages[] = $message;
-
-        }
-
-        return $messages;
 
     }
 
@@ -292,7 +207,7 @@ class Broker {
      * @param array $oldEventInfo
      * @return array
      */
-    protected function parseUpdatedEventForOrganizer(VCalendar $calendar, array $eventInfo, VCalendar $oldCalendar, array $oldEventInfo) {
+    protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo) {
 
         // Shortcut for noop
         if (!$oldEventInfo['attendees'] && !$eventInfo['attendees']) {
