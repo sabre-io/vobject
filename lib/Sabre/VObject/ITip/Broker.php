@@ -188,6 +188,15 @@ class Broker {
         $organizer = (string)$calendar->VEVENT->ORGANIZER;
         if (in_array($organizer, $userHref)) {
             return $this->parseEventForOrganizer($calendar, $eventInfo, $oldEventInfo);
+        } elseif ($oldCalendar) {
+            // We need to figure out if the user is an attendee, but we're only
+            // doing so if there's an oldCalendar, because we only want to
+            // process updates, not creation of new events.
+            foreach($eventInfo['attendees'] as $attendee) {
+                if (in_array($attendee['href'], $userHrefs)) {
+                    return $this->parseEventForAttendee($calendar, $eventInfo, $oldEventInfo, $attendee['href']);
+                }
+            }
         }
         return array();
 
@@ -284,7 +293,7 @@ class Broker {
                 $icalMsg = new VCalendar();
                 $icalMsg->METHOD = $message->method;
 
-                foreach($attendee['newInstances'] as $instanceId) {
+                foreach($attendee['newInstances'] as $instanceId => $instanceInfo) {
 
                     $currentEvent = clone $eventInfo['instances'][$instanceId];
                     if ($instanceId === 'master') {
@@ -293,7 +302,7 @@ class Broker {
                         // is not a part of to add to the list of exceptions.
                         $exceptions = array();
                         foreach($eventInfo['instances'] as $instanceId=>$vevent) {
-                            if (!in_array($instanceId, $attendee['newInstances'])) {
+                            if (!isset($attendee['newInstances'][$instanceId])) {;
                                 $exceptions[] = $instanceId;
                             }
                         }
@@ -329,6 +338,94 @@ class Broker {
 
     }
 
+    /**
+     * Parse an event update for an attendee.
+     *
+     * This function figures out if we need to send a reply to an organizer.
+     *
+     * @param VCalendar $calendar
+     * @param array $eventInfo
+     * @param array $oldEventInfo
+     * @param string $attendee
+     * @return void
+     */
+    protected function parseEventForAttendee(VCalendar $calendar, array $eventInfo, array $oldEventInfo, $attendee) {
+
+        $instances = array();
+        foreach($oldEventInfo['attendees'][$attendee]['instances'] as $instance) {
+
+            $instances[$instance['id']] = array(
+                'id' => $instance['id'],
+                'oldstatus' => $instance['partstat'],
+                'newstatus' => null,
+            );
+
+        }
+        foreach($eventInfo['attendees'][$attendee]['instances'] as $instance) {
+
+            if (isset($instances[$instance['id']])) {
+                $instances[$instance['id']]['newstatus'] = $instance['partstat'];
+            } else {
+                $instances[$instance['id']] = [
+                    'id' => $instance['id'],
+                    'oldstatus' => null,
+                    'newstatus' => $instance['partstat'],
+                ];
+            }
+
+        }
+
+        $message = new Message();
+        $message->uid = $eventInfo['uid'];
+        $message->method = 'REPLY';
+        $message->component = 'VEVENT';
+        $message->sequence = $eventInfo['sequence'];
+        $message->sender = $attendee['href'];
+        $message->senderName = $attendee['name'];
+        $message->recipient = $eventInfo['organizer'];
+        $message->recipientName = $eventInfo['organizerName'];
+
+        $icalMsg = new VCalendar();
+        $icalMsg->METHOD = 'REPLY';
+
+        $hasReply = false;
+
+        foreach($instances as $instance) {
+
+            if ($instance['oldstatus']==$instance['newstatus']) {
+                // Skip
+                continue;
+            }
+
+            $event = $icalMsg->add('VEVENT', array(
+                'UID' => $message->uid,
+                'SEQUENCE' => $message->sequence,
+            ));
+            if ($instance['id'] !== 'master') {
+                $event->{'RECURRENCE-ID'} = $instance['id'];
+            }
+            $organizer = $event->add('ORGANIZER', $message->recipient);
+            if ($message->recipientName) {
+                $organizer['CN'] = $message->recipientName;
+            }
+            $attendee = $event->add('ATTENDEE', $message->sender, array(
+                'PARTSTAT' => $attendee['newstatus']
+            ));
+            if ($message->senderName) {
+                $attendee['CN'] = $message->senderName;
+            }
+            $hasReply = true;
+
+        }
+
+        if ($hasReply) {
+            $message->message = $icalMsg;
+            return array($message);
+        } else {
+            return array();
+        }
+
+    }
 
     /**
      * Returns attendee information and information about instances of an
@@ -357,6 +454,7 @@ class Broker {
         $attendees = array();
 
         $instances = array();
+        $exdate = null;
 
         foreach($calendar->VEVENT as $vevent) {
             if (is_null($uid)) {
@@ -379,6 +477,9 @@ class Broker {
             if (is_null($sequence) && isset($vevent->SEQUENCE)) {
                 $sequence = $vevent->SEQUENCE->getValue();
             }
+            if (is_null($exdate) && isset($vevent->EXDATE)) {
+                $exdate = $vevent->EXDATE->getParts();
+            }
 
             $value = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
             if(isset($vevent->ATTENDEE)) foreach($vevent->ATTENDEE as $attendee) {
@@ -389,12 +490,25 @@ class Broker {
                 ) {
                     continue;
                 }
+                $partStat =
+                    isset($attendee['PARTSTAT']) ?
+                    strtoupper($attendee['PARTSTAT']) :
+                    'NEEDS-ACTION';
+
                 if (isset($attendees[$attendee->getValue()])) {
-                    $attendees[$attendee->getValue()]['instances'][] = $value;
+                    $attendees[$attendee->getValue()]['instances'][$value] = array(
+                        'id' => $value,
+                        'partstat' => $partStat,
+                    );
                 } else {
                     $attendees[$attendee->getValue()] = array(
                         'href' => $attendee->getValue(),
-                        'instances' => array($value),
+                        'instances' => array(
+                            $value => array(
+                                'id' => $value,
+                                'partstat' => $partStat,
+                            ),
+                        ),
                         'name' => isset($attendee['CN'])?(string)$attendee['CN']:null,
                     );
                 }
@@ -411,8 +525,10 @@ class Broker {
             'instances' => $instances,
             'attendees' => $attendees,
             'sequence' => $sequence,
+            'exdate' => $exdate,
         );
 
     }
+
 
 }
