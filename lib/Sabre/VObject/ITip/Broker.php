@@ -193,7 +193,7 @@ class Broker {
             // doing so if there's an oldCalendar, because we only want to
             // process updates, not creation of new events.
             foreach($eventInfo['attendees'] as $attendee) {
-                if (in_array($attendee['href'], $userHrefs)) {
+                if (in_array($attendee['href'], $userHref)) {
                     return $this->parseEventForAttendee($calendar, $eventInfo, $oldEventInfo, $attendee['href']);
                 }
             }
@@ -380,8 +380,8 @@ class Broker {
         $message->method = 'REPLY';
         $message->component = 'VEVENT';
         $message->sequence = $eventInfo['sequence'];
-        $message->sender = $attendee['href'];
-        $message->senderName = $attendee['name'];
+        $message->sender = $attendee;
+        $message->senderName = $eventInfo['attendees'][$attendee]['name'];
         $message->recipient = $eventInfo['organizer'];
         $message->recipientName = $eventInfo['organizerName'];
 
@@ -409,7 +409,7 @@ class Broker {
                 $organizer['CN'] = $message->recipientName;
             }
             $attendee = $event->add('ATTENDEE', $message->sender, array(
-                'PARTSTAT' => $attendee['newstatus']
+                'PARTSTAT' => $instance['newstatus']
             ));
             if ($message->senderName) {
                 $attendee['CN'] = $message->senderName;
