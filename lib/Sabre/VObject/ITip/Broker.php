@@ -174,7 +174,7 @@ class Broker {
             $oldEventInfo = $this->parseEventInfo($oldCalendar);
         } else {
             $oldEventInfo = array(
-                'attendees' => [],
+                'attendees' => array(),
             );
         }
 
