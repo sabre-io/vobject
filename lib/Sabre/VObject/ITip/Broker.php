@@ -134,6 +134,70 @@ class Broker {
     }
 
     /**
+     * This function parses a VCALENDAR object and figure out if any messages
+     * need to be sent.
+     *
+     * A VCALENDAR object will be created from the perspective of either an
+     * attendee, or an organizer. You must pass a string identifying the
+     * current user, so we can figure out who in the list of attendees or the
+     * organizer we are sending this message on behalf of.
+     *
+     * It's possible to specify the current user as an array, in case the user
+     * has more than one identifying href (such as multiple emails).
+     *
+     * It $oldCalendar is specified, it is assumed that the operation is
+     * updating an existing event, which means that we need to look at the
+     * differences between events, and potentially send old attendees
+     * cancellations, and current attendees updates.
+     *
+     * @param VCalendar|string $calendar
+     * @param string|array $userHref
+     * @param VCalendar|string $oldCalendar
+     * @return array
+     */
+    public function parseEvent($calendar, $userHref, $oldCalendar = null) {
+
+        if (is_string($calendar)) {
+            $calendar = Reader::read($calendar);
+        }
+        if (!isset($calendar->VEVENT)) {
+            // We only support events at the moment
+            return array();
+        }
+
+        $eventInfo = $this->parseEventInfo($calendar);
+
+        if ($oldCalendar) {
+            if (is_string($oldCalendar)) {
+                $oldCalendar = Reader::read($oldCalendar);
+            }
+            $oldEventInfo = $this->parseEventInfo($oldCalendar);
+        } else {
+            $oldEventInfo = array(
+                'attendees' => [],
+            );
+        }
+
+        // Events that don't have an organizer or attendees don't generate
+        // messages.
+        if (!$eventInfo['attendees'] && $oldEventInfo['attendees']) {
+            return array();
+        }
+
+        $userHref = (array)$userHref;
+        $organizer = (string)$calendar->VEVENT->ORGANIZER;
+        if (in_array($organizer, $userHref)) {
+            if ($oldCalendar) {
+                return $this->parseUpdatedEventForOrganizer($calendar, $eventInfo, $oldCalendar, $oldEventInfo);
+            } else {
+                return $this->parseNewEventForOrganizer($calendar, $eventInfo);
+            }
+        }
+        return array();
+
+    }
+
+    /**
      * This function parses a VCALENDAR object, and if the object had an
      * organizer and attendees, it will generate iTip messages for every
      * attendee.
@@ -141,27 +205,11 @@ class Broker {
      * If the passed object did not have any attendees, no messages will be
      * created.
      *
-     * @param VCalendar|string $calendar
+     * @param VCalendar $calendar
+     * @param array $eventInfo
      * @return array
      */
-    public function parseNewEvent($calendar) {
-
-        if (is_string($calendar)) {
-            $calendar = Reader::read($calendar);
-        }
-
-        if (!isset($calendar->VEVENT)) {
-            // We only support events at the moment
-            return array();
-        }
-
-        // Events that don't have an organizer or attendees don't generate
-        // messages.
-        if (!isset($calendar->VEVENT->ORGANIZER) || !isset($calendar->VEVENT->ATTENDEE)) {
-            return array();
-        }
-
-        $eventInfo = $this->parseEventInfo($calendar);
+    protected function parseNewEventForOrganizer(VCalendar $calendar, array $eventInfo) {
 
         // Now we generate an iTip message for each attendee.
         $messages = array();
@@ -238,24 +286,16 @@ class Broker {
      * We will detect which attendees got added, which got removed and create
      * specific messages for these situations.
      *
-     * @param VCalendar|string $calendar
-     * @param VCalendar|string $oldCalendar
+     * @param VCalendar $calendar
+     * @param array $eventInfo
+     * @param VCalendar $oldCalendar
+     * @param array $oldEventInfo
      * @return array
      */
-    public function parseUpdatedEvent($calendar, $oldCalendar) {
-
-        if (is_string($calendar)) {
-            $calendar = Reader::read($calendar);
-        }
-        if (is_string($oldCalendar)) {
-            $oldCalendar = Reader::read($oldCalendar);
-        }
-
-        $oldEventInfo = $this->parseEventInfo($oldCalendar);
-        $newEventInfo = $this->parseEventInfo($calendar);
+    protected function parseUpdatedEventForOrganizer(VCalendar $calendar, array $eventInfo, VCalendar $oldCalendar, array $oldEventInfo) {
 
         // Shortcut for noop
-        if (!$oldEventInfo['attendees'] && !$newEventInfo['attendees']) {
+        if (!$oldEventInfo['attendees'] && !$eventInfo['attendees']) {
             return array();
         }
 
@@ -269,7 +309,7 @@ class Broker {
                 'name' => $attendee['name'],
             );
         }
-        foreach($newEventInfo['attendees'] as $attendee) {
+        foreach($eventInfo['attendees'] as $attendee) {
             if (isset($attendees[$attendee['href']])) {
                 $attendees[$attendee['href']]['name'] = $attendee['name'];
                 $attendees[$attendee['href']]['newInstances'] = $attendee['instances'];
@@ -287,16 +327,16 @@ class Broker {
 
             // An organizer can also be an attendee. We should not generate any
             // messages for those.
-            if ($attendee['href']===$newEventInfo['organizer']) {
+            if ($attendee['href']===$eventInfo['organizer']) {
                 continue;
             }
 
             $message = new Message();
-            $message->uid = $newEventInfo['uid'];
+            $message->uid = $eventInfo['uid'];
             $message->component = 'VEVENT';
-            $message->sequence = $newEventInfo['sequence'];
-            $message->sender = $newEventInfo['organizer'];
-            $message->senderName = $newEventInfo['organizerName'];
+            $message->sequence = $eventInfo['sequence'];
+            $message->sender = $eventInfo['organizer'];
+            $message->senderName = $eventInfo['organizerName'];
             $message->recipient = $attendee['href'];
             $message->recipientName = $attendee['name'];
 
@@ -317,8 +357,8 @@ class Broker {
                 $event->add('ATTENDEE', $attendee['href'], array(
                     'CN' => $attendee['name'],
                 ));
-                $org = $event->add('ORGANIZER', $newEventInfo['organizer']);
-                if ($newEventInfo['organizerName']) $org['CN'] = $newEventInfo['organizerName'];
+                $org = $event->add('ORGANIZER', $eventInfo['organizer']);
+                if ($eventInfo['organizerName']) $org['CN'] = $eventInfo['organizerName'];
 
             } else {
 
@@ -331,13 +371,13 @@ class Broker {
 
                 foreach($attendee['newInstances'] as $instanceId) {
 
-                    $currentEvent = clone $newEventInfo['instances'][$instanceId];
+                    $currentEvent = clone $eventInfo['instances'][$instanceId];
                     if ($instanceId === 'master') {
 
                         // We need to find a list of events that the attendee
                         // is not a part of to add to the list of exceptions.
                         $exceptions = array();
-                        foreach($newEventInfo['instances'] as $instanceId=>$vevent) {
+                        foreach($eventInfo['instances'] as $instanceId=>$vevent) {
                             if (!in_array($instanceId, $attendee['newInstances'])) {
                                 $exceptions[] = $instanceId;
                             }
