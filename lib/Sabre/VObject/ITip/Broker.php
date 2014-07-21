@@ -77,11 +77,18 @@ class Broker {
      *
      * The updated $existingObject is also returned from this function.
      *
+     * If the iTip message was not supported, we will always return false.
+     *
      * @param Message $itipMessage
      * @param VCalendar $existingObject
-     * @return VCalendar
+     * @return VCalendar|bool
      */
     public function processMessage(Message $itipMessage, VCalendar $existingObject = null) {
+
+        // We only support events at the moment.
+        if ($itipMessage->component !== 'VEVENT') {
+            return false;
+        }
 
         switch($itipMessage->method) {
 
@@ -126,6 +133,85 @@ class Broker {
                     }
                 }
                 break;
+
+            /**
+             * The message is a reply. This is for example an attendee telling
+             * an organizer he accepted the invite, or declined it.
+             */
+            case 'REPLY' :
+                // A reply can only be processed based on an existing object.
+                // If the object is not available, the reply is ignored.
+                if (!$existingObject) {
+                    return false;
+                }
+                $instances = array();
+                foreach($itipMessage->message->VEVENT as $vevent) {
+                    $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
+                    $attendee = $vevent->ATTENDEE;
+                    $instances[$recurId] = $attendee['PARTSTAT']->getValue();
+                }
+                $masterObject = null;
+                foreach($existingObject->VEVENT as $vevent) {
+                    $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
+                    if ($recurId==='master') {
+                        $masterObject = $vevent;
+                    }
+                    if (isset($instances[$recurId])) {
+                        $attendeeFound = false;
+                        foreach($vevent->ATTENDEE as $attendee) {
+                            if ($attendee->getValue() === $message->sender) {
+                                $attendeeFound = true;
+                                $attendee['PARTSTAT'] = $instances[$recurId];
+                                break;
+                            }
+                        }
+                        if (!$attendeeFound) {
+                            // Adding a new attendee
+                            $attendee = $vevent->add('ATTENDEE', $message->sender, array(
+                                'CN' => $message->senderName,
+                                'PARTSTAT' => $instances[$recurId]
+                            ));
+                        }
+                        unset($instances[$recurId]);
+                    }
+                }
+                // If we got replies to instances that did not exist in the
+                // original list, it means that new exceptions must be created.
+                foreach($instances as $recurId=>$partstat) {
+                    if(!$masterObject) {
+                        // No master object, we can't add new instances.
+                        return false;
+                    }
+                    $newObject = clone $masterObject;
+                    unset(
+                        $newObject->RRULE,
+                        $newObject->EXDATE,
+                        $newObject->RDATE
+                    );
+                    $newObject->{'RECURRENCE-ID'} = $recurId;
+                    $attendeeFound = false;
+                    foreach($vevent->ATTENDEE as $attendee) {
+                        if ($attendee->getValue() === $message->sender) {
+                            $attendeeFound = true;
+                            $attendee['PARTSTAT'] = $partstat;
+                            break;
+                        }
+                    }
+                    if (!$attendeeFound) {
+                        // Adding a new attendee
+                        $attendee = $vevent->add('ATTENDEE', $message->sender, array(
+                            'CN' => $message->senderName,
+                            'PARTSTAT' => $partstat
+                        ));
+                    }
+                    $existingObject->add($newObject);
+
+                }
+                break;
+
+            default :
+                // Unsupported iTip message
+                return false;
 
         }
 
