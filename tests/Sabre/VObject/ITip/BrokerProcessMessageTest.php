@@ -135,6 +135,7 @@ ICS;
         $message = new Message();
         $message->message = $vcal;
         $message->method = $vcal->METHOD;
+        $message->component = 'VEVENT';
         $message->sequence = $vcal->VEVENT[0]->SEQUENCE;
         $broker = new Broker();
 
