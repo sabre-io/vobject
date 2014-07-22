@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+3.2.5 (????-??-??)
+------------------
+
+* Fixed: Issue #101: RecurrenceIterator::nextMonthly() shows events that are
+  excluded events with wrong time
+
+
 3.2.4 (2014-07-14)
 ------------------
 
