@@ -905,7 +905,7 @@ class RecurrenceIterator implements \Iterator {
             // This line does not currently work in hhvm. Temporary workaround
             // follows:
             // $this->currentDate->modify('first day of this month');
-            $this->currentDate = new \DateTime($this->currentDate->format('Y-m-1'));
+            $this->currentDate = new \DateTime($this->currentDate->format('Y-m-1 H:i:s'), $this->currentDate->getTimezone());
             // end of workaround
             $this->currentDate->modify('+ ' . $this->interval . ' months');
 
