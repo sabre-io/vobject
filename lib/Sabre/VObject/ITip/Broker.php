@@ -606,39 +606,42 @@ class Broker {
             }
 
             $value = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
-            if(isset($vevent->ATTENDEE)) foreach($vevent->ATTENDEE as $attendee) {
+            if(isset($vevent->ATTENDEE)) {
+                foreach($vevent->ATTENDEE as $attendee) {
 
-                if ($this->scheduleAgentServerRules &&
-                    isset($attendee['SCHEDULE-AGENT']) &&
-                    strtoupper($attendee['SCHEDULE-AGENT']->getValue()) === 'CLIENT'
-                ) {
-                    continue;
-                }
-                $partStat =
-                    isset($attendee['PARTSTAT']) ?
-                    strtoupper($attendee['PARTSTAT']) :
-                    'NEEDS-ACTION';
+                    if ($this->scheduleAgentServerRules &&
+                        isset($attendee['SCHEDULE-AGENT']) &&
+                        strtoupper($attendee['SCHEDULE-AGENT']->getValue()) === 'CLIENT'
+                    ) {
+                        continue;
+                    }
+                    $partStat =
+                        isset($attendee['PARTSTAT']) ?
+                        strtoupper($attendee['PARTSTAT']) :
+                        'NEEDS-ACTION';
 
-                if (isset($attendees[$attendee->getValue()])) {
-                    $attendees[$attendee->getValue()]['instances'][$value] = array(
-                        'id' => $value,
-                        'partstat' => $partStat,
-                    );
-                } else {
-                    $attendees[$attendee->getValue()] = array(
-                        'href' => $attendee->getValue(),
-                        'instances' => array(
-                            $value => array(
-                                'id' => $value,
-                                'partstat' => $partStat,
+                    if (isset($attendees[$attendee->getValue()])) {
+                        $attendees[$attendee->getValue()]['instances'][$value] = array(
+                            'id' => $value,
+                            'partstat' => $partStat,
+                        );
+                    } else {
+                        $attendees[$attendee->getValue()] = array(
+                            'href' => $attendee->getValue(),
+                            'instances' => array(
+                                $value => array(
+                                    'id' => $value,
+                                    'partstat' => $partStat,
+                                ),
                             ),
-                        ),
-                        'name' => isset($attendee['CN'])?(string)$attendee['CN']:null,
-                    );
+                            'name' => isset($attendee['CN'])?(string)$attendee['CN']:null,
+                        );
+                    }
+
                 }
+                $instances[$value] = $vevent;
 
             }
-            $instances[$value] = $vevent;
 
         }
 
