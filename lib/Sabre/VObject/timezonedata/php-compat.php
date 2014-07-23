@@ -1,6 +1,6 @@
 <?php
 /**
- * A list of PHP timezones that were supported in PHP 5.5.9, but are no longer 
+ * A list of PHP timezones that were supported in PHP 5.5.9, but are no longer
  * in PHP 5.5.10.
  *
  * Some more info here:
