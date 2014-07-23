@@ -289,13 +289,15 @@ class Broker {
                 unset($instances[$recurId]);
             }
         }
+
+        if(!$masterObject) {
+            // No master object, we can't add new instances.
+            return null;
+        }
         // If we got replies to instances that did not exist in the
         // original list, it means that new exceptions must be created.
         foreach($instances as $recurId=>$partstat) {
-            if(!$masterObject) {
-                // No master object, we can't add new instances.
-                return null;
-            }
+
             $newObject = clone $masterObject;
             unset(
                 $newObject->RRULE,
