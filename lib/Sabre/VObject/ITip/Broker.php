@@ -68,7 +68,7 @@ class Broker {
      * update the organizers event to update the ATTENDEE with its correct
      * PARTSTAT.
      *
-     * The $existingObject is updated in-place. If no existing object exists
+     * The $existingObject is updated in-place. If there is no existing object
      * (because it's a new invite for example) a new object will be created.
      *
      * If an existing object does not exist, and the method was CANCEL or
@@ -81,7 +81,7 @@ class Broker {
      *
      * @param Message $itipMessage
      * @param VCalendar $existingObject
-     * @return VCalendar|bool
+     * @return VCalendar|null
      */
     public function processMessage(Message $itipMessage, VCalendar $existingObject = null) {
 
@@ -103,7 +103,7 @@ class Broker {
 
             default :
                 // Unsupported iTip message
-                return false;
+                return null;
 
         }
 
@@ -189,7 +189,7 @@ class Broker {
      *
      * @param Message $itipMessage
      * @param VCalendar $existingObject
-     * @return VCalendar|bool
+     * @return VCalendar|null
      */
     protected function processMessageRequest(Message $itipMessage, VCalendar $existingObject = null) {
 
@@ -224,7 +224,7 @@ class Broker {
      *
      * @param Message $itipMessage
      * @param VCalendar $existingObject
-     * @return VCalendar|bool
+     * @return VCalendar|null
      */
     protected function processMessageCancel(Message $itipMessage, VCalendar $existingObject = null) {
 
@@ -249,14 +249,14 @@ class Broker {
      *
      * @param Message $itipMessage
      * @param VCalendar $existingObject
-     * @return VCalendar|bool
+     * @return VCalendar|null
      */
     protected function processMessageReply(Message $itipMessage, VCalendar $existingObject = null) {
 
         // A reply can only be processed based on an existing object.
         // If the object is not available, the reply is ignored.
         if (!$existingObject) {
-            return false;
+            return null;
         }
         $instances = array();
         foreach($itipMessage->message->VEVENT as $vevent) {
@@ -294,7 +294,7 @@ class Broker {
         foreach($instances as $recurId=>$partstat) {
             if(!$masterObject) {
                 // No master object, we can't add new instances.
-                return false;
+                return null;
             }
             $newObject = clone $masterObject;
             unset(
