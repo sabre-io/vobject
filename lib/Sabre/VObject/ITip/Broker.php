@@ -98,80 +98,8 @@ class Broker {
             case 'CANCEL' :
                 return $this->processMessageCancel($itipMessage, $existingObject);
 
-            /**
-             * The message is a reply. This is for example an attendee telling
-             * an organizer he accepted the invite, or declined it.
-             */
             case 'REPLY' :
-                // A reply can only be processed based on an existing object.
-                // If the object is not available, the reply is ignored.
-                if (!$existingObject) {
-                    return false;
-                }
-                $instances = array();
-                foreach($itipMessage->message->VEVENT as $vevent) {
-                    $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
-                    $attendee = $vevent->ATTENDEE;
-                    $instances[$recurId] = $attendee['PARTSTAT']->getValue();
-                }
-                $masterObject = null;
-                foreach($existingObject->VEVENT as $vevent) {
-                    $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
-                    if ($recurId==='master') {
-                        $masterObject = $vevent;
-                    }
-                    if (isset($instances[$recurId])) {
-                        $attendeeFound = false;
-                        foreach($vevent->ATTENDEE as $attendee) {
-                            if ($attendee->getValue() === $message->sender) {
-                                $attendeeFound = true;
-                                $attendee['PARTSTAT'] = $instances[$recurId];
-                                break;
-                            }
-                        }
-                        if (!$attendeeFound) {
-                            // Adding a new attendee
-                            $attendee = $vevent->add('ATTENDEE', $message->sender, array(
-                                'CN' => $message->senderName,
-                                'PARTSTAT' => $instances[$recurId]
-                            ));
-                        }
-                        unset($instances[$recurId]);
-                    }
-                }
-                // If we got replies to instances that did not exist in the
-                // original list, it means that new exceptions must be created.
-                foreach($instances as $recurId=>$partstat) {
-                    if(!$masterObject) {
-                        // No master object, we can't add new instances.
-                        return false;
-                    }
-                    $newObject = clone $masterObject;
-                    unset(
-                        $newObject->RRULE,
-                        $newObject->EXDATE,
-                        $newObject->RDATE
-                    );
-                    $newObject->{'RECURRENCE-ID'} = $recurId;
-                    $attendeeFound = false;
-                    foreach($vevent->ATTENDEE as $attendee) {
-                        if ($attendee->getValue() === $message->sender) {
-                            $attendeeFound = true;
-                            $attendee['PARTSTAT'] = $partstat;
-                            break;
-                        }
-                    }
-                    if (!$attendeeFound) {
-                        // Adding a new attendee
-                        $attendee = $vevent->add('ATTENDEE', $message->sender, array(
-                            'CN' => $message->senderName,
-                            'PARTSTAT' => $partstat
-                        ));
-                    }
-                    $existingObject->add($newObject);
-
-                }
-                break;
+                return $this->processMessageReply($itipMessage, $existingObject);
 
             default :
                 // Unsupported iTip message
@@ -263,7 +191,7 @@ class Broker {
      * @param VCalendar $existingObject
      * @return VCalendar|bool
      */
-    protected function processMessageRequest(Message $itipMessage, VCalendar $existingObject) {
+    protected function processMessageRequest(Message $itipMessage, VCalendar $existingObject = null) {
 
         if (!$existingObject) {
             // This is a new invite, and we're just going to copy over
@@ -298,7 +226,7 @@ class Broker {
      * @param VCalendar $existingObject
      * @return VCalendar|bool
      */
-    protected function processMessageCancel(Message $itipMessage, VCalendar $existingObject) {
+    protected function processMessageCancel(Message $itipMessage, VCalendar $existingObject = null) {
 
         if (!$existingObject) {
             // The event didn't exist in the first place, so we're just
@@ -309,8 +237,90 @@ class Broker {
                 $vevent->SEQUENCE = $itipMessage->sequence;
             }
         }
-        break;
+        return $existingObject;
 
+    }
+
+    /**
+     * Processes incoming REPLY messages.
+     *
+     * The message is a reply. This is for example an attendee telling
+     * an organizer he accepted the invite, or declined it.
+     *
+     * @param Message $itipMessage
+     * @param VCalendar $existingObject
+     * @return VCalendar|bool
+     */
+    protected function processMessageReply(Message $itipMessage, VCalendar $existingObject = null) {
+
+        // A reply can only be processed based on an existing object.
+        // If the object is not available, the reply is ignored.
+        if (!$existingObject) {
+            return false;
+        }
+        $instances = array();
+        foreach($itipMessage->message->VEVENT as $vevent) {
+            $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
+            $attendee = $vevent->ATTENDEE;
+            $instances[$recurId] = $attendee['PARTSTAT']->getValue();
+        }
+        $masterObject = null;
+        foreach($existingObject->VEVENT as $vevent) {
+            $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
+            if ($recurId==='master') {
+                $masterObject = $vevent;
+            }
+            if (isset($instances[$recurId])) {
+                $attendeeFound = false;
+                foreach($vevent->ATTENDEE as $attendee) {
+                    if ($attendee->getValue() === $message->sender) {
+                        $attendeeFound = true;
+                        $attendee['PARTSTAT'] = $instances[$recurId];
+                        break;
+                    }
+                }
+                if (!$attendeeFound) {
+                    // Adding a new attendee
+                    $attendee = $vevent->add('ATTENDEE', $message->sender, array(
+                        'CN' => $message->senderName,
+                        'PARTSTAT' => $instances[$recurId]
+                    ));
+                }
+                unset($instances[$recurId]);
+            }
+        }
+        // If we got replies to instances that did not exist in the
+        // original list, it means that new exceptions must be created.
+        foreach($instances as $recurId=>$partstat) {
+            if(!$masterObject) {
+                // No master object, we can't add new instances.
+                return false;
+            }
+            $newObject = clone $masterObject;
+            unset(
+                $newObject->RRULE,
+                $newObject->EXDATE,
+                $newObject->RDATE
+            );
+            $newObject->{'RECURRENCE-ID'} = $recurId;
+            $attendeeFound = false;
+            foreach($vevent->ATTENDEE as $attendee) {
+                if ($attendee->getValue() === $message->sender) {
+                    $attendeeFound = true;
+                    $attendee['PARTSTAT'] = $partstat;
+                    break;
+                }
+            }
+            if (!$attendeeFound) {
+                // Adding a new attendee
+                $attendee = $vevent->add('ATTENDEE', $message->sender, array(
+                    'CN' => $message->senderName,
+                    'PARTSTAT' => $partstat
+                ));
+            }
+            $existingObject->add($newObject);
+
+        }
         return $existingObject;
 
     }
