@@ -195,7 +195,7 @@ class VCalendar extends VObject\Document {
      * If there is no such component, null will be returned.
      *
      * @param string $componentName filter by component name
-     * @return array
+     * @return VObject\Component
      */
     public function getBaseComponent($componentName = null) {
 

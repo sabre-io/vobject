@@ -6,10 +6,10 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
 /**
- * The ITip class is a utility class that helps with processing so-called iTip
- * messages.
+ * The ITip\Broker class is a utility class that helps with processing
+ * so-called iTip messages.
  *
- * ITip is defined in rfc5546, stands for iCalendar Transport-Independent
+ * iTip is defined in rfc5546, stands for iCalendar Transport-Independent
  * Interoperability Protocol, and describes the underlying mechanism for
  * using iCalendar for scheduling for for example through email (also known as
  * IMip) and CalDAV Scheduling.
@@ -36,11 +36,11 @@ use Sabre\VObject\Reader;
 class Broker {
 
     /**
-     * This setting determines wether the rules for the SCHEDULE-AGENT
+     * This setting determines whether the rules for the SCHEDULE-AGENT
      * parameter should be followed.
      *
      * This is a parameter defined on ATTENDEE properties, introduced by RFC
-     * 6638. This parameter allows a caldav client to tell the server 'don't do
+     * 6638. This parameter allows a caldav client to tell the server 'Don't do
      * any scheduling operations'.
      *
      * If this setting is turned on, any attendees with SCHEDULE-AGENT set to
@@ -58,7 +58,7 @@ class Broker {
      * Examples:
      *
      * 1. A user is an attendee to an event. The organizer sends an updated
-     * meeting using a new ITip message with METHOD:REQUEST. This function
+     * meeting using a new iTip message with METHOD:REQUEST. This function
      * will process the message and update the attendee's event accordingly.
      *
      * 2. The organizer cancelled the event using METHOD:CANCEL. We will update
@@ -335,7 +335,6 @@ class Broker {
      *
      * @param VCalendar $calendar
      * @param array $eventInfo
-     * @param VCalendar $oldCalendar
      * @param array $oldEventInfo
      * @return array
      */
@@ -470,7 +469,7 @@ class Broker {
      * @param array $eventInfo
      * @param array $oldEventInfo
      * @param string $attendee
-     * @return void
+     * @return Message[]
      */
     protected function parseEventForAttendee(VCalendar $calendar, array $eventInfo, array $oldEventInfo, $attendee) {
 
@@ -641,14 +640,14 @@ class Broker {
 
         }
 
-        return array(
-            'uid' => $uid,
-            'organizer' => $organizer,
-            'organizerName' => $organizerName,
-            'instances' => $instances,
-            'attendees' => $attendees,
-            'sequence' => $sequence,
-            'exdate' => $exdate,
+        return compact(
+            'uid',
+            'organizer',
+            'organizerName',
+            'instances',
+            'attendees',
+            'sequence',
+            'exdate'
         );
 
     }
