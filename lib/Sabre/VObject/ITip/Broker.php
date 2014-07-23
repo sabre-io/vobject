@@ -92,47 +92,11 @@ class Broker {
 
         switch($itipMessage->method) {
 
-            /**
-             * This is message from an organizer, and is either a new event
-             * invite, or an update to an existing one.
-             */
             case 'REQUEST' :
-                if (!$existingObject) {
-                    // This is a new invite, and we're just going to copy over
-                    // all the components from the invite.
-                    $existingObject = new VCalendar();
-                    foreach($itipMessage->message->getComponents() as $component) {
-                        $existingObject->add(clone $component);
-                    }
-                } else {
-                    // We need to update an existing object with all the new
-                    // information. We can just remove all existing components
-                    // and create new ones.
-                    foreach($existingObject->getComponents() as $component) {
-                        $existingObject->remove($component);
-                    }
-                    foreach($itipMessage->message->getComponents() as $component) {
-                        $existingObject->add(clone $component);
-                    }
-                }
-                break;
+                return $this->processMessageRequest($itipMessage, $existingObject);
 
-            /**
-             * This is a message from an organizer, and means that either an
-             * attendee got removed from an event, or an event got cancelled
-             * altogether.
-             */
             case 'CANCEL' :
-                if (!$existingObject) {
-                    // The event didn't exist in the first place, so we're just
-                    // ignoring this message.
-                } else {
-                    foreach($existingObject->VEVENT as $vevent) {
-                        $vevent->STATUS = 'CANCELLED';
-                        $vevent->SEQUENCE = $itipMessage->sequence;
-                    }
-                }
-                break;
+                return $this->processMessageCancel($itipMessage, $existingObject);
 
             /**
              * The message is a reply. This is for example an attendee telling
@@ -285,6 +249,69 @@ class Broker {
             }
         }
         return array();
+
+    }
+
+    /**
+     * Processes incoming REQUEST messages.
+     *
+     * This is message from an organizer, and is either a new event
+     * invite, or an update to an existing one.
+     *
+     *
+     * @param Message $itipMessage
+     * @param VCalendar $existingObject
+     * @return VCalendar|bool
+     */
+    protected function processMessageRequest(Message $itipMessage, VCalendar $existingObject) {
+
+        if (!$existingObject) {
+            // This is a new invite, and we're just going to copy over
+            // all the components from the invite.
+            $existingObject = new VCalendar();
+            foreach($itipMessage->message->getComponents() as $component) {
+                $existingObject->add(clone $component);
+            }
+        } else {
+            // We need to update an existing object with all the new
+            // information. We can just remove all existing components
+            // and create new ones.
+            foreach($existingObject->getComponents() as $component) {
+                $existingObject->remove($component);
+            }
+            foreach($itipMessage->message->getComponents() as $component) {
+                $existingObject->add(clone $component);
+            }
+        }
+        return $existingObject;
+
+    }
+
+    /**
+     * Processes incoming CANCEL messages.
+     *
+     * This is a message from an organizer, and means that either an
+     * attendee got removed from an event, or an event got cancelled
+     * altogether.
+     *
+     * @param Message $itipMessage
+     * @param VCalendar $existingObject
+     * @return VCalendar|bool
+     */
+    protected function processMessageCancel(Message $itipMessage, VCalendar $existingObject) {
+
+        if (!$existingObject) {
+            // The event didn't exist in the first place, so we're just
+            // ignoring this message.
+        } else {
+            foreach($existingObject->VEVENT as $vevent) {
+                $vevent->STATUS = 'CANCELLED';
+                $vevent->SEQUENCE = $itipMessage->sequence;
+            }
+        }
+        break;
+
+        return $existingObject;
 
     }
 
