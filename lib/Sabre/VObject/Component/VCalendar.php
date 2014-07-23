@@ -190,7 +190,7 @@ class VCalendar extends VObject\Document {
 
     /**
      * Returns the first component that is not a VTIMEZONE, and does not have
-     * RECURRENCE-ID.
+     * an RECURRENCE-ID.
      *
      * If there is no such component, null will be returned.
      *
