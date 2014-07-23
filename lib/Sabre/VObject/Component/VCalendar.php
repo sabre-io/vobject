@@ -189,6 +189,37 @@ class VCalendar extends VObject\Document {
     }
 
     /**
+     * Returns the first component that is not a VTIMEZONE, and does not have
+     * RECURRENCE-ID.
+     *
+     * If there is no such component, null will be returned.
+     *
+     * @param string $componentName filter by component name
+     * @return array
+     */
+    public function getBaseComponent($componentName = null) {
+
+        foreach($this->children as $component) {
+
+            if (!$component instanceof VObject\Component)
+                continue;
+
+            if (isset($component->{'RECURRENCE-ID'}))
+                continue;
+
+            if ($componentName && $component->name !== strtoupper($componentName))
+                continue;
+
+            if ($component->name === 'VTIMEZONE')
+                continue;
+
+            return $component;
+
+        }
+
+    }
+
+    /**
      * If this calendar object, has events with recurrence rules, this method
      * can be used to expand the event into multiple sub-events.
      *

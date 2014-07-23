@@ -273,7 +273,7 @@ class Broker {
             if (isset($instances[$recurId])) {
                 $attendeeFound = false;
                 foreach($vevent->ATTENDEE as $attendee) {
-                    if ($attendee->getValue() === $message->sender) {
+                    if ($attendee->getValue() === $itipMessage->sender) {
                         $attendeeFound = true;
                         $attendee['PARTSTAT'] = $instances[$recurId];
                         break;
@@ -281,8 +281,8 @@ class Broker {
                 }
                 if (!$attendeeFound) {
                     // Adding a new attendee
-                    $attendee = $vevent->add('ATTENDEE', $message->sender, array(
-                        'CN' => $message->senderName,
+                    $attendee = $vevent->add('ATTENDEE', $itipMessage->sender, array(
+                        'CN' => $itipMessage->senderName,
                         'PARTSTAT' => $instances[$recurId]
                     ));
                 }
