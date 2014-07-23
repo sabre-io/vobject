@@ -479,11 +479,11 @@ class Broker {
             if (isset($instances[$instance['id']])) {
                 $instances[$instance['id']]['newstatus'] = $instance['partstat'];
             } else {
-                $instances[$instance['id']] = [
+                $instances[$instance['id']] = array(
                     'id' => $instance['id'],
                     'oldstatus' => null,
                     'newstatus' => $instance['partstat'],
-                ];
+                );
             }
 
         }
