@@ -589,7 +589,7 @@ class Broker {
      * 5. instances
      *
      * @param VCalendar $calendar
-     * @return void
+     * @return array
      */
     protected function parseEventInfo(VCalendar $calendar) {
 
