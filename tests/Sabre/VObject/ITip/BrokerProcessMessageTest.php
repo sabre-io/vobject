@@ -231,26 +231,231 @@ ICS;
 
     }
 
+    function testReplyPartyCrasher() {
+
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:crasher@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:crasher@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $result = $this->process($itip, $old, $expected);
+
+    }
+
+    function testReplyNewException() {
+
+        // This is a reply to 1 instance of a recurring event. This should
+        // automatically create an exception.
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+RECURRENCE-ID:20140725T000000Z
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART:20140724T000000Z
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART:20140724T000000Z
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+DTSTART:20140725T000000Z
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+RECURRENCE-ID:20140725T000000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $result = $this->process($itip, $old, $expected);
+
+    }
+
+    function testReplyPartyCrashCreateExcepton() {
+
+        // IN this test there's a recurring event that has an exception. The
+        // exception is missing the attendee.
+        //
+        // The attendee party crashes the instance, so it should show up in the
+        // resulting object.
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED;CN=Crasher!:mailto:crasher@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+RECURRENCE-ID:20140725T000000Z
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART:20140724T000000Z
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART:20140724T000000Z
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+DTSTART:20140725T000000Z
+ORGANIZER:mailto:bar@example.org
+RECURRENCE-ID:20140725T000000Z
+ATTENDEE;PARTSTAT=ACCEPTED;CN=Crasher!:mailto:crasher@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $result = $this->process($itip, $old, $expected);
+
+    }
+
+    function testReplyNewExceptionNoMasterEvent() {
+
+        /**
+         * This iTip message would normally create a new exception, but the
+         * server is not able to create this new instance, because there's no
+         * master event to clone from.
+         *
+         * This test checks if the message is ignored.
+         */
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED;CN=Crasher!:mailto:crasher@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+RECURRENCE-ID:20140725T000000Z
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART:20140724T000000Z
+RECURRENCE-ID:20140724T000000Z
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = null;
+        $result = $this->process($itip, $old, $expected);
+
+    }
     function process($input, $existingObject = null, $expected = false) {
 
         $version = \Sabre\VObject\Version::VERSION;
 
         $vcal = Reader::read($input);
 
-        $mainComponent = $vcal->getBaseComponent();
+        foreach($vcal->getComponents() as $mainComponent) {
+            break;
+        }
 
         $message = new Message();
         $message->message = $vcal;
         $message->method = isset($vcal->METHOD)?$vcal->METHOD->getValue():null;
         $message->component = $mainComponent->name;
-        $message->sequence = isset($vcal->VEVENT[0])?$vcal->VEVENT[0]->SEQUENCE:null;
+        $message->uid = $mainComponent->uid->getValue();
+        $message->sequence = isset($vcal->VEVENT[0])?(string)$vcal->VEVENT[0]->SEQUENCE:null;
 
         if ($message->method === 'REPLY') {
 
             $message->sender = $mainComponent->ATTENDEE->getValue();
-            $message->senderName = isset($mainComponent->ATTENDEE['CN'])?$mainComponent->ATTENDEE['CN']:null;
+            $message->senderName = isset($mainComponent->ATTENDEE['CN'])?$mainComponent->ATTENDEE['CN']->getValue():null;
             $message->recipient = $mainComponent->ORGANIZER->getValue();
-            $message->senderName = isset($mainComponent->ORGANIZER['CN'])?$mainComponent->ORGANIZER['CN']:null;
+            $message->recipientName = isset($mainComponent->ORGANIZER['CN'])?$mainComponent->ORGANIZER['CN']:null;
 
         }
 

@@ -4,6 +4,7 @@ namespace Sabre\VObject\ITip;
 
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
+use Sabre\VObject\RecurrenceIterator;
 
 /**
  * The ITip\Broker class is a utility class that helps with processing
@@ -272,19 +273,22 @@ class Broker {
             }
             if (isset($instances[$recurId])) {
                 $attendeeFound = false;
-                foreach($vevent->ATTENDEE as $attendee) {
-                    if ($attendee->getValue() === $itipMessage->sender) {
-                        $attendeeFound = true;
-                        $attendee['PARTSTAT'] = $instances[$recurId];
-                        break;
+                if (isset($vevent->ATTENDEE)) {
+                    foreach($vevent->ATTENDEE as $attendee) {
+                        if ($attendee->getValue() === $itipMessage->sender) {
+                            $attendeeFound = true;
+                            $attendee['PARTSTAT'] = $instances[$recurId];
+                            break;
+                        }
                     }
                 }
                 if (!$attendeeFound) {
-                    // Adding a new attendee
+                    // Adding a new attendee. The iTip documentation calls this
+                    // a party crasher.
                     $attendee = $vevent->add('ATTENDEE', $itipMessage->sender, array(
-                        'CN' => $itipMessage->senderName,
                         'PARTSTAT' => $instances[$recurId]
                     ));
+                    if ($itipMessage->senderName) $attendee['CN'] = $itipMessage->senderName;
                 }
                 unset($instances[$recurId]);
             }
@@ -298,7 +302,24 @@ class Broker {
         // original list, it means that new exceptions must be created.
         foreach($instances as $recurId=>$partstat) {
 
-            $newObject = clone $masterObject;
+            $recurrenceIterator = new RecurrenceIterator($existingObject, $itipMessage->uid);
+            $found = false;
+            $iterations = 1000;
+            do {
+
+                $newObject = $recurrenceIterator->getEventObject();
+                $recurrenceIterator->next();
+
+                if (isset($newObject->{'RECURRENCE-ID'}) && $newObject->{'RECURRENCE-ID'}->getValue()===$recurId) {
+                    $found = true;
+                }
+                $iterations--;
+
+            } while($recurrenceIterator->valid() && !$found && $iterations);
+
+            // Invalid recurrence id. Skipping this object.
+            if (!$found) continue;
+
             unset(
                 $newObject->RRULE,
                 $newObject->EXDATE,
@@ -306,19 +327,23 @@ class Broker {
             );
             $newObject->{'RECURRENCE-ID'} = $recurId;
             $attendeeFound = false;
-            foreach($vevent->ATTENDEE as $attendee) {
-                if ($attendee->getValue() === $message->sender) {
-                    $attendeeFound = true;
-                    $attendee['PARTSTAT'] = $partstat;
-                    break;
+            if (isset($newObject->ATTENDEE)) {
+                foreach($newObject->ATTENDEE as $attendee) {
+                    if ($attendee->getValue() === $itipMessage->sender) {
+                        $attendeeFound = true;
+                        $attendee['PARTSTAT'] = $partstat;
+                        break;
+                    }
                 }
             }
             if (!$attendeeFound) {
                 // Adding a new attendee
-                $attendee = $vevent->add('ATTENDEE', $message->sender, array(
-                    'CN' => $message->senderName,
+                $attendee = $newObject->add('ATTENDEE', $itipMessage->sender, array(
                     'PARTSTAT' => $partstat
                 ));
+                if ($itipMessage->senderName) {
+                    $attendee['CN'] = $itipMessage->senderName;
+                }
             }
             $existingObject->add($newObject);
 
