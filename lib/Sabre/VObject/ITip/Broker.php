@@ -129,27 +129,28 @@ class Broker {
      * differences between events, and potentially send old attendees
      * cancellations, and current attendees updates.
      *
+     * If $calendar is null, but $oldCalendar is specified, we treat the
+     * operation as if the user has deleted an event. If the user was an
+     * organizer, this means that we need to send cancellation notices to
+     * people. If the user was an attendee, we need to make sure that the
+     * organizer gets the 'declined' message.
+     *
      * @param VCalendar|string $calendar
      * @param string|array $userHref
      * @param VCalendar|string $oldCalendar
      * @return array
      */
-    public function parseEvent($calendar, $userHref, $oldCalendar = null) {
-
-        if (is_string($calendar)) {
-            $calendar = Reader::read($calendar);
-        }
-        if (!isset($calendar->VEVENT)) {
-            // We only support events at the moment
-            return array();
-        }
-
-        $eventInfo = $this->parseEventInfo($calendar);
+    public function parseEvent($calendar = null, $userHref, $oldCalendar = null) {
 
         if ($oldCalendar) {
             if (is_string($oldCalendar)) {
                 $oldCalendar = Reader::read($oldCalendar);
             }
+            if (!isset($oldCalendar->VEVENT)) {
+                // We only support events at the moment
+                return array();
+            }
+
             $oldEventInfo = $this->parseEventInfo($oldCalendar);
         } else {
             $oldEventInfo = array(
@@ -157,23 +158,64 @@ class Broker {
             );
         }
 
-        // Events that don't have an organizer or attendees don't generate
-        // messages.
-        if (!$eventInfo['attendees'] && $oldEventInfo['attendees']) {
-            return array();
+        $userHref = (array)$userHref;
+
+        if (!is_null($calendar)) {
+
+            if (is_string($calendar)) {
+                $calendar = Reader::read($calendar);
+            }
+            if (!isset($calendar->VEVENT)) {
+                // We only support events at the moment
+                return array();
+            }
+            $eventInfo = $this->parseEventInfo($calendar);
+            if (!$eventInfo['attendees'] && !$oldEventInfo['attendees']) {
+                // If there were no attendees on either side of the equation,
+                // we don't need to do anything.
+                return array();
+            }
+
+            $organizer = (string)$calendar->VEVENT->ORGANIZER;
+            $baseCalendar = $calendar;
+
+        } else {
+            // The calendar object got deleted, we need to process this as a
+            // cancellation / decline.
+            if (!$oldCalendar) {
+                // No old and no new calendar, there's no thing to do.
+                return array();
+            }
+
+
+            $organizer = (string)$oldCalendar->VEVENT->ORGANIZER;
+            $eventInfo = $oldEventInfo;
+            $eventInfo['sequence']++;
+
+            if (in_array($organizer, $userHref)) {
+                // This is an organizer deleting the event.
+                $eventInfo['attendees'] = [];
+            } else {
+                // This is an attendee deleting the event.
+                foreach($eventInfo['attendees'] as $key=>$attendee) {
+                    if (in_array($attendee['href'], $userHref)) {
+                        $eventInfo['attendees'][$key]['instances'] = array('master' => array('id'=>'master', 'partstat' => 'DECLINED'));
+                    }
+                }
+            }
+            $baseCalendar = $oldCalendar;
+
         }
 
-        $userHref = (array)$userHref;
-        $organizer = (string)$calendar->VEVENT->ORGANIZER;
         if (in_array($organizer, $userHref)) {
-            return $this->parseEventForOrganizer($calendar, $eventInfo, $oldEventInfo);
+            return $this->parseEventForOrganizer($baseCalendar, $eventInfo, $oldEventInfo);
         } elseif ($oldCalendar) {
             // We need to figure out if the user is an attendee, but we're only
             // doing so if there's an oldCalendar, because we only want to
             // process updates, not creation of new events.
             foreach($eventInfo['attendees'] as $attendee) {
                 if (in_array($attendee['href'], $userHref)) {
-                    return $this->parseEventForAttendee($calendar, $eventInfo, $oldEventInfo, $attendee['href']);
+                    return $this->parseEventForAttendee($baseCalendar, $eventInfo, $oldEventInfo, $attendee['href']);
                 }
             }
         }
@@ -366,11 +408,6 @@ class Broker {
      * @return array
      */
     protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo) {
-
-        // Shortcut for noop
-        if (!$oldEventInfo['attendees'] && !$eventInfo['attendees']) {
-            return array();
-        }
 
         // Merging attendee lists.
         $attendees = array();
@@ -591,7 +628,7 @@ class Broker {
      * @param VCalendar $calendar
      * @return void
      */
-    protected function parseEventInfo(VCalendar $calendar) {
+    protected function parseEventInfo(VCalendar $calendar = null) {
 
         $uid = null;
         $organizer = null;

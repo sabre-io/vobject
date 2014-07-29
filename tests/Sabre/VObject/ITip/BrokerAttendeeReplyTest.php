@@ -234,6 +234,40 @@ ICS;
 
     }
 
+    function testNoRelevantAttendee() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=Two:mailto:two@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = array();
+        $result = $this->parse($oldMessage, $newMessage, $expected);
+
+    }
+
     function parse($oldMessage, $newMessage, $expected = array()) {
 
         $broker = new Broker();
