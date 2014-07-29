@@ -161,7 +161,7 @@ class VCalendar extends VObject\Document {
      * VTIMEZONE components will always be excluded.
      *
      * @param string $componentName filter by component name
-     * @return array
+     * @return VObject\Component[]
      */
     public function getBaseComponents($componentName = null) {
 
@@ -195,7 +195,7 @@ class VCalendar extends VObject\Document {
      * If there is no such component, null will be returned.
      *
      * @param string $componentName filter by component name
-     * @return VObject\Component
+     * @return VObject\Component|null
      */
     public function getBaseComponent($componentName = null) {
 
