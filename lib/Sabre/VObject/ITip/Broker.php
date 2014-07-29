@@ -194,7 +194,7 @@ class Broker {
 
             if (in_array($organizer, $userHref)) {
                 // This is an organizer deleting the event.
-                $eventInfo['attendees'] = [];
+                $eventInfo['attendees'] = array();
             } else {
                 // This is an attendee deleting the event.
                 foreach($eventInfo['attendees'] as $key=>$attendee) {
