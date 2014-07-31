@@ -433,6 +433,8 @@ class Broker {
             }
         }
 
+        $messages = array();
+
         foreach($attendees as $attendee) {
 
             // An organizer can also be an attendee. We should not generate any
@@ -520,7 +522,6 @@ class Broker {
         }
 
         return $messages;
-
 
     }
 
