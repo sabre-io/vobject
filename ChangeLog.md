@@ -1,6 +1,16 @@
 ChangeLog
 =========
 
+3.3.0 (????-??-??)
+------------------
+
+* #103: Added support for processing [iTip][iTip] messages. This allows a user
+  to parse incoming iTip messages and apply the result on existing calendars,
+  or automatically generate invites/replies/cancellations based on changes that
+  a user made on objects.
+* Added: VCalendar::getBaseComponent to find the 'master' component in a
+  calendar.
+
 3.2.5 (????-??-??)
 ------------------
 
@@ -390,3 +400,5 @@ ChangeLog
 * New: It's possible to specify lists of parameters when constructing
   properties.
 * New: made it easier to construct the FreeBusyGenerator.
+
+[iTip]: http://tools.ietf.org/html/rfc5546
