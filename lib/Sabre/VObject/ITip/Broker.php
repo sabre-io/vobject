@@ -657,7 +657,7 @@ class Broker {
                     $organizerName = isset($vevent->ORGANIZER['CN'])?$vevent->ORGANIZER['CN']:null;
                 } else {
                     if ($organizer !== $vevent->ORGANIZER->getValue()) {
-                        throw new ITipException('Every instance of the event must have the same organizer.');
+                        throw new SameOrganizerForAllComponentsException('Every instance of the event must have the same organizer.');
                     }
                 }
             }
