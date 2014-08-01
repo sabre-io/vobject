@@ -161,7 +161,7 @@ class VCalendar extends VObject\Document {
      * VTIMEZONE components will always be excluded.
      *
      * @param string $componentName filter by component name
-     * @return array
+     * @return VObject\Component[]
      */
     public function getBaseComponents($componentName = null) {
 
@@ -185,6 +185,37 @@ class VCalendar extends VObject\Document {
         }
 
         return $components;
+
+    }
+
+    /**
+     * Returns the first component that is not a VTIMEZONE, and does not have
+     * an RECURRENCE-ID.
+     *
+     * If there is no such component, null will be returned.
+     *
+     * @param string $componentName filter by component name
+     * @return VObject\Component|null
+     */
+    public function getBaseComponent($componentName = null) {
+
+        foreach($this->children as $component) {
+
+            if (!$component instanceof VObject\Component)
+                continue;
+
+            if (isset($component->{'RECURRENCE-ID'}))
+                continue;
+
+            if ($componentName && $component->name !== strtoupper($componentName))
+                continue;
+
+            if ($component->name === 'VTIMEZONE')
+                continue;
+
+            return $component;
+
+        }
 
     }
 
