@@ -679,7 +679,7 @@ class RRuleParser implements Iterator {
                     foreach($value as $part) {
                         if (!preg_match('#^  (-|\+)? ([1-5])? (MO|TU|WE|TH|FR|SA|SU) $# xi', $part)) {
                             throw new \InvalidArgumentException('Invalid part in BYDAY clause: ' . $part);
-                        } 
+                        }
                     }
                     $this->byDay = $value;
                     break;
