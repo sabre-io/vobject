@@ -283,9 +283,13 @@ class RecurrenceIterator implements \Iterator {
             // We need to do this until we find a date that's not in the
             // exception list.
             do {
+                if (!$this->rruleParser->valid()) {
+                    $nextDate = null;
+                    break;
+                }
                 $this->rruleParser->next();
                 $nextDate = $this->rruleParser->current();
-            } while(in_array($nextDate, $this->exceptions));
+            } while(isset($this->exceptions[$nextDate->getTimeStamp()]));
 
         }
 
