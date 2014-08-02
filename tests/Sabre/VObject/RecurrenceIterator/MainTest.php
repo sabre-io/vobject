@@ -25,11 +25,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
         $this->assertTrue($it->isInfinite());
-        $this->assertEquals(array(10), $it->byHour);
-        $this->assertEquals(array(5), $it->byMinute);
-        $this->assertEquals(array(16), $it->bySecond);
-        $this->assertEquals(array(32), $it->byWeekNo);
-        $this->assertEquals(array(100,200), $it->byYearDay);
 
     }
 
@@ -91,10 +86,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,$ev->uid);
 
-        $this->assertEquals('hourly', $it->frequency);
-        $this->assertEquals(3, $it->interval);
-        $this->assertEquals(new DateTime('2011-10-25', new DateTimeZone('UTC')), $it->until);
-
         // Max is to prevent overflow
         $max = 12;
         $result = array();
@@ -148,10 +139,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,$ev->uid);
 
-        $this->assertEquals('daily', $it->frequency);
-        $this->assertEquals(3, $it->interval);
-        $this->assertEquals(new DateTime('2011-10-25', new DateTimeZone('UTC')), $it->until);
-
         // Max is to prevent overflow
         $max = 12;
         $result = array();
@@ -199,9 +186,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,$ev->uid);
 
-        $this->assertEquals('daily', $it->frequency);
-        $this->assertEquals(1, $it->interval);
-
         // Max is to prevent overflow
         $max = 12;
         $result = array();
@@ -243,11 +227,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('daily', $it->frequency);
-        $this->assertEquals(1, $it->interval);
-        $this->assertEquals(array('6','7'), $it->byHour);
-        $this->assertEquals(array('SA','SU'), $it->byDay);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -302,10 +281,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
-        $this->assertEquals('daily', $it->frequency);
-        $this->assertEquals(2, $it->interval);
-        $this->assertEquals(array('10','11','12','13','14','15'), $it->byHour);
-
         // Grabbing the next 12 items
         $max = 12;
         $result = array();
@@ -358,10 +333,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('daily', $it->frequency);
-        $this->assertEquals(2, $it->interval);
-        $this->assertEquals(array('TU','WE','FR'), $it->byDay);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -416,10 +387,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
-        $this->assertEquals('weekly', $it->frequency);
-        $this->assertEquals(2, $it->interval);
-        $this->assertEquals(10, $it->count);
-
         // Max is to prevent overflow
         $max = 12;
         $result = array();
@@ -470,12 +437,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('weekly', $it->frequency);
-        $this->assertEquals(2, $it->interval);
-        $this->assertEquals(array('TU','WE','FR'), $it->byDay);
-        $this->assertEquals(array('8','9','10'), $it->byHour);
-        $this->assertEquals('MO', $it->weekStart);
 
         // Grabbing the next 12 items
         $max = 15;
@@ -533,11 +494,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
-        $this->assertEquals('weekly', $it->frequency);
-        $this->assertEquals(2, $it->interval);
-        $this->assertEquals(array('TU','WE','FR'), $it->byDay);
-        $this->assertEquals('SU', $it->weekStart);
-
         // Grabbing the next 12 items
         $max = 12;
         $result = array();
@@ -590,11 +546,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('weekly', $it->frequency);
-        $this->assertEquals(2, $it->interval);
-        $this->assertEquals(array('TU','WE','FR'), $it->byDay);
-        $this->assertEquals('SU', $it->weekStart);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -649,10 +600,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
-        $this->assertEquals('monthly', $it->frequency);
-        $this->assertEquals(3, $it->interval);
-        $this->assertEquals(5, $it->count);
-
         $max = 14;
         $result = array();
         foreach($it as $item) {
@@ -698,10 +645,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('monthly', $it->frequency);
-        $this->assertEquals(2, $it->interval);
-        $this->assertEquals(12, $it->count);
 
         $max = 14;
         $result = array();
@@ -756,11 +699,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
-        $this->assertEquals('monthly', $it->frequency);
-        $this->assertEquals(5, $it->interval);
-        $this->assertEquals(9, $it->count);
-        $this->assertEquals(array(1, 31, -7), $it->byMonthDay);
-
         $max = 14;
         $result = array();
         foreach($it as $item) {
@@ -813,11 +751,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('monthly', $it->frequency);
-        $this->assertEquals(2, $it->interval);
-        $this->assertEquals(16, $it->count);
-        $this->assertEquals(array('MO','-2TU','+1WE','3TH'), $it->byDay);
 
         $max = 20;
         $result = array();
@@ -875,12 +808,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
-        $this->assertEquals('monthly', $it->frequency);
-        $this->assertEquals(1, $it->interval);
-        $this->assertEquals(10, $it->count);
-        $this->assertEquals(array('MO'), $it->byDay);
-        $this->assertEquals(array(1), $it->byMonthDay);
-
         $max = 20;
         $result = array();
         foreach($it as $k=>$item) {
@@ -930,12 +857,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('monthly', $it->frequency);
-        $this->assertEquals(1, $it->interval);
-        $this->assertEquals(10, $it->count);
-        $this->assertEquals(array('MO','TU','WE','TH','FR'), $it->byDay);
-        $this->assertEquals(array(1,-1), $it->bySetPos);
 
         $max = 20;
         $result = array();
@@ -987,10 +908,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
-        $this->assertEquals('yearly', $it->frequency);
-        $this->assertEquals(3, $it->interval);
-        $this->assertEquals(10, $it->count);
-
         $max = 20;
         $result = array();
         foreach($it as $k=>$item) {
@@ -1041,9 +958,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
 
-        $this->assertEquals('yearly', $it->frequency);
-        $this->assertEquals(3, $it->count);
-
         $max = 20;
         $result = array();
         foreach($it as $k=>$item) {
@@ -1086,11 +1000,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('yearly', $it->frequency);
-        $this->assertEquals(4, $it->interval);
-        $this->assertEquals(8, $it->count);
-        $this->assertEquals(array(4,10), $it->byMonth);
 
         $max = 20;
         $result = array();
@@ -1139,12 +1048,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('yearly', $it->frequency);
-        $this->assertEquals(5, $it->interval);
-        $this->assertEquals(8, $it->count);
-        $this->assertEquals(array(4,10), $it->byMonth);
-        $this->assertEquals(array('1MO','-1SU'), $it->byDay);
 
         $max = 20;
         $result = array();
@@ -1242,10 +1145,6 @@ class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
         $vcal->add($ev);
 
         $it = new RecurrenceIterator($vcal,(string)$ev->uid);
-
-        $this->assertEquals('yearly', $it->frequency);
-        $this->assertEquals(1, $it->interval);
-        $this->assertEquals(10, $it->count);
 
         $max = 20;
         $result = array();

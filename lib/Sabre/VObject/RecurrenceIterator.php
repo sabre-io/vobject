@@ -65,10 +65,24 @@ class RecurrenceIterator implements \Iterator {
      */
     public function __construct(Component $vcal, $uid = null) {
 
-        $uid = (string)$uid;
         $rrule = null;
+        if ($vcal instanceof VEvent) {
+            // Single instance mode.
+            $uid = (string)$vcal->UID;
+            $events = array($vcal);
+        } else {
+            $uid = (string)$uid;
+            if (!$uid) {
+                throw new InvalidArgumentException('The UID argument is required when a VCALENDAR is passed to this constructor');
+            }
+            if (!isset($vcal->VEVENT)) {
+                throw new InvalidArgumentException('No events found in this calendar');
+            }
+            $events = $vcal->VEVENT;
 
-        foreach($vcal->VEVENT as $vevent) {
+        }
+
+        foreach($events as $vevent) {
 
             if (!isset($vevent->UID)) {
                 throw new InvalidArgumentException('An event MUST have a UID');
@@ -107,6 +121,18 @@ class RecurrenceIterator implements \Iterator {
         }
         $this->startDate = $this->masterEvent->DTSTART->getDateTime();
 
+        if (isset($this->masterEvent->EXDATE)) {
+
+            foreacH($this->masterEvent->EXDATE as $exDate) {
+
+                foreach($exDate->getDateTimes() as $dt) {
+                    $this->exceptions[$dt->getTimeStamp()] = true;
+                }
+
+            }
+
+        }
+
         if (isset($this->masterEvent->DTEND)) {
             $this->eventDuration =
                 $this->masterEvent->DTEND->getDateTime()->getTimeStamp() -
@@ -125,7 +151,9 @@ class RecurrenceIterator implements \Iterator {
      */
     public function current() {
 
-        return clone $this->currentDate;
+        if ($this->currentDate) {
+            return clone $this->currentDate;
+        }
 
     }
 
@@ -137,7 +165,9 @@ class RecurrenceIterator implements \Iterator {
      */
     public function getDtStart() {
 
-        return clone $this->currentDate;
+        if ($this->currentDate) {
+            return clone $this->currentDate;
+        }
 
     }
 
@@ -149,6 +179,9 @@ class RecurrenceIterator implements \Iterator {
      */
     public function getDtEnd() {
 
+        if (!$this->valid()) {
+            return null;
+        }
         $end = clone $this->currentDate;
         return $end->modify('+' . $this->eventDuration . ' seconds');
 
@@ -208,7 +241,7 @@ class RecurrenceIterator implements \Iterator {
      */
     public function valid() {
 
-        return $this->currentOverriddenEvent || $this->nextDate || $this->rruleParser->valid();
+        return !!$this->currentDate;
 
     }
 
@@ -292,7 +325,20 @@ class RecurrenceIterator implements \Iterator {
      */
     public function fastForward(DateTime $dateTime) {
 
-        $this->rruleParser->fastForward($dateTime);
+        while($this->valid() && $this->currentDate < $dateTime ) {
+            $this->next();
+        }
+
+    }
+
+    /**
+     * Returns true if this recurring event never ends.
+     *
+     * @return bool
+     */
+    public function isInfinite() {
+
+        return $this->rruleParser->isInfinite();
 
     }
 

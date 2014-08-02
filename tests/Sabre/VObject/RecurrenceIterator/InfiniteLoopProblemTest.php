@@ -22,6 +22,7 @@ class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestC
     function testFastForwardTooFar() {
 
         $ev = $this->vcal->createComponent('VEVENT');
+        $ev->UID = 'foobar';
         $ev->DTSTART = '20090420T180000Z';
         $ev->RRULE = 'FREQ=WEEKLY;BYDAY=MO;UNTIL=20090704T205959Z;INTERVAL=1';
 
