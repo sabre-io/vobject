@@ -32,6 +32,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase {
 
         $event->add($prop);
 
+        unset(
+            $event->DTSTAMP,
+            $event->UID
+        );
+
         $out = $vcal->serialize();
         $this->assertEquals("BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nX-PROP;X-PARAM=3:1234256\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n", $out);
 

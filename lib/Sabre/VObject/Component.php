@@ -53,7 +53,7 @@ class Component extends Node {
         $this->root = $root;
 
         if ($defaults) {
-            $children = array_merge($this->getDefaults(), $children);
+            $defaultProps = $this->getDefaults();
         }
 
         foreach($children as $k=>$child) {
@@ -65,6 +65,13 @@ class Component extends Node {
 
                 // Property key=>value
                 $this->add($k, $child);
+            }
+        }
+        if ($defaults) {
+            foreach($this->getDefaults() as $key=>$value) {
+                if (!isset($this->$key)) {
+                    $this->add($key, $value);
+                }
             }
         }
 

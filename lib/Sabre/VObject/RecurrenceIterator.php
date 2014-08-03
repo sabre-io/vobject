@@ -68,7 +68,6 @@ class RecurrenceIterator implements \Iterator {
         $rrule = null;
         if ($vcal instanceof VEvent) {
             // Single instance mode.
-            $uid = (string)$vcal->UID;
             $events = array($vcal);
         } else {
             $uid = (string)$uid;
@@ -78,18 +77,16 @@ class RecurrenceIterator implements \Iterator {
             if (!isset($vcal->VEVENT)) {
                 throw new InvalidArgumentException('No events found in this calendar');
             }
-            $events = $vcal->VEVENT;
+            $events = array();
+            foreach($vcal->VEVENT as $event) {
+                if ($event->uid->getValue() === $uid) {
+                    $events[] = $event;
+                }
+            }
 
         }
 
         foreach($events as $vevent) {
-
-            if (!isset($vevent->UID)) {
-                throw new InvalidArgumentException('An event MUST have a UID');
-            }
-            if ($uid !== $vevent->UID->getValue()) {
-                continue;
-            }
 
             if (!isset($vevent->{'RECURRENCE-ID'})) {
 
