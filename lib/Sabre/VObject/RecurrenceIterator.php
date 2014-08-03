@@ -102,7 +102,16 @@ class RecurrenceIterator implements \Iterator {
         }
 
         if (!$this->masterEvent) {
-            throw new InvalidArgumentException('This VCALENDAR did not have a master event with UID: ' . $uid);
+            // No base event was found. CalDAV does allow cases where only
+            // overridden instances are stored.
+            //
+            // In this barticular case, we're just going to grab the first
+            // event and use that instead. This may not always give the
+            // desired result.
+            if (!count($this->overriddenEvents)) {
+                throw new InvalidArgumentException('This VCALENDAR did not have an event with UID: ' . $uid);
+            }
+            $this->masterEvent = array_shift($this->overriddenEvents);
         }
 
         // master event.
@@ -136,11 +145,13 @@ class RecurrenceIterator implements \Iterator {
                 $this->startDate->getTimeStamp();
         } elseif (isset($this->masterEvent->DURATION)) {
             $duration = $this->masterEvent->DURATION->getDateInterval();
-            $this->eventDuration =
-                $this->startDate->add($duration)->getTimeStamp() -
-                $this->startDate->getTimeStamp();
+            $end = clone $this->startDate;
+            $end->add($duration);
+            $this->eventDuration = $end->getTimeStamp() - $this->startDate->getTimeStamp();
         } elseif ($this->masterEvent->DTSTART->getValueType() === 'DATE') {
             $this->eventDuration = 3600 * 24;
+        } else {
+            $this->eventDuration = 0;
         }
 
         $this->rruleParser = new RRuleParser($rrule, $this->startDate);
@@ -263,6 +274,7 @@ class RecurrenceIterator implements \Iterator {
             $index[$stamp] = $key;
         }
         ksort($index);
+        $this->counter = 0;
         $this->overriddenEventsIndex = $index;
         $this->currentOverriddenEvent = null;
         $this->nextDate = null;
@@ -294,6 +306,9 @@ class RecurrenceIterator implements \Iterator {
                 }
                 $this->rruleParser->next();
                 $nextDate = $this->rruleParser->current();
+                if (!$nextDate) {
+                    break;
+                }
             } while(isset($this->exceptions[$nextDate->getTimeStamp()]));
 
         }

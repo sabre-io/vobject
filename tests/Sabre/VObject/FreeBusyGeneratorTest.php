@@ -218,7 +218,7 @@ ICS;
 
         foreach($result->VFREEBUSY->FREEBUSY as $fb) {
 
-            $this->assertContains((string)$fb, $expected);
+            $this->assertContains((string)$fb, $expected, "$fb did not appear in our list of expected freebusy strings. This is concerning!");
 
             $k = array_search((string)$fb, $expected);
             unset($expected[$k]);

@@ -53,24 +53,38 @@ class Component extends Node {
         $this->root = $root;
 
         if ($defaults) {
-            $defaultProps = $this->getDefaults();
-        }
-
-        foreach($children as $k=>$child) {
-            if ($child instanceof Node) {
-
-                // Component or Property
-                $this->add($child);
-            } else {
-
-                // Property key=>value
-                $this->add($k, $child);
+            // This is a terribly convoluted way to do this, but this ensures
+            // that the order of properties as they are specified in both
+            // defaults and the childrens list, are inserted in the object in a
+            // natural way.
+            $list = $this->getDefaults();
+            $nodes = array();
+            foreach($children as $key=>$value) {
+                if ($value instanceof Node) {
+                    if (isset($list[$value->name])) {
+                        unset($list[$value->name]);
+                    }
+                    $nodes[] = $value;
+                } else {
+                    $list[$key] = $value;
+                }
             }
-        }
-        if ($defaults) {
-            foreach($this->getDefaults() as $key=>$value) {
-                if (!isset($this->$key)) {
-                    $this->add($key, $value);
+            foreach($list as $key=>$value) {
+                $this->add($key, $value);
+            }
+            foreach($nodes as $node) {
+                $this->add($node);
+            }
+        } else {
+            foreach($children as $k=>$child) {
+                if ($child instanceof Node) {
+
+                    // Component or Property
+                    $this->add($child);
+                } else {
+
+                    // Property key=>value
+                    $this->add($k, $child);
                 }
             }
         }
