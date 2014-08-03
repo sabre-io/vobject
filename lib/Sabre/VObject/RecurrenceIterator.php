@@ -123,7 +123,7 @@ class RecurrenceIterator implements \Iterator {
 
         if (isset($this->masterEvent->EXDATE)) {
 
-            foreacH($this->masterEvent->EXDATE as $exDate) {
+            foreach($this->masterEvent->EXDATE as $exDate) {
 
                 foreach($exDate->getDateTimes() as $dt) {
                     $this->exceptions[$dt->getTimeStamp()] = true;
@@ -137,6 +137,13 @@ class RecurrenceIterator implements \Iterator {
             $this->eventDuration =
                 $this->masterEvent->DTEND->getDateTime()->getTimeStamp() -
                 $this->startDate->getTimeStamp();
+        } elseif (isset($this->masterEvent->DURATION)) {
+            $duration = $this->masterEvent->DURATION->getDateInterval();
+            $this->eventDuration =
+                $this->startDate->add($duration)->getTimeStamp() -
+                $this->startDate->getTimeStamp();
+        } elseif ($this->masterEvent->DTSTART->getValueType() === 'DATE') {
+            $this->eventDuration = 3600 * 24;
         }
 
         $this->rruleParser = new RRuleParser($rrule, $this->startDate);
@@ -183,7 +190,8 @@ class RecurrenceIterator implements \Iterator {
             return null;
         }
         $end = clone $this->currentDate;
-        return $end->modify('+' . $this->eventDuration . ' seconds');
+        $end->modify('+' . $this->eventDuration . ' seconds');
+        return $end;
 
     }
 
@@ -209,9 +217,9 @@ class RecurrenceIterator implements \Iterator {
             $event->EXRULE
         );
 
-        $event->DTSTART->setDateTime($this->getDTStart());
+        $event->DTSTART->setDateTime($this->getDtStart());
         if (isset($event->DTEND)) {
-            $event->DTEND->setDateTime($this->getDTEnd());
+            $event->DTEND->setDateTime($this->getDtEnd());
         }
         if ($this->rruleParser->key() > 0) {
             $event->{'RECURRENCE-ID'} = (string)$event->DTSTART;
@@ -329,7 +337,7 @@ class RecurrenceIterator implements \Iterator {
      */
     public function fastForward(DateTime $dateTime) {
 
-        while($this->valid() && $this->currentDate < $dateTime ) {
+        while($this->valid() && $this->getDtEnd() < $dateTime ) {
             $this->next();
         }
 
