@@ -273,7 +273,7 @@ class RecurrenceIterator implements \Iterator {
             $stamp = $event->DTSTART->getDateTime()->getTimeStamp();
             $index[$stamp] = $key;
         }
-        ksort($index);
+        krsort($index);
         $this->counter = 0;
         $this->overriddenEventsIndex = $index;
         $this->currentOverriddenEvent = null;
@@ -318,7 +318,8 @@ class RecurrenceIterator implements \Iterator {
         // overridden event may cut ahead.
         if ($this->overriddenEventsIndex) {
 
-            $offset = reset($this->overriddenEventsIndex);
+
+            $offset = end($this->overriddenEventsIndex);
             $timestamp = key($this->overriddenEventsIndex);
             if (!$nextDate || $timestamp < $nextDate->getTimeStamp()) {
                 // Overridden event comes first.
@@ -329,7 +330,7 @@ class RecurrenceIterator implements \Iterator {
                 $this->currentDate = $this->currentOverriddenEvent->DTSTART->getDateTime();
 
                 // Ensuring that this item will only be used once.
-                array_shift($this->overriddenEventsIndex);
+                array_pop($this->overriddenEventsIndex);
 
                 // Exit point!
                 return;

@@ -1,13 +1,14 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\RecurrenceIterator;
 
 use
     DateTime,
     DateTimeZone,
+    Sabre\VObject\RecurrenceIterator,
     Sabre\VObject\Component\VCalendar;
 
-class RecurrenceIteratorTest extends \PHPUnit_Framework_TestCase {
+class MainTest extends \PHPUnit_Framework_TestCase {
 
     function testValues() {
 
