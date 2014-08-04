@@ -318,7 +318,6 @@ class RecurrenceIterator implements \Iterator {
         // overridden event may cut ahead.
         if ($this->overriddenEventsIndex) {
 
-
             $offset = end($this->overriddenEventsIndex);
             $timestamp = key($this->overriddenEventsIndex);
             if (!$nextDate || $timestamp < $nextDate->getTimeStamp()) {

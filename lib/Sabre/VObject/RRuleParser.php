@@ -56,7 +56,7 @@ class RRuleParser implements Iterator {
     }
 
     /**
-     * Retursn wheter the current item is a valid item for the recurrence
+     * Returns whether the current item is a valid item for the recurrence
      * iterator. This will return false if we've gone beyond the UNTIL or COUNT
      * statements.
      *
@@ -137,10 +137,6 @@ class RRuleParser implements Iterator {
     /**
      * This method allows you to quickly go to the next occurrence after the
      * specified date.
-     *
-     * Note that this checks the current 'endDate', not the 'stardDate'. This
-     * means that if you forward to January 1st, the iterator will stop at the
-     * first event that ends *after* January 1st.
      *
      * @param DateTime $dt
      * @return void
@@ -284,7 +280,7 @@ class RRuleParser implements Iterator {
     protected $byWeekNo;
 
     /**
-     * Which months to recur
+     * Which months to recur.
      *
      * This is an array of integers from 1 to 12.
      *
@@ -309,7 +305,7 @@ class RRuleParser implements Iterator {
     protected $bySetPos;
 
     /**
-     * When a week starts
+     * When the week starts.
      *
      * @var string
      */
@@ -483,7 +479,7 @@ class RRuleParser implements Iterator {
             // end of workaround
             $this->currentDate->modify('+ ' . $this->interval . ' months');
 
-            // This goes to 0 because we need to start counting at hte
+            // This goes to 0 because we need to start counting at the
             // beginning.
             $currentDayOfMonth = 0;
 
@@ -609,7 +605,7 @@ class RRuleParser implements Iterator {
      * This method receives a string from an RRULE property, and populates this
      * class with all the values.
      *
-     * @param string|array $rule
+     * @param string|array $rrule
      * @return void
      */
     protected function parseRRule($rrule) {
