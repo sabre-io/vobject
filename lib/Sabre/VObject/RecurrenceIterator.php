@@ -245,7 +245,8 @@ class RecurrenceIterator implements \Iterator {
      */
     public function key() {
 
-        return $this->counter;
+        // The counter is always 1 ahead.
+        return $this->counter - 1;
 
     }
 
@@ -277,8 +278,11 @@ class RecurrenceIterator implements \Iterator {
         $this->counter = 0;
         $this->overriddenEventsIndex = $index;
         $this->currentOverriddenEvent = null;
+
         $this->nextDate = null;
         $this->currentDate = clone $this->startDate;
+
+        $this->next();
 
     }
 
@@ -304,11 +308,11 @@ class RecurrenceIterator implements \Iterator {
                     $nextDate = null;
                     break;
                 }
-                $this->rruleParser->next();
                 $nextDate = $this->rruleParser->current();
                 if (!$nextDate) {
                     break;
                 }
+                $this->rruleParser->next();
             } while(isset($this->exceptions[$nextDate->getTimeStamp()]));
 
         }
