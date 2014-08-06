@@ -36,11 +36,11 @@ ICS;
 
         $tz = new DateTimeZone('Europe/Moscow');
 
-        $expected = [
+        $expected = array(
             new DateTime('2013-07-10 11:00:00', $tz),
             new DateTime('2013-07-12 11:00:00', $tz),
             new DateTime('2013-07-13 11:00:00', $tz),
-        ];
+        );
 
         $this->assertEquals($expected, $result);
 
