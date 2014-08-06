@@ -25,8 +25,8 @@
         "source" : "https://github.com/fruux/sabre-vobject"
     },
     "autoload" : {
-        "psr-0" : {
-            "Sabre\\VObject" : "lib/"
+        "psr-4" : {
+            "Sabre\\VObject\\" : "lib/"
         }
     },
     "bin" : [
