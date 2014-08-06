@@ -8,6 +8,7 @@ ChangeLog
   to parse incoming iTip messages and apply the result on existing calendars,
   or automatically generate invites/replies/cancellations based on changes that
   a user made on objects.
+* #75, #58, #18: Fixes related to overriding the first event in recurrences.
 * Added: VCalendar::getBaseComponent to find the 'master' component in a
   calendar.
 
