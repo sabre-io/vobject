@@ -59,24 +59,7 @@ class Recur extends Property {
             }
             $this->value = $newVal;
         } elseif (is_string($value)) {
-            $value = strtoupper($value);
-            $newValue = array();
-            foreach(explode(';', $value) as $part) {
-
-                // Skipping empty parts.
-                if (empty($part)) {
-                    continue;
-                }
-                list($partName, $partValue) = explode('=', $part);
-
-                // The value itself had multiple values..
-                if (strpos($partValue,',')!==false) {
-                    $partValue=explode(',', $partValue);
-                }
-                $newValue[$partName] = $partValue;
-
-            }
-            $this->value = $newValue;
+            $this->value = self::stringToArray($value);
         } else {
             throw new \InvalidArgumentException('You must either pass a string, or a key=>value array');
         }
@@ -186,4 +169,35 @@ class Recur extends Property {
         return array($values);
 
     }
+
+    /**
+     * Parses an RRULE value string, and turns it into a struct-ish array.
+     *
+     * @param string $value
+     * @return array
+     */
+    static function stringToArray($value) {
+
+        $value = strtoupper($value);
+        $newValue = array();
+        foreach(explode(';', $value) as $part) {
+
+            // Skipping empty parts.
+            if (empty($part)) {
+                continue;
+            }
+            list($partName, $partValue) = explode('=', $part);
+
+            // The value itself had multiple values..
+            if (strpos($partValue,',')!==false) {
+                $partValue=explode(',', $partValue);
+            }
+            $newValue[$partName] = $partValue;
+
+        }
+
+        return $newValue;
+
+    }
+
 }

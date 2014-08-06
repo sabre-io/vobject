@@ -357,7 +357,8 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
     function testSerializeChildren() {
 
         $comp = new VCalendar(array(), false);
-        $comp->add($comp->createComponent('VEVENT'));
+        $event = $comp->add($comp->createComponent('VEVENT'));
+        unset($event->DTSTAMP, $event->UID);
         $comp->add($comp->createComponent('VTODO'));
 
         $str = $comp->serialize();
@@ -369,11 +370,12 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
     function testSerializeOrderCompAndProp() {
 
         $comp = new VCalendar(array(), false);
-        $comp->add($comp->createComponent('VEVENT'));
+        $comp->add($event = $comp->createComponent('VEVENT'));
         $comp->add('PROP1','BLABLA');
         $comp->add('VERSION','2.0');
         $comp->add($comp->createComponent('VTIMEZONE'));
 
+        unset($event->DTSTAMP, $event->UID);
         $str = $comp->serialize();
 
         $this->assertEquals("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPROP1:BLABLA\r\nBEGIN:VTIMEZONE\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n", $str);

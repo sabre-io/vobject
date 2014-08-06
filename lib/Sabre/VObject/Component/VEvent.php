@@ -68,6 +68,21 @@ class VEvent extends VObject\Component {
     }
 
     /**
+     * This method should return a list of default property values.
+     *
+     * @return array
+     */
+    protected function getDefaults() {
+
+        return array(
+            'UID'     => 'sabre-vobject-' . VObject\UUIDUtil::getUUID(),
+            'DTSTAMP' => date('Ymd\\THis\\Z'),
+        );
+
+    }
+
+
+    /**
      * A simple list of validation rules.
      *
      * This is simply a list of properties, and how many times they either
