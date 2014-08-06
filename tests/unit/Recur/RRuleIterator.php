@@ -1,11 +1,11 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur;
 
 use DateTime;
 use DateTimeZone;
 
-class RRuleParserTest extends \PHPUnit_Framework_TestCase {
+class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
 
     function testHourly() {
 

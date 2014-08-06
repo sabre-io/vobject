@@ -28,7 +28,7 @@ ICS;
         $vcal = Reader::read($input);
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
 
-        $it = new RecurrenceIterator($vcal, 'bae5d57a98');
+        $it = new Recur\EventIterator($vcal, 'bae5d57a98');
         iterator_to_array($it);
 
     }

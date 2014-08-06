@@ -2,8 +2,8 @@
 
 namespace Sabre\VObject;
 
-use
-    Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Recur\EventIterator;
 
 /**
  * This class helps with generating FREEBUSY reports based on existing sets of
@@ -172,7 +172,7 @@ class FreeBusyGenerator {
 
                         if ($component->RRULE) {
 
-                            $iterator = new RecurrenceIterator($object, (string)$component->uid);
+                            $iterator = new EventIterator($object, (string)$component->uid);
                             if ($this->start) {
                                 $iterator->fastForward($this->start);
                             }

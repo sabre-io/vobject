@@ -1,12 +1,11 @@
 <?php
 
-namespace Sabre\VObject\RecurrenceIterator;
+namespace Sabre\VObject\EventIterator;
 
-use
-    DateTime,
-    DateTimeZone,
-    Sabre\VObject\RecurrenceIterator,
-    Sabre\VObject\Component\VCalendar;
+use DateTime;
+use DateTimeZone;
+use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Component\VCalendar;
 
 class MainTest extends \PHPUnit_Framework_TestCase {
 
@@ -23,7 +22,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $this->assertTrue($it->isInfinite());
 
@@ -45,7 +44,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $ev->add($dtStart);
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
     }
 
@@ -55,7 +54,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
     function testVCalendarNoUID() {
 
         $vcal = new VCalendar();
-        $it = new RecurrenceIterator($vcal);
+        $it = new EventIterator($vcal);
 
     }
 
@@ -65,7 +64,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
     function testVCalendarInvalidUID() {
 
         $vcal = new VCalendar();
-        $it = new RecurrenceIterator($vcal,'foo');
+        $it = new EventIterator($vcal,'foo');
 
     }
 
@@ -85,7 +84,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $ev->add($dtStart);
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,$ev->uid);
+        $it = new EventIterator($vcal,$ev->uid);
 
         // Max is to prevent overflow
         $max = 12;
@@ -138,7 +137,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,$ev->uid);
+        $it = new EventIterator($vcal,$ev->uid);
 
         // Max is to prevent overflow
         $max = 12;
@@ -185,7 +184,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,$ev->uid);
+        $it = new EventIterator($vcal,$ev->uid);
 
         // Max is to prevent overflow
         $max = 12;
@@ -227,7 +226,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -280,7 +279,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -333,7 +332,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -386,7 +385,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         // Max is to prevent overflow
         $max = 12;
@@ -437,7 +436,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 15;
@@ -493,7 +492,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -546,7 +545,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -599,7 +598,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 14;
         $result = array();
@@ -645,7 +644,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 14;
         $result = array();
@@ -698,7 +697,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 14;
         $result = array();
@@ -751,7 +750,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 20;
         $result = array();
@@ -807,7 +806,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 20;
         $result = array();
@@ -857,7 +856,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 20;
         $result = array();
@@ -907,7 +906,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 20;
         $result = array();
@@ -957,7 +956,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 20;
         $result = array();
@@ -1000,7 +999,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 20;
         $result = array();
@@ -1048,7 +1047,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 20;
         $result = array();
@@ -1096,7 +1095,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         // The idea is that we're fast-forwarding too far in the future, so
         // there will be no results left.
@@ -1145,7 +1144,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new RecurrenceIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal,(string)$ev->uid);
 
         $max = 20;
         $result = array();
@@ -1206,7 +1205,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev3);
 
-        $it = new RecurrenceIterator($vcal,'overridden');
+        $it = new EventIterator($vcal,'overridden');
 
         $dates = array();
         $summaries = array();
@@ -1271,7 +1270,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev2);
 
-        $it = new RecurrenceIterator($vcal,'overridden');
+        $it = new EventIterator($vcal,'overridden');
 
         $dates = array();
         $summaries = array();
@@ -1323,7 +1322,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev2);
 
-        $it = new RecurrenceIterator($vcal,'overridden');
+        $it = new EventIterator($vcal,'overridden');
 
         $dates = array();
         $summaries = array();

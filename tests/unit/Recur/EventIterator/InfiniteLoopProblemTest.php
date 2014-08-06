@@ -1,13 +1,14 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur\EventIterator;
 
 use
     DateTime,
     DateTimeZone,
-    Sabre\VObject\Component\VCalendar;
+    Sabre\VObject\Component\VCalendar,
+    Sabre\VObject\Recur;
 
-class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestCase {
+class EventIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
 
@@ -51,7 +52,7 @@ class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestC
         // way to specify this, and could have certainly been a lot easier.
         $this->vcal->add($ev);
 
-        $it = new RecurrenceIterator($this->vcal,'uuid');
+        $it = new Recur\EventIterator($this->vcal,'uuid');
         $it->fastForward(new DateTime('2012-01-29 23:00:00', new DateTimeZone('UTC')));
 
         $collect = array();
@@ -88,7 +89,7 @@ class RecurrenceIteratorInfiniteLoopProblemTest extends \PHPUnit_Framework_TestC
         $ev->RRULE = 'FREQ=YEARLY;INTERVAL=0';
         $this->vcal->add($ev);
 
-        $it = new RecurrenceIterator($this->vcal,'uuid');
+        $it = new Recur\EventIterator($this->vcal,'uuid');
         $it->fastForward(new DateTime('2013-01-01 23:00:00', new DateTimeZone('UTC')));
 
         // if we got this far.. it means we are no longer infinitely looping

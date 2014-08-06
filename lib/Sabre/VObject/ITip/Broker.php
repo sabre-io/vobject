@@ -4,7 +4,7 @@ namespace Sabre\VObject\ITip;
 
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
-use Sabre\VObject\RecurrenceIterator;
+use Sabre\VObject\Recur\EventIterator;
 
 /**
  * The ITip\Broker class is a utility class that helps with processing
@@ -344,7 +344,7 @@ class Broker {
         // original list, it means that new exceptions must be created.
         foreach($instances as $recurId=>$partstat) {
 
-            $recurrenceIterator = new RecurrenceIterator($existingObject, $itipMessage->uid);
+            $recurrenceIterator = new EventIterator($existingObject, $itipMessage->uid);
             $found = false;
             $iterations = 1000;
             do {

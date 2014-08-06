@@ -1,10 +1,11 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur;
 
 use InvalidArgumentException;
 use DateTime;
-use Sabre\VObject\Component\VEVENT;
+use Sabre\VObject\Component;
+use Sabre\VObject\Component\VEvent;
 
 /**
  * This class is used to determine new for a recurring event, when the next
@@ -52,7 +53,7 @@ use Sabre\VObject\Component\VEVENT;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class RecurrenceIterator implements \Iterator {
+class EventIterator implements \Iterator {
 
     /**
      * Creates the iterator
@@ -154,7 +155,7 @@ class RecurrenceIterator implements \Iterator {
             $this->eventDuration = 0;
         }
 
-        $this->rruleParser = new RRuleParser($rrule, $this->startDate);
+        $this->rruleIterator = new RRuleIterator($rrule, $this->startDate);
         $this->rewind();
 
     }
@@ -229,7 +230,7 @@ class RecurrenceIterator implements \Iterator {
         if (isset($event->DTEND)) {
             $event->DTEND->setDateTime($this->getDtEnd());
         }
-        if ($this->rruleParser->key() > 0) {
+        if ($this->rruleIterator->key() > 0) {
             $event->{'RECURRENCE-ID'} = (string)$event->DTSTART;
         }
         return $event;
@@ -267,7 +268,7 @@ class RecurrenceIterator implements \Iterator {
      */
     public function rewind() {
 
-        $this->rruleParser->rewind();
+        $this->rruleIterator->rewind();
         // re-creating overridden event index.
         $index = array();
         foreach($this->overriddenEvents as $key=>$event) {
@@ -304,15 +305,15 @@ class RecurrenceIterator implements \Iterator {
             // We need to do this until we find a date that's not in the
             // exception list.
             do {
-                if (!$this->rruleParser->valid()) {
+                if (!$this->rruleIterator->valid()) {
                     $nextDate = null;
                     break;
                 }
-                $nextDate = $this->rruleParser->current();
+                $nextDate = $this->rruleIterator->current();
                 if (!$nextDate) {
                     break;
                 }
-                $this->rruleParser->next();
+                $this->rruleIterator->next();
             } while(isset($this->exceptions[$nextDate->getTimeStamp()]));
 
         }
@@ -366,16 +367,16 @@ class RecurrenceIterator implements \Iterator {
      */
     public function isInfinite() {
 
-        return $this->rruleParser->isInfinite();
+        return $this->rruleIterator->isInfinite();
 
     }
 
     /**
      * RRULE parser
      *
-     * @var RRuleParser
+     * @var RRuleIterator
      */
-    protected $rruleParser;
+    protected $rruleIterator;
 
     /**
      * The duration, in seconds, of the master event.

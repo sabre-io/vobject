@@ -1,10 +1,12 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur;
 
 use DateTime;
 use InvalidArgumentException;
 use Iterator;
+use Sabre\VObject\DateTimeParser;
+
 
 /**
  * RRuleParser
@@ -19,7 +21,7 @@ use Iterator;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class RRuleParser implements Iterator {
+class RRuleIterator implements Iterator {
 
     /**
      * Creates the Iterator

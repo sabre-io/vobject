@@ -1,7 +1,9 @@
 <?php
 
 namespace Sabre\VObject\Component;
+
 use Sabre\VObject;
+use Sabre\VObject\Recur\EventIterator;
 
 /**
  * VEvent component
@@ -28,7 +30,7 @@ class VEvent extends VObject\Component {
     public function isInTimeRange(\DateTime $start, \DateTime $end) {
 
         if ($this->RRULE) {
-            $it = new VObject\RecurrenceIterator($this);
+            $it = new EventIterator($this);
             $it->fastForward($start);
 
             // We fast-forwarded to a spot where the end-time of the

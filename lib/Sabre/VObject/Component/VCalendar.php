@@ -4,7 +4,8 @@ namespace Sabre\VObject\Component;
 
 use
     Sabre\VObject,
-    Sabre\VObject\Component;
+    Sabre\VObject\Component,
+    Sabre\VObject\Recur\EventIterator;
 
 /**
  * The VCalendar component
@@ -265,7 +266,7 @@ class VCalendar extends VObject\Document {
                 throw new \LogicException('Event did not have a UID!');
             }
 
-            $it = new VObject\RecurrenceIterator($this, $vevent->uid);
+            $it = new EventIterator($this, $vevent->uid);
             $it->fastForward($start);
 
             while($it->valid() && $it->getDTStart() < $end) {
