@@ -24,7 +24,7 @@ use Sabre\VObject\DateTimeParser;
 class RDateIterator implements Iterator {
 
     /**
-     * Creates the Iterator
+     * Creates the Iterator.
      *
      * @param string|array $rrule
      * @param DateTime $start
@@ -47,7 +47,7 @@ class RDateIterator implements Iterator {
     }
 
     /**
-     * Returns the current item number
+     * Returns the current item number.
      *
      * @return int
      */
@@ -70,7 +70,7 @@ class RDateIterator implements Iterator {
     }
 
     /**
-     * Resets the iterator
+     * Resets the iterator.
      *
      * @return void
      */
@@ -82,7 +82,7 @@ class RDateIterator implements Iterator {
     }
 
     /**
-     * Goes on to the next iteration
+     * Goes on to the next iteration.
      *
      * @return void
      */
