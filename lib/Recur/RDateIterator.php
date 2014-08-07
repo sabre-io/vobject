@@ -58,7 +58,7 @@ class RDateIterator implements Iterator {
     }
 
     /**
-     * Returns whether the current item is a valid item for the recurrence;
+     * Returns whether the current item is a valid item for the recurrence
      * iterator.
      *
      * @return bool
