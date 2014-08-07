@@ -238,12 +238,18 @@ class EventIterator implements \Iterator {
         }
 
         $event = clone $this->masterEvent;
+
+        // Ignoring the following block, because PHPUnit's code coverage
+        // ignores most of these lines, and this messes with our stats.
+        //
+        // @codeCoverageIgnoreStart
         unset(
             $event->RRULE,
             $event->EXDATE,
             $event->RDATE,
             $event->EXRULE
         );
+        // @codeCoverageIgnoreEnd
 
         $event->DTSTART->setDateTime($this->getDtStart());
         if (isset($event->DTEND)) {
@@ -329,9 +335,6 @@ class EventIterator implements \Iterator {
                     break;
                 }
                 $nextDate = $this->recurIterator->current();
-                if (!$nextDate) {
-                    break;
-                }
                 $this->recurIterator->next();
             } while(isset($this->exceptions[$nextDate->getTimeStamp()]));
 

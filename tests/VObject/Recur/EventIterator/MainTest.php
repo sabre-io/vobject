@@ -1394,5 +1394,34 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         );
 
     }
+
+    /**
+     * @depends testValues
+     * @expectedException \InvalidArgumentException
+     */
+    function testNoMasterBadUID() {
+
+        $vcal = new VCalendar();
+        // ev2 overrides an event, and puts it on 2pm instead.
+        $ev2 = $vcal->createComponent('VEVENT');
+        $ev2->UID = 'overridden';
+        $ev2->{'RECURRENCE-ID'} = '20120110T120000Z';
+        $ev2->DTSTART = '20120110T140000Z';
+        $ev2->SUMMARY = 'Event 2';
+
+        $vcal->add($ev2);
+
+        // ev3 overrides an event, and puts it 2 days and 2 hours later
+        $ev3 = $vcal->createComponent('VEVENT');
+        $ev3->UID = 'overridden';
+        $ev3->{'RECURRENCE-ID'} = '20120113T120000Z';
+        $ev3->DTSTART = '20120115T140000Z';
+        $ev3->SUMMARY = 'Event 3';
+
+        $vcal->add($ev3);
+
+        $it = new EventIterator($vcal,'broken');
+
+    }
 }
 

@@ -15,6 +15,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('+5 days 3 hours 50 minutes 12 seconds', DateTimeParser::parseDuration('P5DT3H50M12S',true));
         $this->assertEquals('-1 weeks 50 minutes', DateTimeParser::parseDuration('-P1WT50M',true));
         $this->assertEquals('+50 days 3 hours 2 seconds', DateTimeParser::parseDuration('+P50DT3H2S',true));
+        $this->assertEquals('+0 seconds', DateTimeParser::parseDuration('+PT0S',true));
         $this->assertEquals(new DateInterval('PT0S'), DateTimeParser::parseDuration('PT0S'));
 
     }

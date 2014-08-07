@@ -322,4 +322,96 @@ OUT;
 
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    function testUnknownSourceVCardVersion() {
+
+        $input = <<<IN
+BEGIN:VCARD
+VERSION:4.2
+PRODID:foo
+FN;CHARSET=UTF-8:Steve
+TEL;TYPE=PREF,HOME:+1 555 666 777
+ITEM1.TEL:+1 444 555 666
+ITEM1.X-ABLABEL:CustomLabel
+PHOTO;ENCODING=b;TYPE=JPEG,HOME:Zm9v
+PHOTO;ENCODING=b;TYPE=GIF:Zm9v
+PHOTO;X-PARAM=FOO;ENCODING=b;TYPE=PNG:Zm9v
+PHOTO;VALUE=URI:http://example.org/foo.png
+X-ABShowAs:COMPANY
+END:VCARD
+
+IN;
+
+        $vcard = \Sabre\VObject\Reader::read($input);
+        $vcard->convert(\Sabre\VObject\Document::VCARD40);
+
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    function testUnknownTargetVCardVersion() {
+
+        $input = <<<IN
+BEGIN:VCARD
+VERSION:3.0
+PRODID:foo
+END:VCARD
+
+IN;
+
+        $vcard = \Sabre\VObject\Reader::read($input);
+        $vcard->convert(\Sabre\VObject\Document::VCARD21);
+
+    }
+
+    function testConvertIndividualCard() {
+
+        $version = Version::VERSION;
+
+        $input = <<<IN
+BEGIN:VCARD
+VERSION:4.0
+PRODID:foo
+KIND:INDIVIDUAL
+END:VCARD
+
+IN;
+
+        $output = <<<OUT
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject {$version}//EN
+END:VCARD
+
+OUT;
+
+        $vcard = \Sabre\VObject\Reader::read($input);
+        $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD30);
+
+        $this->assertEquals(
+            $output,
+            str_replace("\r", "", $vcard->serialize())
+        );
+
+        $input = $output;
+        $output = <<<OUT
+BEGIN:VCARD
+VERSION:4.0
+PRODID:-//Sabre//Sabre VObject {$version}//EN
+END:VCARD
+
+OUT;
+
+        $vcard = \Sabre\VObject\Reader::read($input);
+        $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD40);
+
+        $this->assertEquals(
+            $output,
+            str_replace("\r", "", $vcard->serialize())
+        );
+
+    }
 }

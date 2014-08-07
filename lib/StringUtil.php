@@ -50,9 +50,12 @@ class StringUtil {
             case 'ISO-8859-1' :
                 $newStr = utf8_encode($str);
                 break;
+            /* Unreachable code. Not sure yet how we can improve this
+             * situation.
             case 'WINDOWS-1252' :
                 $newStr = iconv('cp1252', 'UTF-8', $str);
                 break;
+             */
             default :
                  $newStr = $str;
 
