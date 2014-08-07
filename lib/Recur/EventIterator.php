@@ -155,7 +155,26 @@ class EventIterator implements \Iterator {
             $this->eventDuration = 0;
         }
 
-        $this->rruleIterator = new RRuleIterator($rrule, $this->startDate);
+        if (isset($this->masterEvent->RDATE)) {
+            $this->recurIterator = new RDateIterator(
+                $this->masterEvent->RDATE->getParts(),
+                $this->startDate
+            );
+        } elseif (isset($this->masterEvent->RRULE)) {
+            $this->recurIterator = new RRuleIterator(
+                $this->masterEvent->RRULE->getParts(),
+                $this->startDate
+            );
+        } else {
+            $this->recurIterator = new RRuleIterator(
+                array(
+                    'FREQ' => 'DAILY',
+                    'COUNT' => 1,
+                ),
+                $this->startDate
+            );
+        }
+
         $this->rewind();
 
     }
@@ -230,7 +249,7 @@ class EventIterator implements \Iterator {
         if (isset($event->DTEND)) {
             $event->DTEND->setDateTime($this->getDtEnd());
         }
-        if ($this->rruleIterator->key() > 0) {
+        if ($this->recurIterator->key() > 0) {
             $event->{'RECURRENCE-ID'} = (string)$event->DTSTART;
         }
         return $event;
@@ -268,7 +287,7 @@ class EventIterator implements \Iterator {
      */
     public function rewind() {
 
-        $this->rruleIterator->rewind();
+        $this->recurIterator->rewind();
         // re-creating overridden event index.
         $index = array();
         foreach($this->overriddenEvents as $key=>$event) {
@@ -305,15 +324,15 @@ class EventIterator implements \Iterator {
             // We need to do this until we find a date that's not in the
             // exception list.
             do {
-                if (!$this->rruleIterator->valid()) {
+                if (!$this->recurIterator->valid()) {
                     $nextDate = null;
                     break;
                 }
-                $nextDate = $this->rruleIterator->current();
+                $nextDate = $this->recurIterator->current();
                 if (!$nextDate) {
                     break;
                 }
-                $this->rruleIterator->next();
+                $this->recurIterator->next();
             } while(isset($this->exceptions[$nextDate->getTimeStamp()]));
 
         }
@@ -367,7 +386,7 @@ class EventIterator implements \Iterator {
      */
     public function isInfinite() {
 
-        return $this->rruleIterator->isInfinite();
+        return $this->recurIterator->isInfinite();
 
     }
 
@@ -376,7 +395,7 @@ class EventIterator implements \Iterator {
      *
      * @var RRuleIterator
      */
-    protected $rruleIterator;
+    protected $recurIterator;
 
     /**
      * The duration, in seconds, of the master event.
