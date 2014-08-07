@@ -1,13 +1,14 @@
 ChangeLog
 =========
 
-3.3.0 (????-??-??)
+3.3.0 (2014-08-07)
 ------------------
 
 * We now use PSR-4 for the directory structure. This means that everything
   that was used to be in the `lib/Sabre/VObject` directory is now moved to
   `lib/`. If you use composer to load this library, you shouldn't have to do
   anything about that though.
+* VEVENT now get populated with a DTSTAMP and UID property by default.
 * BC Break: Removed the 'includes.php' file. Use composer instead.
 * #103: Added support for processing [iTip][iTip] messages. This allows a user
   to parse incoming iTip messages and apply the result on existing calendars,
