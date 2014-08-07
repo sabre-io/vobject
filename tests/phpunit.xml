@@ -7,7 +7,7 @@
   strict="true"
   >
   <testsuite name="Sabre\VObject">
-    <directory>unit/</directory>
+    <directory>VObject/</directory>
   </testsuite>
 
   <filter>

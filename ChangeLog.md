@@ -4,6 +4,10 @@ ChangeLog
 3.3.0 (????-??-??)
 ------------------
 
+* We now use PSR-4 for the directory structure. This means that everything
+  that was used to be in the `lib/Sabre/VObject` directory is now moved to
+  `lib/`. If you use composer to load this library, you shouldn't have to do
+  anything about that though.
 * #103: Added support for processing [iTip][iTip] messages. This allows a user
   to parse incoming iTip messages and apply the result on existing calendars,
   or automatically generate invites/replies/cancellations based on changes that
@@ -11,6 +15,7 @@ ChangeLog
 * #75, #58, #18: Fixes related to overriding the first event in recurrences.
 * Added: VCalendar::getBaseComponent to find the 'master' component in a
   calendar.
+* #51: Support for iterating RDATE properties.
 
 3.2.5 (????-??-??)
 ------------------
