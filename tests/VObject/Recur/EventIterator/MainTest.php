@@ -1347,5 +1347,52 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(array(), $summaries);
 
     }
+
+    /**
+     * @depends testValues
+     */
+    function testRDATE() {
+
+        $vcal = new VCalendar();
+        $ev = $vcal->createComponent('VEVENT');
+
+        $ev->UID = 'bla';
+        $ev->RDATE = array(
+            new DateTime('2014-08-07', new DateTimeZone('UTC')),
+            new DateTime('2014-08-08', new DateTimeZone('UTC')),
+        );
+        $dtStart = $vcal->createProperty('DTSTART');
+        $dtStart->setDateTime(new DateTime('2011-10-07', new DateTimeZone('UTC')));
+
+        $ev->add($dtStart);
+
+        $vcal->add($ev);
+
+        $it = new EventIterator($vcal,$ev->uid);
+
+        // Max is to prevent overflow
+        $max = 12;
+        $result = array();
+        foreach($it as $item) {
+
+            $result[] = $item;
+            $max--;
+
+            if (!$max) break;
+
+        }
+
+        $tz = new DateTimeZone('UTC');
+
+        $this->assertEquals(
+            array(
+                new DateTime('2011-10-07', $tz),
+                new DateTime('2014-08-07', $tz),
+                new DateTime('2014-08-08', $tz),
+            ),
+            $result
+        );
+
+    }
 }
 
