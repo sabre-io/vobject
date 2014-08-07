@@ -16,10 +16,6 @@ ChangeLog
 * Added: VCalendar::getBaseComponent to find the 'master' component in a
   calendar.
 * #51: Support for iterating RDATE properties.
-
-3.2.5 (????-??-??)
-------------------
-
 * Fixed: Issue #101: RecurrenceIterator::nextMonthly() shows events that are
   excluded events with wrong time
 
