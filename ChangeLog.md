@@ -8,6 +8,7 @@ ChangeLog
   that was used to be in the `lib/Sabre/VObject` directory is now moved to
   `lib/`. If you use composer to load this library, you shouldn't have to do
   anything about that though.
+* BC Break: Removed the 'includes.php' file. Use composer instead.
 * #103: Added support for processing [iTip][iTip] messages. This allows a user
   to parse incoming iTip messages and apply the result on existing calendars,
   or automatically generate invites/replies/cancellations based on changes that
