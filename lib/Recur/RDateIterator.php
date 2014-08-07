@@ -58,14 +58,14 @@ class RDateIterator implements Iterator {
     }
 
     /**
-     * Returns whether the current item is a valid item for the recurrence
+     * Returns whether the current item is a valid item for the recurrence;
      * iterator.
      *
      * @return bool
      */
     public function valid() {
 
-        return ($this->counter < count($this->dates)); 
+        return ($this->counter <= count($this->dates));
 
     }
 
@@ -88,12 +88,15 @@ class RDateIterator implements Iterator {
      */
     public function next() {
 
+        $this->counter++;
+        if (!$this->valid()) return;
+
         $this->currentDate->modify(
             DateTimeParser::parse(
-                $this->dates[$this->counter]
+                $this->dates[$this->counter-1]
             )->format('Y-m-d H:i:s')
         );
-        $this->counter++;
+
 
     }
 

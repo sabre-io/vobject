@@ -642,7 +642,7 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
 
     function testIteratorFunctions() {
 
-        $parser = new RRuleParser('FREQ=DAILY', new DateTime('2014-08-02 00:00:13'));
+        $parser = new RRuleIterator('FREQ=DAILY', new DateTime('2014-08-02 00:00:13'));
         $parser->next();
         $this->assertEquals(
             new DateTime('2014-08-03 00:00:13'),
@@ -669,7 +669,7 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
     function parse($rule, $start, $expected, $fastForward = null, $tz = 'UTC') {
 
         $dt = new DateTime($start, new DateTimeZone($tz));
-        $parser = new RRuleParser($rule, $dt);
+        $parser = new RRuleIterator($rule, $dt);
 
         if ($fastForward) {
             $parser->fastForward(new DateTime($fastForward));

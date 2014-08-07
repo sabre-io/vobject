@@ -6,6 +6,7 @@ use DateTime;
 use InvalidArgumentException;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property;
 
 
 /**
