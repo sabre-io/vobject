@@ -145,6 +145,15 @@ class RDateIterator implements Iterator {
      */
     protected $currentDate;
 
+    /**
+     * The current item in the list.
+     *
+     * You can get this number with the key() method.
+     *
+     * @var int
+     */
+    protected $counter = 0;
+
     /* }}} */
 
     /**
