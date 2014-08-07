@@ -91,12 +91,10 @@ class RDateIterator implements Iterator {
         $this->counter++;
         if (!$this->valid()) return;
 
-        $this->currentDate->modify(
+        $this->currentDate =
             DateTimeParser::parse(
                 $this->dates[$this->counter-1]
-            )->format('Y-m-d H:i:s')
-        );
-
+            );
 
     }
 
