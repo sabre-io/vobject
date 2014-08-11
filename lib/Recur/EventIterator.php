@@ -106,7 +106,7 @@ class EventIterator implements \Iterator {
             // No base event was found. CalDAV does allow cases where only
             // overridden instances are stored.
             //
-            // In this barticular case, we're just going to grab the first
+            // In this particular case, we're just going to grab the first
             // event and use that instead. This may not always give the
             // desired result.
             if (!count($this->overriddenEvents)) {
