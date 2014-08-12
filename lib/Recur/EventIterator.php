@@ -247,7 +247,8 @@ class EventIterator implements \Iterator {
             $event->RRULE,
             $event->EXDATE,
             $event->RDATE,
-            $event->EXRULE
+            $event->EXRULE,
+            $event->{'RECURRENCE-ID'}
         );
         // @codeCoverageIgnoreEnd
 
@@ -256,7 +257,7 @@ class EventIterator implements \Iterator {
             $event->DTEND->setDateTime($this->getDtEnd());
         }
         if ($this->recurIterator->key() > 0) {
-            $event->{'RECURRENCE-ID'} = (string)$event->DTSTART;
+            $event->add('RECURRENCE-ID', $event->DTSTART->getDateTime());
         }
         return $event;
 

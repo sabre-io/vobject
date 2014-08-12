@@ -5,6 +5,7 @@ ChangeLog
 ------------------
 
 * #111: iTip Broker does not process attendee adding events to EXDATE.
+* #112: EventIterator now sets TZID on RECURRENCE-ID.
 
 
 3.3.0 (2014-08-07)

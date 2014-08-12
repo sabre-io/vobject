@@ -367,7 +367,6 @@ class Broker {
                 $newObject->EXDATE,
                 $newObject->RDATE
             );
-            $newObject->{'RECURRENCE-ID'} = $recurId;
             $attendeeFound = false;
             if (isset($newObject->ATTENDEE)) {
                 foreach($newObject->ATTENDEE as $attendee) {
@@ -654,6 +653,7 @@ class Broker {
         $organizer = null;
         $organizerName = null;
         $sequence = null;
+        $timezone = null;
 
         // Now we need to collect a list of attendees, and which instances they
         // are a part of.
@@ -663,6 +663,7 @@ class Broker {
         $exdate = array();
 
         foreach($calendar->VEVENT as $vevent) {
+
             if (is_null($uid)) {
                 $uid = $vevent->UID->getValue();
             } else {
@@ -670,6 +671,11 @@ class Broker {
                     throw new ITipException('If a calendar contained more than one event, they must have the same UID.');
                 }
             }
+
+            if (!isset($vevent->DTSTART)) {
+                throw new ITipException('An event MUST have a DTSTART property.');
+            }
+
             if (isset($vevent->ORGANIZER)) {
                 if (is_null($organizer)) {
                     $organizer = $vevent->ORGANIZER->getValue();
@@ -722,6 +728,9 @@ class Broker {
 
                 }
                 $instances[$value] = $vevent;
+                if ($value==='master') {
+                    $timezone = $vevent->DTSTART->getDateTime()->getTimeZone();
+                }
 
             }
 
@@ -734,7 +743,8 @@ class Broker {
             'instances',
             'attendees',
             'sequence',
-            'exdate'
+            'exdate',
+            'timezone'
         );
 
     }

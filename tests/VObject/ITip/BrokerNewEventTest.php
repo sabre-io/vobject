@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
-class BrokerNewTest extends \PHPUnit_Framework_TestCase {
+class BrokerNewEventTest extends \PHPUnit_Framework_TestCase {
 
     function testNoAttendee() {
 
@@ -10,6 +10,7 @@ class BrokerNewTest extends \PHPUnit_Framework_TestCase {
 BEGIN:VCALENDAR
 BEGIN:VEVENT
 UID:foobar
+DTSTART:20140811T220000Z
 END:VEVENT
 END:VCALENDAR
 ICS;
@@ -39,6 +40,7 @@ BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 UID:foobar
+DTSTART:20140811T220000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=White:mailto:white@example.org
 END:VEVENT
@@ -54,6 +56,7 @@ CALSCALE:GREGORIAN
 METHOD:REQUEST
 BEGIN:VEVENT
 UID:foobar
+DTSTART:20140811T220000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=White:mailto:white@example.org
 END:VEVENT
@@ -379,6 +382,7 @@ BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 UID:foobar
+DTSTART:20140811T220000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=White;SCHEDULE-AGENT=CLIENT:mailto:white@example.org
 END:VEVENT
@@ -393,6 +397,7 @@ PRODID:-//Sabre//Sabre VObject $version//EN
 CALSCALE:GREGORIAN
 METHOD:REQUEST
 BEGIN:VEVENT
+DTSTART:20140811T220000Z
 UID:foobar
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=White;SCHEDULE-AGENT=CLIENT:mailto:white@example.org
