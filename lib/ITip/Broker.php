@@ -3,6 +3,7 @@
 namespace Sabre\VObject\ITip;
 
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 
@@ -607,7 +608,7 @@ class Broker {
                 'SEQUENCE' => $message->sequence,
             ));
             if ($instance['id'] !== 'master') {
-                $event->{'RECURRENCE-ID'} = $instance['id'];
+                $event->{'RECURRENCE-ID'} = DateTimeParser::parseDateTime($instance['id'], $eventInfo['timezone']);
             }
             $organizer = $event->add('ORGANIZER', $message->recipient);
             if ($message->recipientName) {
@@ -693,7 +694,10 @@ class Broker {
                 $exdate = $vevent->EXDATE->getParts();
             }
 
-            $value = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
+            $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
+            if ($recurId==='master') {
+                $timezone = $vevent->DTSTART->getDateTime()->getTimeZone();
+            }
             if(isset($vevent->ATTENDEE)) {
                 foreach($vevent->ATTENDEE as $attendee) {
 
@@ -709,16 +713,16 @@ class Broker {
                         'NEEDS-ACTION';
 
                     if (isset($attendees[$attendee->getValue()])) {
-                        $attendees[$attendee->getValue()]['instances'][$value] = array(
-                            'id' => $value,
+                        $attendees[$attendee->getValue()]['instances'][$recurId] = array(
+                            'id' => $recurId,
                             'partstat' => $partStat,
                         );
                     } else {
                         $attendees[$attendee->getValue()] = array(
                             'href' => $attendee->getValue(),
                             'instances' => array(
-                                $value => array(
-                                    'id' => $value,
+                                $recurId => array(
+                                    'id' => $recurId,
                                     'partstat' => $partStat,
                                 ),
                             ),
@@ -727,10 +731,7 @@ class Broker {
                     }
 
                 }
-                $instances[$value] = $vevent;
-                if ($value==='master') {
-                    $timezone = $vevent->DTSTART->getDateTime()->getTimeZone();
-                }
+                $instances[$recurId] = $vevent;
 
             }
 
