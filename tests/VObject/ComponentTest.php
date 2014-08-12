@@ -290,18 +290,6 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    function testMagicSetInvalid() {
-
-        $comp = new VCalendar(array(), false);
-
-        // Note that 'myProp' is ignored here.
-        $comp->myProp = new \StdClass();
-
-    }
-
     function testMagicUnset() {
 
         $comp = new VCalendar(array(), false);

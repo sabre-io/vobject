@@ -4,6 +4,8 @@ ChangeLog
 3.3.1 (2014-??-??)
 ------------------
 
+* Changed: It's now possible to pass DateTime objects when using the magic
+  setters on properties. (`$event->DTSTART = new DateTime('now')`).
 * #111: iTip Broker does not process attendee adding events to EXDATE.
 * #112: EventIterator now sets TZID on RECURRENCE-ID.
 

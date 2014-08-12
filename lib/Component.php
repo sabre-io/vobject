@@ -417,7 +417,7 @@ class Component extends Node {
             } else {
                 $this->children[] = $value;
             }
-        } elseif (is_scalar($value) || is_array($value) || is_null($value)) {
+        } else {
             $property = $this->root->create($name,$value);
             $property->parent = $this;
             if (!is_null($overWrite)) {
@@ -425,10 +425,7 @@ class Component extends Node {
             } else {
                 $this->children[] = $property;
             }
-        } else {
-            throw new \InvalidArgumentException('You must pass a \\Sabre\\VObject\\Component, \\Sabre\\VObject\\Property or scalar type');
         }
-
     }
 
     /**
