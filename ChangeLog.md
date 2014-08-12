@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+3.3.1 (2014-??-??)
+------------------
+
+* #111: iTip Broker does not process attendee adding events to EXDATE.
+
+
 3.3.0 (2014-08-07)
 ------------------
 

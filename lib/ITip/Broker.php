@@ -562,6 +562,25 @@ class Broker {
 
         }
 
+        // We need to also look for differences in EXDATE. If there are new
+        // items in EXDATE, it means that an attendee deleted instances of an
+        // event, which means we need to send DECLINED specifically for those
+        // instances.
+        // We only need to do that though, if the master event is not declined.
+        if ($instances['master']['newstatus'] !== 'DECLINED') {
+            foreach($eventInfo['exdate'] as $exDate) {
+
+                if (!in_array($exDate, $oldEventInfo['exdate'])) {
+                    $instances[$exDate] = array(
+                        'id' => $exDate,
+                        'oldstatus' => $instances['master']['oldstatus'],
+                        'newstatus' => 'DECLINED',
+                    );
+                }
+
+            }
+        }
+
         $message = new Message();
         $message->uid = $eventInfo['uid'];
         $message->method = 'REPLY';
@@ -641,7 +660,7 @@ class Broker {
         $attendees = array();
 
         $instances = array();
-        $exdate = null;
+        $exdate = array();
 
         foreach($calendar->VEVENT as $vevent) {
             if (is_null($uid)) {
@@ -664,7 +683,7 @@ class Broker {
             if (is_null($sequence) && isset($vevent->SEQUENCE)) {
                 $sequence = $vevent->SEQUENCE->getValue();
             }
-            if (is_null($exdate) && isset($vevent->EXDATE)) {
+            if (isset($vevent->EXDATE)) {
                 $exdate = $vevent->EXDATE->getParts();
             }
 
