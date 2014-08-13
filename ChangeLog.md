@@ -9,7 +9,9 @@ ChangeLog
 * #111: iTip Broker does not process attendee adding events to EXDATE.
 * #112: EventIterator now sets TZID on RECURRENCE-ID.
 * #113: Timezone support during creation of iTip REPLY messages.
-
+* #114: VTIMEZONE is retained when generating new REQUEST objects.
+* #114: Support for 'MAILTO:' style email addresses (in uppercase) in the iTip
+  broker. This improves evolution support.
 
 3.3.0 (2014-08-07)
 ------------------

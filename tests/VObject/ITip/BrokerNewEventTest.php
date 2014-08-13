@@ -390,20 +390,6 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $expectedMessage = <<<ICS
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Sabre//Sabre VObject $version//EN
-CALSCALE:GREGORIAN
-METHOD:REQUEST
-BEGIN:VEVENT
-DTSTART:20140811T220000Z
-UID:foobar
-ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=White;SCHEDULE-AGENT=CLIENT:mailto:white@example.org
-END:VEVENT
-END:VCALENDAR
-ICS;
 
         $expected = array();
         $result = $this->parse($message, $expected);

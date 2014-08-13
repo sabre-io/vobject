@@ -177,7 +177,6 @@ class Broker {
                 return array();
             }
 
-            $organizer = (string)$calendar->VEVENT->ORGANIZER;
             $baseCalendar = $calendar;
 
         } else {
@@ -188,12 +187,10 @@ class Broker {
                 return array();
             }
 
-
-            $organizer = (string)$oldCalendar->VEVENT->ORGANIZER;
             $eventInfo = $oldEventInfo;
             $eventInfo['sequence']++;
 
-            if (in_array($organizer, $userHref)) {
+            if (in_array($eventInfo['organizer'], $userHref)) {
                 // This is an organizer deleting the event.
                 $eventInfo['attendees'] = array();
             } else {
@@ -208,7 +205,7 @@ class Broker {
 
         }
 
-        if (in_array($organizer, $userHref)) {
+        if (in_array($eventInfo['organizer'], $userHref)) {
             return $this->parseEventForOrganizer($baseCalendar, $eventInfo, $oldEventInfo);
         } elseif ($oldCalendar) {
             // We need to figure out if the user is an attendee, but we're only
@@ -481,6 +478,10 @@ class Broker {
                 $icalMsg = new VCalendar();
                 $icalMsg->METHOD = $message->method;
 
+                foreach($calendar->select('VTIMEZONE') as $timezone) {
+                    $icalMsg->add(clone $timezone);
+                }
+
                 foreach($attendee['newInstances'] as $instanceId => $instanceInfo) {
 
                     $currentEvent = clone $eventInfo['instances'][$instanceId];
@@ -679,7 +680,9 @@ class Broker {
 
             if (isset($vevent->ORGANIZER)) {
                 if (is_null($organizer)) {
-                    $organizer = $vevent->ORGANIZER->getValue();
+                    $organizer = $this->normalizeUri(
+                        $vevent->ORGANIZER->getValue()
+                    );
                     $organizerName = isset($vevent->ORGANIZER['CN'])?$vevent->ORGANIZER['CN']:null;
                 } else {
                     if ($organizer !== $vevent->ORGANIZER->getValue()) {
@@ -719,7 +722,7 @@ class Broker {
                         );
                     } else {
                         $attendees[$attendee->getValue()] = array(
-                            'href' => $attendee->getValue(),
+                            'href' => $this->normalizeUri($attendee->getValue()),
                             'instances' => array(
                                 $recurId => array(
                                     'id' => $recurId,
@@ -750,5 +753,22 @@ class Broker {
 
     }
 
+    /**
+     * This method normalizes uris.
+     *
+     * This is primarily used right now to turn mixed-cased schemes in user
+     * uris to lower-case.
+     *
+     * Evolution in particular tends to encode mailto: as MAILTO:.
+     *
+     * @param string $input
+     * @return string
+     */
+    protected function normalizeUri($input) {
+
+        list($schema, $everythingElse) = explode(':', $input, 2);
+        return strtolower($schema) . ':' . $everythingElse;
+
+    }
 
 }

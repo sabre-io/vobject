@@ -32,6 +32,7 @@ ICS;
         $result = $this->process($itip, null, $expected);
 
     }
+
     function testRequestUpdate() {
 
         $itip = <<<ICS

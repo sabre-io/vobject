@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
-class BrokerDeleteEventTest extends \PHPUnit_Framework_TestCase {
+class BrokerDeleteEventTest extends ParseTester {
 
     function testOrganizerDelete() {
 
@@ -150,34 +150,6 @@ END:VTODO
 END:VCALENDAR
 ICS;
         $this->parse($oldMessage, null, array(), 'mailto:one@example.org');
-
-    }
-
-    function parse($oldMessage, $newMessage, $expected = array(), $currentUser) {
-
-        $broker = new Broker();
-        $result = $broker->parseEvent($newMessage, $currentUser, $oldMessage);
-
-        $this->assertEquals(count($expected), count($result));
-
-        foreach($expected as $index=>$ex) {
-
-            $message = $result[$index];
-
-            foreach($ex as $key=>$val) {
-
-                if ($key==='message') {
-                    $this->assertEquals(
-                        str_replace("\n", "\r\n", $val),
-                        rtrim($message->message->serialize(), "\r\n")
-                    );
-                } else {
-                    $this->assertEquals($val, $message->$key);
-                }
-
-            }
-
-        }
 
     }
 
