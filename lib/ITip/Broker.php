@@ -680,9 +680,7 @@ class Broker {
 
             if (isset($vevent->ORGANIZER)) {
                 if (is_null($organizer)) {
-                    $organizer = $this->normalizeUri(
-                        $vevent->ORGANIZER->getValue()
-                    );
+                    $organizer = $vevent->ORGANIZER->getNormalizedValue();
                     $organizerName = isset($vevent->ORGANIZER['CN'])?$vevent->ORGANIZER['CN']:null;
                 } else {
                     if ($organizer !== $vevent->ORGANIZER->getValue()) {
@@ -722,7 +720,7 @@ class Broker {
                         );
                     } else {
                         $attendees[$attendee->getValue()] = array(
-                            'href' => $this->normalizeUri($attendee->getValue()),
+                            'href' => $attendee->getNormalizedValue(),
                             'instances' => array(
                                 $recurId => array(
                                     'id' => $recurId,
@@ -750,24 +748,6 @@ class Broker {
             'exdate',
             'timezone'
         );
-
-    }
-
-    /**
-     * This method normalizes uris.
-     *
-     * This is primarily used right now to turn mixed-cased schemes in user
-     * uris to lower-case.
-     *
-     * Evolution in particular tends to encode mailto: as MAILTO:.
-     *
-     * @param string $input
-     * @return string
-     */
-    protected function normalizeUri($input) {
-
-        list($schema, $everythingElse) = explode(':', $input, 2);
-        return strtolower($schema) . ':' . $everythingElse;
 
     }
 
