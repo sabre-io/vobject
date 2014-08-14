@@ -51,6 +51,9 @@ class CalAddress extends Text {
     public function getNormalizedValue() {
 
         $input = $this->getValue();
+        if (!strpos($input, ':')) {
+            return $input;
+        }
         list($schema, $everythingElse) = explode(':', $input, 2);
         return strtolower($schema) . ':' . $everythingElse;
 
