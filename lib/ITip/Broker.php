@@ -683,7 +683,7 @@ class Broker {
                     $organizer = $vevent->ORGANIZER->getNormalizedValue();
                     $organizerName = isset($vevent->ORGANIZER['CN'])?$vevent->ORGANIZER['CN']:null;
                 } else {
-                    if ($organizer !== $vevent->ORGANIZER->getValue()) {
+                    if ($organizer !== $vevent->ORGANIZER->getNormalizedValue()) {
                         throw new SameOrganizerForAllComponentsException('Every instance of the event must have the same organizer.');
                     }
                 }
@@ -713,13 +713,13 @@ class Broker {
                         strtoupper($attendee['PARTSTAT']) :
                         'NEEDS-ACTION';
 
-                    if (isset($attendees[$attendee->getValue()])) {
-                        $attendees[$attendee->getValue()]['instances'][$recurId] = array(
+                    if (isset($attendees[$attendee->getNormalizedValue()])) {
+                        $attendees[$attendee->getNormalizedValue()]['instances'][$recurId] = array(
                             'id' => $recurId,
                             'partstat' => $partStat,
                         );
                     } else {
-                        $attendees[$attendee->getValue()] = array(
+                        $attendees[$attendee->getNormalizedValue()] = array(
                             'href' => $attendee->getNormalizedValue(),
                             'instances' => array(
                                 $recurId => array(
