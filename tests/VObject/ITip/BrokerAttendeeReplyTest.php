@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
-class BrokerAttendeeReplyTest extends \PHPUnit_Framework_TestCase {
+class BrokerAttendeeReplyTest extends BrokerTester {
 
     function testAccepted() {
 
@@ -407,34 +407,6 @@ ICS
             ),
         );
         $result = $this->parse($oldMessage, $newMessage, $expected);
-
-    }
-
-    function parse($oldMessage, $newMessage, $expected = array()) {
-
-        $broker = new Broker();
-        $result = $broker->parseEvent($newMessage, 'mailto:one@example.org', $oldMessage);
-
-        $this->assertEquals(count($expected), count($result));
-
-        foreach($expected as $index=>$ex) {
-
-            $message = $result[$index];
-
-            foreach($ex as $key=>$val) {
-
-                if ($key==='message') {
-                    $this->assertEquals(
-                        str_replace("\n", "\r\n", $val),
-                        rtrim($message->message->serialize(), "\r\n")
-                    );
-                } else {
-                    $this->assertEquals($val, $message->$key);
-                }
-
-            }
-
-        }
 
     }
 

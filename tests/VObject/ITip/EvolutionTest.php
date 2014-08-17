@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
-class EvolutionTest extends ParseTester {
+class EvolutionTest extends BrokerTester {
 
     /**
      * Evolution does things as usual a little bit differently.

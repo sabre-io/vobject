@@ -3,15 +3,13 @@
 namespace Sabre\VObject\ITip;
 
 /**
- * Tests 'parse' related functionality.
- *
- * This class provides some convenience functions to make this easier.
+ * Utilities for testing the broker
  * 
  * @copyright Copyright (C) 2007-2014 fruux GmbH. All rights reserved.
  * @author Evert Pot (http://evertpot.com/) 
  * @license http://sabre.io/license/ Modified BSD License
  */
-abstract class ParseTester extends \PHPUnit_Framework_TestCase {
+abstract class BrokerTester extends \PHPUnit_Framework_TestCase {
 
     function parse($oldMessage, $newMessage, $expected = array(), $currentUser = 'mailto:one@example.org') {
 

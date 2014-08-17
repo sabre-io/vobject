@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
-class BrokerDeleteEventTest extends ParseTester {
+class BrokerDeleteEventTest extends BrokerTester {
 
     function testOrganizerDelete() {
 
