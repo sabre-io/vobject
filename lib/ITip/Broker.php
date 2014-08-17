@@ -300,10 +300,14 @@ class Broker {
             return null;
         }
         $instances = array();
+        $requestStatus = '2.0;Success';
         foreach($itipMessage->message->VEVENT as $vevent) {
             $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
             $attendee = $vevent->ATTENDEE;
             $instances[$recurId] = $attendee['PARTSTAT']->getValue();
+            if (isset($vevent->{'REQUEST-STATUS'})) {
+                $requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
+            }
         }
         $masterObject = null;
         foreach($existingObject->VEVENT as $vevent) {
@@ -318,6 +322,7 @@ class Broker {
                         if ($attendee->getValue() === $itipMessage->sender) {
                             $attendeeFound = true;
                             $attendee['PARTSTAT'] = $instances[$recurId];
+                            $attendee['SCHEDULE-STATUS'] = $requestStatus;
                             break;
                         }
                     }

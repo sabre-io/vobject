@@ -12,6 +12,8 @@ ChangeLog
 * #114: VTIMEZONE is retained when generating new REQUEST objects.
 * #114: Support for 'MAILTO:' style email addresses (in uppercase) in the iTip
   broker. This improves evolution support.
+* #115: Using REQUEST-STATUS from REPLY messages and now propegating that into
+  SCHEDULE-STATUS.
 
 3.3.0 (2014-08-07)
 ------------------
