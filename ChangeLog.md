@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.3.1 (2014-??-??)
+3.3.1 (2014-08-18)
 ------------------
 
 * Changed: It's now possible to pass DateTime objects when using the magic
