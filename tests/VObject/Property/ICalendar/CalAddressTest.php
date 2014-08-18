@@ -19,7 +19,7 @@ class CalAddressTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    function values() { 
+    function values() {
 
         return array(
             array('mailto:a@b.com', 'mailto:a@b.com'),
