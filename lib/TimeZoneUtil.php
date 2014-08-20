@@ -136,7 +136,10 @@ class TimeZoneUtil {
         // doesn't take DST into account.
         if ($tzid[0]!=='(') {
             try {
-                return new \DateTimeZone($tzid);
+                $timezoneIdentifiers = \DateTimeZone::listIdentifiers();
+                if (in_array($tzid, $timezoneIdentifiers)) {
+                    return new \DateTimeZone($tzid);
+                }
             } catch (\Exception $e) {
             }
         }
