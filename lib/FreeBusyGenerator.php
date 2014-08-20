@@ -60,7 +60,7 @@ class FreeBusyGenerator {
      * @param mixed $objects
      * @return void
      */
-    public function __construct(\DateTime $start = null, \DateTime $end = null, $objects = null) {
+    function __construct(\DateTime $start = null, \DateTime $end = null, $objects = null) {
 
         if ($start && $end) {
             $this->setTimeRange($start, $end);
@@ -83,7 +83,7 @@ class FreeBusyGenerator {
      * @param Component $vcalendar
      * @return void
      */
-    public function setBaseObject(Component $vcalendar) {
+    function setBaseObject(Component $vcalendar) {
 
         $this->baseObject = $vcalendar;
 
@@ -99,13 +99,13 @@ class FreeBusyGenerator {
      * @param mixed $objects
      * @return void
      */
-    public function setObjects($objects) {
+    function setObjects($objects) {
 
         if (!is_array($objects)) {
-            $objects = array($objects);
+            $objects = [$objects];
         }
 
-        $this->objects = array();
+        $this->objects = [];
         foreach($objects as $object) {
 
             if (is_string($object)) {
@@ -129,7 +129,7 @@ class FreeBusyGenerator {
      * @param DateTime $end
      * @return void
      */
-    public function setTimeRange(\DateTime $start = null, \DateTime $end = null) {
+    function setTimeRange(\DateTime $start = null, \DateTime $end = null) {
 
         $this->start = $start;
         $this->end = $end;
@@ -142,9 +142,9 @@ class FreeBusyGenerator {
      *
      * @return Component
      */
-    public function getResult() {
+    function getResult() {
 
-        $busyTimes = array();
+        $busyTimes = [];
 
         foreach($this->objects as $object) {
 
@@ -168,7 +168,7 @@ class FreeBusyGenerator {
                             }
                         }
 
-                        $times = array();
+                        $times = [];
 
                         if ($component->RRULE) {
 
@@ -185,10 +185,10 @@ class FreeBusyGenerator {
                                 if ($this->end && $startTime > $this->end) {
                                     break;
                                 }
-                                $times[] = array(
+                                $times[] = [
                                     $iterator->getDTStart(),
                                     $iterator->getDTEnd(),
-                                );
+                                ];
 
                                 $iterator->next();
 
@@ -215,7 +215,7 @@ class FreeBusyGenerator {
                                 break;
                             }
 
-                            $times[] = array($startTime, $endTime);
+                            $times[] = [$startTime, $endTime];
 
                         }
 
@@ -224,11 +224,11 @@ class FreeBusyGenerator {
                             if ($this->end && $time[0] > $this->end) break;
                             if ($this->start && $time[1] < $this->start) break;
 
-                            $busyTimes[] = array(
+                            $busyTimes[] = [
                                 $time[0],
                                 $time[1],
                                 $FBTYPE,
-                            );
+                            ];
                         }
                         break;
 
@@ -256,11 +256,11 @@ class FreeBusyGenerator {
 
                                 if($this->start && $this->start > $endTime) continue;
                                 if($this->end && $this->end < $startTime) continue;
-                                $busyTimes[] = array(
+                                $busyTimes[] = [
                                     $startTime,
                                     $endTime,
                                     $fbType
-                                );
+                                ];
 
                             }
 

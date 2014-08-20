@@ -29,25 +29,25 @@ class VCardConverter {
      * @param Component\VCard $input
      * @param int $targetVersion
      */
-    public function convert(Component\VCard $input, $targetVersion) {
+    function convert(Component\VCard $input, $targetVersion) {
 
         $inputVersion = $input->getDocumentType();
         if ($inputVersion===$targetVersion) {
             return clone $input;
         }
 
-        if (!in_array($inputVersion, array(Document::VCARD21, Document::VCARD30, Document::VCARD40))) {
+        if (!in_array($inputVersion, [Document::VCARD21, Document::VCARD30, Document::VCARD40])) {
             throw new \InvalidArgumentException('Only vCard 2.1, 3.0 and 4.0 are supported for the input data');
         }
-        if (!in_array($targetVersion, array(Document::VCARD30, Document::VCARD40))) {
+        if (!in_array($targetVersion, [Document::VCARD30, Document::VCARD40])) {
             throw new \InvalidArgumentException('You can only use vCard 3.0 or 4.0 for the target version');
         }
 
         $newVersion = $targetVersion===Document::VCARD40?'4.0':'3.0';
 
-        $output = new Component\VCard(array(
+        $output = new Component\VCard([
             'VERSION' => $newVersion,
-        ));
+        ]);
 
         foreach($input->children as $property) {
 
@@ -71,7 +71,7 @@ class VCardConverter {
     protected function convertProperty(Component\VCard $input, Component\VCard $output, Property $property, $targetVersion) {
 
         // Skipping these, those are automatically added.
-        if (in_array($property->name, array('VERSION', 'PRODID'))) {
+        if (in_array($property->name, ['VERSION', 'PRODID'])) {
             return;
         }
 
@@ -90,7 +90,7 @@ class VCardConverter {
 
         if ($targetVersion===Document::VCARD30) {
 
-            if ($property instanceof Property\Uri && in_array($property->name, array('PHOTO','LOGO','SOUND'))) {
+            if ($property instanceof Property\Uri && in_array($property->name, ['PHOTO','LOGO','SOUND'])) {
 
                 $newProperty = $this->convertUriToBinary($output, $property, $parameters);
 
@@ -109,9 +109,9 @@ class VCardConverter {
                     $newProperty = $output->createProperty(
                         $property->name,
                         $newValue,
-                        array(
+                        [
                             'X-APPLE-OMIT-YEAR' => '1604'
-                        ),
+                        ],
                         $valueType
                     );
 
@@ -140,7 +140,7 @@ class VCardConverter {
         } elseif ($targetVersion===Document::VCARD40) {
 
             // These properties were removed in vCard 4.0
-            if (in_array($property->name, array('NAME', 'MAILER', 'LABEL', 'CLASS'))) {
+            if (in_array($property->name, ['NAME', 'MAILER', 'LABEL', 'CLASS'])) {
                 return;
             }
 
@@ -158,7 +158,7 @@ class VCardConverter {
                     $newProperty = $output->createProperty(
                         $property->name,
                         $newValue,
-                        array(),
+                        [],
                         $valueType
                     );
                 }
@@ -191,7 +191,7 @@ class VCardConverter {
             $newProperty = $output->createProperty(
                 $property->name,
                 $property->getParts(),
-                array(), // no parameters yet
+                [], // no parameters yet
                 $valueType
             );
 
@@ -236,7 +236,7 @@ class VCardConverter {
         $newProperty = $output->createProperty(
             $property->name,
             null, // no value
-            array(), // no parameters yet
+            [], // no parameters yet
             'URI' // Forcing the BINARY type
         );
 
@@ -245,11 +245,11 @@ class VCardConverter {
         // See if we can find a better mimetype.
         if (isset($parameters['TYPE'])) {
 
-            $newTypes = array();
+            $newTypes = [];
             foreach($parameters['TYPE']->getParts() as $typePart) {
                 if (in_array(
                     strtoupper($typePart),
-                    array('JPEG','PNG','GIF')
+                    ['JPEG','PNG','GIF']
                 )) {
                     $mimeType = 'image/' . strtolower($typePart);
                 } else {
@@ -298,7 +298,7 @@ class VCardConverter {
         $newProperty = $output->createProperty(
             $property->name,
             null, // no value
-            array(), // no parameters yet
+            [], // no parameters yet
             'BINARY'
         );
 

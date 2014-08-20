@@ -24,7 +24,7 @@ class VFreeBusy extends VObject\Component {
      * @param Datetime $end
      * @return bool
      */
-    public function isFree(\DateTime $start, \Datetime $end) {
+    function isFree(\DateTime $start, \Datetime $end) {
 
         foreach($this->select('FREEBUSY') as $freebusy) {
 
@@ -78,9 +78,9 @@ class VFreeBusy extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
+        return [
             'UID' => 1,
             'DTSTAMP' => 1,
 
@@ -94,7 +94,7 @@ class VFreeBusy extends VObject\Component {
             'COMMENT' => '*',
             'FREEBUSY' => '*',
             'REQUEST-STATUS' => '*',
-        );
+        ];
 
     }
 

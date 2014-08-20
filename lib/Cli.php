@@ -96,7 +96,7 @@ class Cli {
      *
      * @return int
      */
-    public function main(array $argv) {
+    function main(array $argv) {
 
         // @codeCoverageIgnoreStart
         // We cannot easily test this, so we'll skip it. Pretty basic anyway.
@@ -346,11 +346,11 @@ HELP
             $this->log("  No warnings!");
         } else {
 
-            $levels = array(
+            $levels = [
                 1 => 'REPAIRED',
                 2 => 'WARNING',
                 3 => 'ERROR',
-            );
+            ];
             $returnCode = 2;
             foreach($warnings as $warn) {
 
@@ -392,11 +392,11 @@ HELP
             $this->log("  No warnings!");
         } else {
 
-            $levels = array(
+            $levels = [
                 1 => 'REPAIRED',
                 2 => 'WARNING',
                 3 => 'ERROR',
-            );
+            ];
             $returnCode = 2;
             foreach($warnings as $warn) {
 
@@ -500,7 +500,7 @@ HELP
      */
     protected function colorize($color, $str, $resetTo = 'default') {
 
-        $colors = array(
+        $colors = [
             'cyan'    => '1;36',
             'red'     => '1;31',
             'yellow'  => '1;33',
@@ -508,7 +508,7 @@ HELP
             'green'   => '0;32',
             'default' => '0',
             'purple'  => '0;35',
-        );
+        ];
         return "\033[" . $colors[$color] . 'm' . $str . "\033[".$colors[$resetTo]."m";
 
     }
@@ -654,13 +654,13 @@ HELP
 
                     $subPart = strtr(
                         $subPart,
-                        array(
+                        [
                             '\\' => $this->colorize('purple', '\\\\', 'green'),
                             ';'  => $this->colorize('purple', '\;', 'green'),
                             ','  => $this->colorize('purple', '\,', 'green'),
                             "\n" => $this->colorize('purple', "\\n\n\t", 'green'),
                             "\r" => "",
-                        )
+                        ]
                     );
 
                     $this->cWrite('green', $subPart);
@@ -680,8 +680,8 @@ HELP
      */
     protected function parseArguments(array $argv) {
 
-        $positional = array();
-        $options = array();
+        $positional = [];
+        $options = [];
 
         for($ii=0; $ii < count($argv); $ii++) {
 
@@ -712,7 +712,7 @@ HELP
 
         }
 
-        return array($options, $positional);
+        return [$options, $positional];
 
     }
 

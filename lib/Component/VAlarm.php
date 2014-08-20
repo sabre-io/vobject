@@ -21,7 +21,7 @@ class VAlarm extends VObject\Component {
      *
      * @return DateTime
      */
-    public function getEffectiveTriggerTime() {
+    function getEffectiveTriggerTime() {
 
         $trigger = $this->TRIGGER;
         if(!isset($trigger['VALUE']) || strtoupper($trigger['VALUE']) === 'DURATION') {
@@ -79,7 +79,7 @@ class VAlarm extends VObject\Component {
      * @param \DateTime $end
      * @return bool
      */
-    public function isInTimeRange(\DateTime $start, \DateTime $end) {
+    function isInTimeRange(\DateTime $start, \DateTime $end) {
 
         $effectiveTrigger = $this->getEffectiveTriggerTime();
 
@@ -119,9 +119,9 @@ class VAlarm extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
+        return [
             'ACTION' => 1,
             'TRIGGER' => 1,
 
@@ -129,7 +129,7 @@ class VAlarm extends VObject\Component {
             'REPEAT' => '?',
 
             'ATTACH' => '?',
-        );
+        ];
 
     }
 

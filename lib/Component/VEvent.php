@@ -27,7 +27,7 @@ class VEvent extends VObject\Component {
      * @param \DateTime $end
      * @return bool
      */
-    public function isInTimeRange(\DateTime $start, \DateTime $end) {
+    function isInTimeRange(\DateTime $start, \DateTime $end) {
 
         if ($this->RRULE) {
             $it = new EventIterator($this);
@@ -76,10 +76,10 @@ class VEvent extends VObject\Component {
      */
     protected function getDefaults() {
 
-        return array(
+        return [
             'UID'     => 'sabre-vobject-' . VObject\UUIDUtil::getUUID(),
             'DTSTAMP' => date('Ymd\\THis\\Z'),
-        );
+        ];
 
     }
 
@@ -98,10 +98,10 @@ class VEvent extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
         $hasMethod = isset($this->parent->METHOD);
-        return array(
+        return [
             'UID' => 1,
             'DTSTAMP' => 1,
             'DTSTART' => $hasMethod?'?':'1',
@@ -133,7 +133,7 @@ class VEvent extends VObject\Component {
             'RELATED' => '*',
             'RESOURCES' => '*',
             'RDATE' => '*',
-        );
+        ];
 
     }
 

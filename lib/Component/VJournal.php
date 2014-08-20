@@ -26,7 +26,7 @@ class VJournal extends VObject\Component {
      * @param DateTime $end
      * @return bool
      */
-    public function isInTimeRange(\DateTime $start, \DateTime $end) {
+    function isInTimeRange(\DateTime $start, \DateTime $end) {
 
         $dtstart = isset($this->DTSTART)?$this->DTSTART->getDateTime():null;
         if ($dtstart) {
@@ -56,9 +56,9 @@ class VJournal extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
+        return [
             'UID' => 1,
             'DTSTAMP' => 1,
 
@@ -84,7 +84,7 @@ class VJournal extends VObject\Component {
             'EXDATE' => '*',
             'RELATED' => '*',
             'RDATE' => '*',
-        );
+        ];
 
     }
 }
