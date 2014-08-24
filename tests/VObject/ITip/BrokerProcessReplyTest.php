@@ -378,5 +378,51 @@ ICS;
 
     }
 
+    /**
+     * @depends testReplyAccept
+     */
+    function testReplyAcceptUpdateRSVP() {
+
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+ATTENDEE;RSVP=TRUE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+ATTENDEE;PARTSTAT=ACCEPTED;SCHEDULE-STATUS="2.0;Success":mailto:foo@example
+ .org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $result = $this->process($itip, $old, $expected);
+
+    }
 
 }

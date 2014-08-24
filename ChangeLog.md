@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+3.3.2 (2014-??-??)
+------------------
+
+* Changed: iTip broker now sets RSVP status to false when replies are received.
+
+
 3.3.1 (2014-08-18)
 ------------------
 

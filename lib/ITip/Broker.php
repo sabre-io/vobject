@@ -301,6 +301,8 @@ class Broker {
         }
         $instances = array();
         $requestStatus = '2.0;Success';
+
+        // Finding all the instances the attendee replied to.
         foreach($itipMessage->message->VEVENT as $vevent) {
             $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
             $attendee = $vevent->ATTENDEE;
@@ -309,6 +311,9 @@ class Broker {
                 $requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
             }
         }
+
+        // Now we need to loop through the original organizer event, to find
+        // all the instances where we have a reply for.
         $masterObject = null;
         foreach($existingObject->VEVENT as $vevent) {
             $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
@@ -323,6 +328,9 @@ class Broker {
                             $attendeeFound = true;
                             $attendee['PARTSTAT'] = $instances[$recurId];
                             $attendee['SCHEDULE-STATUS'] = $requestStatus;
+                            // Un-setting the RSVP status, because we now now
+                            // that the attende already replied.
+                            unset($attendee['RSVP']);
                             break;
                         }
                     }
