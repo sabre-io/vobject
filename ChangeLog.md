@@ -5,6 +5,7 @@ ChangeLog
 ------------------
 
 * Changed: iTip broker now sets RSVP status to false when replies are received.
+* #118: iTip Message now has a `getScheduleStatus()` method.
 
 
 3.3.1 (2014-08-18)
