@@ -99,4 +99,33 @@ class Message {
      */
     public $message;
 
+    /**
+     * Returns the schedule status as an array:
+     * [
+     *     0 => '1.2',
+     *     1 => 'Delivered',
+     * ]
+     *
+     * @return mixed bool|array
+     */
+    public function getScheduleStatus() {
+
+        if(!$this->scheduleStatus) {
+
+            return false;
+
+        } else {
+            
+            $scheduleStatus = explode(';', $this->scheduleStatus);
+
+            if(!isset($scheduleStatus[1])) {
+                $scheduleStatus[1]='';
+            }
+
+            return $scheduleStatus;
+
+        }
+
+    }
+
 }
