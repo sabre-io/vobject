@@ -66,7 +66,7 @@ class Broker {
      *
      * @var string[]
      */
-    public $significantChangeProperties = [
+    public $significantChangeProperties = array(
         'DTSTART',
         'DTEND',
         'DURATION',
@@ -75,7 +75,7 @@ class Broker {
         'RDATE',
         'EXDATE',
         'STATUS',
-    ];
+    );
 
     /**
      * This method is used to process an incoming itip message.
