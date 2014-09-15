@@ -229,7 +229,68 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+
         $expected = array();
+        $result = $this->parse($oldMessage, $newMessage, $expected);
+
+    }
+
+    function testNoChangeForceSend() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;SCHEDULE-FORCE-SEND=REPLY;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=NEEDS-ACTION;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+        $expected = array(
+            array(
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=NEEDS-ACTION;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS
+            )
+
+        );
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }

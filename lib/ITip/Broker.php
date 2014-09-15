@@ -453,18 +453,21 @@ class Broker {
                 'oldInstances' => $attendee['instances'],
                 'newInstances' => array(),
                 'name' => $attendee['name'],
+                'forceSend' => null,
             );
         }
         foreach($eventInfo['attendees'] as $attendee) {
             if (isset($attendees[$attendee['href']])) {
                 $attendees[$attendee['href']]['name'] = $attendee['name'];
                 $attendees[$attendee['href']]['newInstances'] = $attendee['instances'];
+                $attendees[$attendee['href']]['forceSend'] = $attendee['forceSend'];
             } else {
                 $attendees[$attendee['href']] = array(
                     'href' => $attendee['href'],
                     'oldInstances' => array(),
                     'newInstances' => $attendee['instances'],
                     'name' => $attendee['name'],
+                    'forceSend' => $attendee['forceSend'],
                 );
             }
         }
@@ -531,6 +534,7 @@ class Broker {
                 // difference in instances that the attendee is invited to.
 
                 $message->significantChange =
+                    $attendee['forceSend'] === 'REQUEST' ||
                     array_keys($attendee['oldInstances']) != array_keys($attendee['newInstances']) ||
                     $oldEventInfo['significantChangeHash']!==$eventInfo['significantChangeHash'];
 
@@ -543,7 +547,7 @@ class Broker {
                         // is not a part of to add to the list of exceptions.
                         $exceptions = array();
                         foreach($eventInfo['instances'] as $instanceId=>$vevent) {
-                            if (!isset($attendee['newInstances'][$instanceId])) {;
+                            if (!isset($attendee['newInstances'][$instanceId])) {
                                 $exceptions[] = $instanceId;
                             }
                         }
@@ -559,6 +563,16 @@ class Broker {
                             } else {
                                 $currentEvent->EXDATE = $exceptions;
                             }
+                        }
+
+                        // Cleaning up any scheduling information that
+                        // shouldn't be sent along.
+                        unset($currentEvent->ORGANIZER['SCHEDULE-FORCE-SEND']);
+                        unset($currentEvent->ORGANIZER['SCHEDULE-STATUS']);
+
+                        foreach($currentEvent->ATTENDEE as $attendee) {
+                            unset($attendee['SCHEDULE-FORCE-SEND']);
+                            unset($attendee['SCHEDULE-STATUS']);
                         }
 
                     }
@@ -651,7 +665,7 @@ class Broker {
 
         foreach($instances as $instance) {
 
-            if ($instance['oldstatus']==$instance['newstatus']) {
+            if ($instance['oldstatus']==$instance['newstatus'] && $eventInfo['organizerForceSend'] !== 'REPLY') {
                 // Skip
                 continue;
             }
@@ -706,6 +720,7 @@ class Broker {
         $uid = null;
         $organizer = null;
         $organizerName = null;
+        $organizerForceSend = null;
         $sequence = null;
         $timezone = null;
 
@@ -741,6 +756,10 @@ class Broker {
                         throw new SameOrganizerForAllComponentsException('Every instance of the event must have the same organizer.');
                     }
                 }
+                $organizerForceSend =
+                    isset($vevent->ORGANIZER['SCHEDULE-FORCE-SEND']) ?
+                    strtoupper($vevent->ORGANIZER['SCHEDULE-FORCE-SEND']) :
+                    null;
             }
             if (is_null($sequence) && isset($vevent->SEQUENCE)) {
                 $sequence = $vevent->SEQUENCE->getValue();
@@ -767,10 +786,17 @@ class Broker {
                         strtoupper($attendee['PARTSTAT']) :
                         'NEEDS-ACTION';
 
+                    $forceSend =
+                        isset($attendee['SCHEDULE-FORCE-SEND']) ?
+                        strtoupper($attendee['SCHEDULE-FORCE-SEND']) :
+                        null;
+
+
                     if (isset($attendees[$attendee->getNormalizedValue()])) {
                         $attendees[$attendee->getNormalizedValue()]['instances'][$recurId] = array(
                             'id' => $recurId,
                             'partstat' => $partStat,
+                            'force-send' => $forceSend,
                         );
                     } else {
                         $attendees[$attendee->getNormalizedValue()] = array(
@@ -782,6 +808,7 @@ class Broker {
                                 ),
                             ),
                             'name' => isset($attendee['CN'])?(string)$attendee['CN']:null,
+                            'forceSend' => $forceSend,
                         );
                     }
 
@@ -806,6 +833,7 @@ class Broker {
             'uid',
             'organizer',
             'organizerName',
+            'organizerForceSend',
             'instances',
             'attendees',
             'sequence',
