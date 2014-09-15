@@ -55,6 +55,29 @@ class Broker {
     public $scheduleAgentServerRules = true;
 
     /**
+     * The broker will try during 'parseEvent' figure out whether the change
+     * was significant.
+     *
+     * It uses a few different ways to do this. One of these ways is seeing if
+     * certain properties changed values. This list of specified here.
+     *
+     * This list is taken from:
+     * * http://tools.ietf.org/html/rfc5546#section-2.1.4
+     *
+     * @var string[]
+     */
+    public $significantChangeProperties = [
+        'DTSTART',
+        'DTEND',
+        'DURATION',
+        'DUE',
+        'RRULE',
+        'RDATE',
+        'EXDATE',
+        'STATUS',
+    ];
+
+    /**
      * This method is used to process an incoming itip message.
      *
      * Examples:
@@ -155,6 +178,7 @@ class Broker {
             $oldEventInfo = $this->parseEventInfo($oldCalendar);
         } else {
             $oldEventInfo = array(
+                'significantChangeHash' => '',
                 'attendees' => array(),
             );
         }
@@ -197,7 +221,9 @@ class Broker {
                 // This is an attendee deleting the event.
                 foreach($eventInfo['attendees'] as $key=>$attendee) {
                     if (in_array($attendee['href'], $userHref)) {
-                        $eventInfo['attendees'][$key]['instances'] = array('master' => array('id'=>'master', 'partstat' => 'DECLINED'));
+                        $eventInfo['attendees'][$key]['instances'] = array('master' =>
+                            array('id'=>'master', 'partstat' => 'DECLINED')
+                        );
                     }
                 }
             }
@@ -481,6 +507,7 @@ class Broker {
                 ));
                 $org = $event->add('ORGANIZER', $eventInfo['organizer']);
                 if ($eventInfo['organizerName']) $org['CN'] = $eventInfo['organizerName'];
+                $message->significantChange = true;
 
             } else {
 
@@ -494,6 +521,18 @@ class Broker {
                 foreach($calendar->select('VTIMEZONE') as $timezone) {
                     $icalMsg->add(clone $timezone);
                 }
+
+                // We need to find out that this change is significant. If it's
+                // not, systems may op to not send messages.
+                //
+                // We do this based on the 'significantChangeHash' which is
+                // some value that changes if there's a certain set of
+                // properties changed in the event, or simply if there's a
+                // difference in instances that the attendee is invited to.
+
+                $message->significantChange =
+                    array_keys($attendee['oldInstances']) != array_keys($attendee['newInstances']) ||
+                    $oldEventInfo['significantChangeHash']!==$eventInfo['significantChangeHash'];
 
                 foreach($attendee['newInstances'] as $instanceId => $instanceInfo) {
 
@@ -670,6 +709,8 @@ class Broker {
         $sequence = null;
         $timezone = null;
 
+        $significantChangeHash = '';
+
         // Now we need to collect a list of attendees, and which instances they
         // are a part of.
         $attendees = array();
@@ -749,7 +790,17 @@ class Broker {
 
             }
 
+            foreach($this->significantChangeProperties as $prop) {
+                if (isset($vevent->$prop)) {
+                    $significantChangeHash.=$prop.':';
+                    foreach($vevent->select($prop) as $val) {
+                        $significantChangeHash.= $val->getValue().';';
+                    }
+                }
+            }
+
         }
+        $significantChangeHash = md5($significantChangeHash);
 
         return compact(
             'uid',
@@ -759,7 +810,8 @@ class Broker {
             'attendees',
             'sequence',
             'exdate',
-            'timezone'
+            'timezone',
+            'significantChangeHash'
         );
 
     }
