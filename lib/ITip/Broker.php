@@ -507,8 +507,8 @@ class Broker {
                     'UID' => $message->uid,
                     'SEQUENCE' => $message->sequence,
                 ));
-                if ($calendar->VEVENT->SUMMARY) {
-                    $event->add('SUMMARY', $calendar->VEVENT->SUMMARY);
+                if (isset($calendar->VEVENT->SUMMARY)) {
+                    $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
                 }
                 $org = $event->add('ORGANIZER', $eventInfo['organizer']);
                 if ($eventInfo['organizerName']) $org['CN'] = $eventInfo['organizerName'];
@@ -685,8 +685,8 @@ class Broker {
                 'UID' => $message->uid,
                 'SEQUENCE' => $message->sequence,
             ));
-            if ($calendar->VEVENT->SUMMARY) {
-                $event->add('SUMMARY', $calendar->VEVENT->SUMMARY);
+            if (isset($calendar->VEVENT->SUMMARY)) {
+                $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
             }
             if ($instance['id'] !== 'master') {
                 $event->{'RECURRENCE-ID'} = DateTimeParser::parseDateTime($instance['id'], $eventInfo['timezone']);
