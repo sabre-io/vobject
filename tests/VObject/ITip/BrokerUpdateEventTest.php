@@ -12,6 +12,7 @@ VERSION:2.0
 BEGIN:VEVENT
 UID:foobar
 SEQUENCE:1
+SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
@@ -28,6 +29,7 @@ VERSION:2.0
 BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
+SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
@@ -56,10 +58,11 @@ PRODID:-//Sabre//Sabre VObject $version//EN
 CALSCALE:GREGORIAN
 METHOD:CANCEL
 BEGIN:VEVENT
-SEQUENCE:2
 UID:foobar
-ATTENDEE;CN=One:mailto:one@example.org
+SEQUENCE:2
+SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
 ICS
@@ -83,6 +86,7 @@ METHOD:REQUEST
 BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
+SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
@@ -111,6 +115,7 @@ METHOD:REQUEST
 BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
+SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
@@ -349,10 +354,10 @@ PRODID:-//Sabre//Sabre VObject $version//EN
 CALSCALE:GREGORIAN
 METHOD:CANCEL
 BEGIN:VEVENT
-SEQUENCE:2
 UID:foobar
-ATTENDEE;CN=One:mailto:one@example.org
+SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
 ICS
