@@ -10,6 +10,7 @@ ChangeLog
 * #120: Support for `SCHEDULE-FORCE-SEND`.
 * #121: iCal demands parameters contain the + sign to be quoted.
 * #122: Don't generate REPLY messages for events that have been cancelled.
+* #123: Added `SUMMARY` to iTip messages.
 
 3.3.1 (2014-08-18)
 ------------------
