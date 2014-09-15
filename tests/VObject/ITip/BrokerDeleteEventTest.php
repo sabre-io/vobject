@@ -118,7 +118,7 @@ CALSCALE:GREGORIAN
 METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
-SEQUENCE:2
+SEQUENCE:1
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
 END:VEVENT
@@ -126,6 +126,35 @@ END:VCALENDAR
 ICS
             ),
         );
+
+        $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
+
+
+    }
+
+    function testAttendeeDeleteCancelledEvent() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+STATUS:CANCELLED
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = null;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = array();
 
         $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
 

@@ -212,11 +212,13 @@ class Broker {
             }
 
             $eventInfo = $oldEventInfo;
-            $eventInfo['sequence']++;
 
             if (in_array($eventInfo['organizer'], $userHref)) {
                 // This is an organizer deleting the event.
                 $eventInfo['attendees'] = array();
+                // Increasing the sequence, but only if the organizer deleted
+                // the event.
+                $eventInfo['sequence']++;
             } else {
                 // This is an attendee deleting the event.
                 foreach($eventInfo['attendees'] as $key=>$attendee) {
@@ -605,6 +607,12 @@ class Broker {
      */
     protected function parseEventForAttendee(VCalendar $calendar, array $eventInfo, array $oldEventInfo, $attendee) {
 
+        // Don't bother generating messages for events that have already been
+        // cancelled.
+        if ($eventInfo['status']==='CANCELLED') {
+            return array();
+        }
+
         $instances = array();
         foreach($oldEventInfo['attendees'][$attendee]['instances'] as $instance) {
 
@@ -723,6 +731,7 @@ class Broker {
         $organizerForceSend = null;
         $sequence = null;
         $timezone = null;
+        $status = null;
 
         $significantChangeHash = '';
 
@@ -766,6 +775,9 @@ class Broker {
             }
             if (isset($vevent->EXDATE)) {
                 $exdate = $vevent->EXDATE->getParts();
+            }
+            if (isset($vevent->STATUS)) {
+                $status = strtoupper($vevent->STATUS->getValue());
             }
 
             $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
@@ -839,7 +851,8 @@ class Broker {
             'sequence',
             'exdate',
             'timezone',
-            'significantChangeHash'
+            'significantChangeHash',
+            'status'
         );
 
     }
