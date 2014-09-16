@@ -82,7 +82,7 @@ class VJournal extends VObject\Component {
             'CONTACT' => '*',
             'DESCRIPTION' => '*',
             'EXDATE' => '*',
-            'RELATED' => '*',
+            'RELATED-TO' => '*',
             'RDATE' => '*',
         );
 
