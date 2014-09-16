@@ -10,7 +10,9 @@ ChangeLog
 * #120: Support for `SCHEDULE-FORCE-SEND`.
 * #121: iCal demands parameters containing the + sign to be quoted.
 * #122: Don't generate REPLY messages for events that have been cancelled.
+* #123: Added `SUMMARY` to iTip messages.
 * #130: Incorrect validation rules for `RELATED` (should be `RELATED-TO`).
+
 
 3.3.1 (2014-08-18)
 ------------------
@@ -25,6 +27,7 @@ ChangeLog
   broker. This improves evolution support.
 * #115: Using REQUEST-STATUS from REPLY messages and now propegating that into
   SCHEDULE-STATUS.
+
 
 3.3.0 (2014-08-07)
 ------------------

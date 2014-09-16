@@ -504,14 +504,17 @@ class Broker {
                 $icalMsg = new VCalendar();
                 $icalMsg->METHOD = $message->method;
                 $event = $icalMsg->add('VEVENT', array(
+                    'UID' => $message->uid,
                     'SEQUENCE' => $message->sequence,
-                    'UID'      => $message->uid,
                 ));
+                if (isset($calendar->VEVENT->SUMMARY)) {
+                    $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
+                }
+                $org = $event->add('ORGANIZER', $eventInfo['organizer']);
+                if ($eventInfo['organizerName']) $org['CN'] = $eventInfo['organizerName'];
                 $event->add('ATTENDEE', $attendee['href'], array(
                     'CN' => $attendee['name'],
                 ));
-                $org = $event->add('ORGANIZER', $eventInfo['organizer']);
-                if ($eventInfo['organizerName']) $org['CN'] = $eventInfo['organizerName'];
                 $message->significantChange = true;
 
             } else {
@@ -682,6 +685,9 @@ class Broker {
                 'UID' => $message->uid,
                 'SEQUENCE' => $message->sequence,
             ));
+            if (isset($calendar->VEVENT->SUMMARY)) {
+                $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
+            }
             if ($instance['id'] !== 'master') {
                 $event->{'RECURRENCE-ID'} = DateTimeParser::parseDateTime($instance['id'], $eventInfo['timezone']);
             }
