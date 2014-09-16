@@ -116,13 +116,12 @@ class Message {
     public $significantChange = true;
 
     /**
-     * Returns the schedule status as an array:
-     * [
-     *     0 => '1.2',
-     *     1 => 'Delivered',
-     * ]
+     * Returns the schedule status as a string.
      *
-     * @return mixed bool|array
+     * For example:
+     * 1.2
+     *
+     * @return mixed bool|string
      */
     public function getScheduleStatus() {
 
@@ -132,12 +131,7 @@ class Message {
 
         } else {
 
-            $scheduleStatus = explode(';', $this->scheduleStatus);
-
-            if(!isset($scheduleStatus[1])) {
-                $scheduleStatus[1]='';
-            }
-
+            list($scheduleStatus) = explode(';', $this->scheduleStatus);
             return $scheduleStatus;
 
         }
