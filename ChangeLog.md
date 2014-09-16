@@ -12,7 +12,7 @@ ChangeLog
 * #122: Don't generate REPLY messages for events that have been cancelled.
 * #123: Added `SUMMARY` to iTip messages.
 * #130: Incorrect validation rules for `RELATED` (should be `RELATED-TO`).
-
+* #128: `ATTACH` in iCalendar is `URI` by default, not `BINARY`.
 
 3.3.1 (2014-08-18)
 ------------------

@@ -77,7 +77,7 @@ class VCalendar extends VObject\Document {
         'VERSION'       => 'Sabre\\VObject\\Property\\FlatText',
 
         // Component properties
-        'ATTACH'            => 'Sabre\\VObject\\Property\\Binary',
+        'ATTACH'            => 'Sabre\\VObject\\Property\\Uri',
         'CATEGORIES'        => 'Sabre\\VObject\\Property\\Text',
         'CLASS'             => 'Sabre\\VObject\\Property\\FlatText',
         'COMMENT'           => 'Sabre\\VObject\\Property\\FlatText',
