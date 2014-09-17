@@ -46,7 +46,7 @@ class Uri extends Text {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val, $options = 0) {
 
         // Normally we don't need to do any type of unescaping for these
         // properties, however.. we've noticed that Google Contacts

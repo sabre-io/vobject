@@ -65,7 +65,7 @@ class Binary extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val, $options = 0) {
 
         $this->value = base64_decode($val);
 

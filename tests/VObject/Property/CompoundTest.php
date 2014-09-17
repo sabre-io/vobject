@@ -31,7 +31,7 @@ class CompoundTest extends \PHPUnit_Framework_TestCase {
 
         $vcard = new VCard();
         $elem = $vcard->createProperty('ORG');
-        $elem->setRawMimeDirValue($str);
+        $elem->setRawMimeDirValue($str, $options = 0);
 
         $this->assertEquals(3, count($elem->getParts()));
         $parts = $elem->getParts();

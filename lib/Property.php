@@ -214,7 +214,7 @@ abstract class Property extends Node {
      * @param string $val
      * @return void
      */
-    abstract public function setRawMimeDirValue($val);
+    abstract public function setRawMimeDirValue($val, $options = 0);
 
     /**
      * Returns a raw mime-dir representation of the value.
@@ -467,7 +467,7 @@ abstract class Property extends Node {
             if ($options & self::REPAIR) {
                 $newValue = StringUtil::convertToUTF8($oldValue);
                 if (true || StringUtil::isUTF8($newValue)) {
-                    $this->setRawMimeDirValue($newValue);
+                    $this->setRawMimeDirValue($newValue, $options);
                     $level = 1;
                 }
 
