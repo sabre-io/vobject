@@ -466,7 +466,7 @@ class MimeDir extends Parser {
      * @param string $delimiter
      * @return string|string[]
      */
-    static public function unescapeValue($input, $delimiter = ';') {
+    static public function unescapeValue($input, $delimiter = ';', $options = 0) {
 
         $regex = '#  (?: (\\\\ (?: \\\\ | N | n | ; | , ) )';
         if ($delimiter) {
