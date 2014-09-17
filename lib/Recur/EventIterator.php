@@ -176,6 +176,9 @@ class EventIterator implements \Iterator {
         }
 
         $this->rewind();
+        if (!$this->valid()) {
+            throw new NoInstancesException('This recurrence rule does not generate any valid instances');
+        }
 
     }
 

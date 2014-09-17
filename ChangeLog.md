@@ -13,6 +13,8 @@ ChangeLog
 * #123: Added `SUMMARY` to iTip messages.
 * #130: Incorrect validation rules for `RELATED` (should be `RELATED-TO`).
 * #128: `ATTACH` in iCalendar is `URI` by default, not `BINARY`.
+* #131: RRULE that doesn't provide a single valid instance now throws an
+  exception.
 
 3.3.1 (2014-08-18)
 ------------------

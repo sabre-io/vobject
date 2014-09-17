@@ -7,6 +7,9 @@ use
 
 class IssueEXDATETest extends \PHPUnit_Framework_TestCase {
 
+    /**
+     * @expectedException \Sabre\VObject\Recur\NoInstancesException
+     */
     function testRecurrence() {
 
         $input = <<<ICS
@@ -31,15 +34,6 @@ ICS;
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
 
         $it = new EventIterator($vcal, 'foo');
-
-        $end = $it->getDtEnd();
-
-        while($it->valid()) {
-            $end = $it->getDtEnd();
-            $it->next();
-        }
-
-        $end->getTimeStamp();
 
     }
 
