@@ -374,7 +374,7 @@ class MimeDir extends Parser {
         }
 
         // vCard 2.1 states that parameters may appear without a name, and only
-        // a value. We can deduce the value based on it's name.
+        // a value. We can deduce the value based on its name.
         //
         // Our parser will get those as parameters without a value instead, so
         // we're filtering these parameters out first.
@@ -418,9 +418,9 @@ class MimeDir extends Parser {
      *     span values over more than 1 line.
      *
      * vCard 3.0 says:
-     *   * (rfc2425) Backslashes, newlines (\n or \N) and comma's must be
+     *   * (rfc2425) Backslashes, newlines (\n or \N) and commas must be
      *     escaped, all time time.
-     *   * Comma's are used for delimeters in multiple values
+     *   * Commas are used for delimeters in multiple values
      *   * (rfc2426) Adds to to this that the semi-colon MUST also be escaped,
      *     as in some properties semi-colon is used for separators.
      *   * Properties using semi-colons: N, ADR, GEO, ORG
