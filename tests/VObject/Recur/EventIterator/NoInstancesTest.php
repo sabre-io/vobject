@@ -1,10 +1,9 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur;
 
 use
-    DateTime,
-    DateTimeZone;
+    Sabre\VObject\Reader;
 
 class IssueEXDATETest extends \PHPUnit_Framework_TestCase {
 
@@ -12,6 +11,8 @@ class IssueEXDATETest extends \PHPUnit_Framework_TestCase {
 
         $input = <<<ICS
 BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
 BEGIN:VEVENT
 DTSTART;TZID=Europe/Berlin:20130329T140000
 DTEND;TZID=Europe/Berlin:20130329T153000
@@ -29,7 +30,7 @@ ICS;
         $vcal = Reader::read($input);
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
 
-        $it = new Recur\EventIterator($vcal, 'foo');
+        $it = new EventIterator($vcal, 'foo');
 
         $end = $it->getDtEnd();
 
