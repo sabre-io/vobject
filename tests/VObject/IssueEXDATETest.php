@@ -38,7 +38,7 @@ ICS;
             $it->next();
         }
 
-        $entity->lastOccurence = $end->getTimeStamp();
+        $end->getTimeStamp();
 
     }
 
