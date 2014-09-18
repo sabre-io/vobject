@@ -29,6 +29,12 @@ abstract class Parser {
     const OPTION_IGNORE_INVALID_LINES = 2;
 
     /**
+     * If this option is turned on, parsing (not emitting) TEXT will be
+     * bug-by-bug compatible with the most widespread iCalendar library.
+     */
+    const OPTION_LIBICAL_COMPATIBLE = 4;
+
+    /**
      * Bitmask of parser options
      *
      * @var int

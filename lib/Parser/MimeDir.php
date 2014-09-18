@@ -468,7 +468,10 @@ class MimeDir extends Parser {
      */
     static public function unescapeValue($input, $delimiter = ';', $options = 0) {
 
-        $regex = '#  (?: (\\\\ (?: \\\\ | N | n | ; | , ) )';
+        $regex = '#  (?: (\\\\ (?: \\\\ | N | n | ; | ,';
+        if ($options & self::OPTION_LIBICAL_COMPATIBLE)
+            $regex .= ' | t | r | b | f | "';
+        $regex .= ' ) )';
         if ($delimiter) {
             $regex .= ' | (' . $delimiter . ')';
         }
@@ -498,6 +501,26 @@ class MimeDir extends Parser {
                 case $delimiter :
                     $resultArray[] = $result;
                     $result = '';
+                    break;
+                case '\t' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .="\t";
+                    break;
+                case '\r' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .="\r";
+                    break;
+                case '\b' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .="\010";
+                    break;
+                case '\f' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .="\f";
+                    break;
+                case '\"' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .='"';
                     break;
                 default :
                     $result .= $match;
