@@ -257,6 +257,17 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testValidateNonUTF8() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('X-PROP', "Bla\x80");
+        $result = $property->validate(Property::REPAIR);
+
+        $this->assertEquals("Property is not valid UTF-8! Bla\x80", $result[0]['message']);
+        $this->assertEquals("Bla\xC2\x80", $property->getValue());
+
+    }
+
 
     function testValidateBadPropertyName() {
 
