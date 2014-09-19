@@ -33,6 +33,42 @@ EOT;
 
     }
 
+    /**
+     * @expectedException Sabre\VObject\ParseException
+     */
+    function testVCardImportWrongType() {
+        $event[] = <<<EOT
+BEGIN:VEVENT
+UID:foo1
+DTSTAMP:20140122T233226Z
+DTSTART:20140101T050000Z
+END:VEVENT
+EOT;
+
+$event[] = <<<EOT
+BEGIN:VEVENT
+UID:foo2
+DTSTAMP:20140122T233226Z
+DTSTART:20140101T060000Z
+END:VEVENT
+EOT;
+
+        $data = <<<EOT
+BEGIN:VCALENDAR
+$event[0]
+$event[1]
+END:VCALENDAR
+
+EOT;
+        $tempFile = $this->createStream($data);
+
+        $splitter = new VCard($tempFile);
+
+        while($object=$splitter->getNext()) {
+        }
+
+    }
+
     function testVCardImportValidVCardsWithCategories() {
         $data = <<<EOT
 BEGIN:VCARD

@@ -43,6 +43,25 @@ EOT;
         $this->assertEquals(array(), VObject\Reader::read($return)->validate());
     }
 
+    /**
+     * @expectedException Sabre\VObject\ParseException
+     */
+    function testICalendarImportWrongType() {
+
+        $data = <<<EOT
+BEGIN:VCARD
+UID:foo1
+END:VCARD
+BEGIN:VCARD
+UID:foo2
+END:VCARD
+EOT;
+        $tempFile = $this->createStream($data);
+
+        $objects = new ICalendar($tempFile);
+
+    }
+
     function testICalendarImportEndOfData() {
         $data = <<<EOT
 BEGIN:VCALENDAR
