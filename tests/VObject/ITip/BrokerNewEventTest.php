@@ -255,7 +255,7 @@ ICS
 
     function testRecurrenceInvite2() {
 
-        // This method tests a nearly identical path, but in this case the 
+        // This method tests a nearly identical path, but in this case the
         // master event does not have an EXDATE.
         $message = <<<ICS
 BEGIN:VCALENDAR
@@ -396,6 +396,70 @@ ICS;
 
     }
 
+    /**
+     * @expectedException Sabre\VObject\ITip\ITipException
+     */
+    function testMultipleUID() {
+
+        $message = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+DTSTART:20140716T120000Z
+RRULE:FREQ=DAILY
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar2
+RECURRENCE-ID:20140718T120000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+ATTENDEE;CN=Three:mailto:three@example.org
+DTSTART:20140718T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+        $result = $this->parse($message, array());
+
+    }
+
+    /**
+     * @expectedException Sabre\VObject\ITip\SameOrganizerForAllComponentsException
+     *
+     */
+    function testChangingOrganizers() {
+
+        $message = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+DTSTART:20140716T120000Z
+RRULE:FREQ=DAILY
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+RECURRENCE-ID:20140718T120000Z
+ORGANIZER;CN=Strunk:mailto:ew@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+ATTENDEE;CN=Three:mailto:three@example.org
+DTSTART:20140718T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+        $result = $this->parse($message, array());
+
+    }
     function parse($message, $expected = array()) {
 
         $broker = new Broker();
