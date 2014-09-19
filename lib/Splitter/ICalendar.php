@@ -50,6 +50,10 @@ class ICalendar implements SplitterInterface {
         $vtimezones = array();
         $components = array();
 
+        if (!$data instanceof VObject\Component\VCalendar) {
+            throw new \InvalidArgumentException('The supplied input is no VCALENDAR.');
+        }
+
         foreach($data->children() as $component) {
             if (!$component instanceof VObject\Component) {
                 continue;
