@@ -474,7 +474,7 @@ abstract class Property extends Node {
             }
 
 
-            if (preg_match('%([\x00-\x08\x0B-\x0C\x0E\x0F])%', $oldValue, $matches)) {
+            if (preg_match('%([\x00-\x08\x0B-\x0C\x0E-\x1F\x7F])%', $oldValue, $matches)) {
                 $message = 'Property contained a control character (0x' . bin2hex($matches[1]) . ')';
             } else {
                 $message = 'Property is not valid UTF-8! ' . $oldValue;
