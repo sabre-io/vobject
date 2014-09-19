@@ -2,10 +2,10 @@
 
 namespace Sabre\VObject\Component;
 
-use
-    Sabre\VObject,
-    Sabre\VObject\Component,
-    Sabre\VObject\Recur\EventIterator;
+use DateTimeInterface;
+use Sabre\VObject;
+use Sabre\VObject\Component;
+use Sabre\VObject\Recur\EventIterator;
 
 /**
  * The VCalendar component
@@ -237,11 +237,11 @@ class VCalendar extends VObject\Document {
      * possible for clients to request expand events, if they are rather simple
      * clients and do not have the possibility to calculate recurrences.
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
      * @return void
      */
-    function expand(\DateTime $start, \DateTime $end) {
+    function expand(DateTimeInterface $start, DateTimeInterface $end) {
 
         $newEvents = [];
 
