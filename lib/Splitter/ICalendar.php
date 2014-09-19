@@ -51,7 +51,7 @@ class ICalendar implements SplitterInterface {
         $components = array();
 
         if (!$data instanceof VObject\Component\VCalendar) {
-            throw new VObject\ParseException('The supplied input is no VCALENDAR.');
+            throw new VObject\ParseException('Supplied input could not be parsed as VCALENDAR.');
         }
 
         foreach($data->children() as $component) {
