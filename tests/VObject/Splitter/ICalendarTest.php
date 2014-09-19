@@ -44,7 +44,7 @@ EOT;
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException Sabre\VObject\ParseException
      */
     function testICalendarImportWrongType() {
 
