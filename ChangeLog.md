@@ -15,6 +15,9 @@ ChangeLog
 * #128: `ATTACH` in iCalendar is `URI` by default, not `BINARY`.
 * #131: RRULE that doesn't provide a single valid instance now throws an
   exception.
+* #136: Validator rejects *all* control characters. We were missing a few.
+* #133: Splitter objects will throw exceptions when receiving incompatible
+  objects.
 
 3.3.1 (2014-08-18)
 ------------------
