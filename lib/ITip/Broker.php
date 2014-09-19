@@ -649,11 +649,15 @@ class Broker {
             foreach($eventInfo['exdate'] as $exDate) {
 
                 if (!in_array($exDate, $oldEventInfo['exdate'])) {
-                    $instances[$exDate] = array(
-                        'id' => $exDate,
-                        'oldstatus' => $instances['master']['oldstatus'],
-                        'newstatus' => 'DECLINED',
-                    );
+                    if (isset($instances[$exDate])) {
+                        $instances[$exDate]['newstatus'] = 'DECLINED';
+                    } else {
+                        $instances[$exDate] = array(
+                            'id' => $exDate,
+                            'oldstatus' => null,
+                            'newstatus' => 'DECLINED',
+                        );
+                    }
                 }
 
             }

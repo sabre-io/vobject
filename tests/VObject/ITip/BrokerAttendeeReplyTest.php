@@ -573,4 +573,61 @@ ICS;
 
     }
 
+    /**
+     * In this test, a new exception is created by an attendee as well.
+     *
+     * Except in this case, there was already an overridden event, and the
+     * overridden event was marked as cancelled by the attendee.
+     *
+     * For any other attendence status, the new status would have been
+     * declined, but for this, no message should we sent.
+     */
+    function testDontCreateReplyWhenEventWasDeclined() {
+
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART:20140811T200000Z
+RRULE:FREQ=WEEKLY
+ORGANIZER:mailto:organizer@example.org
+ATTENDEE:mailto:one@example.org
+END:VEVENT
+BEGIN:VEVENT
+RECURRENCE-ID:20140818T200000Z
+UID:foobar
+SEQUENCE:1
+DTSTART:20140818T200000Z
+RRULE:FREQ=WEEKLY
+ORGANIZER:mailto:organizer@example.org
+ATTENDEE;PARTSTAT=DECLINED:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART:20140811T200000Z
+RRULE:FREQ=WEEKLY
+ORGANIZER:mailto:organizer@example.org
+ATTENDEE:mailto:one@example.org
+EXDATE:20140818T200000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+        $expected = array();
+
+        $result = $this->parse($oldMessage, $newMessage, $expected);
+
+    }
+
 }

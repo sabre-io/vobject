@@ -18,6 +18,8 @@ ChangeLog
 * #136: Validator rejects *all* control characters. We were missing a few.
 * #133: Splitter objects will throw exceptions when receiving incompatible
   objects.
+* #127: Attendees who delete recurring event instances events they had already
+  declined earlier will no longer generate another reply.
 
 3.3.1 (2014-08-18)
 ------------------
