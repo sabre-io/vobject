@@ -34,7 +34,7 @@ class Float extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val, $options = 0) {
 
         $val = explode($this->delimiter, $val);
         foreach($val as &$item) {

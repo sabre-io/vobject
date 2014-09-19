@@ -27,6 +27,12 @@ class Reader {
     const OPTION_IGNORE_INVALID_LINES = 2;
 
     /**
+     * If this option is turned on, parsing (not emitting) TEXT will be
+     * bug-by-bug compatible with the most widespread iCalendar library.
+     */
+    const OPTION_LIBICAL_COMPATIBLE = 4;
+
+    /**
      * Parses a vCard or iCalendar object, and returns the top component.
      *
      * The options argument is a bitfield. Pass any of the OPTIONS constant to

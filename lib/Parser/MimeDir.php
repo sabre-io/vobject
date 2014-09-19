@@ -374,7 +374,7 @@ class MimeDir extends Parser {
         }
 
         // vCard 2.1 states that parameters may appear without a name, and only
-        // a value. We can deduce the value based on it's name.
+        // a value. We can deduce the value based on its name.
         //
         // Our parser will get those as parameters without a value instead, so
         // we're filtering these parameters out first.
@@ -398,7 +398,7 @@ class MimeDir extends Parser {
         if (strtoupper($propObj['ENCODING']) === 'QUOTED-PRINTABLE') {
             $propObj->setQuotedPrintableValue($this->extractQuotedPrintableValue());
         } else {
-            $propObj->setRawMimeDirValue($property['value']);
+            $propObj->setRawMimeDirValue($property['value'], $this->options);
         }
 
         return $propObj;
@@ -418,9 +418,9 @@ class MimeDir extends Parser {
      *     span values over more than 1 line.
      *
      * vCard 3.0 says:
-     *   * (rfc2425) Backslashes, newlines (\n or \N) and comma's must be
+     *   * (rfc2425) Backslashes, newlines (\n or \N) and commas must be
      *     escaped, all time time.
-     *   * Comma's are used for delimeters in multiple values
+     *   * Commas are used for delimeters in multiple values
      *   * (rfc2426) Adds to to this that the semi-colon MUST also be escaped,
      *     as in some properties semi-colon is used for separators.
      *   * Properties using semi-colons: N, ADR, GEO, ORG
@@ -466,9 +466,12 @@ class MimeDir extends Parser {
      * @param string $delimiter
      * @return string|string[]
      */
-    static public function unescapeValue($input, $delimiter = ';') {
+    static public function unescapeValue($input, $delimiter = ';', $options = 0) {
 
-        $regex = '#  (?: (\\\\ (?: \\\\ | N | n | ; | , ) )';
+        $regex = '#  (?: (\\\\ (?: \\\\ | N | n | ; | ,';
+        if ($options & self::OPTION_LIBICAL_COMPATIBLE)
+            $regex .= ' | t | r | b | f | "';
+        $regex .= ' ) )';
         if ($delimiter) {
             $regex .= ' | (' . $delimiter . ')';
         }
@@ -498,6 +501,26 @@ class MimeDir extends Parser {
                 case $delimiter :
                     $resultArray[] = $result;
                     $result = '';
+                    break;
+                case '\t' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .="\t";
+                    break;
+                case '\r' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .="\r";
+                    break;
+                case '\b' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .="\010";
+                    break;
+                case '\f' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .="\f";
+                    break;
+                case '\"' :
+                    /* only hit if OPTION_LIBICAL_COMPATIBLE */
+                    $result .='"';
                     break;
                 default :
                     $result .= $match;

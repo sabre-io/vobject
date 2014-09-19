@@ -18,6 +18,8 @@ ChangeLog
 * #136: Validator rejects *all* control characters. We were missing a few.
 * #133: Splitter objects will throw exceptions when receiving incompatible
   objects.
+* #129: Added: OPTION_LIBICAL_COMPATIBLE parses libical-specific and
+  otherwise invalid escapes in TEXT in the same manner as libical does
 
 3.3.1 (2014-08-18)
 ------------------

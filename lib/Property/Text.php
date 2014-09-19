@@ -95,9 +95,9 @@ class Text extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    public function setRawMimeDirValue($val, $options = 0) {
 
-        $this->setValue(MimeDir::unescapeValue($val, $this->delimiter));
+        $this->setValue(MimeDir::unescapeValue($val, $this->delimiter, $options));
 
     }
 
