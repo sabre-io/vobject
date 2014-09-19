@@ -203,6 +203,14 @@ class Broker {
 
             $baseCalendar = $calendar;
 
+            // If the new object didn't have an organizer, the origanizer
+            // changed the object from a scheduling object to a non-scheduling
+            // object. We just copy the info from the old object.
+            if (!$eventInfo['organizer'] && $oldEventInfo['organizer']) {
+                $eventInfo['organizer'] = $oldEventInfo['organizer'];
+                $eventInfo['organizerName'] = $oldEventInfo['organizerName'];
+            }
+
         } else {
             // The calendar object got deleted, we need to process this as a
             // cancellation / decline.

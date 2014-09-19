@@ -20,6 +20,7 @@ ChangeLog
   objects.
 * #127: Attendees who delete recurring event instances events they had already
   declined earlier will no longer generate another reply.
+* #125: Send CANCEL messages when ORGANIZER property gets deleted.
 
 3.3.1 (2014-08-18)
 ------------------
