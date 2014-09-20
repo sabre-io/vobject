@@ -24,7 +24,7 @@ class Date extends DateAndOrTime {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return "DATE";
 

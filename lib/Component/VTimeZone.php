@@ -30,9 +30,9 @@ class VTimeZone extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
+        return [
             'TZID' => 1,
 
             'LAST-MODIFICATION' => '?',
@@ -45,7 +45,7 @@ class VTimeZone extends VObject\Component {
             // rules are too loose.
             'STANDARD' => '*',
             'DAYLIGHT' => '*',
-        );
+        ];
 
     }
 

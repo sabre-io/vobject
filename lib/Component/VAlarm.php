@@ -1,7 +1,10 @@
 <?php
 
 namespace Sabre\VObject\Component;
+
 use Sabre\VObject;
+use DateTimeInterface;
+use DateTimeImmutable;
 
 /**
  * VAlarm component
@@ -19,9 +22,9 @@ class VAlarm extends VObject\Component {
      *
      * This ignores repeated alarm, only the first trigger is returned.
      *
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function getEffectiveTriggerTime() {
+    function getEffectiveTriggerTime() {
 
         $trigger = $this->TRIGGER;
         if(!isset($trigger['VALUE']) || strtoupper($trigger['VALUE']) === 'DURATION') {
@@ -37,8 +40,8 @@ class VAlarm extends VObject\Component {
                     $propName = 'DTSTART';
                 }
 
-                $effectiveTrigger = clone $parentComponent->$propName->getDateTime();
-                $effectiveTrigger->add($triggerDuration);
+                $effectiveTrigger = $parentComponent->$propName->getDateTime();
+                $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
             } else {
                 if ($parentComponent->name === 'VTODO') {
                     $endProp = 'DUE';
@@ -49,16 +52,16 @@ class VAlarm extends VObject\Component {
                 }
 
                 if (isset($parentComponent->$endProp)) {
-                    $effectiveTrigger = clone $parentComponent->$endProp->getDateTime();
-                    $effectiveTrigger->add($triggerDuration);
+                    $effectiveTrigger = $parentComponent->$endProp->getDateTime();
+                    $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
                 } elseif (isset($parentComponent->DURATION)) {
-                    $effectiveTrigger = clone $parentComponent->DTSTART->getDateTime();
+                    $effectiveTrigger = $parentComponent->DTSTART->getDateTime();
                     $duration = VObject\DateTimeParser::parseDuration($parentComponent->DURATION);
-                    $effectiveTrigger->add($duration);
-                    $effectiveTrigger->add($triggerDuration);
+                    $effectiveTrigger = $effectiveTrigger->add($duration);
+                    $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
                 } else {
-                    $effectiveTrigger = clone $parentComponent->DTSTART->getDateTime();
-                    $effectiveTrigger->add($triggerDuration);
+                    $effectiveTrigger = $parentComponent->DTSTART->getDateTime();
+                    $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
                 }
             }
         } else {
@@ -75,11 +78,11 @@ class VAlarm extends VObject\Component {
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @param \DateTime $start
-     * @param \DateTime $end
+     * @param DateTime $start
+     * @param DateTime $end
      * @return bool
      */
-    public function isInTimeRange(\DateTime $start, \DateTime $end) {
+    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         $effectiveTrigger = $this->getEffectiveTriggerTime();
 
@@ -119,9 +122,9 @@ class VAlarm extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
+        return [
             'ACTION' => 1,
             'TRIGGER' => 1,
 
@@ -129,7 +132,7 @@ class VAlarm extends VObject\Component {
             'REPEAT' => '?',
 
             'ATTACH' => '?',
-        );
+        ];
 
     }
 

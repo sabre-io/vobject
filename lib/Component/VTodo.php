@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeInterface;
 use Sabre\VObject;
 
 /**
@@ -22,11 +23,11 @@ class VTodo extends VObject\Component {
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
      * @return bool
      */
-    public function isInTimeRange(\DateTime $start, \DateTime $end) {
+    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         $dtstart = isset($this->DTSTART)?$this->DTSTART->getDateTime():null;
         $duration = isset($this->DURATION)?VObject\DateTimeParser::parseDuration($this->DURATION):null;
@@ -37,7 +38,7 @@ class VTodo extends VObject\Component {
         if ($dtstart) {
             if ($duration) {
                 $effectiveEnd = clone $dtstart;
-                $effectiveEnd->add($duration);
+                $effectiveEnd = $effectiveEnd->add($duration);
                 return $start <= $effectiveEnd && $end > $dtstart;
             } elseif ($due) {
                 return
@@ -79,9 +80,9 @@ class VTodo extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
+        return [
             'UID' => 1,
             'DTSTAMP' => 1,
 
@@ -116,7 +117,7 @@ class VTodo extends VObject\Component {
             'RELATED-TO' => '*',
             'RESOURCES' => '*',
             'RDATE' => '*',
-        );
+        ];
 
     }
 
@@ -141,7 +142,7 @@ class VTodo extends VObject\Component {
      * @param int $options
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
         $result = parent::validate($options);
         if (isset($this->DUE) && isset($this->DTSTART)) {
@@ -151,19 +152,19 @@ class VTodo extends VObject\Component {
 
             if ($due->getValueType() !== $dtStart->getValueType()) {
 
-                $result[] = array(
+                $result[] = [
                     'level'   => 3,
                     'message' => 'The value type (DATE or DATE-TIME) must be identical for DUE and DTSTART',
                     'node' => $due,
-                );
+                ];
 
             } elseif ($due->getDateTime() < $dtStart->getDateTime()) {
 
-                $result[] = array(
+                $result[] = [
                     'level'   => 3,
                     'message' => 'DUE must occur after DTSTART',
                     'node' => $due,
-                );
+                ];
 
             }
 

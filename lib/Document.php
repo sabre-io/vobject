@@ -62,21 +62,21 @@ abstract class Document extends Component {
      *
      * @var array
      */
-    static public $propertyMap = array();
+    static public $propertyMap = [];
 
     /**
      * List of components, along with which classes they map to.
      *
      * @var array
      */
-    static public $componentMap = array();
+    static public $componentMap = [];
 
     /**
      * List of value-types, and which classes they map to.
      *
      * @var array
      */
-    static public $valueMap = array();
+    static public $valueMap = [];
 
     /**
      * Creates a new document.
@@ -89,20 +89,20 @@ abstract class Document extends Component {
      *
      * So the two sigs:
      *
-     * new Document(array $children = array(), $defaults = true);
-     * new Document(string $name, array $children = array(), $defaults = true)
+     * new Document(array $children = [], $defaults = true);
+     * new Document(string $name, array $children = [], $defaults = true)
      *
      * @return void
      */
-    public function __construct() {
+    function __construct() {
 
         $args = func_get_args();
         if (count($args)===0 || is_array($args[0])) {
             array_unshift($args, $this, static::$defaultName);
-            call_user_func_array(array('parent', '__construct'), $args);
+            call_user_func_array(['parent', '__construct'], $args);
         } else {
             array_unshift($args, $this);
-            call_user_func_array(array('parent', '__construct'), $args);
+            call_user_func_array(['parent', '__construct'], $args);
         }
 
     }
@@ -112,7 +112,7 @@ abstract class Document extends Component {
      *
      * @return void
      */
-    public function getDocumentType() {
+    function getDocumentType() {
 
         return self::UNKNOWN;
 
@@ -128,15 +128,15 @@ abstract class Document extends Component {
      * @param string $arg1,... Unlimited number of args
      * @return mixed
      */
-    public function create($name) {
+    function create($name) {
 
         if (isset(static::$componentMap[strtoupper($name)])) {
 
-            return call_user_func_array(array($this,'createComponent'), func_get_args());
+            return call_user_func_array([$this,'createComponent'], func_get_args());
 
         } else {
 
-            return call_user_func_array(array($this,'createProperty'), func_get_args());
+            return call_user_func_array([$this,'createProperty'], func_get_args());
 
         }
 
@@ -161,7 +161,7 @@ abstract class Document extends Component {
      * @param bool $defaults
      * @return Component
      */
-    public function createComponent($name, array $children = null, $defaults = true) {
+    function createComponent($name, array $children = null, $defaults = true) {
 
         $name = strtoupper($name);
         $class = 'Sabre\\VObject\\Component';
@@ -169,7 +169,7 @@ abstract class Document extends Component {
         if (isset(static::$componentMap[$name])) {
             $class=static::$componentMap[$name];
         }
-        if (is_null($children)) $children = array();
+        if (is_null($children)) $children = [];
         return new $class($this, $name, $children, $defaults);
 
     }
@@ -190,7 +190,7 @@ abstract class Document extends Component {
      * @param string $valueType Force a specific valuetype, such as URI or TEXT
      * @return Property
      */
-    public function createProperty($name, $value = null, array $parameters = null, $valueType = null) {
+    function createProperty($name, $value = null, array $parameters = null, $valueType = null) {
 
         // If there's a . in the name, it means it's prefixed by a groupname.
         if (($i=strpos($name,'.'))!==false) {
@@ -216,7 +216,7 @@ abstract class Document extends Component {
         if (is_null($class)) {
             $class = $this->getClassNameForPropertyName($name);
         }
-        if (is_null($parameters)) $parameters = array();
+        if (is_null($parameters)) $parameters = [];
 
         return new $class($this, $name, $value, $parameters, $group);
 
@@ -233,7 +233,7 @@ abstract class Document extends Component {
      * @param string $valueParam
      * @return void
      */
-    public function getClassNameForPropertyValue($valueParam) {
+    function getClassNameForPropertyValue($valueParam) {
 
         $valueParam = strtoupper($valueParam);
         if (isset(static::$valueMap[$valueParam])) {
@@ -248,7 +248,7 @@ abstract class Document extends Component {
      * @param string $propertyName
      * @return string
      */
-    public function getClassNameForPropertyName($propertyName) {
+    function getClassNameForPropertyName($propertyName) {
 
         if (isset(static::$propertyMap[$propertyName])) {
             return static::$propertyMap[$propertyName];

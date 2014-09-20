@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeInterface;
 use Sabre\VObject;
 
 /**
@@ -20,11 +21,11 @@ class VFreeBusy extends VObject\Component {
      * Checks based on the contained FREEBUSY information, if a timeslot is
      * available.
      *
-     * @param DateTime $start
-     * @param Datetime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
      * @return bool
      */
-    public function isFree(\DateTime $start, \Datetime $end) {
+    function isFree(DateTimeInterface $start, DatetimeInterface $end) {
 
         foreach($this->select('FREEBUSY') as $freebusy) {
 
@@ -48,7 +49,7 @@ class VFreeBusy extends VObject\Component {
                 $busyEnd = VObject\DateTimeParser::parse($busyEnd);
                 if ($busyEnd instanceof \DateInterval) {
                     $tmp = clone $busyStart;
-                    $tmp->add($busyEnd);
+                    $tmp = $tmp->add($busyEnd);
                     $busyEnd = $tmp;
                 }
 
@@ -78,9 +79,9 @@ class VFreeBusy extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
+        return [
             'UID' => 1,
             'DTSTAMP' => 1,
 
@@ -94,7 +95,7 @@ class VFreeBusy extends VObject\Component {
             'COMMENT' => '*',
             'FREEBUSY' => '*',
             'REQUEST-STATUS' => '*',
-        );
+        ];
 
     }
 

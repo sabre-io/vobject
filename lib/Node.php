@@ -42,7 +42,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      *
      * @return string
      */
-    abstract public function serialize();
+    abstract function serialize();
 
     /**
      * This method returns an array, with the representation as it should be
@@ -50,7 +50,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      *
      * @return array
      */
-    abstract public function jsonSerialize();
+    abstract function jsonSerialize();
 
     /* {{{ IteratorAggregator interface */
 
@@ -59,12 +59,12 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      *
      * @return ElementList
      */
-    public function getIterator() {
+    function getIterator() {
 
         if (!is_null($this->iterator))
             return $this->iterator;
 
-        return new ElementList(array($this));
+        return new ElementList([$this]);
 
     }
 
@@ -76,7 +76,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * @param ElementList $iterator
      * @return void
      */
-    public function setIterator(ElementList $iterator) {
+    function setIterator(ElementList $iterator) {
 
         $this->iterator = $iterator;
 
@@ -103,9 +103,9 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * @param int $options
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
-        return array();
+        return [];
 
     }
 
@@ -118,7 +118,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      *
      * @return int
      */
-    public function count() {
+    function count() {
 
         $it = $this->getIterator();
         return $it->count();
@@ -138,7 +138,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * @param int $offset
      * @return bool
      */
-    public function offsetExists($offset) {
+    function offsetExists($offset) {
 
         $iterator = $this->getIterator();
         return $iterator->offsetExists($offset);
@@ -153,7 +153,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * @param int $offset
      * @return mixed
      */
-    public function offsetGet($offset) {
+    function offsetGet($offset) {
 
         $iterator = $this->getIterator();
         return $iterator->offsetGet($offset);
@@ -169,7 +169,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * @param mixed $value
      * @return void
      */
-    public function offsetSet($offset, $value) {
+    function offsetSet($offset, $value) {
 
         $iterator = $this->getIterator();
         $iterator->offsetSet($offset,$value);
@@ -189,7 +189,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      * @param int $offset
      * @return void
      */
-    public function offsetUnset($offset) {
+    function offsetUnset($offset) {
 
         $iterator = $this->getIterator();
         $iterator->offsetUnset($offset);

@@ -37,7 +37,7 @@ class Period extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->setValue(explode($this->delimiter, $val));
 
@@ -48,7 +48,7 @@ class Period extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return implode($this->delimiter, $this->getParts());
 
@@ -62,7 +62,7 @@ class Period extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return "PERIOD";
 
@@ -76,12 +76,12 @@ class Period extends Property {
      * @param array $value
      * @return void
      */
-    public function setJsonValue(array $value) {
+    function setJsonValue(array $value) {
 
         $value = array_map(
             function($item) {
 
-                return strtr(implode('/', $item), array(':' => '', '-' => ''));
+                return strtr(implode('/', $item), [':' => '', '-' => '']);
 
             },
             $value
@@ -97,9 +97,9 @@ class Period extends Property {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
-        $return = array();
+        $return = [];
         foreach($this->getParts() as $item) {
 
             list($start, $end) = explode('/', $item, 2);
@@ -108,16 +108,16 @@ class Period extends Property {
 
             // This is a duration value.
             if ($end[0]==='P') {
-                $return[] = array(
+                $return[] = [
                     $start->format('Y-m-d\\TH:i:s'),
                     $end
-                );
+                ];
             } else {
                 $end = DateTimeParser::parseDateTime($end);
-                $return[] = array(
+                $return[] = [
                     $start->format('Y-m-d\\TH:i:s'),
                     $end->format('Y-m-d\\TH:i:s'),
-                );
+                ];
             }
 
         }

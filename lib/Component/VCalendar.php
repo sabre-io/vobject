@@ -2,10 +2,10 @@
 
 namespace Sabre\VObject\Component;
 
-use
-    Sabre\VObject,
-    Sabre\VObject\Component,
-    Sabre\VObject\Recur\EventIterator;
+use DateTimeInterface;
+use Sabre\VObject;
+use Sabre\VObject\Component;
+use Sabre\VObject\Recur\EventIterator;
 
 /**
  * The VCalendar component
@@ -32,21 +32,21 @@ class VCalendar extends VObject\Document {
      *
      * @var array
      */
-    static public $componentMap = array(
+    static public $componentMap = [
         'VALARM'    => 'Sabre\\VObject\\Component\\VAlarm',
         'VEVENT'    => 'Sabre\\VObject\\Component\\VEvent',
         'VFREEBUSY' => 'Sabre\\VObject\\Component\\VFreeBusy',
         'VJOURNAL'  => 'Sabre\\VObject\\Component\\VJournal',
         'VTIMEZONE' => 'Sabre\\VObject\\Component\\VTimeZone',
         'VTODO'     => 'Sabre\\VObject\\Component\\VTodo',
-    );
+    ];
 
     /**
      * List of value-types, and which classes they map to.
      *
      * @var array
      */
-    static public $valueMap = array(
+    static public $valueMap = [
         'BINARY'           => 'Sabre\\VObject\\Property\\Binary',
         'BOOLEAN'          => 'Sabre\\VObject\\Property\\Boolean',
         'CAL-ADDRESS'      => 'Sabre\\VObject\\Property\\ICalendar\\CalAddress',
@@ -62,14 +62,14 @@ class VCalendar extends VObject\Document {
         'UNKNOWN'          => 'Sabre\\VObject\\Property\\Unknown', // jCard / jCal-only.
         'URI'              => 'Sabre\\VObject\\Property\\Uri',
         'UTC-OFFSET'       => 'Sabre\\VObject\\Property\\UtcOffset',
-    );
+    ];
 
     /**
      * List of properties, and which classes they map to.
      *
      * @var array
      */
-    static public $propertyMap = array(
+    static public $propertyMap = [
         // Calendar properties
         'CALSCALE'      => 'Sabre\\VObject\\Property\\FlatText',
         'METHOD'        => 'Sabre\\VObject\\Property\\FlatText',
@@ -141,14 +141,14 @@ class VCalendar extends VObject\Document {
         'PROXIMITY'      => 'Sabre\\VObject\\Property\\Text',
         'DEFAULT-ALARM'  => 'Sabre\\VObject\\Property\\Boolean',
 
-    );
+    ];
 
     /**
      * Returns the current document type.
      *
      * @return void
      */
-    public function getDocumentType() {
+    function getDocumentType() {
 
         return self::ICALENDAR20;
 
@@ -164,9 +164,9 @@ class VCalendar extends VObject\Document {
      * @param string $componentName filter by component name
      * @return VObject\Component[]
      */
-    public function getBaseComponents($componentName = null) {
+    function getBaseComponents($componentName = null) {
 
-        $components = array();
+        $components = [];
         foreach($this->children as $component) {
 
             if (!$component instanceof VObject\Component)
@@ -198,7 +198,7 @@ class VCalendar extends VObject\Document {
      * @param string $componentName filter by component name
      * @return VObject\Component|null
      */
-    public function getBaseComponent($componentName = null) {
+    function getBaseComponent($componentName = null) {
 
         foreach($this->children as $component) {
 
@@ -237,13 +237,13 @@ class VCalendar extends VObject\Document {
      * possible for clients to request expand events, if they are rather simple
      * clients and do not have the possibility to calculate recurrences.
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
      * @return void
      */
-    public function expand(\DateTime $start, \DateTime $end) {
+    function expand(DateTimeInterface $start, DateTimeInterface $end) {
 
-        $newEvents = array();
+        $newEvents = [];
 
         foreach($this->select('VEVENT') as $key=>$vevent) {
 
@@ -292,7 +292,7 @@ class VCalendar extends VObject\Document {
                     // We only need to update the first timezone, because
                     // setDateTimes will match all other timezones to the
                     // first.
-                    $dt[0]->setTimeZone(new \DateTimeZone('UTC'));
+                    $dt[0] = $dt[0]->setTimeZone(new \DateTimeZone('UTC'));
                     $child->setDateTimes($dt);
                 }
 
@@ -314,11 +314,11 @@ class VCalendar extends VObject\Document {
      */
     protected function getDefaults() {
 
-        return array(
+        return [
             'VERSION' => '2.0',
             'PRODID' => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
             'CALSCALE' => 'GREGORIAN',
-        );
+        ];
 
     }
 
@@ -336,15 +336,15 @@ class VCalendar extends VObject\Document {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
+        return [
             'PRODID' => 1,
             'VERSION' => 1,
 
             'CALSCALE' => '?',
             'METHOD' => '?',
-        );
+        ];
 
     }
 
@@ -359,29 +359,29 @@ class VCalendar extends VObject\Document {
      *
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
         $warnings = parent::validate($options);
 
         if ($ver = $this->VERSION) {
             if ((string)$ver !== '2.0') {
-                $warnings[] = array(
+                $warnings[] = [
                     'level' => 3,
                     'message' => 'Only iCalendar version 2.0 as defined in rfc5545 is supported.',
                     'node' => $this,
-                );
+                ];
             }
 
         }
 
-        $uidList = array();
+        $uidList = [];
 
         $componentsFound = 0;
         foreach($this->children as $child) {
             if($child instanceof Component) {
                 $componentsFound++;
 
-                if (!in_array($child->name, array('VEVENT', 'VTODO', 'VJOURNAL'))) {
+                if (!in_array($child->name, ['VEVENT', 'VTODO', 'VJOURNAL'])) {
                     continue;
                 }
 
@@ -390,29 +390,29 @@ class VCalendar extends VObject\Document {
                 if (isset($uidList[$uid])) {
                     $uidList[$uid]['count']++;
                     if ($isMaster && $uidList[$uid]['hasMaster']) {
-                        $warnings[] = array(
+                        $warnings[] = [
                             'level' => 3,
                             'message' => 'More than one master object was found for the object with UID ' . $uid,
                             'node' => $this,
-                        );
+                        ];
                     }
                     $uidList[$uid]['hasMaster']+=$isMaster;
                 } else {
-                    $uidList[$uid] = array(
+                    $uidList[$uid] = [
                         'count' => 1,
                         'hasMaster' => $isMaster,
-                    );
+                    ];
                 }
 
             }
         }
 
         if ($componentsFound===0) {
-            $warnings[] = array(
+            $warnings[] = [
                 'level' => 3,
                 'message' => 'An iCalendar object must have at least 1 component.',
                 'node' => $this,
-            );
+            ];
         }
 
         return $warnings;

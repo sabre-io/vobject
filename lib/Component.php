@@ -28,7 +28,7 @@ class Component extends Node {
      *
      * @var array
      */
-    public $children = array();
+    public $children = [];
 
     /**
      * Creates a new component.
@@ -47,7 +47,7 @@ class Component extends Node {
      * @param bool $defaults
      * @return void
      */
-    public function __construct(Document $root, $name, array $children = array(), $defaults = true) {
+    function __construct(Document $root, $name, array $children = [], $defaults = true) {
 
         $this->name = strtoupper($name);
         $this->root = $root;
@@ -58,7 +58,7 @@ class Component extends Node {
             // defaults and the childrens list, are inserted in the object in a
             // natural way.
             $list = $this->getDefaults();
-            $nodes = array();
+            $nodes = [];
             foreach($children as $key=>$value) {
                 if ($value instanceof Node) {
                     if (isset($list[$value->name])) {
@@ -98,13 +98,13 @@ class Component extends Node {
      *
      * add(Component $comp) // Adds a new component
      * add(Property $prop)  // Adds a new property
-     * add($name, $value, array $parameters = array()) // Adds a new property
-     * add($name, array $children = array()) // Adds a new component
+     * add($name, $value, array $parameters = []) // Adds a new property
+     * add($name, array $children = []) // Adds a new component
      * by name.
      *
      * @return Node
      */
-    public function add($a1, $a2 = null, $a3 = null) {
+    function add($a1, $a2 = null, $a3 = null) {
 
         if ($a1 instanceof Node) {
             if (!is_null($a2)) {
@@ -145,7 +145,7 @@ class Component extends Node {
      * @param mixed $item
      * @return void
      */
-    public function remove($item) {
+    function remove($item) {
 
         if (is_string($item)) {
             $children = $this->select($item);
@@ -172,7 +172,7 @@ class Component extends Node {
      *
      * @return array
      */
-    public function children() {
+    function children() {
 
         return $this->children;
 
@@ -184,9 +184,9 @@ class Component extends Node {
      *
      * @return array
      */
-    public function getComponents() {
+    function getComponents() {
 
-        $result = array();
+        $result = [];
         foreach($this->children as $child) {
             if ($child instanceof Component) {
                 $result[] = $child;
@@ -213,7 +213,7 @@ class Component extends Node {
      * @param string $name
      * @return array
      */
-    public function select($name) {
+    function select($name) {
 
         $group = null;
         $name = strtoupper($name);
@@ -221,7 +221,7 @@ class Component extends Node {
             list($group,$name) = explode('.', $name, 2);
         }
 
-        $result = array();
+        $result = [];
         foreach($this->children as $key=>$child) {
 
             if (
@@ -244,7 +244,7 @@ class Component extends Node {
      *
      * @return string
      */
-    public function serialize() {
+    function serialize() {
 
         $str = "BEGIN:" . $this->name . "\r\n";
 
@@ -318,10 +318,10 @@ class Component extends Node {
      *
      * @return array
      */
-    public function jsonSerialize() {
+    function jsonSerialize() {
 
-        $components = array();
-        $properties = array();
+        $components = [];
+        $properties = [];
 
         foreach($this->children as $child) {
             if ($child instanceof Component) {
@@ -331,11 +331,11 @@ class Component extends Node {
             }
         }
 
-        return array(
+        return [
             strtolower($this->name),
             $properties,
             $components
-        );
+        ];
 
     }
 
@@ -346,7 +346,7 @@ class Component extends Node {
      */
     protected function getDefaults() {
 
-        return array();
+        return [];
 
     }
 
@@ -365,7 +365,7 @@ class Component extends Node {
      * @param string $name
      * @return Property
      */
-    public function __get($name) {
+    function __get($name) {
 
         $matches = $this->select($name);
         if (count($matches)===0) {
@@ -385,7 +385,7 @@ class Component extends Node {
      * @param string $name
      * @return bool
      */
-    public function __isset($name) {
+    function __isset($name) {
 
         $matches = $this->select($name);
         return count($matches)>0;
@@ -405,7 +405,7 @@ class Component extends Node {
      * @param mixed $value
      * @return void
      */
-    public function __set($name, $value) {
+    function __set($name, $value) {
 
         $matches = $this->select($name);
         $overWrite = count($matches)?key($matches):null;
@@ -435,7 +435,7 @@ class Component extends Node {
      * @param string $name
      * @return void
      */
-    public function __unset($name) {
+    function __unset($name) {
 
         $matches = $this->select($name);
         foreach($matches as $k=>$child) {
@@ -455,7 +455,7 @@ class Component extends Node {
      *
      * @return void
      */
-    public function __clone() {
+    function __clone() {
 
         foreach($this->children as $key=>$child) {
             $this->children[$key] = clone $child;
@@ -485,9 +485,9 @@ class Component extends Node {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array();
+        return [];
 
     }
 
@@ -512,14 +512,14 @@ class Component extends Node {
      * @param int $options
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
         $rules = $this->getValidationRules();
         $defaults = $this->getDefaults();
 
-        $propertyCounters = array();
+        $propertyCounters = [];
 
-        $messages = array();
+        $messages = [];
 
         foreach($this->children as $child) {
             $name = strtoupper($child->name);
@@ -536,11 +536,11 @@ class Component extends Node {
             switch($rule) {
                 case '0' :
                     if (isset($propertyCounters[$propName])) {
-                        $messages[] = array(
+                        $messages[] = [
                             'level' => 3,
                             'message' => $propName . ' MUST NOT appear in a ' . $this->name . ' component',
                             'node' => $this,
-                        );
+                        ];
                     }
                     break;
                 case '1' :
@@ -549,31 +549,31 @@ class Component extends Node {
                         if ($options & self::REPAIR && isset($defaults[$propName])) {
                             $this->add($propName, $defaults[$propName]);
                         }
-                        $messages[] = array(
+                        $messages[] = [
                             'level' => $repaired?1:3,
                             'message' => $propName . ' MUST appear exactly once in a ' . $this->name . ' component',
                             'node' => $this,
-                        );
+                        ];
                     }
                     break;
                 case '+' :
                     if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName] < 1) {
-                        $messages[] = array(
+                        $messages[] = [
                             'level' => 3,
                             'message' => $propName . ' MUST appear at least once in a ' . $this->name . ' component',
                             'node' => $this,
-                        );
+                        ];
                     }
                     break;
                 case '*' :
                     break;
                 case '?' :
                     if (isset($propertyCounters[$propName]) && $propertyCounters[$propName] > 1) {
-                        $messages[] = array(
+                        $messages[] = [
                             'level' => 3,
                             'message' => $propName . ' MUST NOT appear more than once in a ' . $this->name . ' component',
                             'node' => $this,
-                        );
+                        ];
                     }
                     break;
 

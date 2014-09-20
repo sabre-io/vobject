@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+3.4.0-alpha1
+------------
+
+* sabre/vobject now requires PHP 5.4.
+
+
 3.3.2 (2014-09-19)
 ------------------
 
@@ -21,6 +27,7 @@ ChangeLog
 * #127: Attendees who delete recurring event instances events they had already
   declined earlier will no longer generate another reply.
 * #125: Send CANCEL messages when ORGANIZER property gets deleted.
+
 
 3.3.1 (2014-08-18)
 ------------------

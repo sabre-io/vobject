@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeInterface;
 use Sabre\VObject;
 
 /**
@@ -22,17 +23,17 @@ class VJournal extends VObject\Component {
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
      * @return bool
      */
-    public function isInTimeRange(\DateTime $start, \DateTime $end) {
+    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         $dtstart = isset($this->DTSTART)?$this->DTSTART->getDateTime():null;
         if ($dtstart) {
             $effectiveEnd = clone $dtstart;
             if (!$this->DTSTART->hasTime()) {
-                $effectiveEnd->modify('+1 day');
+                $effectiveEnd = $effectiveEnd->modify('+1 day');
             }
 
             return ($start <= $effectiveEnd && $end > $dtstart);
@@ -56,9 +57,9 @@ class VJournal extends VObject\Component {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
-        return array(
+        return [
             'UID' => 1,
             'DTSTAMP' => 1,
 
@@ -84,7 +85,7 @@ class VJournal extends VObject\Component {
             'EXDATE' => '*',
             'RELATED-TO' => '*',
             'RDATE' => '*',
-        );
+        ];
 
     }
 }

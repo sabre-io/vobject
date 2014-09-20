@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject;
 
+use DateTimeImmutable;
+
 /**
  * DateTimeParser
  *
@@ -15,17 +17,18 @@ namespace Sabre\VObject;
 class DateTimeParser {
 
     /**
-     * Parses an iCalendar (rfc5545) formatted datetime and returns a DateTime object
+     * Parses an iCalendar (rfc5545) formatted datetime and returns a
+     * DateTimeImmutable object
      *
      * Specifying a reference timezone is optional. It will only be used
      * if the non-UTC format is used. The argument is used as a reference, the
-     * returned DateTime object will still be in the UTC timezone.
+     * returned DateTimeImmutable object will still be in the UTC timezone.
      *
      * @param string $dt
      * @param DateTimeZone $tz
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    static public function parseDateTime($dt, \DateTimeZone $tz = null) {
+    static function parseDateTime($dt, \DateTimeZone $tz = null) {
 
         // Format is YYYYMMDD + "T" + hhmmss
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/',$dt,$matches);
@@ -37,7 +40,7 @@ class DateTimeParser {
         if ($matches[7]==='Z' || is_null($tz)) {
             $tz = new \DateTimeZone('UTC');
         }
-        $date = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] .':' . $matches[6], $tz);
+        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] .':' . $matches[6], $tz);
 
         // Still resetting the timezone, to normalize everything to UTC
         // $date->setTimeZone(new \DateTimeZone('UTC'));
@@ -46,12 +49,12 @@ class DateTimeParser {
     }
 
     /**
-     * Parses an iCalendar (rfc5545) formatted date and returns a DateTime object
+     * Parses an iCalendar (rfc5545) formatted date and returns a DateTimeImmutable object
      *
      * @param string $date
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    static public function parseDate($date) {
+    static function parseDate($date) {
 
         // Format is YYYYMMDD
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])$/',$date,$matches);
@@ -60,7 +63,7 @@ class DateTimeParser {
             throw new \LogicException('The supplied iCalendar date value is incorrect: ' . $date);
         }
 
-        $date = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3], new \DateTimeZone('UTC'));
+        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3], new \DateTimeZone('UTC'));
         return $date;
 
     }
@@ -75,7 +78,7 @@ class DateTimeParser {
      * @param bool $asString
      * @return DateInterval|string
      */
-    static public function parseDuration($duration, $asString = false) {
+    static function parseDuration($duration, $asString = false) {
 
         $result = preg_match('/^(?P<plusminus>\+|-)?P((?P<week>\d+)W)?((?P<day>\d+)D)?(T((?P<hour>\d+)H)?((?P<minute>\d+)M)?((?P<second>\d+)S)?)?$/', $duration, $matches);
         if (!$result) {
@@ -89,13 +92,13 @@ class DateTimeParser {
             }
 
 
-            $parts = array(
+            $parts = [
                 'week',
                 'day',
                 'hour',
                 'minute',
                 'second',
-            );
+            ];
             foreach($parts as $part) {
                 $matches[$part] = isset($matches[$part])&&$matches[$part]?(int)$matches[$part]:0;
             }
@@ -137,13 +140,13 @@ class DateTimeParser {
 
 
 
-        $parts = array(
+        $parts = [
             'week',
             'day',
             'hour',
             'minute',
             'second',
-        );
+        ];
 
         $newDur = '';
         foreach($parts as $part) {
@@ -165,9 +168,9 @@ class DateTimeParser {
      *
      * @param string $date
      * @param DateTimeZone|string $referenceTZ
-     * @return DateTime|DateInterval
+     * @return DateTimeImmutable|DateInterval
      */
-    static public function parse($date, $referenceTZ = null) {
+    static function parse($date, $referenceTZ = null) {
 
         if ($date[0]==='P' || ($date[0]==='-' && $date[1]==='P')) {
             return self::parseDuration($date);
@@ -234,7 +237,7 @@ class DateTimeParser {
      * @param string $date
      * @return array
      */
-    static public function parseVCardDateTime($date) {
+    static function parseVCardDateTime($date) {
 
         $regex = '/^
             (?:  # date part
@@ -288,7 +291,7 @@ class DateTimeParser {
             }
 
         }
-        $parts = array(
+        $parts = [
             'year',
             'month',
             'date',
@@ -296,9 +299,9 @@ class DateTimeParser {
             'minute',
             'second',
             'timezone'
-        );
+        ];
 
-        $result = array();
+        $result = [];
         foreach($parts as $part) {
 
             if (empty($matches[$part])) {
@@ -356,7 +359,7 @@ class DateTimeParser {
      * @param string $date
      * @return array
      */
-    static public function parseVCardTime($date) {
+    static function parseVCardTime($date) {
 
         $regex = '/^
             (?P<hour> [0-9]{2} | -)
@@ -391,14 +394,14 @@ class DateTimeParser {
             }
 
         }
-        $parts = array(
+        $parts = [
             'hour',
             'minute',
             'second',
             'timezone'
-        );
+        ];
 
-        $result = array();
+        $result = [];
         foreach($parts as $part) {
 
             if (empty($matches[$part])) {
