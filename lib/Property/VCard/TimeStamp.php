@@ -33,7 +33,7 @@ class TimeStamp extends Text {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return "TIMESTAMP";
 
@@ -46,7 +46,7 @@ class TimeStamp extends Text {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
         $parts = DateTimeParser::parseVCardDateTime($this->getValue());
 
@@ -63,7 +63,7 @@ class TimeStamp extends Text {
             $dateStr.=$parts['timezone'];
         }
 
-        return array($dateStr);
+        return [$dateStr];
 
     }
 }

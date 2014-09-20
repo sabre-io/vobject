@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeInterface;
 use Sabre\VObject;
 use Sabre\VObject\Recur\EventIterator;
 
@@ -23,11 +24,11 @@ class VEvent extends VObject\Component {
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @param \DateTime $start
-     * @param \DateTime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
      * @return bool
      */
-    function isInTimeRange(\DateTime $start, \DateTime $end) {
+    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         if ($this->RRULE) {
             $it = new EventIterator($this);
@@ -56,10 +57,10 @@ class VEvent extends VObject\Component {
 
         } elseif (isset($this->DURATION)) {
             $effectiveEnd = clone $effectiveStart;
-            $effectiveEnd->add(VObject\DateTimeParser::parseDuration($this->DURATION));
+            $effectiveEnd = $effectiveEnd->add(VObject\DateTimeParser::parseDuration($this->DURATION));
         } elseif (!$this->DTSTART->hasTime()) {
             $effectiveEnd = clone $effectiveStart;
-            $effectiveEnd->modify('+1 day');
+            $effectiveEnd = $effectiveEnd->modify('+1 day');
         } else {
             $effectiveEnd = clone $effectiveStart;
         }

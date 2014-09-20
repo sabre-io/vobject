@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTime;
+use DateTimeInterface;
 use InvalidArgumentException;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
@@ -27,9 +27,9 @@ class RDateIterator implements Iterator {
      * Creates the Iterator.
      *
      * @param string|array $rrule
-     * @param DateTime $start
+     * @param DateTimeInterface $start
      */
-    public function __construct($rrule, DateTime $start) {
+    function __construct($rrule, DateTimeInterface $start) {
 
         $this->startDate = $start;
         $this->parseRDate($rrule);
@@ -39,7 +39,7 @@ class RDateIterator implements Iterator {
 
     /* Implementation of the Iterator interface {{{ */
 
-    public function current() {
+    function current() {
 
         if (!$this->valid()) return null;
         return clone $this->currentDate;
@@ -51,7 +51,7 @@ class RDateIterator implements Iterator {
      *
      * @return int
      */
-    public function key() {
+    function key() {
 
         return $this->counter;
 
@@ -63,7 +63,7 @@ class RDateIterator implements Iterator {
      *
      * @return bool
      */
-    public function valid() {
+    function valid() {
 
         return ($this->counter <= count($this->dates));
 
@@ -74,7 +74,7 @@ class RDateIterator implements Iterator {
      *
      * @return void
      */
-    public function rewind() {
+    function rewind() {
 
         $this->currentDate = clone $this->startDate;
         $this->counter = 0;
@@ -86,7 +86,7 @@ class RDateIterator implements Iterator {
      *
      * @return void
      */
-    public function next() {
+    function next() {
 
         $this->counter++;
         if (!$this->valid()) return;
@@ -105,7 +105,7 @@ class RDateIterator implements Iterator {
      *
      * @return bool
      */
-    public function isInfinite() {
+    function isInfinite() {
 
         return false;
 
@@ -115,10 +115,10 @@ class RDateIterator implements Iterator {
      * This method allows you to quickly go to the next occurrence after the
      * specified date.
      *
-     * @param DateTime $dt
+     * @param DateTimeInterface $dt
      * @return void
      */
-    public function fastForward(\DateTime $dt) {
+    function fastForward(DateTimeInterface $dt) {
 
         while($this->valid() && $this->currentDate < $dt ) {
             $this->next();
@@ -131,7 +131,7 @@ class RDateIterator implements Iterator {
      *
      * All calculations are based on this initial date.
      *
-     * @var DateTime
+     * @var DateTimeInterface
      */
     protected $startDate;
 
@@ -139,7 +139,7 @@ class RDateIterator implements Iterator {
      * The date of the current iteration. You can get this by calling
      * ->current().
      *
-     * @var DateTime
+     * @var DateTimeInterface
      */
     protected $currentDate;
 

@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeInterface;
 use Sabre\VObject;
 
 /**
@@ -22,11 +23,11 @@ class VTodo extends VObject\Component {
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
      * @return bool
      */
-    function isInTimeRange(\DateTime $start, \DateTime $end) {
+    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         $dtstart = isset($this->DTSTART)?$this->DTSTART->getDateTime():null;
         $duration = isset($this->DURATION)?VObject\DateTimeParser::parseDuration($this->DURATION):null;
@@ -37,7 +38,7 @@ class VTodo extends VObject\Component {
         if ($dtstart) {
             if ($duration) {
                 $effectiveEnd = clone $dtstart;
-                $effectiveEnd->add($duration);
+                $effectiveEnd = $effectiveEnd->add($duration);
                 return $start <= $effectiveEnd && $end > $dtstart;
             } elseif ($due) {
                 return

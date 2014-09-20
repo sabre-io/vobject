@@ -4,8 +4,12 @@ ChangeLog
 3.4.0-alpha1
 ------------
 
-* sabre/vobject now requires PHP 5.4.
-
+* sabre/vobject now requires PHP 5.5.
+* #139: We now accept `DateTimeInterface` whereever it accepted `DateTime`
+   before in arguments. This means that either `DateTime` or
+  `DateTimeImmutable` may be used everywhere.
+* #139: We now _always_ return `DateTimeImmutable` from any method. This could
+  potentially have big implications if you manipulate Date objects anywhere.
 
 3.3.2 (2014-09-19)
 ------------------

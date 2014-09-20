@@ -168,7 +168,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
     function testGetDateTimeCached() {
 
         $tz = new \DateTimeZone('Europe/Amsterdam');
-        $dt = new \DateTime('1985-07-04 01:30:00', $tz);
+        $dt = new \DateTimeImmutable('1985-07-04 01:30:00', $tz);
         $dt->setTimeZone($tz);
 
         $elem = $this->vcal->createProperty('DTSTART');
@@ -192,7 +192,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $elem = $this->vcal->createProperty('DTSTART','19850704');
         $dt = $elem->getDateTime();
 
-        $this->assertInstanceOf('DateTime', $dt);
+        $this->assertInstanceOf('DateTimeImmutable', $dt);
         $this->assertEquals('1985-07-04 00:00:00', $dt->format('Y-m-d H:i:s'));
 
     }
@@ -203,7 +203,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $elem = $this->vcal->createProperty('DTSTART','19850704T013000');
         $dt = $elem->getDateTime();
 
-        $this->assertInstanceOf('DateTime', $dt);
+        $this->assertInstanceOf('DateTimeImmutable', $dt);
         $this->assertEquals('1985-07-04 01:30:00', $dt->format('Y-m-d H:i:s'));
 
     }
@@ -213,7 +213,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $elem = $this->vcal->createProperty('DTSTART','19850704T013000Z');
         $dt = $elem->getDateTime();
 
-        $this->assertInstanceOf('DateTime', $dt);
+        $this->assertInstanceOf('DateTimeImmutable', $dt);
         $this->assertEquals('1985-07-04 01:30:00', $dt->format('Y-m-d H:i:s'));
         $this->assertEquals('UTC', $dt->getTimeZone()->getName());
 
@@ -226,7 +226,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
         $dt = $elem->getDateTime();
 
-        $this->assertInstanceOf('DateTime', $dt);
+        $this->assertInstanceOf('DateTimeImmutable', $dt);
         $this->assertEquals('1985-07-04 01:30:00', $dt->format('Y-m-d H:i:s'));
         $this->assertEquals('Europe/Amsterdam', $dt->getTimeZone()->getName());
 
@@ -260,7 +260,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
         $dt = $elem->getDateTime();
 
-        $this->assertInstanceOf('DateTime', $dt);
+        $this->assertInstanceOf('DateTimeImmutable', $dt);
         $this->assertEquals('1985-07-04 01:30:00', $dt->format('Y-m-d H:i:s'));
         $this->assertEquals('Europe/Amsterdam', $dt->getTimeZone()->getName());
 
@@ -288,7 +288,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
 
         $dt = $elem->getDateTime();
 
-        $this->assertInstanceOf('DateTime', $dt);
+        $this->assertInstanceOf('DateTimeImmutable', $dt);
         $this->assertEquals('1985-07-04 01:30:00', $dt->format('Y-m-d H:i:s'));
         $this->assertEquals('Canada/Eastern', $dt->getTimeZone()->getName());
         date_default_timezone_set($default);

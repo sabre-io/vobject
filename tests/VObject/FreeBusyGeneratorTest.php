@@ -169,7 +169,7 @@ END:VCALENDAR
 ICS;
 
 
-        return array(
+        return [
             $blob1,
             $blob2,
             $blob3,
@@ -184,7 +184,7 @@ ICS;
             $blob12,
             $blob13,
             $blob14,
-        );
+        ];
 
     }
 
@@ -198,7 +198,7 @@ ICS;
 
         $result = $gen->getResult();
 
-        $expected = array(
+        $expected = [
             '20110101T120000Z/20110101T130000Z',
             '20110101T130000Z/20110101T140000Z',
             '20110101T180000Z/20110101T190000Z',
@@ -213,7 +213,7 @@ ICS;
 
             '20110101T220000Z/20110101T230000Z',
             '20110101T230000Z/20110102T000000Z',
-        );
+        ];
 
         foreach($result->VFREEBUSY->FREEBUSY as $fb) {
 
