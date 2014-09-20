@@ -229,7 +229,68 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+
         $expected = array();
+        $result = $this->parse($oldMessage, $newMessage, $expected);
+
+    }
+
+    function testNoChangeForceSend() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;SCHEDULE-FORCE-SEND=REPLY;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=NEEDS-ACTION;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+        $expected = array(
+            array(
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=NEEDS-ACTION;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS
+            )
+
+        );
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
@@ -406,6 +467,165 @@ ICS
 
             ),
         );
+        $result = $this->parse($oldMessage, $newMessage, $expected);
+
+    }
+
+    function testDeclined() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = array(
+            array(
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS
+
+            ),
+
+        );
+
+        $result = $this->parse($oldMessage, $newMessage, $expected);
+
+    }
+
+    function testDeclinedCancelledEvent() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+STATUS:CANCELLED
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+STATUS:CANCELLED
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = array();
+
+        $result = $this->parse($oldMessage, $newMessage, $expected);
+
+    }
+
+    /**
+     * In this test, a new exception is created by an attendee as well.
+     *
+     * Except in this case, there was already an overridden event, and the
+     * overridden event was marked as cancelled by the attendee.
+     *
+     * For any other attendence status, the new status would have been
+     * declined, but for this, no message should we sent.
+     */
+    function testDontCreateReplyWhenEventWasDeclined() {
+
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART:20140811T200000Z
+RRULE:FREQ=WEEKLY
+ORGANIZER:mailto:organizer@example.org
+ATTENDEE:mailto:one@example.org
+END:VEVENT
+BEGIN:VEVENT
+RECURRENCE-ID:20140818T200000Z
+UID:foobar
+SEQUENCE:1
+DTSTART:20140818T200000Z
+RRULE:FREQ=WEEKLY
+ORGANIZER:mailto:organizer@example.org
+ATTENDEE;PARTSTAT=DECLINED:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART:20140811T200000Z
+RRULE:FREQ=WEEKLY
+ORGANIZER:mailto:organizer@example.org
+ATTENDEE:mailto:one@example.org
+EXDATE:20140818T200000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+        $expected = array();
+
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }

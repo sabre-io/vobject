@@ -99,4 +99,43 @@ class Message {
      */
     public $message;
 
+    /**
+     * This will be set to true, if the iTip broker considers the change
+     * 'significant'.
+     *
+     * In practice, this means that we'll only mark it true, if for instance
+     * DTSTART changed. This allows systems to only send iTip messages when
+     * significant changes happened. This is especially useful for iMip, as
+     * normally a ton of messages may be generated for normal calendar use.
+     *
+     * To see the list of properties that are considered 'significant', check
+     * out Sabre\VObject\ITip\Broker::$significantChangeProperties.
+     *
+     * @var bool
+     */
+    public $significantChange = true;
+
+    /**
+     * Returns the schedule status as a string.
+     *
+     * For example:
+     * 1.2
+     *
+     * @return mixed bool|string
+     */
+    public function getScheduleStatus() {
+
+        if(!$this->scheduleStatus) {
+
+            return false;
+
+        } else {
+
+            list($scheduleStatus) = explode(';', $this->scheduleStatus);
+            return $scheduleStatus;
+
+        }
+
+    }
+
 }

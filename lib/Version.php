@@ -14,6 +14,6 @@ class Version {
     /**
      * Full version number
      */
-    const VERSION = '3.3.1';
+    const VERSION = '3.3.2';
 
 }

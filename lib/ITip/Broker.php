@@ -55,6 +55,29 @@ class Broker {
     public $scheduleAgentServerRules = true;
 
     /**
+     * The broker will try during 'parseEvent' figure out whether the change
+     * was significant.
+     *
+     * It uses a few different ways to do this. One of these ways is seeing if
+     * certain properties changed values. This list of specified here.
+     *
+     * This list is taken from:
+     * * http://tools.ietf.org/html/rfc5546#section-2.1.4
+     *
+     * @var string[]
+     */
+    public $significantChangeProperties = array(
+        'DTSTART',
+        'DTEND',
+        'DURATION',
+        'DUE',
+        'RRULE',
+        'RDATE',
+        'EXDATE',
+        'STATUS',
+    );
+
+    /**
      * This method is used to process an incoming itip message.
      *
      * Examples:
@@ -155,6 +178,7 @@ class Broker {
             $oldEventInfo = $this->parseEventInfo($oldCalendar);
         } else {
             $oldEventInfo = array(
+                'significantChangeHash' => '',
                 'attendees' => array(),
             );
         }
@@ -179,6 +203,14 @@ class Broker {
 
             $baseCalendar = $calendar;
 
+            // If the new object didn't have an organizer, the origanizer
+            // changed the object from a scheduling object to a non-scheduling
+            // object. We just copy the info from the old object.
+            if (!$eventInfo['organizer'] && $oldEventInfo['organizer']) {
+                $eventInfo['organizer'] = $oldEventInfo['organizer'];
+                $eventInfo['organizerName'] = $oldEventInfo['organizerName'];
+            }
+
         } else {
             // The calendar object got deleted, we need to process this as a
             // cancellation / decline.
@@ -188,16 +220,20 @@ class Broker {
             }
 
             $eventInfo = $oldEventInfo;
-            $eventInfo['sequence']++;
 
             if (in_array($eventInfo['organizer'], $userHref)) {
                 // This is an organizer deleting the event.
                 $eventInfo['attendees'] = array();
+                // Increasing the sequence, but only if the organizer deleted
+                // the event.
+                $eventInfo['sequence']++;
             } else {
                 // This is an attendee deleting the event.
                 foreach($eventInfo['attendees'] as $key=>$attendee) {
                     if (in_array($attendee['href'], $userHref)) {
-                        $eventInfo['attendees'][$key]['instances'] = array('master' => array('id'=>'master', 'partstat' => 'DECLINED'));
+                        $eventInfo['attendees'][$key]['instances'] = array('master' =>
+                            array('id'=>'master', 'partstat' => 'DECLINED')
+                        );
                     }
                 }
             }
@@ -301,6 +337,8 @@ class Broker {
         }
         $instances = array();
         $requestStatus = '2.0;Success';
+
+        // Finding all the instances the attendee replied to.
         foreach($itipMessage->message->VEVENT as $vevent) {
             $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
             $attendee = $vevent->ATTENDEE;
@@ -309,6 +347,9 @@ class Broker {
                 $requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
             }
         }
+
+        // Now we need to loop through the original organizer event, to find
+        // all the instances where we have a reply for.
         $masterObject = null;
         foreach($existingObject->VEVENT as $vevent) {
             $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
@@ -323,6 +364,9 @@ class Broker {
                             $attendeeFound = true;
                             $attendee['PARTSTAT'] = $instances[$recurId];
                             $attendee['SCHEDULE-STATUS'] = $requestStatus;
+                            // Un-setting the RSVP status, because we now know
+                            // that the attende already replied.
+                            unset($attendee['RSVP']);
                             break;
                         }
                     }
@@ -419,18 +463,21 @@ class Broker {
                 'oldInstances' => $attendee['instances'],
                 'newInstances' => array(),
                 'name' => $attendee['name'],
+                'forceSend' => null,
             );
         }
         foreach($eventInfo['attendees'] as $attendee) {
             if (isset($attendees[$attendee['href']])) {
                 $attendees[$attendee['href']]['name'] = $attendee['name'];
                 $attendees[$attendee['href']]['newInstances'] = $attendee['instances'];
+                $attendees[$attendee['href']]['forceSend'] = $attendee['forceSend'];
             } else {
                 $attendees[$attendee['href']] = array(
                     'href' => $attendee['href'],
                     'oldInstances' => array(),
                     'newInstances' => $attendee['instances'],
                     'name' => $attendee['name'],
+                    'forceSend' => $attendee['forceSend'],
                 );
             }
         }
@@ -465,14 +512,18 @@ class Broker {
                 $icalMsg = new VCalendar();
                 $icalMsg->METHOD = $message->method;
                 $event = $icalMsg->add('VEVENT', array(
+                    'UID' => $message->uid,
                     'SEQUENCE' => $message->sequence,
-                    'UID'      => $message->uid,
                 ));
+                if (isset($calendar->VEVENT->SUMMARY)) {
+                    $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
+                }
+                $org = $event->add('ORGANIZER', $eventInfo['organizer']);
+                if ($eventInfo['organizerName']) $org['CN'] = $eventInfo['organizerName'];
                 $event->add('ATTENDEE', $attendee['href'], array(
                     'CN' => $attendee['name'],
                 ));
-                $org = $event->add('ORGANIZER', $eventInfo['organizer']);
-                if ($eventInfo['organizerName']) $org['CN'] = $eventInfo['organizerName'];
+                $message->significantChange = true;
 
             } else {
 
@@ -487,6 +538,19 @@ class Broker {
                     $icalMsg->add(clone $timezone);
                 }
 
+                // We need to find out that this change is significant. If it's
+                // not, systems may op to not send messages.
+                //
+                // We do this based on the 'significantChangeHash' which is
+                // some value that changes if there's a certain set of
+                // properties changed in the event, or simply if there's a
+                // difference in instances that the attendee is invited to.
+
+                $message->significantChange =
+                    $attendee['forceSend'] === 'REQUEST' ||
+                    array_keys($attendee['oldInstances']) != array_keys($attendee['newInstances']) ||
+                    $oldEventInfo['significantChangeHash']!==$eventInfo['significantChangeHash'];
+
                 foreach($attendee['newInstances'] as $instanceId => $instanceInfo) {
 
                     $currentEvent = clone $eventInfo['instances'][$instanceId];
@@ -496,7 +560,7 @@ class Broker {
                         // is not a part of to add to the list of exceptions.
                         $exceptions = array();
                         foreach($eventInfo['instances'] as $instanceId=>$vevent) {
-                            if (!isset($attendee['newInstances'][$instanceId])) {;
+                            if (!isset($attendee['newInstances'][$instanceId])) {
                                 $exceptions[] = $instanceId;
                             }
                         }
@@ -512,6 +576,16 @@ class Broker {
                             } else {
                                 $currentEvent->EXDATE = $exceptions;
                             }
+                        }
+
+                        // Cleaning up any scheduling information that
+                        // shouldn't be sent along.
+                        unset($currentEvent->ORGANIZER['SCHEDULE-FORCE-SEND']);
+                        unset($currentEvent->ORGANIZER['SCHEDULE-STATUS']);
+
+                        foreach($currentEvent->ATTENDEE as $attendee) {
+                            unset($attendee['SCHEDULE-FORCE-SEND']);
+                            unset($attendee['SCHEDULE-STATUS']);
                         }
 
                     }
@@ -543,6 +617,12 @@ class Broker {
      * @return Message[]
      */
     protected function parseEventForAttendee(VCalendar $calendar, array $eventInfo, array $oldEventInfo, $attendee) {
+
+        // Don't bother generating messages for events that have already been
+        // cancelled.
+        if ($eventInfo['status']==='CANCELLED') {
+            return array();
+        }
 
         $instances = array();
         foreach($oldEventInfo['attendees'][$attendee]['instances'] as $instance) {
@@ -577,11 +657,15 @@ class Broker {
             foreach($eventInfo['exdate'] as $exDate) {
 
                 if (!in_array($exDate, $oldEventInfo['exdate'])) {
-                    $instances[$exDate] = array(
-                        'id' => $exDate,
-                        'oldstatus' => $instances['master']['oldstatus'],
-                        'newstatus' => 'DECLINED',
-                    );
+                    if (isset($instances[$exDate])) {
+                        $instances[$exDate]['newstatus'] = 'DECLINED';
+                    } else {
+                        $instances[$exDate] = array(
+                            'id' => $exDate,
+                            'oldstatus' => null,
+                            'newstatus' => 'DECLINED',
+                        );
+                    }
                 }
 
             }
@@ -604,7 +688,7 @@ class Broker {
 
         foreach($instances as $instance) {
 
-            if ($instance['oldstatus']==$instance['newstatus']) {
+            if ($instance['oldstatus']==$instance['newstatus'] && $eventInfo['organizerForceSend'] !== 'REPLY') {
                 // Skip
                 continue;
             }
@@ -613,6 +697,9 @@ class Broker {
                 'UID' => $message->uid,
                 'SEQUENCE' => $message->sequence,
             ));
+            if (isset($calendar->VEVENT->SUMMARY)) {
+                $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
+            }
             if ($instance['id'] !== 'master') {
                 $event->{'RECURRENCE-ID'} = DateTimeParser::parseDateTime($instance['id'], $eventInfo['timezone']);
             }
@@ -659,8 +746,12 @@ class Broker {
         $uid = null;
         $organizer = null;
         $organizerName = null;
+        $organizerForceSend = null;
         $sequence = null;
         $timezone = null;
+        $status = null;
+
+        $significantChangeHash = '';
 
         // Now we need to collect a list of attendees, and which instances they
         // are a part of.
@@ -692,12 +783,19 @@ class Broker {
                         throw new SameOrganizerForAllComponentsException('Every instance of the event must have the same organizer.');
                     }
                 }
+                $organizerForceSend =
+                    isset($vevent->ORGANIZER['SCHEDULE-FORCE-SEND']) ?
+                    strtoupper($vevent->ORGANIZER['SCHEDULE-FORCE-SEND']) :
+                    null;
             }
             if (is_null($sequence) && isset($vevent->SEQUENCE)) {
                 $sequence = $vevent->SEQUENCE->getValue();
             }
             if (isset($vevent->EXDATE)) {
                 $exdate = $vevent->EXDATE->getParts();
+            }
+            if (isset($vevent->STATUS)) {
+                $status = strtoupper($vevent->STATUS->getValue());
             }
 
             $recurId = isset($vevent->{'RECURRENCE-ID'})?$vevent->{'RECURRENCE-ID'}->getValue():'master';
@@ -718,10 +816,17 @@ class Broker {
                         strtoupper($attendee['PARTSTAT']) :
                         'NEEDS-ACTION';
 
+                    $forceSend =
+                        isset($attendee['SCHEDULE-FORCE-SEND']) ?
+                        strtoupper($attendee['SCHEDULE-FORCE-SEND']) :
+                        null;
+
+
                     if (isset($attendees[$attendee->getNormalizedValue()])) {
                         $attendees[$attendee->getNormalizedValue()]['instances'][$recurId] = array(
                             'id' => $recurId,
                             'partstat' => $partStat,
+                            'force-send' => $forceSend,
                         );
                     } else {
                         $attendees[$attendee->getNormalizedValue()] = array(
@@ -733,6 +838,7 @@ class Broker {
                                 ),
                             ),
                             'name' => isset($attendee['CN'])?(string)$attendee['CN']:null,
+                            'forceSend' => $forceSend,
                         );
                     }
 
@@ -741,17 +847,30 @@ class Broker {
 
             }
 
+            foreach($this->significantChangeProperties as $prop) {
+                if (isset($vevent->$prop)) {
+                    $significantChangeHash.=$prop.':';
+                    foreach($vevent->select($prop) as $val) {
+                        $significantChangeHash.= $val->getValue().';';
+                    }
+                }
+            }
+
         }
+        $significantChangeHash = md5($significantChangeHash);
 
         return compact(
             'uid',
             'organizer',
             'organizerName',
+            'organizerForceSend',
             'instances',
             'attendees',
             'sequence',
             'exdate',
-            'timezone'
+            'timezone',
+            'significantChangeHash',
+            'status'
         );
 
     }

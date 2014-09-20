@@ -6,6 +6,29 @@ ChangeLog
 
 * sabre/vobject now requires PHP 5.4.
 
+
+3.3.2 (2014-09-19)
+------------------
+
+* Changed: iTip broker now sets RSVP status to false when replies are received.
+* #118: iTip Message now has a `getScheduleStatus()` method.
+* #119: Support for detecting 'significant changes'.
+* #120: Support for `SCHEDULE-FORCE-SEND`.
+* #121: iCal demands parameters containing the + sign to be quoted.
+* #122: Don't generate REPLY messages for events that have been cancelled.
+* #123: Added `SUMMARY` to iTip messages.
+* #130: Incorrect validation rules for `RELATED` (should be `RELATED-TO`).
+* #128: `ATTACH` in iCalendar is `URI` by default, not `BINARY`.
+* #131: RRULE that doesn't provide a single valid instance now throws an
+  exception.
+* #136: Validator rejects *all* control characters. We were missing a few.
+* #133: Splitter objects will throw exceptions when receiving incompatible
+  objects.
+* #127: Attendees who delete recurring event instances events they had already
+  declined earlier will no longer generate another reply.
+* #125: Send CANCEL messages when ORGANIZER property gets deleted.
+
+
 3.3.1 (2014-08-18)
 ------------------
 
@@ -19,6 +42,7 @@ ChangeLog
   broker. This improves evolution support.
 * #115: Using REQUEST-STATUS from REPLY messages and now propegating that into
   SCHEDULE-STATUS.
+
 
 3.3.0 (2014-08-07)
 ------------------

@@ -14,7 +14,7 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
             "DURATION" => "P1D",
             "CATEGORIES" => array('home', 'testing'),
             "CREATED" => new \DateTime("2013-05-26 18:10:00Z"),
-            "ATTACH" => "attachment",
+
             "ATTENDEE" => "mailto:armin@example.org",
             "GEO" => array(51.96668, 7.61876),
             "SEQUENCE" => 5,
@@ -28,7 +28,7 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
         $event->dtstart['VALUE'] = 'DATE';
         $event->add("X-BOOL", true, array('VALUE' => 'BOOLEAN'));
         $event->add("X-TIME", "08:00:00", array('VALUE' => 'TIME'));
-
+        $event->add("ATTACH", "attachment", array('VALUE' => 'BINARY'));
         $event->add("ATTENDEE", "mailto:dominik@example.org", array("CN" => "Dominik", "PARTSTAT" => "DECLINED"));
 
         $event->add('REQUEST-STATUS', array("2.0", "Success"));
@@ -74,9 +74,7 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                         array(
                             "created", new \StdClass(), "date-time", "2013-05-26T18:10:00Z",
                         ),
-                        array(
-                            "attach", new \StdClass(), "binary", base64_encode('attachment')
-                        ),
+
                         array(
                             "attendee", new \StdClass(), "cal-address", "mailto:armin@example.org",
                         ),
@@ -106,6 +104,9 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                         ),
                         array(
                             "x-time", new \StdClass(), "time", "08:00:00",
+                        ),
+                        array(
+                            "attach", new \StdClass(), "binary", base64_encode('attachment')
                         ),
                         array(
                             "attendee",

@@ -113,7 +113,7 @@ class VTodo extends VObject\Component {
             'CONTACT' => '*',
             'EXDATE' => '*',
             'REQUEST-STATUS' => '*',
-            'RELATED' => '*',
+            'RELATED-TO' => '*',
             'RESOURCES' => '*',
             'RDATE' => '*',
         ];
