@@ -7,6 +7,7 @@ use Sabre\VObject\Property\Text;
 use Sabre\VObject\Property;
 use DateTimeInterface;
 use DateTimeImmutable;
+use DateTime;
 
 /**
  * DateAndOrTime property
@@ -127,7 +128,7 @@ class DateAndOrTime extends Property {
     function getDateTime() {
 
         $dts = [];
-        $now = new DateTimeImmutable();
+        $now = new DateTime();
 
         $tzFormat = $now->getTimezone()->getOffset($now)===0?'\\Z':'O';
         $nowParts = DateTimeParser::parseVCardDateTime($now->format('Ymd\\This' . $tzFormat));
