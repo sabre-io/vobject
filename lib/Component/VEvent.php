@@ -56,13 +56,11 @@ class VEvent extends VObject\Component {
             $effectiveEnd = $this->DTEND->getDateTime();
 
         } elseif (isset($this->DURATION)) {
-            $effectiveEnd = clone $effectiveStart;
-            $effectiveEnd = $effectiveEnd->add(VObject\DateTimeParser::parseDuration($this->DURATION));
+            $effectiveEnd = $effectiveStart->add(VObject\DateTimeParser::parseDuration($this->DURATION));
         } elseif (!$this->DTSTART->hasTime()) {
-            $effectiveEnd = clone $effectiveStart;
-            $effectiveEnd = $effectiveEnd->modify('+1 day');
+            $effectiveEnd = $effectiveStart->modify('+1 day');
         } else {
-            $effectiveEnd = clone $effectiveStart;
+            $effectiveEnd = $effectiveStart;
         }
         return (
             ($start <= $effectiveEnd) && ($end > $effectiveStart)

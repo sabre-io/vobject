@@ -48,9 +48,7 @@ class VFreeBusy extends VObject\Component {
                 $busyStart = VObject\DateTimeParser::parse($busyStart);
                 $busyEnd = VObject\DateTimeParser::parse($busyEnd);
                 if ($busyEnd instanceof \DateInterval) {
-                    $tmp = clone $busyStart;
-                    $tmp = $tmp->add($busyEnd);
-                    $busyEnd = $tmp;
+                    $busyEnd = $busyStart->add($busyEnd);
                 }
 
                 if($start < $busyEnd && $end > $busyStart) {

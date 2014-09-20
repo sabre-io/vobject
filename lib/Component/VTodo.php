@@ -37,8 +37,7 @@ class VTodo extends VObject\Component {
 
         if ($dtstart) {
             if ($duration) {
-                $effectiveEnd = clone $dtstart;
-                $effectiveEnd = $effectiveEnd->add($duration);
+                $effectiveEnd = $dtstart->add($duration);
                 return $start <= $effectiveEnd && $end > $dtstart;
             } elseif ($due) {
                 return
