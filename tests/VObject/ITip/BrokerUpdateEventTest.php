@@ -128,7 +128,7 @@ ICS
             ),
         );
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -190,7 +190,7 @@ ICS
 
         );
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -222,7 +222,7 @@ ICS;
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = array();
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -290,7 +290,7 @@ ICS
             ),
         );
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -423,7 +423,7 @@ ICS
             ),
         );
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -491,7 +491,7 @@ ICS
 
         );
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -559,7 +559,7 @@ ICS
 
         );
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 

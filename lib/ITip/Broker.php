@@ -203,7 +203,7 @@ class Broker {
 
             $baseCalendar = $calendar;
 
-            // If the new object didn't have an organizer, the origanizer
+            // If the new object didn't have an organizer, the organizer
             // changed the object from a scheduling object to a non-scheduling
             // object. We just copy the info from the old object.
             if (!$eventInfo['organizer'] && $oldEventInfo['organizer']) {
