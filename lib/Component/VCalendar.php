@@ -292,7 +292,7 @@ class VCalendar extends VObject\Document {
                     // We only need to update the first timezone, because
                     // setDateTimes will match all other timezones to the
                     // first.
-                    $dt[0]->setTimeZone(new \DateTimeZone('UTC'));
+                    $dt[0] = $dt[0]->setTimeZone(new \DateTimeZone('UTC'));
                     $child->setDateTimes($dt);
                 }
 

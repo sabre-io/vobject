@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject;
 
+use DateTimeImmutable;
+
 /**
  * DateTimeParser
  *
@@ -15,15 +17,16 @@ namespace Sabre\VObject;
 class DateTimeParser {
 
     /**
-     * Parses an iCalendar (rfc5545) formatted datetime and returns a DateTime object
+     * Parses an iCalendar (rfc5545) formatted datetime and returns a
+     * DateTimeImmutable object
      *
      * Specifying a reference timezone is optional. It will only be used
      * if the non-UTC format is used. The argument is used as a reference, the
-     * returned DateTime object will still be in the UTC timezone.
+     * returned DateTimeImmutable object will still be in the UTC timezone.
      *
      * @param string $dt
      * @param DateTimeZone $tz
-     * @return DateTime
+     * @return DateTimeImmutable
      */
     static function parseDateTime($dt, \DateTimeZone $tz = null) {
 
@@ -37,7 +40,7 @@ class DateTimeParser {
         if ($matches[7]==='Z' || is_null($tz)) {
             $tz = new \DateTimeZone('UTC');
         }
-        $date = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] .':' . $matches[6], $tz);
+        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] .':' . $matches[6], $tz);
 
         // Still resetting the timezone, to normalize everything to UTC
         // $date->setTimeZone(new \DateTimeZone('UTC'));
@@ -46,10 +49,10 @@ class DateTimeParser {
     }
 
     /**
-     * Parses an iCalendar (rfc5545) formatted date and returns a DateTime object
+     * Parses an iCalendar (rfc5545) formatted date and returns a DateTimeImmutable object
      *
      * @param string $date
-     * @return DateTime
+     * @return DateTimeImmutable
      */
     static function parseDate($date) {
 
@@ -60,7 +63,7 @@ class DateTimeParser {
             throw new \LogicException('The supplied iCalendar date value is incorrect: ' . $date);
         }
 
-        $date = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3], new \DateTimeZone('UTC'));
+        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3], new \DateTimeZone('UTC'));
         return $date;
 
     }
@@ -165,7 +168,7 @@ class DateTimeParser {
      *
      * @param string $date
      * @param DateTimeZone|string $referenceTZ
-     * @return DateTime|DateInterval
+     * @return DateTimeImmutable|DateInterval
      */
     static function parse($date, $referenceTZ = null) {
 

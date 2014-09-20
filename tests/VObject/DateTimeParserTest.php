@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject;
 
-use DateTime;
+use DateTimeImmutable;
 use DateTimeZone;
 use DateInterval;
 
@@ -45,7 +45,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
         $dateTime = DateTimeParser::parseDateTime('20100316T141405');
 
-        $compare = new DateTime('2010-03-16 14:14:05',new DateTimeZone('UTC'));
+        $compare = new DateTimeImmutable('2010-03-16 14:14:05',new DateTimeZone('UTC'));
 
         $this->assertEquals($compare, $dateTime);
 
@@ -68,7 +68,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
         $dateTime = DateTimeParser::parseDateTime('20100316T141405Z');
 
-        $compare = new DateTime('2010-03-16 14:14:05',new DateTimeZone('UTC'));
+        $compare = new DateTimeImmutable('2010-03-16 14:14:05',new DateTimeZone('UTC'));
         $this->assertEquals($compare, $dateTime);
 
     }
@@ -80,7 +80,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
         $dateTime = DateTimeParser::parseDateTime('20101211T160000Z');
 
-        $compare = new DateTime('2010-12-11 16:00:00',new DateTimeZone('UTC'));
+        $compare = new DateTimeImmutable('2010-12-11 16:00:00',new DateTimeZone('UTC'));
         $this->assertEquals($compare, $dateTime);
 
     }
@@ -92,7 +92,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
         $dateTime = DateTimeParser::parseDateTime('20100316T141405', new DateTimeZone('Europe/Amsterdam'));
 
-        $compare = new DateTime('2010-03-16 14:14:05',new DateTimeZone('Europe/Amsterdam'));
+        $compare = new DateTimeImmutable('2010-03-16 14:14:05',new DateTimeZone('Europe/Amsterdam'));
         $this->assertEquals($compare, $dateTime);
 
     }
@@ -101,7 +101,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
         $dateTime = DateTimeParser::parseDate('20100316');
 
-        $expected = new DateTime('2010-03-16 00:00:00',new DateTimeZone('UTC'));
+        $expected = new DateTimeImmutable('2010-03-16 00:00:00',new DateTimeZone('UTC'));
 
         $this->assertEquals($expected, $dateTime);
 
@@ -117,7 +117,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
         $dateTime = DateTimeParser::parseDate('45001231');
 
-        $expected = new DateTime('4500-12-31 00:00:00',new DateTimeZone('UTC'));
+        $expected = new DateTimeImmutable('4500-12-31 00:00:00',new DateTimeZone('UTC'));
 
         $this->assertEquals($expected, $dateTime);
 
@@ -133,7 +133,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
         $dateTime = DateTimeParser::parseDateTime('45001231T235959');
 
-        $expected = new DateTime('4500-12-31 23:59:59',new DateTimeZone('UTC'));
+        $expected = new DateTimeImmutable('4500-12-31 23:59:59',new DateTimeZone('UTC'));
 
         $this->assertEquals($expected, $dateTime);
 
@@ -186,10 +186,10 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     function vcardDates() {
 
-        return array(
-            array(
+        return [
+            [
                 "19961022T140000",
-                array(
+                [
                     "year" => 1996,
                     "month" => 10,
                     "date" => 22,
@@ -197,11 +197,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => 00,
                     "second" => 00,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "--1022T1400",
-                array(
+                [
                     "year" => null,
                     "month" => 10,
                     "date" => 22,
@@ -209,11 +209,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => 00,
                     "second" => null,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "---22T14",
-                array(
+                [
                     "year" => null,
                     "month" => null,
                     "date" => 22,
@@ -221,11 +221,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => null,
                     "second" => null,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "19850412",
-                array(
+                [
                     "year" => 1985,
                     "month" => 4,
                     "date" => 12,
@@ -233,11 +233,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => null,
                     "second" => null,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "1985-04",
-                array(
+                [
                     "year" => 1985,
                     "month" => 04,
                     "date" => null,
@@ -245,11 +245,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => null,
                     "second" => null,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "1985",
-                array(
+                [
                     "year" => 1985,
                     "month" => null,
                     "date" => null,
@@ -257,11 +257,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => null,
                     "second" => null,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "--0412",
-                array(
+                [
                     "year" => null,
                     "month" => 4,
                     "date" => 12,
@@ -269,11 +269,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => null,
                     "second" => null,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "---12",
-                array(
+                [
                     "year" => null,
                     "month" => null,
                     "date" => 12,
@@ -281,11 +281,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => null,
                     "second" => null,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "T102200",
-                array(
+                [
                     "year" => null,
                     "month" => null,
                     "date" => null,
@@ -293,11 +293,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => 22,
                     "second" => 0,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "T1022",
-                array(
+                [
                     "year" => null,
                     "month" => null,
                     "date" => null,
@@ -305,11 +305,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => 22,
                     "second" => null,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "T10",
-                array(
+                [
                     "year" => null,
                     "month" => null,
                     "date" => null,
@@ -317,11 +317,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => null,
                     "second" => null,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "T-2200",
-                array(
+                [
                     "year" => null,
                     "month" => null,
                     "date" => null,
@@ -329,11 +329,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => 22,
                     "second" => 00,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "T--00",
-                array(
+                [
                     "year" => null,
                     "month" => null,
                     "date" => null,
@@ -341,11 +341,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => null,
                     "second" => 00,
                     "timezone" => null
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "T102200Z",
-                array(
+                [
                     "year" => null,
                     "month" => null,
                     "date" => null,
@@ -353,11 +353,11 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => 22,
                     "second" => 00,
                     "timezone" => 'Z'
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 "T102200-0800",
-                array(
+                [
                     "year" => null,
                     "month" => null,
                     "date" => null,
@@ -365,13 +365,13 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => 22,
                     "second" => 00,
                     "timezone" => '-0800'
-                ),
-            ),
+                ],
+            ],
 
             // extended format
-            array(
+            [
                 "2012-11-29T15:10:53Z",
-                array(
+                [
                     "year" => 2012,
                     "month" => 11,
                     "date" => 29,
@@ -379,9 +379,9 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "minute" => 10,
                     "second" => 53,
                     "timezone" => 'Z'
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
     }
 

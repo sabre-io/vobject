@@ -2,11 +2,11 @@
 
 namespace Sabre\VObject\Property\VCard;
 
-use
-    Sabre\VObject\DateTimeParser,
-    Sabre\VObject\Property\Text,
-    Sabre\VObject\Property,
-    DateTime;
+use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property\Text;
+use Sabre\VObject\Property;
+use DateTimeInterface;
+use DateTimeImmutable;
 
 /**
  * DateAndOrTime property
@@ -34,7 +34,7 @@ class DateAndOrTime extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return "DATE-AND-OR-TIME";
 
@@ -48,7 +48,7 @@ class DateAndOrTime extends Property {
      * @param array $parts
      * @return void
      */
-    public function setParts(array $parts) {
+    function setParts(array $parts) {
 
         if (count($parts)>1) {
             throw new \InvalidArgumentException('Only one value allowed');
@@ -71,7 +71,7 @@ class DateAndOrTime extends Property {
      * @param string|array|\DateTime $value
      * @return void
      */
-    public function setValue($value) {
+    function setValue($value) {
 
         if ($value instanceof \DateTime) {
             $this->setDateTime($value);
@@ -84,18 +84,18 @@ class DateAndOrTime extends Property {
     /**
      * Sets the property as a DateTime object.
      *
-     * @param \DateTime $dt
+     * @param DateTimeInterface $dt
      * @return void
      */
-    public function setDateTime(\DateTime $dt) {
+    function setDateTime(DateTimeInterface $dt) {
 
-        $values = array();
+        $values = [];
 
         $tz = null;
         $isUtc = false;
 
         $tz = $dt->getTimeZone();
-        $isUtc = in_array($tz->getName() , array('UTC', 'GMT', 'Z'));
+        $isUtc = in_array($tz->getName() , ['UTC', 'GMT', 'Z']);
 
         if ($isUtc) {
             $value = $dt->format('Ymd\\THis\\Z');
@@ -122,12 +122,12 @@ class DateAndOrTime extends Property {
      * current values for those. So at the time of writing, if the year was
      * omitted, we would have filled in 2014.
      *
-     * @return \DateTime
+     * @return DateTimeImmutable
      */
-    public function getDateTime() {
+    function getDateTime() {
 
-        $dts = array();
-        $now = new DateTime();
+        $dts = [];
+        $now = new DateTimeImmutable();
 
         $tzFormat = $now->getTimezone()->getOffset($now)===0?'\\Z':'O';
         $nowParts = DateTimeParser::parseVCardDateTime($now->format('Ymd\\This' . $tzFormat));
@@ -144,7 +144,7 @@ class DateAndOrTime extends Property {
                 $dateParts[$k] = $nowParts[$k];
             }
         }
-        return new DateTime("$dateParts[year]-$dateParts[month]-$dateParts[date] $dateParts[hour]:$dateParts[minute]:$dateParts[second] $dateParts[timezone]");
+        return new DateTimeImmutable("$dateParts[year]-$dateParts[month]-$dateParts[date] $dateParts[hour]:$dateParts[minute]:$dateParts[second] $dateParts[timezone]");
 
     }
 
@@ -155,7 +155,7 @@ class DateAndOrTime extends Property {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
         $parts = DateTimeParser::parseVCardDateTime($this->getValue());
 
@@ -260,7 +260,7 @@ class DateAndOrTime extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->setValue($val);
 
@@ -271,7 +271,7 @@ class DateAndOrTime extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return implode($this->delimiter, $this->getParts());
 
@@ -298,18 +298,18 @@ class DateAndOrTime extends Property {
      * @param int $options
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
         $messages = parent::validate($options);
         $value = $this->getValue();
         try {
             DateTimeParser::parseVCardDateTime($value);
         } catch (\InvalidArgumentException $e) {
-            $messages[] = array(
+            $messages[] = [
                 'level' => 3,
                 'message' => 'The supplied value (' . $value . ') is not a correct DATE-AND-OR-TIME property',
                 'node' => $this,
-            );
+            ];
         }
         return $messages;
 

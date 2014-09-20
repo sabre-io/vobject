@@ -2,7 +2,8 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTime;
+use DateTimeInterface;
+use DateTimeImmutable;
 use InvalidArgumentException;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
@@ -28,9 +29,9 @@ class RRuleIterator implements Iterator {
      * Creates the Iterator
      *
      * @param string|array $rrule
-     * @param DateTime $start
+     * @param DateTimeInterface $start
      */
-    public function __construct($rrule, DateTime $start) {
+    function __construct($rrule, DateTimeInterface $start) {
 
         $this->startDate = $start;
         $this->parseRRule($rrule);
@@ -40,7 +41,7 @@ class RRuleIterator implements Iterator {
 
     /* Implementation of the Iterator interface {{{ */
 
-    public function current() {
+    function current() {
 
         if (!$this->valid()) return null;
         return clone $this->currentDate;
@@ -52,7 +53,7 @@ class RRuleIterator implements Iterator {
      *
      * @return int
      */
-    public function key() {
+    function key() {
 
         return $this->counter;
 
@@ -65,7 +66,7 @@ class RRuleIterator implements Iterator {
      *
      * @return bool
      */
-    public function valid() {
+    function valid() {
 
         if (!is_null($this->count)) {
             return $this->counter < $this->count;
@@ -79,7 +80,7 @@ class RRuleIterator implements Iterator {
      *
      * @return void
      */
-    public function rewind() {
+    function rewind() {
 
         $this->currentDate = clone $this->startDate;
         $this->counter = 0;
@@ -91,7 +92,7 @@ class RRuleIterator implements Iterator {
      *
      * @return void
      */
-    public function next() {
+    function next() {
 
         $previousStamp = $this->currentDate->getTimeStamp();
 
@@ -131,7 +132,7 @@ class RRuleIterator implements Iterator {
      *
      * @return bool
      */
-    public function isInfinite() {
+    function isInfinite() {
 
         return !$this->count && !$this->until;
 
@@ -141,10 +142,10 @@ class RRuleIterator implements Iterator {
      * This method allows you to quickly go to the next occurrence after the
      * specified date.
      *
-     * @param DateTime $dt
+     * @param DateTimeInterface $dt
      * @return void
      */
-    public function fastForward(\DateTime $dt) {
+    function fastForward(DateTimeInterface $dt) {
 
         while($this->valid() && $this->currentDate < $dt ) {
             $this->next();
@@ -157,7 +158,7 @@ class RRuleIterator implements Iterator {
      *
      * All calculations are based on this initial date.
      *
-     * @var DateTime
+     * @var DateTimeInterface
      */
     protected $startDate;
 
@@ -165,7 +166,7 @@ class RRuleIterator implements Iterator {
      * The date of the current iteration. You can get this by calling
      * ->current().
      *
-     * @var DateTime
+     * @var DateTimeInterface
      */
     protected $currentDate;
 
@@ -197,7 +198,7 @@ class RRuleIterator implements Iterator {
     /**
      * The last instance of this recurrence, inclusively
      *
-     * @var \DateTime|null
+     * @var DateTimeInterface|null
      */
     protected $until;
 
@@ -323,7 +324,7 @@ class RRuleIterator implements Iterator {
      */
     protected function nextHourly() {
 
-        $this->currentDate->modify('+' . $this->interval . ' hours');
+        $this->currentDate = $this->currentDate->modify('+' . $this->interval . ' hours');
 
     }
 
@@ -335,7 +336,7 @@ class RRuleIterator implements Iterator {
     protected function nextDaily() {
 
         if (!$this->byHour && !$this->byDay) {
-            $this->currentDate->modify('+' . $this->interval . ' days');
+            $this->currentDate = $this->currentDate->modify('+' . $this->interval . ' days');
             return;
         }
 
@@ -355,13 +356,13 @@ class RRuleIterator implements Iterator {
             if ($this->byHour) {
                 if ($this->currentDate->format('G') == '23') {
                     // to obey the interval rule
-                    $this->currentDate->modify('+' . $this->interval-1 . ' days');
+                    $this->currentDate = $this->currentDate->modify('+' . $this->interval-1 . ' days');
                 }
 
-                $this->currentDate->modify('+1 hours');
+                $this->currentDate = $this->currentDate->modify('+1 hours');
 
             } else {
-                $this->currentDate->modify('+' . $this->interval . ' days');
+                $this->currentDate = $this->currentDate->modify('+' . $this->interval . ' days');
 
             }
 
@@ -386,7 +387,7 @@ class RRuleIterator implements Iterator {
     protected function nextWeekly() {
 
         if (!$this->byHour && !$this->byDay) {
-            $this->currentDate->modify('+' . $this->interval . ' weeks');
+            $this->currentDate = $this->currentDate->modify('+' . $this->interval . ' weeks');
             return;
         }
 
@@ -404,9 +405,9 @@ class RRuleIterator implements Iterator {
         do {
 
             if ($this->byHour) {
-                $this->currentDate->modify('+1 hours');
+                $this->currentDate = $this->currentDate->modify('+1 hours');
             } else {
-                $this->currentDate->modify('+1 days');
+                $this->currentDate = $this->currentDate->modify('+1 days');
             }
 
             // Current day of the week
@@ -417,12 +418,12 @@ class RRuleIterator implements Iterator {
 
             // We need to roll over to the next week
             if ($currentDay === $firstDay && (!$this->byHour || $currentHour == '0')) {
-                $this->currentDate->modify('+' . $this->interval-1 . ' weeks');
+                $this->currentDate = $this->currentDate->modify('+' . $this->interval-1 . ' weeks');
 
                 // We need to go to the first day of this week, but only if we
                 // are not already on this first day of this week.
                 if($this->currentDate->format('w') != $firstDay) {
-                    $this->currentDate->modify('last ' . $this->dayNames[$this->dayMap[$this->weekStart]]);
+                    $this->currentDate = $this->currentDate->modify('last ' . $this->dayNames[$this->dayMap[$this->weekStart]]);
                 }
             }
 
@@ -444,13 +445,13 @@ class RRuleIterator implements Iterator {
             // occur to the next month. We Must skip these invalid
             // entries.
             if ($currentDayOfMonth < 29) {
-                $this->currentDate->modify('+' . $this->interval . ' months');
+                $this->currentDate = $this->currentDate->modify('+' . $this->interval . ' months');
             } else {
                 $increase = 0;
                 do {
                     $increase++;
                     $tempDate = clone $this->currentDate;
-                    $tempDate->modify('+ ' . ($this->interval*$increase) . ' months');
+                    $tempDate = $tempDate->modify('+ ' . ($this->interval*$increase) . ' months');
                 } while ($tempDate->format('j') != $currentDayOfMonth);
                 $this->currentDate = $tempDate;
             }
@@ -478,9 +479,9 @@ class RRuleIterator implements Iterator {
             // This line does not currently work in hhvm. Temporary workaround
             // follows:
             // $this->currentDate->modify('first day of this month');
-            $this->currentDate = new \DateTime($this->currentDate->format('Y-m-1 H:i:s'), $this->currentDate->getTimezone());
+            $this->currentDate = new DateTimeImmutable($this->currentDate->format('Y-m-1 H:i:s'), $this->currentDate->getTimezone());
             // end of workaround
-            $this->currentDate->modify('+ ' . $this->interval . ' months');
+            $this->currentDate = $this->currentDate->modify('+ ' . $this->interval . ' months');
 
             // This goes to 0 because we need to start counting at the
             // beginning.
@@ -488,7 +489,7 @@ class RRuleIterator implements Iterator {
 
         }
 
-        $this->currentDate->setDate($this->currentDate->format('Y'), $this->currentDate->format('n'), $occurrence);
+        $this->currentDate = $this->currentDate->setDate($this->currentDate->format('Y'), $this->currentDate->format('n'), $occurrence);
 
     }
 
@@ -521,8 +522,9 @@ class RRuleIterator implements Iterator {
                     // 400. (1800, 1900, 2100). So we just rely on the datetime
                     // functions instead.
                     $nextDate = clone $this->currentDate;
-                    $nextDate->modify('+ ' . ($this->interval*$counter) . ' years');
+                    $nextDate = $nextDate->modify('+ ' . ($this->interval*$counter) . ' years');
                 } while ($nextDate->format('n')!=2);
+
                 $this->currentDate = $nextDate;
 
                 return;
@@ -530,7 +532,7 @@ class RRuleIterator implements Iterator {
             }
 
             // The easiest form
-            $this->currentDate->modify('+' . $this->interval . ' years');
+            $this->currentDate = $this->currentDate->modify('+' . $this->interval . ' years');
             return;
 
         }
@@ -574,12 +576,12 @@ class RRuleIterator implements Iterator {
                     }
                 } while (!in_array($currentMonth, $this->byMonth));
 
-                $this->currentDate->setDate($currentYear, $currentMonth, $currentDayOfMonth);
+                $this->currentDate = $this->currentDate->setDate($currentYear, $currentMonth, $currentDayOfMonth);
 
             }
 
             // If we made it here, it means we got a valid occurrence
-            $this->currentDate->setDate($currentYear, $currentMonth, $occurrence);
+            $this->currentDate = $this->currentDate->setDate($currentYear, $currentMonth, $occurrence);
             return;
 
         } else {
@@ -594,7 +596,7 @@ class RRuleIterator implements Iterator {
                     $currentMonth = 1;
                 }
             } while (!in_array($currentMonth, $this->byMonth));
-            $this->currentDate->setDate($currentYear, $currentMonth, $currentDayOfMonth);
+            $this->currentDate = $this->currentDate->setDate($currentYear, $currentMonth, $currentDayOfMonth);
 
             return;
 
@@ -626,7 +628,7 @@ class RRuleIterator implements Iterator {
                     $value = strtolower($value);
                     if (!in_array(
                         $value,
-                        array('secondly','minutely','hourly','daily','weekly','monthly','yearly')
+                        ['secondly','minutely','hourly','daily','weekly','monthly','yearly']
                     )) {
                         throw new InvalidArgumentException('Unknown value for FREQ=' . strtoupper($value));
                     }
@@ -721,7 +723,7 @@ class RRuleIterator implements Iterator {
      *
      * @var array
      */
-    protected $dayNames = array(
+    protected $dayNames = [
         0 => 'Sunday',
         1 => 'Monday',
         2 => 'Tuesday',
@@ -729,7 +731,7 @@ class RRuleIterator implements Iterator {
         4 => 'Thursday',
         5 => 'Friday',
         6 => 'Saturday',
-    );
+    ];
 
     /**
      * Returns all the occurrences for a monthly frequency with a 'byDay' or
@@ -743,7 +745,7 @@ class RRuleIterator implements Iterator {
 
         $startDate = clone $this->currentDate;
 
-        $byDayResults = array();
+        $byDayResults = [];
 
         // Our strategy is to simply go through the byDays, advance the date to
         // that point and add it to the results.
@@ -754,18 +756,18 @@ class RRuleIterator implements Iterator {
 
             // Dayname will be something like 'wednesday'. Now we need to find
             // all wednesdays in this month.
-            $dayHits = array();
+            $dayHits = [];
 
             // workaround for missing 'first day of the month' support in hhvm
             $checkDate = new \DateTime($startDate->format('Y-m-1'));
             // workaround modify always advancing the date even if the current day is a $dayName in hhvm
             if ($checkDate->format('l') !== $dayName) {
-                $checkDate->modify($dayName);
+                $checkDate = $checkDate->modify($dayName);
             }
 
             do {
                 $dayHits[] = $checkDate->format('j');
-                $checkDate->modify('next ' . $dayName);
+                $checkDate = $checkDate->modify('next ' . $dayName);
             } while ($checkDate->format('n') === $startDate->format('n'));
 
             // So now we have 'all wednesdays' for month. It is however
@@ -794,7 +796,7 @@ class RRuleIterator implements Iterator {
 
         }
 
-        $byMonthDayResults = array();
+        $byMonthDayResults = [];
         if ($this->byMonthDay) foreach($this->byMonthDay as $monthDay) {
 
             // Removing values that are out of range for this month
@@ -829,7 +831,7 @@ class RRuleIterator implements Iterator {
             return $result;
         }
 
-        $filteredResult = array();
+        $filteredResult = [];
         foreach($this->bySetPos as $setPos) {
 
             if ($setPos<0) {
@@ -850,7 +852,7 @@ class RRuleIterator implements Iterator {
      *
      * @var array
      */
-    protected $dayMap = array(
+    protected $dayMap = [
         'SU' => 0,
         'MO' => 1,
         'TU' => 2,
@@ -858,11 +860,11 @@ class RRuleIterator implements Iterator {
         'TH' => 4,
         'FR' => 5,
         'SA' => 6,
-    );
+    ];
 
-    protected function getHours()
-    {
-        $recurrenceHours = array();
+    protected function getHours() {
+
+        $recurrenceHours = [];
         foreach($this->byHour as $byHour) {
             $recurrenceHours[] = $byHour;
         }
@@ -872,7 +874,7 @@ class RRuleIterator implements Iterator {
 
     protected function getDays() {
 
-        $recurrenceDays = array();
+        $recurrenceDays = [];
         foreach($this->byDay as $byDay) {
 
             // The day may be preceeded with a positive (+n) or
@@ -887,7 +889,7 @@ class RRuleIterator implements Iterator {
 
     protected function getMonths() {
 
-        $recurrenceMonths = array();
+        $recurrenceMonths = [];
         foreach($this->byMonth as $byMonth) {
             $recurrenceMonths[] = $byMonth;
         }
