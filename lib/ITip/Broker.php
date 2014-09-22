@@ -518,6 +518,7 @@ class Broker {
                 if (isset($calendar->VEVENT->SUMMARY)) {
                     $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
                 }
+                $event->add(clone $calendar->VEVENT->DTSTART);
                 $org = $event->add('ORGANIZER', $eventInfo['organizer']);
                 if ($eventInfo['organizerName']) $org['CN'] = $eventInfo['organizerName'];
                 $event->add('ATTENDEE', $attendee['href'], array(
@@ -671,6 +672,17 @@ class Broker {
             }
         }
 
+        // Gathering a few extra properties for each instance.
+        foreach($instances as $recurId=>$instanceInfo) {
+
+            if (isset($eventInfo['instances'][$recurId])) {
+                $instances[$recurId]['dtstart'] = clone $eventInfo['instances'][$recurId]->DTSTART;
+            } else {
+                $instances[$recurId]['dtstart'] = $recurId;
+            }
+
+        }
+
         $message = new Message();
         $message->uid = $eventInfo['uid'];
         $message->method = 'REPLY';
@@ -697,8 +709,21 @@ class Broker {
                 'UID' => $message->uid,
                 'SEQUENCE' => $message->sequence,
             ));
-            if (isset($calendar->VEVENT->SUMMARY)) {
-                $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
+            $summary = isset($calendar->VEVENT->SUMMARY)?$calendar->VEVENT->SUMMARY->getValue():'';
+            // Adding properties from the correct source instance
+            if (isset($eventInfo['instances'][$instance['id']])) {
+                $instanceObj = $eventInfo['instances'][$instance['id']];
+                $event->add(clone $instanceObj->DTSTART);
+                if (isset($instanceObj->SUMMARY)) {
+                    $event->add('SUMMARY', $instanceObj->SUMMARY->getValue());
+                } elseif ($summary) {
+                    $event->add('SUMMARY', $summary);
+                }
+            } else {
+                $event->add('DTSTART', DateTimeParser::parseDateTime($instance['id'], $eventInfo['timezone']));
+                if ($summary) {
+                    $event->add('SUMMARY', $summary);
+                }
             }
             if ($instance['id'] !== 'master') {
                 $event->{'RECURRENCE-ID'} = DateTimeParser::parseDateTime($instance['id'], $eventInfo['timezone']);

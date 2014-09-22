@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+3.3.3 (2014-??-??)
+------------------
+
+* #142: `CANCEL` and `REPLY` messages now include the `DTSTART` fromi the
+  original event.
+
 3.3.2 (2014-09-19)
 ------------------
 

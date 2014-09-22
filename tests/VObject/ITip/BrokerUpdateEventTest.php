@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
-class BrokerUpdateTest extends \PHPUnit_Framework_TestCase {
+class BrokerUpdateTest extends BrokerTester {
 
     function testInviteChange() {
 
@@ -61,6 +61,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 SUMMARY:foo
+DTSTART:20140716T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
@@ -128,7 +129,7 @@ ICS
             ),
         );
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -190,7 +191,7 @@ ICS
 
         );
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -222,7 +223,7 @@ ICS;
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = array();
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -290,7 +291,7 @@ ICS
             ),
         );
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -356,6 +357,7 @@ METHOD:CANCEL
 BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
+DTSTART:20140716T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
@@ -423,7 +425,7 @@ ICS
             ),
         );
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -491,7 +493,7 @@ ICS
 
         );
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -559,35 +561,7 @@ ICS
 
         );
 
-        $this->parse($oldMessage, $newMessage, $expected);
-
-    }
-
-    function parse($oldMessage, $newMessage, $expected = array()) {
-
-        $broker = new Broker();
-        $result = $broker->parseEvent($newMessage, 'mailto:strunk@example.org', $oldMessage);
-
-        $this->assertEquals(count($expected), count($result));
-
-        foreach($expected as $index=>$ex) {
-
-            $message = $result[$index];
-
-            foreach($ex as $key=>$val) {
-
-                if ($key==='message') {
-                    $this->assertEquals(
-                        str_replace("\n", "\r\n", $val),
-                        rtrim($message->message->serialize(), "\r\n")
-                    );
-                } else {
-                    $this->assertEquals($val, $message->$key);
-                }
-
-            }
-
-        }
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -644,6 +618,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 SUMMARY:foo
+DTSTART:20140716T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
@@ -670,6 +645,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 SUMMARY:foo
+DTSTART:20140716T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 END:VEVENT
@@ -679,7 +655,7 @@ ICS
             ),
         );
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 }
