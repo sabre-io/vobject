@@ -619,6 +619,10 @@ class Broker {
      */
     protected function parseEventForAttendee(VCalendar $calendar, array $eventInfo, array $oldEventInfo, $attendee) {
 
+        if ($this->scheduleAgentServerRules && $eventInfo['organizerScheduleAgent']==='CLIENT') {
+            return array();
+        }
+
         // Don't bother generating messages for events that have already been
         // cancelled.
         if ($eventInfo['status']==='CANCELLED') {
@@ -775,6 +779,7 @@ class Broker {
         $sequence = null;
         $timezone = null;
         $status = null;
+        $organizerScheduleAgent = 'SERVER';
 
         $significantChangeHash = '';
 
@@ -812,6 +817,10 @@ class Broker {
                     isset($vevent->ORGANIZER['SCHEDULE-FORCE-SEND']) ?
                     strtoupper($vevent->ORGANIZER['SCHEDULE-FORCE-SEND']) :
                     null;
+                $organizerScheduleAgent =
+                    isset($vevent->ORGANIZER['SCHEDULE-AGENT']) ?
+                    strtoupper((string)$vevent->ORGANIZER['SCHEDULE-AGENT']) :
+                    'SERVER';
             }
             if (is_null($sequence) && isset($vevent->SEQUENCE)) {
                 $sequence = $vevent->SEQUENCE->getValue();
@@ -888,6 +897,7 @@ class Broker {
             'uid',
             'organizer',
             'organizerName',
+            'organizerScheduleAgent',
             'organizerForceSend',
             'instances',
             'attendees',
