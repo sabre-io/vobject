@@ -4,7 +4,7 @@ ChangeLog
 3.3.3 (2014-??-??)
 ------------------
 
-* #142: `CANCEL` and `REPLY` messages now include the `DTSTART` fromi the
+* #142: `CANCEL` and `REPLY` messages now include the `DTSTART` from the
   original event.
 * #143: `SCHEDULE-AGENT` on the `ORGANIZER` property is respected.
 
