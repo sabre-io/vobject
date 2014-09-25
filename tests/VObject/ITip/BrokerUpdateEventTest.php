@@ -14,7 +14,7 @@ UID:foobar
 SEQUENCE:1
 SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 DTSTART:20140716T120000Z
@@ -31,7 +31,7 @@ UID:foobar
 SEQUENCE:2
 SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 ATTENDEE;CN=Three:mailto:three@example.org
 DTSTART:20140716T120000Z
@@ -89,9 +89,9 @@ UID:foobar
 SEQUENCE:2
 SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Two:mailto:two@example.org
-ATTENDEE;CN=Three:mailto:three@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=Two;PARTSTAT=NEEDS-ACTION:mailto:two@example.org
+ATTENDEE;CN=Three;PARTSTAT=NEEDS-ACTION:mailto:three@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR
@@ -118,9 +118,9 @@ UID:foobar
 SEQUENCE:2
 SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Two:mailto:two@example.org
-ATTENDEE;CN=Three:mailto:three@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=Two;PARTSTAT=NEEDS-ACTION:mailto:two@example.org
+ATTENDEE;CN=Three;PARTSTAT=NEEDS-ACTION:mailto:three@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR
@@ -181,7 +181,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=One:mailto:one@example.org
+ATTENDEE;CN=One;PARTSTAT=NEEDS-ACTION:mailto:one@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR
@@ -280,7 +280,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=One:mailto:one@example.org
+ATTENDEE;CN=One;PARTSTAT=NEEDS-ACTION:mailto:one@example.org
 DTSTART;TZID=America/Toronto:20140716T120000
 RRULE:FREQ=WEEKLY
 EXDATE;TZID=America/Toronto:20140724T120000
@@ -311,7 +311,7 @@ UID:foobar
 DURATION:PT1H
 SEQUENCE:1
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 DTSTART:20140716T120000Z
@@ -328,7 +328,7 @@ UID:foobar
 DURATION:PT2H
 SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 ATTENDEE;CN=Three:mailto:three@example.org
 DTSTART:20140716T120000Z
@@ -385,9 +385,9 @@ UID:foobar
 DURATION:PT2H
 SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Two:mailto:two@example.org
-ATTENDEE;CN=Three:mailto:three@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=Two;PARTSTAT=NEEDS-ACTION:mailto:two@example.org
+ATTENDEE;CN=Three;PARTSTAT=NEEDS-ACTION:mailto:three@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR
@@ -414,9 +414,9 @@ UID:foobar
 DURATION:PT2H
 SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Two:mailto:two@example.org
-ATTENDEE;CN=Three:mailto:three@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=Two;PARTSTAT=NEEDS-ACTION:mailto:two@example.org
+ATTENDEE;CN=Three;PARTSTAT=NEEDS-ACTION:mailto:three@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR
@@ -438,7 +438,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:1
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
@@ -453,7 +453,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
@@ -482,8 +482,8 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=One:mailto:one@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=One;PARTSTAT=NEEDS-ACTION:mailto:one@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR
@@ -506,7 +506,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:1
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
@@ -521,7 +521,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
 ATTENDEE;SCHEDULE-FORCE-SEND=REQUEST;CN=One:mailto:one@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
@@ -550,8 +550,8 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=One:mailto:one@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=One;PARTSTAT=NEEDS-ACTION:mailto:one@example.org
 DTSTART:20140716T120000Z
 END:VEVENT
 END:VCALENDAR

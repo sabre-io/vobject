@@ -540,7 +540,7 @@ class Broker {
                 }
 
                 // We need to find out that this change is significant. If it's
-                // not, systems may op to not send messages.
+                // not, systems may opt to not send messages.
                 //
                 // We do this based on the 'significantChangeHash' which is
                 // some value that changes if there's a certain set of
@@ -587,6 +587,13 @@ class Broker {
                         foreach($currentEvent->ATTENDEE as $attendee) {
                             unset($attendee['SCHEDULE-FORCE-SEND']);
                             unset($attendee['SCHEDULE-STATUS']);
+
+                            // We're adding PARTSTAT=NEEDS-ACTION to ensure that
+                            // iOS shows an "Inbox Item"
+                            if (!isset($attendee['PARTSTAT'])) {
+                                $attendee['PARTSTAT'] = 'NEEDS-ACTION';
+                            }
+
                         }
 
                     }
