@@ -206,6 +206,144 @@ ICS
 
     }
 
+    function testRecurringAllDay() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART;VALUE=DATE:20140724
+RRULE;FREQ=DAILY
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+    $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=NEEDS-ACTION;CN=One:mailto:one@example.org
+DTSTART;VALUE=DATE:20140724
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+DTSTART;VALUE=DATE:20140726
+RECURRENCE-ID:20140726
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
+DTSTART;VALUE=DATE:20140724
+RECURRENCE-ID:20140724
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=TENTATIVE;CN=One:mailto:one@example.org
+DTSTART;VALUE=DATE:20140728
+RECURRENCE-ID:20140728
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+DTSTART;VALUE=DATE:20140729
+RECURRENCE-ID:20140729
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
+DTSTART;VALUE=DATE:20140725
+RECURRENCE-ID:20140725
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+    $version = \Sabre\VObject\Version::VERSION;
+
+    $expected = array(
+        array(
+            'uid' => 'foobar',
+            'method' => 'REPLY',
+            'component' => 'VEVENT',
+            'sender' => 'mailto:one@example.org',
+            'senderName' => 'One',
+            'recipient' => 'mailto:strunk@example.org',
+            'recipientName' => 'Strunk',
+            'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART;VALUE=DATE:20140726
+RECURRENCE-ID:20140726
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART;VALUE=DATE:20140724
+RECURRENCE-ID:20140724
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART;VALUE=DATE:20140728
+RECURRENCE-ID:20140728
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=TENTATIVE;CN=One:mailto:one@example.org
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART;VALUE=DATE:20140729
+RECURRENCE-ID:20140729
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART;VALUE=DATE:20140725
+RECURRENCE-ID:20140725
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS
+
+        ),
+
+    );
+
+    $result = $this->parse($oldMessage, $newMessage, $expected);
+
+}
+
     function testNoChange() {
 
         $oldMessage = <<<ICS
