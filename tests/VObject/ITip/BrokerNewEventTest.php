@@ -58,7 +58,7 @@ BEGIN:VEVENT
 UID:foobar
 DTSTART:20140811T220000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=White:mailto:white@example.org
+ATTENDEE;CN=White;PARTSTAT=NEEDS-ACTION:mailto:white@example.org
 END:VEVENT
 END:VCALENDAR
 ICS;
