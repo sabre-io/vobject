@@ -7,6 +7,7 @@ ChangeLog
 * #142: `CANCEL` and `REPLY` messages now include the `DTSTART` from the
   original event.
 * #143: `SCHEDULE-AGENT` on the `ORGANIZER` property is respected.
+* #144: `PARTSTAT=NEEDS-ACTION` is now set for new invites, if no `PARTSTAT` is set.
 
 3.3.2 (2014-09-19)
 ------------------
