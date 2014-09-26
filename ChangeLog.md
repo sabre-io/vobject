@@ -9,6 +9,7 @@ ChangeLog
 * #143: `SCHEDULE-AGENT` on the `ORGANIZER` property is respected.
 * #144: `PARTSTAT=NEEDS-ACTION` is now set for new invites, if no `PARTSTAT` is
   set to support the inbox feature of iOS.
+* #147: Bugs related to scheduling all-day events.
 
 3.3.2 (2014-09-19)
 ------------------
