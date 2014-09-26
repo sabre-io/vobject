@@ -336,13 +336,13 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-        ),
+            ),
 
-    );
+        );
 
-    $result = $this->parse($oldMessage, $newMessage, $expected);
+        $result = $this->parse($oldMessage, $newMessage, $expected);
 
-}
+    }
 
     function testNoChange() {
 

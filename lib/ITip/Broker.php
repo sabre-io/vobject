@@ -731,13 +731,25 @@ class Broker {
                     $event->add('SUMMARY', $summary);
                 }
             } else {
-                $event->add('DTSTART', DateTimeParser::parseDateTime($instance['id'], $eventInfo['timezone']));
+                $dt = DateTimeParser::parse($instance['id'], $eventInfo['timezone']);
+                // Treat is as a DATE field
+                if (strlen($instance['id']) <= 8) {
+                    $recur = $event->add('DTSTART', $dt, array('VALUE' => 'DATE'));
+                } else {
+                    $recur = $event->add('DTSTART', $dt);
+                }
                 if ($summary) {
                     $event->add('SUMMARY', $summary);
                 }
             }
             if ($instance['id'] !== 'master') {
-                $event->{'RECURRENCE-ID'} = DateTimeParser::parseDateTime($instance['id'], $eventInfo['timezone']);
+                $dt = DateTimeParser::parse($instance['id'], $eventInfo['timezone']);
+                // Treat is as a DATE field
+                if (strlen($instance['id']) <= 8) {
+                    $recur = $event->add('RECURRENCE-ID', $dt, array('VALUE' => 'DATE'));
+                } else {
+                    $recur = $event->add('RECURRENCE-ID', $dt);
+                }
             }
             $organizer = $event->add('ORGANIZER', $message->recipient);
             if ($message->recipientName) {
