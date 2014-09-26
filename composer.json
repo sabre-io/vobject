@@ -18,6 +18,12 @@
             "email" : "me@evertpot.com",
             "homepage" : "http://evertpot.com/",
             "role" : "Developer"
+        },
+        {
+            "name" : "Dominik Tobschall",
+            "email" : "dominik@fruux.com",
+            "homepage" : "http://tobschall.de/",
+            "role" : "Developer"
         }
     ],
     "support" : {
