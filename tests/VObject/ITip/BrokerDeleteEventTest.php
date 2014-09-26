@@ -45,6 +45,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 SUMMARY:foo
+DTSTART:20140716T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
@@ -70,6 +71,7 @@ BEGIN:VEVENT
 UID:foobar
 SEQUENCE:2
 SUMMARY:foo
+DTSTART:20140716T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 END:VEVENT
@@ -123,6 +125,7 @@ METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 SEQUENCE:1
+DTSTART:20140716T120000Z
 SUMMARY:foo
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
