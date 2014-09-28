@@ -178,6 +178,7 @@ class Broker {
             $oldEventInfo = $this->parseEventInfo($oldCalendar);
         } else {
             $oldEventInfo = array(
+                'organizer' => null,
                 'significantChangeHash' => '',
                 'attendees' => array(),
             );
@@ -198,6 +199,10 @@ class Broker {
             if (!$eventInfo['attendees'] && !$oldEventInfo['attendees']) {
                 // If there were no attendees on either side of the equation,
                 // we don't need to do anything.
+                return array();
+            }
+            if (!$eventInfo['organizer'] && !$oldEventInfo['organizer']) {
+                // There was no organizer before or after the change.
                 return array();
             }
 

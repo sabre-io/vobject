@@ -460,6 +460,22 @@ ICS;
         $result = $this->parse($message, array());
 
     }
+    function testNoOrganizerHasAttendee() {
+
+        $message = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:foobar
+DTSTART:20140811T220000Z
+ATTENDEE;CN=Two:mailto:two@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $this->parse($message, array());
+
+    }
+
     function parse($message, $expected = array()) {
 
         $broker = new Broker();
