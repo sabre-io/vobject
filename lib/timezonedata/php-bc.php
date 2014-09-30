@@ -4,6 +4,9 @@
  * DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC)
  * valid for new DateTimeZone()
  *
+ * This list does not include those timezone identifiers that we have to map to
+ * a different identifier for some PHP versions (see php-workaround.php).
+ *
  * Instead of using DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC)
  * directly, we use this file because DateTimeZone::ALL_WITH_BC is not properly
  * supported by all PHP version and HHVM.
