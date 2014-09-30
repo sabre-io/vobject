@@ -140,11 +140,8 @@ class TimeZoneUtil {
             // https://bugs.php.net/bug.php?id=67881
             //
             // That's why we're checking if we'll be able to successfull instantiate
-            // \DateTimeZone() before doing so. Otherwise we could simplify this to:
-            // try {
-            //     return new \DateTimeZone($tzid);
-            // } catch(\Exception $e) {
-            // }
+            // \DateTimeZone() before doing so. Otherwise we could simply instantiate
+            // and catch the exception.
             $tzIdentifiers = \DateTimeZone::listIdentifiers();
 
             try {
