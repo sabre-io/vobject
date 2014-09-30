@@ -1,6 +1,6 @@
 <?php
 /**
- * A öist of PHP timezones that were supported until 5.5.9, removed in
+ * A list of PHP timezones that were supported until 5.5.9, removed in
  * PHP 5.5.10 and re-introduced in PHP 5.5.17
  *
  * DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC) returns them,
