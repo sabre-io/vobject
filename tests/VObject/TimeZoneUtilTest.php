@@ -151,6 +151,54 @@ HI;
 
     }
 
+    /**
+     * @dataProvider getPHPTimeZoneIdentifiers
+     */
+    function testTimeZoneIdentifiers($tzid) {
+
+        $tz = TimeZoneUtil::getTimeZone($tzid);
+        $ex = new \DateTimeZone($tzid);
+
+        $this->assertEquals($ex->getName(), $tz->getName());
+
+    }
+
+    /**
+     * @dataProvider getPHPTimeZoneBCIdentifiers
+     */
+    function testTimeZoneBCIdentifiers($tzid) {
+
+        $tz = TimeZoneUtil::getTimeZone($tzid);
+        $ex = new \DateTimeZone($tzid);
+
+        $this->assertEquals($ex->getName(), $tz->getName());
+
+    }
+
+    function getPHPTimeZoneIdentifiers() {
+
+        // PHPUNit requires an array of arrays
+        return array_map(
+            function($value) {
+                return array($value);
+            },
+            \DateTimeZone::listIdentifiers()
+        );
+
+    }
+
+    function getPHPTimeZoneBCIdentifiers() {
+
+        // PHPUNit requires an array of arrays
+        return array_map(
+            function($value) {
+                return array($value);
+            },
+            TimeZoneUtil::getIdentifiersBC()
+        );
+
+    }
+
     function testTimezoneOffset() {
 
         $tz = TimeZoneUtil::getTimeZone('GMT-0400', null, true);
@@ -169,7 +217,7 @@ HI;
      */
     function testTimezoneFail() {
 
-        $tz = TimeZoneUtil::getTimeZone('FooBar',null,true);
+        $tz = TimeZoneUtil::getTimeZone('FooBar', null, true);
 
     }
 
@@ -304,11 +352,7 @@ END:VCALENDAR
 HI;
 
         $tz = TimeZoneUtil::getTimeZone('/freeassociation.sourceforge.net/Tzfile/SystemV/EST5EDT', Reader::read($vobj), true);
-        if (version_compare(PHP_VERSION, '5.5.10', '>=') && !defined('HHVM_VERSION')) {
-            $ex = new \DateTimeZone('America/New_York');
-        } else {
-            $ex = new \DateTimeZone('EST5EDT');
-        }
+        $ex = new \DateTimeZone('America/New_York');
         $this->assertEquals($ex->getName(), $tz->getName());
 
     }

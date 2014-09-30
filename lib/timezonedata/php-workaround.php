@@ -1,7 +1,11 @@
 <?php
 /**
- * A list of PHP timezones that were supported in PHP 5.5.9, but are no longer
- * in PHP 5.5.10.
+ * A list of PHP timezones that were supported until 5.5.9, removed in
+ * PHP 5.5.10 and re-introduced in PHP 5.5.17
+ *
+ * DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC) returns them,
+ * but they are invalid for new DateTimeZone(). Fixed in PHP 5.5.17.
+ * https://bugs.php.net/bug.php?id=66985
  *
  * Some more info here:
  * http://evertpot.com/php-5-5-10-timezone-changes/
@@ -37,4 +41,5 @@ return array(
     'Turkey'    => 'Europe/Istanbul',
     'Universal' => 'UTC',
     'W-SU'      => 'Europe/Moscow',
+    'Zulu'      => 'UTC',
 );
