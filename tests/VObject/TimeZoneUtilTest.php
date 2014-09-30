@@ -151,29 +151,57 @@ HI;
 
     }
 
-    function testPHPTimeZoneIdentifiers() {
+    /**
+     * @dataProvider getPHPTimeZoneIdentifiers
+     */
+    function testTimeZoneIdentifiers($tzid) {
 
-        $tzIdentifiers = \DateTimeZone::listIdentifiers();
+        $tz = TimeZoneUtil::getTimeZone($tzid);
+        $ex = new \DateTimeZone($tzid);
 
-        foreach ($tzIdentifiers as $tzid) {
-            $tz = TimeZoneUtil::getTimeZone($tzid);
-            $ex = new \DateTimeZone($tzid);
-
-            $this->assertEquals($ex->getName(), $tz->getName());
-        }
+        $this->assertEquals($ex->getName(), $tz->getName());
 
     }
 
-    function testPHPBCTimeZoneIdentifiers() {
+    /**
+     * @dataProvider getPHPTimeZoneBCIdentifiers
+     */
+    function testTimeZoneBCIdentifiers($tzid) {
 
-        $tzIdentifiers = TimeZoneUtil::getIdentifiersBC();
+        $tz = TimeZoneUtil::getTimeZone($tzid);
+        $ex = new \DateTimeZone($tzid);
 
-        foreach ($tzIdentifiers as $tzid) {
-            $tz = TimeZoneUtil::getTimeZone($tzid);
-            $ex = new \DateTimeZone($tzid);
+        $this->assertEquals($ex->getName(), $tz->getName());
 
-            $this->assertEquals($ex->getName(), $tz->getName());
+    }
+
+    function getPHPTimeZoneIdentifiers() {
+
+        $tzIdentifiers = \DateTimeZone::listIdentifiers();
+
+        $tzids = array();
+        foreach($tzIdentifiers as $key => $tzid) {
+            $tzids[] = $tzid;
         }
+
+        // PHPUNit requires an array of arrays
+        return array_map(
+            function($value) {
+                return array($value);
+            },
+            $tzids
+        );
+    }
+
+    function getPHPTimeZoneBCIdentifiers() {
+
+        // PHPUNit requires an array of arrays
+        return array_map(
+            function($value) {
+                return array($value);
+            },
+            TimeZoneUtil::getIdentifiersBC()
+        );
 
     }
 
