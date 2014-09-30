@@ -352,10 +352,10 @@ END:VCALENDAR
 HI;
 
         $tz = TimeZoneUtil::getTimeZone('/freeassociation.sourceforge.net/Tzfile/SystemV/EST5EDT', Reader::read($vobj), true);
-        if (version_compare(PHP_VERSION, '5.5.10', '>=') && !defined('HHVM_VERSION')) {
-            $ex = new \DateTimeZone('America/New_York');
-        } else {
+        if (version_compare(PHP_VERSION, '5.5.10', '<') || version_compare(PHP_VERSION, '5.5.17', '>=') || defined('HHVM_VERSION')) {
             $ex = new \DateTimeZone('EST5EDT');
+        } else {
+            $ex = new \DateTimeZone('America/New_York');
         }
         $this->assertEquals($ex->getName(), $tz->getName());
 

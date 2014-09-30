@@ -146,15 +146,32 @@ class TimeZoneUtil {
             // } catch(\Exception $e) {
             // }
             $tzIdentifiers = \DateTimeZone::listIdentifiers();
+            $tzIdentifiersWorkaround = self::getIdentifiersWorkaround();
 
             try {
                 if (
                     (in_array($tzid, $tzIdentifiers)) ||
                     (preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches)) ||
-                    (in_array($tzid, self::getIdentifiersBC()))
+                    (in_array($tzid, self::getIdentifiersBC())) ||
+                    (
+                        (
+                            (version_compare(PHP_VERSION, '5.5.10', '<') || version_compare(PHP_VERSION, '5.5.17', '>=')) ||
+                            (defined('HHVM_VERSION'))
+                        ) &&
+                        (
+                            (isset($tzIdentifiersWorkaround[$tzid]))
+                        )
+                    )
                 ) {
                     return new \DateTimeZone($tzid);
+                } elseif (
+                    (
+                        (isset($tzIdentifiersWorkaround[$tzid]))
+                    )
+                ) {
+                    return new \DateTimeZone($tzIdentifiersWorkaround[$tzid]);
                 }
+
             } catch(\Exception $e) {
             }
 
@@ -244,8 +261,7 @@ class TimeZoneUtil {
         self::$map = array_merge(
             include __DIR__ .  '/timezonedata/windowszones.php',
             include __DIR__ .  '/timezonedata/lotuszones.php',
-            include __DIR__ .  '/timezonedata/exchangezones.php',
-            include __DIR__ .  '/timezonedata/php-workaround.php'
+            include __DIR__ .  '/timezonedata/exchangezones.php'
         );
 
     }
@@ -263,6 +279,19 @@ class TimeZoneUtil {
      */
     static public function getIdentifiersBC() {
         return include __DIR__ .  '/timezonedata/php-bc.php';
+    }
+
+    /**
+     * This method returns an array of timezone identifiers, that are only supported
+     * by PHP 5.5.17 and up as well as HHVM.
+     * by DateTimeZone(), but not returned by DateTimeZone::listIdentifiers()
+     *
+     * (See timezonedata/php-workaround.php and timezonedata php-workaround.php)
+     *
+     * @return array
+     */
+    static public function getIdentifiersWorkaround() {
+        return include __DIR__ .  '/timezonedata/php-workaround.php';
     }
 
 }
