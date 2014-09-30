@@ -151,6 +151,32 @@ HI;
 
     }
 
+    function testPHPTimeZoneIdentifiers() {
+
+        $tzIdentifiers = \DateTimeZone::listIdentifiers();
+
+        foreach ($tzIdentifiers as $tzid) {
+            $tz = TimeZoneUtil::getTimeZone($tzid);
+            $ex = new \DateTimeZone($tzid);
+
+            $this->assertEquals($ex->getName(), $tz->getName());
+        }
+
+    }
+
+    function testPHPBCTimeZoneIdentifiers() {
+
+        $tzIdentifiers = TimeZoneUtil::getIdentifiersBC();
+
+        foreach ($tzIdentifiers as $tzid) {
+            $tz = TimeZoneUtil::getTimeZone($tzid);
+            $ex = new \DateTimeZone($tzid);
+
+            $this->assertEquals($ex->getName(), $tz->getName());
+        }
+
+    }
+
     function testTimezoneOffset() {
 
         $tz = TimeZoneUtil::getTimeZone('GMT-0400', null, true);
@@ -169,7 +195,7 @@ HI;
      */
     function testTimezoneFail() {
 
-        $tz = TimeZoneUtil::getTimeZone('FooBar',null,true);
+        $tz = TimeZoneUtil::getTimeZone('FooBar', null, true);
 
     }
 

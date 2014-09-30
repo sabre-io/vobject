@@ -135,10 +135,29 @@ class TimeZoneUtil {
         // this method will return just GMT+01:00. This is wrong, because it
         // doesn't take DST into account.
         if ($tzid[0]!=='(') {
+
+            // PHP has a bug that logs PHP warnings even it shouldn't:
+            // https://bugs.php.net/bug.php?id=67881
+            //
+            // That's why we're checking if we'll be able to successfull instantiate
+            // \DateTimeZone() before doing so. Otherwise we could simplify this to:
+            // try {
+            //     return new \DateTimeZone($tzid);
+            // } catch(\Exception $e) {
+            // }
+            $tzIdentifiers = \DateTimeZone::listIdentifiers();
+
             try {
-                return new \DateTimeZone($tzid);
-            } catch (\Exception $e) {
+                if (
+                    (in_array($tzid, $tzIdentifiers)) ||
+                    (preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches)) ||
+                    (in_array($tzid, self::getIdentifiersBC()))
+                ) {
+                    return new \DateTimeZone($tzid);
+                }
+            } catch(\Exception $e) {
             }
+
         }
 
         self::loadTzMaps();
@@ -226,9 +245,24 @@ class TimeZoneUtil {
             include __DIR__ .  '/timezonedata/windowszones.php',
             include __DIR__ .  '/timezonedata/lotuszones.php',
             include __DIR__ .  '/timezonedata/exchangezones.php',
-            include __DIR__ .  '/timezonedata/php-compat.php'
+            include __DIR__ .  '/timezonedata/php-workaround.php'
         );
 
+    }
+
+    /**
+     * This method returns an array of timezone identifiers, that are supported
+     * by DateTimeZone(), but not returned by DateTimeZone::listIdentifiers()
+     *
+     * We're not using DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC) because:
+     * - It's not supported by some PHP versions as well as HHVM.
+     * - It also returns identifiers, that are invalid values for new DateTimeZone() on some PHP versions.
+     * (See timezonedata/php-bc.php and timezonedata php-workaround.php)
+     *
+     * @return array
+     */
+    static public function getIdentifiersBC() {
+        return include __DIR__ .  '/timezonedata/php-bc.php';
     }
 
 }
