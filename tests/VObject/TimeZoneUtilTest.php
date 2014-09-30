@@ -177,20 +177,14 @@ HI;
 
     function getPHPTimeZoneIdentifiers() {
 
-        $tzIdentifiers = \DateTimeZone::listIdentifiers();
-
-        $tzids = array();
-        foreach($tzIdentifiers as $key => $tzid) {
-            $tzids[] = $tzid;
-        }
-
         // PHPUNit requires an array of arrays
         return array_map(
             function($value) {
                 return array($value);
             },
-            $tzids
+            \DateTimeZone::listIdentifiers()
         );
+
     }
 
     function getPHPTimeZoneBCIdentifiers() {
