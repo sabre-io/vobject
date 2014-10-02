@@ -58,7 +58,7 @@ class Parameter extends Node {
             $this->noName = true;
             $this->name = static::guessParameterNameByValue($value);
         }
-        if ($this->name == '') {
+        if ($this->name === '') {
             $this->noName = false;
             $this->name = strtoupper($value);
         } else {
