@@ -58,6 +58,10 @@ class Parameter extends Node {
             $this->noName = true;
             $this->name = static::guessParameterNameByValue($value);
         }
+
+        // If guessParameterNameByValue() returns an empty string
+        // above, we're actually dealing with a parameter that has no value.
+        // In that case we have to move the value to the name.
         if ($this->name === '') {
             $this->noName = false;
             $this->name = strtoupper($value);
