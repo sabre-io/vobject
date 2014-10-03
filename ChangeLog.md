@@ -13,6 +13,7 @@ ChangeLog
 * #148: Ignore events that have attendees but no organizer.
 * #149: Avoiding logging errors during timezone detection. This is a workaround
   for a PHP bug.
+* Support for "Line Islands Standard Time" windows timezone.
 
 3.3.2 (2014-09-19)
 ------------------
