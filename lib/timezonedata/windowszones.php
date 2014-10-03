@@ -3,7 +3,7 @@
 /**
  * Automatically generated timezone file
  *
- * Last update: 2014-04-30T14:05:46-04:00
+ * Last update: 2014-10-03T07:58:31-04:00
  * Source: http://unicode.org/repos/cldr/trunk/common/supplemental/windowsZones.xml
  *
  * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
@@ -59,6 +59,7 @@ return array (
   'Kaliningrad Standard Time' => 'Europe/Kaliningrad',
   'Korea Standard Time' => 'Asia/Seoul',
   'Libya Standard Time' => 'Africa/Tripoli',
+  'Line Islands Standard Time' => 'Pacific/Kiritimati',
   'Magadan Standard Time' => 'Asia/Magadan',
   'Mauritius Standard Time' => 'Indian/Mauritius',
   'Middle East Standard Time' => 'Asia/Beirut',
