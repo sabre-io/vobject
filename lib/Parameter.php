@@ -281,7 +281,7 @@ class Parameter extends Node {
         $value = $this->getParts();
 
         if (count($value)===0) {
-            return $this->name;
+            return $this->name . '=';
         }
 
         if ($this->root->getDocumentType() === Document::VCARD21 && $this->noName) {
