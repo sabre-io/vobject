@@ -14,6 +14,7 @@ ChangeLog
 * #149: Avoiding logging errors during timezone detection. This is a workaround
   for a PHP bug.
 * Support for "Line Islands Standard Time" windows timezone.
+* #154: Correctly work around vCard parameters that have a value but no name.
 
 3.3.2 (2014-09-19)
 ------------------
