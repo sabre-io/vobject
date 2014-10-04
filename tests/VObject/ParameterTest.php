@@ -75,7 +75,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase {
 
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', null);
-        $this->assertEquals('NAME',$param->serialize());
+        $this->assertEquals('NAME=',$param->serialize());
 
     }
 

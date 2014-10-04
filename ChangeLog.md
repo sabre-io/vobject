@@ -21,6 +21,11 @@ ChangeLog
 * #144: `PARTSTAT=NEEDS-ACTION` is now set for new invites, if no `PARTSTAT` is
   set to support the inbox feature of iOS.
 * #147: Bugs related to scheduling all-day events.
+* #148: Ignore events that have attendees but no organizer.
+* #149: Avoiding logging errors during timezone detection. This is a workaround
+  for a PHP bug.
+* Support for "Line Islands Standard Time" windows timezone.
+* #154: Correctly work around vCard parameters that have a value but no name.
 
 
 3.3.2 (2014-09-19)
