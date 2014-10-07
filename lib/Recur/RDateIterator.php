@@ -3,7 +3,6 @@
 namespace Sabre\VObject\Recur;
 
 use DateTimeInterface;
-use InvalidArgumentException;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
 

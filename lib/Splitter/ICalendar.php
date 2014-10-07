@@ -27,14 +27,14 @@ class ICalendar implements SplitterInterface {
      *
      * @var array
      */
-    protected $vtimezones = array();
+    protected $vtimezones = [];
 
     /**
      * iCalendar objects
      *
      * @var array
      */
-    protected $objects = array();
+    protected $objects = [];
 
     /**
      * Constructor
@@ -44,11 +44,9 @@ class ICalendar implements SplitterInterface {
      * @param resource $input
      * @param int $options Parser options, see the OPTIONS constants.
      */
-    public function __construct($input, $options = 0) {
+    function __construct($input, $options = 0) {
 
         $data = VObject\Reader::read($input, $options);
-        $vtimezones = array();
-        $components = array();
 
         if (!$data instanceof VObject\Component\VCalendar) {
             throw new VObject\ParseException('Supplied input could not be parsed as VCALENDAR.');
@@ -89,7 +87,7 @@ class ICalendar implements SplitterInterface {
      *
      * @return Sabre\VObject\Component|null
      */
-    public function getNext() {
+    function getNext() {
 
         if($object=array_shift($this->objects)) {
 

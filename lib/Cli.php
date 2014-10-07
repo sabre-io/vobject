@@ -328,7 +328,7 @@ HELP
      * @param Component $vObj
      * @return int
      */
-    protected function validate($vObj) {
+    protected function validate(Component $vObj) {
 
         $returnCode = 0;
 
@@ -374,7 +374,7 @@ HELP
      * @param Component $vObj
      * @return int
      */
-    protected function repair($vObj) {
+    protected function repair(Component $vObj) {
 
         $returnCode = 0;
 
@@ -616,7 +616,6 @@ HELP
             $this->cWrite('red', '.');
         }
 
-        $str = '';
         $this->cWrite('yellow', $property->name);
 
         foreach($property->parameters as $param) {

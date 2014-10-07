@@ -2,12 +2,6 @@
 
 namespace Sabre\VObject\Property;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\Component,
-    Sabre\VObject\Parser\MimeDir,
-    Sabre\VObject\Document;
-
 /**
  * Unknown property
  *
@@ -27,9 +21,9 @@ class Unknown extends Text {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
-        return array($this->getRawMimeDirValue());
+        return [$this->getRawMimeDirValue()];
 
     }
 
@@ -41,7 +35,7 @@ class Unknown extends Text {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return "UNKNOWN";
 

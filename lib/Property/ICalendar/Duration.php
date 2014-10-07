@@ -4,7 +4,6 @@ namespace Sabre\VObject\Property\ICalendar;
 
 use
     Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir,
     Sabre\VObject\DateTimeParser;
 
 /**
