@@ -2,9 +2,7 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\Parser\MimeDir;
+use Sabre\VObject\Property;
 
 /**
  * Recur property
@@ -33,7 +31,7 @@ class Recur extends Property {
      * @param string|array $value
      * @return void
      */
-    public function setValue($value) {
+    function setValue($value) {
 
         // If we're getting the data from json, we'll be receiving an object
         if ($value instanceof \StdClass) {
@@ -41,7 +39,7 @@ class Recur extends Property {
         }
 
         if (is_array($value)) {
-            $newVal = array();
+            $newVal = [];
             foreach($value as $k=>$v) {
 
                 if (is_string($v)) {
@@ -77,9 +75,9 @@ class Recur extends Property {
      *
      * @return string
      */
-    public function getValue() {
+    function getValue() {
 
-        $out = array();
+        $out = [];
         foreach($this->value as $key=>$value) {
             $out[] = $key . '=' . (is_array($value)?implode(',', $value):$value);
         }
@@ -93,7 +91,7 @@ class Recur extends Property {
      * @param array $parts
      * @return void
      */
-    public function setParts(array $parts) {
+    function setParts(array $parts) {
 
         $this->setValue($parts);
 
@@ -107,7 +105,7 @@ class Recur extends Property {
      *
      * @return array
      */
-    public function getParts() {
+    function getParts() {
 
         return $this->value;
 
@@ -122,7 +120,7 @@ class Recur extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->setValue($val);
 
@@ -133,7 +131,7 @@ class Recur extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return $this->getValue();
 
@@ -147,7 +145,7 @@ class Recur extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return "RECUR";
 
@@ -160,13 +158,13 @@ class Recur extends Property {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
-        $values = array();
+        $values = [];
         foreach($this->getParts() as $k=>$v) {
             $values[strtolower($k)] = $v;
         }
-        return array($values);
+        return [$values];
 
     }
 
@@ -179,7 +177,7 @@ class Recur extends Property {
     static function stringToArray($value) {
 
         $value = strtoupper($value);
-        $newValue = array();
+        $newValue = [];
         foreach(explode(';', $value) as $part) {
 
             // Skipping empty parts.

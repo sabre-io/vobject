@@ -67,7 +67,6 @@ class EventIterator implements \Iterator {
      */
     function __construct(Component $vcal, $uid = null) {
 
-        $rrule = null;
         if ($vcal instanceof VEvent) {
             // Single instance mode.
             $events = [$vcal];
