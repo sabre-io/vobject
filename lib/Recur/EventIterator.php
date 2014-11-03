@@ -67,7 +67,6 @@ class EventIterator implements \Iterator {
      */
     function __construct(Component $vcal, $uid = null) {
 
-        $rrule = null;
         if ($vcal instanceof VEvent) {
             // Single instance mode.
             $events = [$vcal];
@@ -116,17 +115,6 @@ class EventIterator implements \Iterator {
             $this->masterEvent = array_shift($this->overriddenEvents);
         }
 
-        // master event.
-        if (isset($this->masterEvent->RRULE)) {
-            $rrule = $this->masterEvent->RRULE->getParts();
-        } else {
-            // master event has no rrule. We default to something that
-            // iterates once.
-            $rrule = [
-                'FREQ' => 'DAILY',
-                'COUNT' => 1,
-            ];
-        }
         $this->startDate = $this->masterEvent->DTSTART->getDateTime();
 
         if (isset($this->masterEvent->EXDATE)) {

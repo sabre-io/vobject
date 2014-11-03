@@ -94,8 +94,6 @@ class RRuleIterator implements Iterator {
      */
     function next() {
 
-        $previousStamp = $this->currentDate->getTimeStamp();
-
         // Otherwise, we find the next event in the normal RRULE
         // sequence.
         switch($this->frequency) {

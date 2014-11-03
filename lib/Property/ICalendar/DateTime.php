@@ -4,7 +4,6 @@ namespace Sabre\VObject\Property\ICalendar;
 
 use DateTimeInterface;
 use Sabre\VObject\Property;
-use Sabre\VObject\Parser\MimeDir;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\TimeZoneUtil;
 
@@ -254,7 +253,7 @@ class DateTime extends Property {
         $isUtc = in_array($tz->getName() , ['UTC', 'GMT', 'Z']);
 
         return array_map(
-            function($dt) use ($hasTime, $isUtc) {
+            function(DateTimeInterface $dt) use ($hasTime, $isUtc) {
 
                 if ($hasTime) {
                     return $dt->format('Y-m-d\\TH:i:s') . ($isUtc?'Z':'');
@@ -343,10 +342,10 @@ class DateTime extends Property {
         try {
             switch($valueType) {
                 case 'DATE' :
-                    $foo = DateTimeParser::parseDate($value);
+                    DateTimeParser::parseDate($value);
                     break;
                 case 'DATE-TIME' :
-                    $foo = DateTimeParser::parseDateTime($value);
+                    DateTimeParser::parseDateTime($value);
                     break;
             }
         } catch (\LogicException $e) {

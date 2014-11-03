@@ -6,7 +6,6 @@ use
     Sabre\VObject\ParseException,
     Sabre\VObject\EofException,
     Sabre\VObject\Component,
-    Sabre\VObject\Property,
     Sabre\VObject\Component\VCalendar,
     Sabre\VObject\Component\VCard;
 

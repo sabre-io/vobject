@@ -2,9 +2,6 @@
 
 namespace Sabre\VObject\Property\VCard;
 
-use
-    Sabre\VObject\DateTimeParser;
-
 /**
  * DateTime property
  *

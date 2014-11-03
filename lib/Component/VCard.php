@@ -67,7 +67,7 @@ class VCard extends VObject\Document {
         // vCard 2.1 properties and up
         'N'       => 'Sabre\\VObject\\Property\\Text',
         'FN'      => 'Sabre\\VObject\\Property\\FlatText',
-        'PHOTO'   => 'Sabre\\VObject\\Property\\Binary', // Todo: we should add a class for Binary values.
+        'PHOTO'   => 'Sabre\\VObject\\Property\\Binary',
         'BDAY'    => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
         'ADR'     => 'Sabre\\VObject\\Property\\Text',
         'LABEL'   => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0

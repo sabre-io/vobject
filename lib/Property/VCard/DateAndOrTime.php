@@ -3,7 +3,6 @@
 namespace Sabre\VObject\Property\VCard;
 
 use Sabre\VObject\DateTimeParser;
-use Sabre\VObject\Property\Text;
 use Sabre\VObject\Property;
 use DateTimeInterface;
 use DateTimeImmutable;
@@ -90,8 +89,6 @@ class DateAndOrTime extends Property {
      */
     function setDateTime(DateTimeInterface $dt) {
 
-        $values = [];
-
         $tz = null;
         $isUtc = false;
 
@@ -127,13 +124,10 @@ class DateAndOrTime extends Property {
      */
     function getDateTime() {
 
-        $dts = [];
         $now = new DateTime();
 
         $tzFormat = $now->getTimezone()->getOffset($now)===0?'\\Z':'O';
         $nowParts = DateTimeParser::parseVCardDateTime($now->format('Ymd\\This' . $tzFormat));
-
-        $value = $this->getValue();
 
         $dateParts = DateTimeParser::parseVCardDateTime($this->getValue());
 

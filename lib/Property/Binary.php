@@ -2,9 +2,7 @@
 
 namespace Sabre\VObject\Property;
 
-use
-    LogicException,
-    Sabre\VObject\Property;
+use Sabre\VObject\Property;
 
 /**
  * BINARY property
