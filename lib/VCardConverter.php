@@ -124,7 +124,7 @@ class VCardConverter {
                     // exist yet.
                     $x = 1;
                     while($output->select('ITEM' . $x . '.')) {
-                       $x++;
+                        $x++;
                     }
                     $output->add('ITEM' . $x . '.X-ABDATE', $newProperty->getValue(), array('VALUE' => 'DATE-AND-OR-TIME'));
                     $output->add('ITEM' . $x . '.X-ABLABEL', '_$!<Anniversary>!$_');
