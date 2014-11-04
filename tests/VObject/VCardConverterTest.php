@@ -33,7 +33,7 @@ PHOTO;TYPE=HOME:data:image/jpeg;base64,Zm9v
 PHOTO:data:image/gif;base64,Zm9v
 PHOTO;X-PARAM=FOO:data:image/png;base64,Zm9v
 PHOTO:http://example.org/foo.png
-KIND:org
+KIND:ORG
 END:VCARD
 OUT;
 
@@ -176,7 +176,7 @@ PHOTO:data:image/jpeg;base64,Zm9v
 PHOTO:data:image/gif,foo
 PHOTO;X-PARAM=FOO:data:image/png;base64,Zm9v
 PHOTO:http://example.org/foo.png
-KIND:org
+KIND:ORG
 END:VCARD
 
 IN;
@@ -219,7 +219,7 @@ IN;
         $output = <<<OUT
 BEGIN:VCARD
 VERSION:4.0
-KIND:group
+KIND:GROUP
 END:VCARD
 
 OUT;
@@ -386,4 +386,50 @@ OUT;
 
     }
 
+    function testAnniversary() {
+
+        $input = <<<IN
+BEGIN:VCARD
+VERSION:4.0
+ITEM1.ANNIVERSARY:20081210
+END:VCARD
+
+IN;
+
+        $output = <<<'OUT'
+BEGIN:VCARD
+VERSION:3.0
+ITEM1.X-ABDATE;VALUE=DATE-AND-OR-TIME:20081210
+ITEM1.X-ABLABEL:_$!<Anniversary>!$_
+ITEM1.X-ANNIVERSARY;VALUE=DATE-AND-OR-TIME:20081210
+END:VCARD
+
+OUT;
+
+        $vcard = Reader::read($input);
+        $vcard = $vcard->convert(Document::VCARD30);
+
+        $this->assertVObjEquals(
+            $output,
+            $vcard
+        );
+
+        // Swapping input and output
+        list(
+            $input,
+            $output
+        ) = [
+            $output,
+            $input
+        ];
+
+        $vcard = Reader::read($input);
+        $vcard = $vcard->convert(Document::VCARD40);
+
+        $this->assertVObjEquals(
+            $output,
+            $vcard
+        );
+
+    }
 }
