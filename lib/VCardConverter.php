@@ -194,8 +194,10 @@ class VCardConverter {
                     $newProperty->name = 'ANNIVERSARY';
                     // If we already have an anniversary property with the same
                     // value, ignore.
-                    if (isset($output->ANNIVERSARY) && $output->ANNIVERSARY->getValue() === $newProperty->getValue()) {
-                        return;
+                    foreach ($output->select('ANNIVERSARY') as $anniversary) {
+                        if ($anniversary->getValue() === $newProperty->getValue()) {
+                            return;
+                        }
                     }
                     break;
                 case 'X-ABDATE' :
@@ -212,8 +214,10 @@ class VCardConverter {
 
                     // If we already have an anniversary property with the same
                     // value, ignore.
-                    if (isset($output->ANNIVERSARY) && $output->ANNIVERSARY->getValue() === $newProperty->getValue()) {
-                        return;
+                    foreach ($output->select('ANNIVERSARY') as $anniversary) {
+                        if ($anniversary->getValue() === $newProperty->getValue()) {
+                            return;
+                        }
                     }
                     $newProperty->name = 'ANNIVERSARY';
                     break;
