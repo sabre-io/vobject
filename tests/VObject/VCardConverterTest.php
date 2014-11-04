@@ -418,10 +418,10 @@ OUT;
         list(
             $input,
             $output
-        ) = [
+        ) = array(
             $output,
             $input
-        ];
+        );
 
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
