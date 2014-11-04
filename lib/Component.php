@@ -229,7 +229,7 @@ class Component extends Node {
                     strtoupper($child->name) === $name
                     && (is_null($group) || ( $child instanceof Property && strtoupper($child->group) === $group))
                 )
-                || 
+                ||
                 (
                     $name === '' && $child instanceof Property && strtoupper($child->group) === $group
                 )
