@@ -30,11 +30,11 @@ The goal of the VObject library is to create a very complete library, with an ea
 install -d %{buildroot}
 
 # Prepare files
-mkdir -p %{buildroot}/usr/share/php/Sabre/Vobject
-cp -Ra lib/* %{buildroot}/usr/share/php/Sabre/Vobject
-cp -a LICENSE %{buildroot}/usr/share/php/Sabre/Vobject
-cp -a README.md %{buildroot}/usr/share/php/Sabre/Vobject
-cp -a ChangeLog.md %{buildroot}/usr/share/php/Sabre/Vobject
+mkdir -p %{buildroot}/usr/share/php/Sabre/VObject
+cp -Ra lib/* %{buildroot}/usr/share/php/Sabre/VObject
+cp -a LICENSE %{buildroot}/usr/share/php/Sabre/VObject
+cp -a README.md %{buildroot}/usr/share/php/Sabre/VObject
+cp -a ChangeLog.md %{buildroot}/usr/share/php/Sabre/VObject
 
 %clean
 [ "%{buildroot}" != "/" ] && %{__rm} -rf %{buildroot}
@@ -43,7 +43,7 @@ cp -a ChangeLog.md %{buildroot}/usr/share/php/Sabre/Vobject
 %defattr(-,root,root,-)
 /usr/share/php/Sabre
 
-%doc /usr/share/php/Sabre/Vobject/README.md
+%doc /usr/share/php/Sabre/VObject/README.md
 
 %changelog
 * Wed Oct 05 2014 Adrian Siminiceanu <adrian.siminiceanu@gmail.com>
