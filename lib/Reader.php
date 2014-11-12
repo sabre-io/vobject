@@ -70,4 +70,25 @@ class Reader {
 
     }
 
+    /**
+     * Parses a xCard or xCal object, and returns the top component.
+     *
+     * The options argument is a bitfield. Pass any of the OPTIONS constant to
+     * alter the parsers' behaviour.
+     *
+     * You can either supply a string, or a readable stream for input.
+     *
+     * @param string|resource $data
+     * @param int $options
+     * @return Document
+     */
+    static public function readXML($data, $options = 0) {
+
+        $parser = new Parser\XML();
+        $result = $parser->parse($data, $options);
+
+        return $result;
+
+    }
+
 }
