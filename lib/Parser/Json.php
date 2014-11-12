@@ -43,7 +43,7 @@ class Json extends Parser {
      *
      * @param resource|string|array|null $input
      * @param int|null $options
-     * @return array
+     * @return Sabre\VObject\Document
      */
     public function parse($input = null, $options = null) {
 

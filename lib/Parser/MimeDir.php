@@ -44,7 +44,7 @@ class MimeDir extends Parser {
      *
      * @param string|resource|null $input
      * @param int|null $options
-     * @return array
+     * @return Sabre\VObject\Document
      */
     public function parse($input = null, $options = null) {
 
