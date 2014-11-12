@@ -59,7 +59,7 @@ class Reader {
      *
      * @param string|resource|array $data
      * @param int $options
-     * @return Node
+     * @return Document
      */
     static public function readJson($data, $options = 0) {
 
