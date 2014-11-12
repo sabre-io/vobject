@@ -29,8 +29,18 @@ class XML extends Parser {
      */
     protected $input;
 
-    protected $pointer;
+    /**
+     * A pointer/reference to the input.
+     *
+     * @var array
+     */
+    private $pointer;
 
+    /**
+     * Document, root component.
+     *
+     * @var Sabre\VObject\Document
+     */
     protected $root;
 
     /**
