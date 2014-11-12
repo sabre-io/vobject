@@ -20,14 +20,14 @@ use
 class Json extends Parser {
 
     /**
-     * The input data
+     * The input data.
      *
      * @var array
      */
     protected $input;
 
     /**
-     * Root component
+     * Root component.
      *
      * @var Document
      */
@@ -174,7 +174,7 @@ class Json extends Parser {
     }
 
     /**
-     * Sets the input data
+     * Sets the input data.
      *
      * @param resource|string|array $input
      * @return void
