@@ -30,14 +30,14 @@ class MimeDir extends Parser {
     protected $input;
 
     /**
-     * Root component
+     * Root component.
      *
      * @var Component
      */
     protected $root;
 
     /**
-     * Parses an iCalendar or vCard file
+     * Parses an iCalendar or vCard file.
      *
      * Pass a stream or a string. If null is parsed, the existing buffer is
      * used.
