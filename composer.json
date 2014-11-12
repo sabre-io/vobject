@@ -6,7 +6,8 @@
     "license" : "BSD-3-Clause",
     "require" : {
         "php"          : ">=5.3.1",
-        "ext-mbstring" : "*"
+        "ext-mbstring" : "*",
+        "sabre/xml"    : "master-dev"
     },
     "require-dev" : {
         "phpunit/phpunit" : "*",
