@@ -95,10 +95,9 @@ class Float extends Property {
         // See:
         // http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-04#section-3.4.1.2
         if ($this->name==='GEO') {
-            return array($val);
-        } else {
-            return $val;
+            return [$val];
         }
+        return $val;
 
     }
 }

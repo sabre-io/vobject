@@ -103,7 +103,7 @@ class Binary extends Property {
      */
     public function getJsonValue() {
 
-        return array(base64_encode($this->getValue()));
+        return [base64_encode($this->getValue())];
 
     }
 

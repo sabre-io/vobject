@@ -60,10 +60,10 @@ class Json extends Parser {
 
         switch($this->input[0]) {
             case 'vcalendar' :
-                $this->root = new VCalendar(array(), false);
+                $this->root = new VCalendar([], false);
                 break;
             case 'vcard' :
-                $this->root = new VCard(array(), false);
+                $this->root = new VCard([], false);
                 break;
             default :
                 throw new ParseException('The root component must either be a vcalendar, or a vcard');
@@ -110,7 +110,7 @@ class Json extends Parser {
                 $jComp[2]
             );
 
-        } else $components = array();
+        } else $components = [];
 
         return $this->root->createComponent(
             $jComp[0],

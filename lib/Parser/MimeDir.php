@@ -112,7 +112,7 @@ class MimeDir extends Parser {
                 throw new ParseException('This parser only supports VCARD and VCALENDAR files');
         }
 
-        $this->root = new $class(array(), false);
+        $this->root = new $class([], false);
 
         while(true) {
 
@@ -147,7 +147,7 @@ class MimeDir extends Parser {
         // Start of a new component
         if (strtoupper(substr($line, 0, 6)) === 'BEGIN:') {
 
-            $component = $this->root->createComponent(substr($line,6), array(), false);
+            $component = $this->root->createComponent(substr($line,6), [], false);
 
             while(true) {
 
@@ -302,11 +302,11 @@ class MimeDir extends Parser {
         //echo $regex, "\n"; die();
         preg_match_all($regex, $line, $matches,  PREG_SET_ORDER);
 
-        $property = array(
+        $property = [
             'name' => null,
-            'parameters' => array(),
+            'parameters' => [],
             'value' => null
-        );
+        ];
 
         $lastParam = null;
 
@@ -333,10 +333,10 @@ class MimeDir extends Parser {
                 } elseif (is_array($property['parameters'][$lastParam])) {
                     $property['parameters'][$lastParam][] = $value;
                 } else {
-                    $property['parameters'][$lastParam] = array(
+                    $property['parameters'][$lastParam] = [
                         $property['parameters'][$lastParam],
                         $value
-                    );
+                    ];
                 }
                 continue;
             }
@@ -377,8 +377,8 @@ class MimeDir extends Parser {
         //
         // Our parser will get those as parameters without a value instead, so
         // we're filtering these parameters out first.
-        $namedParameters = array();
-        $namelessParameters = array();
+        $namedParameters = [];
+        $namelessParameters = [];
 
         foreach($property['parameters'] as $name=>$value) {
             if (!is_null($value)) {
@@ -475,7 +475,7 @@ class MimeDir extends Parser {
 
         $matches = preg_split($regex, $input, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-        $resultArray = array();
+        $resultArray = [];
         $result = '';
 
         foreach($matches as $match) {

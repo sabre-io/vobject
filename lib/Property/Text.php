@@ -32,7 +32,7 @@ class Text extends Property {
      *
      * @var array
      */
-    protected $structuredValues = array(
+    protected $structuredValues = [
         // vCard
         'N',
         'ADR',
@@ -41,7 +41,7 @@ class Text extends Property {
 
         // iCalendar
         'REQUEST-STATUS',
-    );
+    ];
 
     /**
      * Some text components have a minimum number of components.
@@ -51,10 +51,10 @@ class Text extends Property {
      *
      * @var array
      */
-    protected $minimumPropertyValues = array(
+    protected $minimumPropertyValues = [
         'N' => 5,
         'ADR' => 7,
-    );
+    ];
 
     /**
      * Creates the property.
@@ -70,7 +70,7 @@ class Text extends Property {
      * @param string $group The vcard property group
      * @return void
      */
-    public function __construct(Component $root, $name, $value = null, array $parameters = array(), $group = null) {
+    public function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null) {
 
         // There's two types of multi-valued text properties:
         // 1. multivalue properties.
@@ -139,19 +139,19 @@ class Text extends Property {
         foreach($val as &$item) {
 
             if (!is_array($item)) {
-                $item = array($item);
+                $item = [$item];
             }
 
             foreach($item as &$subItem) {
                 $subItem = strtr(
                     $subItem,
-                    array(
+                    [
                         '\\' => '\\\\',
                         ';'  => '\;',
                         ','  => '\,',
                         "\n" => '\n',
                         "\r" => "",
-                    )
+                    ]
                 );
             }
             $item = implode(',', $item);
@@ -175,10 +175,9 @@ class Text extends Property {
         // array-item. Multi-value text should be returned as multiple items in
         // the top-array.
         if (in_array($this->name, $this->structuredValues)) {
-            return array($this->getParts());
-        } else {
-            return $this->getParts();
+            return [$this->getParts()];
         }
+        return $this->getParts();
 
     }
 
@@ -315,11 +314,11 @@ class Text extends Property {
             $minimum = $this->minimumPropertyValues[$this->name];
             $parts = $this->getParts();
             if (count($parts) < $minimum) {
-                $warnings[] = array(
+                $warnings[] = [
                     'level' => 1,
                     'message' => 'This property must have at least ' . $minimum . ' components. It only has ' . count($parts),
                     'node' => $this,
-                );
+                ];
                 if ($options & self::REPAIR) {
                     $parts = array_pad($parts, $minimum, '');
                     $this->setParts($parts);

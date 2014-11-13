@@ -5,10 +5,10 @@ namespace Sabre\VObject;
 
 // This sucks.. we have to try to find the composer autoloader. But chances
 // are, we can't find it this way. So we'll do our bestest
-$paths = array(
+$paths = [
     __DIR__ . '/../vendor/autoload.php',  // In case vobject is cloned directly
     __DIR__ . '/../../../autoload.php',   // In case vobject is a composer dependency.
-);
+];
 
 foreach($paths as $path) {
     if (file_exists($path)) {

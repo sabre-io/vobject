@@ -13,7 +13,7 @@
  * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @license http://sabre.io/license/ Modified BSD License
  */
-return array(
+return [
     'CST6CDT'   => 'America/Chicago',
     'Cuba'      => 'America/Havana',
     'Egypt'     => 'Africa/Cairo',
@@ -42,4 +42,4 @@ return array(
     'Universal' => 'UTC',
     'W-SU'      => 'Europe/Moscow',
     'Zulu'      => 'UTC',
-);
+];
