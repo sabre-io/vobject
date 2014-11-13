@@ -67,7 +67,7 @@ abstract class Parser {
     abstract public function parse($input = null, $options = null);
 
     /**
-     * Sets the input data
+     * Sets the input data.
      *
      * @param mixed $input
      * @return void
