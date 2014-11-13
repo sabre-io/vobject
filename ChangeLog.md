@@ -13,7 +13,7 @@ ChangeLog
 * #159: The recurrence iterator, freebusy generator and iCalendar DATE and
   DATE-TIME properties can now all accept a reference timezone when working
   floating times or all-day events.
-* #159: Master events in will no longer get a `RECURRENCE-ID` when expanding.
+* #159: Master events will no longer get a `RECURRENCE-ID` when expanding.
 * #159: `RECURRENCE-ID` for all-day events will now be correct when expanding.
 
 
