@@ -64,6 +64,13 @@ class EventIterator implements \Iterator {
     protected $timeZone;
 
     /**
+     * True if we're iterating an all-day event.
+     *
+     * @var bool
+     */
+    protected $allDay = false;
+
+    /**
      * Creates the iterator
      *
      * You should pass a VCALENDAR component, as well as the UID of the event
@@ -144,6 +151,7 @@ class EventIterator implements \Iterator {
             );
         }
         $this->startDate = $this->masterEvent->DTSTART->getDateTime($this->timeZone);
+        $this->allDay = !$this->masterEvent->DTSTART->hasTime();
 
         if (isset($this->masterEvent->EXDATE)) {
 
@@ -166,7 +174,7 @@ class EventIterator implements \Iterator {
             $end = clone $this->startDate;
             $end->add($duration);
             $this->eventDuration = $end->getTimeStamp() - $this->startDate->getTimeStamp();
-        } elseif ($this->masterEvent->DTSTART->getValueType() === 'DATE') {
+        } elseif ($this->allDay) {
             $this->eventDuration = 3600 * 24;
         } else {
             $this->eventDuration = 0;
@@ -276,8 +284,15 @@ class EventIterator implements \Iterator {
         if (isset($event->DTEND)) {
             $event->DTEND->setDateTime($this->getDtEnd());
         }
-        if ($this->recurIterator->key() > 0) {
-            $event->add('RECURRENCE-ID', $event->DTSTART->getDateTime());
+        // Including a RECURRENCE-ID to the object, unless this is the first
+        // object.
+        //
+        // The inner recurIterator is always one step ahead, this is why we're
+        // checking for the key being higher than 1.
+        if ($this->recurIterator->key() > 1) {
+            $recurid = clone $event->DTSTART;
+            $recurid->name = 'RECURRENCE-ID';
+            $event->add($recurid);
         }
         return $event;
 

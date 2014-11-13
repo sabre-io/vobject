@@ -273,7 +273,7 @@ class VCalendar extends VObject\Document {
                 throw new \LogicException('Event did not have a UID!');
             }
 
-            $it = new EventIterator($this, $vevent->uid);
+            $it = new EventIterator($this, $vevent->uid, $timeZone);
             $it->fastForward($start);
 
             while($it->valid() && $it->getDTStart() < $end) {
