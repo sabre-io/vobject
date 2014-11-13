@@ -12,7 +12,18 @@ ChangeLog
   potentially have big implications if you manipulate Date objects anywhere.
 
 
-3.3.3 (2014-??-??)
+3.3.4 (2014-??-??)
+------------------
+
+* #154: Converting `ANNIVERSARY` to `X-ANNIVERSARY` and `X-ABDATE` and
+  vice-versa when converting to/from vCard 4.
+* #154: It's now possible to easily select all vCard properties belonging to
+  a single group with `$vcard->{'ITEM1.'}` syntax. (@armin-hackmann)
+* #156: Simpler way to check if a string is UTF-8. (@Hywan)
+* Unittest improvements.
+
+
+3.3.3 (2014-10-09)
 ------------------
 
 * #142: `CANCEL` and `REPLY` messages now include the `DTSTART` from the
