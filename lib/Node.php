@@ -9,7 +9,11 @@ namespace Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
+abstract class Node
+    implements \IteratorAggregate,
+               \ArrayAccess,
+               \Countable,
+               \JsonSerializable {
 
     /**
      * The following constants are used by the validate() method.
