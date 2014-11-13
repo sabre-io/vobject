@@ -10,6 +10,10 @@ ChangeLog
   a single group with `$vcard->{'ITEM1.'}` syntax. (@armin-hackmann)
 * #156: Simpler way to check if a string is UTF-8. (@Hywan)
 * Unittest improvements.
+* Added: The recurrence iterator, freebusy generator and iCalendar DATE and
+  DATE-TIME properties can now all accept a reference timezone when working
+  floating times or all-day events.
+* Fixed: Master events in will no longer get a `RECURRENCE-ID` when expanding.
 
 
 3.3.3 (2014-10-09)
