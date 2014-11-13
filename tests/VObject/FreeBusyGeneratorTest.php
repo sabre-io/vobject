@@ -6,7 +6,7 @@ class FreeBusyGeneratorTest extends \PHPUnit_Framework_TestCase {
 
     function getInput() {
 
-        $tests = [];
+        $tests = array();
 
         $blob = <<<ICS
 BEGIN:VCALENDAR
@@ -18,10 +18,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             "20110101T120000Z/20110101T130000Z"
-        ];
+        );
 
         // opaque, shows up
         $blob = <<<ICS
@@ -35,10 +35,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             "20110101T130000Z/20110101T140000Z"
-        ];
+        );
 
         // transparent, hidden
         $blob = <<<ICS
@@ -52,10 +52,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             null,
-        ];
+        );
 
         // cancelled, hidden
         $blob = <<<ICS
@@ -69,10 +69,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             null,
-        ];
+        );
 
         // tentative, shows up
         $blob = <<<ICS
@@ -86,10 +86,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             '20110101T180000Z/20110101T190000Z',
-        ];
+        );
 
         // outside of time-range, hidden
         $blob = <<<ICS
@@ -102,10 +102,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             null,
-        ];
+        );
 
         // outside of time-range, hidden
         $blob = <<<ICS
@@ -118,10 +118,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             null,
-        ];
+        );
 
         // using duration, shows up
         $blob = <<<ICS
@@ -134,10 +134,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             '20110101T190000Z/20110101T200000Z',
-        ];
+        );
 
         // Day-long event, shows up
         $blob = <<<ICS
@@ -149,10 +149,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             '20110102T000000Z/20110103T000000Z',
-        ];
+        );
 
 
         // No duration, does not show up
@@ -165,10 +165,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             null,
-        ];
+        );
 
         // encoded as object, shows up
         $blob = <<<ICS
@@ -181,10 +181,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             Reader::read($blob),
             '20110101T210000Z/20110101T220000Z',
-        ];
+        );
 
         // Freebusy. Some parts show up
         $blob = <<<ICS
@@ -199,7 +199,7 @@ END:VFREEBUSY
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             Reader::read($blob),
             [
                 '20110103T010000Z/20110103T020000Z',
@@ -207,7 +207,7 @@ ICS;
                 '20110103T040000Z/20110103T050000Z',
                 '20110103T050000Z/20110103T060000Z',
             ]
-        ];
+        );
 
 
         // Yearly recurrence rule, shows up
@@ -222,10 +222,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             Reader::read($blob),
             '20110101T220000Z/20110101T230000Z',
-        ];
+        );
 
 
         // Yearly recurrence rule + duration, shows up
@@ -240,10 +240,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             Reader::read($blob),
             '20110101T230000Z/20110102T000000Z',
-        ];
+        );
 
         // Floating time, no timezone
         $blob = <<<ICS
@@ -256,10 +256,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             "20110101T120000Z/20110101T130000Z"
-        ];
+        );
 
         // Floating time + reference timezone
         $blob = <<<ICS
@@ -272,11 +272,11 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             "20110101T170000Z/20110101T180000Z",
             new \DateTimeZone('America/Toronto')
-        ];
+        );
 
         // All-day event
         $blob = <<<ICS
@@ -288,10 +288,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             "20110101T000000Z/20110102T000000Z"
-        ];
+        );
 
         // All-day event + reference timezone
         $blob = <<<ICS
@@ -303,11 +303,11 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = [
+        $tests[] = array(
             $blob,
             "20110101T050000Z/20110102T050000Z",
             new \DateTimeZone('America/Toronto')
-        ];
+        );
         return $tests;
 
     }
@@ -351,7 +351,7 @@ ICS;
         $obj->METHOD = 'PUBLISH';
 
         $gen = new FreeBusyGenerator();
-        $gen->setObjects([]);
+        $gen->setObjects(array());
         $gen->setBaseObject($obj);
 
         $result = $gen->getResult();
