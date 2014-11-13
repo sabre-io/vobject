@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Recur;
 
-use InvalidArgumentException;
+use DateTimeZone;
 use DateTimeImmutable;
 use DateTimeInterface;
+use InvalidArgumentException;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VEvent;
 
@@ -57,6 +58,20 @@ use Sabre\VObject\Component\VEvent;
 class EventIterator implements \Iterator {
 
     /**
+     * Reference timeZone for floating dates and times.
+     *
+     * @var DateTimeZone
+     */
+    protected $timeZone;
+
+    /**
+     * True if we're iterating an all-day event.
+     *
+     * @var bool
+     */
+    protected $allDay = false;
+
+    /**
      * Creates the iterator
      *
      * You should pass a VCALENDAR component, as well as the UID of the event
@@ -64,8 +79,15 @@ class EventIterator implements \Iterator {
      *
      * @param Component $vcal
      * @param string|null $uid
+     * @param DateTimeZone $timeZone Reference timezone for floating dates and
+     *                               times.
      */
-    function __construct(Component $vcal, $uid = null) {
+    function __construct(Component $vcal, $uid = null, DateTimeZone $timeZone = null) {
+
+        if (is_null($this->timeZone)) {
+            $timeZone = new DateTimeZone('UTC');
+        }
+        $this->timeZone = $timeZone;
 
         if ($vcal instanceof VEvent) {
             // Single instance mode.
@@ -95,7 +117,9 @@ class EventIterator implements \Iterator {
 
             } else {
 
-                $this->exceptions[$vevent->{'RECURRENCE-ID'}->getDateTime()->getTimeStamp()] = true;
+                $this->exceptions[
+                    $vevent->{'RECURRENCE-ID'}->getDateTime($this->timeZone)->getTimeStamp()
+                ] = true;
                 $this->overriddenEvents[] = $vevent;
 
             }
@@ -115,13 +139,25 @@ class EventIterator implements \Iterator {
             $this->masterEvent = array_shift($this->overriddenEvents);
         }
 
-        $this->startDate = $this->masterEvent->DTSTART->getDateTime();
+        // master event.
+        if (isset($this->masterEvent->RRULE)) {
+            $rrule = $this->masterEvent->RRULE->getParts();
+        } else {
+            // master event has no rrule. We default to something that
+            // iterates once.
+            $rrule = array(
+                'FREQ' => 'DAILY',
+                'COUNT' => 1,
+            );
+        }
+        $this->startDate = $this->masterEvent->DTSTART->getDateTime($this->timeZone);
+        $this->allDay = !$this->masterEvent->DTSTART->hasTime();
 
         if (isset($this->masterEvent->EXDATE)) {
 
             foreach($this->masterEvent->EXDATE as $exDate) {
 
-                foreach($exDate->getDateTimes() as $dt) {
+                foreach($exDate->getDateTimes($this->timeZone) as $dt) {
                     $this->exceptions[$dt->getTimeStamp()] = true;
                 }
 
@@ -131,14 +167,14 @@ class EventIterator implements \Iterator {
 
         if (isset($this->masterEvent->DTEND)) {
             $this->eventDuration =
-                $this->masterEvent->DTEND->getDateTime()->getTimeStamp() -
+                $this->masterEvent->DTEND->getDateTime($this->timeZone)->getTimeStamp() -
                 $this->startDate->getTimeStamp();
         } elseif (isset($this->masterEvent->DURATION)) {
             $duration = $this->masterEvent->DURATION->getDateInterval();
             $end = clone $this->startDate;
             $end = $end->add($duration);
             $this->eventDuration = $end->getTimeStamp() - $this->startDate->getTimeStamp();
-        } elseif ($this->masterEvent->DTSTART->getValueType() === 'DATE') {
+        } elseif ($this->allDay) {
             $this->eventDuration = 3600 * 24;
         } else {
             $this->eventDuration = 0;
@@ -247,8 +283,15 @@ class EventIterator implements \Iterator {
         if (isset($event->DTEND)) {
             $event->DTEND->setDateTime($this->getDtEnd());
         }
-        if ($this->recurIterator->key() > 0) {
-            $event->add('RECURRENCE-ID', $event->DTSTART->getDateTime());
+        // Including a RECURRENCE-ID to the object, unless this is the first
+        // object.
+        //
+        // The inner recurIterator is always one step ahead, this is why we're
+        // checking for the key being higher than 1.
+        if ($this->recurIterator->key() > 1) {
+            $recurid = clone $event->DTSTART;
+            $recurid->name = 'RECURRENCE-ID';
+            $event->add($recurid);
         }
         return $event;
 
@@ -289,7 +332,7 @@ class EventIterator implements \Iterator {
         // re-creating overridden event index.
         $index = [];
         foreach($this->overriddenEvents as $key=>$event) {
-            $stamp = $event->DTSTART->getDateTime()->getTimeStamp();
+            $stamp = $event->DTSTART->getDateTime($this->timeZone)->getTimeStamp();
             $index[$stamp] = $key;
         }
         krsort($index);
@@ -345,7 +388,7 @@ class EventIterator implements \Iterator {
 
                 // Putting the rrule next date aside.
                 $this->nextDate = $nextDate;
-                $this->currentDate = $this->currentOverriddenEvent->DTSTART->getDateTime();
+                $this->currentDate = $this->currentOverriddenEvent->DTSTART->getDateTime($this->timeZone);
 
                 // Ensuring that this item will only be used once.
                 array_pop($this->overriddenEventsIndex);
