@@ -10,6 +10,7 @@ ChangeLog
   `DateTimeImmutable` may be used everywhere.
 * #139: We now _always_ return `DateTimeImmutable` from any method. This could
   potentially have big implications if you manipulate Date objects anywhere.
+* #161: Simplified `ElementList` by extending `ArrayIterator`.
 
 
 3.3.4 (2014-??-??)
