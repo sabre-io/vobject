@@ -7,7 +7,7 @@
  * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @license http://sabre.io/license/ Modified BSD License
  */
-return array(
+return [
     'Dateline'               => 'Etc/GMT-12',
     'Samoa'                  => 'Pacific/Apia',
     'Hawaiian'               => 'Pacific/Honolulu',
@@ -98,4 +98,4 @@ return array(
     'Fiji'                   => 'Pacific/Fiji',
     'New Zealand'            => 'Pacific/Auckland',
     'Tonga'                  => 'Pacific/Tongatapu',
-);
+];

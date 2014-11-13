@@ -217,7 +217,7 @@ class Cli {
                 throw new InvalidArgumentException('Too many arguments');
             }
 
-            if (!in_array($positional[0], array('validate','repair','convert','color'))) {
+            if (!in_array($positional[0], ['validate','repair','convert','color'])) {
                 throw new InvalidArgumentException('Uknown command: ' . $positional[0]);
             }
 

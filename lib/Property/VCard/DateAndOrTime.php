@@ -200,7 +200,7 @@ class DateAndOrTime extends Property {
 
         // Early exit if we don't have a time string.
         if (is_null($parts['hour']) && is_null($parts['minute']) && is_null($parts['second'])) {
-            return array($dateStr);
+            return [$dateStr];
         }
 
         $dateStr.='T';
@@ -242,7 +242,7 @@ class DateAndOrTime extends Property {
             $dateStr.=$parts['timezone'];
         }
 
-        return array($dateStr);
+        return [$dateStr];
 
     }
 

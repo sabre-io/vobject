@@ -81,24 +81,16 @@ class Float extends Property {
      */
     public function getJsonValue() {
 
-        $val = array_map(
-            function($item) {
-
-                return (float)$item;
-
-            },
-            $this->getParts()
-        );
+        $val = array_map('floatval', $this->getParts());
 
         // Special-casing the GEO property.
         //
         // See:
         // http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-04#section-3.4.1.2
         if ($this->name==='GEO') {
-            return array($val);
-        } else {
-            return $val;
+            return [$val];
         }
+        return $val;
 
     }
 }

@@ -20,14 +20,14 @@ use
 class Json extends Parser {
 
     /**
-     * The input data
+     * The input data.
      *
      * @var array
      */
     protected $input;
 
     /**
-     * Root component
+     * Root component.
      *
      * @var Document
      */
@@ -43,7 +43,7 @@ class Json extends Parser {
      *
      * @param resource|string|array|null $input
      * @param int|null $options
-     * @return array
+     * @return Sabre\VObject\Document
      */
     public function parse($input = null, $options = null) {
 
@@ -60,10 +60,10 @@ class Json extends Parser {
 
         switch($this->input[0]) {
             case 'vcalendar' :
-                $this->root = new VCalendar(array(), false);
+                $this->root = new VCalendar([], false);
                 break;
             case 'vcard' :
-                $this->root = new VCard(array(), false);
+                $this->root = new VCard([], false);
                 break;
             default :
                 throw new ParseException('The root component must either be a vcalendar, or a vcard');
@@ -110,7 +110,7 @@ class Json extends Parser {
                 $jComp[2]
             );
 
-        } else $components = array();
+        } else $components = [];
 
         return $this->root->createComponent(
             $jComp[0],
@@ -174,7 +174,7 @@ class Json extends Parser {
     }
 
     /**
-     * Sets the input data
+     * Sets the input data.
      *
      * @param resource|string|array $input
      * @return void
