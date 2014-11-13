@@ -4,6 +4,7 @@ namespace Sabre\VObject\Recur;
 
 use InvalidArgumentException;
 use DateTime;
+use DateTimeZone;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VEvent;
 
@@ -56,6 +57,13 @@ use Sabre\VObject\Component\VEvent;
 class EventIterator implements \Iterator {
 
     /**
+     * Reference timeZone for floating dates and times.
+     *
+     * @var DateTimeZone
+     */
+    protected $timeZone;
+
+    /**
      * Creates the iterator
      *
      * You should pass a VCALENDAR component, as well as the UID of the event
@@ -63,8 +71,15 @@ class EventIterator implements \Iterator {
      *
      * @param Component $vcal
      * @param string|null $uid
+     * @param DateTimeZone $timeZone Reference timezone for floating dates and
+     *                               times.
      */
-    public function __construct(Component $vcal, $uid = null) {
+    public function __construct(Component $vcal, $uid = null, DateTimeZone $timeZone = null) {
+
+        if (is_null($this->timeZone)) {
+            $timeZone = new DateTimeZone('UTC');
+        }
+        $this->timeZone = $timeZone;
 
         $rrule = null;
         if ($vcal instanceof VEvent) {
@@ -95,7 +110,9 @@ class EventIterator implements \Iterator {
 
             } else {
 
-                $this->exceptions[$vevent->{'RECURRENCE-ID'}->getDateTime()->getTimeStamp()] = true;
+                $this->exceptions[
+                    $vevent->{'RECURRENCE-ID'}->getDateTime($this->timeZone)->getTimeStamp()
+                ] = true;
                 $this->overriddenEvents[] = $vevent;
 
             }
@@ -126,13 +143,13 @@ class EventIterator implements \Iterator {
                 'COUNT' => 1,
             );
         }
-        $this->startDate = $this->masterEvent->DTSTART->getDateTime();
+        $this->startDate = $this->masterEvent->DTSTART->getDateTime($this->timeZone);
 
         if (isset($this->masterEvent->EXDATE)) {
 
             foreach($this->masterEvent->EXDATE as $exDate) {
 
-                foreach($exDate->getDateTimes() as $dt) {
+                foreach($exDate->getDateTimes($this->timeZone) as $dt) {
                     $this->exceptions[$dt->getTimeStamp()] = true;
                 }
 
@@ -142,7 +159,7 @@ class EventIterator implements \Iterator {
 
         if (isset($this->masterEvent->DTEND)) {
             $this->eventDuration =
-                $this->masterEvent->DTEND->getDateTime()->getTimeStamp() -
+                $this->masterEvent->DTEND->getDateTime($this->timeZone)->getTimeStamp() -
                 $this->startDate->getTimeStamp();
         } elseif (isset($this->masterEvent->DURATION)) {
             $duration = $this->masterEvent->DURATION->getDateInterval();
@@ -301,7 +318,7 @@ class EventIterator implements \Iterator {
         // re-creating overridden event index.
         $index = array();
         foreach($this->overriddenEvents as $key=>$event) {
-            $stamp = $event->DTSTART->getDateTime()->getTimeStamp();
+            $stamp = $event->DTSTART->getDateTime($this->timeZone)->getTimeStamp();
             $index[$stamp] = $key;
         }
         krsort($index);
@@ -357,7 +374,7 @@ class EventIterator implements \Iterator {
 
                 // Putting the rrule next date aside.
                 $this->nextDate = $nextDate;
-                $this->currentDate = $this->currentOverriddenEvent->DTSTART->getDateTime();
+                $this->currentDate = $this->currentOverriddenEvent->DTSTART->getDateTime($this->timeZone);
 
                 // Ensuring that this item will only be used once.
                 array_pop($this->overriddenEventsIndex);

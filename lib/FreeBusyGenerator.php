@@ -205,7 +205,7 @@ class FreeBusyGenerator {
 
                         if ($component->RRULE) {
 
-                            $iterator = new EventIterator($object, (string)$component->uid);
+                            $iterator = new EventIterator($object, (string)$component->uid, $this->timeZone);
                             if ($this->start) {
                                 $iterator->fastForward($this->start);
                             }
