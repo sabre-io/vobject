@@ -49,7 +49,7 @@ HI;
 
         $this->assertEquals(
             $tz,
-            $obj->VTIMEZONE->getDateTimeZone()
+            $obj->VTIMEZONE->getTimeZone()
         );
 
     }
