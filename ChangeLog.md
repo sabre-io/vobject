@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.4.0-alpha1
+4.0.0-alpha1
 ------------
 
 * sabre/vobject now requires PHP 5.5.
