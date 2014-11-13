@@ -15,6 +15,7 @@ ChangeLog
   floating times or all-day events.
 * #159: Master events will no longer get a `RECURRENCE-ID` when expanding.
 * #159: `RECURRENCE-ID` for all-day events will now be correct when expanding.
+* #163: Added a `getTimeZone()` method to `VTIMEZONE` components.
 
 
 3.3.3 (2014-10-09)
