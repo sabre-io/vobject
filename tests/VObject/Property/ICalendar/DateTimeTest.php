@@ -121,7 +121,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $dt2->setTimeZone($tz);
 
         $elem = $this->vcal->createProperty('DTSTART');
-        $elem->setValue([$dt1, $dt2]);
+        $elem->setValue(array($dt1, $dt2));
 
         $this->assertEquals('19850704T013000,19850704T023000', (string)$elem);
         $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
@@ -140,7 +140,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $dt2->setTimeZone($tz);
 
         $elem = $this->vcal->createProperty('DTSTART');
-        $elem->setParts([$dt1, $dt2]);
+        $elem->setParts(array($dt1, $dt2));
 
         $this->assertEquals('19850704T013000,19850704T023000', (string)$elem);
         $this->assertEquals('Europe/Amsterdam', (string)$elem['TZID']);
@@ -155,7 +155,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $dt2 = '19850704T023000Z';
 
         $elem = $this->vcal->createProperty('DTSTART');
-        $elem->setParts([$dt1, $dt2]);
+        $elem->setParts(array($dt1, $dt2));
 
         $this->assertEquals('19850704T013000Z,19850704T023000Z', (string)$elem);
         $this->assertNull($elem['VALUE']);
@@ -349,7 +349,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $dtstart = $vevent->add(
             'DTSTART',
             new \DateTime('2014-03-07'),
-            ['VALUE' => 'DATE']
+            array('VALUE' => 'DATE')
         );
 
         $this->assertEquals("DTSTART;VALUE=DATE:20140307\r\n", $dtstart->serialize());
