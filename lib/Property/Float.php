@@ -81,14 +81,7 @@ class Float extends Property {
      */
     public function getJsonValue() {
 
-        $val = array_map(
-            function($item) {
-
-                return (float)$item;
-
-            },
-            $this->getParts()
-        );
+        $val = array_map('floatval', $this->getParts());
 
         // Special-casing the GEO property.
         //
