@@ -157,7 +157,7 @@ abstract class Property extends Node {
     }
 
     /**
-     * Adds a new parameter, and returns the new item.
+     * Adds a new parameter.
      *
      * If a parameter with same name already existed, the values will be
      * combined.
@@ -165,7 +165,6 @@ abstract class Property extends Node {
      *
      * @param string $name
      * @param string|null|array $value
-     * @return Node
      */
     function add($name, $value = null) {
         $noName = false;
