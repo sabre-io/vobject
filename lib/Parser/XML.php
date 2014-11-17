@@ -131,10 +131,38 @@ class XML extends Parser {
                                 );
                               break 2;
 
-                            /*
                             case 'request-status':
-                              break;
-                            */
+                                $requestChildren = [
+                                    0 => null,
+                                    1 => null
+                                ];
+
+                                foreach($xmlPropertyChildren as $xmlRequestChild) {
+
+                                    $xmlRequestValue = $xmlRequestChild['value'];
+
+                                    switch(static::getTagName($xmlRequestChild['name'])) {
+
+                                        case 'code':
+                                            $requestChildren[0] = $xmlRequestValue;
+                                          break;
+
+                                        case 'description':
+                                            $requestChildren[1] = $xmlRequestValue;
+                                          break;
+
+                                        case 'data':
+                                            $requestChildren[2] = $xmlRequestValue;
+                                          break;
+
+                                        default:
+                                            // TODO: EXCEPTION
+                                          break;
+                                    }
+                                }
+
+                                $property->setParts($requestChildren);
+                              break 2;
 
                             default:
                               break;
