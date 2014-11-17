@@ -81,10 +81,12 @@ class XML extends Parser {
                     foreach($xmlProperties as $xmlProperty) {
 
                         // Property.
-                        $propertyName = static::getTagName($xmlProperty['name']);
-                        $property     = $this->root->createProperty(
+                        $propertyName        = static::getTagName($xmlProperty['name']);
+                        $xmlPropertyChildren = $xmlProperty['value'];
+                        $property            = $this->root->createProperty(
                             $propertyName
                         );
+                        $parentComponent->add($property);
 
                         /*
                         switch($propertyName) {
@@ -108,14 +110,14 @@ class XML extends Parser {
                         }
                         */
 
-                        foreach($xmlProperty['value'] as $xmlPropertyChildren) {
+                        foreach($xmlPropertyChildren as $xmlPropertyChild) {
 
-                            $xmlPropertyName = static::getTagName($xmlPropertyChildren['name']);
+                            $xmlPropertyChildName = static::getTagName($xmlPropertyChild['name']);
 
                             // Parameters.
-                            if('parameters' === $xmlPropertyName) {
+                            if('parameters' === $xmlPropertyChildName) {
 
-                                $xmlParameters = $xmlPropertyChildren['value'];
+                                $xmlParameters = $xmlPropertyChild['value'];
 
                                 foreach($xmlParameters as $xmlParameter) {
 
@@ -129,8 +131,8 @@ class XML extends Parser {
                             }
 
                             // Property type and value(s).
-                            $propertyType     = $xmlPropertyName;
-                            $xmlPropertyValue = $xmlPropertyChildren['value'];
+                            $propertyType     = $xmlPropertyChildName;
+                            $xmlPropertyValue = $xmlPropertyChild['value'];
 
                             switch($propertyType) {
 
@@ -169,11 +171,11 @@ class XML extends Parser {
                                     $periodStart         = null;
                                     $periodEndOrDuration = null;
 
-                                    foreach($xmlPropertyValue as $xmlPeriodChildren) {
+                                    foreach($xmlPropertyValue as $xmlPeriodChild) {
 
-                                        $xmlPeriodValue = $xmlPeriodChildren['value'];
+                                        $xmlPeriodValue = $xmlPeriodChild['value'];
 
-                                        switch(static::getTagName($xmlPeriodChildren['name'])) {
+                                        switch(static::getTagName($xmlPeriodChild['name'])) {
 
                                             case 'start':
                                                 $periodStart = $xmlPeriodValue;
@@ -200,10 +202,10 @@ class XML extends Parser {
                                 case 'recur':
                                     $recur = [];
 
-                                    foreach($xmlPropertyValue as $xmlRecurChildren) {
+                                    foreach($xmlPropertyValue as $xmlRecurChild) {
 
-                                        $xmlRecurName  = static::getTagName($xmlRecurChildren['name']);
-                                        $xmlRecurValue = $xmlRecurChildren['value'];
+                                        $xmlRecurName  = static::getTagName($xmlRecurChild['name']);
+                                        $xmlRecurValue = $xmlRecurChild['value'];
 
                                         if('until' === $xmlRecurName)
                                             $xmlRecurName = str_replace(
@@ -230,8 +232,6 @@ class XML extends Parser {
                                   break;
                             }
                         }
-
-                        $parentComponent->add($property);
                     }
                     break;
 
