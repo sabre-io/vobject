@@ -124,8 +124,6 @@ class XML extends Parser {
                                     }
                                 }
 
-                                var_dump($latitude, $longitude);
-
                                 $property->setRawMimeDirValue(
                                     $latitude .
                                     ';' .
