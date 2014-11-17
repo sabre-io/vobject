@@ -81,92 +81,91 @@ class XML extends Parser {
                     foreach($xmlProperties as $xmlProperty) {
 
                         // Property.
+                        $property            = null;
                         $propertyName        = static::getTagName($xmlProperty['name']);
                         $xmlPropertyChildren = $xmlProperty['value'];
-                        $property            = $this->root->createProperty(
-                            $propertyName
-                        );
-                        $parentComponent->add($property);
 
-                        // special cases
-                        switch($propertyName) {
+//                        // special cases
+//                        switch($propertyName) {
+//
+//                            /*
+//                            case 'categories':
+//                            case 'resources':
+//                            case 'freebusy':
+//                            case 'exdate':
+//                            case 'rdate':
+//                              break;
+//                            */
+//
+//                            case 'geo':
+//                                $latitude = null;
+//                                $longitude = null;
+//
+//                                foreach($xmlPropertyChildren as $xmlGeoChild) {
+//
+//                                    $xmlGeoValue = $xmlGeoChild['value'];
+//
+//                                    switch(static::getTagName($xmlGeoChild['name'])) {
+//
+//                                        case 'latitude':
+//                                            $latitude = $xmlGeoValue;
+//                                          break;
+//
+//                                        case 'longitude':
+//                                            $longitude = $xmlGeoValue;
+//                                          break;
+//
+//                                        default:
+//                                            // TODO: EXCEPTION
+//                                          break;
+//                                    }
+//                                }
+//
+//                                $property->setRawMimeDirValue(
+//                                    $latitude .
+//                                    ';' .
+//                                    $longitude
+//                                );
+//                              break 2;
+//
+//                            case 'request-status':
+//                                $requestChildren = [
+//                                    0 => null,
+//                                    1 => null
+//                                ];
+//
+//                                foreach($xmlPropertyChildren as $xmlRequestChild) {
+//
+//                                    $xmlRequestValue = $xmlRequestChild['value'];
+//
+//                                    switch(static::getTagName($xmlRequestChild['name'])) {
+//
+//                                        case 'code':
+//                                            $requestChildren[0] = $xmlRequestValue;
+//                                          break;
+//
+//                                        case 'description':
+//                                            $requestChildren[1] = $xmlRequestValue;
+//                                          break;
+//
+//                                        case 'data':
+//                                            $requestChildren[2] = $xmlRequestValue;
+//                                          break;
+//
+//                                        default:
+//                                            // TODO: EXCEPTION
+//                                          break;
+//                                    }
+//                                }
+//
+//                                $property->setParts($requestChildren);
+//                              break 2;
+//
+//                            default:
+//                              break;
+//                        }
 
-                            /*
-                            case 'categories':
-                            case 'resources':
-                            case 'freebusy':
-                            case 'exdate':
-                            case 'rdate':
-                              break;
-                            */
-
-                            case 'geo':
-                                $latitude = null;
-                                $longitude = null;
-
-                                foreach($xmlPropertyChildren as $xmlGeoChild) {
-
-                                    $xmlGeoValue = $xmlGeoChild['value'];
-
-                                    switch(static::getTagName($xmlGeoChild['name'])) {
-
-                                        case 'latitude':
-                                            $latitude = $xmlGeoValue;
-                                          break;
-
-                                        case 'longitude':
-                                            $longitude = $xmlGeoValue;
-                                          break;
-
-                                        default:
-                                            // TODO: EXCEPTION
-                                          break;
-                                    }
-                                }
-
-                                $property->setRawMimeDirValue(
-                                    $latitude .
-                                    ';' .
-                                    $longitude
-                                );
-                              break 2;
-
-                            case 'request-status':
-                                $requestChildren = [
-                                    0 => null,
-                                    1 => null
-                                ];
-
-                                foreach($xmlPropertyChildren as $xmlRequestChild) {
-
-                                    $xmlRequestValue = $xmlRequestChild['value'];
-
-                                    switch(static::getTagName($xmlRequestChild['name'])) {
-
-                                        case 'code':
-                                            $requestChildren[0] = $xmlRequestValue;
-                                          break;
-
-                                        case 'description':
-                                            $requestChildren[1] = $xmlRequestValue;
-                                          break;
-
-                                        case 'data':
-                                            $requestChildren[2] = $xmlRequestValue;
-                                          break;
-
-                                        default:
-                                            // TODO: EXCEPTION
-                                          break;
-                                    }
-                                }
-
-                                $property->setParts($requestChildren);
-                              break 2;
-
-                            default:
-                              break;
-                        }
+                        $propertyParameters = [];
 
                         foreach($xmlPropertyChildren as $xmlPropertyChild) {
 
@@ -177,13 +176,9 @@ class XML extends Parser {
 
                                 $xmlParameters = $xmlPropertyChild['value'];
 
-                                foreach($xmlParameters as $xmlParameter) {
-
-                                    $property->add(
-                                        static::getTagName($xmlParameter['name']),
-                                        $xmlParameter['value'][0]['value']
-                                    );
-                                }
+                                foreach($xmlParameters as $xmlParameter)
+                                    $propertyParameters[static::getTagName($xmlParameter['name'])]
+                                        = $xmlParameter['value'][0]['value'];
 
                                 continue;
                             }
@@ -191,6 +186,18 @@ class XML extends Parser {
                             // Property type and value(s).
                             $propertyType     = $xmlPropertyChildName;
                             $xmlPropertyValue = $xmlPropertyChild['value'];
+                            $property         = $this->root->createProperty(
+                                $propertyName,
+                                null,
+                                null,
+                                $propertyType
+                            );
+                            $parentComponent->add($property);
+                            $defaultPropertyClassName
+                                = $this->root->getClassNameForPropertyName(strtoupper($propertyName));
+
+                            if(get_class($property) !== $defaultPropertyClassName)
+                                $property->add('VALUE', strtoupper($propertyType));
 
                             switch($propertyType) {
 
@@ -212,7 +219,6 @@ class XML extends Parser {
                                     $property->setValue(DateTime::createFromFormat(
                                         'Y-m-d',
                                         $xmlPropertyValue
-                                        // TODO: TimeZone? TZID
                                     ));
                                   break;
 
@@ -221,7 +227,6 @@ class XML extends Parser {
                                     $property->setValue(DateTime::createFromFormat(
                                         'Y-m-d\TH:i:s',
                                         $xmlPropertyValue
-                                        // TODO: TimeZone? TZID
                                     ));
                                   break;
 
@@ -290,6 +295,10 @@ class XML extends Parser {
                                   break;
                             }
                         }
+
+                        if(null !== $property)
+                            foreach($propertyParameters as $name => $value)
+                                $property->add($name, $value);
                     }
                     break;
 
