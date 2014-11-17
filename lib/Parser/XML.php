@@ -88,27 +88,59 @@ class XML extends Parser {
                         );
                         $parentComponent->add($property);
 
-                        /*
+                        // special cases
                         switch($propertyName) {
 
-                            // special cases
+                            /*
                             case 'categories':
                             case 'resources':
                             case 'freebusy':
                             case 'exdate':
                             case 'rdate':
                               break;
+                            */
 
                             case 'geo':
-                              break;
+                                $latitude = null;
+                                $longitude = null;
 
+                                foreach($xmlPropertyChildren as $xmlGeoChild) {
+
+                                    $xmlGeoValue = $xmlGeoChild['value'];
+
+                                    switch(static::getTagName($xmlGeoChild['name'])) {
+
+                                        case 'latitude':
+                                            $latitude = $xmlGeoValue;
+                                          break;
+
+                                        case 'longitude':
+                                            $longitude = $xmlGeoValue;
+                                          break;
+
+                                        default:
+                                            // TODO: EXCEPTION
+                                          break;
+                                    }
+                                }
+
+                                var_dump($latitude, $longitude);
+
+                                $property->setRawMimeDirValue(
+                                    $latitude .
+                                    ';' .
+                                    $longitude
+                                );
+                              break 2;
+
+                            /*
                             case 'request-status':
                               break;
+                            */
 
                             default:
                               break;
                         }
-                        */
 
                         foreach($xmlPropertyChildren as $xmlPropertyChild) {
 
