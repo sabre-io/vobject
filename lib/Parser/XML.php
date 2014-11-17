@@ -58,7 +58,7 @@ class XML extends Parser {
 
         if($this->input['name'] === '{' . self::XCAL_NAMESPACE . '}icalendar') {
 
-            $this->root = new VCalendar(array(), false);
+            $this->root = new VCalendar([], false);
             $this->pointer = &$this->input['value'][0];
             $this->parseVcalendarComponents($this->root, $options);
         }
@@ -115,8 +115,15 @@ class XML extends Parser {
                             // Parameters.
                             if('parameters' === $xmlPropertyName) {
 
-                                // parameters
-                                // 3.5 of the RFC
+                                $xmlParameters = $xmlPropertyChildren['value'];
+
+                                foreach($xmlParameters as $xmlParameter) {
+
+                                    $property->add(
+                                        static::getTagName($xmlParameter['name']),
+                                        $xmlParameter['value'][0]['value']
+                                    );
+                                }
 
                                 continue;
                             }
