@@ -6,7 +6,8 @@ use
     Sabre\VObject\Component\VCalendar,
     Sabre\VObject\Component\VCard,
     Sabre\VObject\EofException,
-    Sabre\XML as SabreXML;
+    Sabre\XML as SabreXML,
+    DateTime;
 
 /**
  * XML Parser.
@@ -73,23 +74,157 @@ class XML extends Parser {
 
             switch(static::getTagName($children['name'])) {
 
+                // Properties.
                 case 'properties':
-                    $properties = $children['value'];
+                    $xmlProperties = $children['value'];
 
-                    foreach($properties as $property) {
+                    foreach($xmlProperties as $xmlProperty) {
 
-                        $propertyName  = static::getTagName($property['name']);
-                        $propertyValue = $property['value'][0]['value'];
-                        $propertyType  = static::getTagName($property['value'][0]['name']);
-
-                        $parentComponent->add(
-                            $this->root->createProperty(
-                                $propertyName,
-                                $propertyValue,
-                                array(),
-                                $propertyType
-                            )
+                        // Property.
+                        $propertyName = static::getTagName($xmlProperty['name']);
+                        $property     = $this->root->createProperty(
+                            $propertyName
                         );
+
+                        /*
+                        switch($propertyName) {
+
+                            // special cases
+                            case 'categories':
+                            case 'resources':
+                            case 'freebusy':
+                            case 'exdate':
+                            case 'rdate':
+                              break;
+
+                            case 'geo':
+                              break;
+
+                            case 'request-status':
+                              break;
+
+                            default:
+                              break;
+                        }
+                        */
+
+                        foreach($xmlProperty['value'] as $xmlPropertyChildren) {
+
+                            $xmlPropertyName = static::getTagName($xmlPropertyChildren['name']);
+
+                            // Parameters.
+                            if('parameters' === $xmlPropertyName) {
+
+                                // parameters
+                                // 3.5 of the RFC
+
+                                continue;
+                            }
+
+                            // Property type and value(s).
+                            $propertyType     = $xmlPropertyName;
+                            $xmlPropertyValue = $xmlPropertyChildren['value'];
+
+                            switch($propertyType) {
+
+                                case 'binary':
+                                case 'boolean':
+                                case 'duration':
+                                case 'float':
+                                case 'integer':
+                                    $property->setRawMimeDirValue($xmlPropertyValue);
+                                  break;
+
+                                case 'cal-address':
+                                case 'text':
+                                case 'uri':
+                                    $property->setValue($xmlPropertyValue);
+                                  break;
+
+                                case 'date':
+                                    $property->setValue(DateTime::createFromFormat(
+                                        'Y-m-d',
+                                        $xmlPropertyValue
+                                        // TODO: TimeZone? TZID
+                                    ));
+                                  break;
+
+                                case 'date-time':
+                                    $xmlPropertyValue = rtrim($xmlPropertyValue, 'Z');
+                                    $property->setValue(DateTime::createFromFormat(
+                                        'Y-m-d\TH:i:s',
+                                        $xmlPropertyValue
+                                        // TODO: TimeZone? TZID
+                                    ));
+                                  break;
+
+                                case 'period':
+                                    $periodStart         = null;
+                                    $periodEndOrDuration = null;
+
+                                    foreach($xmlPropertyValue as $xmlPeriodChildren) {
+
+                                        $xmlPeriodValue = $xmlPeriodChildren['value'];
+
+                                        switch(static::getTagName($xmlPeriodChildren['name'])) {
+
+                                            case 'start':
+                                                $periodStart = $xmlPeriodValue;
+                                              break;
+
+                                            case 'end':
+                                            case 'duration':
+                                                $periodEndOrDuration = $xmlPeriodValue;
+                                              break;
+
+                                            default:
+                                                // TODO: EXCEPTION
+                                              break;
+                                        }
+                                    }
+
+                                    $property->setRawMimeDirValue(
+                                        $periodStart .
+                                        '/' .
+                                        $periodEndOrDuration
+                                    );
+                                  break;
+
+                                case 'recur':
+                                    $recur = [];
+
+                                    foreach($xmlPropertyValue as $xmlRecurChildren) {
+
+                                        $xmlRecurName  = static::getTagName($xmlRecurChildren['name']);
+                                        $xmlRecurValue = $xmlRecurChildren['value'];
+
+                                        if('until' === $xmlRecurName)
+                                            $xmlRecurName = str_replace(
+                                                ['-', ':'],
+                                                '',
+                                                $xmlRecurName
+                                            );
+
+                                        $recur[] = strtoupper($xmlRecurName) .
+                                                   '=' .
+                                                   $xmlRecurValue;
+                                    }
+
+                                    $property->setRawMimeDirValue(
+                                        implode(';', $recur)
+                                    );
+                                  break;
+
+                                case 'time':
+                                case 'utc-offset':
+                                    $property->setValue(
+                                        str_replace(':', '', $xmlPropertyValue)
+                                    );
+                                  break;
+                            }
+                        }
+
+                        $parentComponent->add($property);
                     }
                     break;
 
