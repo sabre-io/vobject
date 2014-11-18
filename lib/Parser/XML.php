@@ -94,7 +94,7 @@ class XML extends Parser {
                                     = $xmlParameter['value'][0]['value'];
                         }
 
-                        $propertyType  = $xmlProperty['value'][0]['name'];
+                        $propertyType  = static::getTagName($xmlProperty['value'][0]['name']);
                         $propertyValue = $xmlProperty['value'][0]['value'];
 
                         $property      = $this->root->createProperty(
