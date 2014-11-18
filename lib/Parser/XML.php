@@ -150,6 +150,8 @@ class XML extends Parser {
             $reader = new SabreXML\Reader();
             $reader->elementMap['{urn:ietf:params:xml:ns:icalendar-2.0}period']
                 = 'Sabre\VObject\Parser\XML\Element\KeyValue';
+            $reader->elementMap['{urn:ietf:params:xml:ns:icalendar-2.0}recur']
+                = 'Sabre\VObject\Parser\XML\Element\KeyValue';
             $reader->xml($input);
             $input  = $reader->parse();
         }
