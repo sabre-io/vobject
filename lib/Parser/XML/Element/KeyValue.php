@@ -16,14 +16,53 @@ use Sabre\XML as SabreXML;
 class KeyValue extends SabreXML\Element\KeyValue {
 
     /**
-     * Get element name.
+     * The deserialize method is called during xml parsing.
      *
-     * @param SabreXML\Reader $reader
-     * @return string
+     * This method is called staticly, this is because in theory this method
+     * may be used as a type of constructor, or factory method.
+     *
+     * Often you want to return an instance of the current class, but you are
+     * free to return other data as well.
+     *
+     * Important note 2: You are responsible for advancing the reader to the
+     * next element. Not doing anything will result in a never-ending loop.
+     *
+     * If you just want to skip parsing for this element altogether, you can
+     * just call $reader->next();
+     *
+     * $reader->parseInnerTree() will parse the entire sub-tree, and advance to
+     * the next element.
+     *
+     * @param XML\Reader $reader
+     * @return mixed
      */
-    static function getElementName(SabreXML\Reader $reader) {
+    static function deserializeXml(SabreXML\Reader $reader) {
 
-        return $reader->localName;
+        // If there's no children, we don't do anything.
+        if ($reader->isEmptyElement) {
+            $reader->next();
+            return [];
+        }
+
+        $values = [];
+        $reader->read();
+
+        do {
+
+            if ($reader->nodeType === SabreXML\Reader::ELEMENT) {
+
+                $name = $reader->localName;
+                $values[$name] = $reader->parseCurrentElement()['value'];
+
+            } else {
+                $reader->read();
+            }
+
+        } while ($reader->nodeType !== SabreXML\Reader::END_ELEMENT);
+
+        $reader->read();
+
+        return $values;
 
     }
 
