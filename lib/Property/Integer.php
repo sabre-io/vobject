@@ -69,4 +69,19 @@ class Integer extends Property {
         return [(int)$this->getValue()];
 
     }
+
+    /**
+     * Sets the XML value, as it would appear in a xCard or xCal object.
+     *
+     * The value must always be an array.
+     *
+     * @param array $value
+     * @return void
+     */
+    function setXmlValue(array $value) {
+
+        $value = array_map('intval', $value);
+        parent::setXmlValue($value);
+
+    }
 }
