@@ -82,7 +82,7 @@ class XML extends Parser {
                         $propertyName       = static::getTagName($xmlProperty['name']);
                         $propertyParameters = [];
 
-                        foreach($xmlProperty['value'] as $xmlPropertyChild) {
+                        foreach($xmlProperty['value'] as $i => $xmlPropertyChild) {
 
                             if('parameters' !== static::getTagName($xmlPropertyChild['name']))
                                 continue;
@@ -92,6 +92,8 @@ class XML extends Parser {
                             foreach($xmlParameters as $xmlParameter)
                                 $propertyParameters[static::getTagName($xmlParameter['name'])]
                                     = $xmlParameter['value'][0]['value'];
+
+                            array_splice($xmlProperty['value'], $i, 1);
                         }
 
                         $propertyType  = static::getTagName($xmlProperty['value'][0]['name']);
