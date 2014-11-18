@@ -96,17 +96,33 @@ class XML extends Parser {
                             array_splice($xmlProperty['value'], $i, 1);
                         }
 
-                        $propertyType  = static::getTagName($xmlProperty['value'][0]['name']);
-                        $propertyValue = $xmlProperty['value'][0]['value'];
+                        switch($propertyName) {
 
-                        $property      = $this->root->createProperty(
+                            case 'request-status':
+                                $propertyType  = 'text';
+                                $propertyValue = [];
+
+                                foreach($xmlProperty['value'] as $xmlRequestChild) {
+
+                                    $propertyValue[static::getTagName($xmlRequestChild['name'])]
+                                        = $xmlRequestChild['value'];
+                                }
+                                break;
+
+                            default:
+                                $propertyType  = static::getTagName($xmlProperty['value'][0]['name']);
+                                $propertyValue = [$xmlProperty['value'][0]['value']];
+                                break;
+                        }
+
+                        $property = $this->root->createProperty(
                             $propertyName,
                             null,
                             $propertyParameters,
                             $propertyType
                         );
                         $parentComponent->add($property);
-                        $property->setXmlValue([$propertyValue]);
+                        $property->setXmlValue($propertyValue);
                     }
                     break;
 
