@@ -80,6 +80,7 @@ class XML extends Parser {
                     foreach($xmlProperties as $xmlProperty) {
 
                         $propertyName       = static::getTagName($xmlProperty['name']);
+                        $propertyType       = 'text';
                         $propertyParameters = [];
 
                         foreach($xmlProperty['value'] as $i => $xmlPropertyChild) {
