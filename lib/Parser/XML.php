@@ -127,7 +127,7 @@ class XML extends Parser {
                     break;
 
                 case 'components':
-                    $components = $children['value'];
+                    $components = $children['value'] ?: [];
 
                     foreach($components as $component) {
 
