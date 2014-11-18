@@ -80,8 +80,9 @@ class XML extends Parser {
                     foreach($xmlProperties as $xmlProperty) {
 
                         $propertyName       = static::getTagName($xmlProperty['name']);
-                        $propertyType       = 'text';
+                        $propertyValue      = [];
                         $propertyParameters = [];
+                        $propertyType       = 'text';
 
                         foreach($xmlProperty['value'] as $i => $xmlPropertyChild) {
 
@@ -113,12 +114,23 @@ class XML extends Parser {
 
                             case 'request-status':
                                 $propertyType  = 'text';
-                                $propertyValue = [];
 
                                 foreach($xmlProperty['value'] as $xmlRequestChild) {
 
                                     $propertyValue[static::getTagName($xmlRequestChild['name'])]
                                         = $xmlRequestChild['value'];
+                                }
+                                break;
+
+                            case 'categories':
+                            case 'resources':
+                            case 'freebusy':
+                            case 'exdate':
+                            case 'rdate':
+                                foreach($xmlProperty['value'] as $specialChild) {
+
+                                    $propertyValue[static::getTagName($specialChild['name'])]
+                                        = $specialChild['value'];
                                 }
                                 break;
 
