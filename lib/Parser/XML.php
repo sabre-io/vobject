@@ -74,231 +74,37 @@ class XML extends Parser {
 
             switch(static::getTagName($children['name'])) {
 
-                // Properties.
                 case 'properties':
                     $xmlProperties = $children['value'];
 
                     foreach($xmlProperties as $xmlProperty) {
 
-                        // Property.
-                        $property            = null;
-                        $propertyName        = static::getTagName($xmlProperty['name']);
-                        $xmlPropertyChildren = $xmlProperty['value'];
-
-//                        // special cases
-//                        switch($propertyName) {
-//
-//                            /*
-//                            case 'categories':
-//                            case 'resources':
-//                            case 'freebusy':
-//                            case 'exdate':
-//                            case 'rdate':
-//                              break;
-//                            */
-//
-//                            case 'geo':
-//                                $latitude = null;
-//                                $longitude = null;
-//
-//                                foreach($xmlPropertyChildren as $xmlGeoChild) {
-//
-//                                    $xmlGeoValue = $xmlGeoChild['value'];
-//
-//                                    switch(static::getTagName($xmlGeoChild['name'])) {
-//
-//                                        case 'latitude':
-//                                            $latitude = $xmlGeoValue;
-//                                          break;
-//
-//                                        case 'longitude':
-//                                            $longitude = $xmlGeoValue;
-//                                          break;
-//
-//                                        default:
-//                                            // TODO: EXCEPTION
-//                                          break;
-//                                    }
-//                                }
-//
-//                                $property->setRawMimeDirValue(
-//                                    $latitude .
-//                                    ';' .
-//                                    $longitude
-//                                );
-//                              break 2;
-//
-//                            case 'request-status':
-//                                $requestChildren = [
-//                                    0 => null,
-//                                    1 => null
-//                                ];
-//
-//                                foreach($xmlPropertyChildren as $xmlRequestChild) {
-//
-//                                    $xmlRequestValue = $xmlRequestChild['value'];
-//
-//                                    switch(static::getTagName($xmlRequestChild['name'])) {
-//
-//                                        case 'code':
-//                                            $requestChildren[0] = $xmlRequestValue;
-//                                          break;
-//
-//                                        case 'description':
-//                                            $requestChildren[1] = $xmlRequestValue;
-//                                          break;
-//
-//                                        case 'data':
-//                                            $requestChildren[2] = $xmlRequestValue;
-//                                          break;
-//
-//                                        default:
-//                                            // TODO: EXCEPTION
-//                                          break;
-//                                    }
-//                                }
-//
-//                                $property->setParts($requestChildren);
-//                              break 2;
-//
-//                            default:
-//                              break;
-//                        }
-
+                        $propertyName       = static::getTagName($xmlProperty['name']);
                         $propertyParameters = [];
 
-                        foreach($xmlPropertyChildren as $xmlPropertyChild) {
+                        foreach($xmlProperty['value'] as $xmlPropertyChild) {
 
-                            $xmlPropertyChildName = static::getTagName($xmlPropertyChild['name']);
-
-                            // Parameters.
-                            if('parameters' === $xmlPropertyChildName) {
-
-                                $xmlParameters = $xmlPropertyChild['value'];
-
-                                foreach($xmlParameters as $xmlParameter)
-                                    $propertyParameters[static::getTagName($xmlParameter['name'])]
-                                        = $xmlParameter['value'][0]['value'];
-
+                            if('parameters' !== static::getTagName($xmlPropertyChild['name']))
                                 continue;
-                            }
 
-                            // Property type and value(s).
-                            $propertyType     = $xmlPropertyChildName;
-                            $xmlPropertyValue = $xmlPropertyChild['value'];
-                            $property         = $this->root->createProperty(
-                                $propertyName,
-                                null,
-                                null,
-                                $propertyType
-                            );
-                            $parentComponent->add($property);
-                            $defaultPropertyClassName
-                                = $this->root->getClassNameForPropertyName(strtoupper($propertyName));
+                            $xmlParameters = $xmlPropertyChild['value'];
 
-                            if(get_class($property) !== $defaultPropertyClassName)
-                                $property->add('VALUE', strtoupper($propertyType));
-
-                            switch($propertyType) {
-
-                                case 'binary':
-                                case 'boolean':
-                                case 'duration':
-                                case 'float':
-                                case 'integer':
-                                    $property->setRawMimeDirValue($xmlPropertyValue);
-                                  break;
-
-                                case 'cal-address':
-                                case 'text':
-                                case 'uri':
-                                    $property->setValue($xmlPropertyValue);
-                                  break;
-
-                                case 'date':
-                                    $property->setValue(DateTime::createFromFormat(
-                                        'Y-m-d',
-                                        $xmlPropertyValue
-                                    ));
-                                  break;
-
-                                case 'date-time':
-                                    $xmlPropertyValue = rtrim($xmlPropertyValue, 'Z');
-                                    $property->setValue(DateTime::createFromFormat(
-                                        'Y-m-d\TH:i:s',
-                                        $xmlPropertyValue
-                                    ));
-                                  break;
-
-                                case 'period':
-                                    $periodStart         = null;
-                                    $periodEndOrDuration = null;
-
-                                    foreach($xmlPropertyValue as $xmlPeriodChild) {
-
-                                        $xmlPeriodValue = $xmlPeriodChild['value'];
-
-                                        switch(static::getTagName($xmlPeriodChild['name'])) {
-
-                                            case 'start':
-                                                $periodStart = $xmlPeriodValue;
-                                              break;
-
-                                            case 'end':
-                                            case 'duration':
-                                                $periodEndOrDuration = $xmlPeriodValue;
-                                              break;
-
-                                            default:
-                                                // TODO: EXCEPTION
-                                              break;
-                                        }
-                                    }
-
-                                    $property->setRawMimeDirValue(
-                                        $periodStart .
-                                        '/' .
-                                        $periodEndOrDuration
-                                    );
-                                  break;
-
-                                case 'recur':
-                                    $recur = [];
-
-                                    foreach($xmlPropertyValue as $xmlRecurChild) {
-
-                                        $xmlRecurName  = static::getTagName($xmlRecurChild['name']);
-                                        $xmlRecurValue = $xmlRecurChild['value'];
-
-                                        if('until' === $xmlRecurName)
-                                            $xmlRecurName = str_replace(
-                                                ['-', ':'],
-                                                '',
-                                                $xmlRecurName
-                                            );
-
-                                        $recur[] = strtoupper($xmlRecurName) .
-                                                   '=' .
-                                                   $xmlRecurValue;
-                                    }
-
-                                    $property->setRawMimeDirValue(
-                                        implode(';', $recur)
-                                    );
-                                  break;
-
-                                case 'time':
-                                case 'utc-offset':
-                                    $property->setValue(
-                                        str_replace(':', '', $xmlPropertyValue)
-                                    );
-                                  break;
-                            }
+                            foreach($xmlParameters as $xmlParameter)
+                                $propertyParameters[static::getTagName($xmlParameter['name'])]
+                                    = $xmlParameter['value'][0]['value'];
                         }
 
-                        if(null !== $property)
-                            foreach($propertyParameters as $name => $value)
-                                $property->add($name, $value);
+                        $propertyType  = $xmlProperty['value'][0]['name'];
+                        $propertyValue = $xmlProperty['value'][0]['value'];
+
+                        $property      = $this->root->createProperty(
+                            $propertyName,
+                            null,
+                            $propertyParameters,
+                            $propertyType
+                        );
+                        $parentComponent->add($property);
+                        $property->setXmlValue([$propertyValue]);
                     }
                     break;
 

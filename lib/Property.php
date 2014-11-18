@@ -257,7 +257,7 @@ abstract class Property extends Node {
     }
 
     /**
-     * Returns the value, in the format it should be encoded for json.
+     * Returns the value, in the format it should be encoded for JSON.
      *
      * This method must always return an array.
      *
@@ -270,7 +270,7 @@ abstract class Property extends Node {
     }
 
     /**
-     * Sets the json value, as it would appear in a jCard or jCal object.
+     * Sets the JSON value, as it would appear in a jCard or jCal object.
      *
      * The value must always be an array.
      *
@@ -289,7 +289,7 @@ abstract class Property extends Node {
 
     /**
      * This method returns an array, with the representation as it should be
-     * encoded in json. This is used to create jCard or jCal documents.
+     * encoded in JSON. This is used to create jCard or jCal documents.
      *
      * @return array
      */
@@ -319,6 +319,43 @@ abstract class Property extends Node {
         );
     }
 
+    /**
+     * Returns the value, in the format it should be encoded for XML.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    function getXmlValue() {
+
+        return $this->getJsonValue();
+
+    }
+
+    /**
+     * Sets the XML value, as it would appear in a xCard or xCal object.
+     *
+     * The value must always be an array.
+     *
+     * @param array $value
+     * @return void
+     */
+    function setXmlValue(array $value) {
+
+        $this->setJsonValue($value);
+
+    }
+
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in XML. This is used to create xCard or xCal documents.
+     *
+     * @return array
+     */
+    function xmlSerialize() {
+
+        return $this->jsonSerialize();
+    }
 
     /**
      * Called when this object is being cast to a string.
