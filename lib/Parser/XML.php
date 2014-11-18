@@ -99,6 +99,18 @@ class XML extends Parser {
 
                         switch($propertyName) {
 
+                            case 'geo':
+                                $propertyType               = 'float';
+                                $propertyValue['latitude']  = 0;
+                                $propertyValue['longitude'] = 0;
+
+                                foreach($xmlProperty['value'] as $xmlRequestChild) {
+
+                                    $propertyValue[static::getTagName($xmlRequestChild['name'])]
+                                        = $xmlRequestChild['value'];
+                                }
+                                break;
+
                             case 'request-status':
                                 $propertyType  = 'text';
                                 $propertyValue = [];
