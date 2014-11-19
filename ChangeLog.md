@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.3.4 (2014-??-??)
+3.3.4 (2014-11-19)
 ------------------
 
 * #154: Converting `ANNIVERSARY` to `X-ANNIVERSARY` and `X-ABDATE` and
