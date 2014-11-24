@@ -71,7 +71,7 @@ abstract class Node
 
     /**
      * This method returns an array, with the representation as it should be
-     * encoded in json. This is used to create jCard or jCal documents.
+     * encoded in JSON. This is used to create jCard or jCal documents.
      *
      * @return array
      */
