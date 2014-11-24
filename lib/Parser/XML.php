@@ -48,6 +48,8 @@ class XML extends Parser {
      *
      * @param resource|string $input
      * @param int|null $options
+     * @throws \Exception
+     * @return Sabre\VObject\Document
      */
     public function parse ( $input = null, $options = null ) {
 
