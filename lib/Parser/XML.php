@@ -5,9 +5,7 @@ namespace Sabre\VObject\Parser;
 use
     Sabre\VObject\Component\VCalendar,
     Sabre\VObject\Component\VCard,
-    Sabre\VObject\EofException,
-    Sabre\XML as SabreXML,
-    DateTime;
+    Sabre\XML as SabreXML;
 
 /**
  * XML Parser.
