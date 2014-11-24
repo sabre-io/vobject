@@ -360,19 +360,34 @@ abstract class Property extends Node {
             if ($parameter->name === 'VALUE') {
                 continue;
             }
-            $parameters[strtolower($parameter->name)] = $parameter->xmlSerialize();
+            $parameters[] = [
+                'name' => strtolower($parameter->name),
+                'value' => [
+                    [
+                        'name' => 'text',
+                        'value' => $parameter->xmlSerialize()
+                    ]
+                ]
+            ];
         }
 
-        return [
+        $properties = [
             'name' => strtolower($this->name),
-            //(object)$parameters,
-            'value' => [
-                [
-                    'name' => strtolower($this->getValueType()),
-                    'value' => $this->getXmlValue()[0]
-                ]
-            ]
+            'value' => []
         ];
+
+        if(!empty($parameters))
+            $properties['value'][] = [
+                'name' => 'parameters',
+                'value' => $parameters
+            ];
+
+        $properties['value'][] = [
+            'name' => strtolower($this->getValueType()),
+            'value' => $this->getXmlValue()[0]
+        ];
+
+        return $properties;
 
     }
 
