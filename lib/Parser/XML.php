@@ -199,9 +199,9 @@ class XML extends Parser {
         if(is_string($input)) {
 
             $reader = new SabreXML\Reader();
-            $reader->elementMap['{urn:ietf:params:xml:ns:icalendar-2.0}period']
+            $reader->elementMap['{' . self::XCAL_NAMESPACE . '}period']
                 = 'Sabre\VObject\Parser\XML\Element\KeyValue';
-            $reader->elementMap['{urn:ietf:params:xml:ns:icalendar-2.0}recur']
+            $reader->elementMap['{' . self::XCAL_NAMESPACE . '}recur']
                 = 'Sabre\VObject\Parser\XML\Element\KeyValue';
             $reader->xml($input);
             $input  = $reader->parse();
