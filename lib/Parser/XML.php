@@ -51,10 +51,13 @@ class XML extends Parser {
      * @throws \Exception
      * @return Sabre\VObject\Document
      */
-    public function parse ( $input = null, $options = 0 ) {
+    public function parse($input = null, $options = 0) {
 
         if(!is_null($input))
             $this->setInput($input);
+
+        if(!is_null($options))
+            $this->options = $options;
 
         if(is_null($this->input))
             throw new EofException('End of input stream, or no input supplied');
@@ -63,7 +66,7 @@ class XML extends Parser {
 
             $this->root = new VCalendar([], false);
             $this->pointer = &$this->input['value'][0];
-            $this->parseVcalendarComponents($this->root, $options);
+            $this->parseVcalendarComponents($this->root);
         }
         else
             throw new \Exception('Unsupported XML standard');
@@ -75,9 +78,8 @@ class XML extends Parser {
      * Parse a vCalendar.
      *
      * @param Sabre\VObject\Component $parentComponent
-     * @param int|null $options
      */
-    protected function parseVcalendarComponents ( Component $parentComponent, $options = null ) {
+    protected function parseVcalendarComponents(Component $parentComponent) {
 
         foreach($this->pointer['value'] as $children) {
 
@@ -171,17 +173,16 @@ class XML extends Parser {
                         );
 
                         $this->pointer = &$component;
-                        $this->parseVcalendarComponents(
-                            $currentComponent,
-                            $options
-                        );
+                        $this->parseVcalendarComponents($currentComponent);
 
                         $parentComponent->add($currentComponent);
                     }
                     break;
 
                 default:
-                    throw new \Exception('XML is not well-formed: unexpected tag ' . $children['name']);
+                    if(!($this->options & self::OPTION_FORGIVING)) {
+                        throw new \Exception('XML is not well-formed: unexpected tag ' . $children['name']);
+                    }
             }
         }
     }
