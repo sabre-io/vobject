@@ -72,13 +72,13 @@ class XML extends Parser {
      */
     public function parse($input = null, $options = 0) {
 
-        if(!is_null($input))
+        if (!is_null($input))
             $this->setInput($input);
 
-        if(!is_null($options))
+        if (0 === $options)
             $this->options = $options;
 
-        if(is_null($this->input))
+        if (is_null($this->input))
             throw new EofException('End of input stream, or no input supplied');
 
         if ($this->input['name'] === '{' . self::XCAL_NAMESPACE . '}icalendar') {
