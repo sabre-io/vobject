@@ -44,6 +44,25 @@ class XML extends Parser {
     protected $root;
 
     /**
+     * Creates the parser.
+     *
+     * Optionally, it's possible to parse the input stream here.
+     *
+     * @param mixed $input
+     * @param int $options Any parser options (OPTION constants).
+     * @return void
+     */
+    public function __construct($input = null, $options = 0) {
+
+        if(0 === $options) {
+            $options = parent::OPTION_FORGIVING;
+        }
+
+        parent::__construct($input, $options);
+
+    }
+
+    /**
      * Parse xCal or xCard.
      *
      * @param resource|string $input
