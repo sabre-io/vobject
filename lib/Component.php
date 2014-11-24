@@ -346,6 +346,33 @@ class Component extends Node {
     }
 
     /**
+     * This method returns an array, with the representation as it should be
+     * encoded in XML. This is used to create xCard or xCal documents.
+     *
+     * @return array
+     */
+    function xmlSerialize() {
+
+        $components = [];
+        $properties = [];
+
+        foreach($this->children as $child) {
+            if ($child instanceof Component) {
+                $components[] = $child->xmlSerialize();
+            } else {
+                $properties[] = $child->xmlSerialize();
+            }
+        }
+
+        return [
+            strtolower($this->name),
+            $properties,
+            $components
+        ];
+
+    }
+
+    /**
      * This method should return a list of default property values.
      *
      * @return array
