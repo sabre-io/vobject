@@ -190,7 +190,7 @@ class XML extends Parser {
      * @param resource|string $input
      * @return void
      */
-    public function setInput ( $input ) {
+    public function setInput($input) {
 
         if(is_resource($input))
             $input = stream_get_contents($input);
