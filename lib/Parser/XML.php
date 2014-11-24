@@ -179,7 +179,7 @@ class XML extends Parser {
                     break;
 
                 default:
-                    throw new \Exception('Oops');
+                    throw new \Exception('XML is not well-formed: unexpected tag ' . $children['name']);
             }
         }
     }
