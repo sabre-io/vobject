@@ -47,11 +47,11 @@ class XML extends Parser {
      * Parse xCal or xCard.
      *
      * @param resource|string $input
-     * @param int|null $options
+     * @param int $options
      * @throws \Exception
      * @return Sabre\VObject\Document
      */
-    public function parse ( $input = null, $options = null ) {
+    public function parse ( $input = null, $options = 0 ) {
 
         if(!is_null($input))
             $this->setInput($input);

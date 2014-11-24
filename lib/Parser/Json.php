@@ -42,10 +42,10 @@ class Json extends Parser {
      * If either input or options are not supplied, the defaults will be used.
      *
      * @param resource|string|array|null $input
-     * @param int|null $options
+     * @param int $options
      * @return Sabre\VObject\Document
      */
-    public function parse($input = null, $options = null) {
+    public function parse($input = null, $options = 0) {
 
         if (!is_null($input)) {
             $this->setInput($input);
