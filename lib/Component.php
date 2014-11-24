@@ -358,17 +358,30 @@ class Component extends Node {
 
         foreach($this->children as $child) {
             if ($child instanceof Component) {
-                $components[] = $child->xmlSerialize();
+                $components[] = $child->xmlSerialize()[0];
             } else {
                 $properties[] = $child->xmlSerialize();
             }
         }
 
-        return [
-            strtolower($this->name),
-            $properties,
-            $components
+        $out = [
+            'name' => strtolower($this->name),
+            'value' => []
         ];
+
+        if(!empty($properties))
+            $out['value'][] = [
+                'name' => 'properties',
+                'value' => $properties
+            ];
+
+        if(!empty($components))
+            $out['value'][] = [
+                'name' => 'components',
+                'value' => $components
+            ];
+
+        return [$out];
 
     }
 

@@ -354,7 +354,26 @@ abstract class Property extends Node {
      */
     function xmlSerialize() {
 
-        return $this->jsonSerialize();
+        $parameters = [];
+
+        foreach($this->parameters as $parameter) {
+            if ($parameter->name === 'VALUE') {
+                continue;
+            }
+            $parameters[strtolower($parameter->name)] = $parameter->xmlSerialize();
+        }
+
+        return [
+            'name' => strtolower($this->name),
+            //(object)$parameters,
+            'value' => [
+                [
+                    'name' => strtolower($this->getValueType()),
+                    'value' => $this->getXmlValue()[0]
+                ]
+            ]
+        ];
+
     }
 
     /**
