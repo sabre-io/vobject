@@ -54,7 +54,7 @@ class XML extends Parser {
      */
     public function __construct($input = null, $options = 0) {
 
-        if(0 === $options) {
+        if (0 === $options) {
             $options = parent::OPTION_FORGIVING;
         }
 
