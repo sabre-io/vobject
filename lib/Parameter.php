@@ -346,6 +346,18 @@ class Parameter extends Node {
     }
 
     /**
+     * This method returns an array, with the representation as it should be
+     * encoded in XML. This is used to create xCard or xCal documents.
+     *
+     * @return array
+     */
+    function xmlSerialize() {
+
+        return $this->value;
+
+    }
+
+    /**
      * Called when this object is being cast to a string
      *
      * @return string
