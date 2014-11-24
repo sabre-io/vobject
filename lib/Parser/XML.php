@@ -66,7 +66,7 @@ class XML extends Parser {
             $this->parseVcalendarComponents($this->root, $options);
         }
         else
-            throw new \Exception('Arg');
+            throw new \Exception('Unsupported XML standard');
 
         return $this->root;
     }
