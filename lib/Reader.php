@@ -3,7 +3,7 @@
 namespace Sabre\VObject;
 
 /**
- * iCalendar/vCard/jCal/jCard reader object.
+ * iCalendar/vCard/jCal/jCard/xCal/xCard reader object.
  *
  * This object provides a few (static) convenience methods to quickly access
  * the parsers.
