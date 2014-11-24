@@ -77,6 +77,14 @@ abstract class Node
      */
     abstract function jsonSerialize();
 
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in XML. This is used to create xCard or xCal documents.
+     *
+     * @return array
+     */
+    abstract function xmlSerialize();
+
     /* {{{ IteratorAggregator interface */
 
     /**
