@@ -208,7 +208,6 @@ class XML extends Parser {
 
         $this->input = $input;
 
-        return;
     }
 
     /**
