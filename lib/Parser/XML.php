@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Parser;
 
 use
+    Sabre\VObject\Component,
     Sabre\VObject\Component\VCalendar,
     Sabre\VObject\Component\VCard,
     Sabre\XML as SabreXML;
@@ -74,7 +75,7 @@ class XML extends Parser {
      * @param Sabre\VObject\Component $parentComponent
      * @param int|null $options
      */
-    protected function parseVcalendarComponents ( $parentComponent, $options = null ) {
+    protected function parseVcalendarComponents ( Component $parentComponent, $options = null ) {
 
         foreach($this->pointer['value'] as $children) {
 
