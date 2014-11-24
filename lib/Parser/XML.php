@@ -45,8 +45,10 @@ class XML extends Parser {
     protected $root;
 
     /**
+     * Parse xCal or xCard.
      *
      * @param resource|string $input
+     * @param int|null $options
      */
     public function parse ( $input = null, $options = null ) {
 
@@ -68,6 +70,12 @@ class XML extends Parser {
         return $this->root;
     }
 
+    /**
+     * Parse a vCalendar.
+     *
+     * @param Sabre\VObject\Component $parentComponent
+     * @param int|null $options
+     */
     protected function parseVcalendarComponents ( $parentComponent, $options = null ) {
 
         foreach($this->pointer['value'] as $children) {
@@ -204,6 +212,12 @@ class XML extends Parser {
         return;
     }
 
+    /**
+     * Get tag name from a Clark notation.
+     *
+     * @param string $clarkedTagName
+     * @return string
+     */
     static protected function getTagName ( $clarkedTagName ) {
 
         list($namespace, $tagName) = SabreXML\Util::parseClarkNotation($clarkedTagName);
