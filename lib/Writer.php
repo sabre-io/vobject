@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject;
 
-use Sabre\XML;
+use Sabre\Xml;
 
 /**
  * iCalendar/vCard/jCal/jCard/xCal/xCard writer object.
@@ -47,9 +47,9 @@ class Writer {
      * @param Component $component
      * @return string
      */
-    static public function writeXML(Component $component) {
+    static public function writeXml(Component $component) {
 
-        $writer = new XML\Writer();
+        $writer = new Xml\Writer();
         $writer->openMemory();
         $writer->startDocument('1.0', 'utf-8');
 

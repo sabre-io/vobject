@@ -6,7 +6,7 @@ use
     Sabre\VObject\Component,
     Sabre\VObject\Component\VCalendar,
     Sabre\VObject\Component\VCard,
-    Sabre\XML as SabreXML;
+    Sabre\Xml as SabreXml;
 
 /**
  * XML Parser.
@@ -219,7 +219,7 @@ class XML extends Parser {
 
         if(is_string($input)) {
 
-            $reader = new SabreXML\Reader();
+            $reader = new SabreXml\Reader();
             $reader->elementMap['{' . self::XCAL_NAMESPACE . '}period']
                 = 'Sabre\VObject\Parser\XML\Element\KeyValue';
             $reader->elementMap['{' . self::XCAL_NAMESPACE . '}recur']
@@ -240,7 +240,7 @@ class XML extends Parser {
      */
     static protected function getTagName ( $clarkedTagName ) {
 
-        list($namespace, $tagName) = SabreXML\Util::parseClarkNotation($clarkedTagName);
+        list($namespace, $tagName) = SabreXml\Util::parseClarkNotation($clarkedTagName);
 
         return $tagName;
     }

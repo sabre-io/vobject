@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\Parser\XML\Element;
 
-use Sabre\XML as SabreXML;
+use Sabre\Xml as SabreXml;
 
 /**
  * Our own sabre/xml key-value element.
@@ -13,7 +13,7 @@ use Sabre\XML as SabreXML;
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  */
-class KeyValue extends SabreXML\Element\KeyValue {
+class KeyValue extends SabreXml\Element\KeyValue {
 
     /**
      * The deserialize method is called during xml parsing.
@@ -36,7 +36,7 @@ class KeyValue extends SabreXML\Element\KeyValue {
      * @param XML\Reader $reader
      * @return mixed
      */
-    static function xmlDeserialize(SabreXML\Reader $reader) {
+    static function xmlDeserialize(SabreXml\Reader $reader) {
 
         // If there's no children, we don't do anything.
         if ($reader->isEmptyElement) {
@@ -49,7 +49,7 @@ class KeyValue extends SabreXML\Element\KeyValue {
 
         do {
 
-            if ($reader->nodeType === SabreXML\Reader::ELEMENT) {
+            if ($reader->nodeType === SabreXml\Reader::ELEMENT) {
 
                 $name = $reader->localName;
                 $values[$name] = $reader->parseCurrentElement()['value'];
@@ -58,7 +58,7 @@ class KeyValue extends SabreXML\Element\KeyValue {
                 $reader->read();
             }
 
-        } while ($reader->nodeType !== SabreXML\Reader::END_ELEMENT);
+        } while ($reader->nodeType !== SabreXml\Reader::END_ELEMENT);
 
         $reader->read();
 
