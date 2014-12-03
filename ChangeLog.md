@@ -13,7 +13,7 @@ ChangeLog
 * #161: Simplified `ElementList` by extending `ArrayIterator`.
 
 
-3.3.4 (2014-??-??)
+3.3.4 (2014-11-19)
 ------------------
 
 * #154: Converting `ANNIVERSARY` to `X-ANNIVERSARY` and `X-ABDATE` and
@@ -27,6 +27,7 @@ ChangeLog
   floating times or all-day events.
 * #159: Master events will no longer get a `RECURRENCE-ID` when expanding.
 * #159: `RECURRENCE-ID` for all-day events will now be correct when expanding.
+* #163: Added a `getTimeZone()` method to `VTIMEZONE` components.
 
 
 3.3.3 (2014-10-09)
