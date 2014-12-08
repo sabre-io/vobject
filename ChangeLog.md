@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+3.3.5 (2014-??-??)
+------------------
+
+* #168: Expanding calendars now removes objects with recurrence rules that
+  don't have a valid recurrence instance.
+
+
 3.3.4 (2014-11-19)
 ------------------
 
@@ -33,6 +40,7 @@ ChangeLog
 * Support for "Line Islands Standard Time" windows timezone.
 * #154: Correctly work around vCard parameters that have a value but no name.
 
+
 3.3.2 (2014-09-19)
 ------------------
 
@@ -53,6 +61,7 @@ ChangeLog
 * #127: Attendees who delete recurring event instances events they had already
   declined earlier will no longer generate another reply.
 * #125: Send CANCEL messages when ORGANIZER property gets deleted.
+
 
 3.3.1 (2014-08-18)
 ------------------

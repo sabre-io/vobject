@@ -268,6 +268,28 @@ ICS;
 
         $tests[] = array($input, $output, 'America/Argentina/Buenos_Aires', '2014-01-01', '2015-01-01');
 
+        // Recurrence rule with no valid instances
+        $input = 'BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:2.0
+BEGIN:VEVENT
+UID:bla6
+SUMMARY:Testing RRule3
+DTSTART:20111125T120000Z
+DTEND:20111125T130000Z
+RRULE:FREQ=WEEKLY;COUNT=1
+EXDATE:20111125T120000Z
+END:VEVENT
+END:VCALENDAR
+';
+
+        $output = 'BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:2.0
+END:VCALENDAR
+';
+
+        $tests[] = array($input, $output);
         return $tests;
 
     }
