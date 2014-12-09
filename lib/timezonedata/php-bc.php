@@ -14,7 +14,7 @@
  * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @license http://sabre.io/license/ Modified BSD License
  */
- return array(
+return array(
     'Africa/Asmera',
     'Africa/Timbuktu',
     'America/Argentina/ComodRivadavia',
