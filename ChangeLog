@@ -1,3 +1,7 @@
+2.1.6-stable (2014-12-10)
+	* Fixed: Minor change to make sure that unittests succeed on every PHP
+ 	  version.
+
 2.1.5-stable (2014-06-03)
 	* Fixed: #94: Better parameter escaping.
 	* Changed: Documentation cleanups.
