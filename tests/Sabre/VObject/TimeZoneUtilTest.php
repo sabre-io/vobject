@@ -294,12 +294,12 @@ END:VCALENDAR
 HI;
 
         $tz = TimeZoneUtil::getTimeZone('/freeassociation.sourceforge.net/Tzfile/SystemV/EST5EDT', Reader::read($vobj), true);
-        if (version_compare(PHP_VERSION, '5.5.10', '>=')) {
-            $ex = new \DateTimeZone('America/New_York');
-        } else {
-            $ex = new \DateTimeZone('EST5EDT');
-        }
-        $this->assertEquals($ex->getName(), $tz->getName());
+
+        // Which timezone this maps to depends on the PHP version. This has
+        // changed a number of times in PHP's recent history.
+    $this->assertTrue(
+            $tz->getName() === 'EST5EDT' || $tz->getName() === 'America/New_York'
+        );
 
     }
 
