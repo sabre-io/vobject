@@ -351,6 +351,12 @@ ChangeLog
   add() method.
 
 
+2.1.6 (2014-12-10)
+------------------
+
+* Fixed: Minor change to make sure that unittests succeed on every PHP version.
+
+
 2.1.5 (2014-06-03)
 ------------------
 
