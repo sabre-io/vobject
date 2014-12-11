@@ -5,7 +5,6 @@ namespace Sabre\VObject\Property\ICalendar;
 use DateTimeInterface;
 use DateTimeZone;
 use Sabre\VObject\Property;
-use Sabre\VObject\Parser\MimeDir;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\TimeZoneUtil;
 

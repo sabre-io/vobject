@@ -13,6 +13,13 @@ ChangeLog
 * #161: Simplified `ElementList` by extending `ArrayIterator`.
 
 
+3.3.5 (2014-??-??)
+------------------
+
+* #168: Expanding calendars now removes objects with recurrence rules that
+  don't have a valid recurrence instance.
+
+
 3.3.4 (2014-11-19)
 ------------------
 
@@ -354,6 +361,12 @@ ChangeLog
   VERSION and CALSCALE.
 * Added: You can add new sub-components much quicker with the magic setters, and
   add() method.
+
+
+2.1.6 (2014-12-10)
+------------------
+
+* Fixed: Minor change to make sure that unittests succeed on every PHP version.
 
 
 2.1.5 (2014-06-03)

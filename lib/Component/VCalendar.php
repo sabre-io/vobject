@@ -7,6 +7,7 @@ use DateTimeZone;
 use Sabre\VObject;
 use Sabre\VObject\Component;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\NoInstancesException;
 
 /**
  * The VCalendar component
@@ -268,12 +269,22 @@ class VCalendar extends VObject\Document {
                 continue;
             }
 
+
+
             $uid = (string)$vevent->uid;
             if (!$uid) {
                 throw new \LogicException('Event did not have a UID!');
             }
 
-            $it = new EventIterator($this, $vevent->uid, $timeZone);
+            try {
+                $it = new EventIterator($this, $vevent->uid, $timeZone);
+            } catch (NoInstancesException $e) {
+                // This event is recurring, but it doesn't have a single
+                // instance. We are skipping this event from the output
+                // entirely.
+                unset($this->children[$key]);
+                continue;
+            }
             $it->fastForward($start);
 
             while($it->valid() && $it->getDTStart() < $end) {
@@ -286,6 +297,7 @@ class VCalendar extends VObject\Document {
                 $it->next();
 
             }
+
             unset($this->children[$key]);
 
         }

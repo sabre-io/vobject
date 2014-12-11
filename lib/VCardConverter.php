@@ -96,7 +96,7 @@ class VCardConverter {
 
             if ($property instanceof Property\Uri && in_array($property->name, ['PHOTO','LOGO','SOUND'])) {
 
-                $newProperty = $this->convertUriToBinary($output, $newProperty, $parameters);
+                $newProperty = $this->convertUriToBinary($output, $newProperty);
 
             } elseif ($property instanceof Property\VCard\DateAndOrTime) {
 
@@ -319,11 +319,9 @@ class VCardConverter {
      *
      * @param Component\VCard $output
      * @param Property\Uri $property The input property.
-     * @param $parameters List of parameters that will eventually be added to
-     *                    the new property.
      * @return Property\Binary|null
      */
-    protected function convertUriToBinary(Component\VCard $output, Property\Uri $newProperty, array &$parameters) {
+    protected function convertUriToBinary(Component\VCard $output, Property\Uri $newProperty) {
 
         $value = $newProperty->getValue();
 
