@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject;
 
-class IssueXXTest extends \PHPUnit_Framework_TestCase {
+class Issue173Test extends \PHPUnit_Framework_TestCase {
 
   function testConvert() {
 
