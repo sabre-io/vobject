@@ -232,7 +232,11 @@ class VCard extends VObject\Document {
         $uid = $this->select('UID');
         if (($options & self::REPAIR) && count($uid) === 0) {
             $this->UID = VObject\UUIDUtil::getUUID();
-            $repaired = true;
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'The UID property must appear in the VCARD component exactly 1 time',
+                'node' => $this,
+            );
         }
         $fn = $this->select('FN');
         if (count($fn)!==1) {
