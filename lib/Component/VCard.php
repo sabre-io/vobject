@@ -229,6 +229,11 @@ class VCard extends VObject\Document {
             }
 
         }
+        $uid = $this->select('UID');
+        if (($options & self::REPAIR) && count($uid) === 0) {
+            $this->UID = VObject\UUIDUtil::getUUID();
+            $repaired = true;
+        }
         $fn = $this->select('FN');
         if (count($fn)!==1) {
 
