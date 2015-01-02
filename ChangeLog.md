@@ -140,6 +140,7 @@ ChangeLog
 
 3.2.1 (2014-05-03)
 ------------------
+
 * Minor tweak to make the unittests run with the latest hhvm on travis.
 * Updated timezone definitions.
 * Updated copyright links to point to http://sabre.io/
@@ -173,14 +174,9 @@ ChangeLog
   disabled and an invalid file is read.
 
 
-3.1.5 (2014-??-??)
-------------------
-* Updated: Some docblocks and other documentation. Made the unittests succeed
-  on recent php versions.
-
-
 3.1.4 (2014-03-30)
 ------------------
+
 * Fixed: Issue #87: Several compatibility fixes related to timezone handling
   changes in PHP 5.5.10.
 

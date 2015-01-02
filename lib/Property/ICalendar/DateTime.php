@@ -19,7 +19,7 @@ use Sabre\VObject\TimeZoneUtil;
  * cases represent a DATE value. This is because it's a common usecase to be
  * able to change a DATE-TIME into a DATE.
  *
- * @copyright Copyright (C) 2007-2014 fruux GmbH. All rights reserved.
+ * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
