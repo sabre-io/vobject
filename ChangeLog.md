@@ -6,6 +6,8 @@ ChangeLog
 
 * #168: Expanding calendars now removes objects with recurrence rules that
   don't have a valid recurrence instance.
+* #177: SCHEDULE-STATUS should not contain a reason phrase, only a status
+  code.
 
 
 3.3.4 (2014-11-19)

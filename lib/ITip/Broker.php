@@ -341,7 +341,7 @@ class Broker {
             return null;
         }
         $instances = array();
-        $requestStatus = '2.0;Success';
+        $requestStatus = '2.0';
 
         // Finding all the instances the attendee replied to.
         foreach($itipMessage->message->VEVENT as $vevent) {
@@ -350,6 +350,7 @@ class Broker {
             $instances[$recurId] = $attendee['PARTSTAT']->getValue();
             if (isset($vevent->{'REQUEST-STATUS'})) {
                 $requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
+                list($requestStatus) = explode(';', $requestStatus);
             }
         }
 
