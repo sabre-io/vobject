@@ -11,7 +11,7 @@ use
  * This component represents the BEGIN:VCARD and END:VCARD found in every
  * vcard.
  *
- * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
@@ -228,6 +228,15 @@ class VCard extends VObject\Document {
                 }
             }
 
+        }
+        $uid = $this->select('UID');
+        if (($options & self::REPAIR) && count($uid) === 0) {
+            $this->UID = VObject\UUIDUtil::getUUID();
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'The UID property must appear in the VCARD component exactly 1 time',
+                'node' => $this,
+            );
         }
         $fn = $this->select('FN');
         if (count($fn)!==1) {
