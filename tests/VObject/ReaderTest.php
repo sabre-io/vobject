@@ -437,7 +437,7 @@ ICS;
 
     public function testReadBOM() {
 
-        $data = "﻿BEGIN:VCALENDAR\r\nEND:VCALENDAR";
+        $data = chr(0xef) . chr(0xbb) . chr(0xbf) . "BEGIN:VCALENDAR\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
