@@ -435,4 +435,15 @@ ICS;
 
     }
 
+    public function testReadBOM() {
+
+        $data = "﻿BEGIN:VCALENDAR\r\nEND:VCALENDAR";
+        $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCALENDAR', $result->name);
+        $this->assertEquals(0, count($result->children));
+
+    }
+
 }
