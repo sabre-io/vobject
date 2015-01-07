@@ -100,6 +100,16 @@ class MimeDir extends Parser {
     protected function parseDocument() {
 
         $line = $this->readLine();
+
+        // BOM is ZERO WIDTH NO-BREAK SPACE (U+FEFF).
+        // It's 0xEF 0xBB 0xBF in UTF-8 hex.
+        if (   3 <= strlen($line)
+            && ord($line[0]) === 0xef
+            && ord($line[1]) === 0xbb
+            && ord($line[2]) === 0xbf) {
+            $line = substr($line, 3);
+        }
+
         switch(strtoupper($line)) {
             case 'BEGIN:VCALENDAR' :
                 $class = isset(VCalendar::$componentMap['VCALENDAR'])
