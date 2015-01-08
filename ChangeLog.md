@@ -8,6 +8,7 @@ ChangeLog
   don't have a valid recurrence instance.
 * #177: SCHEDULE-STATUS should not contain a reason phrase, only a status
   code.
+* #175: Parser can now read and skip the UTF-8 BOM.
 
 
 3.3.4 (2014-11-19)
