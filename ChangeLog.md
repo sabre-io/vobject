@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.3.5 (2014-??-??)
+3.3.5 (2015-01-09)
 ------------------
 
 * #168: Expanding calendars now removes objects with recurrence rules that
