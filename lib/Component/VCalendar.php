@@ -409,7 +409,7 @@ class VCalendar extends VObject\Document {
 
         $componentsFound = 0;
 
-        $componentTypes = [];
+        $componentTypes = array();
 
         foreach($this->children as $child) {
             if($child instanceof Component) {
