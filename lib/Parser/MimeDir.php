@@ -12,9 +12,11 @@ use
 /**
  * MimeDir parser.
  *
- * This class parses iCalendar/vCard files and returns an array.
+ * This class parses iCalendar 2.0 and vCard 2.1, 3.0 and 4.0 files. This
+ * parser will return one of the following two objects from the parse method:
  *
- * The array is identical to the format jCard/jCal use.
+ * Sabre\VObject\Component\VCalendar
+ * Sabre\VObject\Component\VCard
  *
  * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)

@@ -208,7 +208,7 @@ class VCardConverter {
                     $label = $input->{$property->group . '.X-ABLABEL'};
 
                     // We only support converting anniversaries.
-                    if ($label->getValue()!=='_$!<Anniversary>!$_') {
+                    if (!$label || $label->getValue()!=='_$!<Anniversary>!$_') {
                         break;
                     }
 

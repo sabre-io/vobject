@@ -13,8 +13,29 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
 
     /**
      * The following constants are used by the validate() method.
+     *
+     * If REPAIR is set, the validator will attempt to repair any broken data
+     * (if possible).
      */
     const REPAIR = 1;
+
+    /**
+     * If this option is set, the validator will operate on the vcards on the
+     * assumption that the vcards need to be valid for CardDAV.
+     *
+     * This means for example that the UID is required, whereas it is not for
+     * regular vcards.
+     */
+    const PROFILE_CARDDAV = 2;
+
+    /**
+     * If this option is set, the validator will operate on iCalendar objects
+     * on the assumption that the vcards need to be valid for CalDAV.
+     *
+     * This means for example that calendars can only contain objects with
+     * identical component types and UIDs.
+     */
+    const PROFILE_CALDAV = 4;
 
     /**
      * Reference to the parent object, if this is not the top object.

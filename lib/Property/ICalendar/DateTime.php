@@ -111,6 +111,22 @@ class DateTime extends Property {
     }
 
     /**
+     * Returns true if this is a floating DATE or DATE-TIME.
+     *
+     * Note that DATE is always floating.
+     */
+    public function isFloating() {
+
+        return
+            !$this->hasTime() ||
+            (
+                !isset($this['TZID']) &&
+                strpos($this->getValue(),'Z')===false
+            );
+
+    }
+
+    /**
      * Returns a date-time value.
      *
      * Note that if this property contained more than 1 date-time, only the
@@ -260,9 +276,10 @@ class DateTime extends Property {
 
         $dts = $this->getDateTimes();
         $hasTime = $this->hasTime();
+        $isFloating = $this->isFloating();
 
         $tz = $dts[0]->getTimeZone();
-        $isUtc = in_array($tz->getName() , ['UTC', 'GMT', 'Z']);
+        $isUtc = $isFloating ? false : in_array($tz->getName() , ['UTC', 'GMT', 'Z']);
 
         return array_map(
             function(DateTimeInterface $dt) use ($hasTime, $isUtc) {

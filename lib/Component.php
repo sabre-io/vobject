@@ -502,6 +502,8 @@ class Component extends Node {
      *
      * The following options are supported:
      *   Node::REPAIR - May attempt to automatically repair the problem.
+     *   Node::PROFILE_CARDDAV - Validate the vCard for CardDAV purposes.
+     *   Node::PROFILE_CALDAV - Validate the iCalendar for CalDAV purposes.
      *
      * This method returns an array with detected problems.
      * Every element has the following properties:
@@ -511,9 +513,9 @@ class Component extends Node {
      *  * node - A reference to the problematic node.
      *
      * The level means:
-     *   1 - The issue was repaired (only happens if REPAIR was turned on)
-     *   2 - An inconsequential issue
-     *   3 - A severe issue.
+     *   1 - The issue was repaired (only happens if REPAIR was turned on).
+     *   2 - A warning.
+     *   3 - An error.
      *
      * @param int $options
      * @return array
