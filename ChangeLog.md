@@ -13,6 +13,10 @@ ChangeLog
 * #179: Fixed jCal serialization of floating `DATE-TIME` properties.
 * #173: vCard converter failed for `X-ABDATE` properties that had no
   `X-ABLABEL`.
+* #180: Added `PROFILE_CALDAV` and `PROFILE_CARDDAV` to enable validation rules
+  specific for CalDAV/CardDAV servers.
+* #176: A missing `UID` is no longer an error, but a warning for the vCard
+  validator, unless `PROFILE_CARDDAV` is specified.
 
 
 3.3.4 (2014-11-19)
