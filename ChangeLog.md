@@ -11,6 +11,8 @@ ChangeLog
 * #175: Parser can now read and skip the UTF-8 BOM.
 * #179: Added `isFloating` to `DATE-TIME` properties.
 * #179: Fixed jCal serialization of floating `DATE-TIME` properties.
+* #173: vCard converter failed for `X-ABDATE` properties that had no
+  `X-ABLABEL`.
 
 
 3.3.4 (2014-11-19)
