@@ -24,7 +24,7 @@ class VCard extends VObject\Document {
      *
      * @var string
      */
-    static public $defaultName = 'VCARD';
+    static $defaultName = 'VCARD';
 
     /**
      * Caching the version number
@@ -38,7 +38,7 @@ class VCard extends VObject\Document {
      *
      * @var array
      */
-    static public $valueMap = array(
+    static $valueMap = array(
         'BINARY'           => 'Sabre\\VObject\\Property\\Binary',
         'BOOLEAN'          => 'Sabre\\VObject\\Property\\Boolean',
         'CONTENT-ID'       => 'Sabre\\VObject\\Property\\FlatText',   // vCard 2.1 only
@@ -62,7 +62,7 @@ class VCard extends VObject\Document {
      *
      * @var array
      */
-    static public $propertyMap = array(
+    static $propertyMap = array(
 
         // vCard 2.1 properties and up
         'N'       => 'Sabre\\VObject\\Property\\Text',
@@ -131,7 +131,7 @@ class VCard extends VObject\Document {
      *
      * @return void
      */
-    public function getDocumentType() {
+    function getDocumentType() {
 
         if (!$this->version) {
             $version = (string)$this->VERSION;
@@ -169,7 +169,7 @@ class VCard extends VObject\Document {
      * @param int $target
      * @return VCard
      */
-    public function convert($target) {
+    function convert($target) {
 
         $converter = new VObject\VCardConverter();
         return $converter->convert($this, $target);
@@ -204,7 +204,7 @@ class VCard extends VObject\Document {
      * @param int $options
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
         $warnings = array();
 
@@ -227,17 +227,37 @@ class VCard extends VObject\Document {
                     $this->VERSION = $versionMap[self::DEFAULT_VERSION];
                 }
             }
+            if ($version === '2.1' && ($options & self::PROFILE_CARDDAV)) {
+                $warnings[] = array(
+                    'level' => 3,
+                    'message' => 'CardDAV servers are not allowed to accept vCard 2.1.',
+                    'node' => $this,
+                );
+            }
 
         }
         $uid = $this->select('UID');
-        if (($options & self::REPAIR) && count($uid) === 0) {
-            $this->UID = VObject\UUIDUtil::getUUID();
+        if (count($uid) === 0) {
+            if ($options & self::PROFILE_CARDDAV) {
+                // Required for CardDAV
+                $warningLevel = 3;
+                $message = 'vCards on CardDAV servers MUST have a UID property.';
+            } else {
+                // Not required for regular vcards
+                $warningLevel = 2;
+                $message = 'Adding a UID to a vCard property is recommended.';
+            }
+            if ($options & self::REPAIR) {
+                $this->UID = VObject\UUIDUtil::getUUID();
+                $warningLevel = 1;
+            }
             $warnings[] = array(
-                'level' => 1,
-                'message' => 'The UID property must appear in the VCARD component exactly 1 time',
+                'level' => $warningLevel,
+                'message' => $message,
                 'node' => $this,
             );
         }
+
         $fn = $this->select('FN');
         if (count($fn)!==1) {
 
@@ -289,7 +309,7 @@ class VCard extends VObject\Document {
      *
      * @var array
      */
-    public function getValidationRules() {
+    function getValidationRules() {
 
         return array(
             'ADR'          => '*',
@@ -331,16 +351,7 @@ class VCard extends VObject\Document {
             // validate function, which may also try to repair it.
             // 'FN'           => '+',
 
-            // vcard actually specifies this as '?', but in most cases not
-            // having a UID is highly undesirable. So here we're going against
-            // the spec and make it required.
-            //
-            // I would be interested to hear if this is problematic for
-            // anyone, or at least a usecase where this is undesirable.
-            //
-            // If so, I may have to add a facility that allows us to check
-            // specifically for validity in the context of 'DAV'.
-            'UID'          => '1',
+            'UID'          => '?',
         );
 
     }
@@ -358,7 +369,7 @@ class VCard extends VObject\Document {
      * @param string $fieldName
      * @return VObject\Property|null
      */
-    public function preferred($propertyName) {
+    function preferred($propertyName) {
 
         $preferred = null;
         $lastPref = 101;
@@ -401,7 +412,7 @@ class VCard extends VObject\Document {
      *
      * @return array
      */
-    public function jsonSerialize() {
+    function jsonSerialize() {
 
         // A vcard does not have sub-components, so we're overriding this
         // method to remove that array element.
@@ -424,7 +435,7 @@ class VCard extends VObject\Document {
      * @param string $propertyName
      * @return string
      */
-    public function getClassNameForPropertyName($propertyName) {
+    function getClassNameForPropertyName($propertyName) {
 
         $className = parent::getClassNameForPropertyName($propertyName);
         // In vCard 4, BINARY no longer exists, and we need URI instead.
