@@ -11,6 +11,10 @@ ChangeLog
 * #175: Parser can now read and skip the UTF-8 BOM.
 * #179: Added `isFloating` to `DATE-TIME` properties.
 * #179: Fixed jCal serialization of floating `DATE-TIME` properties.
+* #180: Added `PROFILE_CALDAV` and `PROFILE_CARDDAV` to enable validation rules
+  specific for CalDAV/CardDAV servers.
+* #176: A missing `UID` is no longer an error, but a warning for the vCard
+  validator, unless `PROFILE_CARDDAV` is specified.
 
 
 3.3.4 (2014-11-19)
