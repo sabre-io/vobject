@@ -56,4 +56,19 @@ class CompoundTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, count($elem->getParts()));
 
     }
+
+    function testSerialize() {
+
+        $arr = array(
+            'ABC, Inc.',
+            'North American Division',
+            'Marketing;Sales',
+        );
+
+        $elem = new Compound('ORG');
+        $elem->setParts($arr);
+
+        $this->assertEquals("ORG:ABC\, Inc.;North American Division;Marketing\;Sales\r\n", $elem->serialize());
+
+    }
 }
