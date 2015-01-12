@@ -194,13 +194,9 @@ class XML extends Parser {
                         $this->parseVcalendarComponents($currentComponent);
 
                         $parentComponent->add($currentComponent);
+
                     }
                     break;
-
-                default:
-                    if(!($this->options & self::OPTION_FORGIVING)) {
-                        throw new \Exception('XML is not well-formed: unexpected tag ' . $children['name']);
-                    }
             }
         }
     }
