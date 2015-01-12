@@ -81,14 +81,15 @@ class XML extends Parser {
         if(is_null($this->input))
             throw new EofException('End of input stream, or no input supplied');
 
-        if($this->input['name'] === '{' . self::XCAL_NAMESPACE . '}icalendar') {
+        if ($this->input['name'] === '{' . self::XCAL_NAMESPACE . '}icalendar') {
 
             $this->root = new VCalendar([], false);
             $this->pointer = &$this->input['value'][0];
             $this->parseVcalendarComponents($this->root);
-        }
-        else
+
+        } else {
             throw new \Exception('Unsupported XML standard');
+        }
 
         return $this->root;
     }
@@ -100,53 +101,52 @@ class XML extends Parser {
      */
     protected function parseVcalendarComponents(Component $parentComponent) {
 
-        foreach($this->pointer['value'] as $children) {
+        foreach ($this->pointer['value'] as $children) {
 
-            switch(static::getTagName($children['name'])) {
+            switch (static::getTagName($children['name'])) {
 
                 case 'properties':
                     $xmlProperties = $children['value'];
 
-                    foreach($xmlProperties as $xmlProperty) {
+                    foreach ($xmlProperties as $xmlProperty) {
 
                         $propertyName       = static::getTagName($xmlProperty['name']);
                         $propertyValue      = [];
                         $propertyParameters = [];
                         $propertyType       = 'text';
 
-                        foreach($xmlProperty['value'] as $i => $xmlPropertyChild) {
+                        foreach ($xmlProperty['value'] as $i => $xmlPropertyChild) {
 
-                            if('parameters' !== static::getTagName($xmlPropertyChild['name']))
+                            if ('parameters' !== static::getTagName($xmlPropertyChild['name']))
                                 continue;
 
                             $xmlParameters = $xmlPropertyChild['value'];
 
-                            foreach($xmlParameters as $xmlParameter)
+                            foreach ($xmlParameters as $xmlParameter)
                                 $propertyParameters[static::getTagName($xmlParameter['name'])]
                                     = $xmlParameter['value'][0]['value'];
 
                             array_splice($xmlProperty['value'], $i, 1);
+
                         }
 
-                        switch($propertyName) {
+                        switch ($propertyName) {
 
                             case 'geo':
                                 $propertyType               = 'float';
                                 $propertyValue['latitude']  = 0;
                                 $propertyValue['longitude'] = 0;
 
-                                foreach($xmlProperty['value'] as $xmlRequestChild) {
-
+                                foreach ($xmlProperty['value'] as $xmlRequestChild) {
                                     $propertyValue[static::getTagName($xmlRequestChild['name'])]
                                         = $xmlRequestChild['value'];
                                 }
                                 break;
 
                             case 'request-status':
-                                $propertyType  = 'text';
+                                $propertyType = 'text';
 
-                                foreach($xmlProperty['value'] as $xmlRequestChild) {
-
+                                foreach ($xmlProperty['value'] as $xmlRequestChild) {
                                     $propertyValue[static::getTagName($xmlRequestChild['name'])]
                                         = $xmlRequestChild['value'];
                                 }
@@ -157,8 +157,7 @@ class XML extends Parser {
                             case 'freebusy':
                             case 'exdate':
                             case 'rdate':
-                                foreach($xmlProperty['value'] as $specialChild) {
-
+                                foreach ($xmlProperty['value'] as $specialChild) {
                                     $propertyValue[static::getTagName($specialChild['name'])]
                                         = $specialChild['value'];
                                 }
@@ -184,7 +183,7 @@ class XML extends Parser {
                 case 'components':
                     $components = $children['value'] ?: [];
 
-                    foreach($components as $component) {
+                    foreach ($components as $component) {
 
                         $componentName    = static::getTagName($component['name']);
                         $currentComponent = $this->root->createComponent(
@@ -214,10 +213,11 @@ class XML extends Parser {
      */
     public function setInput($input) {
 
-        if(is_resource($input))
+        if (is_resource($input)) {
             $input = stream_get_contents($input);
+        }
 
-        if(is_string($input)) {
+        if (is_string($input)) {
 
             $reader = new SabreXml\Reader();
             $reader->elementMap['{' . self::XCAL_NAMESPACE . '}period']
@@ -226,6 +226,7 @@ class XML extends Parser {
                 = 'Sabre\VObject\Parser\XML\Element\KeyValue';
             $reader->xml($input);
             $input  = $reader->parse();
+
         }
 
         $this->input = $input;
@@ -238,10 +239,10 @@ class XML extends Parser {
      * @param string $clarkedTagName
      * @return string
      */
-    static protected function getTagName ( $clarkedTagName ) {
+    static protected function getTagName($clarkedTagName) {
 
         list($namespace, $tagName) = SabreXml\Util::parseClarkNotation($clarkedTagName);
-
         return $tagName;
+
     }
 }
