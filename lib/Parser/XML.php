@@ -76,8 +76,9 @@ class XML extends Parser {
             $this->setInput($input);
         }
 
-        if (0 === $options)
+        if (0 !== $options) {
             $this->options = $options;
+        }
 
         if (is_null($this->input)) {
             throw new EofException('End of input stream, or no input supplied');

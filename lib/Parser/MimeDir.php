@@ -57,7 +57,7 @@ class MimeDir extends Parser {
 
         }
 
-        if (0 === $options) {
+        if (0 !== $options) {
             $this->options = $options;
         }
 

@@ -54,7 +54,7 @@ class Json extends Parser {
             throw new EofException('End of input stream, or no input supplied');
         }
 
-        if (0 === $options) {
+        if (0 !== $options) {
             $this->options = $options;
         }
 
