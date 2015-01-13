@@ -71,7 +71,7 @@ class VCalendar extends VObject\Document {
      *
      * @var array
      */
-    static $propertyMap = [ 
+    static $propertyMap = [
         // Calendar properties
         'CALSCALE'      => 'Sabre\\VObject\\Property\\FlatText',
         'METHOD'        => 'Sabre\\VObject\\Property\\FlatText',
@@ -452,14 +452,14 @@ class VCalendar extends VObject\Document {
 
         if ($options & self::PROFILE_CALDAV) {
             if (count($uidList)>1) {
-                $warnings[] = [ 
+                $warnings[] = [
                     'level' => 3,
                     'message' => 'A calendar object on a CalDAV server may only have components with the same UID.',
                     'node' => $this,
                 ];
             }
             if (count(array_unique($componentTypes))===0) {
-                $warnings[] = [ 
+                $warnings[] = [
                     'level' => 3,
                     'message' => 'A calendar object on a CalDAV server must have at least 1 component (VTODO, VEVENT, VJOURNAL).',
                     'node' => $this,
@@ -474,11 +474,11 @@ class VCalendar extends VObject\Document {
             }
 
             if (isset($this->METHOD)) {
-                $warnings[] = [ 
+                $warnings[] = [
                     'level' => 3,
                     'message' => 'A calendar object on a CalDAV server MUST NOT have a METHOD property.',
                     'node' => $this,
-                ]; 
+                ];
             }
         }
 
