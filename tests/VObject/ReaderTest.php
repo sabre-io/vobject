@@ -447,4 +447,44 @@ ICS;
 
     }
 
+    function testReadXMLComponent() {
+
+        $data = <<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+ </vcalendar>
+</icalendar>
+XML;
+
+        $result = Reader::readXML($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCALENDAR', $result->name);
+        $this->assertEquals(0, count($result->children));
+
+    }
+
+    function testReadXMLStream() {
+
+        $data = <<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+ </vcalendar>
+</icalendar>
+XML;
+
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $data);
+        rewind($stream);
+
+        $result = Reader::readXML($stream);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCALENDAR', $result->name);
+        $this->assertEquals(0, count($result->children));
+
+    }
+
 }
