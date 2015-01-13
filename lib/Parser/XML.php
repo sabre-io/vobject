@@ -104,7 +104,7 @@ class XML extends Parser {
      */
     protected function parseVcalendarComponents(Component $parentComponent) {
 
-        foreach ($this->pointer['value'] as $children) {
+        foreach ($this->pointer['value'] ?: [] as $children) {
 
             switch (static::getTagName($children['name'])) {
 
