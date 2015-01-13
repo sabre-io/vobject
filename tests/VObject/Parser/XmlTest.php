@@ -49,17 +49,18 @@ XML;
         $component = VObject\Reader::readXML($xml);
         $this->assertEquals(
             'BEGIN:VCALENDAR' . "\r\n" .
+            // VERSION comes first because this is required by vCard 4.0.
             'VERSION:2.0' . "\r\n" .
             'CALSCALE:GREGORIAN' . "\r\n" .
             'PRODID:-//Example Inc.//Example Calendar//EN' . "\r\n" .
             'BEGIN:VEVENT' . "\r\n" .
             'DTSTAMP:20080205T191224Z' . "\r\n" .
-            'DTSTART:20081006' . "\r\n" .
+            'DTSTART;VALUE=DATE:20081006' . "\r\n" .
             'SUMMARY:Planning meeting' . "\r\n" .
             'UID:4088E990AD89CB3DBB484909' . "\r\n" .
             'END:VEVENT' . "\r\n" .
             'END:VCALENDAR' . "\r\n",
-            Vobject\Writer::write($component)
+            VObject\Writer::write($component)
         );
 
     }
