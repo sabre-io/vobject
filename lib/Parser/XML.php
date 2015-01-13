@@ -135,6 +135,15 @@ class XML extends Parser {
 
                         switch ($propertyName) {
 
+                            case 'dtstart':
+                                $propertyType  = static::getTagName($xmlProperty['value'][0]['name']);
+                                $propertyValue = [$xmlProperty['value'][0]['value']];
+
+                                if('date' === $propertyType)
+                                    $propertyParameters['value'] = 'DATE';
+
+                                break;
+
                             case 'geo':
                                 $propertyType               = 'float';
                                 $propertyValue['latitude']  = 0;
