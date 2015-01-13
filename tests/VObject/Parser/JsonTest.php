@@ -156,10 +156,9 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
         );
 
         $parser = new Json(json_encode($input));
-        $vobj = $parser->parse();        
+        $vobj = $parser->parse();
 
         $version = VObject\Version::VERSION;
-
 
         $result = $vobj->serialize();
         $expected = <<<VCF
