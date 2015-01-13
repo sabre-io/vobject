@@ -190,7 +190,9 @@ class XML extends Parser {
 
                         $componentName    = static::getTagName($component['name']);
                         $currentComponent = $this->root->createComponent(
-                            $componentName
+                            $componentName,
+                            null,
+                            false
                         );
 
                         $this->pointer = &$component;
