@@ -76,7 +76,7 @@ class Boolean extends Property {
             },
             $value
         );
-        $this->setXmlValue($value);
+        parent::setXmlValue($value);
 
     }
 
