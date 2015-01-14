@@ -367,11 +367,11 @@ XML
             <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
              <vcalendar>
               <properties>
-                <request-status>
-                 <code>2.0</code>
-                 <description>Success</description>
-                </request-status>
-               </properties>
+               <request-status>
+                <code>2.0</code>
+                <description>Success</description>
+               </request-status>
+              </properties>
              </vcalendar>
             </icalendar>
 XML
@@ -388,12 +388,12 @@ XML
             <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
              <vcalendar>
               <properties>
-                <request-status>
-                 <code>3.1</code>
-                 <description>Invalid property value</description>
-                 <data>DTSTART:96-Apr-01</data>
-                </request-status>
-               </properties>
+               <request-status>
+                <code>3.1</code>
+                <description>Invalid property value</description>
+                <data>DTSTART:96-Apr-01</data>
+               </request-status>
+              </properties>
              </vcalendar>
             </icalendar>
 XML
@@ -410,12 +410,12 @@ XML
             <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
              <vcalendar>
               <properties>
-                <request-status>
-                 <code>2.8</code>
-                 <description>Success, repeating event ignored. Scheduled as a single event.</description>
-                 <data>RRULE:FREQ=WEEKLY;INTERVAL=2</data>
-                </request-status>
-               </properties>
+               <request-status>
+                <code>2.8</code>
+                <description>Success, repeating event ignored. Scheduled as a single event.</description>
+                <data>RRULE:FREQ=WEEKLY;INTERVAL=2</data>
+               </request-status>
+              </properties>
              </vcalendar>
             </icalendar>
 XML
@@ -433,11 +433,11 @@ XML
             <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
              <vcalendar>
               <properties>
-                <request-status>
-                 <code>4.1</code>
-                 <description>Event conflict.  Date-time is busy.</description>
-                </request-status>
-               </properties>
+               <request-status>
+                <code>4.1</code>
+                <description>Event conflict.  Date-time is busy.</description>
+               </request-status>
+              </properties>
              </vcalendar>
             </icalendar>
 XML
@@ -454,12 +454,12 @@ XML
             <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
              <vcalendar>
               <properties>
-                <request-status>
-                 <code>3.7</code>
-                 <description>Invalid calendar user</description>
-                 <data>ATTENDEE:mailto:jsmith@example.com</data>
-                </request-status>
-               </properties>
+               <request-status>
+                <code>3.7</code>
+                <description>Invalid calendar user</description>
+                <data>ATTENDEE:mailto:jsmith@example.com</data>
+               </request-status>
+              </properties>
              </vcalendar>
             </icalendar>
 XML
