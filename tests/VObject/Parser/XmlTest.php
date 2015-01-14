@@ -850,6 +850,79 @@ XML
 
     }
 
+    /**
+     * Values, URI.
+     */
+    function testRFC6321Section3_6_13() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <attach>
+                <uri>http://calendar.example.com</uri>
+               </attach>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'ATTACH:http://calendar.example.com' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
+    /**
+     * Values, UTC Offset.
+     */
+    function testRFC6321Section3_6_14() {
+
+        // Example 1 of RFC5545, Section 3.3.14.
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <tzoffsetfrom>
+                <utc-offset>-05:00</utc-offset>
+               </tzoffsetfrom>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'TZOFFSETFROM:-0500' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+        // Example 2 of RFC5545, Section 3.3.14.
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <tzoffsetfrom>
+                <utc-offset>+01:00</utc-offset>
+               </tzoffsetfrom>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'TZOFFSETFROM:+0100' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
     protected function assertXCalEqualsToICal($xcal, $ical) {
 
         $component = VObject\Reader::readXML($xcal);
