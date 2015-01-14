@@ -923,6 +923,54 @@ XML
 
     }
 
+    /**
+     * Handling Unrecognized Properties or Parameters.
+     */
+    function testRFC6321Section5() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <x-property>
+                <unknown>20110512T120000Z</unknown>
+               </x-property>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'X-PROPERTY:20110512T120000Z' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <dtstart>
+                <parameters>
+                 <x-param><unknown>PT30M</unknown></x-param>
+                </parameters>
+                <date-time>2011-05-12T13:00:00Z</date-time>
+               </dtstart>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'DTSTART;X-PARAM=PT30M:20110512T130000Z' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
     protected function assertXCalEqualsToICal($xcal, $ical) {
 
         $component = VObject\Reader::readXML($xcal);
