@@ -751,16 +751,17 @@ XML
             <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
              <vcalendar>
               <properties>
-               <foo>
-                <integer>-42</integer>
-               </foo>
+               <period>
+                <start>2011-05-17T12:00:00</start>
+                <end>2012-05-17T12:00:00</end>
+               </period>
               </properties>
              </vcalendar>
             </icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
-            'FOO:-42' . CRLF .
+            'PERIOD:2011-05-17T12:00:00/2012-05-17T12:00:00' . CRLF .
             'END:VCALENDAR' . CRLF
         );
 
