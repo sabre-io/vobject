@@ -176,6 +176,11 @@ class XML extends Parser {
                                 }
                                 break;
 
+                            case 'period':
+                                $propertyType  = 'period';
+                                $propertyValue = [implode('/', $xmlProperty['value'])];
+                                break;
+
                             default:
                                 $propertyType  = static::getTagName($xmlProperty['value'][0]['name']);
                                 $propertyValue = [$xmlProperty['value'][0]['value']];
