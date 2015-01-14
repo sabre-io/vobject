@@ -471,6 +471,87 @@ XML
 
     }
 
+    /**
+     * Values, Binary.
+     */
+    function testRFC6321Section3_6_1() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <attach>
+                <binary>foobar</binary>
+               </attach>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'ATTACH:foobag==' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
+    /**
+     * Values, Boolean.
+     */
+    function testRFC6321Section3_6_2() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <attendee>
+                <parameters>
+                 <rsvp><boolean>true</boolean></rsvp>
+                </parameters>
+                <cal-address>mailto:cyrus@example.com</cal-address>
+               </attendee>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'ATTENDEE;RSVP=true:mailto:cyrus@example.com' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
+    /**
+     * Values, Calendar User Address.
+     */
+    function testRFC6321Section3_6_3() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <attendee>
+                <cal-address>mailto:cyrus@example.com</cal-address>
+               </attendee>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'ATTENDEE:mailto:cyrus@example.com' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
     protected function assertXCalEqualsToICal($xcal, $ical) {
 
         $component = VObject\Reader::readXML($xcal);
