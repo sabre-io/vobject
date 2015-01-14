@@ -308,7 +308,7 @@ VCF;
         );
 
         $parser = new Json(json_encode($input));
-        $vobj = $parser->parse();        
+        $vobj = $parser->parse();
         $result = $vobj->serialize();
 
         $version = VObject\Version::VERSION;
