@@ -552,6 +552,58 @@ XML
 
     }
 
+    /**
+     * Values, Date.
+     */
+    function testRFC6321Section3_6_4() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <dtstart>
+                <date>2011-05-17</date>
+               </dtstart>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'DTSTART;VALUE=DATE:20110517' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
+    /**
+     * Values, Date-Time.
+     */
+    function testRFC6321Section3_6_5() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <dtstart>
+                <date-time>2011-05-17T12:00:00</date-time>
+               </dtstart>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'DTSTART:20110517T120000' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
     protected function assertXCalEqualsToICal($xcal, $ical) {
 
         $component = VObject\Reader::readXML($xcal);
