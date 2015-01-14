@@ -120,7 +120,8 @@ class XML extends Parser {
 
                         foreach ($xmlProperty['value'] as $i => $xmlPropertyChild) {
 
-                            if ('parameters' !== static::getTagName($xmlPropertyChild['name']))
+                            if (   !is_array($xmlPropertyChild)
+                                || 'parameters' !== static::getTagName($xmlPropertyChild['name']))
                                 continue;
 
                             $xmlParameters = $xmlPropertyChild['value'];
