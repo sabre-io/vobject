@@ -604,6 +604,168 @@ XML
 
     }
 
+    /**
+     * Values, Duration.
+     */
+    function testRFC6321Section3_6_6() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <duration>
+                <duration>P1D</duration>
+               </duration>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'DURATION:P1D' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
+    /**
+     * Values, Float.
+     */
+    function testRFC6321Section3_6_7() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <foo>
+                <float>4.2</float>
+               </foo>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'FOO:4.2' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <foo>
+                <float>-4.2</float>
+               </foo>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'FOO:-4.2' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
+    /**
+     * Values, Integer.
+     */
+    function testRFC6321Section3_6_8() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <foo>
+                <integer>42</integer>
+               </foo>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'FOO:42' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <foo>
+                <integer>-42</integer>
+               </foo>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'FOO:-42' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
+    /**
+     * Values, Period of Time.
+     */
+    function testRFC6321Section3_6_9() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <period>
+                <start>2011-05-17T12:00:00</start>
+                <duration>P1H</duration>
+               </period>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'PERIOD:2011-05-17T12:00:00/P1H' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <foo>
+                <integer>-42</integer>
+               </foo>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'FOO:-42' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
     protected function assertXCalEqualsToICal($xcal, $ical) {
 
         $component = VObject\Reader::readXML($xcal);
