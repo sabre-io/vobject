@@ -971,6 +971,152 @@ XML
 
     }
 
+    function testRDateWithDateTime() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <rdate>
+                <date-time>2008-02-05T19:12:24Z</date-time>
+               </rdate>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'RDATE:20080205T191224Z' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <rdate>
+                <date-time>2008-02-05T19:12:24Z</date-time>
+                <date-time>2009-02-05T19:12:24Z</date-time>
+               </rdate>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'RDATE:20080205T191224Z,20090205T191224Z' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
+    function testRDateWithDate() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <rdate>
+                <date>2008-10-06</date>
+               </rdate>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'RDATE:20081006' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <rdate>
+                <date>2008-10-06</date>
+                <date>2009-10-06</date>
+                <date>2010-10-06</date>
+               </rdate>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'RDATE:20081006,20091006,20101006' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
+    function testRDateWithPeriod() {
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <rdate>
+                <parameters>
+                 <tzid><text>US/Eastern</text></tzid>
+                </parameters>
+                <period>
+                 <start>2006-01-02T15:00:00</start>
+                 <duration>PT2H</duration>
+                </period>
+               </rdate>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+        $this->assertXCalEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="utf-8"?>
+            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+             <vcalendar>
+              <properties>
+               <rdate>
+                <parameters>
+                 <tzid><text>US/Eastern</text></tzid>
+                </parameters>
+                <period>
+                 <start>2006-01-02T15:00:00</start>
+                 <duration>PT2H</duration>
+                </period>
+                <period>
+                 <start>2008-01-02T15:00:00</start>
+                 <duration>PT1H</duration>
+                </period>
+               </rdate>
+              </properties>
+             </vcalendar>
+            </icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H,20080102T150000/PT1' . CRLF .
+            ' H' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+    }
+
     protected function assertXCalEqualsToICal($xcal, $ical) {
 
         $component = VObject\Reader::readXML($xcal);

@@ -169,11 +169,30 @@ class XML extends Parser {
                             case 'resources':
                             case 'freebusy':
                             case 'exdate':
-                            case 'rdate':
                                 foreach ($xmlProperty['value'] as $specialChild) {
                                     $propertyValue[static::getTagName($specialChild['name'])]
                                         = $specialChild['value'];
                                 }
+                                break;
+
+                            case 'rdate':
+                                $propertyType = 'date-time';
+
+                                foreach ($xmlProperty['value'] as $specialChild) {
+
+                                    $tagName = static::getTagName($specialChild['name']);
+
+                                    if ('period' === $tagName) {
+
+                                        $propertyParameters['value'] = 'PERIOD';
+                                        $propertyValue[]             = implode('/', $specialChild['value']);
+
+                                    }
+                                    else {
+                                        $propertyValue[] = $specialChild['value'];
+                                    }
+                                }
+
                                 break;
 
                             case 'period':
