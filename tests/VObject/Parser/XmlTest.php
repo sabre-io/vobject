@@ -65,7 +65,6 @@ XML
 
     }
 
-    /*
     function testRFC6321Example2() {
 
         $xml = <<<XML
@@ -243,7 +242,7 @@ XML;
             'RRULE:FREQ=DAILY;COUNT=5' . CRLF .
             'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H' . CRLF .
             'SUMMARY:Event #2' . CRLF .
-            'DESCRIPTION:We are having a meeting all this week at 12\npm for one hour\,' . CRLF .
+            'DESCRIPTION:We are having a meeting all this week at 12\npm for one hour\, ' . CRLF .
             ' with an additional meeting on the first day\n2 hours long.\nPlease bring y' . CRLF .
             ' our own lunch for the 12 pm\nmeetings.' . CRLF .
             'UID:00959BC664CA650E933C892C@example.com' . CRLF .
@@ -261,7 +260,6 @@ XML;
         );
 
     }
-    */
 
     /**
      * iCalendar Stream.
