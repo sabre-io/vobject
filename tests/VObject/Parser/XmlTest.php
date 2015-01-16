@@ -1114,9 +1114,27 @@ XML
 
     }
 
+    /**
+     * Check this equality:
+     *     xCal -> object model -> iCal.
+     */
     protected function assertXCalEqualsToICal($xcal, $ical) {
 
         $component = VObject\Reader::readXML($xcal);
         $this->assertEquals($ical, VObject\Writer::write($component));
+
+    }
+
+    /**
+     * Check this (reflexive) equality:
+     *     xCal -> object model -> iCal -> object model -> xCal.
+     */
+    protected function assertXCalReflexivelyEqualsToICal($xcal, $ical) {
+
+        $this->assertXCalEqualsToICal($xcal, $ical);
+
+        $component = VObject\Reader::read($ical);
+        $this->assertEquals($xcal, rtrim(VObject\Writer::writeXML($component)));
+
     }
 }
