@@ -73,7 +73,7 @@ class Float extends Property {
     }
 
     /**
-     * Returns the value, in the format it should be encoded for json.
+     * Returns the value, in the format it should be encoded for JSON.
      *
      * This method must always return an array.
      *
@@ -87,9 +87,10 @@ class Float extends Property {
         //
         // See:
         // http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-04#section-3.4.1.2
-        if ($this->name==='GEO') {
+        if ($this->name === 'GEO') {
             return [$val];
         }
+
         return $val;
 
     }
@@ -106,6 +107,66 @@ class Float extends Property {
 
         $value = array_map('floatval', $value);
         parent::setXmlValue($value);
+
+    }
+
+    /**
+     * Returns the value, in the format it should be encoded for XML.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getXmlValue() {
+
+        $val = array_map('floatval', $this->getParts());
+
+        // Special-casing the GEO property.
+        //
+        // See:
+        // http://tools.ietf.org/html/rfc6321#section-3.4.1.2
+        if ($this->name === 'GEO') {
+            return [
+                [
+                    [
+                        'name' => 'latitude',
+                        'value' => $val[0]
+                    ],
+                    [
+                        'name' => 'longitude',
+                        'value' => $val[1]
+                    ]
+                ]
+            ];
+        }
+
+        return $val;
+
+    }
+
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in XML. This is used to create xCard or xCal documents.
+     *
+     * @return array
+     */
+    function xmlSerialize() {
+
+        $serialization = parent::xmlSerialize();
+
+        // Special-casing the GEO property.
+        //
+        // See:
+        // http://tools.ietf.org/html/rfc6321#section-3.4.1.2
+        if ($this->name === 'GEO') {
+
+            $handle = $serialization['value'][0]['value'];
+            $serialization['value'] = $handle;
+            return $serialization;
+
+        }
+
+        return $serialization;
 
     }
 
