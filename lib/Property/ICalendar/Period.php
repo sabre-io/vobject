@@ -135,7 +135,7 @@ class Period extends Property {
      */
     function setXmlValue(array $value) {
 
-        parent::setJsonValue($value);
+        $this->setJsonValue($value);
 
     }
 
