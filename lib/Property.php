@@ -382,10 +382,13 @@ abstract class Property extends Node {
                 'value' => $parameters
             ];
 
-        $properties['value'][] = [
-            'name' => strtolower($this->getValueType()),
-            'value' => $this->getXmlValue()[0]
-        ];
+        foreach ($this->getXmlValue() as $value) {
+            $properties['value'][] = [
+                'name' => strtolower($this->getValueType()),
+                'value' => $value
+            ];
+        }
+
 
         return $properties;
 
