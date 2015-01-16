@@ -283,8 +283,75 @@ class Text extends Property {
 
             return $out;
 
+        }
+
+    }
+
+    /**
+     * Returns the value, in the format it should be encoded for XML.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getXmlValue() {
+
+        $val = $this->getParts();
+
+        // Special-casing the REQUEST-STATUS property.
+        //
+        // See:
+        // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
+        if ($this->name === 'REQUEST-STATUS') {
+
+            $handle = [
+                [
+                    'name' => 'code',
+                    'value' => $val[0]
+                ],
+                [
+                    'name' => 'description',
+                    'value' => $val[1]
+                ]
+            ];
+
+            if(isset($val[2]))
+                $handle[] = [
+                    'name' => 'data',
+                    'value' => $val[2]
+                ];
+
+            return [$handle];
 
         }
+
+        return $val;
+
+    }
+
+    /**
+     * This method returns an array, with the representation as it should be
+     * encoded in XML. This is used to create xCard or xCal documents.
+     *
+     * @return array
+     */
+    function xmlSerialize() {
+
+        $serialization = parent::xmlSerialize();
+
+        // Special-casing the REQUEST-STATUS property.
+        //
+        // See:
+        // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
+        if ($this->name === 'REQUEST-STATUS') {
+
+            $handle = $serialization['value'][0]['value'];
+            $serialization['value'] = $handle;
+            return $serialization;
+
+        }
+
+        return $serialization;
 
     }
 
