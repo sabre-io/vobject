@@ -165,9 +165,11 @@ class XML extends Parser {
                                 }
                                 break;
 
+                            case 'freebusy':
+                                $propertyType = 'freebusy';
+
                             case 'categories':
                             case 'resources':
-                            case 'freebusy':
                             case 'exdate':
                                 foreach ($xmlProperty['value'] as $specialChild) {
                                     $propertyValue[static::getTagName($specialChild['name'])]
