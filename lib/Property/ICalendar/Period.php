@@ -139,4 +139,30 @@ class Period extends Property {
 
     }
 
+    /**
+     * Returns the value, in the format it should be encoded for XML.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    public function getXmlValue() {
+
+        $val = $this->getJsonValue();
+
+        return [
+            [
+                [
+                    'name' => 'start',
+                    'value' => $val[0][0]
+                ],
+                [
+                    'name' => $val[0][1][0] === 'P' ? 'duration' : 'end',
+                    'value' => $val[0][1]
+                ]
+            ]
+        ];
+
+    }
+
 }
