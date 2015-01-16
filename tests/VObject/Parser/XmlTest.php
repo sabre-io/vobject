@@ -266,7 +266,7 @@ XML;
      */
     function testRFC6321Section3_2() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -284,20 +284,20 @@ XML
      */
     function testRFC6321Section3_3() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
   <components>
-   <vevent></vevent>
-   <vtodo></vtodo>
-   <vjournal></vjournal>
-   <vfreebusy></vfreebusy>
-   <vtimezone></vtimezone>
-   <standard></standard>
-   <daylight></daylight>
-   <valarm></valarm>
+   <vtimezone/>
+   <vevent/>
+   <vtodo/>
+   <vjournal/>
+   <vfreebusy/>
+   <standard/>
+   <daylight/>
+   <valarm/>
   </components>
  </vcalendar>
 </icalendar>
@@ -330,7 +330,7 @@ XML
      */
     function testRFC6321Section3_4_1_2() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -358,7 +358,7 @@ XML
     function testRFC6321Section3_4_1_3() {
 
         // Example 1 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -379,7 +379,7 @@ XML
         );
 
         // Example 2 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -401,7 +401,7 @@ XML
         );
 
         // Example 3 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -424,7 +424,7 @@ XML
         );
 
         // Example 4 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -445,7 +445,7 @@ XML
         );
 
         // Example 5 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -476,19 +476,39 @@ XML
         $this->assertXCalEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <attach>
-                <binary>foobar</binary>
-               </attach>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <attach>
+    <binary>SGVsbG8gV29ybGQh</binary>
+   </attach>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
-            'ATTACH:foobag==' . CRLF .
+            'ATTACH:SGVsbG8gV29ybGQh' . CRLF .
+            'END:VCALENDAR' . CRLF
+        );
+
+        // In vCard 4, BINARY no longer exists and is replaced by URI.
+        $this->assertXCalReflexivelyEqualsToICal(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <attach>
+    <uri>SGVsbG8gV29ybGQh</uri>
+   </attach>
+  </properties>
+ </vcalendar>
+</icalendar>
+XML
+,
+            'BEGIN:VCALENDAR' . CRLF .
+            'ATTACH:SGVsbG8gV29ybGQh' . CRLF .
             'END:VCALENDAR' . CRLF
         );
 
@@ -528,7 +548,7 @@ XML
      */
     function testRFC6321Section3_6_3() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -554,7 +574,7 @@ XML
      */
     function testRFC6321Section3_6_4() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -580,7 +600,7 @@ XML
      */
     function testRFC6321Section3_6_5() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -606,7 +626,7 @@ XML
      */
     function testRFC6321Section3_6_6() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -632,43 +652,8 @@ XML
      */
     function testRFC6321Section3_6_7() {
 
-        $this->assertXCalEqualsToICal(
-<<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
- <vcalendar>
-  <properties>
-   <foo>
-    <float>4.2</float>
-   </foo>
-  </properties>
- </vcalendar>
-</icalendar>
-XML
-,
-            'BEGIN:VCALENDAR' . CRLF .
-            'FOO:4.2' . CRLF .
-            'END:VCALENDAR' . CRLF
-        );
-
-        $this->assertXCalEqualsToICal(
-<<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
- <vcalendar>
-  <properties>
-   <foo>
-    <float>-4.2</float>
-   </foo>
-  </properties>
- </vcalendar>
-</icalendar>
-XML
-,
-            'BEGIN:VCALENDAR' . CRLF .
-            'FOO:-4.2' . CRLF .
-            'END:VCALENDAR' . CRLF
-        );
+        // GEO uses <float /> with a positive and a non-negative numbers.
+        $this->testRFC6321Section3_4_1_2();
 
     }
 
@@ -722,43 +707,47 @@ XML
      */
     function testRFC6321Section3_6_9() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
   <properties>
-   <period>
-    <start>2011-05-17T12:00:00</start>
-    <duration>P1H</duration>
-   </period>
+   <freebusy>
+    <period>
+     <start>2011-05-17T12:00:00</start>
+     <duration>P1H</duration>
+    </period>
+   </freebusy>
   </properties>
  </vcalendar>
 </icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
-            'PERIOD:2011-05-17T12:00:00/P1H' . CRLF .
+            'FREEBUSY:20110517T120000/P1H' . CRLF .
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
   <properties>
-   <period>
-    <start>2011-05-17T12:00:00</start>
-    <end>2012-05-17T12:00:00</end>
-   </period>
+   <freebusy>
+    <period>
+     <start>2011-05-17T12:00:00</start>
+     <end>2012-05-17T12:00:00</end>
+    </period>
+   </freebusy>
   </properties>
  </vcalendar>
 </icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
-            'PERIOD:2011-05-17T12:00:00/2012-05-17T12:00:00' . CRLF .
+            'FREEBUSY:20110517T120000/20120517T120000' . CRLF .
             'END:VCALENDAR' . CRLF
         );
 
