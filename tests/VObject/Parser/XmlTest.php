@@ -758,7 +758,7 @@ XML
      */
     function testRFC6321Section3_6_10() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -789,7 +789,7 @@ XML
      */
     function testRFC6321Section3_6_11() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -841,7 +841,7 @@ XML
      */
     function testRFC6321Section3_6_13() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -868,7 +868,7 @@ XML
     function testRFC6321Section3_6_14() {
 
         // Example 1 of RFC5545, Section 3.3.14.
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -888,7 +888,7 @@ XML
         );
 
         // Example 2 of RFC5545, Section 3.3.14.
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
