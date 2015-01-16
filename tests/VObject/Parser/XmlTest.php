@@ -13,40 +13,40 @@ class XmlTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <calscale>
-                 <text>GREGORIAN</text>
-               </calscale>
-               <prodid>
-                <text>-//Example Inc.//Example Calendar//EN</text>
-               </prodid>
-               <version>
-                 <text>2.0</text>
-               </version>
-              </properties>
-              <components>
-               <vevent>
-                <properties>
-                 <dtstamp>
-                   <date-time>2008-02-05T19:12:24Z</date-time>
-                 </dtstamp>
-                 <dtstart>
-                   <date>2008-10-06</date>
-                 </dtstart>
-                 <summary>
-                  <text>Planning meeting</text>
-                 </summary>
-                 <uid>
-                  <text>4088E990AD89CB3DBB484909</text>
-                 </uid>
-                </properties>
-               </vevent>
-              </components>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <calscale>
+     <text>GREGORIAN</text>
+   </calscale>
+   <prodid>
+    <text>-//Example Inc.//Example Calendar//EN</text>
+   </prodid>
+   <version>
+     <text>2.0</text>
+   </version>
+  </properties>
+  <components>
+   <vevent>
+    <properties>
+     <dtstamp>
+       <date-time>2008-02-05T19:12:24Z</date-time>
+     </dtstamp>
+     <dtstart>
+       <date>2008-10-06</date>
+     </dtstart>
+     <summary>
+      <text>Planning meeting</text>
+     </summary>
+     <uid>
+      <text>4088E990AD89CB3DBB484909</text>
+     </uid>
+    </properties>
+   </vevent>
+  </components>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -68,7 +68,7 @@ XML
     function testRFC6321Example2() {
 
         $xml = <<<XML
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
   <vcalendar>
     <properties>
@@ -268,11 +268,10 @@ XML;
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar/>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -287,21 +286,21 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <components>
-               <vevent></vevent>
-               <vtodo></vtodo>
-               <vjournal></vjournal>
-               <vfreebusy></vfreebusy>
-               <vtimezone></vtimezone>
-               <standard></standard>
-               <daylight></daylight>
-               <valarm></valarm>
-              </components>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <components>
+   <vevent></vevent>
+   <vtodo></vtodo>
+   <vjournal></vjournal>
+   <vfreebusy></vfreebusy>
+   <vtimezone></vtimezone>
+   <standard></standard>
+   <daylight></daylight>
+   <valarm></valarm>
+  </components>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -333,17 +332,17 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <geo>
-                <latitude>37.386013</latitude>
-                <longitude>-122.082932</longitude>
-               </geo>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <geo>
+    <latitude>37.386013</latitude>
+    <longitude>-122.082932</longitude>
+   </geo>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -361,17 +360,17 @@ XML
         // Example 1 of RFC5545, Section 3.8.8.3.
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <request-status>
-                <code>2.0</code>
-                <description>Success</description>
-               </request-status>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <request-status>
+    <code>2.0</code>
+    <description>Success</description>
+   </request-status>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -382,18 +381,18 @@ XML
         // Example 2 of RFC5545, Section 3.8.8.3.
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <request-status>
-                <code>3.1</code>
-                <description>Invalid property value</description>
-                <data>DTSTART:96-Apr-01</data>
-               </request-status>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <request-status>
+    <code>3.1</code>
+    <description>Invalid property value</description>
+    <data>DTSTART:96-Apr-01</data>
+   </request-status>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -404,18 +403,18 @@ XML
         // Example 3 of RFC5545, Section 3.8.8.3.
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <request-status>
-                <code>2.8</code>
-                <description>Success, repeating event ignored. Scheduled as a single event.</description>
-                <data>RRULE:FREQ=WEEKLY;INTERVAL=2</data>
-               </request-status>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <request-status>
+    <code>2.8</code>
+    <description>Success, repeating event ignored. Scheduled as a single event.</description>
+    <data>RRULE:FREQ=WEEKLY;INTERVAL=2</data>
+   </request-status>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -427,17 +426,17 @@ XML
         // Example 4 of RFC5545, Section 3.8.8.3.
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <request-status>
-                <code>4.1</code>
-                <description>Event conflict.  Date-time is busy.</description>
-               </request-status>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <request-status>
+    <code>4.1</code>
+    <description>Event conflict.  Date-time is busy.</description>
+   </request-status>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -448,18 +447,18 @@ XML
         // Example 5 of RFC5545, Section 3.8.8.3.
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <request-status>
-                <code>3.7</code>
-                <description>Invalid calendar user</description>
-                <data>ATTENDEE:mailto:jsmith@example.com</data>
-               </request-status>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <request-status>
+    <code>3.7</code>
+    <description>Invalid calendar user</description>
+    <data>ATTENDEE:mailto:jsmith@example.com</data>
+   </request-status>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -476,7 +475,7 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
             <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
              <vcalendar>
               <properties>
@@ -502,19 +501,19 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <attendee>
-                <parameters>
-                 <rsvp><boolean>true</boolean></rsvp>
-                </parameters>
-                <cal-address>mailto:cyrus@example.com</cal-address>
-               </attendee>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <attendee>
+    <parameters>
+     <rsvp><boolean>true</boolean></rsvp>
+    </parameters>
+    <cal-address>mailto:cyrus@example.com</cal-address>
+   </attendee>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -531,16 +530,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <attendee>
-                <cal-address>mailto:cyrus@example.com</cal-address>
-               </attendee>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <attendee>
+    <cal-address>mailto:cyrus@example.com</cal-address>
+   </attendee>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -557,16 +556,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <dtstart>
-                <date>2011-05-17</date>
-               </dtstart>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <dtstart>
+    <date>2011-05-17</date>
+   </dtstart>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -583,16 +582,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <dtstart>
-                <date-time>2011-05-17T12:00:00</date-time>
-               </dtstart>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <dtstart>
+    <date-time>2011-05-17T12:00:00</date-time>
+   </dtstart>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -609,16 +608,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <duration>
-                <duration>P1D</duration>
-               </duration>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <duration>
+    <duration>P1D</duration>
+   </duration>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -635,16 +634,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <foo>
-                <float>4.2</float>
-               </foo>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <foo>
+    <float>4.2</float>
+   </foo>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -654,16 +653,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <foo>
-                <float>-4.2</float>
-               </foo>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <foo>
+    <float>-4.2</float>
+   </foo>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -680,16 +679,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <foo>
-                <integer>42</integer>
-               </foo>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <foo>
+    <integer>42</integer>
+   </foo>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -699,16 +698,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <foo>
-                <integer>-42</integer>
-               </foo>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <foo>
+    <integer>-42</integer>
+   </foo>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -725,17 +724,17 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <period>
-                <start>2011-05-17T12:00:00</start>
-                <duration>P1H</duration>
-               </period>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <period>
+    <start>2011-05-17T12:00:00</start>
+    <duration>P1H</duration>
+   </period>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -745,17 +744,17 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <period>
-                <start>2011-05-17T12:00:00</start>
-                <end>2012-05-17T12:00:00</end>
-               </period>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <period>
+    <start>2011-05-17T12:00:00</start>
+    <end>2012-05-17T12:00:00</end>
+   </period>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -772,21 +771,21 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <rrule>
-                <recur>
-                 <freq>YEARLY</freq>
-                 <count>5</count>
-                 <byday>-1SU</byday>
-                 <bymonth>10</bymonth>
-                </recur>
-               </rrule>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <rrule>
+    <recur>
+     <freq>YEARLY</freq>
+     <count>5</count>
+     <byday>-1SU</byday>
+     <bymonth>10</bymonth>
+    </recur>
+   </rrule>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -803,16 +802,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <calscale>
-                <text>GREGORIAN</text>
-               </calscale>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <calscale>
+    <text>GREGORIAN</text>
+   </calscale>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -829,16 +828,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <foo>
-                <time>12:00:00</time>
-               </foo>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <foo>
+    <time>12:00:00</time>
+   </foo>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -855,16 +854,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <attach>
-                <uri>http://calendar.example.com</uri>
-               </attach>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <attach>
+    <uri>http://calendar.example.com</uri>
+   </attach>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -882,16 +881,16 @@ XML
         // Example 1 of RFC5545, Section 3.3.14.
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <tzoffsetfrom>
-                <utc-offset>-05:00</utc-offset>
-               </tzoffsetfrom>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <tzoffsetfrom>
+    <utc-offset>-05:00</utc-offset>
+   </tzoffsetfrom>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -902,16 +901,16 @@ XML
         // Example 2 of RFC5545, Section 3.3.14.
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <tzoffsetfrom>
-                <utc-offset>+01:00</utc-offset>
-               </tzoffsetfrom>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <tzoffsetfrom>
+    <utc-offset>+01:00</utc-offset>
+   </tzoffsetfrom>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -928,16 +927,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <x-property>
-                <unknown>20110512T120000Z</unknown>
-               </x-property>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <x-property>
+    <unknown>20110512T120000Z</unknown>
+   </x-property>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -947,19 +946,19 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <dtstart>
-                <parameters>
-                 <x-param><unknown>PT30M</unknown></x-param>
-                </parameters>
-                <date-time>2011-05-12T13:00:00Z</date-time>
-               </dtstart>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <dtstart>
+    <parameters>
+     <x-param><unknown>PT30M</unknown></x-param>
+    </parameters>
+    <date-time>2011-05-12T13:00:00Z</date-time>
+   </dtstart>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -973,16 +972,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <rdate>
-                <date-time>2008-02-05T19:12:24Z</date-time>
-               </rdate>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <rdate>
+    <date-time>2008-02-05T19:12:24Z</date-time>
+   </rdate>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -992,17 +991,17 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <rdate>
-                <date-time>2008-02-05T19:12:24Z</date-time>
-                <date-time>2009-02-05T19:12:24Z</date-time>
-               </rdate>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <rdate>
+    <date-time>2008-02-05T19:12:24Z</date-time>
+    <date-time>2009-02-05T19:12:24Z</date-time>
+   </rdate>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -1016,16 +1015,16 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <rdate>
-                <date>2008-10-06</date>
-               </rdate>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <rdate>
+    <date>2008-10-06</date>
+   </rdate>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -1035,18 +1034,18 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <rdate>
-                <date>2008-10-06</date>
-                <date>2009-10-06</date>
-                <date>2010-10-06</date>
-               </rdate>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <rdate>
+    <date>2008-10-06</date>
+    <date>2009-10-06</date>
+    <date>2010-10-06</date>
+   </rdate>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -1060,22 +1059,22 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <rdate>
-                <parameters>
-                 <tzid><text>US/Eastern</text></tzid>
-                </parameters>
-                <period>
-                 <start>2006-01-02T15:00:00</start>
-                 <duration>PT2H</duration>
-                </period>
-               </rdate>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <rdate>
+    <parameters>
+     <tzid><text>US/Eastern</text></tzid>
+    </parameters>
+    <period>
+     <start>2006-01-02T15:00:00</start>
+     <duration>PT2H</duration>
+    </period>
+   </rdate>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
@@ -1085,26 +1084,26 @@ XML
 
         $this->assertXCalEqualsToICal(
 <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-            <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
-             <vcalendar>
-              <properties>
-               <rdate>
-                <parameters>
-                 <tzid><text>US/Eastern</text></tzid>
-                </parameters>
-                <period>
-                 <start>2006-01-02T15:00:00</start>
-                 <duration>PT2H</duration>
-                </period>
-                <period>
-                 <start>2008-01-02T15:00:00</start>
-                 <duration>PT1H</duration>
-                </period>
-               </rdate>
-              </properties>
-             </vcalendar>
-            </icalendar>
+<?xml version="1.0" encoding="UTF-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+  <properties>
+   <rdate>
+    <parameters>
+     <tzid><text>US/Eastern</text></tzid>
+    </parameters>
+    <period>
+     <start>2006-01-02T15:00:00</start>
+     <duration>PT2H</duration>
+    </period>
+    <period>
+     <start>2008-01-02T15:00:00</start>
+     <duration>PT1H</duration>
+    </period>
+   </rdate>
+  </properties>
+ </vcalendar>
+</icalendar>
 XML
 ,
             'BEGIN:VCALENDAR' . CRLF .
