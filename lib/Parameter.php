@@ -96,13 +96,13 @@ class Parameter extends Node {
             case 'HOME' :
             case 'PREF' :
 
-                // Delivery Label Type
+            // Delivery Label Type
             case 'DOM' :
             case 'INTL' :
             case 'POSTAL' :
             case 'PARCEL' :
 
-                // Telephone types
+            // Telephone types
             case 'VOICE' :
             case 'FAX' :
             case 'MSG' :
@@ -114,7 +114,7 @@ class Parameter extends Node {
             case 'ISDN' :
             case 'VIDEO' :
 
-                // EMAIL types (lol)
+            // EMAIL types (lol)
             case 'AOL' :
             case 'APPLELINK' :
             case 'ATTMAIL' :
@@ -128,7 +128,7 @@ class Parameter extends Node {
             case 'TLX' :
             case 'X400' :
 
-                // Photo / Logo format types
+            // Photo / Logo format types
             case 'GIF' :
             case 'CGM' :
             case 'WMF' :
@@ -144,12 +144,12 @@ class Parameter extends Node {
             case 'AVI' :
             case 'QTIME' :
 
-                // Sound Digital Audio Type
+            // Sound Digital Audio Type
             case 'WAVE' :
             case 'PCM' :
             case 'AIFF' :
 
-                // Key types
+            // Key types
             case 'X509' :
             case 'PGP' :
                 $name = 'TYPE';
