@@ -980,7 +980,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1113,11 +1113,9 @@ XML
      * Check this equality:
      *     xCal -> object model -> iCal.
      */
-    protected function assertXCalEqualsToICal($xcal, $ical,$d=false) {
+    protected function assertXCalEqualsToICal($xcal, $ical) {
 
         $component = VObject\Reader::readXML($xcal);
-        if(true === $d)
-            var_dump($component);
         $this->assertEquals($ical, VObject\Writer::write($component));
 
     }
@@ -1126,13 +1124,11 @@ XML
      * Check this (reflexive) equality:
      *     xCal -> object model -> iCal -> object model -> xCal.
      */
-    protected function assertXCalReflexivelyEqualsToICal($xcal, $ical,$d=false) {
+    protected function assertXCalReflexivelyEqualsToICal($xcal, $ical) {
 
-        $this->assertXCalEqualsToICal($xcal, $ical,$d);
+        $this->assertXCalEqualsToICal($xcal, $ical);
 
         $component = VObject\Reader::read($ical);
-        if(true === $d)
-            var_dump($component);
         $this->assertEquals($xcal, rtrim(VObject\Writer::writeXML($component)));
 
     }
