@@ -914,7 +914,7 @@ XML
      */
     function testRFC6321Section5() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -933,7 +933,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -941,7 +941,9 @@ XML
   <properties>
    <dtstart>
     <parameters>
-     <x-param><unknown>PT30M</unknown></x-param>
+     <x-param>
+      <text>PT30M</text>
+     </x-param>
     </parameters>
     <date-time>2011-05-12T13:00:00Z</date-time>
    </dtstart>
@@ -959,7 +961,7 @@ XML
 
     function testRDateWithDateTime() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1046,7 +1048,7 @@ XML
 
     function testRDateWithPeriod() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXCalReflexivelyEqualsToICal(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1054,7 +1056,9 @@ XML
   <properties>
    <rdate>
     <parameters>
-     <tzid><text>US/Eastern</text></tzid>
+     <tzid>
+      <text>US/Eastern</text>
+     </tzid>
     </parameters>
     <period>
      <start>2006-01-02T15:00:00</start>
@@ -1079,7 +1083,9 @@ XML
   <properties>
    <rdate>
     <parameters>
-     <tzid><text>US/Eastern</text></tzid>
+     <tzid>
+      <text>US/Eastern</text>
+     </tzid>
     </parameters>
     <period>
      <start>2006-01-02T15:00:00</start>
@@ -1107,9 +1113,11 @@ XML
      * Check this equality:
      *     xCal -> object model -> iCal.
      */
-    protected function assertXCalEqualsToICal($xcal, $ical) {
+    protected function assertXCalEqualsToICal($xcal, $ical,$d=false) {
 
         $component = VObject\Reader::readXML($xcal);
+        if(true === $d)
+            var_dump($component);
         $this->assertEquals($ical, VObject\Writer::write($component));
 
     }
@@ -1118,12 +1126,16 @@ XML
      * Check this (reflexive) equality:
      *     xCal -> object model -> iCal -> object model -> xCal.
      */
-    protected function assertXCalReflexivelyEqualsToICal($xcal, $ical) {
+    protected function assertXCalReflexivelyEqualsToICal($xcal, $ical,$d=false) {
 
-        $this->assertXCalEqualsToICal($xcal, $ical);
+        $this->assertXCalEqualsToICal($xcal, $ical,$d);
 
         $component = VObject\Reader::read($ical);
+        if(true === $d)
+            var_dump($component);
         $this->assertEquals($xcal, rtrim(VObject\Writer::writeXML($component)));
 
     }
+
+    // + parameters
 }
