@@ -85,7 +85,6 @@ class Text extends Property {
 
     }
 
-
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
      *
@@ -296,7 +295,7 @@ class Text extends Property {
      */
     public function getXmlValue() {
 
-        $val = $this->getParts();
+        $val = parent::getXmlValue();
 
         // Special-casing the REQUEST-STATUS property.
         //
@@ -307,18 +306,18 @@ class Text extends Property {
             $handle = [
                 [
                     'name' => 'code',
-                    'value' => $val[0]
+                    'value' => $val[0][0]
                 ],
                 [
                     'name' => 'description',
-                    'value' => $val[1]
+                    'value' => $val[0][1]
                 ]
             ];
 
-            if(isset($val[2]))
+            if(isset($val[0][2]))
                 $handle[] = [
                     'name' => 'data',
-                    'value' => $val[2]
+                    'value' => $val[0][2]
                 ];
 
             return [$handle];
