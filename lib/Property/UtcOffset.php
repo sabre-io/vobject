@@ -36,14 +36,14 @@ class UtcOffset extends Text {
     }
 
     /**
-     * Sets the XML value, as it would appear in a xCard or xCal object.
+     * Sets the JSON value, as it would appear in a jCard or jCal object.
      *
      * The value must always be an array.
      *
      * @param array $value
      * @return void
      */
-    function setXmlValue(array $value) {
+    function setJsonValue(array $value) {
 
         $value = array_map(
             function($value) {
@@ -51,7 +51,26 @@ class UtcOffset extends Text {
             },
             $value
         );
-        parent::setXmlValue($value);
+        parent::setJsonValue($value);
+
+    }
+
+    /**
+     * Returns the value, in the format it should be encoded for JSON.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    function getJsonValue() {
+
+        return array_map(
+            function($value) {
+                return substr($value, 0, -2) . ':' .
+                       substr($value, -2);
+            },
+            parent::getJsonValue()
+        );
 
     }
 }

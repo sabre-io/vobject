@@ -20,7 +20,7 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
             "SEQUENCE" => 5,
             "FREEBUSY" => array("20130526T210213Z/PT1H", "20130626T120000Z/20130626T130000Z"),
             "URL" => "http://example.org/",
-            "TZOFFSETFROM" => "+05:00",
+            "TZOFFSETFROM" => "+0500",
             "RRULE" => array('FREQ' => 'WEEKLY', 'BYDAY' => array('MO','TU')),
         ));
 
