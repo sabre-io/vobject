@@ -358,6 +358,14 @@ ChangeLog
   add() method.
 
 
+2.1.7 (2015-??-??)
+------------------
+
+* Fixed: Issue #94, a workaround for bad escaping of ; and , in compound
+  properties. It's not a full solution, but it's an improvement for those
+  stuck in the 2.1 versions.
+
+
 2.1.6 (2014-12-10)
 ------------------
 
