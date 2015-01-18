@@ -49,7 +49,7 @@ class VTimeZone extends VObject\Component {
         return array(
             'TZID' => 1,
 
-            'LAST-MODIFICATION' => '?',
+            'LAST-MODIFIED' => '?',
             'TZURL' => '?',
 
             // At least 1 STANDARD or DAYLIGHT must appear, or more. But both

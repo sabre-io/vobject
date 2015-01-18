@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+3.3.6 (2015-??-??)
+------------------
+
+* #187: Fixed validator rules for `LAST-MODIFIED` properties.
+
+
 3.3.5 (2015-01-09)
 ------------------
 

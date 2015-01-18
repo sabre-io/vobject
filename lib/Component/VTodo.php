@@ -91,7 +91,7 @@ class VTodo extends VObject\Component {
             'DESCRIPTION' => '?',
             'DTSTART' => '?',
             'GEO' => '?',
-            'LAST-MODIFICATION' => '?',
+            'LAST-MODIFIED' => '?',
             'LOCATION' => '?',
             'ORGANIZER' => '?',
             'PERCENT' => '?',

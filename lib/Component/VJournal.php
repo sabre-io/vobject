@@ -65,7 +65,7 @@ class VJournal extends VObject\Component {
             'CLASS' => '?',
             'CREATED' => '?',
             'DTSTART' => '?',
-            'LAST-MODIFICATION' => '?',
+            'LAST-MODIFIED' => '?',
             'ORGANIZER' => '?',
             'RECURRENCE-ID' => '?',
             'SEQUENCE' => '?',
