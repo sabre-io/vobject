@@ -169,6 +169,14 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testSerializeEscape() {
+
+        $property = new Property('propname','propvalue\escaped');
+
+        $this->assertEquals("PROPNAME:propvalue\\\\escaped\r\n",$property->serialize());
+
+    }
+
     public function testSerializeLongLine() {
 
         $value = str_repeat('!',200);
