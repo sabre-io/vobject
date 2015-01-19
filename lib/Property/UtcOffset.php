@@ -31,7 +31,7 @@ class UtcOffset extends Text {
      */
     public function getValueType() {
 
-        return "UTC-OFFSET";
+        return 'UTC-OFFSET';
 
     }
 

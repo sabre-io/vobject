@@ -53,7 +53,7 @@ class Integer extends Property {
      */
     public function getValueType() {
 
-        return "INTEGER";
+        return 'INTEGER';
 
     }
 

@@ -33,7 +33,7 @@ class Time extends Text {
      */
     function getValueType() {
 
-        return "TIME";
+        return 'TIME';
 
     }
 

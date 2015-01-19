@@ -190,7 +190,7 @@ class Text extends Property {
      */
     public function getValueType() {
 
-        return "TEXT";
+        return 'TEXT';
 
     }
 

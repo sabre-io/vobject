@@ -63,7 +63,7 @@ class Period extends Property {
      */
     function getValueType() {
 
-        return "PERIOD";
+        return 'PERIOD';
 
     }
 

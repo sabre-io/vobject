@@ -35,7 +35,7 @@ class TimeStamp extends Text {
      */
     function getValueType() {
 
-        return "TIMESTAMP";
+        return 'TIMESTAMP';
 
     }
 

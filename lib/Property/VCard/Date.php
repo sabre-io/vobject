@@ -23,7 +23,7 @@ class Date extends DateAndOrTime {
      */
     function getValueType() {
 
-        return "DATE";
+        return 'DATE';
 
     }
 

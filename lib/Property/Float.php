@@ -68,7 +68,7 @@ class Float extends Property {
      */
     public function getValueType() {
 
-        return "FLOAT";
+        return 'FLOAT';
 
     }
 

@@ -36,7 +36,7 @@ class DateAndOrTime extends Property {
      */
     function getValueType() {
 
-        return "DATE-AND-OR-TIME";
+        return 'DATE-AND-OR-TIME';
 
     }
 
@@ -176,7 +176,6 @@ class DateAndOrTime extends Property {
         }
 
         // Month
-
         if (!is_null($parts['month'])) {
             $dateStr.=$parts['month'];
 
