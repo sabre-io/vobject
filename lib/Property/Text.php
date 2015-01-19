@@ -288,48 +288,6 @@ class Text extends Property {
     }
 
     /**
-     * Returns the value, in the format it should be encoded for XML.
-     *
-     * This method must always return an array.
-     *
-     * @return array
-     */
-    public function getXmlValue() {
-
-        $val = parent::getXmlValue();
-
-        // Special-casing the REQUEST-STATUS property.
-        //
-        // See:
-        // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
-        if ($this->name === 'REQUEST-STATUS') {
-
-            $handle = [
-                [
-                    'name' => 'code',
-                    'value' => $val[0][0]
-                ],
-                [
-                    'name' => 'description',
-                    'value' => $val[0][1]
-                ]
-            ];
-
-            if(isset($val[0][2]))
-                $handle[] = [
-                    'name' => 'data',
-                    'value' => $val[0][2]
-                ];
-
-            return [$handle];
-
-        }
-
-        return $val;
-
-    }
-
-    /**
      * This method serializes only the value of a property. This is used to
      * create xCard or xCal documents.
      *
@@ -343,9 +301,25 @@ class Text extends Property {
         // See:
         // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
         if ($this->name === 'REQUEST-STATUS') {
-            foreach ($this->getXmlValue() as $value) {
-                $writer->write($value);
+
+            $value = $this->getJsonValue();
+
+            $writer->startElement('code');
+                $writer->write($value[0][0]);
+            $writer->endElement();
+
+            $writer->startElement('description');
+                $writer->write($value[0][1]);
+            $writer->endElement();
+
+            if (isset($value[0][2])) {
+
+                $writer->startElement('data');
+                    $writer->write($value[0][2]);
+                $writer->endElement();
+
             }
+
         }
         else {
             parent::xmlSerializeValue($writer);

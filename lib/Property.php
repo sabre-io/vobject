@@ -336,19 +336,6 @@ abstract class Property extends Node {
     }
 
     /**
-     * Returns the value, in the format it should be encoded for XML.
-     *
-     * This method must always return an array.
-     *
-     * @return array
-     */
-    function getXmlValue() {
-
-        return $this->getJsonValue();
-
-    }
-
-    /**
      * This method serializes the data into XML. This is used to create xCard or
      * xCal documents.
      *
@@ -403,7 +390,7 @@ abstract class Property extends Node {
      */
     protected function xmlSerializeValue(Xml\Writer $writer) {
 
-        foreach ($this->getXmlValue() as $value) {
+        foreach ($this->getJsonValue() as $value) {
 
             $writer->startElement(strtolower($this->getValueType()));
                 $writer->write($value);

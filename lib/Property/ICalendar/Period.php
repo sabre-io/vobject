@@ -4,7 +4,8 @@ namespace Sabre\VObject\Property\ICalendar;
 
 use
     Sabre\VObject\Property,
-    Sabre\VObject\DateTimeParser;
+    Sabre\VObject\DateTimeParser,
+    Sabre\Xml;
 
 /**
  * Period property
@@ -126,28 +127,33 @@ class Period extends Property {
     }
 
     /**
-     * Returns the value, in the format it should be encoded for XML.
+     * This method serializes only the value of a property. This is used to
+     * create xCard or xCal documents.
      *
-     * This method must always return an array.
-     *
-     * @return array
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
      */
-    public function getXmlValue() {
+    protected function xmlSerializeValue(Xml\Writer $writer) {
 
-        $val = parent::getXmlValue();
+        $writer->startElement(strtolower($this->getValueType()));
 
-        return [
-            [
-                [
-                    'name' => 'start',
-                    'value' => $val[0][0]
-                ],
-                [
-                    'name' => $val[0][1][0] === 'P' ? 'duration' : 'end',
-                    'value' => $val[0][1]
-                ]
-            ]
-        ];
+        $value = $this->getJsonValue();
+
+        $writer->startElement('start');
+            $writer->write($value[0][0]);
+        $writer->endElement();
+
+        if ($value[0][1][0] === 'P') {
+            $writer->startElement('duration');
+        }
+        else {
+            $writer->startElement('end');
+        }
+
+        $writer->write($value[0][1]);
+        $writer->endElement();
+
+        $writer->endElement();
 
     }
 

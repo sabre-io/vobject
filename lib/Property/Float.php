@@ -112,40 +112,6 @@ class Float extends Property {
     }
 
     /**
-     * Returns the value, in the format it should be encoded for XML.
-     *
-     * This method must always return an array.
-     *
-     * @return array
-     */
-    public function getXmlValue() {
-
-        $val = array_map('floatval', $this->getParts());
-
-        // Special-casing the GEO property.
-        //
-        // See:
-        // http://tools.ietf.org/html/rfc6321#section-3.4.1.2
-        if ($this->name === 'GEO') {
-            return [
-                [
-                    [
-                        'name' => 'latitude',
-                        'value' => $val[0]
-                    ],
-                    [
-                        'name' => 'longitude',
-                        'value' => $val[1]
-                    ]
-                ]
-            ];
-        }
-
-        return $val;
-
-    }
-
-    /**
      * This method serializes only the value of a property. This is used to
      * create xCard or xCal documents.
      *
@@ -159,9 +125,17 @@ class Float extends Property {
         // See:
         // http://tools.ietf.org/html/rfc6321#section-3.4.1.2
         if ($this->name === 'GEO') {
-            foreach ($this->getXmlValue() as $value) {
-                $writer->write($value);
-            }
+
+            $value = array_map('floatval', $this->getParts());
+
+            $writer->startElement('latitude');
+                $writer->write($value[0]);
+            $writer->endElement();
+
+            $writer->startElement('longitude');
+                $writer->write($value[1]);
+            $writer->endElement();
+
         }
         else {
             parent::xmlSerializeValue($writer);
