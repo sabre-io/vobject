@@ -322,19 +322,6 @@ abstract class Property extends Node {
     }
 
     /**
-     * Returns the value, in the format it should be encoded for XML.
-     *
-     * This method must always return an array.
-     *
-     * @return array
-     */
-    function getXmlValue() {
-
-        return $this->getJsonValue();
-
-    }
-
-    /**
      * Sets the XML value, as it would appear in a xCard or xCal object.
      *
      * The value must always be an array.
@@ -345,6 +332,19 @@ abstract class Property extends Node {
     function setXmlValue(array $value) {
 
         $this->setJsonValue($value);
+
+    }
+
+    /**
+     * Returns the value, in the format it should be encoded for XML.
+     *
+     * This method must always return an array.
+     *
+     * @return array
+     */
+    function getXmlValue() {
+
+        return $this->getJsonValue();
 
     }
 
