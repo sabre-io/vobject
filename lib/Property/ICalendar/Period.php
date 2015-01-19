@@ -126,20 +126,6 @@ class Period extends Property {
     }
 
     /**
-     * Sets the XML value, as it would appear in a xCard or xCal object.
-     *
-     * The value must always be an array.
-     *
-     * @param array $value
-     * @return void
-     */
-    function setXmlValue(array $value) {
-
-        $this->setJsonValue($value);
-
-    }
-
-    /**
      * Returns the value, in the format it should be encoded for XML.
      *
      * This method must always return an array.
@@ -148,7 +134,7 @@ class Period extends Property {
      */
     public function getXmlValue() {
 
-        $val = $this->getJsonValue();
+        $val = parent::getXmlValue();
 
         return [
             [
