@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject;
 
+use Sabre\Xml;
+
 /**
  * Component
  *
@@ -346,42 +348,51 @@ class Component extends Node {
     }
 
     /**
-     * This method returns an array, with the representation as it should be
-     * encoded in XML. This is used to create xCard or xCal documents.
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
      *
-     * @return array
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
      */
-    function xmlSerialize() {
+    function xmlSerialize(Xml\Writer $writer) {
 
         $components = [];
         $properties = [];
 
         foreach($this->children as $child) {
             if ($child instanceof Component) {
-                $components[] = $child->xmlSerialize()[0];
+                $components[] = $child;
             } else {
-                $properties[] = $child->xmlSerialize();
+                $properties[] = $child;
             }
         }
 
-        $out = [
-            'name' => strtolower($this->name),
-            'value' => []
-        ];
+        $writer->startElement(strtolower($this->name));
 
-        if(!empty($properties))
-            $out['value'][] = [
-                'name' => 'properties',
-                'value' => $properties
-            ];
+        if (!empty($properties)) {
 
-        if(!empty($components))
-            $out['value'][] = [
-                'name' => 'components',
-                'value' => $components
-            ];
+            $writer->startElement('properties');
 
-        return [$out];
+            foreach ($properties as $property) {
+                $property->xmlSerialize($writer);
+            }
+
+            $writer->endElement();
+
+        }
+
+        if (!empty($components)) {
+
+            $writer->startElement('components');
+
+            foreach ($components as $component) {
+                $component->xmlSerialize($writer);
+            }
+
+            $writer->endElement();
+        }
+
+        $writer->endElement();
 
     }
 

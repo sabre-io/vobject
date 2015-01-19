@@ -65,7 +65,8 @@ class Writer {
         }
 
         $writer->setIndent(true);
-        $writer->write($component->xmlSerialize());
+
+        $component->xmlSerialize($writer);
 
         $writer->endElement();
 

@@ -3,6 +3,7 @@
 namespace Sabre\VObject;
 
 use
+    Sabre\Xml,
     ArrayIterator;
 
 /**
@@ -346,14 +347,15 @@ class Parameter extends Node {
     }
 
     /**
-     * This method returns an array, with the representation as it should be
-     * encoded in XML. This is used to create xCard or xCal documents.
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
      *
-     * @return array
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
      */
-    function xmlSerialize() {
+    function xmlSerialize(Xml\Writer $writer) {
 
-        return $this->value;
+        $writer->write($this->value);
 
     }
 

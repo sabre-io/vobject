@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject;
 
+use Sabre\Xml;
+
 /**
  * Property
  *
@@ -347,50 +349,67 @@ abstract class Property extends Node {
     }
 
     /**
-     * This method returns an array, with the representation as it should be
-     * encoded in XML. This is used to create xCard or xCal documents.
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
      *
-     * @return array
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
      */
-    function xmlSerialize() {
+    function xmlSerialize(Xml\Writer $writer) {
 
         $parameters = [];
 
         foreach($this->parameters as $parameter) {
+
             if ($parameter->name === 'VALUE') {
                 continue;
             }
-            $parameters[] = [
-                'name' => strtolower($parameter->name),
-                'value' => [
-                    [
-                        'name' => 'text',
-                        'value' => $parameter->xmlSerialize()
-                    ]
-                ]
-            ];
+
+            $parameters[] = $parameter;
+
         }
 
-        $properties = [
-            'name' => strtolower($this->name),
-            'value' => []
-        ];
+        $writer->startElement(strtolower($this->name));
 
-        if(!empty($parameters))
-            $properties['value'][] = [
-                'name' => 'parameters',
-                'value' => $parameters
-            ];
+        if (!empty($parameters)) {
+
+            $writer->startElement('parameters');
+
+            foreach ($parameters as $parameter) {
+
+                $writer->startElement(strtolower($parameter->name));
+                    $writer->startElement('text');
+                        $parameter->xmlSerialize($writer);
+                    $writer->endElement();
+                $writer->endElement();
+
+            }
+
+            $writer->endElement();
+
+        }
+
+        $this->xmlSerializeValue($writer);
+        $writer->endElement();
+
+    }
+
+    /**
+     * This method serializes only the value of a property. This is used to
+     * create xCard or xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    protected function xmlSerializeValue(Xml\Writer $writer) {
 
         foreach ($this->getXmlValue() as $value) {
-            $properties['value'][] = [
-                'name' => strtolower($this->getValueType()),
-                'value' => $value
-            ];
+
+            $writer->startElement(strtolower($this->getValueType()));
+                $writer->write($value);
+            $writer->endElement();
+
         }
-
-
-        return $properties;
 
     }
 

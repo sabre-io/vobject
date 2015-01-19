@@ -3,7 +3,8 @@
 namespace Sabre\VObject\Property;
 
 use
-    Sabre\VObject\Property;
+    Sabre\VObject\Property,
+    Sabre\Xml;
 
 /**
  * Float property
@@ -145,28 +146,26 @@ class Float extends Property {
     }
 
     /**
-     * This method returns an array, with the representation as it should be
-     * encoded in XML. This is used to create xCard or xCal documents.
+     * This method serializes only the value of a property. This is used to
+     * create xCard or xCal documents.
      *
-     * @return array
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
      */
-    function xmlSerialize() {
-
-        $serialization = parent::xmlSerialize();
+    protected function xmlSerializeValue(Xml\Writer $writer) {
 
         // Special-casing the GEO property.
         //
         // See:
         // http://tools.ietf.org/html/rfc6321#section-3.4.1.2
         if ($this->name === 'GEO') {
-
-            $handle = $serialization['value'][0]['value'];
-            $serialization['value'] = $handle;
-            return $serialization;
-
+            foreach ($this->getXmlValue() as $value) {
+                $writer->write($value);
+            }
         }
-
-        return $serialization;
+        else {
+            parent::xmlSerializeValue($writer);
+        }
 
     }
 
