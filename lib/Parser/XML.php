@@ -101,6 +101,7 @@ class XML extends Parser {
      * Parse a vCalendar.
      *
      * @param Sabre\VObject\Component $parentComponent
+     * @return void
      */
     protected function parseVcalendarComponents(Component $parentComponent) {
 
