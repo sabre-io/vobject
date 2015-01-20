@@ -127,9 +127,10 @@ class XML extends Parser {
 
                             $xmlParameters = $xmlPropertyChild['value'];
 
-                            foreach ($xmlParameters as $xmlParameter)
+                            foreach ($xmlParameters as $xmlParameter) {
                                 $propertyParameters[static::getTagName($xmlParameter['name'])]
                                     = $xmlParameter['value'][0]['value'];
+                            }
 
                             array_splice($xmlProperty['value'], $i, 1);
 
