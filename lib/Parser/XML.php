@@ -186,7 +186,6 @@ class XML extends Parser {
                                         $propertyValue[] = $specialChild['value'];
                                     }
                                 }
-
                                 break;
 
                             default:
@@ -195,7 +194,6 @@ class XML extends Parser {
 
                                 if('date' === $propertyType)
                                     $propertyParameters['value'] = 'DATE';
-
                                 break;
                         }
 
