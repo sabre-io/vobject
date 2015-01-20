@@ -61,9 +61,8 @@ class Boolean extends Property {
     }
 
     /**
-     * Sets the XML value, as it would appear in a xCard or xCal object.
-     *
-     * The value must always be an array.
+     * Hydrate data from a XML subtree, as it would appear in a xCard or xCal
+     * object.
      *
      * @param array $value
      * @return void
