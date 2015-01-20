@@ -158,42 +158,43 @@ class DateAndOrTime extends Property {
 
         // Year
         if (!is_null($parts['year'])) {
-            $dateStr.=$parts['year'];
+
+            $dateStr .= $parts['year'];
 
             if (!is_null($parts['month'])) {
                 // If a year and a month is set, we need to insert a separator
                 // dash.
-                $dateStr.='-';
+                $dateStr .= '-';
             }
 
         } else {
 
             if (!is_null($parts['month']) || !is_null($parts['date'])) {
                 // Inserting two dashes
-                $dateStr.='--';
+                $dateStr .= '--';
             }
 
         }
 
         // Month
         if (!is_null($parts['month'])) {
-            $dateStr.=$parts['month'];
+
+            $dateStr .= $parts['month'];
 
             if (isset($parts['date'])) {
                 // If month and date are set, we need the separator dash.
-                $dateStr.='-';
+                $dateStr .= '-';
             }
-        } else {
-            if (isset($parts['date'])) {
-                // If the month is empty, and a date is set, we need a 'empty
-                // dash'
-                $dateStr.='-';
-            }
+
+        } elseif (isset($parts['date'])) {
+            // If the month is empty, and a date is set, we need a 'empty
+            // dash'
+            $dateStr .= '-';
         }
 
         // Date
         if (!is_null($parts['date'])) {
-            $dateStr.=$parts['date'];
+            $dateStr .= $parts['date'];
         }
 
 
@@ -202,43 +203,45 @@ class DateAndOrTime extends Property {
             return [$dateStr];
         }
 
-        $dateStr.='T';
+        $dateStr .= 'T';
 
         // Hour
         if (!is_null($parts['hour'])) {
-            $dateStr.=$parts['hour'];
+
+            $dateStr .= $parts['hour'];
 
             if (!is_null($parts['minute'])) {
-                $dateStr.=':';
+                $dateStr .= ':';
             }
+
         } else {
             // We know either minute or second _must_ be set, so we insert a
             // dash for an empty value.
-            $dateStr.='-';
+            $dateStr .= '-';
         }
 
         // Minute
         if (!is_null($parts['minute'])) {
-            $dateStr.=$parts['minute'];
+
+            $dateStr .= $parts['minute'];
 
             if (!is_null($parts['second'])) {
-                $dateStr.=':';
+                $dateStr .= ':';
             }
-        } else {
-            if (isset($parts['second'])) {
-                // Dash for empty minute
-                $dateStr.='-';
-            }
+
+        } elseif (isset($parts['second'])) {
+            // Dash for empty minute
+            $dateStr .= '-';
         }
 
         // Second
         if (!is_null($parts['second'])) {
-            $dateStr.=$parts['second'];
+            $dateStr .= $parts['second'];
         }
 
         // Timezone
         if (!is_null($parts['timezone'])) {
-            $dateStr.=$parts['timezone'];
+            $dateStr .= $parts['timezone'];
         }
 
         return [$dateStr];
@@ -296,6 +299,7 @@ class DateAndOrTime extends Property {
 
         $messages = parent::validate($options);
         $value = $this->getValue();
+
         try {
             DateTimeParser::parseVCardDateTime($value);
         } catch (\InvalidArgumentException $e) {
@@ -305,6 +309,7 @@ class DateAndOrTime extends Property {
                 'node' => $this,
             ];
         }
+
         return $messages;
 
     }
