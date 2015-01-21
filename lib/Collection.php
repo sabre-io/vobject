@@ -32,10 +32,15 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
      * Construct the collection by setting the type of items it contains, for
      * instance: 'Sabre\VObject\Vcard'.
      *
-     * @param string $type    Type of items.
+     * @param  string $type    Type of items.
      * @return void
+     * @throw  \InvalidArgumentException
      */
     function __construct($type) {
+
+        if (!is_subclass_of($type, Document::class)) {
+            throw new \InvalidArgumentException('Items of this collection must be at least of type ' . Document::class);
+        }
 
         $this->type = $type;
 
@@ -81,8 +86,8 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
 
         $type = $this->type;
 
-        if (!(($value instanceof Document) && ($value instanceof $type))) {
-            throw new \InvalidArgumentException('Items of this collection must be of type ' . __NAMESPACE__ . '\Document and ' . $type);
+        if (!($value instanceof $type)) {
+            throw new \InvalidArgumentException('Items of this collection must be of type ' . $type);
         }
 
         if (is_null($offset)) {

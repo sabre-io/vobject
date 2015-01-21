@@ -10,7 +10,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase {
     function testInvalidType() {
 
         $collection = new Collection('StdClass');
-        $collection[] = new \StdClass();
 
     }
 
