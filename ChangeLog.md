@@ -366,7 +366,7 @@ ChangeLog
   add() method.
 
 
-2.1.7 (2015-??-??)
+2.1.7 (2015-01-21)
 ------------------
 
 * Fixed: Issue #94, a workaround for bad escaping of ; and , in compound
