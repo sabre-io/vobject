@@ -11,7 +11,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase {
 
     function testRFC6321Example1() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -266,7 +266,7 @@ XML;
      */
     function testRFC6321Section3_2() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -284,7 +284,7 @@ XML
      */
     function testRFC6321Section3_3() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -330,7 +330,7 @@ XML
      */
     function testRFC6321Section3_4_1_2() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -358,7 +358,7 @@ XML
     function testRFC6321Section3_4_1_3() {
 
         // Example 1 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -379,7 +379,7 @@ XML
         );
 
         // Example 2 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -401,7 +401,7 @@ XML
         );
 
         // Example 3 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -424,7 +424,7 @@ XML
         );
 
         // Example 4 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -445,7 +445,7 @@ XML
         );
 
         // Example 5 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -473,7 +473,7 @@ XML
      */
     function testRFC6321Section3_6_1() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -493,7 +493,7 @@ XML
         );
 
         // In vCard 4, BINARY no longer exists and is replaced by URI.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -519,7 +519,7 @@ XML
      */
     function testRFC6321Section3_6_2() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -548,7 +548,7 @@ XML
      */
     function testRFC6321Section3_6_3() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -574,7 +574,7 @@ XML
      */
     function testRFC6321Section3_6_4() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -600,7 +600,7 @@ XML
      */
     function testRFC6321Section3_6_5() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -626,7 +626,7 @@ XML
      */
     function testRFC6321Section3_6_6() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -662,7 +662,7 @@ XML
      */
     function testRFC6321Section3_6_8() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -681,7 +681,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -707,7 +707,7 @@ XML
      */
     function testRFC6321Section3_6_9() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -729,7 +729,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -758,7 +758,7 @@ XML
      */
     function testRFC6321Section3_6_10() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -789,7 +789,7 @@ XML
      */
     function testRFC6321Section3_6_11() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -815,7 +815,7 @@ XML
      */
     function testRFC6321Section3_6_12() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -841,7 +841,7 @@ XML
      */
     function testRFC6321Section3_6_13() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -868,7 +868,7 @@ XML
     function testRFC6321Section3_6_14() {
 
         // Example 1 of RFC5545, Section 3.3.14.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -888,7 +888,7 @@ XML
         );
 
         // Example 2 of RFC5545, Section 3.3.14.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -914,7 +914,7 @@ XML
      */
     function testRFC6321Section5() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -933,7 +933,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -961,7 +961,7 @@ XML
 
     function testRDateWithDateTime() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -980,7 +980,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1004,7 +1004,7 @@ XML
 
     function testRDateWithDate() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1023,7 +1023,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1048,7 +1048,7 @@ XML
 
     function testRDateWithPeriod() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1075,7 +1075,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1111,27 +1111,25 @@ XML
 
     /**
      * Check this equality:
-     *     xCal -> object model -> iCal.
+     *     XML -> object model -> MIME Dir.
      */
-    protected function assertXCalEqualsToICal($xcal, $ical) {
+    protected function assertXMLEqualsToMimeDir($xml, $mimedir) {
 
-        $component = VObject\Reader::readXML($xcal);
-        $this->assertEquals($ical, VObject\Writer::write($component));
+        $component = VObject\Reader::readXML($xml);
+        $this->assertEquals($mimedir, VObject\Writer::write($component));
 
     }
 
     /**
      * Check this (reflexive) equality:
-     *     xCal -> object model -> iCal -> object model -> xCal.
+     *     XML -> object model -> MIME Dir -> object model -> XML.
      */
-    protected function assertXCalReflexivelyEqualsToICal($xcal, $ical) {
+    protected function assertXMLReflexivelyEqualsToMimeDir($xml, $mimedir) {
 
-        $this->assertXCalEqualsToICal($xcal, $ical);
+        $this->assertXMLEqualsToMimeDir($xml, $mimedir);
 
-        $component = VObject\Reader::read($ical);
-        $this->assertEquals($xcal, rtrim(VObject\Writer::writeXML($component)));
+        $component = VObject\Reader::read($mimedir);
+        $this->assertEquals($xml, rtrim(VObject\Writer::writeXML($component)));
 
     }
-
-    // + parameters
 }
