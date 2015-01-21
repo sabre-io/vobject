@@ -148,7 +148,7 @@ class VCalendar extends VObject\Document {
     /**
      * Returns the current document type.
      *
-     * @return void
+     * @return int
      */
     function getDocumentType() {
 

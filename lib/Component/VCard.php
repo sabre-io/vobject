@@ -129,12 +129,14 @@ class VCard extends VObject\Document {
     /**
      * Returns the current document type.
      *
-     * @return void
+     * @return int
      */
     function getDocumentType() {
 
         if (!$this->version) {
+
             $version = (string)$this->VERSION;
+
             switch($version) {
                 case '2.1' :
                     $this->version = self::VCARD21;
@@ -148,7 +150,6 @@ class VCard extends VObject\Document {
                 default :
                     $this->version = self::UNKNOWN;
                     break;
-
             }
         }
 
