@@ -268,9 +268,9 @@ class EventIterator implements \Iterator {
         );
         // @codeCoverageIgnoreEnd
 
-        $event->DTSTART->setDateTime($this->getDtStart());
+        $event->DTSTART->setDateTime($this->getDtStart(), $event->DTSTART->isFloating());
         if (isset($event->DTEND)) {
-            $event->DTEND->setDateTime($this->getDtEnd());
+            $event->DTEND->setDateTime($this->getDtEnd(), $event->DTEND->isFloating());
         }
         // Including a RECURRENCE-ID to the object, unless this is the first
         // object.
