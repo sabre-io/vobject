@@ -82,8 +82,9 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
      */
     function getIterator() {
 
-        if (!is_null($this->iterator))
+        if (!is_null($this->iterator)) {
             return $this->iterator;
+        }
 
         return new ElementList([$this]);
 
