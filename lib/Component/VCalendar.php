@@ -260,7 +260,6 @@ class VCalendar extends VObject\Document {
                 continue;
             }
 
-
             if (!$vevent->rrule) {
                 unset($this->children[$key]);
                 if ($vevent->isInTimeRange($start, $end)) {
@@ -269,9 +268,8 @@ class VCalendar extends VObject\Document {
                 continue;
             }
 
-
-
             $uid = (string)$vevent->uid;
+
             if (!$uid) {
                 throw new \LogicException('Event did not have a UID!');
             }
@@ -314,7 +312,6 @@ class VCalendar extends VObject\Document {
                     $dt[0] = $dt[0]->setTimeZone(new DateTimeZone('UTC'));
                     $child->setDateTimes($dt);
                 }
-
             }
 
             $this->add($newEvent);
@@ -406,9 +403,7 @@ class VCalendar extends VObject\Document {
         }
 
         $uidList = [];
-
         $componentsFound = 0;
-
         $componentTypes = [];
 
         foreach($this->children as $child) {
