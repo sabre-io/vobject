@@ -84,14 +84,32 @@ class XML extends Parser {
             throw new EofException('End of input stream, or no input supplied');
         }
 
-        if ($this->input['name'] === '{' . self::XCAL_NAMESPACE . '}icalendar') {
+        switch ($this->input['name']) {
 
-            $this->root = new VCalendar([], false);
-            $this->pointer = &$this->input['value'][0];
-            $this->parseVcalendarComponents($this->root);
+            case '{' . self::XCAL_NAMESPACE . '}icalendar':
+                $this->root = new VCalendar([], false);
+                $this->pointer = &$this->input['value'][0];
+                $this->parseVCalendarComponents($this->root);
+                break;
 
-        } else {
-            throw new \Exception('Unsupported XML standard');
+            case '{' . self::XCARD_NAMESPACE . '}vcards':
+                $collection = [];
+
+                foreach ($this->input['value'] as &$vCard) {
+
+                    $this->root = new VCard(['version' => '4.0'], false);
+                    $collection[]   = $this->root;
+                    $this->pointer  = &$vCard;
+                    $this->parseVCardComponents($this->root);
+
+                }
+
+                $this->root = $collection;
+                break;
+
+            default:
+                throw new \Exception('Unsupported XML standard');
+
         }
 
         return $this->root;
@@ -123,14 +141,18 @@ class XML extends Parser {
 
     }
 
-                            foreach ($xmlParameters as $xmlParameter) {
-                                $propertyParameters[static::getTagName($xmlParameter['name'])]
-                                    = $xmlParameter['value'][0]['value'];
-                            }
+    /**
+     * Parse a vCard.
+     *
+     * @param Sabre\VObject\Component $parentComponent
+     * @return void
+     */
+    protected function parseVCardComponents(Component $parentComponent) {
 
-                            array_splice($xmlProperty['value'], $i, 1);
+        $this->pointer = &$this->pointer['value'];
+        $this->parseProperty($parentComponent);
 
-                        }
+    }
 
     protected function parseProperty(Component $parentComponent) {
 
