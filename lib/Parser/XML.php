@@ -103,29 +103,25 @@ class XML extends Parser {
      * @param Sabre\VObject\Component $parentComponent
      * @return void
      */
-    protected function parseVcalendarComponents(Component $parentComponent) {
+    protected function parseVCalendarComponents(Component $parentComponent) {
 
         foreach ($this->pointer['value'] ?: [] as $children) {
 
             switch (static::getTagName($children['name'])) {
 
                 case 'properties':
-                    $xmlProperties = $children['value'];
+                    $this->pointer = &$children['value'];
+                    $this->parseProperty($parentComponent);
+                    break;
 
-                    foreach ($xmlProperties as $xmlProperty) {
+                case 'components':
+                    $this->pointer = &$children;
+                    $this->parseComponent($parentComponent);
+                    break;
+            }
+        }
 
-                        $propertyName       = static::getTagName($xmlProperty['name']);
-                        $propertyValue      = [];
-                        $propertyParameters = [];
-                        $propertyType       = 'text';
-
-                        foreach ($xmlProperty['value'] as $i => $xmlPropertyChild) {
-
-                            if (   !is_array($xmlPropertyChild)
-                                || 'parameters' !== static::getTagName($xmlPropertyChild['name']))
-                                continue;
-
-                            $xmlParameters = $xmlPropertyChild['value'];
+    }
 
                             foreach ($xmlParameters as $xmlParameter) {
                                 $propertyParameters[static::getTagName($xmlParameter['name'])]
@@ -136,103 +132,127 @@ class XML extends Parser {
 
                         }
 
-                        switch ($propertyName) {
+    protected function parseProperty(Component $parentComponent) {
 
-                            case 'geo':
-                                $propertyType               = 'float';
-                                $propertyValue['latitude']  = 0;
-                                $propertyValue['longitude'] = 0;
+        foreach ($this->pointer as $xmlProperty) {
 
-                                foreach ($xmlProperty['value'] as $xmlRequestChild) {
-                                    $propertyValue[static::getTagName($xmlRequestChild['name'])]
-                                        = $xmlRequestChild['value'];
-                                }
-                                break;
+            $propertyName       = static::getTagName($xmlProperty['name']);
+            $propertyValue      = [];
+            $propertyParameters = [];
+            $propertyType       = 'text';
 
-                            case 'request-status':
-                                $propertyType = 'text';
+            foreach ($xmlProperty['value'] as $i => $xmlPropertyChild) {
 
-                                foreach ($xmlProperty['value'] as $xmlRequestChild) {
-                                    $propertyValue[static::getTagName($xmlRequestChild['name'])]
-                                        = $xmlRequestChild['value'];
-                                }
-                                break;
+                if (   !is_array($xmlPropertyChild)
+                    || 'parameters' !== static::getTagName($xmlPropertyChild['name']))
+                    continue;
 
-                            case 'freebusy':
-                                $propertyType = 'freebusy';
-                                // We don't break because we only want to set
-                                // another property type.
+                foreach ($xmlParameters as $xmlParameter) {
+                    $propertyParameters[static::getTagName($xmlParameter['name'])]
+                        = $xmlParameter['value'][0]['value'];
+                }
 
-                            case 'categories':
-                            case 'resources':
-                            case 'exdate':
-                                foreach ($xmlProperty['value'] as $specialChild) {
-                                    $propertyValue[static::getTagName($specialChild['name'])]
-                                        = $specialChild['value'];
-                                }
-                                break;
+                array_splice($xmlProperty['value'], $i, 1);
 
-                            case 'rdate':
-                                $propertyType = 'date-time';
+            }
 
-                                foreach ($xmlProperty['value'] as $specialChild) {
+            switch ($propertyName) {
 
-                                    $tagName = static::getTagName($specialChild['name']);
+                case 'geo':
+                    $propertyType               = 'float';
+                    $propertyValue['latitude']  = 0;
+                    $propertyValue['longitude'] = 0;
 
-                                    if ('period' === $tagName) {
-
-                                        $propertyParameters['value'] = 'PERIOD';
-                                        $propertyValue[]             = implode('/', $specialChild['value']);
-
-                                    }
-                                    else {
-                                        $propertyValue[] = $specialChild['value'];
-                                    }
-                                }
-                                break;
-
-                            default:
-                                $propertyType  = static::getTagName($xmlProperty['value'][0]['name']);
-                                $propertyValue = [$xmlProperty['value'][0]['value']];
-
-                                if ('date' === $propertyType) {
-                                    $propertyParameters['value'] = 'DATE';
-                                }
-                                break;
-                        }
-
-                        $property = $this->root->createProperty(
-                            $propertyName,
-                            null,
-                            $propertyParameters,
-                            $propertyType
-                        );
-                        $parentComponent->add($property);
-                        $property->setXmlValue($propertyValue);
+                    foreach ($xmlProperty['value'] as $xmlRequestChild) {
+                        $propertyValue[static::getTagName($xmlRequestChild['name'])]
+                            = $xmlRequestChild['value'];
                     }
                     break;
 
-                case 'components':
-                    $components = $children['value'] ?: [];
+                case 'request-status':
+                    $propertyType = 'text';
 
-                    foreach ($components as $component) {
+                    foreach ($xmlProperty['value'] as $xmlRequestChild) {
+                        $propertyValue[static::getTagName($xmlRequestChild['name'])]
+                            = $xmlRequestChild['value'];
+                    }
+                    break;
 
-                        $componentName    = static::getTagName($component['name']);
-                        $currentComponent = $this->root->createComponent(
-                            $componentName,
-                            null,
-                            false
-                        );
+                case 'freebusy':
+                    $propertyType = 'freebusy';
+                    // We don't break because we only want to set
+                    // another property type.
 
-                        $this->pointer = &$component;
-                        $this->parseVcalendarComponents($currentComponent);
+                case 'categories':
+                case 'resources':
+                case 'exdate':
+                    foreach ($xmlProperty['value'] as $specialChild) {
+                        $propertyValue[static::getTagName($specialChild['name'])]
+                            = $specialChild['value'];
+                    }
+                    break;
 
-                        $parentComponent->add($currentComponent);
+                case 'rdate':
+                    $propertyType = 'date-time';
 
+                    foreach ($xmlProperty['value'] as $specialChild) {
+
+                        $tagName = static::getTagName($specialChild['name']);
+
+                        if ('period' === $tagName) {
+
+                            $propertyParameters['value'] = 'PERIOD';
+                            $propertyValue[]             = implode('/', $specialChild['value']);
+
+                        }
+                        else {
+                            $propertyValue[] = $specialChild['value'];
+                        }
+                    }
+                    break;
+
+                default:
+                    $propertyType  = static::getTagName($xmlProperty['value'][0]['name']);
+                    $propertyValue = [$xmlProperty['value'][0]['value']];
+
+                    if ('date' === $propertyType) {
+                        $propertyParameters['value'] = 'DATE';
                     }
                     break;
             }
+
+            $property = $this->root->createProperty(
+                $propertyName,
+                null,
+                $propertyParameters,
+                $propertyType
+            );
+            $parentComponent->add($property);
+            $property->setXmlValue($propertyValue);
         }
+
+    }
+
+    protected function parseComponent(Component $parentComponent) {
+
+        $components = $this->pointer['value'] ?: [];
+
+        foreach ($components as $component) {
+
+            $componentName    = static::getTagName($component['name']);
+            $currentComponent = $this->root->createComponent(
+                $componentName,
+                null,
+                false
+            );
+
+            $this->pointer = &$component;
+            $this->parseVCalendarComponents($currentComponent);
+
+            $parentComponent->add($currentComponent);
+
+        }
+
     }
 
     /**
