@@ -1,4 +1,4 @@
-2.1.7-stable (2015-??-??)
+2.1.7-stable (2015-01-21)
     * Fixed: Issue #94, a workaround for bad escaping of ; and , in compound
 	  properties. It's not a full solution, but it's an improvement for those
 	  stuck in the 2.1 versions.
