@@ -158,10 +158,37 @@ class XML extends Parser {
 
         foreach ($this->pointer as $xmlProperty) {
 
-            $propertyName       = static::getTagName($xmlProperty['name']);
+            list($namespace, $tagName) = SabreXml\Util::parseClarkNotation($xmlProperty['name']);
+
+            $propertyName       = $tagName;
             $propertyValue      = [];
             $propertyParameters = [];
             $propertyType       = 'text';
+
+            if (   $namespace !== self::XCAL_NAMESPACE
+                && $namespace !== self::XCARD_NAMESPACE) {
+
+                $propertyName = 'xml';
+                $value = '<' . $tagName . ' xmlns="' . $namespace . '"';
+
+                foreach ($xmlProperty['attributes'] as $attributeName => $attributeValue) {
+                    $value .= ' ' . $attributeName . '="' . str_replace('"', '\"', $attributeValue) . '"';
+                }
+
+                $value .= '>' . $xmlProperty['value'] . '</' . $tagName. '>';
+
+                $propertyValue = [$value];
+
+                $this->createProperty(
+                    $parentComponent,
+                    $propertyName,
+                    $propertyParameters,
+                    $propertyType,
+                    $propertyValue
+                );
+
+                continue;
+            }
 
             foreach ($xmlProperty['value'] as $i => $xmlPropertyChild) {
 
@@ -246,15 +273,28 @@ class XML extends Parser {
                     break;
             }
 
-            $property = $this->root->createProperty(
+            $this->createProperty(
+                $parentComponent,
                 $propertyName,
-                null,
                 $propertyParameters,
-                $propertyType
+                $propertyType,
+                $propertyValue
             );
-            $parentComponent->add($property);
-            $property->setXmlValue($propertyValue);
+
         }
+
+    }
+
+    protected function createProperty(Component $parentComponent, $name, $parameters, $type, $value) {
+
+        $property = $this->root->createProperty(
+            $name,
+            null,
+            $parameters,
+            $type
+        );
+        $parentComponent->add($property);
+        $property->setXmlValue($value);
 
     }
 
