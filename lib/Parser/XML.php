@@ -193,8 +193,9 @@ class XML extends Parser {
                                 $propertyType  = static::getTagName($xmlProperty['value'][0]['name']);
                                 $propertyValue = [$xmlProperty['value'][0]['value']];
 
-                                if('date' === $propertyType)
+                                if ('date' === $propertyType) {
                                     $propertyParameters['value'] = 'DATE';
+                                }
                                 break;
                         }
 
