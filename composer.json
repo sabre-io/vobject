@@ -7,7 +7,7 @@
     "require" : {
         "php"          : ">=5.5",
         "ext-mbstring" : "*",
-        "sabre/xml"    : "~0.2"
+        "sabre/xml"    : "~0.2.1"
     },
     "require-dev" : {
         "phpunit/phpunit" : "*",
