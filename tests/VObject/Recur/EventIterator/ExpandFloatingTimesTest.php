@@ -6,9 +6,6 @@ use
     DateTime,
     DateTimeZone;
 
-/**
- * This is a unittest for Issue #53.
- */
 class ExpandFloatingTimesTest extends \PHPUnit_Framework_TestCase {
 
     function testExpand() {
