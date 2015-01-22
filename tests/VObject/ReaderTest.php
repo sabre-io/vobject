@@ -458,7 +458,7 @@ ICS;
 </icalendar>
 XML;
 
-        $result = Reader::readXML($data);
+        $result = Reader::readXML($data)->current();
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
@@ -480,7 +480,7 @@ XML;
         fwrite($stream, $data);
         rewind($stream);
 
-        $result = Reader::readXML($stream);
+        $result = Reader::readXML($stream)->current();
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
