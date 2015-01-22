@@ -15,7 +15,8 @@ abstract class Node
     implements \IteratorAggregate,
                \ArrayAccess,
                \Countable,
-               \JsonSerializable {
+               \JsonSerializable,
+               Xml\XmlSerializable {
 
     /**
      * The following constants are used by the validate() method.
