@@ -160,6 +160,8 @@ class XML extends Parser {
 
                             case 'freebusy':
                                 $propertyType = 'freebusy';
+                                // We don't break because we only want to set
+                                // another property type.
 
                             case 'categories':
                             case 'resources':
