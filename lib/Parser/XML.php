@@ -117,9 +117,9 @@ class XML extends Parser {
     }
 
     /**
-     * Parse a vCalendar.
+     * Parse a xCalendar component.
      *
-     * @param Sabre\VObject\Component $parentComponent
+     * @param Component $parentComponent
      * @return void
      */
     protected function parseVCalendarComponents(Component $parentComponent) {
@@ -130,7 +130,7 @@ class XML extends Parser {
 
                 case 'properties':
                     $this->pointer = &$children['value'];
-                    $this->parseProperty($parentComponent);
+                    $this->parseProperties($parentComponent);
                     break;
 
                 case 'components':
@@ -143,19 +143,25 @@ class XML extends Parser {
     }
 
     /**
-     * Parse a vCard.
+     * Parse a xCard component.
      *
-     * @param Sabre\VObject\Component $parentComponent
+     * @param Component $parentComponent
      * @return void
      */
     protected function parseVCardComponents(Component $parentComponent) {
 
         $this->pointer = &$this->pointer['value'];
-        $this->parseProperty($parentComponent);
+        $this->parseProperties($parentComponent);
 
     }
 
-    protected function parseProperty(Component $parentComponent) {
+    /**
+     * Parse xCalendar and xCard properties.
+     *
+     * @param Component $parentComponent
+     * @return void
+     */
+    protected function parseProperties(Component $parentComponent) {
 
         foreach ($this->pointer as $xmlProperty) {
 
@@ -166,6 +172,7 @@ class XML extends Parser {
             $propertyParameters = [];
             $propertyType       = 'text';
 
+            // A property which is not part of the standard.
             if (   $namespace !== self::XCAL_NAMESPACE
                 && $namespace !== self::XCARD_NAMESPACE) {
 
@@ -191,6 +198,7 @@ class XML extends Parser {
                 continue;
             }
 
+            // Collect parameters.
             foreach ($xmlProperty['value'] as $i => $xmlPropertyChild) {
 
                 if (   !is_array($xmlPropertyChild)
@@ -286,19 +294,12 @@ class XML extends Parser {
 
     }
 
-    protected function createProperty(Component $parentComponent, $name, $parameters, $type, $value) {
-
-        $property = $this->root->createProperty(
-            $name,
-            null,
-            $parameters,
-            $type
-        );
-        $parentComponent->add($property);
-        $property->setXmlValue($value);
-
-    }
-
+    /**
+     * Parse a component.
+     *
+     * @param Component $parentComponent
+     * @return void
+     */
     protected function parseComponent(Component $parentComponent) {
 
         $components = $this->pointer['value'] ?: [];
@@ -318,6 +319,29 @@ class XML extends Parser {
             $parentComponent->add($currentComponent);
 
         }
+
+    }
+
+    /**
+     * Create a property.
+     *
+     * @param Component $parentComponent
+     * @param string $name
+     * @param array $parameters
+     * @param string $type
+     * @param mixed $value
+     * @return void
+     */
+    protected function createProperty(Component $parentComponent, $name, $parameters, $type, $value) {
+
+        $property = $this->root->createProperty(
+            $name,
+            null,
+            $parameters,
+            $type
+        );
+        $parentComponent->add($property);
+        $property->setXmlValue($value);
 
     }
 
