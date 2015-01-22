@@ -5,6 +5,11 @@ ChangeLog
 ------------
 
 * sabre/vobject now requires PHP 5.5.
+* #160: Support for xCal. (@Hywan)
+* #186: Fixing conversion of `UTC-OFFSET` properties when going back and
+  forward between jCal and iCalendar.
+* Properties, Components and Parameters now implement PHP's `JsonSerializable`
+  interface.
 * #139: We now accept `DateTimeInterface` whereever it accepted `DateTime`
    before in arguments. This means that either `DateTime` or
   `DateTimeImmutable` may be used everywhere.
