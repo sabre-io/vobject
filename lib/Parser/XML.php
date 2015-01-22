@@ -205,6 +205,8 @@ class XML extends Parser {
                     || 'parameters' !== static::getTagName($xmlPropertyChild['name']))
                     continue;
 
+                $xmlParameters = $xmlPropertyChild['value'];
+
                 foreach ($xmlParameters as $xmlParameter) {
                     $propertyParameters[static::getTagName($xmlParameter['name'])]
                         = $xmlParameter['value'][0]['value'];
