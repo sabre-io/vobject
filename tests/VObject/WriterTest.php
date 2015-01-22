@@ -36,6 +36,15 @@ class WriterTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    function testWriteToMimeDirWithUnexpectedArgument() {
+
+        $result = Writer::write('foo');
+
+    }
+
     function testWriteToJson() {
 
         $result = Writer::writeJson($this->getComponent());
