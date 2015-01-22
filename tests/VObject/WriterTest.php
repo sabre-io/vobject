@@ -65,4 +65,13 @@ class WriterTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    function testWriteToXmlWithUnexpectedArgument() {
+
+        $result = Writer::writeXml('foo');
+
+    }
+
 }
