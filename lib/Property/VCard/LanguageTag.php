@@ -52,7 +52,7 @@ class LanguageTag extends Property {
      */
     public function getValueType() {
 
-        return "LANGUAGE-TAG";
+        return 'LANGUAGE-TAG';
 
     }
 

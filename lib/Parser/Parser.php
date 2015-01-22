@@ -61,10 +61,10 @@ abstract class Parser {
      * If either input or options are not supplied, the defaults will be used.
      *
      * @param mixed $input
-     * @param int|null $options
+     * @param int $options
      * @return array
      */
-    abstract public function parse($input = null, $options = null);
+    abstract public function parse($input = null, $options = 0);
 
     /**
      * Sets the input data.

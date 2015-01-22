@@ -6,7 +6,8 @@ use
     Sabre\VObject\Property,
     Sabre\VObject\Component,
     Sabre\VObject\Parser\MimeDir,
-    Sabre\VObject\Document;
+    Sabre\VObject\Document,
+    Sabre\Xml;
 
 /**
  * Text property
@@ -84,7 +85,6 @@ class Text extends Property {
         parent::__construct($root, $name, $value, $parameters, $group);
 
     }
-
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -191,7 +191,7 @@ class Text extends Property {
      */
     public function getValueType() {
 
-        return "TEXT";
+        return 'TEXT';
 
     }
 
@@ -283,7 +283,37 @@ class Text extends Property {
 
             return $out;
 
+        }
 
+    }
+
+    /**
+     * This method serializes only the value of a property. This is used to
+     * create xCard or xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    protected function xmlSerializeValue(Xml\Writer $writer) {
+
+        // Special-casing the REQUEST-STATUS property.
+        //
+        // See:
+        // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
+        if ($this->name === 'REQUEST-STATUS') {
+
+            $value = $this->getJsonValue();
+
+            $writer->writeElement('code', $value[0][0]);
+            $writer->writeElement('description', $value[0][1]);
+
+            if (isset($value[0][2])) {
+                $writer->writeElement('data', $value[0][2]);
+            }
+
+        }
+        else {
+            parent::xmlSerializeValue($writer);
         }
 
     }

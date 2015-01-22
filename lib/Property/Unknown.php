@@ -37,7 +37,7 @@ class Unknown extends Text {
      */
     function getValueType() {
 
-        return "UNKNOWN";
+        return 'UNKNOWN';
 
     }
 

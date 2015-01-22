@@ -30,7 +30,7 @@ class Boolean extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $val = strtoupper($val)==='TRUE'?true:false;
+        $val = strtoupper($val) === 'TRUE' ? true : false;
         $this->setValue($val);
 
     }
@@ -42,7 +42,7 @@ class Boolean extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return $this->value?'TRUE':'FALSE';
+        return $this->value ? 'TRUE' : 'FALSE';
 
     }
 
@@ -57,6 +57,25 @@ class Boolean extends Property {
     public function getValueType() {
 
         return 'BOOLEAN';
+
+    }
+
+    /**
+     * Hydrate data from a XML subtree, as it would appear in a xCard or xCal
+     * object.
+     *
+     * @param array $value
+     * @return void
+     */
+    function setXmlValue(array $value) {
+
+        $value = array_map(
+            function($value) {
+                return 'true' === $value;
+            },
+            $value
+        );
+        parent::setXmlValue($value);
 
     }
 

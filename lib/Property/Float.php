@@ -3,7 +3,8 @@
 namespace Sabre\VObject\Property;
 
 use
-    Sabre\VObject\Property;
+    Sabre\VObject\Property,
+    Sabre\Xml;
 
 /**
  * Float property
@@ -68,12 +69,12 @@ class Float extends Property {
      */
     public function getValueType() {
 
-        return "FLOAT";
+        return 'FLOAT';
 
     }
 
     /**
-     * Returns the value, in the format it should be encoded for json.
+     * Returns the value, in the format it should be encoded for JSON.
      *
      * This method must always return an array.
      *
@@ -87,10 +88,53 @@ class Float extends Property {
         //
         // See:
         // http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-04#section-3.4.1.2
-        if ($this->name==='GEO') {
+        if ($this->name === 'GEO') {
             return [$val];
         }
+
         return $val;
 
     }
+
+    /**
+     * Hydrate data from a XML subtree, as it would appear in a xCard or xCal
+     * object.
+     *
+     * @param array $value
+     * @return void
+     */
+    function setXmlValue(array $value) {
+
+        $value = array_map('floatval', $value);
+        parent::setXmlValue($value);
+
+    }
+
+    /**
+     * This method serializes only the value of a property. This is used to
+     * create xCard or xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    protected function xmlSerializeValue(Xml\Writer $writer) {
+
+        // Special-casing the GEO property.
+        //
+        // See:
+        // http://tools.ietf.org/html/rfc6321#section-3.4.1.2
+        if ($this->name === 'GEO') {
+
+            $value = array_map('floatval', $this->getParts());
+
+            $writer->writeElement('latitude', $value[0]);
+            $writer->writeElement('longitude', $value[1]);
+
+        }
+        else {
+            parent::xmlSerializeValue($writer);
+        }
+
+    }
+
 }

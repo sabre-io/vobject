@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject;
 
+use Sabre\Xml;
+
 /**
  * Property
  *
@@ -257,7 +259,7 @@ abstract class Property extends Node {
     }
 
     /**
-     * Returns the value, in the format it should be encoded for json.
+     * Returns the value, in the format it should be encoded for JSON.
      *
      * This method must always return an array.
      *
@@ -270,7 +272,7 @@ abstract class Property extends Node {
     }
 
     /**
-     * Sets the json value, as it would appear in a jCard or jCal object.
+     * Sets the JSON value, as it would appear in a jCard or jCal object.
      *
      * The value must always be an array.
      *
@@ -289,7 +291,7 @@ abstract class Property extends Node {
 
     /**
      * This method returns an array, with the representation as it should be
-     * encoded in json. This is used to create jCard or jCal documents.
+     * encoded in JSON. This is used to create jCard or jCal documents.
      *
      * @return array
      */
@@ -319,6 +321,77 @@ abstract class Property extends Node {
         );
     }
 
+    /**
+     * Hydrate data from a XML subtree, as it would appear in a xCard or xCal
+     * object.
+     *
+     * @param array $value
+     * @return void
+     */
+    function setXmlValue(array $value) {
+
+        $this->setJsonValue($value);
+
+    }
+
+    /**
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    function xmlSerialize(Xml\Writer $writer) {
+
+        $parameters = [];
+
+        foreach($this->parameters as $parameter) {
+
+            if ($parameter->name === 'VALUE') {
+                continue;
+            }
+
+            $parameters[] = $parameter;
+
+        }
+
+        $writer->startElement(strtolower($this->name));
+
+        if (!empty($parameters)) {
+
+            $writer->startElement('parameters');
+
+            foreach ($parameters as $parameter) {
+
+                $writer->startElement(strtolower($parameter->name));
+                $writer->writeElement('text', $parameter);
+                $writer->endElement();
+
+            }
+
+            $writer->endElement();
+
+        }
+
+        $this->xmlSerializeValue($writer);
+        $writer->endElement();
+
+    }
+
+    /**
+     * This method serializes only the value of a property. This is used to
+     * create xCard or xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    protected function xmlSerializeValue(Xml\Writer $writer) {
+
+        foreach ($this->getJsonValue() as $value) {
+            $writer->writeElement(strtolower($this->getValueType()), $value);
+        }
+
+    }
 
     /**
      * Called when this object is being cast to a string.

@@ -266,7 +266,7 @@ class DateTime extends Property {
     }
 
     /**
-     * Returns the value, in the format it should be encoded for json.
+     * Returns the value, in the format it should be encoded for JSON.
      *
      * This method must always return an array.
      *
@@ -322,6 +322,7 @@ class DateTime extends Property {
         );
 
     }
+
     /**
      * We need to intercept offsetSet, because it may be used to alter the
      * VALUE from DATE-TIME to DATE or vice-versa.

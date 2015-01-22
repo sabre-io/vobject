@@ -147,7 +147,7 @@ class Recur extends Property {
      */
     function getValueType() {
 
-        return "RECUR";
+        return 'RECUR';
 
     }
 

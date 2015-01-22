@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject;
 
+use Sabre\Xml;
+
 /**
  * A node is the root class for every element in an iCalendar of vCard object.
  *
@@ -9,7 +11,12 @@ namespace Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
+abstract class Node
+    implements \IteratorAggregate,
+               \ArrayAccess,
+               \Countable,
+               \JsonSerializable,
+               Xml\XmlSerializable {
 
     /**
      * The following constants are used by the validate() method.
@@ -67,11 +74,20 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
 
     /**
      * This method returns an array, with the representation as it should be
-     * encoded in json. This is used to create jCard or jCal documents.
+     * encoded in JSON. This is used to create jCard or jCal documents.
      *
      * @return array
      */
     abstract function jsonSerialize();
+
+    /**
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    abstract function xmlSerialize(Xml\Writer $writer);
 
     /* {{{ IteratorAggregator interface */
 

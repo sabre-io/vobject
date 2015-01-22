@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject;
 
+use Sabre\Xml;
+
 /**
  * Component
  *
@@ -59,7 +61,7 @@ class Component extends Node {
             // natural way.
             $list = $this->getDefaults();
             $nodes = [];
-            foreach($children as $key=>$value) {
+            foreach ($children as $key=>$value) {
                 if ($value instanceof Node) {
                     if (isset($list[$value->name])) {
                         unset($list[$value->name]);
@@ -69,14 +71,14 @@ class Component extends Node {
                     $list[$key] = $value;
                 }
             }
-            foreach($list as $key=>$value) {
+            foreach ($list as $key=>$value) {
                 $this->add($key, $value);
             }
-            foreach($nodes as $node) {
+            foreach ($nodes as $node) {
                 $this->add($node);
             }
         } else {
-            foreach($children as $k=>$child) {
+            foreach ($children as $k=>$child) {
                 if ($child instanceof Node) {
 
                     // Component or Property
@@ -149,12 +151,12 @@ class Component extends Node {
 
         if (is_string($item)) {
             $children = $this->select($item);
-            foreach($children as $k=>$child) {
+            foreach ($children as $k=>$child) {
                 unset($this->children[$k]);
             }
             return $child;
         } else {
-            foreach($this->children as $k => $child) {
+            foreach ($this->children as $k => $child) {
                 if ($child===$item) {
                     unset($this->children[$k]);
                     return $child;
@@ -187,7 +189,7 @@ class Component extends Node {
     function getComponents() {
 
         $result = [];
-        foreach($this->children as $child) {
+        foreach ($this->children as $child) {
             if ($child instanceof Component) {
                 $result[] = $child;
             }
@@ -222,7 +224,7 @@ class Component extends Node {
         }
 
         $result = [];
-        foreach($this->children as $key=>$child) {
+        foreach ($this->children as $key=>$child) {
 
             if (
                 (
@@ -311,7 +313,7 @@ class Component extends Node {
             }
         );
 
-        foreach($this->children as $child) $str.=$child->serialize();
+        foreach ($this->children as $child) $str.=$child->serialize();
         $str.= "END:" . $this->name . "\r\n";
 
         return $str;
@@ -320,7 +322,7 @@ class Component extends Node {
 
     /**
      * This method returns an array, with the representation as it should be
-     * encoded in json. This is used to create jCard or jCal documents.
+     * encoded in JSON. This is used to create jCard or jCal documents.
      *
      * @return array
      */
@@ -329,7 +331,7 @@ class Component extends Node {
         $components = [];
         $properties = [];
 
-        foreach($this->children as $child) {
+        foreach ($this->children as $child) {
             if ($child instanceof Component) {
                 $components[] = $child->jsonSerialize();
             } else {
@@ -342,6 +344,55 @@ class Component extends Node {
             $properties,
             $components
         ];
+
+    }
+
+    /**
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    function xmlSerialize(Xml\Writer $writer) {
+
+        $components = [];
+        $properties = [];
+
+        foreach ($this->children as $child) {
+            if ($child instanceof Component) {
+                $components[] = $child;
+            } else {
+                $properties[] = $child;
+            }
+        }
+
+        $writer->startElement(strtolower($this->name));
+
+        if (!empty($properties)) {
+
+            $writer->startElement('properties');
+
+            foreach ($properties as $property) {
+                $property->xmlSerialize($writer);
+            }
+
+            $writer->endElement();
+
+        }
+
+        if (!empty($components)) {
+
+            $writer->startElement('components');
+
+            foreach ($components as $component) {
+                $component->xmlSerialize($writer);
+            }
+
+            $writer->endElement();
+        }
+
+        $writer->endElement();
 
     }
 
@@ -444,7 +495,7 @@ class Component extends Node {
     function __unset($name) {
 
         $matches = $this->select($name);
-        foreach($matches as $k=>$child) {
+        foreach ($matches as $k=>$child) {
 
             unset($this->children[$k]);
             $child->parent = null;
@@ -463,7 +514,7 @@ class Component extends Node {
      */
     function __clone() {
 
-        foreach($this->children as $key=>$child) {
+        foreach ($this->children as $key=>$child) {
             $this->children[$key] = clone $child;
             $this->children[$key]->parent = $this;
         }
@@ -529,7 +580,7 @@ class Component extends Node {
 
         $messages = [];
 
-        foreach($this->children as $child) {
+        foreach ($this->children as $child) {
             $name = strtoupper($child->name);
             if (!isset($propertyCounters[$name])) {
                 $propertyCounters[$name] = 1;
@@ -539,7 +590,7 @@ class Component extends Node {
             $messages = array_merge($messages, $child->validate($options));
         }
 
-        foreach($rules as $propName => $rule) {
+        foreach ($rules as $propName => $rule) {
 
             switch($rule) {
                 case '0' :

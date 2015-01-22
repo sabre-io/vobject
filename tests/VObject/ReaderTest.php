@@ -15,6 +15,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, count($result->children));
 
     }
+
     function testReadStream() {
 
         $data = "BEGIN:VCALENDAR\r\nEND:VCALENDAR";
@@ -213,6 +214,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
     }
 
     function testReadPropertyRepeatingNamelessGuessedParameter() {
+
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;WORK;VOICE;PREF:propValue\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
@@ -393,7 +395,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
      *
      * @expectedException \Sabre\VObject\ParseException
      */
-    public function testReadIncompleteFile() {
+    function testReadIncompleteFile() {
 
         $input = <<<ICS
 BEGIN:VCALENDAR
@@ -429,16 +431,56 @@ ICS;
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testReadBrokenInput() {
+    function testReadBrokenInput() {
 
         Reader::read(false);
 
     }
 
-    public function testReadBOM() {
+    function testReadBOM() {
 
         $data = chr(0xef) . chr(0xbb) . chr(0xbf) . "BEGIN:VCALENDAR\r\nEND:VCALENDAR";
         $result = Reader::read($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCALENDAR', $result->name);
+        $this->assertEquals(0, count($result->children));
+
+    }
+
+    function testReadXMLComponent() {
+
+        $data = <<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+ </vcalendar>
+</icalendar>
+XML;
+
+        $result = Reader::readXML($data);
+
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertEquals('VCALENDAR', $result->name);
+        $this->assertEquals(0, count($result->children));
+
+    }
+
+    function testReadXMLStream() {
+
+        $data = <<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
+ <vcalendar>
+ </vcalendar>
+</icalendar>
+XML;
+
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $data);
+        rewind($stream);
+
+        $result = Reader::readXML($stream);
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);

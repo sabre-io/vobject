@@ -53,7 +53,7 @@ class Integer extends Property {
      */
     public function getValueType() {
 
-        return "INTEGER";
+        return 'INTEGER';
 
     }
 
@@ -67,6 +67,20 @@ class Integer extends Property {
     public function getJsonValue() {
 
         return [(int)$this->getValue()];
+
+    }
+
+    /**
+     * Hydrate data from a XML subtree, as it would appear in a xCard or xCal
+     * object.
+     *
+     * @param array $value
+     * @return void
+     */
+    function setXmlValue(array $value) {
+
+        $value = array_map('intval', $value);
+        parent::setXmlValue($value);
 
     }
 }

@@ -33,7 +33,7 @@ class Time extends Text {
      */
     function getValueType() {
 
-        return "TIME";
+        return 'TIME';
 
     }
 
@@ -47,7 +47,6 @@ class Time extends Text {
     function getJsonValue() {
 
         $parts = DateTimeParser::parseVCardTime($this->getValue());
-
         $timeStr = '';
 
         // Hour
@@ -88,6 +87,25 @@ class Time extends Text {
         }
 
         return [$timeStr];
+
+    }
+
+    /**
+     * Hydrate data from a XML subtree, as it would appear in a xCard or xCal
+     * object.
+     *
+     * @param array $value
+     * @return void
+     */
+    function setXmlValue(array $value) {
+
+        $value = array_map(
+            function($value) {
+                return str_replace(':', '', $value);
+            },
+            $value
+        );
+        parent::setXmlValue($value);
 
     }
 

@@ -45,10 +45,10 @@ class MimeDir extends Parser {
      * used.
      *
      * @param string|resource|null $input
-     * @param int|null $options
+     * @param int $options
      * @return Sabre\VObject\Document
      */
-    public function parse($input = null, $options = null) {
+    public function parse($input = null, $options = 0) {
 
         $this->root = null;
         if (!is_null($input)) {
@@ -57,7 +57,9 @@ class MimeDir extends Parser {
 
         }
 
-        if (!is_null($options)) $this->options = $options;
+        if (0 !== $options) {
+            $this->options = $options;
+        }
 
         $this->parseDocument();
 

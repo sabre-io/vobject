@@ -228,11 +228,11 @@ class VCard extends VObject\Document {
                 }
             }
             if ($version === '2.1' && ($options & self::PROFILE_CARDDAV)) {
-                $warnings[] = array(
+                $warnings[] = [
                     'level' => 3,
                     'message' => 'CardDAV servers are not allowed to accept vCard 2.1.',
                     'node' => $this,
-                );
+                ];
             }
 
         }
@@ -251,11 +251,11 @@ class VCard extends VObject\Document {
                 $this->UID = VObject\UUIDUtil::getUUID();
                 $warningLevel = 1;
             }
-            $warnings[] = array(
+            $warnings[] = [
                 'level' => $warningLevel,
                 'message' => $message,
                 'node' => $this,
-            );
+            ];
         }
 
         $fn = $this->select('FN');

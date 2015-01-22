@@ -33,7 +33,7 @@ class Uri extends Text {
      */
     public function getValueType() {
 
-        return "URI";
+        return 'URI';
 
     }
 

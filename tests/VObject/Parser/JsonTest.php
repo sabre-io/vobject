@@ -156,10 +156,9 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
         );
 
         $parser = new Json(json_encode($input));
-        $vobj = $parser->parse();        
+        $vobj = $parser->parse();
 
         $version = VObject\Version::VERSION;
-
 
         $result = $vobj->serialize();
         $expected = <<<VCF
@@ -184,7 +183,7 @@ X-TIME-REDUCED;VALUE=TIME:23
 X-TIME-TRUNCATED;VALUE=TIME:--30
 X-KARMA-POINTS;VALUE=INTEGER:42
 X-GRADE;VALUE=FLOAT:1.3
-TZ;VALUE=UTC-OFFSET:-05:00
+TZ;VALUE=UTC-OFFSET:-0500
 END:VCARD
 
 VCF;
@@ -309,7 +308,7 @@ VCF;
         );
 
         $parser = new Json(json_encode($input));
-        $vobj = $parser->parse();        
+        $vobj = $parser->parse();
         $result = $vobj->serialize();
 
         $version = VObject\Version::VERSION;
@@ -331,7 +330,7 @@ GEO:51.96668;7.61876
 SEQUENCE:5
 FREEBUSY:20130526T210213/PT1H,20130626T120000/20130626T130000
 URL:http://example.org/
-TZOFFSETFROM:+05:00
+TZOFFSETFROM:+0500
 RRULE:FREQ=WEEKLY;BYDAY=MO,TU
 X-BOOL;VALUE=BOOLEAN:TRUE
 X-TIME;VALUE=TIME:08:00:00

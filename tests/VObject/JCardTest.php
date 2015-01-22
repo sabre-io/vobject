@@ -40,7 +40,7 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
         $card->add('X-KARMA-POINTS', '42', array('VALUE' => 'INTEGER'));
         $card->add('X-GRADE', '1.3', array('VALUE' => 'FLOAT'));
 
-        $card->add('TZ', '-05:00', array('VALUE' => 'UTC-OFFSET'));
+        $card->add('TZ', '-0500', array('VALUE' => 'UTC-OFFSET'));
 
         $expected = array(
             "vcard",

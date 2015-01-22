@@ -23,7 +23,7 @@ class DateTime extends DateAndOrTime {
      */
     function getValueType() {
 
-        return "DATE-TIME";
+        return 'DATE-TIME';
 
     }
 
