@@ -6,6 +6,8 @@ use
     Sabre\VObject\Component,
     Sabre\VObject\Component\VCalendar,
     Sabre\VObject\Component\VCard,
+    Sabre\VObject\EofException,
+    Sabre\VObject\ParseException,
     Sabre\Xml as SabreXml;
 
 /**
@@ -107,7 +109,7 @@ class XML extends Parser {
                 break;
 
             default:
-                throw new \Exception('Unsupported XML standard');
+                throw new ParseException('Unsupported XML standard');
 
         }
 
