@@ -136,22 +136,15 @@ class Period extends Property {
     protected function xmlSerializeValue(Xml\Writer $writer) {
 
         $writer->startElement(strtolower($this->getValueType()));
-
         $value = $this->getJsonValue();
-
-        $writer->startElement('start');
-            $writer->write($value[0][0]);
-        $writer->endElement();
+        $writer->writeElement('start', $value[0][0]);
 
         if ($value[0][1][0] === 'P') {
-            $writer->startElement('duration');
+            $writer->writeElement('duration', $value[0][1]);
         }
         else {
-            $writer->startElement('end');
+            $writer->writeElement('end', $value[0][1]);
         }
-
-        $writer->write($value[0][1]);
-        $writer->endElement();
 
         $writer->endElement();
 

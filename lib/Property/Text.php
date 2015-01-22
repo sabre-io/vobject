@@ -304,20 +304,11 @@ class Text extends Property {
 
             $value = $this->getJsonValue();
 
-            $writer->startElement('code');
-                $writer->write($value[0][0]);
-            $writer->endElement();
-
-            $writer->startElement('description');
-                $writer->write($value[0][1]);
-            $writer->endElement();
+            $writer->writeElement('code', $value[0][0]);
+            $writer->writeElement('description', $value[0][1]);
 
             if (isset($value[0][2])) {
-
-                $writer->startElement('data');
-                    $writer->write($value[0][2]);
-                $writer->endElement();
-
+                $writer->writeElement('data', $value[0][2]);
             }
 
         }

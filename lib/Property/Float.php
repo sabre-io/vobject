@@ -127,13 +127,8 @@ class Float extends Property {
 
             $value = array_map('floatval', $this->getParts());
 
-            $writer->startElement('latitude');
-                $writer->write($value[0]);
-            $writer->endElement();
-
-            $writer->startElement('longitude');
-                $writer->write($value[1]);
-            $writer->endElement();
+            $writer->writeElement('latitude', $value[0]);
+            $writer->writeElement('longitude', $value[1]);
 
         }
         else {
