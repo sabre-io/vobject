@@ -10,7 +10,8 @@
     },
     "require-dev" : {
         "phpunit/phpunit" : "*",
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "hoa/bench": "~2.14.12"
     },
     "authors" : [
         {

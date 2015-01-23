@@ -99,12 +99,7 @@ class EventIterator implements \Iterator {
             if (!isset($vcal->VEVENT)) {
                 throw new InvalidArgumentException('No events found in this calendar');
             }
-            $events = array();
-            foreach($vcal->VEVENT as $event) {
-                if ($event->uid->getValue() === $uid) {
-                    $events[] = $event;
-                }
-            }
+            $events = $vcal->getByUID($uid);
 
         }
 
