@@ -912,8 +912,15 @@ class Broker {
 
             foreach($this->significantChangeProperties as $prop) {
                 if (isset($vevent->$prop)) {
+                    $propertyValues = $vevent->select($prop);
+                    if ($prop === 'EXDATE') {
+                        usort($propertyValues, function($a, $b) {
+                            return strcmp($a->getValue(), $b->getValue());
+                        });
+                    }
+
                     $significantChangeHash.=$prop.':';
-                    foreach($vevent->select($prop) as $val) {
+                    foreach($propertyValues as $val) {
                         $significantChangeHash.= $val->getValue().';';
                     }
                 }
