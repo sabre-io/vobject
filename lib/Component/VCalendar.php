@@ -253,36 +253,44 @@ class VCalendar extends VObject\Document {
             $timeZone = new DateTimeZone('UTC');
         }
 
+        // An array of events. Events are indexed by UID. Each item in this
+        // array is a list of one or more events that match the UID.
+        $recurringEvents = array();
+
         foreach($this->select('VEVENT') as $key=>$vevent) {
 
-            if (isset($vevent->{'RECURRENCE-ID'})) {
-                unset($this->children[$key]);
+            $uid = (string)$vevent->UID;
+            if (!$uid) {
+                throw new \LogicException('Event did not have a UID!');
+            }
+
+            if (isset($vevent->{'RECURRENCE-ID'}) || isset($vevent->RRULE)) {
+                if (isset($recurringEvents[$uid])) {
+                    $recurringEvents[$uid][] = $vevent;
+                } else {
+                    $recurringEvents[$uid] = array($vevent);
+                }
                 continue;
             }
 
-
-            if (!$vevent->rrule) {
-                unset($this->children[$key]);
+            if (!isset($vevent->RRULE)) {
                 if ($vevent->isInTimeRange($start, $end)) {
                     $newEvents[] = $vevent;
                 }
                 continue;
             }
 
+        }
 
-            $uid = (string)$vevent->uid;
-            if (!$uid) {
-                throw new \LogicException('Event did not have a UID!');
-            }
+        foreach($recurringEvents as $events) {
 
             try {
-                $it = new EventIterator($this, $vevent->uid, $timeZone);
+                $it = new EventIterator($events, $timeZone);
 
             } catch (NoInstancesException $e) {
                 // This event is recurring, but it doesn't have a single
                 // instance. We are skipping this event from the output
                 // entirely.
-                unset($this->children[$key]);
                 continue;
             }
             $it->fastForward($start);
@@ -298,9 +306,10 @@ class VCalendar extends VObject\Document {
 
             }
 
-            unset($this->children[$key]);
-
         }
+
+        // Wiping out all old VEVENT objects
+        unset($this->VEVENT);
 
         // Setting all properties to UTC time.
         foreach($newEvents as $newEvent) {
@@ -316,7 +325,6 @@ class VCalendar extends VObject\Document {
                 }
 
             }
-
             $this->add($newEvent);
 
         }
@@ -487,141 +495,25 @@ class VCalendar extends VObject\Document {
     }
 
     /**
-     * If this is marked true, it means the UID index needs to be regenerated.
+     * Returns all components with a specific UID value.
      *
-     * @var bool
-     */
-    protected $dirtyIndex = false;
-
-    /**
-     * Index with events, todos and journals that have a specific id.
-     *
-     * @var array
-     */
-    protected $uidIndex = [];
-
-    /**
-     * Mark the UID index as 'dirty', which means it needs to be regenerated
-     * on the next use.
-     *
-     * @return void
-     */
-    function dirty() {
-
-        $this->dirtyIndex = true;
-
-    }
-
-    /**
-     * Returns all components that match a UID.
+     * @return array
      */
     function getByUID($uid) {
 
-        if ($this->dirtyIndex) {
-            $this->uidIndex = [];
-            foreach($this->children as $key=>$child) {
-                if (!$child instanceof Component) {
-                    continue;
-                }
-                $cuid = $child->select('UID');
-                if ($cuid) {
-                    $cuid = current($cuid)->getValue();
-                    if (isset($this->uidIndex[$cuid])) {
-                        $this->uidIndex[$cuid][] = $key;
-                    } else {
-                        $this->uidIndex[$cuid] = [$key];
-                    }
-                }
+        return array_filter($this->children, function($item) use ($uid) {
+
+            if (!$item instanceof Component) {
+                return false;
             }
-            $this->dirtyIndex = false;
-        }
-        if (isset($this->uidIndex[$uid])) {
-            return array_map(
-                function($key) {
-                    return $this->children[$key];
-                },
-                $this->uidIndex[$uid]
-            );
-        } else {
-            return [];
-        }
+            if (!$itemUid = $item->select('UID')) {
+                return false;
+            }
+            $itemUid = current($itemUid)->getValue();
+            return $uid === $itemUid;
 
-    }
-
-    /**
-     * Adds a new property or component, and returns the new item.
-     *
-     * This method has 3 possible signatures:
-     *
-     * add(Component $comp) // Adds a new component
-     * add(Property $prop)  // Adds a new property
-     * add($name, $value, array $parameters = array()) // Adds a new property
-     * add($name, array $children = array()) // Adds a new component
-     * by name.
-     *
-     * @return Node
-     */
-    function add($a1, $a2 = null, $a3 = null) {
-        $r = parent::add($a1, $a2, $a3);
-        $this->dirty();
-        return $r;
-    }
-
-
-    /**
-     * This method removes a component or property from this component.
-     *
-     * You can either specify the item by name (like DTSTART), in which case
-     * all properties/components with that name will be removed, or you can
-     * pass an instance of a property or component, in which case only that
-     * exact item will be removed.
-     *
-     * The removed item will be returned. In case there were more than 1 items
-     * removed, only the last one will be returned.
-     *
-     * @param mixed $item
-     * @return void
-     */
-    function remove($item) {
-
-        parent::remove($item);
-        $this->dirty();
-
-    }
-
-    /**
-     * Using the setter method you can add properties or subcomponents
-     *
-     * You can either pass a Component, Property
-     * object, or a string to automatically create a Property.
-     *
-     * If the item already exists, it will be removed. If you want to add
-     * a new item with the same name, always use the add() method.
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return void
-     */
-    function __set($name, $value) {
-
-        parent::__set($name, $value);
-        $this->dirty();
-
-    }
-
-    /**
-     * Removes all properties and components within this component with the
-     * specified name.
-     *
-     * @param string $name
-     * @return void
-     */
-    function __unset($name) {
-
-        parent::__unset($name);
-        $this->dirty();
+        });
 
     }
 
 }
-

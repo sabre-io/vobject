@@ -73,33 +73,44 @@ class EventIterator implements \Iterator {
     /**
      * Creates the iterator
      *
-     * You should pass a VCALENDAR component, as well as the UID of the event
-     * we're going to traverse.
+     * There's three ways to set up the iterator.
      *
-     * @param Component $vcal
+     * 1. You can pass a VCALENDAR component and a UID.
+     * 2. You can pass an array of VEVENTs (all UIDS should match).
+     * 3. You can pass a single VEVENT component.
+     *
+     * Only the second method is recomended. The other 1 and 3 will be removed
+     * at some point in the future.
+     *
+     * The $uid parameter is only required for the first method.
+     *
+     * @param Component|array $input
      * @param string|null $uid
      * @param DateTimeZone $timeZone Reference timezone for floating dates and
      *                               times.
      */
-    public function __construct(Component $vcal, $uid = null, DateTimeZone $timeZone = null) {
+    public function __construct($input, $uid = null, DateTimeZone $timeZone = null) {
 
         if (is_null($this->timeZone)) {
             $timeZone = new DateTimeZone('UTC');
         }
         $this->timeZone = $timeZone;
 
-        if ($vcal instanceof VEvent) {
+        if (is_array($input)) {
+            $events = $input;
+        } elseif ($input instanceof VEvent) {
             // Single instance mode.
-            $events = array($vcal);
+            $events = array($input);
         } else {
+            // Calendar + UID mode.
             $uid = (string)$uid;
             if (!$uid) {
                 throw new InvalidArgumentException('The UID argument is required when a VCALENDAR is passed to this constructor');
             }
-            if (!isset($vcal->VEVENT)) {
+            if (!isset($input->VEVENT)) {
                 throw new InvalidArgumentException('No events found in this calendar');
             }
-            $events = $vcal->getByUID($uid);
+            $events = $input->getByUID($uid);
 
         }
 
