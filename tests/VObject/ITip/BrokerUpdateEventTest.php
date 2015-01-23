@@ -716,4 +716,95 @@ ICS
         $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
+
+    function testInviteChangeExdateOrder() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.10.1//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:0
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;CUTYPE=INDIVIDUAL;EMAIL=strunk@example.org;PARTSTAT=ACCE
+ PTED:mailto:strunk@example.org
+ATTENDEE;CN=One;CUTYPE=INDIVIDUAL;EMAIL=one@example.org;PARTSTAT=ACCEPTED;R
+ OLE=REQ-PARTICIPANT;SCHEDULE-STATUS="1.2;Message delivered locally":mailto
+ :one@example.org
+SUMMARY:foo
+DTSTART:20141211T160000Z
+DTEND:20141211T170000Z
+RRULE:FREQ=WEEKLY
+EXDATE:20141225T160000Z
+EXDATE:20150101T160000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.10.1//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;CUTYPE=INDIVIDUAL;EMAIL=strunk@example.org;PARTSTAT=ACCE
+ PTED:mailto:strunk@example.org
+ATTENDEE;CN=One;CUTYPE=INDIVIDUAL;EMAIL=one@example.org;PARTSTAT=ACCEPTED;R
+ OLE=REQ-PARTICIPANT;SCHEDULE-STATUS=1.2:mailto:one@example.org
+DTSTART:20141211T160000Z
+DTEND:20141211T170000Z
+RRULE:FREQ=WEEKLY
+EXDATE:20150101T160000Z
+EXDATE:20141225T160000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = array(
+            array(
+                'uid' => 'foobar',
+                'method' => 'REQUEST',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+                'senderName' => 'Strunk',
+                'recipient' => 'mailto:one@example.org',
+                'recipientName' => 'One',
+                'significantChange' => false,
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;CUTYPE=INDIVIDUAL;EMAIL=strunk@example.org;PARTSTAT=ACCE
+ PTED:mailto:strunk@example.org
+ATTENDEE;CN=One;CUTYPE=INDIVIDUAL;EMAIL=one@example.org;PARTSTAT=ACCEPTED;R
+ OLE=REQ-PARTICIPANT:mailto:one@example.org
+DTSTART:20141211T160000Z
+DTEND:20141211T170000Z
+RRULE:FREQ=WEEKLY
+EXDATE:20150101T160000Z
+EXDATE:20141225T160000Z
+END:VEVENT
+END:VCALENDAR
+ICS
+
+            ),
+        );
+
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+
+    }
 }
