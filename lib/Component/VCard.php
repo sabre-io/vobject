@@ -438,8 +438,8 @@ class VCard extends VObject\Document {
     function getClassNameForPropertyName($propertyName) {
 
         $className = parent::getClassNameForPropertyName($propertyName);
-        // In vCard 4, BINARY no longer exists, and we need URI instead.
 
+        // In vCard 4, BINARY no longer exists, and we need URI instead.
         if ($className == 'Sabre\\VObject\\Property\\Binary' && $this->getDocumentType()===self::VCARD40) {
             return 'Sabre\\VObject\\Property\\Uri';
         }
