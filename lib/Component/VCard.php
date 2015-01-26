@@ -439,23 +439,50 @@ class VCard extends VObject\Document {
      */
     function xmlSerialize(Xml\Writer $writer) {
 
-        $writer->startElement(strtolower($this->name));
+        $propertiesByGroup = [];
 
         foreach ($this->children as $property) {
 
-            switch ($property->name) {
+            $group = $property->group;
 
-                case 'VERSION':
-                    continue;
+            if (!isset($propertiesByGroup[$group])) {
+                $propertiesByGroup[$group] = [];
+            }
 
-                case 'XML':
-                    $value = $property->getParts();
-                    $writer->writeRaw('  ' . $value[0] . "\n ");
-                    break;
+            $propertiesByGroup[$group][] = $property;
 
-                default:
-                    $property->xmlSerialize($writer);
+        }
 
+        $writer->startElement(strtolower($this->name));
+
+        foreach ($propertiesByGroup as $group => $properties) {
+
+            if (!empty($group)) {
+
+                $writer->startElement('group');
+                $writer->writeAttribute('name', strtolower($group));
+
+            }
+
+            foreach ($properties as $property) {
+                switch ($property->name) {
+
+                    case 'VERSION':
+                        continue;
+
+                    case 'XML':
+                        $value = $property->getParts();
+                        $writer->writeRaw('  ' . $value[0] . "\n ");
+                        break;
+
+                    default:
+                        $property->xmlSerialize($writer);
+
+                }
+            }
+
+            if (!empty($group)) {
+                $writer->endElement();
             }
 
         }
