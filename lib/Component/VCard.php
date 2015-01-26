@@ -72,7 +72,7 @@ class VCard extends VObject\Document {
         'BDAY'    => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
         'ADR'     => 'Sabre\\VObject\\Property\\Text',
         'LABEL'   => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
-        'TEL'     => 'Sabre\\VObject\\Property\\FlatText',
+        'TEL'     => 'Sabre\\VObject\\Property\\Uri',
         'EMAIL'   => 'Sabre\\VObject\\Property\\FlatText',
         'MAILER'  => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
         'GEO'     => 'Sabre\\VObject\\Property\\FlatText',
