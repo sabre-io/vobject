@@ -189,7 +189,7 @@ class Parameter extends Node {
      * Returns the current value
      *
      * This method will always return a string, or null. If there were multiple
-     * values, it will automatically concatinate them (separated by comma).
+     * values, it will automatically concatenate them (separated by comma).
      *
      * @return string|null
      */
