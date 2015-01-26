@@ -1109,6 +1109,28 @@ XML
 
     }
 
+    function testRFC6351Basic() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <fn>
+   <text>J. Doe</text>
+  </fn>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'FN:J. Doe' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
     function testRFC6351Example1() {
 
         $this->assertXMLEqualsToMimeDir(

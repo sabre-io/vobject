@@ -3,7 +3,8 @@
 namespace Sabre\VObject\Component;
 
 use
-    Sabre\VObject;
+    Sabre\VObject,
+    Sabre\Xml;
 
 /**
  * The VCard component
@@ -426,6 +427,31 @@ class VCard extends VObject\Document {
             strtolower($this->name),
             $properties,
         ];
+
+    }
+
+    /**
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    function xmlSerialize(Xml\Writer $writer) {
+
+        $writer->startElement(strtolower($this->name));
+
+        foreach ($this->children as $property) {
+
+            if ($property->name === 'VERSION') {
+                continue;
+            }
+
+            $property->xmlSerialize($writer);
+
+        }
+
+        $writer->endElement();
 
     }
 
