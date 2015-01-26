@@ -1179,6 +1179,40 @@ XML
 
     }
 
+    function testRFC6351Section5Group() {
+
+        $this->assertXMLEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <group name="contact">
+   <fn>
+    <text>Gordon</text>
+   </fn>
+  </group>
+  <group name="media">
+   <fn>
+    <text>Gordon</text>
+   </fn>
+  </group>
+  <tel>
+   <uri>tel:+1-555-555-555</uri>
+  </tel>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'contact.FN:Gordon' . CRLF .
+            'media.FN:Gordon' . CRLF .
+            'TEL:tel:+1-555-555-555' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
     /**
      * Check this equality:
      *     XML -> object model -> MIME Dir.

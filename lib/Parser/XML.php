@@ -158,9 +158,10 @@ class XML extends Parser {
      * Parse xCalendar and xCard properties.
      *
      * @param Component $parentComponent
+     * @param string  $propertyNamePrefix
      * @return void
      */
-    protected function parseProperties(Component $parentComponent) {
+    protected function parseProperties(Component $parentComponent, $propertyNamePrefix = '') {
 
         foreach ($this->pointer as $xmlProperty) {
 
@@ -195,6 +196,23 @@ class XML extends Parser {
                 );
 
                 continue;
+            }
+
+            // xCard group.
+            if ($propertyName === 'group') {
+
+                if (!isset($xmlProperty['attributes']['name'])) {
+                    continue;
+                }
+
+                $this->pointer = &$xmlProperty['value'];
+                $this->parseProperties(
+                    $parentComponent,
+                    $xmlProperty['attributes']['name'] . '.'
+                );
+
+                continue;
+
             }
 
             // Collect parameters.
@@ -293,7 +311,7 @@ class XML extends Parser {
 
             $this->createProperty(
                 $parentComponent,
-                $propertyName,
+                $propertyNamePrefix . $propertyName,
                 $propertyParameters,
                 $propertyType,
                 $propertyValue
