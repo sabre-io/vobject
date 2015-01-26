@@ -1141,7 +1141,7 @@ XML
 
     function testRFC6351Example1() {
 
-        $this->assertXMLEqualsToMimeDir(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
@@ -1178,6 +1178,34 @@ XML
             ' y web page!</a>' . CRLF .
             'END:VCARD' . CRLF
         );
+
+        $xml =
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <fn>
+   <text>J. Doe</text>
+  </fn>
+  <n>
+   <surname>Doe</surname>
+   <given>J.</given>
+   <additional/>
+   <prefix/>
+   <suffix/>
+  </n>
+  <x-file>
+   <parameters>
+    <mediatype>
+     <text>image/jpeg</text>
+    </mediatype>
+   </parameters>
+   <unknown>alien.jpg</unknown>
+  </x-file>
+  <a xmlns="http://www.w3.org/1999/xhtml" href="http://www.example.com">My web page!</a>
+ </vcard>
+</vcards>
+XML;
 
     }
 
