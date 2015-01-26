@@ -1211,7 +1211,7 @@ XML;
 
     function testRFC6351Section5() {
 
-        $this->assertXMLEqualsToMimeDir(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
@@ -1239,33 +1239,37 @@ XML
 
     function testRFC6351Section5Group() {
 
-        $this->assertXMLEqualsToMimeDir(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
+  <tel>
+   <uri>tel:+1-555-555-556</uri>
+  </tel>
   <group name="contact">
    <fn>
     <text>Gordon</text>
    </fn>
+   <tel>
+    <uri>tel:+1-555-555-555</uri>
+   </tel>
   </group>
   <group name="media">
    <fn>
     <text>Gordon</text>
    </fn>
   </group>
-  <tel>
-   <uri>tel:+1-555-555-555</uri>
-  </tel>
  </vcard>
 </vcards>
 XML
 ,
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
+            'TEL:tel:+1-555-555-556' . CRLF .
             'contact.FN:Gordon' . CRLF .
+            'contact.TEL:tel:+1-555-555-555' . CRLF .
             'media.FN:Gordon' . CRLF .
-            'TEL:tel:+1-555-555-555' . CRLF .
             'END:VCARD' . CRLF
         );
 
