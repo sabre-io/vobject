@@ -298,46 +298,49 @@ class Text extends Property {
 
         $values = $this->getParts();
 
-        // Special-casing the REQUEST-STATUS property.
-        //
-        // See:
-        // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
-        if ($this->name === 'REQUEST-STATUS') {
-
-            $writer->writeElement('code', $values[0]);
-            $writer->writeElement('description', $values[1]);
-
-            if (isset($values[2])) {
-                $writer->writeElement('data', $values[2]);
+        $map = function($items) use($values, $writer) {
+            foreach ($items as $i => $item) {
+                $writer->writeElement(
+                    $item,
+                    !empty($values[$i]) ? $values[$i] : null
+                );
             }
+        };
 
-        } elseif ($this->name === 'N') {
+        switch ($this->name) {
 
-            $mapping = [
-                'surname'    => !empty($values[0]) ? $values[0] : null,
-                'given'      => !empty($values[1]) ? $values[1] : null,
-                'additional' => !empty($values[2]) ? $values[2] : null,
-                'prefix'     => !empty($values[3]) ? $values[3] : null,
-                'suffix'     => !empty($values[4]) ? $values[4] : null,
-            ];
+            // Special-casing the REQUEST-STATUS property.
+            //
+            // See:
+            // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
+            case 'REQUEST-STATUS':
+                $writer->writeElement('code', $values[0]);
+                $writer->writeElement('description', $values[1]);
 
-            foreach ($mapping as $name => $value) {
-                $writer->writeElement($name, $value);
-            }
+                if (isset($values[2])) {
+                    $writer->writeElement('data', $values[2]);
+                }
+                break;
 
-        } elseif ($this->name === 'GENDER') {
+            case 'N':
+                $map([
+                    'surname',
+                    'given',
+                    'additional',
+                    'prefix',
+                    'suffix'
+                ]);
+                break;
 
-            $mapping = [
-                'sex'  => !empty($values[0]) ? $values[0] : null,
-                'text' => !empty($values[1]) ? $values[1] : null,
-            ];
+            case 'GENDER':
+                $map([
+                    'sex',
+                    'text'
+                ]);
+                break;
 
-            foreach ($mapping as $name => $value) {
-                $writer->writeElement($name, $value);
-            }
-
-        } else {
-            parent::xmlSerializeValue($writer);
+            default:
+                parent::xmlSerializeValue($writer);
         }
 
     }
