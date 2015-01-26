@@ -443,11 +443,20 @@ class VCard extends VObject\Document {
 
         foreach ($this->children as $property) {
 
-            if ($property->name === 'VERSION') {
-                continue;
-            }
+            switch ($property->name) {
 
-            $property->xmlSerialize($writer);
+                case 'VERSION':
+                    continue;
+
+                case 'XML':
+                    $value = $property->getParts();
+                    $writer->writeRaw('  ' . $value[0] . "\n ");
+                    break;
+
+                default:
+                    $property->xmlSerialize($writer);
+
+            }
 
         }
 
