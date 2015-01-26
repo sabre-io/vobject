@@ -1302,6 +1302,180 @@ XML
 
     }
 
+    function testRFC6350Section6_1_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <source>
+   <uri>ldap://ldap.example.com/cn=Babs%20Jensen,%20o=Babsco,%20c=US</uri>
+  </source>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'SOURCE:ldap://ldap.example.com/cn=Babs%20Jensen,%20o=Babsco,%20c=US' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_1_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <kind>
+   <text>individual</text>
+  </kind>
+ </vcard>
+</vcards>
+XML
+,
+
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'KIND:individual' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_2_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <fn>
+   <text>Mr. John Q. Public, Esq.</text>
+  </fn>
+ </vcard>
+</vcards>
+XML
+,
+
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'FN:Mr. John Q. Public\, Esq.' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_2_2() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <n>
+   <surname>Stevenson</surname>
+   <given>John</given>
+   <additional>Philip,Paul</additional>
+   <prefix>Dr.</prefix>
+   <suffix>Jr.,M.D.,A.C.P.</suffix>
+  </n>
+ </vcard>
+</vcards>
+XML
+,
+
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'N:Stevenson;John;Philip\,Paul;Dr.;Jr.\,M.D.\,A.C.P.' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_2_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <nickname>
+   <text>Jim</text>
+   <text>Jimmie</text>
+  </nickname>
+ </vcard>
+</vcards>
+XML
+,
+
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'NICKNAME:Jim,Jimmie' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_2_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <photo>
+   <uri>http://www.example.com/pub/photos/jqpublic.gif</uri>
+  </photo>
+ </vcard>
+</vcards>
+XML
+,
+
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'PHOTO:http://www.example.com/pub/photos/jqpublic.gif' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_2_5() {
+
+    }
+
+    function testRFC6350Section6_2_6() {
+
+    }
+
+    function testRFC6350Section6_2_7() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <gender>
+   <sex>Jim</sex>
+   <text>Jimmie</text>
+  </gender>
+ </vcard>
+</vcards>
+XML
+,
+
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'GENDER:Jim;Jimmie' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
     /**
      * Check this equality:
      *     XML -> object model -> MIME Dir.
