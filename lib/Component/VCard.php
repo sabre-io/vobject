@@ -107,6 +107,7 @@ class VCard extends VObject\Document {
         'IMPP'         => 'Sabre\\VObject\\Property\\Uri',
 
         // vCard 4.0 properties
+        'SOURCE'       => 'Sabre\\VObject\\Property\\Uri',
         'XML'          => 'Sabre\\VObject\\Property\\FlatText',
         'ANNIVERSARY'  => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
         'CLIENTPIDMAP' => 'Sabre\\VObject\\Property\\Text',
