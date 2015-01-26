@@ -70,7 +70,7 @@ class XML extends Parser {
      * @param resource|string $input
      * @param int $options
      * @throws \Exception
-     * @return Generator of Sabre\VObject\Document
+     * @return Sabre\VObject\Document
      */
     public function parse($input = null, $options = 0) {
 
@@ -92,8 +92,6 @@ class XML extends Parser {
                 $this->root = new VCalendar([], false);
                 $this->pointer = &$this->input['value'][0];
                 $this->parseVCalendarComponents($this->root);
-
-                yield $this->root;
                 break;
 
             case '{' . self::XCARD_NAMESPACE . '}vcards':
@@ -103,7 +101,8 @@ class XML extends Parser {
                     $this->pointer  = &$vCard;
                     $this->parseVCardComponents($this->root);
 
-                    yield $this->root;
+                    // We just parse the first <vcard /> element.
+                    break;
 
                 }
                 break;
@@ -113,7 +112,7 @@ class XML extends Parser {
 
         }
 
-        return;
+        return $this->root;
     }
 
     /**

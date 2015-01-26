@@ -19,27 +19,12 @@ class Writer {
     /**
      * Serializes a vCard or iCalendar object.
      *
-     * @param Component|Iterator $component
+     * @param Component $component
      * @return string
      */
-    static function write($component) {
+    static function write(Component $component) {
 
-        if($component instanceof Component) {
-            return $component->serialize();
-        } elseif($component instanceof \Iterator) {
-
-            $out = null;
-            $iterator = $component;
-
-            foreach ($iterator as $component) {
-                $out .= $component->serialize();
-            }
-
-            return $out;
-
-        } else {
-            throw new \InvalidArgumentException('Need a ' . __NAMESPACE__ .  '\Component object or an iterator');
-        }
+        return $component->serialize();
 
     }
 
@@ -59,56 +44,32 @@ class Writer {
     /**
      * Serializes a xCal or xCard object.
      *
-     * @param Component|Iterator $component
+     * @param Component $component
      * @return string
      */
-    static public function writeXml($component) {
+    static public function writeXml(Component $component) {
 
         $writer = new Xml\Writer();
         $writer->openMemory();
         $writer->setIndent(true);
 
-        $startDocument = function($component) use($writer) {
+        $writer->startDocument('1.0', 'utf-8');
 
-            $writer->startDocument('1.0', 'utf-8');
+        if ($component instanceof Component\VCalendar) {
 
-            if ($component instanceof Component\VCalendar) {
-
-                $writer->startElement('icalendar');
-                $writer->writeAttribute('xmlns', Parser\Xml::XCAL_NAMESPACE);
-
-            } else {
-
-                $writer->startElement('vcards');
-                $writer->writeAttribute('xmlns', Parser\Xml::XCARD_NAMESPACE);
-
-            }
-
-        };
-
-        $endDocument = function() use($writer) {
-            $writer->endElement();
-        };
-
-        if($component instanceof Component) {
-
-            $startDocument($component);
-            $component->xmlSerialize($writer);
-            $endDocument();
-
-        } elseif($component instanceof \Iterator) {
-
-            $iterator = $component;
-
-            foreach ($iterator as $component) {
-                $startDocument($component);
-                $component->xmlSerialize($writer);
-                $endDocument();
-            }
+            $writer->startElement('icalendar');
+            $writer->writeAttribute('xmlns', Parser\Xml::XCAL_NAMESPACE);
 
         } else {
-            throw new \InvalidArgumentException('Need a ' . __NAMESPACE__ .  '\Component object or an iterator');
+
+            $writer->startElement('vcards');
+            $writer->writeAttribute('xmlns', Parser\Xml::XCARD_NAMESPACE);
+
         }
+
+        $component->xmlSerialize($writer);
+
+        $writer->endElement();
 
         return $writer->outputMemory();
 

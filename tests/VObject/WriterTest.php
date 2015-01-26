@@ -18,33 +18,6 @@ class WriterTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    function testWriteToMimeDirWithIterator() {
-
-        $iterator = function() {
-            for($i = 0; $i < 3; ++$i) {
-                yield $this->getComponent();
-            }
-        };
-
-        $result = Writer::write($iterator());
-        $this->assertEquals(
-            "BEGIN:VCALENDAR\r\nEND:VCALENDAR\r\n" .
-            "BEGIN:VCALENDAR\r\nEND:VCALENDAR\r\n" .
-            "BEGIN:VCALENDAR\r\nEND:VCALENDAR\r\n",
-            $result
-        );
-
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    function testWriteToMimeDirWithUnexpectedArgument() {
-
-        $result = Writer::write('foo');
-
-    }
-
     function testWriteToJson() {
 
         $result = Writer::writeJson($this->getComponent());
@@ -62,15 +35,6 @@ class WriterTest extends \PHPUnit_Framework_TestCase {
             '</icalendar>' . "\n",
             $result
         );
-
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    function testWriteToXmlWithUnexpectedArgument() {
-
-        $result = Writer::writeXml('foo');
 
     }
 
