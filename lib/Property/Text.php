@@ -325,6 +325,17 @@ class Text extends Property {
                 $writer->writeElement($name, $value);
             }
 
+        } elseif ($this->name === 'GENDER') {
+
+            $mapping = [
+                'sex'  => !empty($values[0]) ? $values[0] : null,
+                'text' => !empty($values[1]) ? $values[1] : null,
+            ];
+
+            foreach ($mapping as $name => $value) {
+                $writer->writeElement($name, $value);
+            }
+
         } else {
             parent::xmlSerializeValue($writer);
         }
