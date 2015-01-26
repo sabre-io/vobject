@@ -302,17 +302,16 @@ class Text extends Property {
         // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
         if ($this->name === 'REQUEST-STATUS') {
 
-            $value = $this->getJsonValue();
+            $value = $this->getParts();
 
-            $writer->writeElement('code', $value[0][0]);
-            $writer->writeElement('description', $value[0][1]);
+            $writer->writeElement('code', $value[0]);
+            $writer->writeElement('description', $value[1]);
 
-            if (isset($value[0][2])) {
-                $writer->writeElement('data', $value[0][2]);
+            if (isset($value[2])) {
+                $writer->writeElement('data', $value[2]);
             }
 
-        }
-        else {
+        } else {
             parent::xmlSerializeValue($writer);
         }
 
