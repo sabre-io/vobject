@@ -1119,6 +1119,13 @@ XML
   <fn>
    <text>J. Doe</text>
   </fn>
+  <n>
+   <surname>Doe</surname>
+   <given>J.</given>
+   <additional/>
+   <prefix/>
+   <suffix/>
+  </n>
  </vcard>
 </vcards>
 XML
@@ -1126,6 +1133,7 @@ XML
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'FN:J. Doe' . CRLF .
+            'N:Doe;J.;;;' . CRLF .
             'END:VCARD' . CRLF
         );
 
