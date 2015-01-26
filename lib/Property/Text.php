@@ -296,24 +296,23 @@ class Text extends Property {
      */
     protected function xmlSerializeValue(Xml\Writer $writer) {
 
+        $values = $this->getParts();
+
         // Special-casing the REQUEST-STATUS property.
         //
         // See:
         // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
         if ($this->name === 'REQUEST-STATUS') {
 
-            $value = $this->getParts();
+            $writer->writeElement('code', $values[0]);
+            $writer->writeElement('description', $values[1]);
 
-            $writer->writeElement('code', $value[0]);
-            $writer->writeElement('description', $value[1]);
-
-            if (isset($value[2])) {
-                $writer->writeElement('data', $value[2]);
+            if (isset($values[2])) {
+                $writer->writeElement('data', $values[2]);
             }
 
         } elseif ($this->name === 'N') {
 
-            $values = $this->getParts();
             $mapping = [
                 'surname'    => !empty($values[0]) ? $values[0] : null,
                 'given'      => !empty($values[1]) ? $values[1] : null,
