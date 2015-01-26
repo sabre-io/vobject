@@ -364,7 +364,7 @@ abstract class Property extends Node {
             foreach ($parameters as $parameter) {
 
                 $writer->startElement(strtolower($parameter->name));
-                $writer->writeElement('text', $parameter);
+                $writer->write($parameter);
                 $writer->endElement();
 
             }

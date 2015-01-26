@@ -355,7 +355,7 @@ class Parameter extends Node {
      */
     function xmlSerialize(Xml\Writer $writer) {
 
-        $writer->write($this->value);
+        $writer->writeElement('text', $this->value);
 
     }
 
