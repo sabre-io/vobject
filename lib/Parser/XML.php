@@ -207,8 +207,16 @@ class XML extends Parser {
                 $xmlParameters = $xmlPropertyChild['value'];
 
                 foreach ($xmlParameters as $xmlParameter) {
+
+                    $propertyParameterValues = [];
+
+                    foreach($xmlParameter['value'] as $xmlParameterValues) {
+                        $propertyParameterValues[] = $xmlParameterValues['value'];
+                    }
+
                     $propertyParameters[static::getTagName($xmlParameter['name'])]
-                        = $xmlParameter['value'][0]['value'];
+                        = implode(',', $propertyParameterValues);
+
                 }
 
                 array_splice($xmlProperty['value'], $i, 1);
