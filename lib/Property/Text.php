@@ -339,6 +339,18 @@ class Text extends Property {
                 ]);
                 break;
 
+            case 'ADR':
+                $map([
+                    'pobox',
+                    'ext',
+                    'street',
+                    'locality',
+                    'region',
+                    'code',
+                    'country'
+                ]);
+                break;
+
             default:
                 parent::xmlSerializeValue($writer);
         }
