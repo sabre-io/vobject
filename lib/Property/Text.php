@@ -311,6 +311,21 @@ class Text extends Property {
                 $writer->writeElement('data', $value[2]);
             }
 
+        } elseif ($this->name === 'N') {
+
+            $values = $this->getParts();
+            $mapping = [
+                'surname'    => !empty($values[0]) ? $values[0] : null,
+                'given'      => !empty($values[1]) ? $values[1] : null,
+                'additional' => !empty($values[2]) ? $values[2] : null,
+                'prefix'     => !empty($values[3]) ? $values[3] : null,
+                'suffix'     => !empty($values[4]) ? $values[4] : null,
+            ];
+
+            foreach ($mapping as $name => $value) {
+                $writer->writeElement($name, $value);
+            }
+
         } else {
             parent::xmlSerializeValue($writer);
         }
