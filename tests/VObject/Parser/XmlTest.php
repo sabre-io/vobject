@@ -1213,6 +1213,33 @@ XML
 
     }
 
+    function testRFC6351Section5_1_NoNamespace() {
+
+        $this->assertXMLEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <x-my-prop>
+   <parameters>
+    <pref>
+     <integer>1</integer>
+    </pref>
+   </parameters>
+   <text>value goes here</text>
+  </x-my-prop>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'X-MY-PROP;PREF=1:value goes here' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
     /**
      * Check this equality:
      *     XML -> object model -> MIME Dir.
