@@ -1476,6 +1476,35 @@ XML
 
     }
 
+    function testRFC6350Section6_3_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <adr>
+   <pobox/>
+   <ext/>
+   <street>123 Main Street</street>
+   <locality>Any Town</locality>
+   <region>CA</region>
+   <code>91921-1234</code>
+   <country>U.S.A.</country>
+  </adr>
+ </vcard>
+</vcards>
+XML
+,
+
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'ADR:;;123 Main Street;Any Town;CA;91921-1234;U.S.A.' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
     /**
      * Check this equality:
      *     XML -> object model -> MIME Dir.
