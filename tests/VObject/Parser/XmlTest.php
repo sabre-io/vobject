@@ -1109,6 +1109,9 @@ XML
 
     }
 
+    /**
+     * Basic example.
+     */
     function testRFC6351Basic() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1139,6 +1142,9 @@ XML
 
     }
 
+    /**
+     * Example 1.
+     */
     function testRFC6351Example1() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1179,36 +1185,11 @@ XML
             'END:VCARD' . CRLF
         );
 
-        $xml =
-<<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
- <vcard>
-  <fn>
-   <text>J. Doe</text>
-  </fn>
-  <n>
-   <surname>Doe</surname>
-   <given>J.</given>
-   <additional/>
-   <prefix/>
-   <suffix/>
-  </n>
-  <x-file>
-   <parameters>
-    <mediatype>
-     <text>image/jpeg</text>
-    </mediatype>
-   </parameters>
-   <unknown>alien.jpg</unknown>
-  </x-file>
-  <a xmlns="http://www.w3.org/1999/xhtml" href="http://www.example.com">My web page!</a>
- </vcard>
-</vcards>
-XML;
-
     }
 
+    /**
+     * Design Considerations.
+     */
     function testRFC6351Section5() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1237,6 +1218,9 @@ XML
 
     }
 
+    /**
+     * Design Considerations.
+     */
     function testRFC6351Section5Group() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1275,6 +1259,9 @@ XML
 
     }
 
+    /**
+     * Extensibility.
+     */
     function testRFC6351Section5_1_NoNamespace() {
 
         $this->assertXMLEqualsToMimeDir(
@@ -1302,6 +1289,9 @@ XML
 
     }
 
+    /**
+     * Property: SOURCE.
+     */
     function testRFC6350Section6_1_3() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1324,6 +1314,9 @@ XML
 
     }
 
+    /**
+     * Property: KIND.
+     */
     function testRFC6350Section6_1_4() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1347,6 +1340,9 @@ XML
 
     }
 
+    /**
+     * Property: FN.
+     */
     function testRFC6350Section6_2_1() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1370,6 +1366,9 @@ XML
 
     }
 
+    /**
+     * Property: N.
+     */
     function testRFC6350Section6_2_2() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1397,6 +1396,9 @@ XML
 
     }
 
+    /**
+     * Property: NICKNAME.
+     */
     function testRFC6350Section6_2_3() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1421,6 +1423,9 @@ XML
 
     }
 
+    /**
+     * Property: PHOTO.
+     */
     function testRFC6350Section6_2_4() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1452,6 +1457,9 @@ XML
 
     }
 
+    /**
+     * Property: GENDER.
+     */
     function testRFC6350Section6_2_7() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1476,6 +1484,9 @@ XML
 
     }
 
+    /**
+     * Property: ADR.
+     */
     function testRFC6350Section6_3_1() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1505,6 +1516,9 @@ XML
 
     }
 
+    /**
+     * Property: TEL.
+     */
     function testRFC6350Section6_4_1() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1532,6 +1546,9 @@ XML
 
     }
 
+    /**
+     * Property: EMAIL.
+     */
     function testRFC6350Section6_4_2() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1559,6 +1576,9 @@ XML
 
     }
 
+    /**
+     * Property: IMPP.
+     */
     function testRFC6350Section6_4_3() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1586,6 +1606,9 @@ XML
 
     }
 
+    /**
+     * Property: LANG.
+     */
     function testRFC6350Section6_4_4() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1616,6 +1639,9 @@ XML
 
     }
 
+    /**
+     * Property: TZ.
+     */
     function testRFC6350Section6_5_1() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1638,6 +1664,9 @@ XML
 
     }
 
+    /**
+     * Property: GEO.
+     */
     function testRFC6350Section6_5_2() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1660,6 +1689,9 @@ XML
 
     }
 
+    /**
+     * Property: TITLE.
+     */
     function testRFC6350Section6_6_1() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1682,6 +1714,9 @@ XML
 
     }
 
+    /**
+     * Property: ROLE.
+     */
     function testRFC6350Section6_6_2() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1704,6 +1739,9 @@ XML
 
     }
 
+    /**
+     * Property: LOGO.
+     */
     function testRFC6350Section6_6_3() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1726,6 +1764,9 @@ XML
 
     }
 
+    /**
+     * Property: ORG.
+     */
     function testRFC6350Section6_6_4() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1750,6 +1791,9 @@ XML
 
     }
 
+    /**
+     * Property: MEMBER.
+     */
     function testRFC6350Section6_6_5() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1802,6 +1846,9 @@ XML
 
     }
 
+    /**
+     * Property: RELATED.
+     */
     function testRFC6350Section6_6_6() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1829,6 +1876,9 @@ XML
 
     }
 
+    /**
+     * Property: CATEGORIES.
+     */
     function testRFC6350Section6_7_1() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1854,6 +1904,9 @@ XML
 
     }
 
+    /**
+     * Property: NOTE.
+     */
     function testRFC6350Section6_7_2() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1876,6 +1929,9 @@ XML
 
     }
 
+    /**
+     * Property: PRODID.
+     */
     function testRFC6350Section6_7_3() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1898,6 +1954,9 @@ XML
 
     }
 
+    /**
+     * Property: SOUND.
+     */
     function testRFC6350Section6_7_5() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1920,6 +1979,9 @@ XML
 
     }
 
+    /**
+     * Property: UID.
+     */
     function testRFC6350Section6_7_6() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1942,6 +2004,9 @@ XML
 
     }
 
+    /**
+     * Property: CLIENTPIDMAP.
+     */
     function testRFC6350Section6_7_7() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1965,6 +2030,9 @@ XML
 
     }
 
+    /**
+     * Property: URL.
+     */
     function testRFC6350Section6_7_8() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1987,6 +2055,9 @@ XML
 
     }
 
+    /**
+     * Property: VERSION.
+     */
     function testRFC6350Section6_7_9() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -2004,6 +2075,9 @@ XML
 
     }
 
+    /**
+     * Property: KEY.
+     */
     function testRFC6350Section6_8_1() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -2031,6 +2105,9 @@ XML
 
     }
 
+    /**
+     * Property: FBURL.
+     */
     function testRFC6350Section6_9_1() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -2058,6 +2135,9 @@ XML
 
     }
 
+    /**
+     * Property: CALADRURI.
+     */
     function testRFC6350Section6_9_2() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -2080,6 +2160,9 @@ XML
 
     }
 
+    /**
+     * Property: CALURI.
+     */
     function testRFC6350Section6_9_3() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -2107,6 +2190,9 @@ XML
 
     }
 
+    /**
+     * Property: CAPURI.
+     */
     function testRFC6350SectionA_3() {
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
