@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use Sabre\VObject\Property;
+use
+    Sabre\VObject\Property,
+    Sabre\Xml;
 
 /**
  * Recur property
@@ -165,6 +167,23 @@ class Recur extends Property {
             $values[strtolower($k)] = $v;
         }
         return [$values];
+
+    }
+
+    /**
+     * This method serializes only the value of a property. This is used to
+     * create xCard or xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    protected function xmlSerializeValue(Xml\Writer $writer) {
+
+        $valueType = strtolower($this->getValueType());
+
+        foreach ($this->getJsonValue() as $value) {
+            $writer->writeElement($valueType, $value);
+        }
 
     }
 
