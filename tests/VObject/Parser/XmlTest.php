@@ -1660,6 +1660,175 @@ XML
 
     }
 
+    function testRFC6350Section6_6_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <title>
+   <text>Research Scientist</text>
+  </title>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TITLE:Research Scientist' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_6_2() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <role>
+   <text>Project Leader</text>
+  </role>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'ROLE:Project Leader' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_6_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <logo>
+   <uri>http://www.example.com/pub/logos/abccorp.jpg</uri>
+  </logo>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'LOGO:http://www.example.com/pub/logos/abccorp.jpg' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_6_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <org>
+   <text>ABC, Inc.</text>
+   <text>North American Division</text>
+   <text>Marketing</text>
+  </org>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'ORG:ABC\, Inc.;North American Division;Marketing' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_6_5() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <member>
+   <uri>urn:uuid:03a0e51f-d1aa-4385-8a53-e29025acd8af</uri>
+  </member>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'MEMBER:urn:uuid:03a0e51f-d1aa-4385-8a53-e29025acd8af' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <member>
+   <uri>mailto:subscriber1@example.com</uri>
+  </member>
+  <member>
+   <uri>xmpp:subscriber2@example.com</uri>
+  </member>
+  <member>
+   <uri>sip:subscriber3@example.com</uri>
+  </member>
+  <member>
+   <uri>tel:+1-418-555-5555</uri>
+  </member>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'MEMBER:mailto:subscriber1@example.com' . CRLF .
+            'MEMBER:xmpp:subscriber2@example.com' . CRLF .
+            'MEMBER:sip:subscriber3@example.com' . CRLF .
+            'MEMBER:tel:+1-418-555-5555' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_6_6() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <related>
+   <parameters>
+    <type>
+     <text>friend</text>
+    </type>
+   </parameters>
+   <uri>urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6</uri>
+  </related>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'RELATED;TYPE=friend:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
     /**
      * Check this equality:
      *     XML -> object model -> MIME Dir.
