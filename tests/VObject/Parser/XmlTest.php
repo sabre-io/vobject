@@ -1318,7 +1318,7 @@ XML
 ,
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
-            'SOURCE:ldap://ldap.example.com/cn=Babs%20Jensen,%20o=Babsco,%20c=US' . CRLF .
+            'SOURCE:ldap://ldap.example.com/cn=Babs%20Jensen\,%20o=Babsco\,%20c=US' . CRLF .
             'END:VCARD' . CRLF
         );
 
