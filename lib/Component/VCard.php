@@ -75,7 +75,7 @@ class VCard extends VObject\Document {
         'TEL'     => 'Sabre\\VObject\\Property\\Uri',
         'EMAIL'   => 'Sabre\\VObject\\Property\\FlatText',
         'MAILER'  => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
-        'GEO'     => 'Sabre\\VObject\\Property\\FlatText',
+        'GEO'     => 'Sabre\\VObject\\Property\\Uri',
         'TITLE'   => 'Sabre\\VObject\\Property\\FlatText',
         'ROLE'    => 'Sabre\\VObject\\Property\\FlatText',
         'LOGO'    => 'Sabre\\VObject\\Property\\Binary',
