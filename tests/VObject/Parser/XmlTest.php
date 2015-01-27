@@ -2004,6 +2004,32 @@ XML
 
     }
 
+    function testRFC6350Section6_8_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <key>
+   <parameters>
+    <mediatype>
+     <text>application/pgp-keys</text>
+    </mediatype>
+   </parameters>
+   <text>ftp://example.com/keys/jdoe</text>
+  </key>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'KEY;MEDIATYPE=application/pgp-keys:ftp://example.com/keys/jdoe' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
     /**
      * Check this equality:
      *     XML -> object model -> MIME Dir.
