@@ -1954,6 +1954,28 @@ XML
 
     }
 
+    function testRFC6350Section6_7_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <rev>
+   <timestamp>19951031T222710Z</timestamp>
+  </rev>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'REV:19951031T222710Z' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
     /**
      * Property: SOUND.
      */
