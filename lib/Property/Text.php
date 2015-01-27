@@ -39,6 +39,7 @@ class Text extends Property {
         'ADR',
         'ORG',
         'GENDER',
+        'CLIENTPIDMAP',
 
         // iCalendar
         'REQUEST-STATUS',
@@ -348,6 +349,13 @@ class Text extends Property {
                     'region',
                     'code',
                     'country'
+                ]);
+                break;
+
+            case 'CLIENTPIDMAP':
+                $map([
+                    'sourceid',
+                    'uri'
                 ]);
                 break;
 
