@@ -1829,6 +1829,181 @@ XML
 
     }
 
+    function testRFC6350Section6_7_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <categories>
+   <text>INTERNET</text>
+   <text>IETF</text>
+   <text>INDUSTRY</text>
+   <text>INFORMATION TECHNOLOGY</text>
+  </categories>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'CATEGORIES:INTERNET,IETF,INDUSTRY,INFORMATION TECHNOLOGY' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_7_2() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <note>
+   <text>Foo, bar</text>
+  </note>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'NOTE:Foo\, bar' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_7_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <prodid>
+   <text>-//ONLINE DIRECTORY//NONSGML Version 1//EN</text>
+  </prodid>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'PRODID:-//ONLINE DIRECTORY//NONSGML Version 1//EN' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_7_5() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <sound>
+   <uri>CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com</uri>
+  </sound>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_7_6() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <uid>
+   <text>urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6</text>
+  </uid>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'UID:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_7_7() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <clientpidmap>
+   <sourceid>1</sourceid>
+   <uri>urn:uuid:3df403f4-5924-4bb7-b077-3c711d9eb34b</uri>
+  </clientpidmap>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'CLIENTPIDMAP:1;urn:uuid:3df403f4-5924-4bb7-b077-3c711d9eb34b' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_7_8() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <url>
+   <uri>http://example.org/restaurant.french/~chezchic.html</uri>
+  </url>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'URL:http://example.org/restaurant.french/~chezchic.html' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_7_9() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard/>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
     /**
      * Check this equality:
      *     XML -> object model -> MIME Dir.
