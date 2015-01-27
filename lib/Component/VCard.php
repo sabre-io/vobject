@@ -84,7 +84,7 @@ class VCard extends VObject\Document {
         'ORG'     => 'Sabre\\VObject\\Property\\Text',
         'NOTE'    => 'Sabre\\VObject\\Property\\FlatText',
         'REV'     => 'Sabre\\VObject\\Property\\VCard\\TimeStamp',
-        'SOUND'   => 'Sabre\\VObject\\Property\\FlatText',
+        'SOUND'   => 'Sabre\\VObject\\Property\\Uri',
         'URL'     => 'Sabre\\VObject\\Property\\Uri',
         'UID'     => 'Sabre\\VObject\\Property\\FlatText',
         'VERSION' => 'Sabre\\VObject\\Property\\FlatText',
