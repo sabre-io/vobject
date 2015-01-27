@@ -241,10 +241,15 @@ class XML extends Parser {
 
             }
 
-            switch ($propertyName) {
+            $propertyNameExtended = ($this->root instanceof VCalendar
+                                      ? 'xcal'
+                                      : 'xcard') . ':' . $propertyName;
 
-                case 'geo':
+            switch ($propertyNameExtended) {
+
+                case 'xcal:geo':
                     $propertyType               = 'float';
+
                     $propertyValue['latitude']  = 0;
                     $propertyValue['longitude'] = 0;
 
@@ -254,7 +259,7 @@ class XML extends Parser {
                     }
                     break;
 
-                case 'request-status':
+                case 'xcal:request-status':
                     $propertyType = 'text';
 
                     foreach ($xmlProperty['value'] as $xmlRequestChild) {
@@ -263,21 +268,21 @@ class XML extends Parser {
                     }
                     break;
 
-                case 'freebusy':
+                case 'xcal:freebusy':
                     $propertyType = 'freebusy';
                     // We don't break because we only want to set
                     // another property type.
 
-                case 'categories':
-                case 'resources':
-                case 'exdate':
+                case 'xcal:categories':
+                case 'xcal:resources':
+                case 'xcal:exdate':
                     foreach ($xmlProperty['value'] as $specialChild) {
                         $propertyValue[static::getTagName($specialChild['name'])]
                             = $specialChild['value'];
                     }
                     break;
 
-                case 'rdate':
+                case 'xcal:rdate':
                     $propertyType = 'date-time';
 
                     foreach ($xmlProperty['value'] as $specialChild) {
