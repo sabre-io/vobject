@@ -163,7 +163,7 @@ class XML extends Parser {
      */
     protected function parseProperties(Component $parentComponent, $propertyNamePrefix = '') {
 
-        foreach ($this->pointer as $xmlProperty) {
+        foreach ($this->pointer ?: [] as $xmlProperty) {
 
             list($namespace, $tagName) = SabreXml\Util::parseClarkNotation($xmlProperty['name']);
 
