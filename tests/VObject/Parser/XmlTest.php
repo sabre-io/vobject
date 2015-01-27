@@ -1505,6 +1505,117 @@ XML
 
     }
 
+    function testRFC6350Section6_4_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <tel>
+   <parameters>
+    <type>
+     <text>home</text>
+    </type>
+   </parameters>
+   <uri>tel:+33-01-23-45-67</uri>
+  </tel>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TEL;TYPE=home:tel:+33-01-23-45-67' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_4_2() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <email>
+   <parameters>
+    <type>
+     <text>work</text>
+    </type>
+   </parameters>
+   <text>jqpublic@xyz.example.com</text>
+  </email>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'EMAIL;TYPE=work:jqpublic@xyz.example.com' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_4_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <impp>
+   <parameters>
+    <pref>
+     <text>1</text>
+    </pref>
+   </parameters>
+   <uri>xmpp:alice@example.com</uri>
+  </impp>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'IMPP;PREF=1:xmpp:alice@example.com' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_4_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <lang>
+   <parameters>
+    <type>
+     <text>work</text>
+    </type>
+    <pref>
+     <text>2</text>
+    </pref>
+   </parameters>
+   <language-tag>en</language-tag>
+  </lang>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'LANG;TYPE=work;PREF=2:en' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
     /**
      * Check this equality:
      *     XML -> object model -> MIME Dir.
