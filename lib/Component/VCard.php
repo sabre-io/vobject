@@ -102,6 +102,7 @@ class VCard extends VObject\Document {
         'FBURL'        => 'Sabre\\VObject\\Property\\Uri',
         'CAPURI'       => 'Sabre\\VObject\\Property\\Uri',
         'CALURI'       => 'Sabre\\VObject\\Property\\Uri',
+        'CALADRURI'    => 'Sabre\\VObject\\Property\\Uri',
 
         // rfc4770 properties
         'IMPP'         => 'Sabre\\VObject\\Property\\Uri',
