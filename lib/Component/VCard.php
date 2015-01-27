@@ -115,6 +115,7 @@ class VCard extends VObject\Document {
         'GENDER'       => 'Sabre\\VObject\\Property\\Text',
         'KIND'         => 'Sabre\\VObject\\Property\\FlatText',
         'MEMBER'       => 'Sabre\\VObject\\Property\\Uri',
+        'RELATED'      => 'Sabre\\VObject\\Property\\Uri',
 
         // rfc6474 properties
         'BIRTHPLACE'    => 'Sabre\\VObject\\Property\\FlatText',
