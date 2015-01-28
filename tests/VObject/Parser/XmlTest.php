@@ -1451,9 +1451,47 @@ XML
 
     function testRFC6350Section6_2_5() {
 
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>19531015T231000Z</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:19531015T231000Z' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
     }
 
     function testRFC6350Section6_2_6() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <anniversary>
+   <date-and-or-time>19960415</date-and-or-time>
+  </anniversary>
+ </vcard>
+</vcards>
+XML
+,
+
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'ANNIVERSARY:19960415' . CRLF .
+            'END:VCARD' . CRLF
+        );
 
     }
 
