@@ -88,7 +88,7 @@ class DateTimeParser {
      */
     static function parseDuration($duration, $asString = false) {
 
-        $result = preg_match('/^(?P<plusminus>\+|-)?P((?P<week>\d+)W)?((?P<day>\d+)D)?(T((?P<hour>\d+)H)?((?P<minute>\d+)M)?((?P<second>\d+)S)?)?$/', $duration, $matches);
+        $result = preg_match('/^(?<plusminus>\+|-)?P((?<week>\d+)W)?((?<day>\d+)D)?(T((?<hour>\d+)H)?((?<minute>\d+)M)?((?<second>\d+)S)?)?$/', $duration, $matches);
         if (!$result) {
             throw new LogicException('The supplied iCalendar duration value is incorrect: ' . $duration);
         }
@@ -263,17 +263,17 @@ class DateTimeParser {
         $regex = '/^
             (?:  # date part
                 (?:
-                    (?: (?P<year> [0-9]{4}) (?: -)?| --)
-                    (?P<month> [0-9]{2})?
+                    (?: (?<year> [0-9]{4}) (?: -)?| --)
+                    (?<month> [0-9]{2})?
                 |---)
-                (?P<date> [0-9]{2})?
+                (?<date> [0-9]{2})?
             )?
             (?:T  # time part
-                (?P<hour> [0-9]{2} | -)
-                (?P<minute> [0-9]{2} | -)?
-                (?P<second> [0-9]{2})?
+                (?<hour> [0-9]{2} | -)
+                (?<minute> [0-9]{2} | -)?
+                (?<second> [0-9]{2})?
 
-                (?P<timezone> # timezone offset
+                (?<timezone> # timezone offset
 
                     Z | (?: \+|-)(?: [0-9]{4})
 
@@ -288,17 +288,17 @@ class DateTimeParser {
             // Attempting to parse the extended format.
             $regex = '/^
                 (?: # date part
-                    (?: (?P<year> [0-9]{4}) - | -- )
-                    (?P<month> [0-9]{2}) -
-                    (?P<date> [0-9]{2})
+                    (?: (?<year> [0-9]{4}) - | -- )
+                    (?<month> [0-9]{2}) -
+                    (?<date> [0-9]{2})
                 )?
                 (?:T # time part
 
-                    (?: (?P<hour> [0-9]{2}) : | -)
-                    (?: (?P<minute> [0-9]{2}) : | -)?
-                    (?P<second> [0-9]{2})?
+                    (?: (?<hour> [0-9]{2}) : | -)
+                    (?: (?<minute> [0-9]{2}) : | -)?
+                    (?<second> [0-9]{2})?
 
-                    (?P<timezone> # timezone offset
+                    (?<timezone> # timezone offset
 
                         Z | (?: \+|-)(?: [0-9]{2}:[0-9]{2})
 
@@ -383,11 +383,11 @@ class DateTimeParser {
     static function parseVCardTime($date) {
 
         $regex = '/^
-            (?P<hour> [0-9]{2} | -)
-            (?P<minute> [0-9]{2} | -)?
-            (?P<second> [0-9]{2})?
+            (?<hour> [0-9]{2} | -)
+            (?<minute> [0-9]{2} | -)?
+            (?<second> [0-9]{2})?
 
-            (?P<timezone> # timezone offset
+            (?<timezone> # timezone offset
 
                 Z | (?: \+|-)(?: [0-9]{4})
 
@@ -399,11 +399,11 @@ class DateTimeParser {
 
             // Attempting to parse the extended format.
             $regex = '/^
-                (?: (?P<hour> [0-9]{2}) : | -)
-                (?: (?P<minute> [0-9]{2}) : | -)?
-                (?P<second> [0-9]{2})?
+                (?: (?<hour> [0-9]{2}) : | -)
+                (?: (?<minute> [0-9]{2}) : | -)?
+                (?<second> [0-9]{2})?
 
-                (?P<timezone> # timezone offset
+                (?<timezone> # timezone offset
 
                     Z | (?: \+|-)(?: [0-9]{2}:[0-9]{2})
 
