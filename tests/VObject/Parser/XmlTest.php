@@ -1331,7 +1331,6 @@ XML
 </vcards>
 XML
 ,
-
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'KIND:individual' . CRLF .
@@ -1357,7 +1356,6 @@ XML
 </vcards>
 XML
 ,
-
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'FN:Mr. John Q. Public\, Esq.' . CRLF .
@@ -1387,7 +1385,6 @@ XML
 </vcards>
 XML
 ,
-
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'N:Stevenson;John;Philip\,Paul;Dr.;Jr.\,M.D.\,A.C.P.' . CRLF .
@@ -1414,7 +1411,6 @@ XML
 </vcards>
 XML
 ,
-
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'NICKNAME:Jim,Jimmie' . CRLF .
@@ -1440,7 +1436,6 @@ XML
 </vcards>
 XML
 ,
-
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'PHOTO:http://www.example.com/pub/photos/jqpublic.gif' . CRLF .
@@ -1463,7 +1458,6 @@ XML
 </vcards>
 XML
 ,
-
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'BDAY:19531015T231000Z' . CRLF .
@@ -1486,7 +1480,6 @@ XML
 </vcards>
 XML
 ,
-
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'ANNIVERSARY:19960415' . CRLF .
@@ -1513,7 +1506,6 @@ XML
 </vcards>
 XML
 ,
-
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'GENDER:Jim;Jimmie' . CRLF .
@@ -1545,7 +1537,6 @@ XML
 </vcards>
 XML
 ,
-
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'ADR:;;123 Main Street;Any Town;CA;91921-1234;U.S.A.' . CRLF .
