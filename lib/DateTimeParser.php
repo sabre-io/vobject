@@ -94,11 +94,12 @@ class DateTimeParser {
         }
 
         if (!$asString) {
+
             $invert = false;
+
             if ($matches['plusminus']==='-') {
                 $invert = true;
             }
-
 
             $parts = [
                 'week',
@@ -107,46 +108,55 @@ class DateTimeParser {
                 'minute',
                 'second',
             ];
+
             foreach($parts as $part) {
                 $matches[$part] = isset($matches[$part])&&$matches[$part]?(int)$matches[$part]:0;
             }
-
 
             // We need to re-construct the $duration string, because weeks and
             // days are not supported by DateInterval in the same string.
             $duration = 'P';
             $days = $matches['day'];
+
             if ($matches['week']) {
                 $days+=$matches['week']*7;
             }
-            if ($days)
+
+            if ($days) {
                 $duration.=$days . 'D';
+            }
 
             if ($matches['minute'] || $matches['second'] || $matches['hour']) {
+
                 $duration.='T';
 
-                if ($matches['hour'])
+                if ($matches['hour']) {
                     $duration.=$matches['hour'].'H';
+                }
 
-                if ($matches['minute'])
+                if ($matches['minute']) {
                     $duration.=$matches['minute'].'M';
+                }
 
-                if ($matches['second'])
+                if ($matches['second']) {
                     $duration.=$matches['second'].'S';
+                }
 
             }
 
             if ($duration==='P') {
                 $duration = 'PT0S';
             }
+
             $iv = new DateInterval($duration);
-            if ($invert) $iv->invert = true;
+
+            if ($invert) {
+                $iv->invert = true;
+            }
 
             return $iv;
 
         }
-
-
 
         $parts = [
             'week',
@@ -157,6 +167,7 @@ class DateTimeParser {
         ];
 
         $newDur = '';
+
         foreach($parts as $part) {
             if (isset($matches[$part]) && $matches[$part]) {
                 $newDur.=' '.$matches[$part] . ' ' . $part . 's';
@@ -164,9 +175,11 @@ class DateTimeParser {
         }
 
         $newDur = ($matches['plusminus']==='-'?'-':'+') . trim($newDur);
+
         if ($newDur === '+') {
             $newDur = '+0 seconds';
         };
+
         return $newDur;
 
     }
