@@ -509,7 +509,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
         /**
          * This is unreachable due to a conflict between date and time pattern.
-         * This is an error in the specification, not in the our implementation.
+         * This is an error in the specification, not in our implementation.
         $this->assertDateAndOrTimeEqualsTo(
             '--01',
             [
