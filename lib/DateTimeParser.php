@@ -438,4 +438,126 @@ class DateTimeParser {
         return $result;
 
     }
+
+    /**
+     * This method parses a vCard date and or time value.
+     *
+     * This can be used for the DATE, DATE-TIME and
+     * DATE-AND-OR-TIME value.
+     *
+     * This method returns an array, not a DateTime value.
+     * The elements in the array are in the following order:
+     *     year, month, date, hour, minute, second, timezone
+     * Almost any part of the string may be omitted. It's for example legal to
+     * just specify seconds, leave out the year, etc.
+     *
+     * Timezone is either returned as 'Z' or as '+0800'
+     *
+     * For any non-specified values null is returned.
+     *
+     * List of date formats that are supported:
+     *     20150128
+     *     2015-01
+     *     --01
+     *     --0128
+     *     ---28
+     *
+     * List of supported time formats:
+     *     13
+     *     1353
+     *     135301
+     *     -53
+     *     -5301
+     *     --01 (unreachable, see the tests)
+     *     --01Z
+     *     --01+1234
+     *
+     * List of supported date-time formats:
+     *     20150128T13
+     *     --0128T13
+     *     ---28T13
+     *     ---28T1353
+     *     ---28T135301
+     *     ---28T13Z
+     *     ---28T13+1234
+     *
+     * See the regular expressions for all the possible patterns.
+     *
+     * Times may be postfixed by a timezone offset. This can be either 'Z' for
+     * UTC, or a string like -0500 or +1100.
+     *
+     * @param string $date
+     * @return array
+     */
+    static function parseVCardDateAndOrTime($date) {
+
+        // \d{8}|\d{4}-\d\d|--\d\d(\d\d)?|---\d\d
+        $valueDate     = '/^(?J)(?:' .
+                         '(?<year>\d{4})(?<month>\d\d)(?<date>\d\d)' .
+                         '|(?<year>\d{4})-(?<month>\d\d)' .
+                         '|--(?<month>\d\d)(?<date>\d\d)?' .
+                         '|---(?<date>\d\d)' .
+                         ')$/';
+
+        // (\d\d(\d\d(\d\d)?)?|-\d\d(\d\d)?|--\d\d)(Z|[+\-]\d\d(\d\d)?)?
+        $valueTime     = '/^(?J)(?:' .
+                         '((?<hour>\d\d)((?<minute>\d\d)(?<second>\d\d)?)?' .
+                         '|-(?<minute>\d\d)(?<second>\d\d)?' .
+                         '|--(?<second>\d\d))' .
+                         '(?<timezone>(Z|[+\-]\d\d(\d\d)?))?' .
+                         ')$/';
+
+        // (\d{8}|--\d{4}|---\d\d)T\d\d(\d\d(\d\d)?)?(Z|[+\-]\d\d(\d\d?)?
+        $valueDateTime = '/^(?:' .
+                         '((?<year0>\d{4})(?<month0>\d\d)(?<date0>\d\d)' .
+                         '|--(?<month1>\d\d)(?<date1>\d\d)'.
+                         '|---(?<date2>\d\d))' .
+                         'T' .
+                         '(?<hour>\d\d)((?<minute>\d\d)(?<second>\d\d)?)?' .
+                         '(?<timezone>(Z|[+\-]\d\d(\d\d?)))?' .
+                         ')$/';
+
+        // date-and-or-time is date | date-time | time
+        // in this strict order.
+
+        if (   0 === preg_match($valueDate, $date, $matches)
+            && 0 === preg_match($valueDateTime, $date, $matches)
+            && 0 === preg_match($valueTime, $date, $matches)) {
+            throw new InvalidArgumentException('Invalid vCard date-time string: ' . $date);
+        }
+
+        $parts = [
+            'year' => null,
+            'month' => null,
+            'date' => null,
+            'hour' => null,
+            'minute' => null,
+            'second' => null,
+            'timezone' => null
+        ];
+
+        // The $valueDateTime expression has a bug with (?J) so we simulate it.
+        $parts['date0']  = &$parts['date'];
+        $parts['date1']  = &$parts['date'];
+        $parts['date2']  = &$parts['date'];
+        $parts['month0'] = &$parts['month'];
+        $parts['month1'] = &$parts['month'];
+        $parts['year0']  = &$parts['year'];
+
+        foreach ($parts as $part => &$value) {
+            if (!empty($matches[$part])) {
+                $value = $matches[$part];
+            }
+        }
+
+        unset($parts['date0']);
+        unset($parts['date1']);
+        unset($parts['date2']);
+        unset($parts['month0']);
+        unset($parts['month1']);
+        unset($parts['year0']);
+
+        return $parts;
+
+    }
 }
