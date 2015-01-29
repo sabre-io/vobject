@@ -1253,14 +1253,14 @@ XML
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
   <tel>
-   <uri>tel:+1-555-555-556</uri>
+   <text>tel:+1-555-555-556</text>
   </tel>
   <group name="contact">
    <fn>
     <text>Gordon</text>
    </fn>
    <tel>
-    <uri>tel:+1-555-555-555</uri>
+    <text>tel:+1-555-555-555</text>
    </tel>
   </group>
   <group name="media">
@@ -2264,13 +2264,31 @@ XML
      */
     function testRFC6350Section6_5_2() {
 
-        $this->assertXMLReflexivelyEqualsToMimeDir(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
   <geo>
    <uri>geo:37.386013,-122.082932</uri>
+  </geo>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'GEO:geo:37.386013\,-122.082932' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <geo>
+   <text>geo:37.386013,-122.082932</text>
   </geo>
  </vcard>
 </vcards>
