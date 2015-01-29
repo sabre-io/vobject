@@ -92,7 +92,7 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                     (object)array(
                         "group" => "item1",
                     ),
-                    "uri",
+                    "text",
                     "+1 555 123456",
                 ),
                 array(

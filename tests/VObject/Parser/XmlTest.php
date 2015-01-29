@@ -1192,7 +1192,7 @@ XML
      */
     function testRFC6351Section5() {
 
-        $this->assertXMLReflexivelyEqualsToMimeDir(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
@@ -1205,6 +1205,30 @@ XML
     </type>
    </parameters>
    <uri>tel:+1-555-555-555</uri>
+  </tel>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TEL;TYPE="voice,video":tel:+1-555-555-555' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <tel>
+   <parameters>
+    <type>
+     <text>voice</text>
+     <text>video</text>
+    </type>
+   </parameters>
+   <text>tel:+1-555-555-555</text>
   </tel>
  </vcard>
 </vcards>
@@ -2059,7 +2083,17 @@ XML
      */
     function testRFC6350Section6_4_1() {
 
-        $this->assertXMLReflexivelyEqualsToMimeDir(
+        /**
+         * Quoting RFC:
+         * > Value type:  By default, it is a single free-form text value (for
+         * > backward compatibility with vCard 3), but it SHOULD be reset to a
+         * > URI value.  It is expected that the URI scheme will be "tel", as
+         * > specified in [RFC3966], but other schemes MAY be used.
+         *
+         * So first, we test xCard/URI to vCard/URI.
+         * Then, we test xCard/TEXT to vCard/TEXT to xCard/TEXT.
+         */
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
@@ -2071,6 +2105,29 @@ XML
     </type>
    </parameters>
    <uri>tel:+33-01-23-45-67</uri>
+  </tel>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TEL;TYPE=home:tel:+33-01-23-45-67' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <tel>
+   <parameters>
+    <type>
+     <text>home</text>
+    </type>
+   </parameters>
+   <text>tel:+33-01-23-45-67</text>
   </tel>
  </vcard>
 </vcards>
