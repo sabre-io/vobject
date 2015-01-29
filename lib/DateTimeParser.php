@@ -217,7 +217,7 @@ class DateTimeParser {
      * Almost any part of the string may be omitted. It's for example legal to
      * just specify seconds, leave out the year, etc.
      *
-     * Timezone is either returned as 'Z' or as '+08:00'
+     * Timezone is either returned as 'Z' or as '+0800'
      *
      * For any non-specified values null is returned.
      *
