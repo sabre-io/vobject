@@ -1290,6 +1290,515 @@ XML
     }
 
     /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithYearMonthDay() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>20150128</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:20150128' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithYearMonth() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>2015-01</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:2015-01' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithMonth() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--01</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--01' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithMonthDay() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--0128</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--0128' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithDay() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithHour() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>13</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:13' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithHourMinute() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>1353</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:1353' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithHourMinuteSecond() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>135301</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:135301' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithMinute() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>-53</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:-53' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithMinuteSecond() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>-5301</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:-5301' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithSecond() {
+
+        $this->assertTrue(true);
+
+        /*
+         * According to the Relax NG Schema, there is a conflict between
+         * value-date and value-time. The --01 syntax can only match a
+         * value-date because of the higher priority set in
+         * value-date-and-or-time. So we basically skip this test.
+         *
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--01</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--01' . CRLF .
+            'END:VCARD' . CRLF
+        );
+        */
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithSecondZ() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--01Z</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--01Z' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithSecondTZ() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--01+1234</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--01+1234' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithYearMonthDayHour() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>20150128T13</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:20150128T13' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithMonthDayHour() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--0128T13</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--0128T13' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHour() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T13</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T13' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHourMinute() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T1353</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T1353' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHourMinuteSecond() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T135301</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T135301' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHourZ() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T13Z</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T13Z' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHourTZ() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T13+1234</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T13+1234' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
      * Property: SOURCE.
      */
     function testRFC6350Section6_1_3() {
