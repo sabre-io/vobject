@@ -260,7 +260,7 @@ class DateAndOrTime extends Property {
     protected function xmlSerializeValue(Xml\Writer $writer) {
 
         $valueType = strtolower($this->getValueType());
-        $parts     = DateTimeParser::parseVCardDateTime($this->getValue());
+        $parts     = DateTimeParser::parseVCardDateAndOrTime($this->getValue());
         $value     = '';
 
         // $d = defined
