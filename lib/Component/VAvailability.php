@@ -57,4 +57,43 @@ class VAvailability extends VObject\Component {
         ];
 
     }
+
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   Node::REPAIR - May attempt to automatically repair the problem.
+     *   Node::PROFILE_CARDDAV - Validate the vCard for CardDAV purposes.
+     *   Node::PROFILE_CALDAV - Validate the iCalendar for CalDAV purposes.
+     *
+     * This method returns an array with detected problems.
+     * Every element has the following properties:
+     *
+     *  * level - problem level.
+     *  * message - A human-readable string describing the issue.
+     *  * node - A reference to the problematic node.
+     *
+     * The level means:
+     *   1 - The issue was repaired (only happens if REPAIR was turned on).
+     *   2 - A warning.
+     *   3 - An error.
+     *
+     * @param int $options
+     * @return array
+     */
+    function validate($options = 0) {
+
+        $result = parent::validate($options);
+
+        if (isset($this->DTEND) && isset($this->DURATION)) {
+            $result[] = [
+                'level' => 3,
+                'message' => 'DTEND and DURATION cannot both be present',
+                'node' => $this
+            ];
+        }
+
+        return $result;
+
+    }
 }
