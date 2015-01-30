@@ -3,7 +3,7 @@
 /**
  * Automatically generated timezone file
  *
- * Last update: 2014-10-03T07:58:31-04:00
+ * Last update: 2015-01-30T15:01:05-05:00
  * Source: http://unicode.org/repos/cldr/trunk/common/supplemental/windowsZones.xml
  *
  * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
@@ -24,6 +24,7 @@ return array (
   'Azores Standard Time' => 'Atlantic/Azores',
   'Bahia Standard Time' => 'America/Bahia',
   'Bangladesh Standard Time' => 'Asia/Dhaka',
+  'Belarus Standard Time' => 'Europe/Minsk',
   'Canada Central Standard Time' => 'America/Regina',
   'Cape Verde Standard Time' => 'Atlantic/Cape_Verde',
   'Caucasus Standard Time' => 'Asia/Yerevan',
@@ -81,6 +82,9 @@ return array (
   'Pakistan Standard Time' => 'Asia/Karachi',
   'Paraguay Standard Time' => 'America/Asuncion',
   'Romance Standard Time' => 'Europe/Paris',
+  'Russia Time Zone 10' => 'Asia/Srednekolymsk',
+  'Russia Time Zone 11' => 'Asia/Kamchatka',
+  'Russia Time Zone 3' => 'Europe/Samara',
   'Russian Standard Time' => 'Europe/Moscow',
   'SA Eastern Standard Time' => 'America/Cayenne',
   'SA Pacific Standard Time' => 'America/Bogota',

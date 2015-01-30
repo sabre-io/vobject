@@ -7,6 +7,7 @@ ChangeLog
 * #187: Fixed validator rules for `LAST-MODIFIED` properties.
 * #188: Retain floating times when generating instances using
   `Recur\EventIterator`.
+* Updated windows timezone mappings to latest unicode version.
 
 
 3.3.5 (2015-01-09)
