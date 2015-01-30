@@ -23,7 +23,7 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
 
         $calendar = new VCalendar();
 
-        // Hard date and time        
+        // Hard date and time
         $valarm1 = $calendar->createComponent('VALARM');
         $valarm1->add(
             $calendar->createProperty('TRIGGER', '20120312T130000Z', array('VALUE' => 'DATE-TIME'))
