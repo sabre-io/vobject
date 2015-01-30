@@ -476,7 +476,8 @@ class VCard extends VObject\Document {
 
                     case 'XML':
                         $value = $property->getParts();
-                        $writer->writeRaw('  ' . $value[0] . "\n ");
+                        $fragment = new Xml\Element\XmlFragment($value[0]);
+                        $writer->write($fragment);
                         break;
 
                     default:

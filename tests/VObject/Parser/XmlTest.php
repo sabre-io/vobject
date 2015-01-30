@@ -1170,7 +1170,7 @@ XML
    </parameters>
    <unknown>alien.jpg</unknown>
   </x-file>
-  <a xmlns="http://www.w3.org/1999/xhtml" href="http://www.example.com">My web page!</a>
+  <x1:a href="http://www.example.com" xmlns:x1="http://www.w3.org/1999/xhtml">My web page!</x1:a>
  </vcard>
 </vcards>
 XML
