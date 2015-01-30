@@ -249,7 +249,6 @@ class XML extends Parser {
 
                 case 'xcal:geo':
                     $propertyType               = 'float';
-
                     $propertyValue['latitude']  = 0;
                     $propertyValue['longitude'] = 0;
 
