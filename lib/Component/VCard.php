@@ -481,6 +481,7 @@ class VCard extends VObject\Document {
 
                     default:
                         $property->xmlSerialize($writer);
+                        break;
 
                 }
             }
