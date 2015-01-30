@@ -18,7 +18,15 @@ ChangeLog
 * #161: Simplified `ElementList` by extending `ArrayIterator`.
 
 
-3.3.5 (2014-??-??)
+3.3.6 (2015-??-??)
+------------------
+
+* #187: Fixed validator rules for `LAST-MODIFIED` properties.
+* #188: Retain floating times when generating instances using
+  `Recur\EventIterator`.
+
+
+3.3.5 (2015-01-09)
 ------------------
 
 * #168: Expanding calendars now removes objects with recurrence rules that
@@ -30,6 +38,10 @@ ChangeLog
 * #179: Fixed jCal serialization of floating `DATE-TIME` properties.
 * #173: vCard converter failed for `X-ABDATE` properties that had no
   `X-ABLABEL`.
+* #180: Added `PROFILE_CALDAV` and `PROFILE_CARDDAV` to enable validation rules
+  specific for CalDAV/CardDAV servers.
+* #176: A missing `UID` is no longer an error, but a warning for the vCard
+  validator, unless `PROFILE_CARDDAV` is specified.
 
 
 3.3.4 (2014-11-19)
@@ -369,6 +381,14 @@ ChangeLog
   VERSION and CALSCALE.
 * Added: You can add new sub-components much quicker with the magic setters, and
   add() method.
+
+
+2.1.7 (2015-01-21)
+------------------
+
+* Fixed: Issue #94, a workaround for bad escaping of ; and , in compound
+  properties. It's not a full solution, but it's an improvement for those
+  stuck in the 2.1 versions.
 
 
 2.1.6 (2014-12-10)

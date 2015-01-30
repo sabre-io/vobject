@@ -108,7 +108,7 @@ class VEvent extends VObject\Component {
             'CREATED' => '?',
             'DESCRIPTION' => '?',
             'GEO' => '?',
-            'LAST-MODIFICATION' => '?',
+            'LAST-MODIFIED' => '?',
             'LOCATION' => '?',
             'ORGANIZER' => '?',
             'PRIORITY' => '?',

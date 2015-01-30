@@ -10,7 +10,7 @@ $data = file_get_contents($windowsZonesUrl);
 
 $xml = simplexml_load_string($data);
 
-$map = [];
+$map = array();
 
 foreach($xml->xpath('//mapZone') as $mapZone) {
 
