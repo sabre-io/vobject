@@ -487,4 +487,3 @@ class VCalendar extends VObject\Document {
     }
 
 }
-
