@@ -83,7 +83,6 @@ class VEvent extends VObject\Component {
 
     }
 
-
     /**
      * A simple list of validation rules.
      *
