@@ -2594,13 +2594,31 @@ XML
      */
     function testRFC6350Section6_7_5() {
 
-        $this->assertXMLReflexivelyEqualsToMimeDir(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
   <sound>
    <uri>CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com</uri>
+  </sound>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <sound>
+   <text>CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com</text>
   </sound>
  </vcard>
 </vcards>
