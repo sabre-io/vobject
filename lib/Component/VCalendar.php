@@ -39,6 +39,7 @@ class VCalendar extends VObject\Document {
         'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
         'VFREEBUSY'     => 'Sabre\\VObject\\Component\\VFreeBusy',
         'VAVAILABILITY' => 'Sabre\\VObject\\Component\\VAvailability',
+        'AVAILABLE'     => 'Sabre\\VObject\\Component\\Available',
         'VJOURNAL'      => 'Sabre\\VObject\\Component\\VJournal',
         'VTIMEZONE'     => 'Sabre\\VObject\\Component\\VTimeZone',
         'VTODO'         => 'Sabre\\VObject\\Component\\VTodo',
