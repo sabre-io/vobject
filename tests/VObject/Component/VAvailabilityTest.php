@@ -4,6 +4,7 @@ namespace Sabre\VObject\Component;
 
 use Sabre\VObject;
 use Sabre\VObject\Reader;
+use Sabre\VObject\Component;
 use Sabre\VObject\Component\VAvailability;
 
 const CRLF = "\r\n";
@@ -130,6 +131,22 @@ VCAL
             'DTEND:21111005T133225Z',
             'DURATION:PT1H'
         ])));
+    }
+
+    function testAvailableSubComponent() {
+
+        $vcal = <<<VCAL
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+BEGIN:AVAILABLE
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL;
+        $document = Reader::read($vcal);
+
+        $this->assertInstanceOf(Component::class, $document->VAVAILABILITY->AVAILABLE);
+
     }
 
     protected function assertIsValid(VObject\Document $document) {
