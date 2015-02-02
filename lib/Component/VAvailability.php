@@ -33,7 +33,7 @@ class VAvailability extends VObject\Component {
      */
     function getValidationRules() {
 
-        return [
+        return array(
             'UID' => 1,
             'DTSTAMP' => 1,
 
@@ -54,9 +54,7 @@ class VAvailability extends VObject\Component {
             'CATEGORIES' => '*',
             'COMMENT' => '*',
             'CONTACT' => '*',
-
-            'AVAILABLE' => '*',
-        ];
+        );
 
     }
 

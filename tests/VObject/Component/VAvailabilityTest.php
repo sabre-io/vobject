@@ -87,7 +87,7 @@ VCAL
 
     function testRFCxxxSection3_1_availabilityprop_optional_once() {
 
-        $properties = [
+        $properties = array(
             'BUSYTYPE:BUSY',
             'CLASS:PUBLIC',
             'CREATED:20111005T135125Z',
@@ -98,18 +98,18 @@ VCAL
             'PRIORITY:1',
             'SEQUENCE:0',
             'SUMMARY:Bla bla',
-            'URL:http://exampLe.org/'
-        ];
+            'URL:http://example.org/'
+        );
 
         // They are all present, only once.
         $this->assertIsValid(Reader::read($this->template($properties)));
 
         // We duplicate each one to see if it fails.
         foreach ($properties as $property) {
-            $this->assertIsNotValid(Reader::read($this->template([
+            $this->assertIsNotValid(Reader::read($this->template(array(
                 $property,
                 $property
-            ])));
+            ))));
         }
 
     }
@@ -117,20 +117,20 @@ VCAL
     function testRFCxxxSection3_1_availabilityprop_dtend_duration() {
 
         // Only DTEND.
-        $this->assertIsValid(Reader::read($this->template([
+        $this->assertIsValid(Reader::read($this->template(array(
             'DTEND:21111005T133225Z'
-        ])));
+        ))));
 
         // Only DURATION.
-        $this->assertIsValid(Reader::read($this->template([
+        $this->assertIsValid(Reader::read($this->template(array(
             'DURATION:PT1H'
-        ])));
+        ))));
 
         // Both (not allowed).
-        $this->assertIsNotValid(Reader::read($this->template([
+        $this->assertIsNotValid(Reader::read($this->template(array(
             'DTEND:21111005T133225Z',
             'DURATION:PT1H'
-        ])));
+        ))));
     }
 
     function testAvailableSubComponent() {
