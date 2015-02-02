@@ -54,6 +54,8 @@ class VAvailability extends VObject\Component {
             'CATEGORIES' => '*',
             'COMMENT' => '*',
             'CONTACT' => '*',
+
+            'AVAILABLE' => '*',
         ];
 
     }
