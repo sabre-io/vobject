@@ -149,6 +149,99 @@ VCAL;
 
     }
 
+    function testRFCxxxSection3_1_availableprop_required() {
+
+        // UID, DTSTAMP and DTSTART are present.
+        $this->assertIsValid(Reader::read(
+<<<VCAL
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//id
+BEGIN:VAVAILABILITY
+UID:foo@test
+DTSTAMP:20111005T133225Z
+BEGIN:AVAILABLE
+UID:foo@test
+DTSTAMP:20111005T133225Z
+DTSTART:20111005T133225Z
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL
+        ));
+
+        // UID, DTSTAMP and DTSTART are missing.
+        $this->assertIsNotValid(Reader::read(
+<<<VCAL
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//id
+BEGIN:VAVAILABILITY
+UID:foo@test
+DTSTAMP:20111005T133225Z
+BEGIN:AVAILABLE
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL
+        ));
+
+        // UID is missing.
+        $this->assertIsNotValid(Reader::read(
+<<<VCAL
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//id
+BEGIN:VAVAILABILITY
+UID:foo@test
+DTSTAMP:20111005T133225Z
+BEGIN:AVAILABLE
+DTSTAMP:20111005T133225Z
+DTSTART:20111005T133225Z
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL
+        ));
+
+        // DTSTAMP is missing.
+        $this->assertIsNotValid(Reader::read(
+<<<VCAL
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//id
+BEGIN:VAVAILABILITY
+UID:foo@test
+DTSTAMP:20111005T133225Z
+BEGIN:AVAILABLE
+UID:foo@test
+DTSTART:20111005T133225Z
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL
+        ));
+
+        // DTSTART is missing.
+        $this->assertIsNotValid(Reader::read(
+<<<VCAL
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//id
+BEGIN:VAVAILABILITY
+UID:foo@test
+DTSTAMP:20111005T133225Z
+BEGIN:AVAILABLE
+UID:foo@test
+DTSTAMP:20111005T133225Z
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL
+        ));
+
+    }
+
     protected function assertIsValid(VObject\Document $document) {
 
         $this->assertEmpty($document->validate());
