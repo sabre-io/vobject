@@ -284,6 +284,42 @@ VCAL
         }
 
     }
+    function testRFCxxxSection3_2() {
+
+        $this->assertEquals(
+            'BUSY',
+            Reader::read($this->templateAvailable(array(
+                'BUSYTYPE:BUSY'
+            )))
+                ->VAVAILABILITY
+                ->AVAILABLE
+                ->BUSYTYPE
+                ->getValue()
+        );
+
+        $this->assertEquals(
+            'BUSY-UNAVAILABLE',
+            Reader::read($this->templateAvailable(array(
+                'BUSYTYPE:BUSY-UNAVAILABLE'
+            )))
+                ->VAVAILABILITY
+                ->AVAILABLE
+                ->BUSYTYPE
+                ->getValue()
+        );
+
+        $this->assertEquals(
+            'BUSY-TENTATIVE',
+            Reader::read($this->templateAvailable(array(
+                'BUSYTYPE:BUSY-TENTATIVE'
+            )))
+                ->VAVAILABILITY
+                ->AVAILABLE
+                ->BUSYTYPE
+                ->getValue()
+        );
+
+    }
 
     protected function assertIsValid(VObject\Document $document) {
 
