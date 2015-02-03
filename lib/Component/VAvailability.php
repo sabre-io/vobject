@@ -86,11 +86,11 @@ class VAvailability extends VObject\Component {
         $result = parent::validate($options);
 
         if (isset($this->DTEND) && isset($this->DURATION)) {
-            $result[] = [
+            $result[] = array(
                 'level' => 3,
                 'message' => 'DTEND and DURATION cannot both be present',
                 'node' => $this
-            ];
+            );
         }
 
         return $result;

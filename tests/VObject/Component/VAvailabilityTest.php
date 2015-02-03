@@ -25,7 +25,7 @@ END:VCALENDAR
 VCAL;
         $document = Reader::read($vcal);
 
-        $this->assertInstanceOf(VAvailability::class, $document->VAVAILABILITY);
+        $this->assertInstanceOf(__NAMESPACE__ . '\VAvailability', $document->VAVAILABILITY);
 
     }
 
@@ -145,7 +145,7 @@ END:VCALENDAR
 VCAL;
         $document = Reader::read($vcal);
 
-        $this->assertInstanceOf(Component::class, $document->VAVAILABILITY->AVAILABLE);
+        $this->assertInstanceOf(__NAMESPACE__, $document->VAVAILABILITY->AVAILABLE);
 
     }
 

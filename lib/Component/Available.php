@@ -87,19 +87,19 @@ class Available extends VObject\Component {
         $result = parent::validate($options);
 
         if (isset($this->DTEND) && isset($this->DURATION)) {
-            $result[] = [
+            $result[] = array(
                 'level' => 3,
                 'message' => 'DTEND and DURATION cannot both be present',
                 'node' => $this
-            ];
+            );
         }
 
         if (isset($this->DURATION) && !isset($this->DTSTART)) {
-            $result[] = [
+            $result[] = array(
                 'level' => 3,
                 'message' => 'DURATION must be declared with a DTSTART.',
                 'node' => $this
-            ];
+            );
         }
 
         return $result;
