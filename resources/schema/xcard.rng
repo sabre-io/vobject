@@ -3,6 +3,7 @@
 # Erratum 2994 applied.
 # Erratum 3047 applied.
 # Erratum 3008 applied.
+# Erratum 4247 applied.
 
 default namespace = "urn:ietf:params:xml:ns:vcard-4.0"
 
@@ -28,7 +29,7 @@ value-date = element date {
 
 # 4.3.2
 value-time = element time {
-    xsd:string { pattern = "(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d?)|--\d\d)"
+    xsd:string { pattern = "(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d)?|--\d\d)"
                          ~ "(Z|[+\-]\d\d(\d\d)?)?" }
   }
 
