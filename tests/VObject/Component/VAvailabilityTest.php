@@ -242,6 +242,49 @@ VCAL
 
     }
 
+    function testRFCxxxSection3_1_available_dtend_duration() {
+
+        // Only DTEND.
+        $this->assertIsValid(Reader::read($this->templateAvailable(array(
+            'DTEND:21111005T133225Z'
+        ))));
+
+        // Only DURATION.
+        $this->assertIsValid(Reader::read($this->templateAvailable(array(
+            'DURATION:PT1H'
+        ))));
+
+        // Both (not allowed).
+        $this->assertIsNotValid(Reader::read($this->templateAvailable(array(
+            'DTEND:21111005T133225Z',
+            'DURATION:PT1H'
+        ))));
+    }
+
+    function testRFCxxxSection3_1_available_optional_once() {
+
+        $properties = array(
+            'CREATED:20111005T135125Z',
+            'DESCRIPTION:Long bla bla',
+            'LAST-MODIFIED:20111005T135325Z',
+            'RECURRENCE-ID;RANGE=THISANDFUTURE:19980401T133000Z',
+            'RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR',
+            'SUMMARY:Bla bla'
+        );
+
+        // They are all present, only once.
+        $this->assertIsValid(Reader::read($this->templateAvailable($properties)));
+
+        // We duplicate each one to see if it fails.
+        foreach ($properties as $property) {
+            $this->assertIsNotValid(Reader::read($this->templateAvailable(array(
+                $property,
+                $property
+            ))));
+        }
+
+    }
+
     protected function assertIsValid(VObject\Document $document) {
 
         $this->assertEmpty($document->validate());
@@ -256,7 +299,8 @@ VCAL
 
     protected function template(array $properties) {
 
-        $template = <<<VCAL
+        return $this->_template(
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -266,7 +310,39 @@ DTSTAMP:20111005T133225Z
 …
 END:VAVAILABILITY
 END:VCALENDAR
-VCAL;
+VCAL
+,
+            $properties
+        );
+
+    }
+
+    protected function templateAvailable(array $properties) {
+
+        return $this->_template(
+            <<<VCAL
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//id
+BEGIN:VAVAILABILITY
+UID:foo@test
+DTSTAMP:20111005T133225Z
+BEGIN:AVAILABLE
+UID:foo@test
+DTSTAMP:20111005T133225Z
+DTSTART:20111005T133225Z
+…
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL
+,
+            $properties
+        );
+
+    }
+
+    protected function _template($template, array $properties) {
 
         return str_replace('…', implode(CRLF, $properties), $template);
 
