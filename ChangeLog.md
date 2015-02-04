@@ -8,6 +8,8 @@ ChangeLog
 * #188: Retain floating times when generating instances using
   `Recur\EventIterator`.
 * Updated windows timezone mappings to latest unicode version.
+* #203: Skip tests for timezones that are not supported on older PHP versions,
+  instead of a hard fail.
 
 
 3.3.5 (2015-01-09)
