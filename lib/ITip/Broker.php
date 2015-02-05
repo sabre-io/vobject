@@ -921,7 +921,7 @@ class Broker {
 
                     if ($prop === 'EXDATE') {
 
-                        $significantChangeHash.= implode($exdate, ',').';';
+                        $significantChangeHash.= implode(',', $exdate).';';
 
                     } else {
 
