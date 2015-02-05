@@ -855,7 +855,10 @@ class Broker {
                 $sequence = $vevent->SEQUENCE->getValue();
             }
             if (isset($vevent->EXDATE)) {
-                $exdate = $vevent->EXDATE->getParts();
+                foreach ($vevent->select('EXDATE') as $val) {
+                    $exdate = array_merge($exdate, $val->getParts());
+                }
+                sort($exdate);
             }
             if (isset($vevent->STATUS)) {
                 $status = strtoupper($vevent->STATUS->getValue());
