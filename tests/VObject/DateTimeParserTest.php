@@ -196,7 +196,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 14,
                     "minute" => 00,
                     "second" => 00,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -209,7 +208,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 14,
                     "minute" => 00,
                     "second" => null,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -222,7 +220,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 14,
                     "minute" => null,
                     "second" => null,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -235,7 +232,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => null,
                     "minute" => null,
                     "second" => null,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -248,7 +244,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => null,
                     "minute" => null,
                     "second" => null,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -261,7 +256,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => null,
                     "minute" => null,
                     "second" => null,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -274,7 +268,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => null,
                     "minute" => null,
                     "second" => null,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -287,7 +280,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => null,
                     "minute" => null,
                     "second" => null,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -300,7 +292,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 10,
                     "minute" => 22,
                     "second" => 0,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -313,7 +304,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 10,
                     "minute" => 22,
                     "second" => null,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -326,7 +316,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 10,
                     "minute" => null,
                     "second" => null,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -339,7 +328,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => null,
                     "minute" => 22,
                     "second" => 00,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -352,7 +340,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => null,
                     "minute" => null,
                     "second" => 00,
-                    "millisecond" => null,
                     "timezone" => null
                 ),
             ),
@@ -365,7 +352,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 10,
                     "minute" => 22,
                     "second" => 00,
-                    "millisecond" => null,
                     "timezone" => 'Z'
                 ),
             ),
@@ -378,7 +364,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 10,
                     "minute" => 22,
                     "second" => 00,
-                    "millisecond" => null,
                     "timezone" => '-0800'
                 ),
             ),
@@ -393,7 +378,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 15,
                     "minute" => 10,
                     "second" => 53,
-                    "millisecond" => null,
                     "timezone" => 'Z'
                 ),
             ),
@@ -408,7 +392,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 15,
                     "minute" => 10,
                     "second" => 53,
-                    "millisecond" => 123,
                     "timezone" => 'Z'
                 ),
             ),
@@ -423,7 +406,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "hour" => 15,
                     "minute" => 10,
                     "second" => 53,
-                    "millisecond" => 123,
                     "timezone" => 'Z'
                 ),
             ),

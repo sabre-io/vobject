@@ -199,7 +199,7 @@ class DateTimeParser {
      * This method returns an array, not a DateTime value.
      *
      * The elements in the array are in the following order:
-     * year, month, date, hour, minute, second, millisecond, timezone
+     * year, month, date, hour, minute, second, timezone
      *
      * Almost any part of the string may be omitted. It's for example legal to
      * just specify seconds, leave out the year, etc.
@@ -260,7 +260,7 @@ class DateTimeParser {
                 (?P<minute> [0-9]{2} | -)?
                 (?P<second> [0-9]{2})?
 
-                (?: \.(?P<millisecond> [0-9]{3}))?
+                (?: \.[0-9]{3})?
                 (?P<timezone> # timezone offset
 
                     Z | (?: \+|-)(?: [0-9]{4})
@@ -285,7 +285,7 @@ class DateTimeParser {
                     (?: (?P<minute> [0-9]{2}) : | -)?
                     (?P<second> [0-9]{2})?
 
-                    (?: \.(?P<millisecond> [0-9]{3}))?
+                    (?: \.[0-9]{3})?
                     (?P<timezone> # timezone offset
 
                         Z | (?: \+|-)(?: [0-9]{2}:[0-9]{2})
@@ -307,7 +307,6 @@ class DateTimeParser {
             'hour',
             'minute',
             'second',
-            'millisecond',
             'timezone'
         );
 
@@ -334,7 +333,7 @@ class DateTimeParser {
      * This method returns an array, not a DateTime value.
      *
      * The elements in the array are in the following order:
-     * hour, minute, second, millisecond, timezone
+     * hour, minute, second, timezone
      *
      * Almost any part of the string may be omitted. It's for example legal to
      * just specify seconds, leave out the hour etc.
@@ -376,7 +375,7 @@ class DateTimeParser {
             (?P<minute> [0-9]{2} | -)?
             (?P<second> [0-9]{2})?
 
-            (?: \.(?P<millisecond> [0-9]{3}))?
+            (?: \.[0-9]{3})?
             (?P<timezone> # timezone offset
 
                 Z | (?: \+|-)(?: [0-9]{4})
@@ -393,7 +392,7 @@ class DateTimeParser {
                 (?: (?P<minute> [0-9]{2}) : | -)?
                 (?P<second> [0-9]{2})?
 
-                (?: \.(?P<millisecond> [0-9]{3}))?
+                (?: \.[0-9]{3})?
                 (?P<timezone> # timezone offset
 
                     Z | (?: \+|-)(?: [0-9]{2}:[0-9]{2})
@@ -410,7 +409,6 @@ class DateTimeParser {
             'hour',
             'minute',
             'second',
-            'millisecond',
             'timezone'
         );
 
