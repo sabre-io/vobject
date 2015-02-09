@@ -3,7 +3,8 @@
 namespace Sabre\VObject\Component;
 
 use
-    Sabre\VObject;
+    Sabre\VObject,
+    Sabre\Xml;
 
 /**
  * The VCard component
@@ -101,17 +102,21 @@ class VCard extends VObject\Document {
         'FBURL'        => 'Sabre\\VObject\\Property\\Uri',
         'CAPURI'       => 'Sabre\\VObject\\Property\\Uri',
         'CALURI'       => 'Sabre\\VObject\\Property\\Uri',
+        'CALADRURI'    => 'Sabre\\VObject\\Property\\Uri',
 
         // rfc4770 properties
         'IMPP'         => 'Sabre\\VObject\\Property\\Uri',
 
         // vCard 4.0 properties
+        'SOURCE'       => 'Sabre\\VObject\\Property\\Uri',
         'XML'          => 'Sabre\\VObject\\Property\\FlatText',
         'ANNIVERSARY'  => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
         'CLIENTPIDMAP' => 'Sabre\\VObject\\Property\\Text',
         'LANG'         => 'Sabre\\VObject\\Property\\VCard\\LanguageTag',
         'GENDER'       => 'Sabre\\VObject\\Property\\Text',
         'KIND'         => 'Sabre\\VObject\\Property\\FlatText',
+        'MEMBER'       => 'Sabre\\VObject\\Property\\Uri',
+        'RELATED'      => 'Sabre\\VObject\\Property\\Uri',
 
         // rfc6474 properties
         'BIRTHPLACE'    => 'Sabre\\VObject\\Property\\FlatText',
@@ -129,12 +134,14 @@ class VCard extends VObject\Document {
     /**
      * Returns the current document type.
      *
-     * @return void
+     * @return int
      */
     function getDocumentType() {
 
         if (!$this->version) {
+
             $version = (string)$this->VERSION;
+
             switch($version) {
                 case '2.1' :
                     $this->version = self::VCARD21;
@@ -148,7 +155,6 @@ class VCard extends VObject\Document {
                 default :
                     $this->version = self::UNKNOWN;
                     break;
-
             }
         }
 
@@ -429,6 +435,69 @@ class VCard extends VObject\Document {
     }
 
     /**
+     * This method serializes the data into XML. This is used to create xCard or
+     * xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    function xmlSerialize(Xml\Writer $writer) {
+
+        $propertiesByGroup = [];
+
+        foreach ($this->children as $property) {
+
+            $group = $property->group;
+
+            if (!isset($propertiesByGroup[$group])) {
+                $propertiesByGroup[$group] = [];
+            }
+
+            $propertiesByGroup[$group][] = $property;
+
+        }
+
+        $writer->startElement(strtolower($this->name));
+
+        foreach ($propertiesByGroup as $group => $properties) {
+
+            if (!empty($group)) {
+
+                $writer->startElement('group');
+                $writer->writeAttribute('name', strtolower($group));
+
+            }
+
+            foreach ($properties as $property) {
+                switch ($property->name) {
+
+                    case 'VERSION':
+                        continue;
+
+                    case 'XML':
+                        $value = $property->getParts();
+                        $fragment = new Xml\Element\XmlFragment($value[0]);
+                        $writer->write($fragment);
+                        break;
+
+                    default:
+                        $property->xmlSerialize($writer);
+                        break;
+
+                }
+            }
+
+            if (!empty($group)) {
+                $writer->endElement();
+            }
+
+        }
+
+        $writer->endElement();
+
+    }
+
+    /**
      * Returns the default class for a property name.
      *
      * @param string $propertyName
@@ -437,8 +506,8 @@ class VCard extends VObject\Document {
     function getClassNameForPropertyName($propertyName) {
 
         $className = parent::getClassNameForPropertyName($propertyName);
-        // In vCard 4, BINARY no longer exists, and we need URI instead.
 
+        // In vCard 4, BINARY no longer exists, and we need URI instead.
         if ($className == 'Sabre\\VObject\\Property\\Binary' && $this->getDocumentType()===self::VCARD40) {
             return 'Sabre\\VObject\\Property\\Uri';
         }

@@ -51,10 +51,9 @@ class MimeDir extends Parser {
     public function parse($input = null, $options = 0) {
 
         $this->root = null;
+
         if (!is_null($input)) {
-
             $this->setInput($input);
-
         }
 
         if (0 !== $options) {

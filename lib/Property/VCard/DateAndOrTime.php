@@ -2,11 +2,13 @@
 
 namespace Sabre\VObject\Property\VCard;
 
-use Sabre\VObject\DateTimeParser;
-use Sabre\VObject\Property;
-use DateTimeInterface;
-use DateTimeImmutable;
-use DateTime;
+use
+    Sabre\VObject\DateTimeParser,
+    Sabre\VObject\Property,
+    Sabre\Xml,
+    DateTimeInterface,
+    DateTimeImmutable,
+    DateTime;
 
 /**
  * DateAndOrTime property
@@ -245,6 +247,90 @@ class DateAndOrTime extends Property {
         }
 
         return [$dateStr];
+
+    }
+
+    /**
+     * This method serializes only the value of a property. This is used to
+     * create xCard or xCal documents.
+     *
+     * @param Xml\Writer $writer  XML writer.
+     * @return void
+     */
+    protected function xmlSerializeValue(Xml\Writer $writer) {
+
+        $valueType = strtolower($this->getValueType());
+        $parts     = DateTimeParser::parseVCardDateAndOrTime($this->getValue());
+        $value     = '';
+
+        // $d = defined
+        $d = function($part) use($parts) {
+            return !is_null($parts[$part]);
+        };
+
+        // $r = read
+        $r = function($part) use($parts) {
+            return $parts[$part];
+        };
+
+        // From the Relax NG Schema.
+        //
+        // # 4.3.1
+        // value-date = element date {
+        //     xsd:string { pattern = "\d{8}|\d{4}-\d\d|--\d\d(\d\d)?|---\d\d" }
+        //   }
+        if (   ( $d('year') ||  $d('month')  ||  $d('date'))
+            && (!$d('hour') && !$d('minute') && !$d('second') && !$d('timezone'))) {
+
+            if ($d('year') && $d('month') && $d('date')) {
+                $value .= $r('year') . $r('month') . $r('date');
+            } elseif ($d('year') && $d('month') && !$d('date')) {
+                $value .= $r('year') . '-' . $r('month');
+            } elseif (!$d('year') && $d('month')) {
+                $value .= '--' . $r('month') . $r('date');
+            } elseif (!$d('year') && !$d('month') && $d('date')) {
+                $value .= '---' . $r('date');
+            }
+
+        // # 4.3.2
+        // value-time = element time {
+        //     xsd:string { pattern = "(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d?)|--\d\d)"
+        //                          ~ "(Z|[+\-]\d\d(\d\d)?)?" }
+        //   }
+        } elseif (   (!$d('year') && !$d('month')  && !$d('date'))
+                  && ( $d('hour') ||  $d('minute') ||  $d('second'))) {
+
+            if ($d('hour')) {
+                $value .= $r('hour') . $r('minute') . $r('second');
+            } elseif ($d('minute')) {
+                $value .= '-' . $r('minute') . $r('second');
+            } elseif ($d('second')) {
+                $value .= '--' . $r('second');
+            }
+
+            $value .= $r('timezone');
+
+        // # 4.3.3
+        // value-date-time = element date-time {
+        //     xsd:string { pattern = "(\d{8}|--\d{4}|---\d\d)T\d\d(\d\d(\d\d)?)?"
+        //                          ~ "(Z|[+\-]\d\d(\d\d)?)?" }
+        //   }
+        } elseif ($d('date') && $d('hour')) {
+
+            if ($d('year') && $d('month') && $d('date')) {
+                $value .= $r('year') . $r('month') . $r('date');
+            } elseif (!$d('year') && $d('month') && $d('date')) {
+                $value .= '--' . $r('month') . $r('date');
+            } elseif (!$d('year') && !$d('month') && $d('date')) {
+                $value .= '---' . $r('date');
+            }
+
+            $value .= 'T' . $r('hour') . $r('minute') . $r('second') .
+                      $r('timezone');
+
+        }
+
+        $writer->writeElement($valueType, $value);
 
     }
 

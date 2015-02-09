@@ -51,20 +51,21 @@ class Writer {
 
         $writer = new Xml\Writer();
         $writer->openMemory();
+        $writer->setIndent(true);
+
         $writer->startDocument('1.0', 'utf-8');
 
-        if($component instanceof Component\VCalendar) {
+        if ($component instanceof Component\VCalendar) {
 
             $writer->startElement('icalendar');
             $writer->writeAttribute('xmlns', Parser\Xml::XCAL_NAMESPACE);
-        }
-        else {
+
+        } else {
 
             $writer->startElement('vcards');
             $writer->writeAttribute('xmlns', Parser\Xml::XCARD_NAMESPACE);
-        }
 
-        $writer->setIndent(true);
+        }
 
         $component->xmlSerialize($writer);
 

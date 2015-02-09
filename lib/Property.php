@@ -364,7 +364,7 @@ abstract class Property extends Node {
             foreach ($parameters as $parameter) {
 
                 $writer->startElement(strtolower($parameter->name));
-                $writer->writeElement('text', $parameter);
+                $writer->write($parameter);
                 $writer->endElement();
 
             }
@@ -387,8 +387,12 @@ abstract class Property extends Node {
      */
     protected function xmlSerializeValue(Xml\Writer $writer) {
 
-        foreach ($this->getJsonValue() as $value) {
-            $writer->writeElement(strtolower($this->getValueType()), $value);
+        $valueType = strtolower($this->getValueType());
+
+        foreach ($this->getJsonValue() as $values) {
+            foreach((array)$values as $value) {
+                $writer->writeElement($valueType, $value);
+            }
         }
 
     }

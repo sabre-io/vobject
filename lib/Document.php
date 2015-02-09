@@ -110,7 +110,7 @@ abstract class Document extends Component {
     /**
      * Returns the current document type.
      *
-     * @return void
+     * @return int
      */
     function getDocumentType() {
 

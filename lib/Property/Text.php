@@ -39,6 +39,7 @@ class Text extends Property {
         'ADR',
         'ORG',
         'GENDER',
+        'CLIENTPIDMAP',
 
         // iCalendar
         'REQUEST-STATUS',
@@ -296,24 +297,70 @@ class Text extends Property {
      */
     protected function xmlSerializeValue(Xml\Writer $writer) {
 
-        // Special-casing the REQUEST-STATUS property.
-        //
-        // See:
-        // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
-        if ($this->name === 'REQUEST-STATUS') {
+        $values = $this->getParts();
 
-            $value = $this->getJsonValue();
-
-            $writer->writeElement('code', $value[0][0]);
-            $writer->writeElement('description', $value[0][1]);
-
-            if (isset($value[0][2])) {
-                $writer->writeElement('data', $value[0][2]);
+        $map = function($items) use($values, $writer) {
+            foreach ($items as $i => $item) {
+                $writer->writeElement(
+                    $item,
+                    !empty($values[$i]) ? $values[$i] : null
+                );
             }
+        };
 
-        }
-        else {
-            parent::xmlSerializeValue($writer);
+        switch ($this->name) {
+
+            // Special-casing the REQUEST-STATUS property.
+            //
+            // See:
+            // http://tools.ietf.org/html/rfc6321#section-3.4.1.3
+            case 'REQUEST-STATUS':
+                $writer->writeElement('code', $values[0]);
+                $writer->writeElement('description', $values[1]);
+
+                if (isset($values[2])) {
+                    $writer->writeElement('data', $values[2]);
+                }
+                break;
+
+            case 'N':
+                $map([
+                    'surname',
+                    'given',
+                    'additional',
+                    'prefix',
+                    'suffix'
+                ]);
+                break;
+
+            case 'GENDER':
+                $map([
+                    'sex',
+                    'text'
+                ]);
+                break;
+
+            case 'ADR':
+                $map([
+                    'pobox',
+                    'ext',
+                    'street',
+                    'locality',
+                    'region',
+                    'code',
+                    'country'
+                ]);
+                break;
+
+            case 'CLIENTPIDMAP':
+                $map([
+                    'sourceid',
+                    'uri'
+                ]);
+                break;
+
+            default:
+                parent::xmlSerializeValue($writer);
         }
 
     }

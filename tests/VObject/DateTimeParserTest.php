@@ -385,5 +385,275 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testDateAndOrTime_DateWithYearMonthDay() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '20150128',
+            [
+                'year' => '2015',
+                'month' => '01',
+                'date' => '28'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateWithYearMonth() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '2015-01',
+            [
+                'year' => '2015',
+                'month' => '01'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateWithMonth() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '--01',
+            [
+                'month' => '01'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateWithMonthDay() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '--0128',
+            [
+                'month' => '01',
+                'date' => '28'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateWithDay() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '---28',
+            [
+                'date' => '28'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_TimeWithHour() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '13',
+            [
+                'hour' => '13'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_TimeWithHourMinute() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '1353',
+            [
+                'hour' => '13',
+                'minute' => '53'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_TimeWithHourSecond() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '135301',
+            [
+                'hour' => '13',
+                'minute' => '53',
+                'second' => '01'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_TimeWithMinute() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '-53',
+            [
+                'minute' => '53'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_TimeWithMinuteSecond() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '-5301',
+            [
+                'minute' => '53',
+                'second' => '01'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_TimeWithSecond() {
+
+        $this->assertTrue(true);
+
+        /**
+         * This is unreachable due to a conflict between date and time pattern.
+         * This is an error in the specification, not in our implementation.
+        $this->assertDateAndOrTimeEqualsTo(
+            '--01',
+            [
+                'second' => '01'
+            ]
+        );
+         */
+
+    }
+
+    function testDateAndOrTime_TimeWithSecondZ() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '--01Z',
+            [
+                'second' => '01',
+                'timezone' => 'Z'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_TimeWithSecondTZ() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '--01+1234',
+            [
+                'second' => '01',
+                'timezone' => '+1234'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateTimeWithYearMonthDayHour() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '20150128T13',
+            [
+                'year' => '2015',
+                'month' => '01',
+                'date' => '28',
+                'hour' => '13'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateTimeWithMonthDayHour() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '--0128T13',
+            [
+                'month' => '01',
+                'date' => '28',
+                'hour' => '13'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateTimeWithDayHour() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '---28T13',
+            [
+                'date' => '28',
+                'hour' => '13'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateTimeWithDayHourMinute() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '---28T1353',
+            [
+                'date' => '28',
+                'hour' => '13',
+                'minute' => '53'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateTimeWithDayHourMinuteSecond() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '---28T135301',
+            [
+                'date' => '28',
+                'hour' => '13',
+                'minute' => '53',
+                'second' => '01'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateTimeWithDayHourZ() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '---28T13Z',
+            [
+                'date' => '28',
+                'hour' => '13',
+                'timezone' => 'Z'
+            ]
+        );
+
+    }
+
+    function testDateAndOrTime_DateTimeWithDayHourTZ() {
+
+        $this->assertDateAndOrTimeEqualsTo(
+            '---28T13+1234',
+            [
+                'date' => '28',
+                'hour' => '13',
+                'timezone' => '+1234'
+            ]
+        );
+
+    }
+
+    protected function assertDateAndOrTimeEqualsTo($date, $parts) {
+
+        $this->assertSame(
+            DateTimeParser::parseVCardDateAndOrTime($date),
+            array_merge(
+                [
+                    'year' => null,
+                    'month' => null,
+                    'date' => null,
+                    'hour' => null,
+                    'minute' => null,
+                    'second' => null,
+                    'timezone' => null
+                ],
+                $parts
+            )
+        );
+
+    }
 
 }

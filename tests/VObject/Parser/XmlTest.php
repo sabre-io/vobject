@@ -11,7 +11,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase {
 
     function testRFC6321Example1() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -266,7 +266,7 @@ XML;
      */
     function testRFC6321Section3_2() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -284,7 +284,7 @@ XML
      */
     function testRFC6321Section3_3() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -330,7 +330,7 @@ XML
      */
     function testRFC6321Section3_4_1_2() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -358,7 +358,7 @@ XML
     function testRFC6321Section3_4_1_3() {
 
         // Example 1 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -379,7 +379,7 @@ XML
         );
 
         // Example 2 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -401,7 +401,7 @@ XML
         );
 
         // Example 3 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -424,7 +424,7 @@ XML
         );
 
         // Example 4 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -445,7 +445,7 @@ XML
         );
 
         // Example 5 of RFC5545, Section 3.8.8.3.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -473,7 +473,7 @@ XML
      */
     function testRFC6321Section3_6_1() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -493,7 +493,7 @@ XML
         );
 
         // In vCard 4, BINARY no longer exists and is replaced by URI.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -519,7 +519,7 @@ XML
      */
     function testRFC6321Section3_6_2() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -548,7 +548,7 @@ XML
      */
     function testRFC6321Section3_6_3() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -574,7 +574,7 @@ XML
      */
     function testRFC6321Section3_6_4() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -600,7 +600,7 @@ XML
      */
     function testRFC6321Section3_6_5() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -626,7 +626,7 @@ XML
      */
     function testRFC6321Section3_6_6() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -662,7 +662,7 @@ XML
      */
     function testRFC6321Section3_6_8() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -681,7 +681,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -707,7 +707,7 @@ XML
      */
     function testRFC6321Section3_6_9() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -729,7 +729,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -758,7 +758,7 @@ XML
      */
     function testRFC6321Section3_6_10() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -789,7 +789,7 @@ XML
      */
     function testRFC6321Section3_6_11() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -815,7 +815,7 @@ XML
      */
     function testRFC6321Section3_6_12() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -841,7 +841,7 @@ XML
      */
     function testRFC6321Section3_6_13() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -868,7 +868,7 @@ XML
     function testRFC6321Section3_6_14() {
 
         // Example 1 of RFC5545, Section 3.3.14.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -888,7 +888,7 @@ XML
         );
 
         // Example 2 of RFC5545, Section 3.3.14.
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -914,7 +914,7 @@ XML
      */
     function testRFC6321Section5() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -933,7 +933,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -961,7 +961,7 @@ XML
 
     function testRDateWithDateTime() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -980,7 +980,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1004,7 +1004,7 @@ XML
 
     function testRDateWithDate() {
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1023,7 +1023,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1048,7 +1048,7 @@ XML
 
     function testRDateWithPeriod() {
 
-        $this->assertXCalReflexivelyEqualsToICal(
+        $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1075,7 +1075,7 @@ XML
             'END:VCALENDAR' . CRLF
         );
 
-        $this->assertXCalEqualsToICal(
+        $this->assertXMLEqualsToMimeDir(
 <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
@@ -1110,28 +1110,1785 @@ XML
     }
 
     /**
-     * Check this equality:
-     *     xCal -> object model -> iCal.
+     * Basic example.
      */
-    protected function assertXCalEqualsToICal($xcal, $ical) {
+    function testRFC6351Basic() {
 
-        $component = VObject\Reader::readXML($xcal);
-        $this->assertEquals($ical, VObject\Writer::write($component));
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <fn>
+   <text>J. Doe</text>
+  </fn>
+  <n>
+   <surname>Doe</surname>
+   <given>J.</given>
+   <additional/>
+   <prefix/>
+   <suffix/>
+  </n>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'FN:J. Doe' . CRLF .
+            'N:Doe;J.;;;' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Example 1.
+     */
+    function testRFC6351Example1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <fn>
+   <text>J. Doe</text>
+  </fn>
+  <n>
+   <surname>Doe</surname>
+   <given>J.</given>
+   <additional/>
+   <prefix/>
+   <suffix/>
+  </n>
+  <x-file>
+   <parameters>
+    <mediatype>
+     <text>image/jpeg</text>
+    </mediatype>
+   </parameters>
+   <unknown>alien.jpg</unknown>
+  </x-file>
+  <x1:a href="http://www.example.com" xmlns:x1="http://www.w3.org/1999/xhtml">My web page!</x1:a>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'FN:J. Doe' . CRLF .
+            'N:Doe;J.;;;' . CRLF .
+            'X-FILE;MEDIATYPE=image/jpeg:alien.jpg' . CRLF .
+            'XML:<a xmlns="http://www.w3.org/1999/xhtml" href="http://www.example.com">M' . CRLF .
+            ' y web page!</a>' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Design Considerations.
+     */
+    function testRFC6351Section5() {
+
+        $this->assertXMLEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <tel>
+   <parameters>
+    <type>
+     <text>voice</text>
+     <text>video</text>
+    </type>
+   </parameters>
+   <uri>tel:+1-555-555-555</uri>
+  </tel>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TEL;TYPE="voice,video":tel:+1-555-555-555' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <tel>
+   <parameters>
+    <type>
+     <text>voice</text>
+     <text>video</text>
+    </type>
+   </parameters>
+   <text>tel:+1-555-555-555</text>
+  </tel>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TEL;TYPE="voice,video":tel:+1-555-555-555' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Design Considerations.
+     */
+    function testRFC6351Section5Group() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <tel>
+   <text>tel:+1-555-555-556</text>
+  </tel>
+  <group name="contact">
+   <fn>
+    <text>Gordon</text>
+   </fn>
+   <tel>
+    <text>tel:+1-555-555-555</text>
+   </tel>
+  </group>
+  <group name="media">
+   <fn>
+    <text>Gordon</text>
+   </fn>
+  </group>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TEL:tel:+1-555-555-556' . CRLF .
+            'contact.FN:Gordon' . CRLF .
+            'contact.TEL:tel:+1-555-555-555' . CRLF .
+            'media.FN:Gordon' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Extensibility.
+     */
+    function testRFC6351Section5_1_NoNamespace() {
+
+        $this->assertXMLEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <x-my-prop>
+   <parameters>
+    <pref>
+     <integer>1</integer>
+    </pref>
+   </parameters>
+   <text>value goes here</text>
+  </x-my-prop>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'X-MY-PROP;PREF=1:value goes here' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithYearMonthDay() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>20150128</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:20150128' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithYearMonth() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>2015-01</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:2015-01' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithMonth() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--01</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--01' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithMonthDay() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--0128</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--0128' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.1 of Relax NG Schema: value-date.
+     */
+    function testRFC6351ValueDateWithDay() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithHour() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>13</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:13' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithHourMinute() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>1353</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:1353' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithHourMinuteSecond() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>135301</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:135301' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithMinute() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>-53</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:-53' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithMinuteSecond() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>-5301</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:-5301' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithSecond() {
+
+        $this->assertTrue(true);
+
+        /*
+         * According to the Relax NG Schema, there is a conflict between
+         * value-date and value-time. The --01 syntax can only match a
+         * value-date because of the higher priority set in
+         * value-date-and-or-time. So we basically skip this test.
+         *
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--01</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--01' . CRLF .
+            'END:VCARD' . CRLF
+        );
+        */
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithSecondZ() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--01Z</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--01Z' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.2 of Relax NG Schema: value-time.
+     */
+    function testRFC6351ValueTimeWithSecondTZ() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--01+1234</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--01+1234' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithYearMonthDayHour() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>20150128T13</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:20150128T13' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithMonthDayHour() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>--0128T13</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:--0128T13' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHour() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T13</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T13' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHourMinute() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T1353</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T1353' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHourMinuteSecond() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T135301</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T135301' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHourZ() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T13Z</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T13Z' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Section 4.3.3 of Relax NG Schema: value-date-time.
+     */
+    function testRFC6351ValueDateTimeWithDayHourTZ() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>---28T13+1234</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:---28T13+1234' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: SOURCE.
+     */
+    function testRFC6350Section6_1_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <source>
+   <uri>ldap://ldap.example.com/cn=Babs%20Jensen,%20o=Babsco,%20c=US</uri>
+  </source>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'SOURCE:ldap://ldap.example.com/cn=Babs%20Jensen\,%20o=Babsco\,%20c=US' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: KIND.
+     */
+    function testRFC6350Section6_1_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <kind>
+   <text>individual</text>
+  </kind>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'KIND:individual' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: FN.
+     */
+    function testRFC6350Section6_2_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <fn>
+   <text>Mr. John Q. Public, Esq.</text>
+  </fn>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'FN:Mr. John Q. Public\, Esq.' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: N.
+     */
+    function testRFC6350Section6_2_2() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <n>
+   <surname>Stevenson</surname>
+   <given>John</given>
+   <additional>Philip,Paul</additional>
+   <prefix>Dr.</prefix>
+   <suffix>Jr.,M.D.,A.C.P.</suffix>
+  </n>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'N:Stevenson;John;Philip\,Paul;Dr.;Jr.\,M.D.\,A.C.P.' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: NICKNAME.
+     */
+    function testRFC6350Section6_2_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <nickname>
+   <text>Jim</text>
+   <text>Jimmie</text>
+  </nickname>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'NICKNAME:Jim,Jimmie' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: PHOTO.
+     */
+    function testRFC6350Section6_2_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <photo>
+   <uri>http://www.example.com/pub/photos/jqpublic.gif</uri>
+  </photo>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'PHOTO:http://www.example.com/pub/photos/jqpublic.gif' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_2_5() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <bday>
+   <date-and-or-time>19531015T231000Z</date-and-or-time>
+  </bday>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'BDAY:19531015T231000Z' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_2_6() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <anniversary>
+   <date-and-or-time>19960415</date-and-or-time>
+  </anniversary>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'ANNIVERSARY:19960415' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: GENDER.
+     */
+    function testRFC6350Section6_2_7() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <gender>
+   <sex>Jim</sex>
+   <text>Jimmie</text>
+  </gender>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'GENDER:Jim;Jimmie' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: ADR.
+     */
+    function testRFC6350Section6_3_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <adr>
+   <pobox/>
+   <ext/>
+   <street>123 Main Street</street>
+   <locality>Any Town</locality>
+   <region>CA</region>
+   <code>91921-1234</code>
+   <country>U.S.A.</country>
+  </adr>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'ADR:;;123 Main Street;Any Town;CA;91921-1234;U.S.A.' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: TEL.
+     */
+    function testRFC6350Section6_4_1() {
+
+        /**
+         * Quoting RFC:
+         * > Value type:  By default, it is a single free-form text value (for
+         * > backward compatibility with vCard 3), but it SHOULD be reset to a
+         * > URI value.  It is expected that the URI scheme will be "tel", as
+         * > specified in [RFC3966], but other schemes MAY be used.
+         *
+         * So first, we test xCard/URI to vCard/URI.
+         * Then, we test xCard/TEXT to vCard/TEXT to xCard/TEXT.
+         */
+        $this->assertXMLEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <tel>
+   <parameters>
+    <type>
+     <text>home</text>
+    </type>
+   </parameters>
+   <uri>tel:+33-01-23-45-67</uri>
+  </tel>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TEL;TYPE=home:tel:+33-01-23-45-67' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <tel>
+   <parameters>
+    <type>
+     <text>home</text>
+    </type>
+   </parameters>
+   <text>tel:+33-01-23-45-67</text>
+  </tel>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TEL;TYPE=home:tel:+33-01-23-45-67' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: EMAIL.
+     */
+    function testRFC6350Section6_4_2() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <email>
+   <parameters>
+    <type>
+     <text>work</text>
+    </type>
+   </parameters>
+   <text>jqpublic@xyz.example.com</text>
+  </email>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'EMAIL;TYPE=work:jqpublic@xyz.example.com' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: IMPP.
+     */
+    function testRFC6350Section6_4_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <impp>
+   <parameters>
+    <pref>
+     <text>1</text>
+    </pref>
+   </parameters>
+   <uri>xmpp:alice@example.com</uri>
+  </impp>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'IMPP;PREF=1:xmpp:alice@example.com' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: LANG.
+     */
+    function testRFC6350Section6_4_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <lang>
+   <parameters>
+    <type>
+     <text>work</text>
+    </type>
+    <pref>
+     <text>2</text>
+    </pref>
+   </parameters>
+   <language-tag>en</language-tag>
+  </lang>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'LANG;TYPE=work;PREF=2:en' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: TZ.
+     */
+    function testRFC6350Section6_5_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <tz>
+   <text>Raleigh/North America</text>
+  </tz>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TZ:Raleigh/North America' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: GEO.
+     */
+    function testRFC6350Section6_5_2() {
+
+        $this->assertXMLEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <geo>
+   <uri>geo:37.386013,-122.082932</uri>
+  </geo>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'GEO:geo:37.386013\,-122.082932' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <geo>
+   <text>geo:37.386013,-122.082932</text>
+  </geo>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'GEO:geo:37.386013\,-122.082932' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: TITLE.
+     */
+    function testRFC6350Section6_6_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <title>
+   <text>Research Scientist</text>
+  </title>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'TITLE:Research Scientist' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: ROLE.
+     */
+    function testRFC6350Section6_6_2() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <role>
+   <text>Project Leader</text>
+  </role>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'ROLE:Project Leader' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: LOGO.
+     */
+    function testRFC6350Section6_6_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <logo>
+   <uri>http://www.example.com/pub/logos/abccorp.jpg</uri>
+  </logo>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'LOGO:http://www.example.com/pub/logos/abccorp.jpg' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: ORG.
+     */
+    function testRFC6350Section6_6_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <org>
+   <text>ABC, Inc.</text>
+   <text>North American Division</text>
+   <text>Marketing</text>
+  </org>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'ORG:ABC\, Inc.;North American Division;Marketing' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: MEMBER.
+     */
+    function testRFC6350Section6_6_5() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <member>
+   <uri>urn:uuid:03a0e51f-d1aa-4385-8a53-e29025acd8af</uri>
+  </member>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'MEMBER:urn:uuid:03a0e51f-d1aa-4385-8a53-e29025acd8af' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <member>
+   <uri>mailto:subscriber1@example.com</uri>
+  </member>
+  <member>
+   <uri>xmpp:subscriber2@example.com</uri>
+  </member>
+  <member>
+   <uri>sip:subscriber3@example.com</uri>
+  </member>
+  <member>
+   <uri>tel:+1-418-555-5555</uri>
+  </member>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'MEMBER:mailto:subscriber1@example.com' . CRLF .
+            'MEMBER:xmpp:subscriber2@example.com' . CRLF .
+            'MEMBER:sip:subscriber3@example.com' . CRLF .
+            'MEMBER:tel:+1-418-555-5555' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: RELATED.
+     */
+    function testRFC6350Section6_6_6() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <related>
+   <parameters>
+    <type>
+     <text>friend</text>
+    </type>
+   </parameters>
+   <uri>urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6</uri>
+  </related>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'RELATED;TYPE=friend:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: CATEGORIES.
+     */
+    function testRFC6350Section6_7_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <categories>
+   <text>INTERNET</text>
+   <text>IETF</text>
+   <text>INDUSTRY</text>
+   <text>INFORMATION TECHNOLOGY</text>
+  </categories>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'CATEGORIES:INTERNET,IETF,INDUSTRY,INFORMATION TECHNOLOGY' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: NOTE.
+     */
+    function testRFC6350Section6_7_2() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <note>
+   <text>Foo, bar</text>
+  </note>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'NOTE:Foo\, bar' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: PRODID.
+     */
+    function testRFC6350Section6_7_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <prodid>
+   <text>-//ONLINE DIRECTORY//NONSGML Version 1//EN</text>
+  </prodid>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'PRODID:-//ONLINE DIRECTORY//NONSGML Version 1//EN' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    function testRFC6350Section6_7_4() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <rev>
+   <timestamp>19951031T222710Z</timestamp>
+  </rev>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'REV:19951031T222710Z' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: SOUND.
+     */
+    function testRFC6350Section6_7_5() {
+
+        $this->assertXMLEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <sound>
+   <uri>CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com</uri>
+  </sound>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <sound>
+   <text>CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com</text>
+  </sound>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: UID.
+     */
+    function testRFC6350Section6_7_6() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <uid>
+   <text>urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6</text>
+  </uid>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'UID:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: CLIENTPIDMAP.
+     */
+    function testRFC6350Section6_7_7() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <clientpidmap>
+   <sourceid>1</sourceid>
+   <uri>urn:uuid:3df403f4-5924-4bb7-b077-3c711d9eb34b</uri>
+  </clientpidmap>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'CLIENTPIDMAP:1;urn:uuid:3df403f4-5924-4bb7-b077-3c711d9eb34b' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: URL.
+     */
+    function testRFC6350Section6_7_8() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <url>
+   <uri>http://example.org/restaurant.french/~chezchic.html</uri>
+  </url>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'URL:http://example.org/restaurant.french/~chezchic.html' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: VERSION.
+     */
+    function testRFC6350Section6_7_9() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard/>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: KEY.
+     */
+    function testRFC6350Section6_8_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <key>
+   <parameters>
+    <mediatype>
+     <text>application/pgp-keys</text>
+    </mediatype>
+   </parameters>
+   <text>ftp://example.com/keys/jdoe</text>
+  </key>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'KEY;MEDIATYPE=application/pgp-keys:ftp://example.com/keys/jdoe' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: FBURL.
+     */
+    function testRFC6350Section6_9_1() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <fburl>
+   <parameters>
+    <pref>
+     <text>1</text>
+    </pref>
+   </parameters>
+   <uri>http://www.example.com/busy/janedoe</uri>
+  </fburl>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'FBURL;PREF=1:http://www.example.com/busy/janedoe' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: CALADRURI.
+     */
+    function testRFC6350Section6_9_2() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <caladruri>
+   <uri>http://example.com/calendar/jdoe</uri>
+  </caladruri>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'CALADRURI:http://example.com/calendar/jdoe' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: CALURI.
+     */
+    function testRFC6350Section6_9_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <caluri>
+   <parameters>
+    <pref>
+     <text>1</text>
+    </pref>
+   </parameters>
+   <uri>http://cal.example.com/calA</uri>
+  </caluri>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'CALURI;PREF=1:http://cal.example.com/calA' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Property: CAPURI.
+     */
+    function testRFC6350SectionA_3() {
+
+        $this->assertXMLReflexivelyEqualsToMimeDir(
+<<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
+ <vcard>
+  <capuri>
+   <uri>http://cap.example.com/capA</uri>
+  </capuri>
+ </vcard>
+</vcards>
+XML
+,
+            'BEGIN:VCARD' . CRLF .
+            'VERSION:4.0' . CRLF .
+            'CAPURI:http://cap.example.com/capA' . CRLF .
+            'END:VCARD' . CRLF
+        );
+
+    }
+
+    /**
+     * Check this equality:
+     *     XML -> object model -> MIME Dir.
+     */
+    protected function assertXMLEqualsToMimeDir($xml, $mimedir) {
+
+        $component = VObject\Reader::readXML($xml);
+        $this->assertEquals($mimedir, VObject\Writer::write($component));
 
     }
 
     /**
      * Check this (reflexive) equality:
-     *     xCal -> object model -> iCal -> object model -> xCal.
+     *     XML -> object model -> MIME Dir -> object model -> XML.
      */
-    protected function assertXCalReflexivelyEqualsToICal($xcal, $ical) {
+    protected function assertXMLReflexivelyEqualsToMimeDir($xml, $mimedir) {
 
-        $this->assertXCalEqualsToICal($xcal, $ical);
+        $this->assertXMLEqualsToMimeDir($xml, $mimedir);
 
-        $component = VObject\Reader::read($ical);
-        $this->assertEquals($xcal, rtrim(VObject\Writer::writeXML($component)));
+        $component = VObject\Reader::read($mimedir);
+        $this->assertEquals($xml, rtrim(VObject\Writer::writeXML($component)));
 
     }
-
-    // + parameters
 }

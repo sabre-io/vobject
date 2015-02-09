@@ -72,7 +72,7 @@ class Uri extends Text {
             }
             $this->value = $newVal;
         } else {
-            $this->value = $val;
+            $this->value = strtr($val, ['\,' => ',']);
         }
 
     }
@@ -85,10 +85,12 @@ class Uri extends Text {
     public function getRawMimeDirValue() {
 
         if (is_array($this->value)) {
-            return $this->value[0];
+            $value = $this->value[0];
         } else {
-            return $this->value;
+            $value = $this->value;
         }
+
+        return strtr($value, [',' => '\,']);
 
     }
 
