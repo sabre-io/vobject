@@ -25,6 +25,12 @@
             "email" : "dominik@fruux.com",
             "homepage" : "http://tobschall.de/",
             "role" : "Developer"
+        },
+        {
+            "name" : "Ivan Enderlin",
+            "email" : "ivan.enderlin@hoa-project.net",
+            "homepage" : "http://cv.mnt.io/",
+            "role" : "Developer"
         }
     ],
     "support" : {
