@@ -5,6 +5,7 @@ namespace Sabre\VObject;
 use DateTimeZone;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\NoInstancesException;
 
 /**
  * This class helps with generating FREEBUSY reports based on existing sets of
@@ -179,7 +180,7 @@ class FreeBusyGenerator {
 
         $busyTimes = array();
 
-        foreach($this->objects as $object) {
+        foreach($this->objects as $key=>$object) {
 
             foreach($object->getBaseComponents() as $component) {
 
@@ -204,8 +205,16 @@ class FreeBusyGenerator {
                         $times = array();
 
                         if ($component->RRULE) {
+                            try {
+                                $iterator = new EventIterator($object, (string)$component->uid, $this->timeZone);
+                            } catch (NoInstancesException $e) {
+                                // This event is recurring, but it doesn't have a single
+                                // instance. We are skipping this event from the output
+                                // entirely.
+                                unset($this->objects[$key]);
+                                continue;
+                            }
 
-                            $iterator = new EventIterator($object, (string)$component->uid, $this->timeZone);
                             if ($this->start) {
                                 $iterator->fastForward($this->start);
                             }
@@ -352,4 +361,3 @@ class FreeBusyGenerator {
     }
 
 }
-
