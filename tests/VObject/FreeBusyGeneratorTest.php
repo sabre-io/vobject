@@ -308,6 +308,24 @@ ICS;
             "20110101T050000Z/20110102T050000Z",
             new \DateTimeZone('America/Toronto')
         );
+
+        // Recurrence rule with no valid instances
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:foobar
+DTSTART:20110101T100000Z
+DTEND:20110103T120000Z
+RRULE:FREQ=WEEKLY;COUNT=1
+EXDATE:20110101T100000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $tests[] = array(
+            $blob,
+            array()
+            );
         return $tests;
 
     }
