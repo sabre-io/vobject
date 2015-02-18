@@ -35,12 +35,14 @@ class VCalendar extends VObject\Document {
      * @var array
      */
     static $componentMap = array(
-        'VALARM'    => 'Sabre\\VObject\\Component\\VAlarm',
-        'VEVENT'    => 'Sabre\\VObject\\Component\\VEvent',
-        'VFREEBUSY' => 'Sabre\\VObject\\Component\\VFreeBusy',
-        'VJOURNAL'  => 'Sabre\\VObject\\Component\\VJournal',
-        'VTIMEZONE' => 'Sabre\\VObject\\Component\\VTimeZone',
-        'VTODO'     => 'Sabre\\VObject\\Component\\VTodo',
+        'VALARM'        => 'Sabre\\VObject\\Component\\VAlarm',
+        'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
+        'VFREEBUSY'     => 'Sabre\\VObject\\Component\\VFreeBusy',
+        'VAVAILABILITY' => 'Sabre\\VObject\\Component\\VAvailability',
+        'AVAILABLE'     => 'Sabre\\VObject\\Component\\Available',
+        'VJOURNAL'      => 'Sabre\\VObject\\Component\\VJournal',
+        'VTIMEZONE'     => 'Sabre\\VObject\\Component\\VTimeZone',
+        'VTODO'         => 'Sabre\\VObject\\Component\\VTodo',
     );
 
     /**
@@ -142,6 +144,9 @@ class VCalendar extends VObject\Document {
         'ACKNOWLEDGED'   => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
         'PROXIMITY'      => 'Sabre\\VObject\\Property\\Text',
         'DEFAULT-ALARM'  => 'Sabre\\VObject\\Property\\Boolean',
+
+        // Additions from draft-daboo-calendar-availability-05
+        'BUSYTYPE'       => 'Sabre\\VObject\\Property\\Text',
 
     );
 
@@ -360,6 +365,7 @@ class VCalendar extends VObject\Document {
      *   * 1 - Must appear exactly once.
      *   * + - Must appear at least once.
      *   * * - Can appear any number of times.
+     *   * ? - May appear, but not more than once.
      *
      * @var array
      */
@@ -515,5 +521,6 @@ class VCalendar extends VObject\Document {
         });
 
     }
+
 
 }

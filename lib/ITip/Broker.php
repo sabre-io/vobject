@@ -855,7 +855,10 @@ class Broker {
                 $sequence = $vevent->SEQUENCE->getValue();
             }
             if (isset($vevent->EXDATE)) {
-                $exdate = $vevent->EXDATE->getParts();
+                foreach ($vevent->select('EXDATE') as $val) {
+                    $exdate = array_merge($exdate, $val->getParts());
+                }
+                sort($exdate);
             }
             if (isset($vevent->STATUS)) {
                 $status = strtoupper($vevent->STATUS->getValue());
@@ -912,9 +915,20 @@ class Broker {
 
             foreach($this->significantChangeProperties as $prop) {
                 if (isset($vevent->$prop)) {
+                    $propertyValues = $vevent->select($prop);
+
                     $significantChangeHash.=$prop.':';
-                    foreach($vevent->select($prop) as $val) {
-                        $significantChangeHash.= $val->getValue().';';
+
+                    if ($prop === 'EXDATE') {
+
+                        $significantChangeHash.= implode(',', $exdate).';';
+
+                    } else {
+
+                        foreach($propertyValues as $val) {
+                            $significantChangeHash.= $val->getValue().';';
+                        }
+
                     }
                 }
             }
