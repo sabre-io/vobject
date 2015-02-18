@@ -1,6 +1,6 @@
 <?php
 
-namespace Sabre\VObject\EventIterator;
+namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTime;
 use DateTimeZone;
