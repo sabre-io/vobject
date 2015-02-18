@@ -1,9 +1,10 @@
 ChangeLog
 =========
 
-3.3.6 (2015-??-??)
+3.4.0 (2015-??-??)
 ------------------
 
+* #196: Made parsing recurrence rules a lot faster on big calendars.
 * Updated windows timezone mappings to latest unicode version.
 * #202: Support for parsing and validating `VAVAILABILITY` components. (@Hywan)
 * #195: PHP 5.3 compatibility in 'generatevcards' script. (@rickdenhaan)
