@@ -273,7 +273,8 @@ class DateTimeParser {
                 (?<minute> [0-9]{2} | -)?
                 (?<second> [0-9]{2})?
 
-                (?<timezone> # timezone offset
+                (?: \.[0-9]{3})? # milliseconds
+                (?P<timezone> # timezone offset
 
                     Z | (?: \+|-)(?: [0-9]{4})
 
@@ -281,7 +282,6 @@ class DateTimeParser {
 
             )?
             $/x';
-
 
         if (!preg_match($regex, $date, $matches)) {
 
@@ -298,7 +298,8 @@ class DateTimeParser {
                     (?: (?<minute> [0-9]{2}) : | -)?
                     (?<second> [0-9]{2})?
 
-                    (?<timezone> # timezone offset
+                    (?: \.[0-9]{3})? # milliseconds
+                    (?P<timezone> # timezone offset
 
                         Z | (?: \+|-)(?: [0-9]{2}:[0-9]{2})
 
@@ -387,7 +388,8 @@ class DateTimeParser {
             (?<minute> [0-9]{2} | -)?
             (?<second> [0-9]{2})?
 
-            (?<timezone> # timezone offset
+            (?: \.[0-9]{3})? # milliseconds
+            (?P<timezone> # timezone offset
 
                 Z | (?: \+|-)(?: [0-9]{4})
 
@@ -403,7 +405,8 @@ class DateTimeParser {
                 (?: (?<minute> [0-9]{2}) : | -)?
                 (?<second> [0-9]{2})?
 
-                (?<timezone> # timezone offset
+                (?: \.[0-9]{3})? # milliseconds
+                (?P<timezone> # timezone offset
 
                     Z | (?: \+|-)(?: [0-9]{2}:[0-9]{2})
 

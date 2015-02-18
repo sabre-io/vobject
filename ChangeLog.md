@@ -19,12 +19,22 @@ ChangeLog
 * #161: Simplified `ElementList` by extending `ArrayIterator`.
 
 
-3.3.6 (2015-??-??)
+3.4.0 (2015-??-??)
 ------------------
 
+* #196: Made parsing recurrence rules a lot faster on big calendars.
+* Updated windows timezone mappings to latest unicode version.
+* #202: Support for parsing and validating `VAVAILABILITY` components. (@Hywan)
+* #195: PHP 5.3 compatibility in 'generatevcards' script. (@rickdenhaan)
+* #205: Improving handling of multiple `EXDATE` when processing iTip changes.
+  (@armin-hackmann)
 * #187: Fixed validator rules for `LAST-MODIFIED` properties.
 * #188: Retain floating times when generating instances using
   `Recur\EventIterator`.
+* #203: Skip tests for timezones that are not supported on older PHP versions,
+  instead of a hard fail.
+* #204: Dealing a bit better with vCard date-time values that contained
+  milliseconds. (which is normally invalid). (@armin-hackmann)
 
 
 3.3.5 (2015-01-09)

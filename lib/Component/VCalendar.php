@@ -35,12 +35,14 @@ class VCalendar extends VObject\Document {
      * @var array
      */
     static $componentMap = [
-        'VALARM'    => 'Sabre\\VObject\\Component\\VAlarm',
-        'VEVENT'    => 'Sabre\\VObject\\Component\\VEvent',
-        'VFREEBUSY' => 'Sabre\\VObject\\Component\\VFreeBusy',
-        'VJOURNAL'  => 'Sabre\\VObject\\Component\\VJournal',
-        'VTIMEZONE' => 'Sabre\\VObject\\Component\\VTimeZone',
-        'VTODO'     => 'Sabre\\VObject\\Component\\VTodo',
+        'VALARM'        => 'Sabre\\VObject\\Component\\VAlarm',
+        'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
+        'VFREEBUSY'     => 'Sabre\\VObject\\Component\\VFreeBusy',
+        'VAVAILABILITY' => 'Sabre\\VObject\\Component\\VAvailability',
+        'AVAILABLE'     => 'Sabre\\VObject\\Component\\Available',
+        'VJOURNAL'      => 'Sabre\\VObject\\Component\\VJournal',
+        'VTIMEZONE'     => 'Sabre\\VObject\\Component\\VTimeZone',
+        'VTODO'         => 'Sabre\\VObject\\Component\\VTodo',
     ];
 
     /**
@@ -142,6 +144,9 @@ class VCalendar extends VObject\Document {
         'ACKNOWLEDGED'   => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
         'PROXIMITY'      => 'Sabre\\VObject\\Property\\Text',
         'DEFAULT-ALARM'  => 'Sabre\\VObject\\Property\\Boolean',
+
+        // Additions from draft-daboo-calendar-availability-05
+        'BUSYTYPE'       => 'Sabre\\VObject\\Property\\Text',
 
     ];
 
@@ -253,34 +258,44 @@ class VCalendar extends VObject\Document {
             $timeZone = new DateTimeZone('UTC');
         }
 
+        // An array of events. Events are indexed by UID. Each item in this
+        // array is a list of one or more events that match the UID.
+        $recurringEvents = [];
+
         foreach($this->select('VEVENT') as $key=>$vevent) {
 
-            if (isset($vevent->{'RECURRENCE-ID'})) {
-                unset($this->children[$key]);
+            $uid = (string)$vevent->UID;
+            if (!$uid) {
+                throw new \LogicException('Event did not have a UID!');
+            }
+
+            if (isset($vevent->{'RECURRENCE-ID'}) || isset($vevent->RRULE)) {
+                if (isset($recurringEvents[$uid])) {
+                    $recurringEvents[$uid][] = $vevent;
+                } else {
+                    $recurringEvents[$uid] = [$vevent];
+                }
                 continue;
             }
 
-            if (!$vevent->rrule) {
-                unset($this->children[$key]);
+            if (!isset($vevent->RRULE)) {
                 if ($vevent->isInTimeRange($start, $end)) {
                     $newEvents[] = $vevent;
                 }
                 continue;
             }
 
-            $uid = (string)$vevent->uid;
+        }
 
-            if (!$uid) {
-                throw new \LogicException('Event did not have a UID!');
-            }
+        foreach($recurringEvents as $events) {
 
             try {
-                $it = new EventIterator($this, $vevent->uid, $timeZone);
+                $it = new EventIterator($events, $timeZone);
+
             } catch (NoInstancesException $e) {
                 // This event is recurring, but it doesn't have a single
                 // instance. We are skipping this event from the output
                 // entirely.
-                unset($this->children[$key]);
                 continue;
             }
             $it->fastForward($start);
@@ -296,9 +311,10 @@ class VCalendar extends VObject\Document {
 
             }
 
-            unset($this->children[$key]);
-
         }
+
+        // Wiping out all old VEVENT objects
+        unset($this->VEVENT);
 
         // Setting all properties to UTC time.
         foreach($newEvents as $newEvent) {
@@ -313,7 +329,6 @@ class VCalendar extends VObject\Document {
                     $child->setDateTimes($dt);
                 }
             }
-
             $this->add($newEvent);
 
         }
@@ -349,6 +364,7 @@ class VCalendar extends VObject\Document {
      *   * 1 - Must appear exactly once.
      *   * + - Must appear at least once.
      *   * * - Can appear any number of times.
+     *   * ? - May appear, but not more than once.
      *
      * @var array
      */
@@ -481,5 +497,27 @@ class VCalendar extends VObject\Document {
 
     }
 
-}
+    /**
+     * Returns all components with a specific UID value.
+     *
+     * @return array
+     */
+    function getByUID($uid) {
 
+        return array_filter($this->children, function($item) use ($uid) {
+
+            if (!$item instanceof Component) {
+                return false;
+            }
+            if (!$itemUid = $item->select('UID')) {
+                return false;
+            }
+            $itemUid = current($itemUid)->getValue();
+            return $uid === $itemUid;
+
+        });
+
+    }
+
+
+}

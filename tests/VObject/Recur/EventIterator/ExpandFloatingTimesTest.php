@@ -59,7 +59,7 @@ END:VCALENDAR
 
 ICS;
         $this->assertEquals($output, str_replace("\r", "", $result));
-    
+
     }
 
     function testExpandWithReferenceTimezone() {
@@ -113,7 +113,7 @@ END:VCALENDAR
 
 ICS;
         $this->assertEquals($output, str_replace("\r", "", $result));
-    
+
     }
 
 }

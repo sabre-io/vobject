@@ -381,6 +381,34 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                     "timezone" => 'Z'
                 ],
             ],
+
+            // with milliseconds
+            [
+                "20121129T151053.123Z",
+                [
+                    "year" => 2012,
+                    "month" => 11,
+                    "date" => 29,
+                    "hour" => 15,
+                    "minute" => 10,
+                    "second" => 53,
+                    "timezone" => 'Z'
+                ],
+            ],
+
+            // extended format with milliseconds
+            [
+                "2012-11-29T15:10:53.123Z",
+                [
+                    "year" => 2012,
+                    "month" => 11,
+                    "date" => 29,
+                    "hour" => 15,
+                    "minute" => 10,
+                    "second" => 53,
+                    "timezone" => 'Z'
+                ],
+            ],
         ];
 
     }
@@ -476,6 +504,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
                 'minute' => '53',
                 'second' => '01'
             ]
+
         );
 
     }
