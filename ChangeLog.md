@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.4.0 (2015-??-??)
+3.4.0 (2015-02-23)
 ------------------
 
 * #196: Made parsing recurrence rules a lot faster on big calendars.
