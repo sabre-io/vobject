@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+3.4.1 (2015-02-24)
+------------------
+
+* A minor change to ensure that unittests work correctly in the sabre/dav
+  test-suite.
+
+
 3.4.0 (2015-02-23)
 ------------------
 
