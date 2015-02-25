@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.4.2 (2015-??-??)
+3.4.2 (2015-02-25)
 ------------------
 
 * #210: iTip: Replying to an event without a master event was broken.
