@@ -11,7 +11,7 @@ use Sabre\VObject\Reader;
  * @author Evert Pot (http://evertpot.com/) 
  * @license http://sabre.io/license/ Modified BSD License
  */
-abstract class BrokerTester extends \PHPUnit_Framework_TestCase {
+abstract class BrokerTester extends \Sabre\VObject\TestCase {
 
     function parse($oldMessage, $newMessage, $expected = array(), $currentUser = 'mailto:one@example.org') {
 
@@ -27,9 +27,9 @@ abstract class BrokerTester extends \PHPUnit_Framework_TestCase {
             foreach($ex as $key=>$val) {
 
                 if ($key==='message') {
-                    $this->assertEquals(
-                        str_replace("\n", "\r\n", $val),
-                        rtrim($message->message->serialize(), "\r\n")
+                    $this->assertVObjEquals(
+                        $val,
+                        $message->message->serialize()
                     );
                 } else {
                     $this->assertEquals($val, $message->$key);

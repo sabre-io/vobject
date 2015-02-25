@@ -959,4 +959,79 @@ ICS
 
     }
 
+    /**
+     * This function tests an attendee updating their status to an event where
+     * they don't have the master event of.
+     *
+     * This is possible in cases an organizer created a recurring event, and
+     * invited an attendee for one instance of the event.
+     */
+    function testReplyNoMasterEvent() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+RECURRENCE-ID:20140724T120000Z
+DTSTART:20140724T120000Z
+SUMMARY:Daily sprint
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+RECURRENCE-ID:20140724T120000Z
+DTSTART:20140724T120000Z
+SUMMARY:Daily sprint
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = array(
+            array(
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART:20140724T120000Z
+SUMMARY:Daily sprint
+RECURRENCE-ID:20140724T120000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS
+
+            ),
+
+        );
+
+        $result = $this->parse($oldMessage, $newMessage, $expected);
+
+    }
 }

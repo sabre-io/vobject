@@ -671,7 +671,7 @@ class Broker {
         // event, which means we need to send DECLINED specifically for those
         // instances.
         // We only need to do that though, if the master event is not declined.
-        if ($instances['master']['newstatus'] !== 'DECLINED') {
+        if (isset($instances['master']) && $instances['master']['newstatus'] !== 'DECLINED') {
             foreach($eventInfo['exdate'] as $exDate) {
 
                 if (!in_array($exDate, $oldEventInfo['exdate'])) {
