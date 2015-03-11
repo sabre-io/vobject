@@ -627,6 +627,21 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testMinusFifthThursday() {
+
+        $this->parse(
+            'FREQ=MONTHLY;BYDAY=-4TH,-5TH;COUNT=4',
+            '2015-01-01 00:15:00',
+            array(
+                '2015-01-01 00:15:00',
+                '2015-01-08 00:15:00',
+                '2015-02-05 00:15:00',
+                '2015-03-05 00:15:00'
+            )
+        );
+
+    }
+
     /**
      * @expectedException InvalidArgumentException
      */
