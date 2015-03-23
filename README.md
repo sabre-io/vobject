@@ -11,11 +11,11 @@ Build status
 
 | branch | status |
 | ------ | ------ |
-| master | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=master)](https://travis-ci.org/fruux/sabre-vobject) |
-| 3.3    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=3.3)](https://travis-ci.org/fruux/sabre-vobject) |
-| 3.1    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=3.1)](https://travis-ci.org/fruux/sabre-vobject) |
-| 2.1    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=2.1)](https://travis-ci.org/fruux/sabre-vobject) |
-| 2.0    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=2.0)](https://travis-ci.org/fruux/sabre-vobject) |
+| master | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=master)](https://travis-ci.org/fruux/sabre-vobject) |
+| 3.3    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=3.3)](https://travis-ci.org/fruux/sabre-vobject) |
+| 3.1    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=3.1)](https://travis-ci.org/fruux/sabre-vobject) |
+| 2.1    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=2.1)](https://travis-ci.org/fruux/sabre-vobject) |
+| 2.0    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=2.0)](https://travis-ci.org/fruux/sabre-vobject) |
 
 
 Installation
