@@ -308,7 +308,7 @@ IN;
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
-        //Calling validate(Node:REPAIR) would fix the encoding
+        //Calling validate(Node::REPAIR) would fix the encoding
         //$vcard->validate(Node::REPAIR);
         $vcard = $vcard->jsonSerialize();
 
