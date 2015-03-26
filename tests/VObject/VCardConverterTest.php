@@ -256,8 +256,8 @@ OUT;
         $input = <<<IN
 BEGIN:VCARD
 VERSION:3.0
-N;ENCODING=QUOTED-PRINTABLE:;Test=DF=E4=F6=FC=C4=D6;;;
-FN;ENCODING=QUOTED-PRINTABLE:Test=DF=E4=F6=FC=C4=D6
+N;ENCODING=QUOTED-PRINTABLE:;Test=DF=E4=F6=FC=C4=D6=DC;;;
+FN;ENCODING=QUOTED-PRINTABLE:Test=DF=E4=F6=FC=C4=D6=DC
 REV:20150326T154124Z
 UID:foo
 END:VCARD
@@ -307,6 +307,9 @@ IN;
 
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
+
+        //Calling validate(Node:REPAIR) would fix the encoding
+        //$vcard->validate(Node::REPAIR);
         $vcard = $vcard->jsonSerialize();
 
         $this->assertEquals(
