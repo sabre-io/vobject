@@ -251,6 +251,74 @@ OUT;
 
     }
 
+    function testQuotedPrintabletoJcard() {
+
+        $input = <<<IN
+BEGIN:VCARD
+VERSION:3.0
+N;ENCODING=QUOTED-PRINTABLE:;Test=DF=E4=F6=FC=C4=D6=DC;;;
+FN;ENCODING=QUOTED-PRINTABLE:Test=DF=E4=F6=FC=C4=D6=DC
+REV:20150326T154124Z
+UID:foo
+END:VCARD
+IN;
+
+        $expected = array(
+            "vcard",
+            array(
+                array(
+                    "version",
+                    new \StdClass(),
+                    "text",
+                    "4.0"
+                ),
+                array(
+                    "prodid",
+                    new \StdClass(),
+                    "text",
+                    "-//Sabre//Sabre VObject " . Version::VERSION . "//EN",
+                ),
+                array(
+                    "n",
+                    new \StdClass(),
+                    "text",
+                    array("", "TestßäöüÄÖÜ", "", "", ""),
+                ),
+                array(
+                    "fn",
+                    new \StdClass(),
+                    "text",
+                    "TestßäöüÄÖÜ",
+                ),
+                array(
+                    "rev",
+                    new \StdClass(),
+                    "timestamp",
+                    "2015-03-26T15:41:24Z",
+                ),
+                array(
+                    "uid",
+                    new \StdClass(),
+                    "text",
+                    "foo",
+                ),
+              ),
+            );
+
+        $vcard = Reader::read($input);
+        $vcard = $vcard->convert(Document::VCARD40);
+
+        //Calling validate(Node::REPAIR) would fix the encoding
+        //$vcard->validate(Node::REPAIR);
+        $vcard = $vcard->jsonSerialize();
+
+        $this->assertEquals(
+            $expected,
+            $vcard
+        );
+
+    }
+
     function testBDAYConversion() {
 
         $input = <<<IN
