@@ -4,7 +4,8 @@ ChangeLog
 3.4.3 (2015-03-11)
 ------------------
 
-* #211: Fix BYDAY=-5TH in recurrence iterator. (@lindquist)
+* #211: Fix `BYDAY=-5TH` in recurrence iterator. (@lindquist)
+* #216: `ENCODING` parameter is now validated for all document types.
 
 
 3.4.2 (2015-02-25)

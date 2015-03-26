@@ -66,7 +66,7 @@ abstract class Property extends Node {
      * @param string $group The vcard property group
      * @return void
      */
-    public function __construct(Component $root, $name, $value = null, array $parameters = array(), $group = null) {
+    function __construct(Component $root, $name, $value = null, array $parameters = array(), $group = null) {
 
         $this->name = $name;
         $this->group = $group;
@@ -91,7 +91,7 @@ abstract class Property extends Node {
      * @param string|array $value
      * @return void
      */
-    public function setValue($value) {
+    function setValue($value) {
 
         $this->value = $value;
 
@@ -108,7 +108,7 @@ abstract class Property extends Node {
      *
      * @return string
      */
-    public function getValue() {
+    function getValue() {
 
         if (is_array($this->value)) {
             if (count($this->value)==0) {
@@ -130,7 +130,7 @@ abstract class Property extends Node {
      * @param array $parts
      * @return void
      */
-    public function setParts(array $parts) {
+    function setParts(array $parts) {
 
         $this->value = $parts;
 
@@ -144,7 +144,7 @@ abstract class Property extends Node {
      *
      * @return array
      */
-    public function getParts() {
+    function getParts() {
 
         if (is_null($this->value)) {
             return array();
@@ -167,7 +167,7 @@ abstract class Property extends Node {
      * @param string|null|array $value
      * @return Node
      */
-    public function add($name, $value = null) {
+    function add($name, $value = null) {
         $noName = false;
         if ($name === null) {
             $name = Parameter::guessParameterNameByValue($value);
@@ -189,7 +189,7 @@ abstract class Property extends Node {
      *
      * @return array
      */
-    public function parameters() {
+    function parameters() {
 
         return $this->parameters;
 
@@ -203,7 +203,7 @@ abstract class Property extends Node {
      *
      * @return string
      */
-    abstract public function getValueType();
+    abstract function getValueType();
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -214,21 +214,21 @@ abstract class Property extends Node {
      * @param string $val
      * @return void
      */
-    abstract public function setRawMimeDirValue($val);
+    abstract function setRawMimeDirValue($val);
 
     /**
      * Returns a raw mime-dir representation of the value.
      *
      * @return string
      */
-    abstract public function getRawMimeDirValue();
+    abstract function getRawMimeDirValue();
 
     /**
      * Turns the object back into a serialized blob.
      *
      * @return string
      */
-    public function serialize() {
+    function serialize() {
 
         $str = $this->name;
         if ($this->group) $str = $this->group . '.' . $this->name;
@@ -264,7 +264,7 @@ abstract class Property extends Node {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
         return $this->getParts();
 
@@ -278,7 +278,7 @@ abstract class Property extends Node {
      * @param array $value
      * @return void
      */
-    public function setJsonValue(array $value) {
+    function setJsonValue(array $value) {
 
         if (count($value)===1) {
             $this->setValue(reset($value));
@@ -294,7 +294,7 @@ abstract class Property extends Node {
      *
      * @return array
      */
-    public function jsonSerialize() {
+    function jsonSerialize() {
 
         $parameters = array();
 
@@ -330,7 +330,7 @@ abstract class Property extends Node {
      *
      * @return string
      */
-    public function __toString() {
+    function __toString() {
 
         return (string)$this->getValue();
 
@@ -344,7 +344,7 @@ abstract class Property extends Node {
      * @param mixed $name
      * @return bool
      */
-    public function offsetExists($name) {
+    function offsetExists($name) {
 
         if (is_int($name)) return parent::offsetExists($name);
 
@@ -365,7 +365,7 @@ abstract class Property extends Node {
      * @param string $name
      * @return Node
      */
-    public function offsetGet($name) {
+    function offsetGet($name) {
 
         if (is_int($name)) return parent::offsetGet($name);
         $name = strtoupper($name);
@@ -385,7 +385,7 @@ abstract class Property extends Node {
      * @param mixed $value
      * @return void
      */
-    public function offsetSet($name, $value) {
+    function offsetSet($name, $value) {
 
         if (is_int($name)) {
             parent::offsetSet($name, $value);
@@ -407,7 +407,7 @@ abstract class Property extends Node {
      * @param string $name
      * @return void
      */
-    public function offsetUnset($name) {
+    function offsetUnset($name) {
 
         if (is_int($name)) {
             parent::offsetUnset($name);
@@ -429,7 +429,7 @@ abstract class Property extends Node {
      *
      * @return void
      */
-    public function __clone() {
+    function __clone() {
 
         foreach($this->parameters as $key=>$child) {
             $this->parameters[$key] = clone $child;
@@ -455,7 +455,7 @@ abstract class Property extends Node {
      * @param int $options
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
         $warnings = array();
 
@@ -502,6 +502,41 @@ abstract class Property extends Node {
                 // Removing every other invalid character
                 $this->name = preg_replace('/([^A-Z0-9-])/u', '', $this->name);
 
+            }
+
+        }
+
+        if ($encoding = $this->offsetGet('ENCODING')) {
+
+            if ($this->root->getDocumentType()===Document::VCARD40) {
+                $warnings[] = array(
+                    'level' => 1,
+                    'message' => 'ENCODING parameter is not valid in vCard 4.',
+                    'node' => $this
+                );
+            } else {
+
+                $encoding = (string)$encoding;
+
+                switch($this->root->getDocumentType()) {
+                    case Document::ICALENDAR20 :
+                        $allowedEncoding = array('8BIT', 'BASE64');
+                        break;
+                    case Document::VCARD21 :
+                        $allowedEncoding = array('QUOTED-PRINTABLE', 'BASE64', '8BIT');
+                        break;
+                    case Document::VCARD30 :
+                        $allowedEncoding = array('B');
+                        break;
+
+                }
+                if (!in_array(strtoupper($encoding), $allowedEncoding)) {
+                    $warnings[] = array(
+                        'level' => 1,
+                        'message' => 'ENCODING=' . strtoupper($encoding) . ' is not valid for this document type.',
+                        'node' => $this
+                    );
+                }
             }
 
         }
