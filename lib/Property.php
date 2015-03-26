@@ -518,6 +518,8 @@ abstract class Property extends Node {
 
                 $encoding = (string)$encoding;
 
+                $allowedEncoding = array();
+
                 switch($this->root->getDocumentType()) {
                     case Document::ICALENDAR20 :
                         $allowedEncoding = array('8BIT', 'BASE64');
@@ -530,7 +532,7 @@ abstract class Property extends Node {
                         break;
 
                 }
-                if (!in_array(strtoupper($encoding), $allowedEncoding)) {
+                if ($allowedEncoding && !in_array(strtoupper($encoding), $allowedEncoding)) {
                     $warnings[] = array(
                         'level' => 1,
                         'message' => 'ENCODING=' . strtoupper($encoding) . ' is not valid for this document type.',

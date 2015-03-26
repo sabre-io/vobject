@@ -372,7 +372,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testValidateBadEncodingVCard4() {
 
-        $document = new VCard(['VERSION' => '4.0']);
+        $document = new VCard(array('VERSION' => '4.0'));
         $property = $document->add('X-FOO','value');
         $property['ENCODING'] = 'BASE64';
 
@@ -385,7 +385,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testValidateBadEncodingVCard3() {
 
-        $document = new VCard(['VERSION' => '3.0']);
+        $document = new VCard(array('VERSION' => '3.0'));
         $property = $document->add('X-FOO','value');
         $property['ENCODING'] = 'BASE64';
 
@@ -398,7 +398,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     function testValidateBadEncodingVCard21() {
 
-        $document = new VCard(['VERSION' => '2.1']);
+        $document = new VCard(array('VERSION' => '2.1'));
         $property = $document->add('X-FOO','value');
         $property['ENCODING'] = 'B';
 
