@@ -162,6 +162,18 @@ class DateAndOrTimeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testGetDate() {
+
+        $datetime = new \DateTime('2014-04-02');
+
+        $vcard = new VObject\Component\VCard();
+        $prop = $vcard->createProperty('BDAY', $datetime, null, 'DATE');
+
+        $this->assertEquals('DATE', $prop->getValueType());
+        $this->assertEquals('BDAY:20140402', rtrim($prop->serialize()));
+
+    }
+
     public function testGetDateIncomplete() {
 
         $datetime = '--0407';
