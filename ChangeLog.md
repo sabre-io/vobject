@@ -5,6 +5,8 @@ ChangeLog
 ------------------
 
 * #219: Corrected validation of `EXDATE` properties with more than one value.
+* #212: `BYSETPOS` with values below `-1` was broken and could cause infinite
+  loops.
 
 
 3.4.3 (2015-03-11)

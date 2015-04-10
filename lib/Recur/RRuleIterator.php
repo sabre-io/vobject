@@ -840,7 +840,7 @@ class RRuleIterator implements Iterator {
         foreach($this->bySetPos as $setPos) {
 
             if ($setPos<0) {
-                $setPos = count($result)-($setPos+1);
+                $setPos = count($result)+($setPos+1);
             }
             if (isset($result[$setPos-1])) {
                 $filteredResult[] = $result[$setPos-1];
