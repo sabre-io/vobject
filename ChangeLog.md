@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+3.4.4 (2015-??-??)
+------------------
+
+* #219: Corrected validation of `EXDATE` properties with more than one value.
+
+
 3.4.3 (2015-03-11)
 ------------------
 

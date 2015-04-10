@@ -365,15 +365,17 @@ class DateTime extends Property {
 
         $messages = parent::validate($options);
         $valueType = $this->getValueType();
-        $value = $this->getValue();
+        $values = $this->getParts();
         try {
-            switch($valueType) {
-                case 'DATE' :
-                    $foo = DateTimeParser::parseDate($value);
-                    break;
-                case 'DATE-TIME' :
-                    $foo = DateTimeParser::parseDateTime($value);
-                    break;
+            foreach($values as $value) {
+                switch($valueType) {
+                    case 'DATE' :
+                        $foo = DateTimeParser::parseDate($value);
+                        break;
+                    case 'DATE-TIME' :
+                        $foo = DateTimeParser::parseDateTime($value);
+                        break;
+                }
             }
         } catch (\LogicException $e) {
             $messages[] = array(
