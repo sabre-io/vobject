@@ -14,3 +14,10 @@ script:
   - ./bin/sabre-cs-fixer fix lib/ --dry-run --diff
 
 before_script: composer install
+
+notifications:
+  slack:
+    rooms:
+      secure: LVmBXAz0TKdB8dsB9Rt+M5+KnpStxEbOKuNVHN/lYOYmnB5CNogc/TDUKIFe5OUHAjGbn3xUy+tgBIME/RZLPAC6aAKpw0BPbGXYeagYlDBj9HUR9sUDrwV+l/75e4QWZPrUwS1dIa4ePirosIlYZwlwfGzEz8SgVY2x7BZFBEs=
+    on_success: change
+    on_failure: change
