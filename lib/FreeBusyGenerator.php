@@ -165,7 +165,7 @@ class FreeBusyGenerator {
      * @param DateTimeZone $timeZone
      * @return void
      */
-    public function setTimeZone(DateTimeZone $timeZone) {
+    function setTimeZone(DateTimeZone $timeZone) {
 
         $this->timeZone = $timeZone;
 
@@ -181,7 +181,7 @@ class FreeBusyGenerator {
 
         $busyTimes = [];
 
-        foreach($this->objects as $key=>$object) {
+        foreach($this->objects as $key => $object) {
 
             foreach($object->getBaseComponents() as $component) {
 
@@ -195,10 +195,10 @@ class FreeBusyGenerator {
                         }
                         if (isset($component->STATUS)) {
                             $status = strtoupper($component->STATUS);
-                            if ($status==='CANCELLED') {
+                            if ($status === 'CANCELLED') {
                                 break;
                             }
-                            if ($status==='TENTATIVE') {
+                            if ($status === 'TENTATIVE') {
                                 $FBTYPE = 'BUSY-TENTATIVE';
                             }
                         }
@@ -281,7 +281,7 @@ class FreeBusyGenerator {
                             $fbType = isset($freebusy['FBTYPE'])?strtoupper($freebusy['FBTYPE']):'BUSY';
 
                             // Skipping intervals marked as 'free'
-                            if ($fbType==='FREE')
+                            if ($fbType === 'FREE')
                                 continue;
 
                             $values = explode(',', $freebusy);
@@ -289,7 +289,7 @@ class FreeBusyGenerator {
                                 list($startTime, $endTime) = explode('/', $value);
                                 $startTime = DateTimeParser::parseDateTime($startTime);
 
-                                if (substr($endTime,0,1)==='P' || substr($endTime,0,2)==='-P') {
+                                if (substr($endTime, 0, 1) === 'P' || substr($endTime, 0, 2) === '-P') {
                                     $duration = DateTimeParser::parseDuration($endTime);
                                     $endTime = clone $startTime;
                                     $endTime = $endTime->add($duration);

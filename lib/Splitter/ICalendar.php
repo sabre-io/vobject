@@ -89,7 +89,7 @@ class ICalendar implements SplitterInterface {
      */
     function getNext() {
 
-        if($object=array_shift($this->objects)) {
+        if($object = array_shift($this->objects)) {
 
             // create our baseobject
             $object->version = '2.0';

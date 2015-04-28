@@ -79,7 +79,7 @@ class Period extends Property {
     function setJsonValue(array $value) {
 
         $value = array_map(
-            function($item) {
+            function ($item) {
 
                 return strtr(implode('/', $item), [':' => '', '-' => '']);
 
@@ -107,7 +107,7 @@ class Period extends Property {
             $start = DateTimeParser::parseDateTime($start);
 
             // This is a duration value.
-            if ($end[0]==='P') {
+            if ($end[0] === 'P') {
                 $return[] = [
                     $start->format('Y-m-d\\TH:i:s'),
                     $end

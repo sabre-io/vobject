@@ -48,7 +48,7 @@ class MimeDir extends Parser {
      * @param int $options
      * @return Sabre\VObject\Document
      */
-    public function parse($input = null, $options = 0) {
+    function parse($input = null, $options = 0) {
 
         $this->root = null;
 
@@ -72,7 +72,7 @@ class MimeDir extends Parser {
      * @param resource|string $input
      * @return void
      */
-    public function setInput($input) {
+    function setInput($input) {
 
         // Resetting the parser
         $this->lineIndex = 0;
@@ -103,7 +103,7 @@ class MimeDir extends Parser {
 
         // BOM is ZERO WIDTH NO-BREAK SPACE (U+FEFF).
         // It's 0xEF 0xBB 0xBF in UTF-8 hex.
-        if (   3 <= strlen($line)
+        if (3 <= strlen($line)
             && ord($line[0]) === 0xef
             && ord($line[1]) === 0xbb
             && ord($line[2]) === 0xbf) {
@@ -131,7 +131,7 @@ class MimeDir extends Parser {
 
             // Reading until we hit END:
             $line = $this->readLine();
-            if (strtoupper(substr($line,0,4)) === 'END:') {
+            if (strtoupper(substr($line, 0, 4)) === 'END:') {
                 break;
             }
             $result = $this->parseLine($line);
@@ -142,7 +142,7 @@ class MimeDir extends Parser {
         }
 
         $name = strtoupper(substr($line, 4));
-        if ($name!==$this->root->name) {
+        if ($name !== $this->root->name) {
             throw new ParseException('Invalid MimeDir file. expected: "END:' . $this->root->name . '" got: "END:' . $name . '"');
         }
 
@@ -160,13 +160,13 @@ class MimeDir extends Parser {
         // Start of a new component
         if (strtoupper(substr($line, 0, 6)) === 'BEGIN:') {
 
-            $component = $this->root->createComponent(substr($line,6), [], false);
+            $component = $this->root->createComponent(substr($line, 6), [], false);
 
             while(true) {
 
                 // Reading until we hit END:
                 $line = $this->readLine();
-                if (strtoupper(substr($line,0,4)) === 'END:') {
+                if (strtoupper(substr($line, 0, 4)) === 'END:') {
                     break;
                 }
                 $result = $this->parseLine($line);
@@ -177,7 +177,7 @@ class MimeDir extends Parser {
             }
 
             $name = strtoupper(substr($line, 4));
-            if ($name!==$component->name) {
+            if ($name !== $component->name) {
                 throw new ParseException('Invalid MimeDir file. expected: "END:' . $component->name . '" got: "END:' . $name . '"');
             }
 
@@ -246,7 +246,7 @@ class MimeDir extends Parser {
 
                 $rawLine = fgets($this->input);
 
-                if ($eof || (feof($this->input) && $rawLine===false)) {
+                if ($eof || (feof($this->input) && $rawLine === false)) {
                     throw new EofException('End of document reached prematurely');
                 }
                 if ($rawLine === false) {
@@ -316,9 +316,9 @@ class MimeDir extends Parser {
         preg_match_all($regex, $line, $matches,  PREG_SET_ORDER);
 
         $property = [
-            'name' => null,
+            'name'       => null,
             'parameters' => [],
-            'value' => null
+            'value'      => null
         ];
 
         $lastParam = null;
@@ -393,7 +393,7 @@ class MimeDir extends Parser {
         $namedParameters = [];
         $namelessParameters = [];
 
-        foreach($property['parameters'] as $name=>$value) {
+        foreach($property['parameters'] as $name => $value) {
             if (!is_null($value)) {
                 $namedParameters[$name] = $value;
             } else {
@@ -478,7 +478,7 @@ class MimeDir extends Parser {
      * @param string $delimiter
      * @return string|string[]
      */
-    static public function unescapeValue($input, $delimiter = ';') {
+    static function unescapeValue($input, $delimiter = ';') {
 
         $regex = '#  (?: (\\\\ (?: \\\\ | N | n | ; | , ) )';
         if ($delimiter) {
@@ -495,17 +495,17 @@ class MimeDir extends Parser {
 
             switch ($match) {
                 case '\\\\' :
-                    $result .='\\';
+                    $result .= '\\';
                     break;
                 case '\N' :
                 case '\n' :
-                    $result .="\n";
+                    $result .= "\n";
                     break;
                 case '\;' :
-                    $result .=';';
+                    $result .= ';';
                     break;
                 case '\,' :
-                    $result .=',';
+                    $result .= ',';
                     break;
                 case $delimiter :
                     $resultArray[] = $result;
@@ -562,7 +562,7 @@ class MimeDir extends Parser {
         return
             preg_replace_callback(
                 '#(\^(\^|n|\'))#',
-                function($matches) {
+                function ($matches) {
                     switch($matches[2]) {
                         case 'n' :
                             return "\n";
@@ -613,11 +613,11 @@ class MimeDir extends Parser {
         // missing a whitespace. So if 'forgiving' is turned on, we will take
         // those as well.
         if ($this->options & self::OPTION_FORGIVING) {
-            while(substr($value,-1) === '=') {
+            while(substr($value, -1) === '=') {
                 // Reading the line
                 $this->readLine();
                 // Grabbing the raw form
-                $value.="\n" . $this->rawLine;
+                $value .= "\n" . $this->rawLine;
             }
         }
 

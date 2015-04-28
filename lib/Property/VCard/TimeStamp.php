@@ -61,7 +61,7 @@ class TimeStamp extends Text {
 
         // Timezone
         if (!is_null($parts['timezone'])) {
-            $dateStr.=$parts['timezone'];
+            $dateStr .= $parts['timezone'];
         }
 
         return [$dateStr];

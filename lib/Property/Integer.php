@@ -26,7 +26,7 @@ class Integer extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->setValue((int)$val);
 
@@ -37,7 +37,7 @@ class Integer extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return $this->value;
 
@@ -51,7 +51,7 @@ class Integer extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'INTEGER';
 
@@ -64,7 +64,7 @@ class Integer extends Property {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
         return [(int)$this->getValue()];
 

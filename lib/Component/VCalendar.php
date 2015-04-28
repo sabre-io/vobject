@@ -262,7 +262,7 @@ class VCalendar extends VObject\Document {
         // array is a list of one or more events that match the UID.
         $recurringEvents = [];
 
-        foreach($this->select('VEVENT') as $key=>$vevent) {
+        foreach($this->select('VEVENT') as $key => $vevent) {
 
             $uid = (string)$vevent->UID;
             if (!$uid) {
@@ -346,8 +346,8 @@ class VCalendar extends VObject\Document {
     protected function getDefaults() {
 
         return [
-            'VERSION' => '2.0',
-            'PRODID' => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
+            'VERSION'  => '2.0',
+            'PRODID'   => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
             'CALSCALE' => 'GREGORIAN',
         ];
 
@@ -371,11 +371,11 @@ class VCalendar extends VObject\Document {
     function getValidationRules() {
 
         return [
-            'PRODID' => 1,
+            'PRODID'  => 1,
             'VERSION' => 1,
 
             'CALSCALE' => '?',
-            'METHOD' => '?',
+            'METHOD'   => '?',
         ];
 
     }
@@ -410,9 +410,9 @@ class VCalendar extends VObject\Document {
         if ($ver = $this->VERSION) {
             if ((string)$ver !== '2.0') {
                 $warnings[] = [
-                    'level' => 3,
+                    'level'   => 3,
                     'message' => 'Only iCalendar version 2.0 as defined in rfc5545 is supported.',
-                    'node' => $this,
+                    'node'    => $this,
                 ];
             }
 
@@ -437,15 +437,15 @@ class VCalendar extends VObject\Document {
                     $uidList[$uid]['count']++;
                     if ($isMaster && $uidList[$uid]['hasMaster']) {
                         $warnings[] = [
-                            'level' => 3,
+                            'level'   => 3,
                             'message' => 'More than one master object was found for the object with UID ' . $uid,
-                            'node' => $this,
+                            'node'    => $this,
                         ];
                     }
-                    $uidList[$uid]['hasMaster']+=$isMaster;
+                    $uidList[$uid]['hasMaster'] += $isMaster;
                 } else {
                     $uidList[$uid] = [
-                        'count' => 1,
+                        'count'     => 1,
                         'hasMaster' => $isMaster,
                     ];
                 }
@@ -453,42 +453,42 @@ class VCalendar extends VObject\Document {
             }
         }
 
-        if ($componentsFound===0) {
+        if ($componentsFound === 0) {
             $warnings[] = [
-                'level' => 3,
+                'level'   => 3,
                 'message' => 'An iCalendar object must have at least 1 component.',
-                'node' => $this,
+                'node'    => $this,
             ];
         }
 
         if ($options & self::PROFILE_CALDAV) {
-            if (count($uidList)>1) {
+            if (count($uidList) > 1) {
                 $warnings[] = [
-                    'level' => 3,
+                    'level'   => 3,
                     'message' => 'A calendar object on a CalDAV server may only have components with the same UID.',
-                    'node' => $this,
+                    'node'    => $this,
                 ];
             }
-            if (count(array_unique($componentTypes))===0) {
+            if (count(array_unique($componentTypes)) === 0) {
                 $warnings[] = [
-                    'level' => 3,
+                    'level'   => 3,
                     'message' => 'A calendar object on a CalDAV server must have at least 1 component (VTODO, VEVENT, VJOURNAL).',
-                    'node' => $this,
+                    'node'    => $this,
                 ];
             }
-            if (count(array_unique($componentTypes))>1) {
+            if (count(array_unique($componentTypes)) > 1) {
                 $warnings[] = [
-                    'level' => 3,
+                    'level'   => 3,
                     'message' => 'A calendar object on a CalDAV server may only have 1 type of component (VEVENT, VTODO or VJOURNAL).',
-                    'node' => $this,
+                    'node'    => $this,
                 ];
             }
 
             if (isset($this->METHOD)) {
                 $warnings[] = [
-                    'level' => 3,
+                    'level'   => 3,
                     'message' => 'A calendar object on a CalDAV server MUST NOT have a METHOD property.',
-                    'node' => $this,
+                    'node'    => $this,
                 ];
             }
         }
@@ -504,7 +504,7 @@ class VCalendar extends VObject\Document {
      */
     function getByUID($uid) {
 
-        return array_filter($this->children, function($item) use ($uid) {
+        return array_filter($this->children, function ($item) use ($uid) {
 
             if (!$item instanceof Component) {
                 return false;

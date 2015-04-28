@@ -31,7 +31,7 @@ class Uri extends Text {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'URI';
 
@@ -46,7 +46,7 @@ class Uri extends Text {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         // Normally we don't need to do any type of unescaping for these
         // properties, however.. we've noticed that Google Contacts
@@ -63,10 +63,10 @@ class Uri extends Text {
             foreach($matches as $match) {
                 switch($match) {
                     case '\:' :
-                        $newVal.=':';
+                        $newVal .= ':';
                         break;
                     default :
-                        $newVal.=$match;
+                        $newVal .= $match;
                         break;
                 }
             }
@@ -82,7 +82,7 @@ class Uri extends Text {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         if (is_array($this->value)) {
             $value = $this->value[0];

@@ -42,13 +42,13 @@ class Recur extends Property {
 
         if (is_array($value)) {
             $newVal = [];
-            foreach($value as $k=>$v) {
+            foreach($value as $k => $v) {
 
                 if (is_string($v)) {
                     $v = strtoupper($v);
 
                     // The value had multiple sub-values
-                    if (strpos($v,',')!==false) {
+                    if (strpos($v, ',') !== false) {
                         $v = explode(',', $v);
                     }
                 } else {
@@ -80,10 +80,10 @@ class Recur extends Property {
     function getValue() {
 
         $out = [];
-        foreach($this->value as $key=>$value) {
+        foreach($this->value as $key => $value) {
             $out[] = $key . '=' . (is_array($value)?implode(',', $value):$value);
         }
-        return strtoupper(implode(';',$out));
+        return strtoupper(implode(';', $out));
 
     }
 
@@ -163,7 +163,7 @@ class Recur extends Property {
     function getJsonValue() {
 
         $values = [];
-        foreach($this->getParts() as $k=>$v) {
+        foreach($this->getParts() as $k => $v) {
             $values[strtolower($k)] = $v;
         }
         return [$values];
@@ -206,8 +206,8 @@ class Recur extends Property {
             list($partName, $partValue) = explode('=', $part);
 
             // The value itself had multiple values..
-            if (strpos($partValue,',')!==false) {
-                $partValue=explode(',', $partValue);
+            if (strpos($partValue, ',') !== false) {
+                $partValue = explode(',', $partValue);
             }
             $newValue[$partName] = $partValue;
 

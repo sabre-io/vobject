@@ -54,7 +54,7 @@ class XML extends Parser {
      * @param int $options Any parser options (OPTION constants).
      * @return void
      */
-    public function __construct($input = null, $options = 0) {
+    function __construct($input = null, $options = 0) {
 
         if (0 === $options) {
             $options = parent::OPTION_FORGIVING;
@@ -72,7 +72,7 @@ class XML extends Parser {
      * @throws \Exception
      * @return Sabre\VObject\Document
      */
-    public function parse($input = null, $options = 0) {
+    function parse($input = null, $options = 0) {
 
         if (!is_null($input)) {
             $this->setInput($input);
@@ -173,7 +173,7 @@ class XML extends Parser {
             $propertyType       = 'text';
 
             // A property which is not part of the standard.
-            if (   $namespace !== self::XCAL_NAMESPACE
+            if ($namespace !== self::XCAL_NAMESPACE
                 && $namespace !== self::XCARD_NAMESPACE) {
 
                 $propertyName = 'xml';
@@ -183,7 +183,7 @@ class XML extends Parser {
                     $value .= ' ' . $attributeName . '="' . str_replace('"', '\"', $attributeValue) . '"';
                 }
 
-                $value .= '>' . $xmlProperty['value'] . '</' . $tagName. '>';
+                $value .= '>' . $xmlProperty['value'] . '</' . $tagName . '>';
 
                 $propertyValue = [$value];
 
@@ -218,7 +218,7 @@ class XML extends Parser {
             // Collect parameters.
             foreach ($xmlProperty['value'] as $i => $xmlPropertyChild) {
 
-                if (   !is_array($xmlPropertyChild)
+                if (!is_array($xmlPropertyChild)
                     || 'parameters' !== static::getTagName($xmlPropertyChild['name']))
                     continue;
 
@@ -382,7 +382,7 @@ class XML extends Parser {
      * @param resource|string $input
      * @return void
      */
-    public function setInput($input) {
+    function setInput($input) {
 
         if (is_resource($input)) {
             $input = stream_get_contents($input);
@@ -410,7 +410,7 @@ class XML extends Parser {
      * @param string $clarkedTagName
      * @return string
      */
-    static protected function getTagName($clarkedTagName) {
+    protected static function getTagName($clarkedTagName) {
 
         list($namespace, $tagName) = SabreXml\Util::parseClarkNotation($clarkedTagName);
         return $tagName;

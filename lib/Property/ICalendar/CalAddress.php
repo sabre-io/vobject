@@ -32,7 +32,7 @@ class CalAddress extends Text {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'CAL-ADDRESS';
 
@@ -48,7 +48,7 @@ class CalAddress extends Text {
      *
      * @return string
      */
-    public function getNormalizedValue() {
+    function getNormalizedValue() {
 
         $input = $this->getValue();
         if (!strpos($input, ':')) {

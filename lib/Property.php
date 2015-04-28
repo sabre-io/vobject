@@ -75,7 +75,7 @@ abstract class Property extends Node {
 
         $this->root = $root;
 
-        foreach($parameters as $k=>$v) {
+        foreach($parameters as $k => $v) {
             $this->add($k, $v);
         }
 
@@ -113,9 +113,9 @@ abstract class Property extends Node {
     function getValue() {
 
         if (is_array($this->value)) {
-            if (count($this->value)==0) {
+            if (count($this->value) == 0) {
                 return null;
-            } elseif (count($this->value)===1) {
+            } elseif (count($this->value) === 1) {
                 return $this->value[0];
             } else {
                 return $this->getRawMimeDirValue($this->value);
@@ -236,20 +236,20 @@ abstract class Property extends Node {
 
         foreach($this->parameters as $param) {
 
-            $str.=';' . $param->serialize();
+            $str .= ';' . $param->serialize();
 
         }
 
-        $str.=':' . $this->getRawMimeDirValue();
+        $str .= ':' . $this->getRawMimeDirValue();
 
         $out = '';
-        while(strlen($str)>0) {
-            if (strlen($str)>75) {
-                $out.= mb_strcut($str,0,75,'utf-8') . "\r\n";
-                $str = ' ' . mb_strcut($str,75,strlen($str),'utf-8');
+        while(strlen($str) > 0) {
+            if (strlen($str) > 75) {
+                $out .= mb_strcut($str, 0, 75, 'utf-8') . "\r\n";
+                $str = ' ' . mb_strcut($str, 75, strlen($str), 'utf-8');
             } else {
-                $out.=$str . "\r\n";
-                $str='';
+                $out .= $str . "\r\n";
+                $str = '';
                 break;
             }
         }
@@ -281,7 +281,7 @@ abstract class Property extends Node {
      */
     function setJsonValue(array $value) {
 
-        if (count($value)===1) {
+        if (count($value) === 1) {
             $this->setValue(reset($value));
         } else {
             $this->setValue($value);
@@ -507,7 +507,7 @@ abstract class Property extends Node {
      */
     function __clone() {
 
-        foreach($this->parameters as $key=>$child) {
+        foreach($this->parameters as $key => $child) {
             $this->parameters[$key] = clone $child;
             $this->parameters[$key]->parent = $this;
         }
@@ -557,18 +557,18 @@ abstract class Property extends Node {
             }
 
             $warnings[] = [
-                'level' => $level,
+                'level'   => $level,
                 'message' => $message,
-                'node' => $this,
+                'node'    => $this,
             ];
         }
 
         // Checking if the propertyname does not contain any invalid bytes.
         if (!preg_match('/^([A-Z0-9-]+)$/', $this->name)) {
             $warnings[] = [
-                'level' => 1,
+                'level'   => 1,
                 'message' => 'The propertyname: ' . $this->name . ' contains invalid characters. Only A-Z, 0-9 and - are allowed',
-                'node' => $this,
+                'node'    => $this,
             ];
             if ($options & self::REPAIR) {
                 // Uppercasing and converting underscores to dashes.

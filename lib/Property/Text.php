@@ -54,7 +54,7 @@ class Text extends Property {
      * @var array
      */
     protected $minimumPropertyValues = [
-        'N' => 5,
+        'N'   => 5,
         'ADR' => 7,
     ];
 
@@ -72,7 +72,7 @@ class Text extends Property {
      * @param string $group The vcard property group
      * @return void
      */
-    public function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null) {
+    function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null) {
 
         // There's two types of multi-valued text properties:
         // 1. multivalue properties.
@@ -96,7 +96,7 @@ class Text extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->setValue(MimeDir::unescapeValue($val, $this->delimiter));
 
@@ -108,7 +108,7 @@ class Text extends Property {
      * @param string $val
      * @return void
      */
-    public function setQuotedPrintableValue($val) {
+    function setQuotedPrintableValue($val) {
 
         $val = quoted_printable_decode($val);
 
@@ -129,7 +129,7 @@ class Text extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         $val = $this->getParts();
 
@@ -170,7 +170,7 @@ class Text extends Property {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
         // Structured text values should always be returned as a single
         // array-item. Multi-value text should be returned as multiple items in
@@ -190,7 +190,7 @@ class Text extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'TEXT';
 
@@ -201,7 +201,7 @@ class Text extends Property {
      *
      * @return string
      */
-    public function serialize() {
+    function serialize() {
 
         // We need to kick in a special type of encoding, if it's a 2.1 vcard.
         if ($this->root->getDocumentType() !== Document::VCARD21) {
@@ -216,9 +216,9 @@ class Text extends Property {
 
         // Imploding multiple parts into a single value, and splitting the
         // values with ;.
-        if (count($val)>1) {
-            foreach($val as $k=>$v) {
-                $val[$k] = str_replace(';','\;', $v);
+        if (count($val) > 1) {
+            foreach($val as $k => $v) {
+                $val[$k] = str_replace(';', '\;', $v);
             }
             $val = implode(';', $val);
         } else {
@@ -232,7 +232,7 @@ class Text extends Property {
             if ($param->getValue() === 'QUOTED-PRINTABLE') {
                 continue;
             }
-            $str.=';' . $param->serialize();
+            $str .= ';' . $param->serialize();
 
         }
 
@@ -240,44 +240,44 @@ class Text extends Property {
 
         // If the resulting value contains a \n, we must encode it as
         // quoted-printable.
-        if (strpos($val,"\n") !== false) {
+        if (strpos($val, "\n") !== false) {
 
-            $str.=';ENCODING=QUOTED-PRINTABLE:';
-            $lastLine=$str;
+            $str .= ';ENCODING=QUOTED-PRINTABLE:';
+            $lastLine = $str;
             $out = null;
 
             // The PHP built-in quoted-printable-encode does not correctly
             // encode newlines for us. Specifically, the \r\n sequence must in
             // vcards be encoded as =0D=OA and we must insert soft-newlines
             // every 75 bytes.
-            for($ii=0;$ii<strlen($val);$ii++) {
+            for($ii = 0;$ii < strlen($val);$ii++) {
                 $ord = ord($val[$ii]);
                 // These characters are encoded as themselves.
-                if ($ord >= 32 && $ord <=126) {
-                    $lastLine.=$val[$ii];
+                if ($ord >= 32 && $ord <= 126) {
+                    $lastLine .= $val[$ii];
                 } else {
-                    $lastLine.='=' . strtoupper(bin2hex($val[$ii]));
+                    $lastLine .= '=' . strtoupper(bin2hex($val[$ii]));
                 }
-                if (strlen($lastLine)>=75) {
+                if (strlen($lastLine) >= 75) {
                     // Soft line break
-                    $out.=$lastLine. "=\r\n ";
+                    $out .= $lastLine . "=\r\n ";
                     $lastLine = null;
                 }
 
             }
-            if (!is_null($lastLine)) $out.= $lastLine . "\r\n";
+            if (!is_null($lastLine)) $out .= $lastLine . "\r\n";
             return $out;
 
         } else {
-            $str.=':' . $val;
+            $str .= ':' . $val;
             $out = '';
-            while(strlen($str)>0) {
-                if (strlen($str)>75) {
-                    $out.= mb_strcut($str,0,75,'utf-8') . "\r\n";
-                    $str = ' ' . mb_strcut($str,75,strlen($str),'utf-8');
+            while(strlen($str) > 0) {
+                if (strlen($str) > 75) {
+                    $out .= mb_strcut($str, 0, 75, 'utf-8') . "\r\n";
+                    $str = ' ' . mb_strcut($str, 75, strlen($str), 'utf-8');
                 } else {
-                    $out.=$str . "\r\n";
-                    $str='';
+                    $out .= $str . "\r\n";
+                    $str = '';
                     break;
                 }
             }
@@ -299,7 +299,7 @@ class Text extends Property {
 
         $values = $this->getParts();
 
-        $map = function($items) use($values, $writer) {
+        $map = function ($items) use ($values,$writer) {
             foreach ($items as $i => $item) {
                 $writer->writeElement(
                     $item,
@@ -382,7 +382,7 @@ class Text extends Property {
      * @param int $options
      * @return array
      */
-    public function validate($options = 0) {
+    function validate($options = 0) {
 
         $warnings = parent::validate($options);
 
@@ -392,9 +392,9 @@ class Text extends Property {
             $parts = $this->getParts();
             if (count($parts) < $minimum) {
                 $warnings[] = [
-                    'level' => 1,
+                    'level'   => 1,
                     'message' => 'This property must have at least ' . $minimum . ' components. It only has ' . count($parts),
-                    'node' => $this,
+                    'node'    => $this,
                 ];
                 if ($options & self::REPAIR) {
                     $parts = array_pad($parts, $minimum, '');

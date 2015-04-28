@@ -33,28 +33,28 @@ class VAvailability extends VObject\Component {
      */
     function getValidationRules() {
 
-        return array(
-            'UID' => 1,
+        return [
+            'UID'     => 1,
             'DTSTAMP' => 1,
 
-            'BUSYTYPE' => '?',
-            'CLASS' => '?',
-            'CREATED' => '?',
-            'DESCRIPTION' => '?',
-            'DTSTART' => '?',
+            'BUSYTYPE'      => '?',
+            'CLASS'         => '?',
+            'CREATED'       => '?',
+            'DESCRIPTION'   => '?',
+            'DTSTART'       => '?',
             'LAST-MODIFIED' => '?',
-            'ORGANIZER' => '?',
-            'PRIORITY' => '?',
-            'SEQUENCE' => '?',
-            'SUMMARY' => '?',
-            'URL' => '?',
-            'DTEND' => '?',
-            'DURATION' => '?',
+            'ORGANIZER'     => '?',
+            'PRIORITY'      => '?',
+            'SEQUENCE'      => '?',
+            'SUMMARY'       => '?',
+            'URL'           => '?',
+            'DTEND'         => '?',
+            'DURATION'      => '?',
 
             'CATEGORIES' => '*',
-            'COMMENT' => '*',
-            'CONTACT' => '*',
-        );
+            'COMMENT'    => '*',
+            'CONTACT'    => '*',
+        ];
 
     }
 
@@ -86,11 +86,11 @@ class VAvailability extends VObject\Component {
         $result = parent::validate($options);
 
         if (isset($this->DTEND) && isset($this->DURATION)) {
-            $result[] = array(
-                'level' => 3,
+            $result[] = [
+                'level'   => 3,
                 'message' => 'DTEND and DURATION cannot both be present',
-                'node' => $this
-            );
+                'node'    => $this
+            ];
         }
 
         return $result;

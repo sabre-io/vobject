@@ -35,16 +35,16 @@ class DateTimeParser {
     static function parseDateTime($dt, DateTimeZone $tz = null) {
 
         // Format is YYYYMMDD + "T" + hhmmss
-        $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/',$dt,$matches);
+        $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/', $dt, $matches);
 
         if (!$result) {
             throw new LogicException('The supplied iCalendar datetime value is incorrect: ' . $dt);
         }
 
-        if ($matches[7]==='Z' || is_null($tz)) {
+        if ($matches[7] === 'Z' || is_null($tz)) {
             $tz = new DateTimeZone('UTC');
         }
-        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] .':' . $matches[6], $tz);
+        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] . ':' . $matches[6], $tz);
 
         return $date;
 
@@ -60,7 +60,7 @@ class DateTimeParser {
     static function parseDate($date, DateTimeZone $tz = null) {
 
         // Format is YYYYMMDD
-        $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])$/',$date,$matches);
+        $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])$/', $date, $matches);
 
         if (!$result) {
             throw new LogicException('The supplied iCalendar date value is incorrect: ' . $date);
@@ -97,7 +97,7 @@ class DateTimeParser {
 
             $invert = false;
 
-            if ($matches['plusminus']==='-') {
+            if ($matches['plusminus'] === '-') {
                 $invert = true;
             }
 
@@ -110,7 +110,7 @@ class DateTimeParser {
             ];
 
             foreach($parts as $part) {
-                $matches[$part] = isset($matches[$part])&&$matches[$part]?(int)$matches[$part]:0;
+                $matches[$part] = isset($matches[$part]) && $matches[$part]?(int)$matches[$part]:0;
             }
 
             // We need to re-construct the $duration string, because weeks and
@@ -119,32 +119,32 @@ class DateTimeParser {
             $days = $matches['day'];
 
             if ($matches['week']) {
-                $days+=$matches['week']*7;
+                $days += $matches['week'] * 7;
             }
 
             if ($days) {
-                $duration.=$days . 'D';
+                $duration .= $days . 'D';
             }
 
             if ($matches['minute'] || $matches['second'] || $matches['hour']) {
 
-                $duration.='T';
+                $duration .= 'T';
 
                 if ($matches['hour']) {
-                    $duration.=$matches['hour'].'H';
+                    $duration .= $matches['hour'] . 'H';
                 }
 
                 if ($matches['minute']) {
-                    $duration.=$matches['minute'].'M';
+                    $duration .= $matches['minute'] . 'M';
                 }
 
                 if ($matches['second']) {
-                    $duration.=$matches['second'].'S';
+                    $duration .= $matches['second'] . 'S';
                 }
 
             }
 
-            if ($duration==='P') {
+            if ($duration === 'P') {
                 $duration = 'PT0S';
             }
 
@@ -170,11 +170,11 @@ class DateTimeParser {
 
         foreach($parts as $part) {
             if (isset($matches[$part]) && $matches[$part]) {
-                $newDur.=' '.$matches[$part] . ' ' . $part . 's';
+                $newDur .= ' ' . $matches[$part] . ' ' . $part . 's';
             }
         }
 
-        $newDur = ($matches['plusminus']==='-'?'-':'+') . trim($newDur);
+        $newDur = ($matches['plusminus'] === '-'?'-':'+') . trim($newDur);
 
         if ($newDur === '+') {
             $newDur = '+0 seconds';
@@ -193,9 +193,9 @@ class DateTimeParser {
      */
     static function parse($date, $referenceTz = null) {
 
-        if ($date[0]==='P' || ($date[0]==='-' && $date[1]==='P')) {
+        if ($date[0] === 'P' || ($date[0] === '-' && $date[1] === 'P')) {
             return self::parseDuration($date);
-        } elseif (strlen($date)===8) {
+        } elseif (strlen($date) === 8) {
             return self::parseDate($date, $referenceTz);
         } else {
             return self::parseDateTime($date, $referenceTz);
@@ -513,7 +513,7 @@ class DateTimeParser {
         // (\d{8}|--\d{4}|---\d\d)T\d\d(\d\d(\d\d)?)?(Z|[+\-]\d\d(\d\d?)?
         $valueDateTime = '/^(?:' .
                          '((?<year0>\d{4})(?<month0>\d\d)(?<date0>\d\d)' .
-                         '|--(?<month1>\d\d)(?<date1>\d\d)'.
+                         '|--(?<month1>\d\d)(?<date1>\d\d)' .
                          '|---(?<date2>\d\d))' .
                          'T' .
                          '(?<hour>\d\d)((?<minute>\d\d)(?<second>\d\d)?)?' .
@@ -523,19 +523,19 @@ class DateTimeParser {
         // date-and-or-time is date | date-time | time
         // in this strict order.
 
-        if (   0 === preg_match($valueDate, $date, $matches)
+        if (0 === preg_match($valueDate, $date, $matches)
             && 0 === preg_match($valueDateTime, $date, $matches)
             && 0 === preg_match($valueTime, $date, $matches)) {
             throw new InvalidArgumentException('Invalid vCard date-time string: ' . $date);
         }
 
         $parts = [
-            'year' => null,
-            'month' => null,
-            'date' => null,
-            'hour' => null,
-            'minute' => null,
-            'second' => null,
+            'year'     => null,
+            'month'    => null,
+            'date'     => null,
+            'hour'     => null,
+            'minute'   => null,
+            'second'   => null,
             'timezone' => null
         ];
 

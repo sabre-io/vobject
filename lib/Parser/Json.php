@@ -45,7 +45,7 @@ class Json extends Parser {
      * @param int $options
      * @return Sabre\VObject\Document
      */
-    public function parse($input = null, $options = 0) {
+    function parse($input = null, $options = 0) {
 
         if (!is_null($input)) {
             $this->setInput($input);
@@ -89,13 +89,13 @@ class Json extends Parser {
      * @param array $jComp
      * @return \Sabre\VObject\Component
      */
-    public function parseComponent(array $jComp) {
+    function parseComponent(array $jComp) {
 
         // We can remove $self from PHP 5.4 onward.
         $self = $this;
 
         $properties = array_map(
-            function($jProp) use ($self) {
+            function ($jProp) use ($self) {
                 return $self->parseProperty($jProp);
             },
             $jComp[1]
@@ -104,7 +104,7 @@ class Json extends Parser {
         if (isset($jComp[2])) {
 
             $components = array_map(
-                function($jComp) use ($self) {
+                function ($jComp) use ($self) {
                     return $self->parseComponent($jComp);
                 },
                 $jComp[2]
@@ -126,7 +126,7 @@ class Json extends Parser {
      * @param array $jProp
      * @return \Sabre\VObject\Property
      */
-    public function parseProperty(array $jProp) {
+    function parseProperty(array $jProp) {
 
         list(
             $propertyName,
@@ -179,7 +179,7 @@ class Json extends Parser {
      * @param resource|string|array $input
      * @return void
      */
-    public function setInput($input) {
+    function setInput($input) {
 
         if (is_resource($input)) {
             $input = stream_get_contents($input);

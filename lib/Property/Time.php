@@ -51,39 +51,39 @@ class Time extends Text {
 
         // Hour
         if (!is_null($parts['hour'])) {
-            $timeStr.=$parts['hour'];
+            $timeStr .= $parts['hour'];
 
             if (!is_null($parts['minute'])) {
-                $timeStr.=':';
+                $timeStr .= ':';
             }
         } else {
             // We know either minute or second _must_ be set, so we insert a
             // dash for an empty value.
-            $timeStr.='-';
+            $timeStr .= '-';
         }
 
         // Minute
         if (!is_null($parts['minute'])) {
-            $timeStr.=$parts['minute'];
+            $timeStr .= $parts['minute'];
 
             if (!is_null($parts['second'])) {
-                $timeStr.=':';
+                $timeStr .= ':';
             }
         } else {
             if (isset($parts['second'])) {
                 // Dash for empty minute
-                $timeStr.='-';
+                $timeStr .= '-';
             }
         }
 
         // Second
         if (!is_null($parts['second'])) {
-            $timeStr.=$parts['second'];
+            $timeStr .= $parts['second'];
         }
 
         // Timezone
         if (!is_null($parts['timezone'])) {
-            $timeStr.=$parts['timezone'];
+            $timeStr .= $parts['timezone'];
         }
 
         return [$timeStr];
@@ -100,7 +100,7 @@ class Time extends Text {
     function setXmlValue(array $value) {
 
         $value = array_map(
-            function($value) {
+            function ($value) {
                 return str_replace(':', '', $value);
             },
             $value

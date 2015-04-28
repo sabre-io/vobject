@@ -55,28 +55,28 @@ abstract class Document extends Component {
      *
      * @var string
      */
-    static public $defaultName;
+    static $defaultName;
 
     /**
      * List of properties, and which classes they map to.
      *
      * @var array
      */
-    static public $propertyMap = [];
+    static $propertyMap = [];
 
     /**
      * List of components, along with which classes they map to.
      *
      * @var array
      */
-    static public $componentMap = [];
+    static $componentMap = [];
 
     /**
      * List of value-types, and which classes they map to.
      *
      * @var array
      */
-    static public $valueMap = [];
+    static $valueMap = [];
 
     /**
      * Creates a new document.
@@ -97,7 +97,7 @@ abstract class Document extends Component {
     function __construct() {
 
         $args = func_get_args();
-        if (count($args)===0 || is_array($args[0])) {
+        if (count($args) === 0 || is_array($args[0])) {
             array_unshift($args, $this, static::$defaultName);
             call_user_func_array(['parent', '__construct'], $args);
         } else {
@@ -132,11 +132,11 @@ abstract class Document extends Component {
 
         if (isset(static::$componentMap[strtoupper($name)])) {
 
-            return call_user_func_array([$this,'createComponent'], func_get_args());
+            return call_user_func_array([$this, 'createComponent'], func_get_args());
 
         } else {
 
-            return call_user_func_array([$this,'createProperty'], func_get_args());
+            return call_user_func_array([$this, 'createProperty'], func_get_args());
 
         }
 
@@ -167,7 +167,7 @@ abstract class Document extends Component {
         $class = 'Sabre\\VObject\\Component';
 
         if (isset(static::$componentMap[$name])) {
-            $class=static::$componentMap[$name];
+            $class = static::$componentMap[$name];
         }
         if (is_null($children)) $children = [];
         return new $class($this, $name, $children, $defaults);
@@ -193,9 +193,9 @@ abstract class Document extends Component {
     function createProperty($name, $value = null, array $parameters = null, $valueType = null) {
 
         // If there's a . in the name, it means it's prefixed by a groupname.
-        if (($i=strpos($name,'.'))!==false) {
+        if (($i = strpos($name, '.')) !== false) {
             $group = substr($name, 0, $i);
-            $name = strtoupper(substr($name, $i+1));
+            $name = strtoupper(substr($name, $i + 1));
         } else {
             $name = strtoupper($name);
             $group = null;
