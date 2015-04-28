@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject\Component;
 
-use
-    Sabre\VObject,
-    Sabre\Xml;
+use Sabre\VObject;
+use Sabre\Xml;
 
 /**
  * The VCard component

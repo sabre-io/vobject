@@ -504,7 +504,7 @@ class VCalendar extends VObject\Document {
      */
     function getByUID($uid) {
 
-        return array_filter($this->children, function ($item) use ($uid) {
+        return array_filter($this->children, function($item) use ($uid) {
 
             if (!$item instanceof Component) {
                 return false;

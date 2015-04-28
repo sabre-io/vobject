@@ -2,10 +2,9 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\DateTimeParser,
-    Sabre\Xml;
+use Sabre\VObject\Property;
+use Sabre\VObject\DateTimeParser;
+use Sabre\Xml;
 
 /**
  * Period property
@@ -79,7 +78,7 @@ class Period extends Property {
     function setJsonValue(array $value) {
 
         $value = array_map(
-            function ($item) {
+            function($item) {
 
                 return strtr(implode('/', $item), [':' => '', '-' => '']);
 

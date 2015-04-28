@@ -2,12 +2,11 @@
 
 namespace Sabre\VObject\Property;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\Component,
-    Sabre\VObject\Parser\MimeDir,
-    Sabre\VObject\Document,
-    Sabre\Xml;
+use Sabre\VObject\Property;
+use Sabre\VObject\Component;
+use Sabre\VObject\Parser\MimeDir;
+use Sabre\VObject\Document;
+use Sabre\Xml;
 
 /**
  * Text property
@@ -299,7 +298,7 @@ class Text extends Property {
 
         $values = $this->getParts();
 
-        $map = function ($items) use ($values,$writer) {
+        $map = function($items) use ($values, $writer) {
             foreach ($items as $i => $item) {
                 $writer->writeElement(
                     $item,

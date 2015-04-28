@@ -2,13 +2,12 @@
 
 namespace Sabre\VObject\Parser;
 
-use
-    Sabre\VObject\Component,
-    Sabre\VObject\Component\VCalendar,
-    Sabre\VObject\Component\VCard,
-    Sabre\VObject\EofException,
-    Sabre\VObject\ParseException,
-    Sabre\Xml as SabreXml;
+use Sabre\VObject\Component;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCard;
+use Sabre\VObject\EofException;
+use Sabre\VObject\ParseException;
+use Sabre\Xml as SabreXml;
 
 /**
  * XML Parser.

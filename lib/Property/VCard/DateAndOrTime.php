@@ -2,13 +2,12 @@
 
 namespace Sabre\VObject\Property\VCard;
 
-use
-    Sabre\VObject\DateTimeParser,
-    Sabre\VObject\Property,
-    Sabre\Xml,
-    DateTimeInterface,
-    DateTimeImmutable,
-    DateTime;
+use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property;
+use Sabre\Xml;
+use DateTimeInterface;
+use DateTimeImmutable;
+use DateTime;
 
 /**
  * DateAndOrTime property
@@ -264,12 +263,12 @@ class DateAndOrTime extends Property {
         $value     = '';
 
         // $d = defined
-        $d = function ($part) use ($parts) {
+        $d = function($part) use ($parts) {
             return !is_null($parts[$part]);
         };
 
         // $r = read
-        $r = function ($part) use ($parts) {
+        $r = function($part) use ($parts) {
             return $parts[$part];
         };
 

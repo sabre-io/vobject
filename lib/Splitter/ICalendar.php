@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject\Splitter;
 
-use
-    Sabre\VObject,
-    Sabre\VObject\Component\VCalendar;
+use Sabre\VObject;
+use Sabre\VObject\Component\VCalendar;
 
 /**
  * Splitter

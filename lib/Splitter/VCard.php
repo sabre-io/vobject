@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject\Splitter;
 
-use
-    Sabre\VObject,
-    Sabre\VObject\Parser\MimeDir;
+use Sabre\VObject;
+use Sabre\VObject\Parser\MimeDir;
 
 /**
  * Splitter

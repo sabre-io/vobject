@@ -546,7 +546,7 @@ HELP
          * @param array $array
          * @return int
          */
-        $sortScore = function ($key, $array) {
+        $sortScore = function($key, $array) {
 
             if ($array[$key] instanceof Component) {
 
@@ -579,7 +579,7 @@ HELP
         $tmp = $vObj->children;
         uksort(
             $vObj->children,
-            function ($a, $b) use ($sortScore, $tmp) {
+            function($a, $b) use ($sortScore, $tmp) {
 
                 $sA = $sortScore($a, $tmp);
                 $sB = $sortScore($b, $tmp);

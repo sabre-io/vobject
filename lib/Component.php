@@ -270,7 +270,7 @@ class Component extends Node {
          * @param array $array
          * @return int
          */
-        $sortScore = function ($key, $array) {
+        $sortScore = function($key, $array) {
 
             if ($array[$key] instanceof Component) {
 
@@ -303,7 +303,7 @@ class Component extends Node {
         $tmp = $this->children;
         uksort(
             $this->children,
-            function ($a, $b) use ($sortScore, $tmp) {
+            function($a, $b) use ($sortScore, $tmp) {
 
                 $sA = $sortScore($a, $tmp);
                 $sB = $sortScore($b, $tmp);

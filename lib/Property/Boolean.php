@@ -70,7 +70,7 @@ class Boolean extends Property {
     function setXmlValue(array $value) {
 
         $value = array_map(
-            function ($value) {
+            function($value) {
                 return 'true' === $value;
             },
             $value

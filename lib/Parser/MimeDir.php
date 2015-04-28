@@ -2,12 +2,11 @@
 
 namespace Sabre\VObject\Parser;
 
-use
-    Sabre\VObject\ParseException,
-    Sabre\VObject\EofException,
-    Sabre\VObject\Component,
-    Sabre\VObject\Component\VCalendar,
-    Sabre\VObject\Component\VCard;
+use Sabre\VObject\ParseException;
+use Sabre\VObject\EofException;
+use Sabre\VObject\Component;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCard;
 
 /**
  * MimeDir parser.
@@ -562,7 +561,7 @@ class MimeDir extends Parser {
         return
             preg_replace_callback(
                 '#(\^(\^|n|\'))#',
-                function ($matches) {
+                function($matches) {
                     switch($matches[2]) {
                         case 'n' :
                             return "\n";

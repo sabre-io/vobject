@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject\Property;
 
-use
-    Sabre\VObject\Property,
-    Sabre\Xml;
+use Sabre\VObject\Property;
+use Sabre\Xml;
 
 /**
  * Float property

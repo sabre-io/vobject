@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use
-    Sabre\VObject\Property,
-    Sabre\Xml;
+use Sabre\VObject\Property;
+use Sabre\Xml;
 
 /**
  * Recur property

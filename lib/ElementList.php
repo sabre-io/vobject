@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject;
 
-use
-    ArrayIterator,
-    LogicException;
+use ArrayIterator;
+use LogicException;
 
 /**
  * VObject ElementList

@@ -100,7 +100,7 @@ class Time extends Text {
     function setXmlValue(array $value) {
 
         $value = array_map(
-            function ($value) {
+            function($value) {
                 return str_replace(':', '', $value);
             },
             $value

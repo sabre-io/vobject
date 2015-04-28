@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject;
 
-use
-    Sabre\Xml,
-    ArrayIterator;
+use Sabre\Xml;
+use ArrayIterator;
 
 /**
  * VObject Parameter
@@ -293,7 +292,7 @@ class Parameter extends Node {
 
         return $this->name . '=' . array_reduce(
             $value,
-            function ($out, $item) {
+            function($out, $item) {
 
                 if (!is_null($out)) $out .= ',';
 

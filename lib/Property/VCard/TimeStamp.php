@@ -2,10 +2,9 @@
 
 namespace Sabre\VObject\Property\VCard;
 
-use
-    Sabre\VObject\DateTimeParser,
-    Sabre\VObject\Property\Text,
-    Sabre\Xml;
+use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property\Text;
+use Sabre\Xml;
 
 /**
  * TimeStamp property

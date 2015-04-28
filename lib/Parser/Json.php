@@ -2,11 +2,10 @@
 
 namespace Sabre\VObject\Parser;
 
-use
-    Sabre\VObject\Component\VCalendar,
-    Sabre\VObject\Component\VCard,
-    Sabre\VObject\ParseException,
-    Sabre\VObject\EofException;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCard;
+use Sabre\VObject\ParseException;
+use Sabre\VObject\EofException;
 
 /**
  * Json Parser.
@@ -95,7 +94,7 @@ class Json extends Parser {
         $self = $this;
 
         $properties = array_map(
-            function ($jProp) use ($self) {
+            function($jProp) use ($self) {
                 return $self->parseProperty($jProp);
             },
             $jComp[1]
@@ -104,7 +103,7 @@ class Json extends Parser {
         if (isset($jComp[2])) {
 
             $components = array_map(
-                function ($jComp) use ($self) {
+                function($jComp) use ($self) {
                     return $self->parseComponent($jComp);
                 },
                 $jComp[2]
