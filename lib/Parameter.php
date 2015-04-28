@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject;
 
-use
-    Sabre\Xml,
-    ArrayIterator;
+use Sabre\Xml;
+use ArrayIterator;
 
 /**
  * VObject Parameter
@@ -82,7 +81,7 @@ class Parameter extends Node {
      * @param string $value
      * @return string
      */
-    public static function guessParameterNameByValue($value) {
+    static function guessParameterNameByValue($value) {
         switch(strtoupper($value)) {
 
             // Encodings
@@ -196,7 +195,7 @@ class Parameter extends Node {
     function getValue() {
 
         if (is_array($this->value)) {
-            return implode(',' , $this->value);
+            return implode(',', $this->value);
         } else {
             return $this->value;
         }
@@ -281,7 +280,7 @@ class Parameter extends Node {
 
         $value = $this->getParts();
 
-        if (count($value)===0) {
+        if (count($value) === 0) {
             return $this->name . '=';
         }
 
@@ -295,7 +294,7 @@ class Parameter extends Node {
             $value,
             function($out, $item) {
 
-                if (!is_null($out)) $out.=',';
+                if (!is_null($out)) $out .= ',';
 
                 // If there's no special characters in the string, we'll use the simple
                 // format.
@@ -314,11 +313,11 @@ class Parameter extends Node {
                 // severaly trips on + characters not being quoted, so we
                 // added + as well.
                 if (!preg_match('#(?: [\n":;\^,\+] )#x', $item)) {
-                    return $out.$item;
+                    return $out . $item;
                 } else {
                     // Enclosing in double-quotes, and using RFC6868 for encoding any
                     // special characters
-                    $out.='"' . strtr(
+                    $out .= '"' . strtr(
                         $item,
                         [
                             '^'  => '^^',

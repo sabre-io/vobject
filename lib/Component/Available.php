@@ -33,29 +33,29 @@ class Available extends VObject\Component {
      */
     function getValidationRules() {
 
-        return array(
-            'UID' => 1,
+        return [
+            'UID'     => 1,
             'DTSTART' => 1,
             'DTSTAMP' => 1,
 
-            'DTEND' => '?',
+            'DTEND'    => '?',
             'DURATION' => '?',
 
-            'CREATED' => '?',
-            'DESCRIPTION' => '?',
+            'CREATED'       => '?',
+            'DESCRIPTION'   => '?',
             'LAST-MODIFIED' => '?',
             'RECURRENCE-ID' => '?',
-            'RRULE' => '?',
-            'SUMMARY' => '?',
+            'RRULE'         => '?',
+            'SUMMARY'       => '?',
 
             'CATEGORIES' => '*',
-            'COMMENT' => '*',
-            'CONTACT' => '*',
-            'EXDATE' => '*',
-            'RDATE' => '*',
+            'COMMENT'    => '*',
+            'CONTACT'    => '*',
+            'EXDATE'     => '*',
+            'RDATE'      => '*',
 
             'AVAILABLE' => '*',
-        );
+        ];
 
     }
 
@@ -87,19 +87,19 @@ class Available extends VObject\Component {
         $result = parent::validate($options);
 
         if (isset($this->DTEND) && isset($this->DURATION)) {
-            $result[] = array(
-                'level' => 3,
+            $result[] = [
+                'level'   => 3,
                 'message' => 'DTEND and DURATION cannot both be present',
-                'node' => $this
-            );
+                'node'    => $this
+            ];
         }
 
         if (isset($this->DURATION) && !isset($this->DTSTART)) {
-            $result[] = array(
-                'level' => 3,
+            $result[] = [
+                'level'   => 3,
                 'message' => 'DURATION must be declared with a DTSTART.',
-                'node' => $this
-            );
+                'node'    => $this
+            ];
         }
 
         return $result;

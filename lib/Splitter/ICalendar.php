@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject\Splitter;
 
-use
-    Sabre\VObject,
-    Sabre\VObject\Component\VCalendar;
+use Sabre\VObject;
+use Sabre\VObject\Component\VCalendar;
 
 /**
  * Splitter
@@ -89,7 +88,7 @@ class ICalendar implements SplitterInterface {
      */
     function getNext() {
 
-        if($object=array_shift($this->objects)) {
+        if($object = array_shift($this->objects)) {
 
             // create our baseobject
             $object->version = '2.0';

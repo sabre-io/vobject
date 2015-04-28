@@ -126,11 +126,11 @@ class VAlarm extends VObject\Component {
     function getValidationRules() {
 
         return [
-            'ACTION' => 1,
+            'ACTION'  => 1,
             'TRIGGER' => 1,
 
             'DURATION' => '?',
-            'REPEAT' => '?',
+            'REPEAT'   => '?',
 
             'ATTACH' => '?',
         ];

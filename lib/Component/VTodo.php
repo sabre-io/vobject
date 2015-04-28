@@ -83,40 +83,40 @@ class VTodo extends VObject\Component {
     function getValidationRules() {
 
         return [
-            'UID' => 1,
+            'UID'     => 1,
             'DTSTAMP' => 1,
 
-            'CLASS' => '?',
-            'COMPLETED' => '?',
-            'CREATED' => '?',
-            'DESCRIPTION' => '?',
-            'DTSTART' => '?',
-            'GEO' => '?',
+            'CLASS'         => '?',
+            'COMPLETED'     => '?',
+            'CREATED'       => '?',
+            'DESCRIPTION'   => '?',
+            'DTSTART'       => '?',
+            'GEO'           => '?',
             'LAST-MODIFIED' => '?',
-            'LOCATION' => '?',
-            'ORGANIZER' => '?',
-            'PERCENT' => '?',
-            'PRIORITY' => '?',
+            'LOCATION'      => '?',
+            'ORGANIZER'     => '?',
+            'PERCENT'       => '?',
+            'PRIORITY'      => '?',
             'RECURRENCE-ID' => '?',
-            'SEQUENCE' => '?',
-            'STATUS' => '?',
-            'SUMMARY' => '?',
-            'URL' => '?',
+            'SEQUENCE'      => '?',
+            'STATUS'        => '?',
+            'SUMMARY'       => '?',
+            'URL'           => '?',
 
-            'RRULE' => '?',
-            'DUE' => '?',
+            'RRULE'    => '?',
+            'DUE'      => '?',
             'DURATION' => '?',
 
-            'ATTACH' => '*',
-            'ATTENDEE' => '*',
-            'CATEGORIES' => '*',
-            'COMMENT' => '*',
-            'CONTACT' => '*',
-            'EXDATE' => '*',
+            'ATTACH'         => '*',
+            'ATTENDEE'       => '*',
+            'CATEGORIES'     => '*',
+            'COMMENT'        => '*',
+            'CONTACT'        => '*',
+            'EXDATE'         => '*',
             'REQUEST-STATUS' => '*',
-            'RELATED-TO' => '*',
-            'RESOURCES' => '*',
-            'RDATE' => '*',
+            'RELATED-TO'     => '*',
+            'RESOURCES'      => '*',
+            'RDATE'          => '*',
         ];
 
     }
@@ -155,7 +155,7 @@ class VTodo extends VObject\Component {
                 $result[] = [
                     'level'   => 3,
                     'message' => 'The value type (DATE or DATE-TIME) must be identical for DUE and DTSTART',
-                    'node' => $due,
+                    'node'    => $due,
                 ];
 
             } elseif ($due->getDateTime() < $dtStart->getDateTime()) {
@@ -163,7 +163,7 @@ class VTodo extends VObject\Component {
                 $result[] = [
                     'level'   => 3,
                     'message' => 'DUE must occur after DTSTART',
-                    'node' => $due,
+                    'node'    => $due,
                 ];
 
             }

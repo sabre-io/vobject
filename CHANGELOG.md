@@ -18,6 +18,7 @@ ChangeLog
   potentially have big implications if you manipulate Date objects anywhere.
 * #161: Simplified `ElementList` by extending `ArrayIterator`.
 * Removed `RecurrenceIterator` (use Recur\EventIterator instead).
+* #223: Using sabre/cs for automated coding standards fixing and checking.
 
 3.4.0 (2015-??-??)
 ------------------

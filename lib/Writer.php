@@ -47,7 +47,7 @@ class Writer {
      * @param Component $component
      * @return string
      */
-    static public function writeXml(Component $component) {
+    static function writeXml(Component $component) {
 
         $writer = new Xml\Writer();
         $writer->openMemory();

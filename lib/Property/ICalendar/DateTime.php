@@ -115,13 +115,13 @@ class DateTime extends Property {
      *
      * Note that DATE is always floating.
      */
-    public function isFloating() {
+    function isFloating() {
 
         return
             !$this->hasTime() ||
             (
                 !isset($this['TZID']) &&
-                strpos($this->getValue(),'Z')===false
+                strpos($this->getValue(), 'Z') === false
             );
 
     }
@@ -217,7 +217,7 @@ class DateTime extends Property {
                 }
                 if (is_null($tz)) {
                     $tz = $d->getTimeZone();
-                    $isUtc = in_array($tz->getName() , ['UTC', 'GMT', 'Z']);
+                    $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
                     if (!$isUtc) {
                         $this->offsetSet('TZID', $tz->getName());
                     }
@@ -279,7 +279,7 @@ class DateTime extends Property {
         $isFloating = $this->isFloating();
 
         $tz = $dts[0]->getTimeZone();
-        $isUtc = $isFloating ? false : in_array($tz->getName() , ['UTC', 'GMT', 'Z']);
+        $isUtc = $isFloating ? false : in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
 
         return array_map(
             function(DateTimeInterface $dt) use ($hasTime, $isUtc) {
@@ -314,7 +314,7 @@ class DateTime extends Property {
             array_map(
                 function($item) {
 
-                    return strtr($item, [':'=>'', '-'=>'']);
+                    return strtr($item, [':' => '', '-' => '']);
 
                 },
                 $value
@@ -334,7 +334,7 @@ class DateTime extends Property {
     function offsetSet($name, $value) {
 
         parent::offsetSet($name, $value);
-        if (strtoupper($name)!=='VALUE') {
+        if (strtoupper($name) !== 'VALUE') {
             return;
         }
 
@@ -380,9 +380,9 @@ class DateTime extends Property {
             }
         } catch (\LogicException $e) {
             $messages[] = [
-                'level' => 3,
+                'level'   => 3,
                 'message' => 'The supplied value (' . $value . ') is not a correct ' . $valueType,
-                'node' => $this,
+                'node'    => $this,
             ];
         }
         return $messages;

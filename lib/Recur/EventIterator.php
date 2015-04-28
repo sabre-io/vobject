@@ -188,7 +188,7 @@ class EventIterator implements \Iterator {
         } else {
             $this->recurIterator = new RRuleIterator(
                 [
-                    'FREQ' => 'DAILY',
+                    'FREQ'  => 'DAILY',
                     'COUNT' => 1,
                 ],
                 $this->startDate
@@ -326,7 +326,7 @@ class EventIterator implements \Iterator {
         $this->recurIterator->rewind();
         // re-creating overridden event index.
         $index = [];
-        foreach($this->overriddenEvents as $key=>$event) {
+        foreach($this->overriddenEvents as $key => $event) {
             $stamp = $event->DTSTART->getDateTime($this->timeZone)->getTimeStamp();
             $index[$stamp] = $key;
         }
@@ -406,7 +406,7 @@ class EventIterator implements \Iterator {
      */
     function fastForward(DateTimeInterface $dateTime) {
 
-        while($this->valid() && $this->getDtEnd() < $dateTime ) {
+        while($this->valid() && $this->getDtEnd() < $dateTime) {
             $this->next();
         }
 

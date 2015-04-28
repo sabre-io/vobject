@@ -123,7 +123,7 @@ class Cli {
             }
             $this->log($this->colorize('green', "sabre/vobject ") . $this->colorize('yellow', Version::VERSION));
 
-            foreach($options as $name=>$value) {
+            foreach($options as $name => $value) {
 
                 switch($name) {
 
@@ -217,7 +217,7 @@ class Cli {
                 throw new InvalidArgumentException('Too many arguments');
             }
 
-            if (!in_array($positional[0], ['validate','repair','convert','color'])) {
+            if (!in_array($positional[0], ['validate', 'repair', 'convert', 'color'])) {
                 throw new InvalidArgumentException('Uknown command: ' . $positional[0]);
             }
 
@@ -237,14 +237,14 @@ class Cli {
         }
 
         if (!$this->inputFormat) {
-            if (substr($this->inputPath, -5)==='.json') {
+            if (substr($this->inputPath, -5) === '.json') {
                 $this->inputFormat = 'json';
             } else {
                 $this->inputFormat = 'mimedir';
             }
         }
         if (!$this->format) {
-            if (substr($this->outputPath,-5)==='.json') {
+            if (substr($this->outputPath, -5) === '.json') {
                 $this->format = 'json';
             } else {
                 $this->format = 'mimedir';
@@ -259,14 +259,14 @@ class Cli {
             while($input = $this->readInput()) {
 
                 $returnCode = $this->$command($input);
-                if ($returnCode!==0) $realCode = $returnCode;
+                if ($returnCode !== 0) $realCode = $returnCode;
 
             }
 
         } catch (EofException $e) {
             // end of file
         } catch (\Exception $e) {
-            $this->log('Error: ' . $e->getMessage(),'red');
+            $this->log('Error: ' . $e->getMessage(), 'red');
             return 2;
         }
 
@@ -318,7 +318,7 @@ HELP
         $this->log('   vobject convert --inputformat=json --format=mimedir - -');
         $this->log('   vobject color calendar.ics');
         $this->log('');
-        $this->log('https://github.com/fruux/sabre-vobject','purple');
+        $this->log('https://github.com/fruux/sabre-vobject', 'purple');
 
     }
 
@@ -509,7 +509,7 @@ HELP
             'default' => '0',
             'purple'  => '0;35',
         ];
-        return "\033[" . $colors[$color] . 'm' . $str . "\033[".$colors[$resetTo]."m";
+        return "\033[" . $colors[$color] . 'm' . $str . "\033[" . $colors[$resetTo] . "m";
 
     }
 
@@ -553,23 +553,23 @@ HELP
                 // We want to encode VTIMEZONE first, this is a personal
                 // preference.
                 if ($array[$key]->name === 'VTIMEZONE') {
-                    $score=300000000;
-                    return $score+$key;
+                    $score = 300000000;
+                    return $score + $key;
                 } else {
-                    $score=400000000;
-                    return $score+$key;
+                    $score = 400000000;
+                    return $score + $key;
                 }
             } else {
                 // Properties get encoded first
                 // VCARD version 4.0 wants the VERSION property to appear first
                 if ($array[$key] instanceof Property) {
                     if ($array[$key]->name === 'VERSION') {
-                        $score=100000000;
-                        return $score+$key;
+                        $score = 100000000;
+                        return $score + $key;
                     } else {
                         // All other properties
-                        $score=200000000;
-                        return $score+$key;
+                        $score = 200000000;
+                        return $score + $key;
                     }
                 }
             }
@@ -620,11 +620,11 @@ HELP
 
         foreach($property->parameters as $param) {
 
-            $this->cWrite('red',';');
+            $this->cWrite('red', ';');
             $this->cWrite('blue', $param->serialize());
 
         }
-        $this->cWrite('red',':');
+        $this->cWrite('red', ':');
 
         if ($property instanceof Property\Binary) {
 
@@ -682,24 +682,24 @@ HELP
         $positional = [];
         $options = [];
 
-        for($ii=0; $ii < count($argv); $ii++) {
+        for($ii = 0; $ii < count($argv); $ii++) {
 
             // Skipping the first argument.
-            if ($ii===0) continue;
+            if ($ii === 0) continue;
 
             $v = $argv[$ii];
 
-            if (substr($v,0,2)==='--') {
+            if (substr($v, 0, 2) === '--') {
                 // This is a long-form option.
-                $optionName = substr($v,2);
+                $optionName = substr($v, 2);
                 $optionValue = true;
-                if (strpos($optionName,'=')) {
+                if (strpos($optionName, '=')) {
                     list($optionName, $optionValue) = explode('=', $optionName);
                 }
                 $options[$optionName] = $optionValue;
-            } elseif (substr($v,0,1) === '-' && strlen($v)>1) {
+            } elseif (substr($v, 0, 1) === '-' && strlen($v) > 1) {
                 // This is a short-form option.
-                foreach(str_split(substr($v,1)) as $option) {
+                foreach(str_split(substr($v, 1)) as $option) {
                     $options[$option] = true;
                 }
 
@@ -725,8 +725,8 @@ HELP
     protected function readInput() {
 
         if (!$this->parser) {
-            if ($this->inputPath!=='-') {
-                $this->stdin = fopen($this->inputPath,'r');
+            if ($this->inputPath !== '-') {
+                $this->stdin = fopen($this->inputPath, 'r');
             }
 
             if ($this->inputFormat === 'mimedir') {
@@ -749,7 +749,7 @@ HELP
     protected function log($msg, $color = 'default') {
 
         if (!$this->quiet) {
-            if ($color!=='default') {
+            if ($color !== 'default') {
                 $msg = $this->colorize($color, $msg);
             }
             fwrite($this->stderr, $msg . "\n");

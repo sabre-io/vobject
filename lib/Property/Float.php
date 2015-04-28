@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject\Property;
 
-use
-    Sabre\VObject\Property,
-    Sabre\Xml;
+use Sabre\VObject\Property;
+use Sabre\Xml;
 
 /**
  * Float property
@@ -35,7 +34,7 @@ class Float extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $val = explode($this->delimiter, $val);
         foreach($val as &$item) {
@@ -50,7 +49,7 @@ class Float extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return implode(
             $this->delimiter,
@@ -67,7 +66,7 @@ class Float extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'FLOAT';
 
@@ -80,7 +79,7 @@ class Float extends Property {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
         $val = array_map('floatval', $this->getParts());
 

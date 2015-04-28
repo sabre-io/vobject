@@ -39,7 +39,7 @@ class StringUtil {
      */
     static function convertToUTF8($str) {
 
-        $encoding = mb_detect_encoding($str , ['UTF-8','ISO-8859-1', 'WINDOWS-1252'], true);
+        $encoding = mb_detect_encoding($str, ['UTF-8', 'ISO-8859-1', 'WINDOWS-1252'], true);
 
         switch($encoding) {
             case 'ISO-8859-1' :
@@ -62,4 +62,3 @@ class StringUtil {
     }
 
 }
-

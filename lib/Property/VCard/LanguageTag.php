@@ -25,7 +25,7 @@ class LanguageTag extends Property {
      * @param string $val
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->setValue($val);
 
@@ -36,7 +36,7 @@ class LanguageTag extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return $this->value;
 
@@ -50,7 +50,7 @@ class LanguageTag extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'LANGUAGE-TAG';
 

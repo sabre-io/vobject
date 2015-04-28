@@ -61,7 +61,7 @@ class Component extends Node {
             // natural way.
             $list = $this->getDefaults();
             $nodes = [];
-            foreach ($children as $key=>$value) {
+            foreach ($children as $key => $value) {
                 if ($value instanceof Node) {
                     if (isset($list[$value->name])) {
                         unset($list[$value->name]);
@@ -71,14 +71,14 @@ class Component extends Node {
                     $list[$key] = $value;
                 }
             }
-            foreach ($list as $key=>$value) {
+            foreach ($list as $key => $value) {
                 $this->add($key, $value);
             }
             foreach ($nodes as $node) {
                 $this->add($node);
             }
         } else {
-            foreach ($children as $k=>$child) {
+            foreach ($children as $k => $child) {
                 if ($child instanceof Node) {
 
                     // Component or Property
@@ -151,13 +151,13 @@ class Component extends Node {
 
         if (is_string($item)) {
             $children = $this->select($item);
-            foreach ($children as $k=>$child) {
+            foreach ($children as $k => $child) {
                 unset($this->children[$k]);
             }
             return $child;
         } else {
             foreach ($this->children as $k => $child) {
-                if ($child===$item) {
+                if ($child === $item) {
                     unset($this->children[$k]);
                     return $child;
                 }
@@ -190,7 +190,7 @@ class Component extends Node {
 
         $result = [];
         foreach ($this->children as $child) {
-            if ($child instanceof Component) {
+            if ($child instanceof self) {
                 $result[] = $child;
             }
         }
@@ -219,17 +219,17 @@ class Component extends Node {
 
         $group = null;
         $name = strtoupper($name);
-        if (strpos($name,'.')!==false) {
-            list($group,$name) = explode('.', $name, 2);
+        if (strpos($name, '.') !== false) {
+            list($group, $name) = explode('.', $name, 2);
         }
 
         $result = [];
-        foreach ($this->children as $key=>$child) {
+        foreach ($this->children as $key => $child) {
 
             if (
                 (
                     strtoupper($child->name) === $name
-                    && (is_null($group) || ( $child instanceof Property && strtoupper($child->group) === $group))
+                    && (is_null($group) || ($child instanceof Property && strtoupper($child->group) === $group))
                 )
                 ||
                 (
@@ -277,23 +277,23 @@ class Component extends Node {
                 // We want to encode VTIMEZONE first, this is a personal
                 // preference.
                 if ($array[$key]->name === 'VTIMEZONE') {
-                    $score=300000000;
-                    return $score+$key;
+                    $score = 300000000;
+                    return $score + $key;
                 } else {
-                    $score=400000000;
-                    return $score+$key;
+                    $score = 400000000;
+                    return $score + $key;
                 }
             } else {
                 // Properties get encoded first
                 // VCARD version 4.0 wants the VERSION property to appear first
                 if ($array[$key] instanceof Property) {
                     if ($array[$key]->name === 'VERSION') {
-                        $score=100000000;
-                        return $score+$key;
+                        $score = 100000000;
+                        return $score + $key;
                     } else {
                         // All other properties
-                        $score=200000000;
-                        return $score+$key;
+                        $score = 200000000;
+                        return $score + $key;
                     }
                 }
             }
@@ -313,8 +313,8 @@ class Component extends Node {
             }
         );
 
-        foreach ($this->children as $child) $str.=$child->serialize();
-        $str.= "END:" . $this->name . "\r\n";
+        foreach ($this->children as $child) $str .= $child->serialize();
+        $str .= "END:" . $this->name . "\r\n";
 
         return $str;
 
@@ -332,7 +332,7 @@ class Component extends Node {
         $properties = [];
 
         foreach ($this->children as $child) {
-            if ($child instanceof Component) {
+            if ($child instanceof self) {
                 $components[] = $child->jsonSerialize();
             } else {
                 $properties[] = $child->jsonSerialize();
@@ -360,7 +360,7 @@ class Component extends Node {
         $properties = [];
 
         foreach ($this->children as $child) {
-            if ($child instanceof Component) {
+            if ($child instanceof self) {
                 $components[] = $child;
             } else {
                 $properties[] = $child;
@@ -425,7 +425,7 @@ class Component extends Node {
     function __get($name) {
 
         $matches = $this->select($name);
-        if (count($matches)===0) {
+        if (count($matches) === 0) {
             return null;
         } else {
             $firstMatch = current($matches);
@@ -445,7 +445,7 @@ class Component extends Node {
     function __isset($name) {
 
         $matches = $this->select($name);
-        return count($matches)>0;
+        return count($matches) > 0;
 
     }
 
@@ -467,7 +467,7 @@ class Component extends Node {
         $matches = $this->select($name);
         $overWrite = count($matches)?key($matches):null;
 
-        if ($value instanceof Component || $value instanceof Property) {
+        if ($value instanceof self || $value instanceof Property) {
             $value->parent = $this;
             if (!is_null($overWrite)) {
                 $this->children[$overWrite] = $value;
@@ -475,7 +475,7 @@ class Component extends Node {
                 $this->children[] = $value;
             }
         } else {
-            $property = $this->root->create($name,$value);
+            $property = $this->root->create($name, $value);
             $property->parent = $this;
             if (!is_null($overWrite)) {
                 $this->children[$overWrite] = $property;
@@ -495,7 +495,7 @@ class Component extends Node {
     function __unset($name) {
 
         $matches = $this->select($name);
-        foreach ($matches as $k=>$child) {
+        foreach ($matches as $k => $child) {
 
             unset($this->children[$k]);
             $child->parent = null;
@@ -514,7 +514,7 @@ class Component extends Node {
      */
     function __clone() {
 
-        foreach ($this->children as $key=>$child) {
+        foreach ($this->children as $key => $child) {
             $this->children[$key] = clone $child;
             $this->children[$key]->parent = $this;
         }
@@ -596,31 +596,31 @@ class Component extends Node {
                 case '0' :
                     if (isset($propertyCounters[$propName])) {
                         $messages[] = [
-                            'level' => 3,
+                            'level'   => 3,
                             'message' => $propName . ' MUST NOT appear in a ' . $this->name . ' component',
-                            'node' => $this,
+                            'node'    => $this,
                         ];
                     }
                     break;
                 case '1' :
-                    if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName]!==1) {
+                    if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName] !== 1) {
                         $repaired = false;
                         if ($options & self::REPAIR && isset($defaults[$propName])) {
                             $this->add($propName, $defaults[$propName]);
                         }
                         $messages[] = [
-                            'level' => $repaired?1:3,
+                            'level'   => $repaired?1:3,
                             'message' => $propName . ' MUST appear exactly once in a ' . $this->name . ' component',
-                            'node' => $this,
+                            'node'    => $this,
                         ];
                     }
                     break;
                 case '+' :
                     if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName] < 1) {
                         $messages[] = [
-                            'level' => 3,
+                            'level'   => 3,
                             'message' => $propName . ' MUST appear at least once in a ' . $this->name . ' component',
-                            'node' => $this,
+                            'node'    => $this,
                         ];
                     }
                     break;
@@ -629,9 +629,9 @@ class Component extends Node {
                 case '?' :
                     if (isset($propertyCounters[$propName]) && $propertyCounters[$propName] > 1) {
                         $messages[] = [
-                            'level' => 3,
+                            'level'   => 3,
                             'message' => $propName . ' MUST NOT appear more than once in a ' . $this->name . ' component',
-                            'node' => $this,
+                            'node'    => $this,
                         ];
                     }
                     break;

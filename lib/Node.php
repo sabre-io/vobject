@@ -210,7 +210,7 @@ abstract class Node
     function offsetSet($offset, $value) {
 
         $iterator = $this->getIterator();
-        $iterator->offsetSet($offset,$value);
+        $iterator->offsetSet($offset, $value);
 
     // @codeCoverageIgnoreStart
     //

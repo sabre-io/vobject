@@ -31,7 +31,7 @@ class VFreeBusy extends VObject\Component {
 
             // We are only interested in FBTYPE=BUSY (the default),
             // FBTYPE=BUSY-TENTATIVE or FBTYPE=BUSY-UNAVAILABLE.
-            if (isset($freebusy['FBTYPE']) && strtoupper(substr((string)$freebusy['FBTYPE'],0,4))!=='BUSY') {
+            if (isset($freebusy['FBTYPE']) && strtoupper(substr((string)$freebusy['FBTYPE'], 0, 4)) !== 'BUSY') {
                 continue;
             }
 
@@ -81,22 +81,21 @@ class VFreeBusy extends VObject\Component {
     function getValidationRules() {
 
         return [
-            'UID' => 1,
+            'UID'     => 1,
             'DTSTAMP' => 1,
 
-            'CONTACT' => '?',
-            'DTSTART' => '?',
-            'DTEND' => '?',
+            'CONTACT'   => '?',
+            'DTSTART'   => '?',
+            'DTEND'     => '?',
             'ORGANIZER' => '?',
-            'URL' => '?',
+            'URL'       => '?',
 
-            'ATTENDEE' => '*',
-            'COMMENT' => '*',
-            'FREEBUSY' => '*',
+            'ATTENDEE'       => '*',
+            'COMMENT'        => '*',
+            'FREEBUSY'       => '*',
             'REQUEST-STATUS' => '*',
         ];
 
     }
 
 }
-

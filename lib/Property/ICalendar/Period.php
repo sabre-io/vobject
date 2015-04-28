@@ -2,10 +2,9 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\DateTimeParser,
-    Sabre\Xml;
+use Sabre\VObject\Property;
+use Sabre\VObject\DateTimeParser;
+use Sabre\Xml;
 
 /**
  * Period property
@@ -107,7 +106,7 @@ class Period extends Property {
             $start = DateTimeParser::parseDateTime($start);
 
             // This is a duration value.
-            if ($end[0]==='P') {
+            if ($end[0] === 'P') {
                 $return[] = [
                     $start->format('Y-m-d\\TH:i:s'),
                     $end

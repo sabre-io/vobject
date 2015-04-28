@@ -6,7 +6,6 @@ use DateTimeInterface;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
 
-
 /**
  * RRuleParser
  *
@@ -92,7 +91,7 @@ class RDateIterator implements Iterator {
 
         $this->currentDate =
             DateTimeParser::parse(
-                $this->dates[$this->counter-1]
+                $this->dates[$this->counter - 1]
             );
 
     }
@@ -119,7 +118,7 @@ class RDateIterator implements Iterator {
      */
     function fastForward(DateTimeInterface $dt) {
 
-        while($this->valid() && $this->currentDate < $dt ) {
+        while($this->valid() && $this->currentDate < $dt) {
             $this->next();
         }
 

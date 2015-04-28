@@ -2,11 +2,10 @@
 
 namespace Sabre\VObject\Parser;
 
-use
-    Sabre\VObject\Component\VCalendar,
-    Sabre\VObject\Component\VCard,
-    Sabre\VObject\ParseException,
-    Sabre\VObject\EofException;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCard;
+use Sabre\VObject\ParseException;
+use Sabre\VObject\EofException;
 
 /**
  * Json Parser.
@@ -45,7 +44,7 @@ class Json extends Parser {
      * @param int $options
      * @return Sabre\VObject\Document
      */
-    public function parse($input = null, $options = 0) {
+    function parse($input = null, $options = 0) {
 
         if (!is_null($input)) {
             $this->setInput($input);
@@ -89,7 +88,7 @@ class Json extends Parser {
      * @param array $jComp
      * @return \Sabre\VObject\Component
      */
-    public function parseComponent(array $jComp) {
+    function parseComponent(array $jComp) {
 
         // We can remove $self from PHP 5.4 onward.
         $self = $this;
@@ -126,7 +125,7 @@ class Json extends Parser {
      * @param array $jProp
      * @return \Sabre\VObject\Property
      */
-    public function parseProperty(array $jProp) {
+    function parseProperty(array $jProp) {
 
         list(
             $propertyName,
@@ -179,7 +178,7 @@ class Json extends Parser {
      * @param resource|string|array $input
      * @return void
      */
-    public function setInput($input) {
+    function setInput($input) {
 
         if (is_resource($input)) {
             $input = stream_get_contents($input);
