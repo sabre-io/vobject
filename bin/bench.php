@@ -9,4 +9,4 @@ $start = microtime(true);
 
 $lol = Sabre\VObject\Reader::read($data);
 
-echo "time: " . (microtime(true)-$start) . "\n";
+echo "time: " , (microtime(true)-$start) , "\n";

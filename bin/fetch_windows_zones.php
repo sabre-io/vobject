@@ -4,7 +4,7 @@
 $windowsZonesUrl = 'http://unicode.org/repos/cldr/trunk/common/supplemental/windowsZones.xml';
 $outputFile = __DIR__ . '/../lib/timezonedata/windowszones.php';
 
-echo "Fetching timezone map from: " . $windowsZonesUrl, "\n";
+echo "Fetching timezone map from: " , $windowsZonesUrl, "\n";
 
 $data = file_get_contents($windowsZonesUrl);
 

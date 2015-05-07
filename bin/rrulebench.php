@@ -8,7 +8,7 @@ if ($argc < 4) {
     echo "This script can be used to measure the speed of the 'recurrence expansion'\n";
     echo "system.";
     echo "\n";
-    echo "Usage: " . $argv[0] . " inputfile.ics startdate enddate\n";
+    echo "Usage: " , $argv[0] , " inputfile.ics startdate enddate\n";
     die();
 }
 
