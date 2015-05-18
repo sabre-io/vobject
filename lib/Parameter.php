@@ -284,7 +284,7 @@ class Parameter extends Node {
             return $this->name . '=';
         }
 
-        if ($this->root->getDocumentType() === Document::VCARD21 && $this->noName) {
+        if (method_exists($this->root, "getDocumentType") && $this->root->getDocumentType() === Document::VCARD21 && $this->noName) {
 
             return implode(';', $value);
 
