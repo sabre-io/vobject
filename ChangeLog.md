@@ -1,17 +1,12 @@
 ChangeLog
 =========
 
-3.4.4 (2015-??-??)
+3.4.3 (2015-05-19)
 ------------------
 
 * #219: Corrected validation of `EXDATE` properties with more than one value.
 * #212: `BYSETPOS` with values below `-1` was broken and could cause infinite
   loops.
-
-
-3.4.3 (2015-03-11)
-------------------
-
 * #211: Fix `BYDAY=-5TH` in recurrence iterator. (@lindquist)
 * #216: `ENCODING` parameter is now validated for all document types.
 
