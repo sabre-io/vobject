@@ -9,6 +9,8 @@ ChangeLog
   loops.
 * #211: Fix `BYDAY=-5TH` in recurrence iterator. (@lindquist)
 * #216: `ENCODING` parameter is now validated for all document types.
+* #217: Initializing vCard `DATE` objects with a PHP DateTime object will now
+  work correctly. (@thomascube)
 
 
 3.4.2 (2015-02-25)
