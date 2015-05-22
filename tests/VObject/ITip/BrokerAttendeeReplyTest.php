@@ -1034,4 +1034,97 @@ ICS
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
+
+    /**
+     * A party crasher is an attendee that accepted an event, but was not in
+     * any original invite.
+     *
+     * @depends testAccepted
+     */
+    function testPartyCrasher() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SUMMARY:B-day party
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+DTSTART:20140716T120000Z
+RRULE:FREQ=DAILY
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+RECURRENCE-ID:20140717T120000Z
+SUMMARY:B-day party
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+DTSTART:20140717T120000Z
+RRULE:FREQ=DAILY
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SUMMARY:B-day party
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+DTSTART:20140716T120000Z
+RRULE:FREQ=DAILY
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+RECURRENCE-ID:20140717T120000Z
+SUMMARY:B-day party
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+DTSTART:20140717T120000Z
+RRULE:FREQ=DAILY
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = array(
+            array(
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+DTSTART:20140717T120000Z
+SUMMARY:B-day party
+RECURRENCE-ID:20140717T120000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+
+ICS
+
+            ),
+
+        );
+
+        $result = $this->parse($oldMessage, $newMessage, $expected);
+
+    }
 }

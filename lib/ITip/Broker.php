@@ -642,8 +642,12 @@ class Broker {
             return array();
         }
 
+        $oldInstances = !empty($oldEventInfo['attendees'][$attendee]['instances']) ?
+            $oldEventInfo['attendees'][$attendee]['instances'] :
+            array();
+
         $instances = array();
-        foreach($oldEventInfo['attendees'][$attendee]['instances'] as $instance) {
+        foreach($oldInstances as $instance) {
 
             $instances[$instance['id']] = array(
                 'id' => $instance['id'],
