@@ -10,6 +10,8 @@ tests/temp
 #binaries
 bin/phpunit
 bin/phpcs
+bin/php-cs-fixer
+bin/sabre-cs-fixer
 
 # Development stuff
 testdata/
