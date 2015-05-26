@@ -412,7 +412,7 @@ class XML extends Parser {
      */
     static protected function getTagName($clarkedTagName) {
 
-        list($namespace, $tagName) = SabreXml\Util::parseClarkNotation($clarkedTagName);
+        list(, $tagName) = SabreXml\Util::parseClarkNotation($clarkedTagName);
         return $tagName;
 
     }
