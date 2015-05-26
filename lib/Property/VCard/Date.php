@@ -27,4 +27,16 @@ class Date extends DateAndOrTime {
 
     }
 
+    /**
+     * Sets the property as a DateTime object.
+     *
+     * @param \DateTime $dt
+     * @return void
+     */
+    public function setDateTime(\DateTime $dt) {
+
+        $this->value = $dt->format('Ymd');
+
+    }
+
 }

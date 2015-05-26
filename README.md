@@ -11,12 +11,11 @@ Build status
 
 | branch | status |
 | ------ | ------ |
-| master | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=master)](https://travis-ci.org/fruux/sabre-vobject) |
-| 3.4    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=3.4)](https://travis-ci.org/fruux/sabre-vobject) |
-| 3.3    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=3.3)](https://travis-ci.org/fruux/sabre-vobject) |
-| 3.1    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=3.1)](https://travis-ci.org/fruux/sabre-vobject) |
-| 2.1    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=2.1)](https://travis-ci.org/fruux/sabre-vobject) |
-| 2.0    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.png?branch=2.0)](https://travis-ci.org/fruux/sabre-vobject) |
+| master | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=master)](https://travis-ci.org/fruux/sabre-vobject) |
+| 3.4    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=3.4)](https://travis-ci.org/fruux/sabre-vobject) |
+| 3.1    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=3.1)](https://travis-ci.org/fruux/sabre-vobject) |
+| 2.1    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=2.1)](https://travis-ci.org/fruux/sabre-vobject) |
+| 2.0    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=2.0)](https://travis-ci.org/fruux/sabre-vobject) |
 
 
 Installation
@@ -28,7 +27,7 @@ The general composer instructions can be found on the [composer website](http://
 After that, just declare the vobject dependency as follows:
 
     "require" : {
-        "sabre/vobject" : "~3.3"
+        "sabre/vobject" : "~3.4"
     }
 
 Then, run `composer.phar update` and you should be good.

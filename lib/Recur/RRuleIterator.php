@@ -787,7 +787,10 @@ class RRuleIterator implements Iterator {
                 } else {
 
                     // if it was negative we count from the end of the array
-                    $byDayResults[] = $dayHits[count($dayHits) + $offset];
+                    // might not exist, fx. -5th tuesday
+                    if (isset($dayHits[count($dayHits) + $offset])) {
+                        $byDayResults[] = $dayHits[count($dayHits) + $offset];
+                    }
                 }
             } else {
                 // There was no counter (first, second, last wednesdays), so we
@@ -837,7 +840,7 @@ class RRuleIterator implements Iterator {
         foreach($this->bySetPos as $setPos) {
 
             if ($setPos<0) {
-                $setPos = count($result)-($setPos+1);
+                $setPos = count($result)+($setPos+1);
             }
             if (isset($result[$setPos-1])) {
                 $filteredResult[] = $result[$setPos-1];

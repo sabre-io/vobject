@@ -582,6 +582,43 @@ abstract class Property extends Node {
 
         }
 
+        if ($encoding = $this->offsetGet('ENCODING')) {
+
+            if ($this->root->getDocumentType()===Document::VCARD40) {
+                $warnings[] = array(
+                    'level' => 1,
+                    'message' => 'ENCODING parameter is not valid in vCard 4.',
+                    'node' => $this
+                );
+            } else {
+
+                $encoding = (string)$encoding;
+
+                $allowedEncoding = array();
+
+                switch($this->root->getDocumentType()) {
+                    case Document::ICALENDAR20 :
+                        $allowedEncoding = array('8BIT', 'BASE64');
+                        break;
+                    case Document::VCARD21 :
+                        $allowedEncoding = array('QUOTED-PRINTABLE', 'BASE64', '8BIT');
+                        break;
+                    case Document::VCARD30 :
+                        $allowedEncoding = array('B');
+                        break;
+
+                }
+                if ($allowedEncoding && !in_array(strtoupper($encoding), $allowedEncoding)) {
+                    $warnings[] = array(
+                        'level' => 1,
+                        'message' => 'ENCODING=' . strtoupper($encoding) . ' is not valid for this document type.',
+                        'node' => $this
+                    );
+                }
+            }
+
+        }
+
         // Validating inner parameters
         foreach($this->parameters as $param) {
             $warnings = array_merge($warnings, $param->validate($options));

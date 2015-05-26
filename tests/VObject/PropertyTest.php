@@ -3,11 +3,12 @@
 namespace Sabre\VObject;
 
 use
-    Sabre\VObject\Component\VCalendar;
+    Sabre\VObject\Component\VCalendar,
+    Sabre\VObject\Component\VCard;
 
 class PropertyTest extends \PHPUnit_Framework_TestCase {
 
-    public function testToString() {
+    function testToString() {
 
         $cal = new VCalendar();
 
@@ -19,7 +20,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testCreate() {
+    function testCreate() {
 
         $cal = new VCalendar();
 
@@ -35,7 +36,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testSetValue() {
+    function testSetValue() {
 
         $cal = new VCalendar();
 
@@ -47,7 +48,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testParameterExists() {
+    function testParameterExists() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('propname','propvalue');
@@ -59,7 +60,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testParameterGet() {
+    function testParameterGet() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('propname','propvalue');
@@ -69,7 +70,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testParameterNotExists() {
+    function testParameterNotExists() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('propname','propvalue');
@@ -79,7 +80,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testParameterMultiple() {
+    function testParameterMultiple() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('propname','propvalue');
@@ -91,7 +92,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testSetParameterAsString() {
+    function testSetParameterAsString() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('propname','propvalue');
@@ -104,7 +105,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testUnsetParameter() {
+    function testUnsetParameter() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('propname','propvalue');
@@ -115,7 +116,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testSerialize() {
+    function testSerialize() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('propname','propvalue');
@@ -124,7 +125,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testSerializeParam() {
+    function testSerializeParam() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('propname','propvalue', array(
@@ -136,7 +137,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testSerializeNewLine() {
+    function testSerializeNewLine() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('SUMMARY',"line1\nline2");
@@ -145,7 +146,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testSerializeLongLine() {
+    function testSerializeLongLine() {
 
         $cal = new VCalendar();
         $value = str_repeat('!',200);
@@ -157,7 +158,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testSerializeUTF8LineFold() {
+    function testSerializeUTF8LineFold() {
 
         $cal = new VCalendar();
         $value = str_repeat('!',65) . "\xc3\xa4bla"; // inserted umlaut-a
@@ -167,7 +168,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testGetIterator() {
+    function testGetIterator() {
 
         $cal = new VCalendar();
         $it = new ElementList(array());
@@ -178,7 +179,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-    public function testGetIteratorDefault() {
+    function testGetIteratorDefault() {
 
         $cal = new VCalendar();
         $property = $cal->createProperty('propname','propvalue');
@@ -291,7 +292,6 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-
     function testValidateBadPropertyName() {
 
         $calendar = new VCalendar();
@@ -332,7 +332,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
      *
      * @expectedException \LogicException
      */
-    public function testArrayAccessSetInt() {
+    function testArrayAccessSetInt() {
 
         $calendar = new VCalendar();
         $property = $calendar->createProperty("X-PROP", null);
@@ -347,7 +347,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
      *
      * @expectedException \LogicException
      */
-    public function testArrayAccessUnsetInt() {
+    function testArrayAccessUnsetInt() {
 
         $calendar = new VCalendar();
         $property = $calendar->createProperty("X-PROP", null);
@@ -357,4 +357,55 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testValidateBadEncoding() {
+
+        $document = new VCalendar();
+        $property = $document->add('X-FOO','value');
+        $property['ENCODING'] = 'invalid';
+
+        $result = $property->validate();
+
+        $this->assertEquals('ENCODING=INVALID is not valid for this document type.', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+
+    }
+
+    function testValidateBadEncodingVCard4() {
+
+        $document = new VCard(array('VERSION' => '4.0'));
+        $property = $document->add('X-FOO','value');
+        $property['ENCODING'] = 'BASE64';
+
+        $result = $property->validate();
+
+        $this->assertEquals('ENCODING parameter is not valid in vCard 4.', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+
+    }
+
+    function testValidateBadEncodingVCard3() {
+
+        $document = new VCard(array('VERSION' => '3.0'));
+        $property = $document->add('X-FOO','value');
+        $property['ENCODING'] = 'BASE64';
+
+        $result = $property->validate();
+
+        $this->assertEquals('ENCODING=BASE64 is not valid for this document type.', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+
+    }
+
+    function testValidateBadEncodingVCard21() {
+
+        $document = new VCard(array('VERSION' => '2.1'));
+        $property = $document->add('X-FOO','value');
+        $property['ENCODING'] = 'B';
+
+        $result = $property->validate();
+
+        $this->assertEquals('ENCODING=B is not valid for this document type.', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+
+    }
 }

@@ -7,8 +7,6 @@ use Sabre\VObject\Reader;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VAvailability;
 
-const CRLF = "\r\n";
-
 /**
  * We use `RFCxxx` has a placeholder for the
  * https://tools.ietf.org/html/draft-daboo-calendar-availability-05 name.
@@ -380,7 +378,7 @@ VCAL
 
     protected function _template($template, array $properties) {
 
-        return str_replace('…', implode(CRLF, $properties), $template);
+        return str_replace('…', implode("\r\n", $properties), $template);
 
     }
 

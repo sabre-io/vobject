@@ -19,7 +19,33 @@ ChangeLog
 * #161: Simplified `ElementList` by extending `ArrayIterator`.
 * Removed `RecurrenceIterator` (use Recur\EventIterator instead).
 
-3.4.0 (2015-??-??)
+
+3.4.3 (2015-05-19)
+------------------
+
+* #219: Corrected validation of `EXDATE` properties with more than one value.
+* #212: `BYSETPOS` with values below `-1` was broken and could cause infinite
+  loops.
+* #211: Fix `BYDAY=-5TH` in recurrence iterator. (@lindquist)
+* #216: `ENCODING` parameter is now validated for all document types.
+* #217: Initializing vCard `DATE` objects with a PHP DateTime object will now
+  work correctly. (@thomascube)
+
+
+3.4.2 (2015-02-25)
+------------------
+
+* #210: iTip: Replying to an event without a master event was broken.
+
+
+3.4.1 (2015-02-24)
+------------------
+
+* A minor change to ensure that unittests work correctly in the sabre/dav
+  test-suite.
+
+
+3.4.0 (2015-02-23)
 ------------------
 
 * #196: Made parsing recurrence rules a lot faster on big calendars.
