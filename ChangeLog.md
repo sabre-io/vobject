@@ -1,10 +1,10 @@
 ChangeLog
 =========
 
-3.4.4 (????-??-??)
+3.4.4 (2015-05-27)
 ------------------
 
-* #???: Fixed a 'party crasher' bug in the iTip broker. This would break
+* #228: Fixed a 'party crasher' bug in the iTip broker. This would break
   scheduling in some cases.
 
 
