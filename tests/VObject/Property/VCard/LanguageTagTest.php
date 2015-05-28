@@ -34,7 +34,7 @@ class LanguageTagTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('Sabre\VObject\Property\VCard\LanguageTag', $result->LANG);
         // This replicates what the vcard converter does and triggered a bug in
         // the past.
-        $result->LANG->setValue(['de']);
+        $result->LANG->setValue(array('de'));
 
         $this->assertEquals('de', $result->LANG->getValue());
 
