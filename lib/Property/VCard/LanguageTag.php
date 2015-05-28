@@ -38,7 +38,7 @@ class LanguageTag extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return $this->value;
+        return $this->getValue();
 
     }
 
