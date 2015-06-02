@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.4.5 (2015-??-??)
+3.4.5 (2015-06-02)
 ------------------
 
 * #229: Converting vcards from 3.0 to 4.0 that contained a `LANG` property
