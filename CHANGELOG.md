@@ -20,6 +20,20 @@ ChangeLog
 * Removed `RecurrenceIterator` (use Recur\EventIterator instead).
 
 
+3.4.5 (2015-06-02)
+------------------
+
+* #229: Converting vcards from 3.0 to 4.0 that contained a `LANG` property
+  would throw an error.
+
+
+3.4.4 (2015-05-27)
+------------------
+
+* #228: Fixed a 'party crasher' bug in the iTip broker. This would break
+  scheduling in some cases.
+
+
 3.4.3 (2015-05-19)
 ------------------
 
