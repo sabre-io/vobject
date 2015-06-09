@@ -53,9 +53,6 @@ class VEvent extends VObject\Component {
             // See:
             // http://tools.ietf.org/html/rfc5545#page-54
             $effectiveEnd = $this->DTEND->getDateTime($end->getTimezone());
-            if (!$this->DTEND->hasTime()) {
-                $effectiveEnd->modify('-1 second');
-            }
 
         } elseif (isset($this->DURATION)) {
             $effectiveEnd = clone $effectiveStart;
@@ -63,12 +60,11 @@ class VEvent extends VObject\Component {
         } elseif (!$this->DTSTART->hasTime()) {
             $effectiveEnd = clone $effectiveStart;
             $effectiveEnd->modify('+1 day');
-            $effectiveEnd->modify('-1 second');
         } else {
             $effectiveEnd = clone $effectiveStart;
         }
         return (
-            ($start <= $effectiveEnd) && ($end > $effectiveStart)
+            ($start < $effectiveEnd) && ($end > $effectiveStart)
         );
 
     }
