@@ -30,10 +30,10 @@ class Date extends DateAndOrTime {
     /**
      * Sets the property as a DateTime object.
      *
-     * @param \DateTime $dt
+     * @param \DateTimeInterface $dt
      * @return void
      */
-    public function setDateTime(\DateTime $dt) {
+    public function setDateTime(\DateTimeInterface $dt) {
 
         $this->value = $dt->format('Ymd');
 
