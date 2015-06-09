@@ -43,7 +43,7 @@ class VEvent extends VObject\Component {
 
         }
 
-        $effectiveStart = $this->DTSTART->getDateTime();
+        $effectiveStart = $this->DTSTART->getDateTime($start->getTimezone());
         if (isset($this->DTEND)) {
 
             // The DTEND property is considered non inclusive. So for a 3 day
@@ -52,7 +52,7 @@ class VEvent extends VObject\Component {
             //
             // See:
             // http://tools.ietf.org/html/rfc5545#page-54
-            $effectiveEnd = $this->DTEND->getDateTime();
+            $effectiveEnd = $this->DTEND->getDateTime($end->getTimezone());
 
         } elseif (isset($this->DURATION)) {
             $effectiveEnd = clone $effectiveStart;
@@ -64,7 +64,7 @@ class VEvent extends VObject\Component {
             $effectiveEnd = clone $effectiveStart;
         }
         return (
-            ($start <= $effectiveEnd) && ($end > $effectiveStart)
+            ($start < $effectiveEnd) && ($end > $effectiveStart)
         );
 
     }
