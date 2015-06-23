@@ -18,6 +18,7 @@ ChangeLog
   potentially have big implications if you manipulate Date objects anywhere.
 * #161: Simplified `ElementList` by extending `ArrayIterator`.
 * Removed `RecurrenceIterator` (use Recur\EventIterator instead).
+* Now using php-cs-fixer to automatically enforce and correct CS.
 
 
 3.4.5 (2015-06-02)
