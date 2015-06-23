@@ -19,6 +19,7 @@ ChangeLog
 * #161: Simplified `ElementList` by extending `ArrayIterator`.
 * Removed `RecurrenceIterator` (use Recur\EventIterator instead).
 * Now using php-cs-fixer to automatically enforce and correct CS.
+* #233: The `+00:00` timezone is now recognized as UTC. (@c960657)
 
 
 3.4.5 (2015-06-02)
