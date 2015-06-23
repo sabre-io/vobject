@@ -224,7 +224,7 @@ class DateTime extends Property {
                 }
                 if (is_null($tz)) {
                     $tz = $d->getTimeZone();
-                    $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
+                    $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z', '+00:00']);
                     if (!$isUtc) {
                         $this->offsetSet('TZID', $tz->getName());
                     }
