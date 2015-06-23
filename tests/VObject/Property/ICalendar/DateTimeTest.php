@@ -63,6 +63,20 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($elem->hasTime());
     }
 
+    function testSetDateTimeFromUnixTimestamp() {
+
+        // When initialized from a Unix timestamp, the timezone is set to "+00:00".
+        $dt = new \DateTime('@489288600');
+
+        $elem = $this->vcal->createProperty('DTSTART');
+        $elem->setDateTime($dt);
+
+        $this->assertEquals('19850704T013000Z', (string)$elem);
+        $this->assertNull($elem['TZID']);
+
+        $this->assertTrue($elem->hasTime());
+    }
+
     function testSetDateTimeLOCALTZ() {
 
         $tz = new \DateTimeZone('Europe/Amsterdam');
