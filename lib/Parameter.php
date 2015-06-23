@@ -2,12 +2,11 @@
 
 namespace Sabre\VObject;
 
-use
-    Sabre\Xml,
-    ArrayIterator;
+use Sabre\Xml;
+use ArrayIterator;
 
 /**
- * VObject Parameter
+ * VObject Parameter.
  *
  * This class represents a parameter. A parameter is always tied to a property.
  * In the case of:
@@ -21,7 +20,7 @@ use
 class Parameter extends Node {
 
     /**
-     * Parameter name
+     * Parameter name.
      *
      * @var string
      */
@@ -37,7 +36,7 @@ class Parameter extends Node {
     public $noName = false;
 
     /**
-     * Parameter value
+     * Parameter value.
      *
      * @var string
      */
@@ -80,10 +79,11 @@ class Parameter extends Node {
      * used, but we like to be complete.
      *
      * @param string $value
+     *
      * @return string
      */
-    public static function guessParameterNameByValue($value) {
-        switch(strtoupper($value)) {
+    static function guessParameterNameByValue($value) {
+        switch (strtoupper($value)) {
 
             // Encodings
             case '7-BIT' :
@@ -177,6 +177,7 @@ class Parameter extends Node {
      * This may be either a single, or multiple strings in an array.
      *
      * @param string|array $value
+     *
      * @return void
      */
     function setValue($value) {
@@ -186,7 +187,7 @@ class Parameter extends Node {
     }
 
     /**
-     * Returns the current value
+     * Returns the current value.
      *
      * This method will always return a string, or null. If there were multiple
      * values, it will automatically concatenate them (separated by comma).
@@ -196,7 +197,7 @@ class Parameter extends Node {
     function getValue() {
 
         if (is_array($this->value)) {
-            return implode(',' , $this->value);
+            return implode(',', $this->value);
         } else {
             return $this->value;
         }
@@ -207,6 +208,7 @@ class Parameter extends Node {
      * Sets multiple values for this parameter.
      *
      * @param array $value
+     *
      * @return void
      */
     function setParts(array $value) {
@@ -235,12 +237,13 @@ class Parameter extends Node {
     }
 
     /**
-     * Adds a value to this parameter
+     * Adds a value to this parameter.
      *
      * If the argument is specified as an array, all items will be added to the
      * parameter value list.
      *
      * @param string|array $part
+     *
      * @return void
      */
     function addValue($part) {
@@ -261,6 +264,7 @@ class Parameter extends Node {
      * 'WORK' or 'FAX'.
      *
      * @param string $value
+     *
      * @return bool
      */
     function has($value) {
@@ -281,7 +285,7 @@ class Parameter extends Node {
 
         $value = $this->getParts();
 
-        if (count($value)===0) {
+        if (count($value) === 0) {
             return $this->name . '=';
         }
 
@@ -295,7 +299,7 @@ class Parameter extends Node {
             $value,
             function($out, $item) {
 
-                if (!is_null($out)) $out.=',';
+                if (!is_null($out)) $out .= ',';
 
                 // If there's no special characters in the string, we'll use the simple
                 // format.
@@ -314,11 +318,11 @@ class Parameter extends Node {
                 // severaly trips on + characters not being quoted, so we
                 // added + as well.
                 if (!preg_match('#(?: [\n":;\^,\+] )#x', $item)) {
-                    return $out.$item;
+                    return $out . $item;
                 } else {
                     // Enclosing in double-quotes, and using RFC6868 for encoding any
                     // special characters
-                    $out.='"' . strtr(
+                    $out .= '"' . strtr(
                         $item,
                         [
                             '^'  => '^^',
@@ -351,6 +355,7 @@ class Parameter extends Node {
      * xCal documents.
      *
      * @param Xml\Writer $writer  XML writer.
+     *
      * @return void
      */
     function xmlSerialize(Xml\Writer $writer) {
@@ -362,7 +367,7 @@ class Parameter extends Node {
     }
 
     /**
-     * Called when this object is being cast to a string
+     * Called when this object is being cast to a string.
      *
      * @return string
      */
@@ -373,7 +378,7 @@ class Parameter extends Node {
     }
 
     /**
-     * Returns the iterator for this object
+     * Returns the iterator for this object.
      *
      * @return ElementList
      */

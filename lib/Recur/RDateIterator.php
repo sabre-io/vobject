@@ -6,9 +6,8 @@ use DateTimeInterface;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
 
-
 /**
- * RRuleParser
+ * RRuleParser.
  *
  * This class receives an RRULE string, and allows you to iterate to get a list
  * of dates in that recurrence.
@@ -40,7 +39,7 @@ class RDateIterator implements Iterator {
 
     function current() {
 
-        if (!$this->valid()) return null;
+        if (!$this->valid()) return;
         return clone $this->currentDate;
 
     }
@@ -92,7 +91,7 @@ class RDateIterator implements Iterator {
 
         $this->currentDate =
             DateTimeParser::parse(
-                $this->dates[$this->counter-1]
+                $this->dates[$this->counter - 1]
             );
 
     }
@@ -115,11 +114,12 @@ class RDateIterator implements Iterator {
      * specified date.
      *
      * @param DateTimeInterface $dt
+     *
      * @return void
      */
     function fastForward(DateTimeInterface $dt) {
 
-        while($this->valid() && $this->currentDate < $dt ) {
+        while ($this->valid() && $this->currentDate < $dt) {
             $this->next();
         }
 
@@ -158,6 +158,7 @@ class RDateIterator implements Iterator {
      * class with all the values.
      *
      * @param string|array $rrule
+     *
      * @return void
      */
     protected function parseRDate($rdate) {

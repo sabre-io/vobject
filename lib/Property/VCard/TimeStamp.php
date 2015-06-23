@@ -2,13 +2,12 @@
 
 namespace Sabre\VObject\Property\VCard;
 
-use
-    Sabre\VObject\DateTimeParser,
-    Sabre\VObject\Property\Text,
-    Sabre\Xml;
+use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property\Text;
+use Sabre\Xml;
 
 /**
- * TimeStamp property
+ * TimeStamp property.
  *
  * This object encodes TIMESTAMP values.
  *
@@ -61,7 +60,7 @@ class TimeStamp extends Text {
 
         // Timezone
         if (!is_null($parts['timezone'])) {
-            $dateStr.=$parts['timezone'];
+            $dateStr .= $parts['timezone'];
         }
 
         return [$dateStr];
@@ -73,6 +72,7 @@ class TimeStamp extends Text {
      * create xCard or xCal documents.
      *
      * @param Xml\Writer $writer  XML writer.
+     *
      * @return void
      */
     protected function xmlSerializeValue(Xml\Writer $writer) {

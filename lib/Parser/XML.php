@@ -2,13 +2,12 @@
 
 namespace Sabre\VObject\Parser;
 
-use
-    Sabre\VObject\Component,
-    Sabre\VObject\Component\VCalendar,
-    Sabre\VObject\Component\VCard,
-    Sabre\VObject\EofException,
-    Sabre\VObject\ParseException,
-    Sabre\Xml as SabreXml;
+use Sabre\VObject\Component;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCard;
+use Sabre\VObject\EofException;
+use Sabre\VObject\ParseException;
+use Sabre\Xml as SabreXml;
 
 /**
  * XML Parser.
@@ -52,9 +51,10 @@ class XML extends Parser {
      *
      * @param mixed $input
      * @param int $options Any parser options (OPTION constants).
+     *
      * @return void
      */
-    public function __construct($input = null, $options = 0) {
+    function __construct($input = null, $options = 0) {
 
         if (0 === $options) {
             $options = parent::OPTION_FORGIVING;
@@ -69,10 +69,12 @@ class XML extends Parser {
      *
      * @param resource|string $input
      * @param int $options
+     *
      * @throws \Exception
+     *
      * @return Sabre\VObject\Document
      */
-    public function parse($input = null, $options = 0) {
+    function parse($input = null, $options = 0) {
 
         if (!is_null($input)) {
             $this->setInput($input);
@@ -119,6 +121,7 @@ class XML extends Parser {
      * Parse a xCalendar component.
      *
      * @param Component $parentComponent
+     *
      * @return void
      */
     protected function parseVCalendarComponents(Component $parentComponent) {
@@ -145,6 +148,7 @@ class XML extends Parser {
      * Parse a xCard component.
      *
      * @param Component $parentComponent
+     *
      * @return void
      */
     protected function parseVCardComponents(Component $parentComponent) {
@@ -159,6 +163,7 @@ class XML extends Parser {
      *
      * @param Component $parentComponent
      * @param string  $propertyNamePrefix
+     *
      * @return void
      */
     protected function parseProperties(Component $parentComponent, $propertyNamePrefix = '') {
@@ -173,7 +178,7 @@ class XML extends Parser {
             $propertyType       = 'text';
 
             // A property which is not part of the standard.
-            if (   $namespace !== self::XCAL_NAMESPACE
+            if ($namespace !== self::XCAL_NAMESPACE
                 && $namespace !== self::XCARD_NAMESPACE) {
 
                 $propertyName = 'xml';
@@ -183,7 +188,7 @@ class XML extends Parser {
                     $value .= ' ' . $attributeName . '="' . str_replace('"', '\"', $attributeValue) . '"';
                 }
 
-                $value .= '>' . $xmlProperty['value'] . '</' . $tagName. '>';
+                $value .= '>' . $xmlProperty['value'] . '</' . $tagName . '>';
 
                 $propertyValue = [$value];
 
@@ -218,7 +223,7 @@ class XML extends Parser {
             // Collect parameters.
             foreach ($xmlProperty['value'] as $i => $xmlPropertyChild) {
 
-                if (   !is_array($xmlPropertyChild)
+                if (!is_array($xmlPropertyChild)
                     || 'parameters' !== static::getTagName($xmlPropertyChild['name']))
                     continue;
 
@@ -228,7 +233,7 @@ class XML extends Parser {
 
                     $propertyParameterValues = [];
 
-                    foreach($xmlParameter['value'] as $xmlParameterValues) {
+                    foreach ($xmlParameter['value'] as $xmlParameterValues) {
                         $propertyParameterValues[] = $xmlParameterValues['value'];
                     }
 
@@ -329,6 +334,7 @@ class XML extends Parser {
      * Parse a component.
      *
      * @param Component $parentComponent
+     *
      * @return void
      */
     protected function parseComponent(Component $parentComponent) {
@@ -361,6 +367,7 @@ class XML extends Parser {
      * @param array $parameters
      * @param string $type
      * @param mixed $value
+     *
      * @return void
      */
     protected function createProperty(Component $parentComponent, $name, $parameters, $type, $value) {
@@ -380,9 +387,10 @@ class XML extends Parser {
      * Sets the input data.
      *
      * @param resource|string $input
+     *
      * @return void
      */
-    public function setInput($input) {
+    function setInput($input) {
 
         if (is_resource($input)) {
             $input = stream_get_contents($input);
@@ -408,9 +416,10 @@ class XML extends Parser {
      * Get tag name from a Clark notation.
      *
      * @param string $clarkedTagName
+     *
      * @return string
      */
-    static protected function getTagName($clarkedTagName) {
+    protected static function getTagName($clarkedTagName) {
 
         list(, $tagName) = SabreXml\Util::parseClarkNotation($clarkedTagName);
         return $tagName;

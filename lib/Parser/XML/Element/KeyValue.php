@@ -34,6 +34,7 @@ class KeyValue extends SabreXml\Element\KeyValue {
      * the next element.
      *
      * @param XML\Reader $reader
+     *
      * @return mixed
      */
     static function xmlDeserialize(SabreXml\Reader $reader) {

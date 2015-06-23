@@ -12,9 +12,10 @@ namespace Sabre\VObject;
 class StringUtil {
 
     /**
-     * Returns true or false depending on if a string is valid UTF-8
+     * Returns true or false depending on if a string is valid UTF-8.
      *
      * @param string $str
+     *
      * @return bool
      */
     static function isUTF8($str) {
@@ -35,13 +36,14 @@ class StringUtil {
      * may be expanded upon if we receive other examples.
      *
      * @param string $str
+     *
      * @return string
      */
     static function convertToUTF8($str) {
 
-        $encoding = mb_detect_encoding($str , ['UTF-8','ISO-8859-1', 'WINDOWS-1252'], true);
+        $encoding = mb_detect_encoding($str, ['UTF-8', 'ISO-8859-1', 'WINDOWS-1252'], true);
 
-        switch($encoding) {
+        switch ($encoding) {
             case 'ISO-8859-1' :
                 $newStr = utf8_encode($str);
                 break;
@@ -62,4 +64,3 @@ class StringUtil {
     }
 
 }
-

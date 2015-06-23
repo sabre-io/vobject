@@ -3,7 +3,7 @@
 /**
  * Microsoft exchange timezones
  * Source:
- * http://msdn.microsoft.com/en-us/library/ms988620%28v=exchg.65%29.aspx
+ * http://msdn.microsoft.com/en-us/library/ms988620%28v=exchg.65%29.aspx.
  *
  * Correct timezones deduced with help from:
  * http://en.wikipedia.org/wiki/List_of_tz_database_time_zones

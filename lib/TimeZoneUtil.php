@@ -3,7 +3,7 @@
 namespace Sabre\VObject;
 
 /**
- * Time zone name translation
+ * Time zone name translation.
  *
  * This file translates well-known time zone names into "Olson database" time zone names.
  *
@@ -14,14 +14,14 @@ namespace Sabre\VObject;
  */
 class TimeZoneUtil {
 
-    public static $map = null;
+    static $map = null;
 
     /**
      * List of microsoft exchange timezone ids.
      *
      * Source: http://msdn.microsoft.com/en-us/library/aa563018(loband).aspx
      */
-    public static $microsoftExchangeMap = [
+    static $microsoftExchangeMap = [
         0  => 'UTC',
         31 => 'Africa/Casablanca',
 
@@ -119,6 +119,7 @@ class TimeZoneUtil {
      *
      * @param string $tzid
      * @param Sabre\VObject\Component $vcalendar
+     *
      * @return DateTimeZone
      */
     static function getTimeZone($tzid, Component $vcalendar = null, $failIfUncertain = false) {
@@ -134,7 +135,7 @@ class TimeZoneUtil {
         // Since PHP 5.5.10, the first bit will be used as the timezone and
         // this method will return just GMT+01:00. This is wrong, because it
         // doesn't take DST into account.
-        if ($tzid[0]!=='(') {
+        if ($tzid[0] !== '(') {
 
             // PHP has a bug that logs PHP warnings even it shouldn't:
             // https://bugs.php.net/bug.php?id=67881
@@ -152,7 +153,7 @@ class TimeZoneUtil {
                 ) {
                     return new \DateTimeZone($tzid);
                 }
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
             }
 
         }
@@ -174,14 +175,14 @@ class TimeZoneUtil {
             // for versions under PHP 5.5.10, this bit can be taken out of the
             // source.
             // @codeCoverageIgnoreStart
-            return new \DateTimeZone('Etc/GMT' . $matches[1] . ltrim(substr($matches[2],0,2),'0'));
+            return new \DateTimeZone('Etc/GMT' . $matches[1] . ltrim(substr($matches[2], 0, 2), '0'));
             // @codeCoverageIgnoreEnd
         }
 
         if ($vcalendar) {
 
             // If that didn't work, we will scan VTIMEZONE objects
-            foreach($vcalendar->select('VTIMEZONE') as $vtimezone) {
+            foreach ($vcalendar->select('VTIMEZONE') as $vtimezone) {
 
                 if ((string)$vtimezone->TZID === $tzid) {
 
@@ -193,8 +194,8 @@ class TimeZoneUtil {
                         // Libical generators may specify strings like
                         // "SystemV/EST5EDT". For those we must remove the
                         // SystemV part.
-                        if (substr($lic,0,8)==='SystemV/') {
-                            $lic = substr($lic,8);
+                        if (substr($lic, 0, 8) === 'SystemV/') {
+                            $lic = substr($lic, 8);
                         }
 
                         return self::getTimeZone($lic, null, $failIfUncertain);
@@ -206,7 +207,7 @@ class TimeZoneUtil {
                         $cdoId = (int)$vtimezone->{'X-MICROSOFT-CDO-TZID'}->getValue();
 
                         // 2 can mean both Europe/Lisbon and Europe/Sarajevo.
-                        if ($cdoId===2 && strpos((string)$vtimezone->TZID, 'Sarajevo')!==false) {
+                        if ($cdoId === 2 && strpos((string)$vtimezone->TZID, 'Sarajevo') !== false) {
                             return new \DateTimeZone('Europe/Sarajevo');
                         }
 
@@ -249,7 +250,7 @@ class TimeZoneUtil {
 
     /**
      * This method returns an array of timezone identifiers, that are supported
-     * by DateTimeZone(), but not returned by DateTimeZone::listIdentifiers()
+     * by DateTimeZone(), but not returned by DateTimeZone::listIdentifiers().
      *
      * We're not using DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC) because:
      * - It's not supported by some PHP versions as well as HHVM.
@@ -258,7 +259,7 @@ class TimeZoneUtil {
      *
      * @return array
      */
-    static public function getIdentifiersBC() {
+    static function getIdentifiersBC() {
         return include __DIR__ .  '/timezonedata/php-bc.php';
     }
 

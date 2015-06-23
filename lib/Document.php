@@ -3,7 +3,7 @@
 namespace Sabre\VObject;
 
 /**
- * Document
+ * Document.
  *
  * A document is just like a component, except that it's also the top level
  * element.
@@ -19,32 +19,32 @@ namespace Sabre\VObject;
 abstract class Document extends Component {
 
     /**
-     * Unknown document type
+     * Unknown document type.
      */
     const UNKNOWN = 1;
 
     /**
-     * vCalendar 1.0
+     * vCalendar 1.0.
      */
     const VCALENDAR10 = 2;
 
     /**
-     * iCalendar 2.0
+     * iCalendar 2.0.
      */
     const ICALENDAR20 = 3;
 
     /**
-     * vCard 2.1
+     * vCard 2.1.
      */
     const VCARD21 = 4;
 
     /**
-     * vCard 3.0
+     * vCard 3.0.
      */
     const VCARD30 = 5;
 
     /**
-     * vCard 4.0
+     * vCard 4.0.
      */
     const VCARD40 = 6;
 
@@ -55,28 +55,28 @@ abstract class Document extends Component {
      *
      * @var string
      */
-    static public $defaultName;
+    static $defaultName;
 
     /**
      * List of properties, and which classes they map to.
      *
      * @var array
      */
-    static public $propertyMap = [];
+    static $propertyMap = [];
 
     /**
      * List of components, along with which classes they map to.
      *
      * @var array
      */
-    static public $componentMap = [];
+    static $componentMap = [];
 
     /**
      * List of value-types, and which classes they map to.
      *
      * @var array
      */
-    static public $valueMap = [];
+    static $valueMap = [];
 
     /**
      * Creates a new document.
@@ -97,7 +97,7 @@ abstract class Document extends Component {
     function __construct() {
 
         $args = func_get_args();
-        if (count($args)===0 || is_array($args[0])) {
+        if (count($args) === 0 || is_array($args[0])) {
             array_unshift($args, $this, static::$defaultName);
             call_user_func_array(['parent', '__construct'], $args);
         } else {
@@ -126,24 +126,25 @@ abstract class Document extends Component {
      *
      * @param string $name
      * @param string $arg1,... Unlimited number of args
+     *
      * @return mixed
      */
     function create($name) {
 
         if (isset(static::$componentMap[strtoupper($name)])) {
 
-            return call_user_func_array([$this,'createComponent'], func_get_args());
+            return call_user_func_array([$this, 'createComponent'], func_get_args());
 
         } else {
 
-            return call_user_func_array([$this,'createProperty'], func_get_args());
+            return call_user_func_array([$this, 'createProperty'], func_get_args());
 
         }
 
     }
 
     /**
-     * Creates a new component
+     * Creates a new component.
      *
      * This method automatically searches for the correct component class, based
      * on its name.
@@ -159,6 +160,7 @@ abstract class Document extends Component {
      * @param string $name
      * @param array $children
      * @param bool $defaults
+     *
      * @return Component
      */
     function createComponent($name, array $children = null, $defaults = true) {
@@ -167,7 +169,7 @@ abstract class Document extends Component {
         $class = 'Sabre\\VObject\\Component';
 
         if (isset(static::$componentMap[$name])) {
-            $class=static::$componentMap[$name];
+            $class = static::$componentMap[$name];
         }
         if (is_null($children)) $children = [];
         return new $class($this, $name, $children, $defaults);
@@ -175,7 +177,7 @@ abstract class Document extends Component {
     }
 
     /**
-     * Factory method for creating new properties
+     * Factory method for creating new properties.
      *
      * This method automatically searches for the correct property class, based
      * on its name.
@@ -188,14 +190,15 @@ abstract class Document extends Component {
      * @param mixed $value
      * @param array $parameters
      * @param string $valueType Force a specific valuetype, such as URI or TEXT
+     *
      * @return Property
      */
     function createProperty($name, $value = null, array $parameters = null, $valueType = null) {
 
         // If there's a . in the name, it means it's prefixed by a groupname.
-        if (($i=strpos($name,'.'))!==false) {
+        if (($i = strpos($name, '.')) !== false) {
             $group = substr($name, 0, $i);
-            $name = strtoupper(substr($name, $i+1));
+            $name = strtoupper(substr($name, $i + 1));
         } else {
             $name = strtoupper($name);
             $group = null;
@@ -233,6 +236,7 @@ abstract class Document extends Component {
      * This method returns null if we don't have a specialized class.
      *
      * @param string $valueParam
+     *
      * @return void
      */
     function getClassNameForPropertyValue($valueParam) {
@@ -248,6 +252,7 @@ abstract class Document extends Component {
      * Returns the default class for a property name.
      *
      * @param string $propertyName
+     *
      * @return string
      */
     function getClassNameForPropertyName($propertyName) {

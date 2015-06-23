@@ -2,12 +2,11 @@
 
 namespace Sabre\VObject\Splitter;
 
-use
-    Sabre\VObject,
-    Sabre\VObject\Component\VCalendar;
+use Sabre\VObject;
+use Sabre\VObject\Component\VCalendar;
 
 /**
- * Splitter
+ * Splitter.
  *
  * This class is responsible for splitting up iCalendar objects.
  *
@@ -23,21 +22,21 @@ use
 class ICalendar implements SplitterInterface {
 
     /**
-     * Timezones
+     * Timezones.
      *
      * @var array
      */
     protected $vtimezones = [];
 
     /**
-     * iCalendar objects
+     * iCalendar objects.
      *
      * @var array
      */
     protected $objects = [];
 
     /**
-     * Constructor
+     * Constructor.
      *
      * The splitter should receive an readable file stream as it's input.
      *
@@ -52,7 +51,7 @@ class ICalendar implements SplitterInterface {
             throw new VObject\ParseException('Supplied input could not be parsed as VCALENDAR.');
         }
 
-        foreach($data->children() as $component) {
+        foreach ($data->children() as $component) {
             if (!$component instanceof VObject\Component) {
                 continue;
             }
@@ -64,7 +63,7 @@ class ICalendar implements SplitterInterface {
             }
 
             // Get component UID for recurring Events search
-            if(!$component->UID) {
+            if (!$component->UID) {
                 $component->UID = sha1(microtime()) . '-vobjectimport';
             }
             $uid = (string)$component->UID;
@@ -89,7 +88,7 @@ class ICalendar implements SplitterInterface {
      */
     function getNext() {
 
-        if($object=array_shift($this->objects)) {
+        if ($object = array_shift($this->objects)) {
 
             // create our baseobject
             $object->version = '2.0';
@@ -105,7 +104,7 @@ class ICalendar implements SplitterInterface {
 
         } else {
 
-            return null;
+            return;
 
         }
 

@@ -2,11 +2,10 @@
 
 namespace Sabre\VObject\Parser;
 
-use
-    Sabre\VObject\Component\VCalendar,
-    Sabre\VObject\Component\VCard,
-    Sabre\VObject\ParseException,
-    Sabre\VObject\EofException;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VCard;
+use Sabre\VObject\ParseException;
+use Sabre\VObject\EofException;
 
 /**
  * Json Parser.
@@ -43,9 +42,10 @@ class Json extends Parser {
      *
      * @param resource|string|array|null $input
      * @param int $options
+     *
      * @return Sabre\VObject\Document
      */
-    public function parse($input = null, $options = 0) {
+    function parse($input = null, $options = 0) {
 
         if (!is_null($input)) {
             $this->setInput($input);
@@ -58,7 +58,7 @@ class Json extends Parser {
             $this->options = $options;
         }
 
-        switch($this->input[0]) {
+        switch ($this->input[0]) {
             case 'vcalendar' :
                 $this->root = new VCalendar([], false);
                 break;
@@ -69,10 +69,10 @@ class Json extends Parser {
                 throw new ParseException('The root component must either be a vcalendar, or a vcard');
 
         }
-        foreach($this->input[1] as $prop) {
+        foreach ($this->input[1] as $prop) {
             $this->root->add($this->parseProperty($prop));
         }
-        if (isset($this->input[2])) foreach($this->input[2] as $comp) {
+        if (isset($this->input[2])) foreach ($this->input[2] as $comp) {
             $this->root->add($this->parseComponent($comp));
         }
 
@@ -84,12 +84,13 @@ class Json extends Parser {
     }
 
     /**
-     * Parses a component
+     * Parses a component.
      *
      * @param array $jComp
+     *
      * @return \Sabre\VObject\Component
      */
-    public function parseComponent(array $jComp) {
+    function parseComponent(array $jComp) {
 
         // We can remove $self from PHP 5.4 onward.
         $self = $this;
@@ -124,9 +125,10 @@ class Json extends Parser {
      * Parses properties.
      *
      * @param array $jProp
+     *
      * @return \Sabre\VObject\Property
      */
-    public function parseProperty(array $jProp) {
+    function parseProperty(array $jProp) {
 
         list(
             $propertyName,
@@ -177,9 +179,10 @@ class Json extends Parser {
      * Sets the input data.
      *
      * @param resource|string|array $input
+     *
      * @return void
      */
-    public function setInput($input) {
+    function setInput($input) {
 
         if (is_resource($input)) {
             $input = stream_get_contents($input);

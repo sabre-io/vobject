@@ -20,6 +20,7 @@ class Writer {
      * Serializes a vCard or iCalendar object.
      *
      * @param Component $component
+     *
      * @return string
      */
     static function write(Component $component) {
@@ -33,6 +34,7 @@ class Writer {
      *
      * @param Component $component
      * @param int $options
+     *
      * @return string
      */
     static function writeJson(Component $component, $options = 0) {
@@ -45,9 +47,10 @@ class Writer {
      * Serializes a xCal or xCard object.
      *
      * @param Component $component
+     *
      * @return string
      */
-    static public function writeXml(Component $component) {
+    static function writeXml(Component $component) {
 
         $writer = new Xml\Writer();
         $writer->openMemory();

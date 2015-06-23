@@ -52,21 +52,21 @@ abstract class Node
     public $parent;
 
     /**
-     * Iterator override
+     * Iterator override.
      *
      * @var ElementList
      */
     protected $iterator = null;
 
     /**
-     * The root document
+     * The root document.
      *
      * @var Component
      */
     protected $root;
 
     /**
-     * Serializes the node into a mimedir format
+     * Serializes the node into a mimedir format.
      *
      * @return string
      */
@@ -85,6 +85,7 @@ abstract class Node
      * xCal documents.
      *
      * @param Xml\Writer $writer  XML writer.
+     *
      * @return void
      */
     abstract function xmlSerialize(Xml\Writer $writer);
@@ -92,7 +93,7 @@ abstract class Node
     /* {{{ IteratorAggregator interface */
 
     /**
-     * Returns the iterator for this object
+     * Returns the iterator for this object.
      *
      * @return ElementList
      */
@@ -107,11 +108,12 @@ abstract class Node
     }
 
     /**
-     * Sets the overridden iterator
+     * Sets the overridden iterator.
      *
      * Note that this is not actually part of the iterator interface
      *
      * @param ElementList $iterator
+     *
      * @return void
      */
     function setIterator(ElementList $iterator) {
@@ -139,6 +141,7 @@ abstract class Node
      *   3 - A severe issue.
      *
      * @param int $options
+     *
      * @return array
      */
     function validate($options = 0) {
@@ -152,7 +155,7 @@ abstract class Node
     /* {{{ Countable interface */
 
     /**
-     * Returns the number of elements
+     * Returns the number of elements.
      *
      * @return int
      */
@@ -174,6 +177,7 @@ abstract class Node
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
+     *
      * @return bool
      */
     function offsetExists($offset) {
@@ -189,6 +193,7 @@ abstract class Node
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
+     *
      * @return mixed
      */
     function offsetGet($offset) {
@@ -205,12 +210,13 @@ abstract class Node
      *
      * @param int $offset
      * @param mixed $value
+     *
      * @return void
      */
     function offsetSet($offset, $value) {
 
         $iterator = $this->getIterator();
-        $iterator->offsetSet($offset,$value);
+        $iterator->offsetSet($offset, $value);
 
     // @codeCoverageIgnoreStart
     //
@@ -225,6 +231,7 @@ abstract class Node
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
+     *
      * @return void
      */
     function offsetUnset($offset) {

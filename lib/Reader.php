@@ -36,6 +36,7 @@ class Reader {
      *
      * @param string|resource $data
      * @param int $options
+     *
      * @return Document
      */
     static function read($data, $options = 0) {
@@ -59,6 +60,7 @@ class Reader {
      *
      * @param string|resource|array $data
      * @param int $options
+     *
      * @return Document
      */
     static function readJson($data, $options = 0) {
@@ -80,9 +82,10 @@ class Reader {
      *
      * @param string|resource $data
      * @param int $options
+     *
      * @return Document
      */
-    static public function readXML($data, $options = 0) {
+    static function readXML($data, $options = 0) {
 
         $parser = new Parser\XML();
         $result = $parser->parse($data, $options);

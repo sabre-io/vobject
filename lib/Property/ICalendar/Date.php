@@ -3,7 +3,7 @@
 namespace Sabre\VObject\Property\ICalendar;
 
 /**
- * DateTime property
+ * DateTime property.
  *
  * This object represents DATE values, as defined here:
  *

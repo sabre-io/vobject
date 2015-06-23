@@ -2,12 +2,11 @@
 
 namespace Sabre\VObject\Property;
 
-use
-    Sabre\VObject\Property,
-    Sabre\Xml;
+use Sabre\VObject\Property;
+use Sabre\Xml;
 
 /**
- * Float property
+ * Float property.
  *
  * This object represents FLOAT values. These can be 1 or more floating-point
  * numbers.
@@ -33,12 +32,13 @@ class Float extends Property {
      * not yet done, but parameters are not included.
      *
      * @param string $val
+     *
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $val = explode($this->delimiter, $val);
-        foreach($val as &$item) {
+        foreach ($val as &$item) {
             $item = (float)$item;
         }
         $this->setParts($val);
@@ -50,7 +50,7 @@ class Float extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return implode(
             $this->delimiter,
@@ -67,7 +67,7 @@ class Float extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'FLOAT';
 
@@ -80,7 +80,7 @@ class Float extends Property {
      *
      * @return array
      */
-    public function getJsonValue() {
+    function getJsonValue() {
 
         $val = array_map('floatval', $this->getParts());
 
@@ -101,6 +101,7 @@ class Float extends Property {
      * object.
      *
      * @param array $value
+     *
      * @return void
      */
     function setXmlValue(array $value) {
@@ -115,6 +116,7 @@ class Float extends Property {
      * create xCard or xCal documents.
      *
      * @param Xml\Writer $writer  XML writer.
+     *
      * @return void
      */
     protected function xmlSerializeValue(Xml\Writer $writer) {

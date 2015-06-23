@@ -6,7 +6,7 @@ use
     Sabre\VObject\Property;
 
 /**
- * LanguageTag property
+ * LanguageTag property.
  *
  * This object represents LANGUAGE-TAG values as used in vCards.
  *
@@ -23,9 +23,10 @@ class LanguageTag extends Property {
      * not yet done, but parameters are not included.
      *
      * @param string $val
+     *
      * @return void
      */
-    public function setRawMimeDirValue($val) {
+    function setRawMimeDirValue($val) {
 
         $this->setValue($val);
 
@@ -36,7 +37,7 @@ class LanguageTag extends Property {
      *
      * @return string
      */
-    public function getRawMimeDirValue() {
+    function getRawMimeDirValue() {
 
         return $this->getValue();
 
@@ -50,7 +51,7 @@ class LanguageTag extends Property {
      *
      * @return string
      */
-    public function getValueType() {
+    function getValueType() {
 
         return 'LANGUAGE-TAG';
 

@@ -6,7 +6,7 @@ use DateTimeInterface;
 use Sabre\VObject;
 
 /**
- * VJournal component
+ * VJournal component.
  *
  * This component contains some additional functionality specific for VJOURNALs.
  *
@@ -25,11 +25,12 @@ class VJournal extends VObject\Component {
      *
      * @param DateTimeInterface $start
      * @param DateTimeInterface $end
+     *
      * @return bool
      */
     function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
-        $dtstart = isset($this->DTSTART)?$this->DTSTART->getDateTime():null;
+        $dtstart = isset($this->DTSTART) ? $this->DTSTART->getDateTime() : null;
         if ($dtstart) {
             $effectiveEnd = $dtstart;
             if (!$this->DTSTART->hasTime()) {
@@ -61,31 +62,31 @@ class VJournal extends VObject\Component {
     function getValidationRules() {
 
         return [
-            'UID' => 1,
+            'UID'     => 1,
             'DTSTAMP' => 1,
 
-            'CLASS' => '?',
-            'CREATED' => '?',
-            'DTSTART' => '?',
+            'CLASS'         => '?',
+            'CREATED'       => '?',
+            'DTSTART'       => '?',
             'LAST-MODIFIED' => '?',
-            'ORGANIZER' => '?',
+            'ORGANIZER'     => '?',
             'RECURRENCE-ID' => '?',
-            'SEQUENCE' => '?',
-            'STATUS' => '?',
-            'SUMMARY' => '?',
-            'URL' => '?',
+            'SEQUENCE'      => '?',
+            'STATUS'        => '?',
+            'SUMMARY'       => '?',
+            'URL'           => '?',
 
             'RRULE' => '?',
 
-            'ATTACH' => '*',
-            'ATTENDEE' => '*',
-            'CATEGORIES' => '*',
-            'COMMENT' => '*',
-            'CONTACT' => '*',
+            'ATTACH'      => '*',
+            'ATTENDEE'    => '*',
+            'CATEGORIES'  => '*',
+            'COMMENT'     => '*',
+            'CONTACT'     => '*',
             'DESCRIPTION' => '*',
-            'EXDATE' => '*',
-            'RELATED-TO' => '*',
-            'RDATE' => '*',
+            'EXDATE'      => '*',
+            'RELATED-TO'  => '*',
+            'RDATE'       => '*',
         ];
 
     }

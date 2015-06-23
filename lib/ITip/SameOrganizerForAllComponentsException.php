@@ -3,7 +3,7 @@
 namespace Sabre\VObject\ITip;
 
 /**
- * SameOrganizerForAllComponentsException
+ * SameOrganizerForAllComponentsException.
  *
  * This exception is emitted when an event is encountered with more than one
  * component (e.g.: exceptions), but the organizer is not identical in every

@@ -3,7 +3,7 @@
 namespace Sabre\VObject\Property\VCard;
 
 /**
- * DateTime property
+ * DateTime property.
  *
  * This object encodes DATE-TIME values for vCards.
  *

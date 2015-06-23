@@ -6,7 +6,7 @@ use DateTimeInterface;
 use Sabre\VObject;
 
 /**
- * VTodo component
+ * VTodo component.
  *
  * This component contains some additional functionality specific for VTODOs.
  *
@@ -25,15 +25,16 @@ class VTodo extends VObject\Component {
      *
      * @param DateTimeInterface $start
      * @param DateTimeInterface $end
+     *
      * @return bool
      */
     function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
-        $dtstart = isset($this->DTSTART)?$this->DTSTART->getDateTime():null;
-        $duration = isset($this->DURATION)?VObject\DateTimeParser::parseDuration($this->DURATION):null;
-        $due = isset($this->DUE)?$this->DUE->getDateTime():null;
-        $completed = isset($this->COMPLETED)?$this->COMPLETED->getDateTime():null;
-        $created = isset($this->CREATED)?$this->CREATED->getDateTime():null;
+        $dtstart = isset($this->DTSTART) ? $this->DTSTART->getDateTime() : null;
+        $duration = isset($this->DURATION) ? VObject\DateTimeParser::parseDuration($this->DURATION) : null;
+        $due = isset($this->DUE) ? $this->DUE->getDateTime() : null;
+        $completed = isset($this->COMPLETED) ? $this->COMPLETED->getDateTime() : null;
+        $created = isset($this->CREATED) ? $this->CREATED->getDateTime() : null;
 
         if ($dtstart) {
             if ($duration) {
@@ -83,40 +84,40 @@ class VTodo extends VObject\Component {
     function getValidationRules() {
 
         return [
-            'UID' => 1,
+            'UID'     => 1,
             'DTSTAMP' => 1,
 
-            'CLASS' => '?',
-            'COMPLETED' => '?',
-            'CREATED' => '?',
-            'DESCRIPTION' => '?',
-            'DTSTART' => '?',
-            'GEO' => '?',
+            'CLASS'         => '?',
+            'COMPLETED'     => '?',
+            'CREATED'       => '?',
+            'DESCRIPTION'   => '?',
+            'DTSTART'       => '?',
+            'GEO'           => '?',
             'LAST-MODIFIED' => '?',
-            'LOCATION' => '?',
-            'ORGANIZER' => '?',
-            'PERCENT' => '?',
-            'PRIORITY' => '?',
+            'LOCATION'      => '?',
+            'ORGANIZER'     => '?',
+            'PERCENT'       => '?',
+            'PRIORITY'      => '?',
             'RECURRENCE-ID' => '?',
-            'SEQUENCE' => '?',
-            'STATUS' => '?',
-            'SUMMARY' => '?',
-            'URL' => '?',
+            'SEQUENCE'      => '?',
+            'STATUS'        => '?',
+            'SUMMARY'       => '?',
+            'URL'           => '?',
 
-            'RRULE' => '?',
-            'DUE' => '?',
+            'RRULE'    => '?',
+            'DUE'      => '?',
             'DURATION' => '?',
 
-            'ATTACH' => '*',
-            'ATTENDEE' => '*',
-            'CATEGORIES' => '*',
-            'COMMENT' => '*',
-            'CONTACT' => '*',
-            'EXDATE' => '*',
+            'ATTACH'         => '*',
+            'ATTENDEE'       => '*',
+            'CATEGORIES'     => '*',
+            'COMMENT'        => '*',
+            'CONTACT'        => '*',
+            'EXDATE'         => '*',
             'REQUEST-STATUS' => '*',
-            'RELATED-TO' => '*',
-            'RESOURCES' => '*',
-            'RDATE' => '*',
+            'RELATED-TO'     => '*',
+            'RESOURCES'      => '*',
+            'RDATE'          => '*',
         ];
 
     }
@@ -140,6 +141,7 @@ class VTodo extends VObject\Component {
      *   3 - A severe issue.
      *
      * @param int $options
+     *
      * @return array
      */
     function validate($options = 0) {
@@ -155,7 +157,7 @@ class VTodo extends VObject\Component {
                 $result[] = [
                     'level'   => 3,
                     'message' => 'The value type (DATE or DATE-TIME) must be identical for DUE and DTSTART',
-                    'node' => $due,
+                    'node'    => $due,
                 ];
 
             } elseif ($due->getDateTime() < $dtStart->getDateTime()) {
@@ -163,7 +165,7 @@ class VTodo extends VObject\Component {
                 $result[] = [
                     'level'   => 3,
                     'message' => 'DUE must occur after DTSTART',
-                    'node' => $due,
+                    'node'    => $due,
                 ];
 
             }

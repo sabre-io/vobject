@@ -26,28 +26,28 @@ use Sabre\VObject\Recur\NoInstancesException;
 class FreeBusyGenerator {
 
     /**
-     * Input objects
+     * Input objects.
      *
      * @var array
      */
     protected $objects = [];
 
     /**
-     * Start of range
+     * Start of range.
      *
      * @var DateTimeInterface|null
      */
     protected $start;
 
     /**
-     * End of range
+     * End of range.
      *
      * @var DateTimeInterface|null
      */
     protected $end;
 
     /**
-     * VCALENDAR object
+     * VCALENDAR object.
      *
      * @var Component
      */
@@ -104,6 +104,7 @@ class FreeBusyGenerator {
      * The VFREEBUSY object will be automatically added though.
      *
      * @param Component $vcalendar
+     *
      * @return void
      */
     function setBaseObject(Component $vcalendar) {
@@ -113,13 +114,14 @@ class FreeBusyGenerator {
     }
 
     /**
-     * Sets the input objects
+     * Sets the input objects.
      *
      * You must either specify a valendar object as a strong, or as the parse
      * Component.
      * It's also possible to specify multiple objects as an array.
      *
      * @param mixed $objects
+     *
      * @return void
      */
     function setObjects($objects) {
@@ -129,7 +131,7 @@ class FreeBusyGenerator {
         }
 
         $this->objects = [];
-        foreach($objects as $object) {
+        foreach ($objects as $object) {
 
             if (is_string($object)) {
                 $this->objects[] = Reader::read($object);
@@ -144,12 +146,13 @@ class FreeBusyGenerator {
     }
 
     /**
-     * Sets the time range
+     * Sets the time range.
      *
      * Any freebusy object falling outside of this time range will be ignored.
      *
      * @param DateTimeInterface $start
      * @param DateTimeInterface $end
+     *
      * @return void
      */
     function setTimeRange(DateTimeInterface $start = null, DateTimeInterface $end = null) {
@@ -163,9 +166,10 @@ class FreeBusyGenerator {
      * Sets the reference timezone for floating times.
      *
      * @param DateTimeZone $timeZone
+     *
      * @return void
      */
-    public function setTimeZone(DateTimeZone $timeZone) {
+    function setTimeZone(DateTimeZone $timeZone) {
 
         $this->timeZone = $timeZone;
 
@@ -181,11 +185,11 @@ class FreeBusyGenerator {
 
         $busyTimes = [];
 
-        foreach($this->objects as $key=>$object) {
+        foreach ($this->objects as $key => $object) {
 
-            foreach($object->getBaseComponents() as $component) {
+            foreach ($object->getBaseComponents() as $component) {
 
-                switch($component->name) {
+                switch ($component->name) {
 
                     case 'VEVENT' :
 
@@ -195,10 +199,10 @@ class FreeBusyGenerator {
                         }
                         if (isset($component->STATUS)) {
                             $status = strtoupper($component->STATUS);
-                            if ($status==='CANCELLED') {
+                            if ($status === 'CANCELLED') {
                                 break;
                             }
-                            if ($status==='TENTATIVE') {
+                            if ($status === 'TENTATIVE') {
                                 $FBTYPE = 'BUSY-TENTATIVE';
                             }
                         }
@@ -222,7 +226,7 @@ class FreeBusyGenerator {
 
                             $maxRecurrences = 200;
 
-                            while($iterator->valid() && --$maxRecurrences) {
+                            while ($iterator->valid() && --$maxRecurrences) {
 
                                 $startTime = $iterator->getDTStart();
                                 if ($this->end && $startTime > $this->end) {
@@ -262,7 +266,7 @@ class FreeBusyGenerator {
 
                         }
 
-                        foreach($times as $time) {
+                        foreach ($times as $time) {
 
                             if ($this->end && $time[0] > $this->end) break;
                             if ($this->start && $time[1] < $this->start) break;
@@ -276,20 +280,20 @@ class FreeBusyGenerator {
                         break;
 
                     case 'VFREEBUSY' :
-                        foreach($component->FREEBUSY as $freebusy) {
+                        foreach ($component->FREEBUSY as $freebusy) {
 
-                            $fbType = isset($freebusy['FBTYPE'])?strtoupper($freebusy['FBTYPE']):'BUSY';
+                            $fbType = isset($freebusy['FBTYPE']) ? strtoupper($freebusy['FBTYPE']) : 'BUSY';
 
                             // Skipping intervals marked as 'free'
-                            if ($fbType==='FREE')
+                            if ($fbType === 'FREE')
                                 continue;
 
                             $values = explode(',', $freebusy);
-                            foreach($values as $value) {
+                            foreach ($values as $value) {
                                 list($startTime, $endTime) = explode('/', $value);
                                 $startTime = DateTimeParser::parseDateTime($startTime);
 
-                                if (substr($endTime,0,1)==='P' || substr($endTime,0,2)==='-P') {
+                                if (substr($endTime, 0, 1) === 'P' || substr($endTime, 0, 2) === '-P') {
                                     $duration = DateTimeParser::parseDuration($endTime);
                                     $endTime = clone $startTime;
                                     $endTime = $endTime->add($duration);
@@ -297,8 +301,8 @@ class FreeBusyGenerator {
                                     $endTime = DateTimeParser::parseDateTime($endTime);
                                 }
 
-                                if($this->start && $this->start > $endTime) continue;
-                                if($this->end && $this->end < $startTime) continue;
+                                if ($this->start && $this->start > $endTime) continue;
+                                if ($this->end && $this->end < $startTime) continue;
                                 $busyTimes[] = [
                                     $startTime,
                                     $endTime,
@@ -343,7 +347,7 @@ class FreeBusyGenerator {
         $dtstamp->setDateTime(new DateTimeImmutable('now', new \DateTimeZone('UTC')));
         $vfreebusy->add($dtstamp);
 
-        foreach($busyTimes as $busyTime) {
+        foreach ($busyTimes as $busyTime) {
 
             $busyTime[0] = $busyTime[0]->setTimeZone(new \DateTimeZone('UTC'));
             $busyTime[1] = $busyTime[1]->setTimeZone(new \DateTimeZone('UTC'));

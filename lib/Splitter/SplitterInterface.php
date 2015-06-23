@@ -3,7 +3,7 @@
 namespace Sabre\VObject\Splitter;
 
 /**
- * VObject splitter
+ * VObject splitter.
  *
  * The splitter is responsible for reading a large vCard or iCalendar object,
  * and splitting it into multiple objects.
@@ -18,13 +18,13 @@ namespace Sabre\VObject\Splitter;
 interface SplitterInterface {
 
     /**
-     * Constructor
+     * Constructor.
      *
      * The splitter should receive an readable file stream as it's input.
      *
      * @param resource $input
      */
-    public function __construct($input);
+    function __construct($input);
 
     /**
      * Every time getNext() is called, a new object will be parsed, until we
@@ -34,6 +34,6 @@ interface SplitterInterface {
      *
      * @return Sabre\VObject\Component|null
      */
-    public function getNext();
+    function getNext();
 
 }

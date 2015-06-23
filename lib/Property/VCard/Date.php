@@ -3,7 +3,7 @@
 namespace Sabre\VObject\Property\VCard;
 
 /**
- * Date property
+ * Date property.
  *
  * This object encodes vCard DATE values.
  *
@@ -31,9 +31,10 @@ class Date extends DateAndOrTime {
      * Sets the property as a DateTime object.
      *
      * @param \DateTimeInterface $dt
+     *
      * @return void
      */
-    public function setDateTime(\DateTimeInterface $dt) {
+    function setDateTime(\DateTimeInterface $dt) {
 
         $this->value = $dt->format('Ymd');
 

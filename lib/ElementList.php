@@ -2,12 +2,11 @@
 
 namespace Sabre\VObject;
 
-use
-    ArrayIterator,
-    LogicException;
+use ArrayIterator;
+use LogicException;
 
 /**
- * VObject ElementList
+ * VObject ElementList.
  *
  * This class represents a list of elements. Lists are the result of queries,
  * such as doing $vcalendar->vevent where there's multiple VEVENT objects.
@@ -26,6 +25,7 @@ class ElementList extends ArrayIterator {
      *
      * @param int $offset
      * @param mixed $value
+     *
      * @return void
      */
     function offsetSet($offset, $value) {
@@ -40,6 +40,7 @@ class ElementList extends ArrayIterator {
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
+     *
      * @return void
      */
     function offsetUnset($offset) {

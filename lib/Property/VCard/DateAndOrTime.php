@@ -2,16 +2,15 @@
 
 namespace Sabre\VObject\Property\VCard;
 
-use
-    Sabre\VObject\DateTimeParser,
-    Sabre\VObject\Property,
-    Sabre\Xml,
-    DateTimeInterface,
-    DateTimeImmutable,
-    DateTime;
+use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property;
+use Sabre\Xml;
+use DateTimeInterface;
+use DateTimeImmutable;
+use DateTime;
 
 /**
- * DateAndOrTime property
+ * DateAndOrTime property.
  *
  * This object encodes DATE-AND-OR-TIME values.
  *
@@ -22,7 +21,7 @@ use
 class DateAndOrTime extends Property {
 
     /**
-     * Field separator
+     * Field separator.
      *
      * @var null|string
      */
@@ -48,11 +47,12 @@ class DateAndOrTime extends Property {
      * You may also specify DateTime objects here.
      *
      * @param array $parts
+     *
      * @return void
      */
     function setParts(array $parts) {
 
-        if (count($parts)>1) {
+        if (count($parts) > 1) {
             throw new \InvalidArgumentException('Only one value allowed');
         }
         if (isset($parts[0]) && $parts[0] instanceof \DateTime) {
@@ -71,6 +71,7 @@ class DateAndOrTime extends Property {
      * Instead of strings, you may also use DateTime here.
      *
      * @param string|array|\DateTime $value
+     *
      * @return void
      */
     function setValue($value) {
@@ -87,6 +88,7 @@ class DateAndOrTime extends Property {
      * Sets the property as a DateTime object.
      *
      * @param DateTimeInterface $dt
+     *
      * @return void
      */
     function setDateTime(DateTimeInterface $dt) {
@@ -95,7 +97,7 @@ class DateAndOrTime extends Property {
         $isUtc = false;
 
         $tz = $dt->getTimeZone();
-        $isUtc = in_array($tz->getName() , ['UTC', 'GMT', 'Z']);
+        $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
 
         if ($isUtc) {
             $value = $dt->format('Ymd\\THis\\Z');
@@ -128,7 +130,7 @@ class DateAndOrTime extends Property {
 
         $now = new DateTime();
 
-        $tzFormat = $now->getTimezone()->getOffset($now)===0?'\\Z':'O';
+        $tzFormat = $now->getTimezone()->getOffset($now) === 0 ? '\\Z' : 'O';
         $nowParts = DateTimeParser::parseVCardDateTime($now->format('Ymd\\This' . $tzFormat));
 
         $dateParts = DateTimeParser::parseVCardDateTime($this->getValue());
@@ -136,7 +138,7 @@ class DateAndOrTime extends Property {
         // This sets all the missing parts to the current date/time.
         // So if the year was missing for a birthday, we're making it 'this
         // year'.
-        foreach($dateParts as $k=>$v) {
+        foreach ($dateParts as $k => $v) {
             if (is_null($v)) {
                 $dateParts[$k] = $nowParts[$k];
             }
@@ -255,6 +257,7 @@ class DateAndOrTime extends Property {
      * create xCard or xCal documents.
      *
      * @param Xml\Writer $writer  XML writer.
+     *
      * @return void
      */
     protected function xmlSerializeValue(Xml\Writer $writer) {
@@ -264,12 +267,12 @@ class DateAndOrTime extends Property {
         $value     = '';
 
         // $d = defined
-        $d = function($part) use($parts) {
+        $d = function($part) use ($parts) {
             return !is_null($parts[$part]);
         };
 
         // $r = read
-        $r = function($part) use($parts) {
+        $r = function($part) use ($parts) {
             return $parts[$part];
         };
 
@@ -279,7 +282,7 @@ class DateAndOrTime extends Property {
         // value-date = element date {
         //     xsd:string { pattern = "\d{8}|\d{4}-\d\d|--\d\d(\d\d)?|---\d\d" }
         //   }
-        if (   ( $d('year') ||  $d('month')  ||  $d('date'))
+        if (($d('year') ||  $d('month')  ||  $d('date'))
             && (!$d('hour') && !$d('minute') && !$d('second') && !$d('timezone'))) {
 
             if ($d('year') && $d('month') && $d('date')) {
@@ -297,8 +300,8 @@ class DateAndOrTime extends Property {
         //     xsd:string { pattern = "(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d?)|--\d\d)"
         //                          ~ "(Z|[+\-]\d\d(\d\d)?)?" }
         //   }
-        } elseif (   (!$d('year') && !$d('month')  && !$d('date'))
-                  && ( $d('hour') ||  $d('minute') ||  $d('second'))) {
+        } elseif ((!$d('year') && !$d('month')  && !$d('date'))
+                  && ($d('hour') ||  $d('minute') ||  $d('second'))) {
 
             if ($d('hour')) {
                 $value .= $r('hour') . $r('minute') . $r('second');
@@ -341,6 +344,7 @@ class DateAndOrTime extends Property {
      * not yet done, but parameters are not included.
      *
      * @param string $val
+     *
      * @return void
      */
     function setRawMimeDirValue($val) {
@@ -379,6 +383,7 @@ class DateAndOrTime extends Property {
      *   3 - A severe issue.
      *
      * @param int $options
+     *
      * @return array
      */
     function validate($options = 0) {
@@ -390,9 +395,9 @@ class DateAndOrTime extends Property {
             DateTimeParser::parseVCardDateTime($value);
         } catch (\InvalidArgumentException $e) {
             $messages[] = [
-                'level' => 3,
+                'level'   => 3,
                 'message' => 'The supplied value (' . $value . ') is not a correct DATE-AND-OR-TIME property',
-                'node' => $this,
+                'node'    => $this,
             ];
         }
 

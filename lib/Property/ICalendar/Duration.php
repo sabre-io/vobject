@@ -2,12 +2,11 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property;
+use Sabre\VObject\DateTimeParser;
 
 /**
- * Duration property
+ * Duration property.
  *
  * This object represents DURATION values, as defined here:
  *
@@ -34,6 +33,7 @@ class Duration extends Property {
      * not yet done, but parameters are not included.
      *
      * @param string $val
+     *
      * @return void
      */
     function setRawMimeDirValue($val) {

@@ -3,7 +3,7 @@
 namespace Sabre\VObject\Property;
 
 /**
- * Unknown property
+ * Unknown property.
  *
  * This object represents any properties not recognized by the parser.
  * This type of value has been introduced by the jCal, jCard specs.

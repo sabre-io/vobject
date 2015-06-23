@@ -5,7 +5,7 @@ namespace Sabre\VObject;
 use Sabre\Xml;
 
 /**
- * Component
+ * Component.
  *
  * A component represents a group of properties, such as VCALENDAR, VEVENT, or
  * VCARD.
@@ -47,6 +47,7 @@ class Component extends Node {
      * @param string $name such as VCALENDAR, VEVENT.
      * @param array $children
      * @param bool $defaults
+     *
      * @return void
      */
     function __construct(Document $root, $name, array $children = [], $defaults = true) {
@@ -61,7 +62,7 @@ class Component extends Node {
             // natural way.
             $list = $this->getDefaults();
             $nodes = [];
-            foreach ($children as $key=>$value) {
+            foreach ($children as $key => $value) {
                 if ($value instanceof Node) {
                     if (isset($list[$value->name])) {
                         unset($list[$value->name]);
@@ -71,14 +72,14 @@ class Component extends Node {
                     $list[$key] = $value;
                 }
             }
-            foreach ($list as $key=>$value) {
+            foreach ($list as $key => $value) {
                 $this->add($key, $value);
             }
             foreach ($nodes as $node) {
                 $this->add($node);
             }
         } else {
-            foreach ($children as $k=>$child) {
+            foreach ($children as $k => $child) {
                 if ($child instanceof Node) {
 
                     // Component or Property
@@ -117,7 +118,7 @@ class Component extends Node {
 
             return $a1;
 
-        } elseif(is_string($a1)) {
+        } elseif (is_string($a1)) {
 
             $item = $this->root->create($a1, $a2, $a3);
             $item->parent = $this;
@@ -145,19 +146,20 @@ class Component extends Node {
      * removed, only the last one will be returned.
      *
      * @param mixed $item
+     *
      * @return void
      */
     function remove($item) {
 
         if (is_string($item)) {
             $children = $this->select($item);
-            foreach ($children as $k=>$child) {
+            foreach ($children as $k => $child) {
                 unset($this->children[$k]);
             }
             return $child;
         } else {
             foreach ($this->children as $k => $child) {
-                if ($child===$item) {
+                if ($child === $item) {
                     unset($this->children[$k]);
                     return $child;
                 }
@@ -170,7 +172,7 @@ class Component extends Node {
     }
 
     /**
-     * Returns an iterable list of children
+     * Returns an iterable list of children.
      *
      * @return array
      */
@@ -190,7 +192,7 @@ class Component extends Node {
 
         $result = [];
         foreach ($this->children as $child) {
-            if ($child instanceof Component) {
+            if ($child instanceof self) {
                 $result[] = $child;
             }
         }
@@ -213,23 +215,24 @@ class Component extends Node {
      * certain cases.
      *
      * @param string $name
+     *
      * @return array
      */
     function select($name) {
 
         $group = null;
         $name = strtoupper($name);
-        if (strpos($name,'.')!==false) {
-            list($group,$name) = explode('.', $name, 2);
+        if (strpos($name, '.') !== false) {
+            list($group, $name) = explode('.', $name, 2);
         }
 
         $result = [];
-        foreach ($this->children as $key=>$child) {
+        foreach ($this->children as $key => $child) {
 
             if (
                 (
                     strtoupper($child->name) === $name
-                    && (is_null($group) || ( $child instanceof Property && strtoupper($child->group) === $group))
+                    && (is_null($group) || ($child instanceof Property && strtoupper($child->group) === $group))
                 )
                 ||
                 (
@@ -268,6 +271,7 @@ class Component extends Node {
          *
          * @param int $key
          * @param array $array
+         *
          * @return int
          */
         $sortScore = function($key, $array) {
@@ -277,23 +281,23 @@ class Component extends Node {
                 // We want to encode VTIMEZONE first, this is a personal
                 // preference.
                 if ($array[$key]->name === 'VTIMEZONE') {
-                    $score=300000000;
-                    return $score+$key;
+                    $score = 300000000;
+                    return $score + $key;
                 } else {
-                    $score=400000000;
-                    return $score+$key;
+                    $score = 400000000;
+                    return $score + $key;
                 }
             } else {
                 // Properties get encoded first
                 // VCARD version 4.0 wants the VERSION property to appear first
                 if ($array[$key] instanceof Property) {
                     if ($array[$key]->name === 'VERSION') {
-                        $score=100000000;
-                        return $score+$key;
+                        $score = 100000000;
+                        return $score + $key;
                     } else {
                         // All other properties
-                        $score=200000000;
-                        return $score+$key;
+                        $score = 200000000;
+                        return $score + $key;
                     }
                 }
             }
@@ -313,8 +317,8 @@ class Component extends Node {
             }
         );
 
-        foreach ($this->children as $child) $str.=$child->serialize();
-        $str.= "END:" . $this->name . "\r\n";
+        foreach ($this->children as $child) $str .= $child->serialize();
+        $str .= "END:" . $this->name . "\r\n";
 
         return $str;
 
@@ -332,7 +336,7 @@ class Component extends Node {
         $properties = [];
 
         foreach ($this->children as $child) {
-            if ($child instanceof Component) {
+            if ($child instanceof self) {
                 $components[] = $child->jsonSerialize();
             } else {
                 $properties[] = $child->jsonSerialize();
@@ -352,6 +356,7 @@ class Component extends Node {
      * xCal documents.
      *
      * @param Xml\Writer $writer  XML writer.
+     *
      * @return void
      */
     function xmlSerialize(Xml\Writer $writer) {
@@ -360,7 +365,7 @@ class Component extends Node {
         $properties = [];
 
         foreach ($this->children as $child) {
-            if ($child instanceof Component) {
+            if ($child instanceof self) {
                 $components[] = $child;
             } else {
                 $properties[] = $child;
@@ -420,13 +425,14 @@ class Component extends Node {
      * $event = $calendar->VEVENT;
      *
      * @param string $name
+     *
      * @return Property
      */
     function __get($name) {
 
         $matches = $this->select($name);
-        if (count($matches)===0) {
-            return null;
+        if (count($matches) === 0) {
+            return;
         } else {
             $firstMatch = current($matches);
             /** @var $firstMatch Property */
@@ -440,17 +446,18 @@ class Component extends Node {
      * This method checks if a sub-element with the specified name exists.
      *
      * @param string $name
+     *
      * @return bool
      */
     function __isset($name) {
 
         $matches = $this->select($name);
-        return count($matches)>0;
+        return count($matches) > 0;
 
     }
 
     /**
-     * Using the setter method you can add properties or subcomponents
+     * Using the setter method you can add properties or subcomponents.
      *
      * You can either pass a Component, Property
      * object, or a string to automatically create a Property.
@@ -460,14 +467,15 @@ class Component extends Node {
      *
      * @param string $name
      * @param mixed $value
+     *
      * @return void
      */
     function __set($name, $value) {
 
         $matches = $this->select($name);
-        $overWrite = count($matches)?key($matches):null;
+        $overWrite = count($matches) ? key($matches) : null;
 
-        if ($value instanceof Component || $value instanceof Property) {
+        if ($value instanceof self || $value instanceof Property) {
             $value->parent = $this;
             if (!is_null($overWrite)) {
                 $this->children[$overWrite] = $value;
@@ -475,7 +483,7 @@ class Component extends Node {
                 $this->children[] = $value;
             }
         } else {
-            $property = $this->root->create($name,$value);
+            $property = $this->root->create($name, $value);
             $property->parent = $this;
             if (!is_null($overWrite)) {
                 $this->children[$overWrite] = $property;
@@ -490,12 +498,13 @@ class Component extends Node {
      * specified name.
      *
      * @param string $name
+     *
      * @return void
      */
     function __unset($name) {
 
         $matches = $this->select($name);
-        foreach ($matches as $k=>$child) {
+        foreach ($matches as $k => $child) {
 
             unset($this->children[$k]);
             $child->parent = null;
@@ -514,7 +523,7 @@ class Component extends Node {
      */
     function __clone() {
 
-        foreach ($this->children as $key=>$child) {
+        foreach ($this->children as $key => $child) {
             $this->children[$key] = clone $child;
             $this->children[$key]->parent = $this;
         }
@@ -569,6 +578,7 @@ class Component extends Node {
      *   3 - An error.
      *
      * @param int $options
+     *
      * @return array
      */
     function validate($options = 0) {
@@ -592,35 +602,35 @@ class Component extends Node {
 
         foreach ($rules as $propName => $rule) {
 
-            switch($rule) {
+            switch ($rule) {
                 case '0' :
                     if (isset($propertyCounters[$propName])) {
                         $messages[] = [
-                            'level' => 3,
+                            'level'   => 3,
                             'message' => $propName . ' MUST NOT appear in a ' . $this->name . ' component',
-                            'node' => $this,
+                            'node'    => $this,
                         ];
                     }
                     break;
                 case '1' :
-                    if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName]!==1) {
+                    if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName] !== 1) {
                         $repaired = false;
                         if ($options & self::REPAIR && isset($defaults[$propName])) {
                             $this->add($propName, $defaults[$propName]);
                         }
                         $messages[] = [
-                            'level' => $repaired?1:3,
+                            'level'   => $repaired ? 1 : 3,
                             'message' => $propName . ' MUST appear exactly once in a ' . $this->name . ' component',
-                            'node' => $this,
+                            'node'    => $this,
                         ];
                     }
                     break;
                 case '+' :
                     if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName] < 1) {
                         $messages[] = [
-                            'level' => 3,
+                            'level'   => 3,
                             'message' => $propName . ' MUST appear at least once in a ' . $this->name . ' component',
-                            'node' => $this,
+                            'node'    => $this,
                         ];
                     }
                     break;
@@ -629,9 +639,9 @@ class Component extends Node {
                 case '?' :
                     if (isset($propertyCounters[$propName]) && $propertyCounters[$propName] > 1) {
                         $messages[] = [
-                            'level' => 3,
+                            'level'   => 3,
                             'message' => $propName . ' MUST NOT appear more than once in a ' . $this->name . ' component',
-                            'node' => $this,
+                            'node'    => $this,
                         ];
                     }
                     break;

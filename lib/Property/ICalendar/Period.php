@@ -2,13 +2,12 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use
-    Sabre\VObject\Property,
-    Sabre\VObject\DateTimeParser,
-    Sabre\Xml;
+use Sabre\VObject\Property;
+use Sabre\VObject\DateTimeParser;
+use Sabre\Xml;
 
 /**
- * Period property
+ * Period property.
  *
  * This object represents PERIOD values, as defined here:
  *
@@ -35,6 +34,7 @@ class Period extends Property {
      * not yet done, but parameters are not included.
      *
      * @param string $val
+     *
      * @return void
      */
     function setRawMimeDirValue($val) {
@@ -74,6 +74,7 @@ class Period extends Property {
      * The value must always be an array.
      *
      * @param array $value
+     *
      * @return void
      */
     function setJsonValue(array $value) {
@@ -100,14 +101,14 @@ class Period extends Property {
     function getJsonValue() {
 
         $return = [];
-        foreach($this->getParts() as $item) {
+        foreach ($this->getParts() as $item) {
 
             list($start, $end) = explode('/', $item, 2);
 
             $start = DateTimeParser::parseDateTime($start);
 
             // This is a duration value.
-            if ($end[0]==='P') {
+            if ($end[0] === 'P') {
                 $return[] = [
                     $start->format('Y-m-d\\TH:i:s'),
                     $end
@@ -131,6 +132,7 @@ class Period extends Property {
      * create xCard or xCal documents.
      *
      * @param Xml\Writer $writer  XML writer.
+     *
      * @return void
      */
     protected function xmlSerializeValue(Xml\Writer $writer) {

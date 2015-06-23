@@ -1,8 +1,9 @@
 <?php
+
 /**
  * A list of additional PHP timezones that are returned by
  * DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC)
- * valid for new DateTimeZone()
+ * valid for new DateTimeZone().
  *
  * This list does not include those timezone identifiers that we have to map to
  * a different identifier for some PHP versions (see php-workaround.php).

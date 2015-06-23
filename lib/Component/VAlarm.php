@@ -7,7 +7,7 @@ use DateTimeInterface;
 use DateTimeImmutable;
 
 /**
- * VAlarm component
+ * VAlarm component.
  *
  * This component contains some additional functionality specific for VALARMs.
  *
@@ -27,7 +27,7 @@ class VAlarm extends VObject\Component {
     function getEffectiveTriggerTime() {
 
         $trigger = $this->TRIGGER;
-        if(!isset($trigger['VALUE']) || strtoupper($trigger['VALUE']) === 'DURATION') {
+        if (!isset($trigger['VALUE']) || strtoupper($trigger['VALUE']) === 'DURATION') {
             $triggerDuration = VObject\DateTimeParser::parseDuration($this->TRIGGER);
             $related = (isset($trigger['RELATED']) && strtoupper($trigger['RELATED']) == 'END') ? 'END' : 'START';
 
@@ -80,6 +80,7 @@ class VAlarm extends VObject\Component {
      *
      * @param DateTime $start
      * @param DateTime $end
+     *
      * @return bool
      */
     function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
@@ -95,7 +96,7 @@ class VAlarm extends VObject\Component {
 
             $period = new \DatePeriod($effectiveTrigger, $duration, (int)$repeat);
 
-            foreach($period as $occurrence) {
+            foreach ($period as $occurrence) {
 
                 if ($start <= $occurrence && $end > $occurrence) {
                     return true;
@@ -126,11 +127,11 @@ class VAlarm extends VObject\Component {
     function getValidationRules() {
 
         return [
-            'ACTION' => 1,
+            'ACTION'  => 1,
             'TRIGGER' => 1,
 
             'DURATION' => '?',
-            'REPEAT' => '?',
+            'REPEAT'   => '?',
 
             'ATTACH' => '?',
         ];
