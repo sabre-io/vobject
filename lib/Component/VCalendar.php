@@ -13,6 +13,59 @@ use Sabre\VObject\Recur\NoInstancesException;
  * The VCalendar component.
  *
  * This component adds functionality to a component, specific for a VCALENDAR.
+ * 
+ * @property \Sabre\VObject\Property\FlatText $CALSCALE
+ * @property \Sabre\VObject\Property\FlatText $METHOD
+ * @property \Sabre\VObject\Property\FlatText $PRODID
+ * @property \Sabre\VObject\Property\FlatText $VERSION
+ * @property \Sabre\VObject\Property\Uri $ATTACH
+ * @property \Sabre\VObject\Property\Text $CATEGORIES
+ * @property \Sabre\VObject\Property\FlatText $CLASS
+ * @property \Sabre\VObject\Property\FlatText $COMMENT
+ * @property \Sabre\VObject\Property\FlatText $DESCRIPTION
+ * @property \Sabre\VObject\Property\Float $GEO
+ * @property \Sabre\VObject\Property\FlatText $LOCATION
+ * @property \Sabre\VObject\Property\Integer $PERCENT-COMPLETE
+ * @property \Sabre\VObject\Property\Integer $PRIORITY
+ * @property \Sabre\VObject\Property\Text $RESOURCES
+ * @property \Sabre\VObject\Property\FlatText $STATUS
+ * @property \Sabre\VObject\Property\FlatText $SUMMARY
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $COMPLETED
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $DTEND
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $DUE
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $DTSTART
+ * @property \Sabre\VObject\Property\ICalendar\Duration $DURATION
+ * @property \Sabre\VObject\Property\ICalendar\Period $FREEBUSY
+ * @property \Sabre\VObject\Property\FlatText $TRANSP
+ * @property \Sabre\VObject\Property\FlatText $TZID
+ * @property \Sabre\VObject\Property\FlatText $TZNAME
+ * @property \Sabre\VObject\Property\UtcOffset $TZOFFSETFROM
+ * @property \Sabre\VObject\Property\UtcOffset $TZOFFSETTO
+ * @property \Sabre\VObject\Property\Uri $TZURL
+ * @property \Sabre\VObject\Property\ICalendar\CalAddress $ATTENDEE
+ * @property \Sabre\VObject\Property\FlatText $CONTACT
+ * @property \Sabre\VObject\Property\ICalendar\CalAddress $ORGANIZER
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $RECURRENCE-ID
+ * @property \Sabre\VObject\Property\FlatText $RELATED-TO
+ * @property \Sabre\VObject\Property\Uri $URL
+ * @property \Sabre\VObject\Property\FlatText $UID
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $EXDATE
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $RDATE
+ * @property \Sabre\VObject\Property\ICalendar\Recur $RRULE
+ * @property \Sabre\VObject\Property\ICalendar\Recur $EXRULE
+ * @property \Sabre\VObject\Property\FlatText $ACTION
+ * @property \Sabre\VObject\Property\Integer $REPEAT
+ * @property \Sabre\VObject\Property\ICalendar\Duration $TRIGGER
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $CREATED
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $DTSTAMP
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $LAST-MODIFIED
+ * @property \Sabre\VObject\Property\Integer $SEQUENCE
+ * @property \Sabre\VObject\Property\Text $REQUEST-STATUS
+ * @property \Sabre\VObject\Property\Text $ALARM-AGENT
+ * @property \Sabre\VObject\Property\ICalendar\DateTime $ACKNOWLEDGED
+ * @property \Sabre\VObject\Property\Text $PROXIMITY
+ * @property \Sabre\VObject\Property\Boolean $DEFAULT-ALARM
+ * @property \Sabre\VObject\Property\Text $BUSYTYPE
  *
  * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
