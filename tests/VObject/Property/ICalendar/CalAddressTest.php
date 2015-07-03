@@ -21,11 +21,11 @@ class CalAddressTest extends \PHPUnit_Framework_TestCase {
 
     function values() {
 
-        return array(
-            array('mailto:a@b.com', 'mailto:a@b.com'),
-            array('mailto:a@b.com', 'MAILTO:a@b.com'),
-            array('/foo/bar', '/foo/bar'),
-        );
+        return [
+            ['mailto:a@b.com', 'mailto:a@b.com'],
+            ['mailto:a@b.com', 'MAILTO:a@b.com'],
+            ['/foo/bar', '/foo/bar'],
+        ];
 
     }
 

@@ -54,4 +54,3 @@ END:VCALENDAR';
     }
 
 }
-

@@ -8,11 +8,11 @@ class CompoundTest extends \PHPUnit_Framework_TestCase {
 
     function testSetParts() {
 
-        $arr = array(
+        $arr = [
             'ABC, Inc.',
             'North American Division',
             'Marketing;Sales',
-        );
+        ];
 
         $vcard = new VCard();
         $elem = $vcard->createProperty('ORG');

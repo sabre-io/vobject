@@ -70,9 +70,9 @@ END:VCARD
 VCF;
 
         $result = Reader::read($data, Reader::OPTION_FORGIVING);
-        $this->assertEquals(array(
-            '','','Münster Str. 1','Münster','','48143','Deutschland'
-        ), $result->ADR->getParts());
+        $this->assertEquals([
+            '', '', 'Münster Str. 1', 'Münster', '', '48143', 'Deutschland'
+        ], $result->ADR->getParts());
 
 
     }

@@ -15,8 +15,8 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
 
         $warnings = $vcard->validate();
 
-        $warnMsg = array();
-        foreach($warnings as $warning) {
+        $warnMsg = [];
+        foreach ($warnings as $warning) {
             $warnMsg[] = $warning['message'];
         }
 
@@ -31,87 +31,87 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function validateData() {
+    function validateData() {
 
-        $tests = array();
+        $tests = [];
 
         // Correct
-        $tests[] = array(
+        $tests[] = [
             "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:John Doe\r\nUID:foo\r\nEND:VCARD\r\n",
-            array(),
+            [],
             "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:John Doe\r\nUID:foo\r\nEND:VCARD\r\n",
-        );
+        ];
 
         // No VERSION
-        $tests[] = array(
+        $tests[] = [
             "BEGIN:VCARD\r\nFN:John Doe\r\nUID:foo\r\nEND:VCARD\r\n",
-            array(
+            [
                 'VERSION MUST appear exactly once in a VCARD component',
-            ),
+            ],
             "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:John Doe\r\nUID:foo\r\nEND:VCARD\r\n",
-        );
+        ];
 
         // Unknown version
-        $tests[] = array(
+        $tests[] = [
             "BEGIN:VCARD\r\nVERSION:2.2\r\nFN:John Doe\r\nUID:foo\r\nEND:VCARD\r\n",
-            array(
+            [
                 'Only vcard version 4.0 (RFC6350), version 3.0 (RFC2426) or version 2.1 (icm-vcard-2.1) are supported.',
-            ),
+            ],
             "BEGIN:VCARD\r\nVERSION:2.1\r\nFN:John Doe\r\nUID:foo\r\nEND:VCARD\r\n",
-        );
+        ];
 
         // No FN
-        $tests[] = array(
+        $tests[] = [
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nEND:VCARD\r\n",
-            array(
+            [
                 'The FN property must appear in the VCARD component exactly 1 time',
-            ),
+            ],
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nEND:VCARD\r\n",
-        );
+        ];
         // No FN, N fallback
-        $tests[] = array(
+        $tests[] = [
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nN:Doe;John;;;;;\r\nEND:VCARD\r\n",
-            array(
+            [
                 'The FN property must appear in the VCARD component exactly 1 time',
-            ),
+            ],
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nN:Doe;John;;;;;\r\nFN:John Doe\r\nEND:VCARD\r\n",
-        );
+        ];
         // No FN, N fallback, no first name
-        $tests[] = array(
+        $tests[] = [
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nN:Doe;;;;;;\r\nEND:VCARD\r\n",
-            array(
+            [
                 'The FN property must appear in the VCARD component exactly 1 time',
-            ),
+            ],
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nN:Doe;;;;;;\r\nFN:Doe\r\nEND:VCARD\r\n",
-        );
+        ];
 
         // No FN, ORG fallback
-        $tests[] = array(
+        $tests[] = [
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nORG:Acme Co.\r\nEND:VCARD\r\n",
-            array(
+            [
                 'The FN property must appear in the VCARD component exactly 1 time',
-            ),
+            ],
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nORG:Acme Co.\r\nFN:Acme Co.\r\nEND:VCARD\r\n",
-        );
+        ];
         return $tests;
 
     }
 
     function testGetDocumentType() {
 
-        $vcard = new VCard(array(), false);
+        $vcard = new VCard([], false);
         $vcard->VERSION = '2.1';
         $this->assertEquals(VCard::VCARD21, $vcard->getDocumentType());
 
-        $vcard = new VCard(array(), false);
+        $vcard = new VCard([], false);
         $vcard->VERSION = '3.0';
         $this->assertEquals(VCard::VCARD30, $vcard->getDocumentType());
 
-        $vcard = new VCard(array(), false);
+        $vcard = new VCard([], false);
         $vcard->VERSION = '4.0';
         $this->assertEquals(VCard::VCARD40, $vcard->getDocumentType());
 
-        $vcard = new VCard(array(), false);
+        $vcard = new VCard([], false);
         $this->assertEquals(VCard::UNKNOWN, $vcard->getDocumentType());
     }
 
@@ -270,8 +270,8 @@ VCF;
 
     function assertValidateResult($input, $expectedLevel, $expectedMessage = null) {
 
-        $messages = array();
-        foreach($input as $warning) {
+        $messages = [];
+        foreach ($input as $warning) {
             $messages[] = $warning['message'];
         }
 

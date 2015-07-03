@@ -22,7 +22,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $this->assertTrue($it->isInfinite());
 
@@ -44,7 +44,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $ev->add($dtStart);
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
     }
 
@@ -64,7 +64,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
     function testVCalendarInvalidUID() {
 
         $vcal = new VCalendar();
-        $it = new EventIterator($vcal,'foo');
+        $it = new EventIterator($vcal, 'foo');
 
     }
 
@@ -84,12 +84,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $ev->add($dtStart);
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,$ev->uid);
+        $it = new EventIterator($vcal, $ev->uid);
 
         // Max is to prevent overflow
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -101,7 +101,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-07 12:00:00', $tz),
                 new DateTimeImmutable('2011-10-07 15:00:00', $tz),
                 new DateTimeImmutable('2011-10-07 18:00:00', $tz),
@@ -114,7 +114,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-10-08 15:00:00', $tz),
                 new DateTimeImmutable('2011-10-08 18:00:00', $tz),
                 new DateTimeImmutable('2011-10-08 21:00:00', $tz),
-            ),
+            ],
             $result
         );
 
@@ -137,12 +137,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,$ev->uid);
+        $it = new EventIterator($vcal, $ev->uid);
 
         // Max is to prevent overflow
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -154,7 +154,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-07', $tz),
                 new DateTimeImmutable('2011-10-10', $tz),
                 new DateTimeImmutable('2011-10-13', $tz),
@@ -162,7 +162,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-10-19', $tz),
                 new DateTimeImmutable('2011-10-22', $tz),
                 new DateTimeImmutable('2011-10-25', $tz),
-            ),
+            ],
             $result
         );
 
@@ -184,12 +184,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,$ev->uid);
+        $it = new EventIterator($vcal, $ev->uid);
 
         // Max is to prevent overflow
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -201,9 +201,9 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-07', $tz),
-            ),
+            ],
             $result
         );
 
@@ -226,12 +226,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -243,7 +243,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-08 06:00:00', $tz),
                 new DateTimeImmutable('2011-10-08 07:00:00', $tz),
                 new DateTimeImmutable('2011-10-09 06:00:00', $tz),
@@ -256,7 +256,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-10-22 07:00:00', $tz),
                 new DateTimeImmutable('2011-10-23 06:00:00', $tz),
                 new DateTimeImmutable('2011-10-23 07:00:00', $tz),
-            ),
+            ],
             $result
         );
 
@@ -279,12 +279,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -296,7 +296,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2012-10-11 12:00:00', $tz),
                 new DateTimeImmutable('2012-10-11 13:00:00', $tz),
                 new DateTimeImmutable('2012-10-11 14:00:00', $tz),
@@ -309,7 +309,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2012-10-13 15:00:00', $tz),
                 new DateTimeImmutable('2012-10-15 10:00:00', $tz),
                 new DateTimeImmutable('2012-10-15 11:00:00', $tz),
-            ),
+            ],
             $result
         );
 
@@ -332,12 +332,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -349,7 +349,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-07', $tz),
                 new DateTimeImmutable('2011-10-11', $tz),
                 new DateTimeImmutable('2011-10-19', $tz),
@@ -362,7 +362,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-11-18', $tz),
                 new DateTimeImmutable('2011-11-22', $tz),
                 new DateTimeImmutable('2011-11-30', $tz),
-            ),
+            ],
             $result
         );
 
@@ -385,12 +385,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         // Max is to prevent overflow
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -402,7 +402,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-07', $tz),
                 new DateTimeImmutable('2011-10-21', $tz),
                 new DateTimeImmutable('2011-11-04', $tz),
@@ -413,7 +413,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2012-01-13', $tz),
                 new DateTimeImmutable('2012-01-27', $tz),
                 new DateTimeImmutable('2012-02-10', $tz),
-            ),
+            ],
             $result
         );
 
@@ -436,12 +436,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 15;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -453,7 +453,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-07 08:00:00', $tz),
                 new DateTimeImmutable('2011-10-07 09:00:00', $tz),
                 new DateTimeImmutable('2011-10-07 10:00:00', $tz),
@@ -469,7 +469,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-11-01 08:00:00', $tz),
                 new DateTimeImmutable('2011-11-01 09:00:00', $tz),
                 new DateTimeImmutable('2011-11-01 10:00:00', $tz),
-            ),
+            ],
             $result
         );
 
@@ -492,12 +492,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -509,7 +509,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-07 18:00:00', $tz),
                 new DateTimeImmutable('2011-10-18 18:00:00', $tz),
                 new DateTimeImmutable('2011-10-19 18:00:00', $tz),
@@ -522,7 +522,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-11-18 18:00:00', $tz),
                 new DateTimeImmutable('2011-11-29 18:00:00', $tz),
                 new DateTimeImmutable('2011-11-30 18:00:00', $tz),
-            ),
+            ],
             $result
         );
 
@@ -545,12 +545,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         // Grabbing the next 12 items
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -562,7 +562,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-07', $tz),
                 new DateTimeImmutable('2011-10-18', $tz),
                 new DateTimeImmutable('2011-10-19', $tz),
@@ -575,7 +575,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-11-18', $tz),
                 new DateTimeImmutable('2011-11-29', $tz),
                 new DateTimeImmutable('2011-11-30', $tz),
-            ),
+            ],
             $result
         );
 
@@ -598,11 +598,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 14;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -614,13 +614,13 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-12-05', $tz),
                 new DateTimeImmutable('2012-03-05', $tz),
                 new DateTimeImmutable('2012-06-05', $tz),
                 new DateTimeImmutable('2012-09-05', $tz),
                 new DateTimeImmutable('2012-12-05', $tz),
-            ),
+            ],
             $result
         );
 
@@ -644,11 +644,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 14;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -660,7 +660,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-12-31', $tz),
                 new DateTimeImmutable('2012-08-31', $tz),
                 new DateTimeImmutable('2012-10-31', $tz),
@@ -673,7 +673,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2014-12-31', $tz),
                 new DateTimeImmutable('2015-08-31', $tz),
                 new DateTimeImmutable('2015-10-31', $tz),
-            ),
+            ],
             $result
         );
 
@@ -697,11 +697,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 14;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -713,7 +713,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-01-01', $tz),
                 new DateTimeImmutable('2011-01-25', $tz),
                 new DateTimeImmutable('2011-01-31', $tz),
@@ -723,7 +723,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-11-24', $tz),
                 new DateTimeImmutable('2012-04-01', $tz),
                 new DateTimeImmutable('2012-04-24', $tz),
-            ),
+            ],
             $result
         );
 
@@ -750,11 +750,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 20;
-        $result = array();
-        foreach($it as $k=>$item) {
+        $result = [];
+        foreach ($it as $k => $item) {
 
             $result[] = $item;
             $max--;
@@ -766,7 +766,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-01-03', $tz),
                 new DateTimeImmutable('2011-01-05', $tz),
                 new DateTimeImmutable('2011-01-10', $tz),
@@ -783,7 +783,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-03-22', $tz),
                 new DateTimeImmutable('2011-03-28', $tz),
                 new DateTimeImmutable('2011-05-02', $tz),
-            ),
+            ],
             $result
         );
 
@@ -806,11 +806,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 20;
-        $result = array();
-        foreach($it as $k=>$item) {
+        $result = [];
+        foreach ($it as $k => $item) {
 
             $result[] = $item;
             $max--;
@@ -822,7 +822,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-08-01', $tz),
                 new DateTimeImmutable('2012-10-01', $tz),
                 new DateTimeImmutable('2013-04-01', $tz),
@@ -833,7 +833,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2016-02-01', $tz),
                 new DateTimeImmutable('2016-08-01', $tz),
                 new DateTimeImmutable('2017-05-01', $tz),
-            ),
+            ],
             $result
         );
 
@@ -856,11 +856,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 20;
-        $result = array();
-        foreach($it as $k=>$item) {
+        $result = [];
+        foreach ($it as $k => $item) {
 
             $result[] = $item;
             $max--;
@@ -872,7 +872,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-01-03', $tz),
                 new DateTimeImmutable('2011-01-31', $tz),
                 new DateTimeImmutable('2011-02-01', $tz),
@@ -883,7 +883,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2011-04-29', $tz),
                 new DateTimeImmutable('2011-05-02', $tz),
                 new DateTimeImmutable('2011-05-31', $tz),
-            ),
+            ],
             $result
         );
 
@@ -906,11 +906,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 20;
-        $result = array();
-        foreach($it as $k=>$item) {
+        $result = [];
+        foreach ($it as $k => $item) {
 
             $result[] = $item;
             $max--;
@@ -922,7 +922,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-01-01', $tz),
                 new DateTimeImmutable('2014-01-01', $tz),
                 new DateTimeImmutable('2017-01-01', $tz),
@@ -933,7 +933,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2032-01-01', $tz),
                 new DateTimeImmutable('2035-01-01', $tz),
                 new DateTimeImmutable('2038-01-01', $tz),
-            ),
+            ],
             $result
         );
 
@@ -956,11 +956,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 20;
-        $result = array();
-        foreach($it as $k=>$item) {
+        $result = [];
+        foreach ($it as $k => $item) {
 
             $result[] = $item;
             $max--;
@@ -972,11 +972,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2012-02-29', $tz),
                 new DateTimeImmutable('2016-02-29', $tz),
                 new DateTimeImmutable('2020-02-29', $tz),
-            ),
+            ],
             $result
         );
 
@@ -999,11 +999,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 20;
-        $result = array();
-        foreach($it as $k=>$item) {
+        $result = [];
+        foreach ($it as $k => $item) {
 
             $result[] = $item;
             $max--;
@@ -1015,7 +1015,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-04-07', $tz),
                 new DateTimeImmutable('2011-10-07', $tz),
                 new DateTimeImmutable('2015-04-07', $tz),
@@ -1024,7 +1024,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2019-10-07', $tz),
                 new DateTimeImmutable('2023-04-07', $tz),
                 new DateTimeImmutable('2023-10-07', $tz),
-            ),
+            ],
             $result
         );
 
@@ -1047,11 +1047,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 20;
-        $result = array();
-        foreach($it as $k=>$item) {
+        $result = [];
+        foreach ($it as $k => $item) {
 
             $result[] = $item;
             $max--;
@@ -1063,7 +1063,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-04-04', $tz),
                 new DateTimeImmutable('2011-04-24', $tz),
                 new DateTimeImmutable('2011-10-03', $tz),
@@ -1072,7 +1072,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2016-04-24', $tz),
                 new DateTimeImmutable('2016-10-03', $tz),
                 new DateTimeImmutable('2016-10-30', $tz),
-            ),
+            ],
             $result
         );
 
@@ -1095,15 +1095,15 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         // The idea is that we're fast-forwarding too far in the future, so
         // there will be no results left.
         $it->fastForward(new DateTimeImmutable('2020-05-05', new DateTimeZone('UTC')));
 
         $max = 20;
-        $result = array();
-        while($item = $it->current()) {
+        $result = [];
+        while ($item = $it->current()) {
 
             $result[] = $item;
             $max--;
@@ -1114,7 +1114,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         }
 
         $tz = new DateTimeZone('UTC');
-        $this->assertEquals(array(), $result);
+        $this->assertEquals([], $result);
 
     }
 
@@ -1134,9 +1134,9 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $dtStart->setDateTime(new DateTimeImmutable('2011-01-01 13:50:20', $tz));
 
         $exDate1 = $vcal->createProperty('EXDATE');
-        $exDate1->setDateTimes(array(new DateTimeImmutable('2012-01-01 13:50:20', $tz), new DateTimeImmutable('2014-01-01 13:50:20', $tz)));
+        $exDate1->setDateTimes([new DateTimeImmutable('2012-01-01 13:50:20', $tz), new DateTimeImmutable('2014-01-01 13:50:20', $tz)]);
         $exDate2 = $vcal->createProperty('EXDATE');
-        $exDate2->setDateTimes(array(new DateTimeImmutable('2016-01-01 13:50:20', $tz)));
+        $exDate2->setDateTimes([new DateTimeImmutable('2016-01-01 13:50:20', $tz)]);
 
         $ev->add($dtStart);
         $ev->add($exDate1);
@@ -1144,11 +1144,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,(string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->uid);
 
         $max = 20;
-        $result = array();
-        foreach($it as $k=>$item) {
+        $result = [];
+        foreach ($it as $k => $item) {
 
             $result[] = $item;
             $max--;
@@ -1158,7 +1158,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-01-01 13:50:20', $tz),
                 new DateTimeImmutable('2013-01-01 13:50:20', $tz),
                 new DateTimeImmutable('2015-01-01 13:50:20', $tz),
@@ -1166,7 +1166,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
                 new DateTimeImmutable('2018-01-01 13:50:20', $tz),
                 new DateTimeImmutable('2019-01-01 13:50:20', $tz),
                 new DateTimeImmutable('2020-01-01 13:50:20', $tz),
-            ),
+            ],
             $result
         );
 
@@ -1205,11 +1205,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev3);
 
-        $it = new EventIterator($vcal,'overridden');
+        $it = new EventIterator($vcal, 'overridden');
 
-        $dates = array();
-        $summaries = array();
-        while($it->valid()) {
+        $dates = [];
+        $summaries = [];
+        while ($it->valid()) {
 
             $dates[] = $it->getDTStart();
             $summaries[] = (string)$it->getEventObject()->SUMMARY;
@@ -1218,20 +1218,20 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         }
 
         $tz = new DateTimeZone('UTC');
-        $this->assertEquals(array(
-            new DateTimeImmutable('2012-01-07 12:00:00',$tz),
-            new DateTimeImmutable('2012-01-08 12:00:00',$tz),
-            new DateTimeImmutable('2012-01-09 12:00:00',$tz),
-            new DateTimeImmutable('2012-01-10 14:00:00',$tz),
-            new DateTimeImmutable('2012-01-11 12:00:00',$tz),
-            new DateTimeImmutable('2012-01-12 12:00:00',$tz),
-            new DateTimeImmutable('2012-01-14 12:00:00',$tz),
-            new DateTimeImmutable('2012-01-15 12:00:00',$tz),
-            new DateTimeImmutable('2012-01-15 14:00:00',$tz),
-            new DateTimeImmutable('2012-01-16 12:00:00',$tz),
-        ), $dates);
+        $this->assertEquals([
+            new DateTimeImmutable('2012-01-07 12:00:00', $tz),
+            new DateTimeImmutable('2012-01-08 12:00:00', $tz),
+            new DateTimeImmutable('2012-01-09 12:00:00', $tz),
+            new DateTimeImmutable('2012-01-10 14:00:00', $tz),
+            new DateTimeImmutable('2012-01-11 12:00:00', $tz),
+            new DateTimeImmutable('2012-01-12 12:00:00', $tz),
+            new DateTimeImmutable('2012-01-14 12:00:00', $tz),
+            new DateTimeImmutable('2012-01-15 12:00:00', $tz),
+            new DateTimeImmutable('2012-01-15 14:00:00', $tz),
+            new DateTimeImmutable('2012-01-16 12:00:00', $tz),
+        ], $dates);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'baseEvent',
             'baseEvent',
             'baseEvent',
@@ -1242,7 +1242,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
             'baseEvent',
             'Event 3',
             'baseEvent',
-        ), $summaries);
+        ], $summaries);
 
     }
 
@@ -1270,11 +1270,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev2);
 
-        $it = new EventIterator($vcal,'overridden');
+        $it = new EventIterator($vcal, 'overridden');
 
-        $dates = array();
-        $summaries = array();
-        while($it->valid()) {
+        $dates = [];
+        $summaries = [];
+        while ($it->valid()) {
 
             $dates[] = $it->getDTStart();
             $summaries[] = (string)$it->getEventObject()->SUMMARY;
@@ -1283,18 +1283,18 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         }
 
         $tz = new DateTimeZone('UTC');
-        $this->assertEquals(array(
-            new DateTimeImmutable('2012-01-12 12:00:00',$tz),
-            new DateTimeImmutable('2012-01-13 12:00:00',$tz),
-            new DateTimeImmutable('2012-01-26 12:00:00',$tz),
+        $this->assertEquals([
+            new DateTimeImmutable('2012-01-12 12:00:00', $tz),
+            new DateTimeImmutable('2012-01-13 12:00:00', $tz),
+            new DateTimeImmutable('2012-01-26 12:00:00', $tz),
 
-        ), $dates);
+        ], $dates);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'baseEvent',
             'Override!',
             'baseEvent',
-        ), $summaries);
+        ], $summaries);
 
     }
 
@@ -1322,10 +1322,10 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev2);
 
-        $it = new EventIterator($vcal,'overridden');
+        $it = new EventIterator($vcal, 'overridden');
 
-        $dates = array();
-        $summaries = array();
+        $dates = [];
+        $summaries = [];
 
         // The reported problem was specifically related to the VCALENDAR
         // expansion. In this parcitular case, we had to forward to the 28th of
@@ -1335,7 +1335,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         // We stop the loop when it hits the 6th of februari. Normally this
         // iterator would hit 24, 25 (overriden from 31) and 7 feb but because
         // we 'filter' from the 28th till the 6th, we should get 0 results.
-        while($it->valid() && $it->getDTSTart() < new DateTimeImmutable('2012-02-06 23:00:00')) {
+        while ($it->valid() && $it->getDTSTart() < new DateTimeImmutable('2012-02-06 23:00:00')) {
 
             $dates[] = $it->getDTStart();
             $summaries[] = (string)$it->getEventObject()->SUMMARY;
@@ -1343,8 +1343,8 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         }
 
-        $this->assertEquals(array(), $dates);
-        $this->assertEquals(array(), $summaries);
+        $this->assertEquals([], $dates);
+        $this->assertEquals([], $summaries);
 
     }
 
@@ -1357,10 +1357,10 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $ev = $vcal->createComponent('VEVENT');
 
         $ev->UID = 'bla';
-        $ev->RDATE = array(
+        $ev->RDATE = [
             new DateTimeImmutable('2014-08-07', new DateTimeZone('UTC')),
             new DateTimeImmutable('2014-08-08', new DateTimeZone('UTC')),
-        );
+        ];
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new DateTimeImmutable('2011-10-07', new DateTimeZone('UTC')));
 
@@ -1368,12 +1368,12 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal,$ev->uid);
+        $it = new EventIterator($vcal, $ev->uid);
 
         // Max is to prevent overflow
         $max = 12;
-        $result = array();
-        foreach($it as $item) {
+        $result = [];
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -1385,11 +1385,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $tz = new DateTimeZone('UTC');
 
         $this->assertEquals(
-            array(
+            [
                 new DateTimeImmutable('2011-10-07', $tz),
                 new DateTimeImmutable('2014-08-07', $tz),
                 new DateTimeImmutable('2014-08-08', $tz),
-            ),
+            ],
             $result
         );
 
@@ -1420,8 +1420,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev3);
 
-        $it = new EventIterator($vcal,'broken');
+        $it = new EventIterator($vcal, 'broken');
 
     }
 }
-

@@ -37,16 +37,16 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => 'One',
-                'recipient' => 'mailto:strunk@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
                 'recipientName' => 'Strunk',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -63,9 +63,9 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
+            ],
 
-        );
+        ];
 
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
@@ -145,16 +145,16 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => 'One',
-                'recipient' => 'mailto:strunk@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
                 'recipientName' => 'Strunk',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -208,9 +208,9 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
+            ],
 
-        );
+        ];
 
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
@@ -288,16 +288,16 @@ ICS;
 
     $version = \Sabre\VObject\Version::VERSION;
 
-    $expected = array(
-        array(
-            'uid' => 'foobar',
-            'method' => 'REPLY',
-            'component' => 'VEVENT',
-            'sender' => 'mailto:one@example.org',
-            'senderName' => 'One',
-            'recipient' => 'mailto:strunk@example.org',
+    $expected = [
+        [
+            'uid'           => 'foobar',
+            'method'        => 'REPLY',
+            'component'     => 'VEVENT',
+            'sender'        => 'mailto:one@example.org',
+            'senderName'    => 'One',
+            'recipient'     => 'mailto:strunk@example.org',
             'recipientName' => 'Strunk',
-            'message' => <<<ICS
+            'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -346,9 +346,9 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
+            ],
 
-        );
+        ];
 
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
@@ -384,7 +384,7 @@ END:VCALENDAR
 ICS;
 
 
-        $expected = array();
+        $expected = [];
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
@@ -419,16 +419,16 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => 'One',
-                'recipient' => 'mailto:strunk@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
                 'recipientName' => 'Strunk',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -443,9 +443,9 @@ ATTENDEE;PARTSTAT=NEEDS-ACTION;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
 ICS
-            )
+            ]
 
-        );
+        ];
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
@@ -479,7 +479,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $expected = array();
+        $expected = [];
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
@@ -525,16 +525,16 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => null,
-                'recipient' => 'mailto:organizer@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => null,
+                'recipient'     => 'mailto:organizer@example.org',
                 'recipientName' => null,
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -551,8 +551,8 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
-        );
+            ],
+        ];
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
@@ -596,16 +596,16 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => null,
-                'recipient' => 'mailto:organizer@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => null,
+                'recipient'     => 'mailto:organizer@example.org',
                 'recipientName' => null,
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -622,8 +622,8 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
-        );
+            ],
+        ];
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
@@ -666,16 +666,16 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => null,
-                'recipient' => 'mailto:organizer@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => null,
+                'recipient'     => 'mailto:organizer@example.org',
                 'recipientName' => null,
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -693,8 +693,8 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
-        );
+            ],
+        ];
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
@@ -730,16 +730,16 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => 'One',
-                'recipient' => 'mailto:strunk@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
                 'recipientName' => 'Strunk',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -755,9 +755,9 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
+            ],
 
-        );
+        ];
 
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
@@ -796,7 +796,7 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array();
+        $expected = [];
 
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
@@ -853,7 +853,7 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $expected = array();
+        $expected = [];
 
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
@@ -890,7 +890,7 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array();
+        $expected = [];
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
     }
@@ -926,16 +926,16 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => 'One',
-                'recipient' => 'mailto:strunk@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
                 'recipientName' => 'Strunk',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -951,9 +951,9 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
+            ],
 
-        );
+        ];
 
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
@@ -1001,16 +1001,16 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => 'One',
-                'recipient' => 'mailto:strunk@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
                 'recipientName' => 'Strunk',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 CALSCALE:GREGORIAN
@@ -1027,9 +1027,9 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
+            ],
 
-        );
+        ];
 
         $result = $this->parse($oldMessage, $newMessage, $expected);
 
@@ -1093,16 +1093,16 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REPLY',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:one@example.org',
-                'senderName' => 'One',
-                'recipient' => 'mailto:strunk@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
                 'recipientName' => 'Strunk',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 CALSCALE:GREGORIAN
@@ -1120,9 +1120,9 @@ END:VCALENDAR
 
 ICS
 
-            ),
+            ],
 
-        );
+        ];
 
         $result = $this->parse($oldMessage, $newMessage, $expected);
 

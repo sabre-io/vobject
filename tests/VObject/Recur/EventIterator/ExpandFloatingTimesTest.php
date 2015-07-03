@@ -2,9 +2,7 @@
 
 namespace Sabre\VObject;
 
-use
-    DateTime,
-    DateTimeZone;
+use DateTime;
 
 class ExpandFloatingTimesTest extends \PHPUnit_Framework_TestCase {
 

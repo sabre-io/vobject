@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use Sabre\VObject\Component;
 use DateTime;
 use Sabre\VObject\Reader;
 
@@ -11,65 +10,65 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider timeRangeTestData
      */
-    public function testInTimeRange(VAlarm $valarm,$start,$end,$outcome) {
+    function testInTimeRange(VAlarm $valarm, $start, $end, $outcome) {
 
         $this->assertEquals($outcome, $valarm->isInTimeRange($start, $end));
 
     }
 
-    public function timeRangeTestData() {
+    function timeRangeTestData() {
 
-        $tests = array();
+        $tests = [];
 
         $calendar = new VCalendar();
 
         // Hard date and time
         $valarm1 = $calendar->createComponent('VALARM');
         $valarm1->add(
-            $calendar->createProperty('TRIGGER', '20120312T130000Z', array('VALUE' => 'DATE-TIME'))
+            $calendar->createProperty('TRIGGER', '20120312T130000Z', ['VALUE' => 'DATE-TIME'])
         );
 
-        $tests[] = array($valarm1, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true);
-        $tests[] = array($valarm1, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false);
+        $tests[] = [$valarm1, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true];
+        $tests[] = [$valarm1, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false];
 
         // Relation to start time of event
         $valarm2 = $calendar->createComponent('VALARM');
         $valarm2->add(
-            $calendar->createProperty('TRIGGER', '-P1D', array('VALUE' => 'DURATION'))
+            $calendar->createProperty('TRIGGER', '-P1D', ['VALUE' => 'DURATION'])
         );
 
         $vevent2 = $calendar->createComponent('VEVENT');
         $vevent2->DTSTART = '20120313T130000Z';
         $vevent2->add($valarm2);
 
-        $tests[] = array($valarm2, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true);
-        $tests[] = array($valarm2, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false);
+        $tests[] = [$valarm2, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true];
+        $tests[] = [$valarm2, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false];
 
         // Relation to end time of event
         $valarm3 = $calendar->createComponent('VALARM');
-        $valarm3->add( $calendar->createProperty('TRIGGER', '-P1D', array('VALUE'=>'DURATION', 'RELATED' => 'END')) );
+        $valarm3->add($calendar->createProperty('TRIGGER', '-P1D', ['VALUE' => 'DURATION', 'RELATED' => 'END']));
 
         $vevent3 = $calendar->createComponent('VEVENT');
         $vevent3->DTSTART = '20120301T130000Z';
         $vevent3->DTEND = '20120401T130000Z';
         $vevent3->add($valarm3);
 
-        $tests[] = array($valarm3, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), false);
-        $tests[] = array($valarm3, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), true);
+        $tests[] = [$valarm3, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), false];
+        $tests[] = [$valarm3, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), true];
 
-        // Relation to end time of todo 
+        // Relation to end time of todo
         $valarm4 = $calendar->createComponent('VALARM');
         $valarm4->TRIGGER = '-P1D';
         $valarm4->TRIGGER['VALUE'] = 'DURATION';
-        $valarm4->TRIGGER['RELATED']= 'END';
+        $valarm4->TRIGGER['RELATED'] = 'END';
 
         $vtodo4 = $calendar->createComponent('VTODO');
         $vtodo4->DTSTART = '20120301T130000Z';
         $vtodo4->DUE = '20120401T130000Z';
         $vtodo4->add($valarm4);
 
-        $tests[] = array($valarm4, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), false);
-        $tests[] = array($valarm4, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), true);
+        $tests[] = [$valarm4, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), false];
+        $tests[] = [$valarm4, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), true];
 
         // Relation to start time of event + repeat
         $valarm5 = $calendar->createComponent('VALARM');
@@ -82,7 +81,7 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
         $vevent5->DTSTART = '20120301T130000Z';
         $vevent5->add($valarm5);
 
-        $tests[] = array($valarm5, new DateTime('2012-03-09 01:00:00'), new DateTime('2012-03-10 01:00:00'), true);
+        $tests[] = [$valarm5, new DateTime('2012-03-09 01:00:00'), new DateTime('2012-03-10 01:00:00'), true];
 
         // Relation to start time of event + duration, but no repeat
         $valarm6 = $calendar->createComponent('VALARM');
@@ -94,36 +93,36 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
         $vevent6->DTSTART = '20120313T130000Z';
         $vevent6->add($valarm6);
 
-        $tests[] = array($valarm6, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true);
-        $tests[] = array($valarm6, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false);
+        $tests[] = [$valarm6, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true];
+        $tests[] = [$valarm6, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false];
 
 
         // Relation to end time of event (DURATION instead of DTEND)
         $valarm7 = $calendar->createComponent('VALARM');
         $valarm7->TRIGGER = '-P1D';
         $valarm7->TRIGGER['VALUE'] = 'DURATION';
-        $valarm7->TRIGGER['RELATED']= 'END';
+        $valarm7->TRIGGER['RELATED'] = 'END';
 
         $vevent7 = $calendar->createComponent('VEVENT');
         $vevent7->DTSTART = '20120301T130000Z';
         $vevent7->DURATION = 'P30D';
         $vevent7->add($valarm7);
 
-        $tests[] = array($valarm7, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), false);
-        $tests[] = array($valarm7, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), true);
+        $tests[] = [$valarm7, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), false];
+        $tests[] = [$valarm7, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), true];
 
         // Relation to end time of event (No DTEND or DURATION)
         $valarm7 = $calendar->createComponent('VALARM');
         $valarm7->TRIGGER = '-P1D';
         $valarm7->TRIGGER['VALUE'] = 'DURATION';
-        $valarm7->TRIGGER['RELATED']= 'END';
+        $valarm7->TRIGGER['RELATED'] = 'END';
 
         $vevent7 = $calendar->createComponent('VEVENT');
         $vevent7->DTSTART = '20120301T130000Z';
         $vevent7->add($valarm7);
 
-        $tests[] = array($valarm7, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), true);
-        $tests[] = array($valarm7, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), false);
+        $tests[] = [$valarm7, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), true];
+        $tests[] = [$valarm7, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), false];
 
 
         return $tests;
@@ -132,7 +131,7 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException LogicException
      */
-    public function testInTimeRangeInvalidComponent() {
+    function testInTimeRangeInvalidComponent() {
 
         $calendar = new VCalendar();
         $valarm = $calendar->createComponent('VALARM');
@@ -149,7 +148,7 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
     /**
      * This bug was found and reported on the mailing list.
      */
-    public function testInTimeRangeBuggy() {
+    function testInTimeRangeBuggy() {
 
 $input = <<<BLA
 BEGIN:VCALENDAR
@@ -176,4 +175,3 @@ BLA;
     }
 
 }
-

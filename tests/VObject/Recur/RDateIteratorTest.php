@@ -12,11 +12,11 @@ class RDateIteratorTest extends \PHPUnit_Framework_TestCase {
         $utc = new DateTimeZone('UTC');
         $it = new RDateIterator('20140901T000000Z,20141001T000000Z', new DateTimeImmutable('2014-08-01 00:00:00', $utc));
 
-        $expected = array(
+        $expected = [
             new DateTimeImmutable('2014-08-01 00:00:00', $utc),
             new DateTimeImmutable('2014-09-01 00:00:00', $utc),
             new DateTimeImmutable('2014-10-01 00:00:00', $utc),
-        );
+        ];
 
         $this->assertEquals(
             $expected,
@@ -34,16 +34,16 @@ class RDateIteratorTest extends \PHPUnit_Framework_TestCase {
 
         $it->fastForward(new DateTimeImmutable('2014-08-15 00:00:00'));
 
-        $result = array();
-        while($it->valid()) {
+        $result = [];
+        while ($it->valid()) {
             $result[] = $it->current();
             $it->next();
         }
 
-        $expected = array(
+        $expected = [
             new DateTimeImmutable('2014-09-01 00:00:00', $utc),
             new DateTimeImmutable('2014-10-01 00:00:00', $utc),
-        );
+        ];
 
         $this->assertEquals(
             $expected,

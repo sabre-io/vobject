@@ -138,13 +138,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     function testReadPropertyInComponent() {
 
-        $data = array(
+        $data = [
             "BEGIN:VCALENDAR",
             "PROPNAME:propValue",
             "END:VCALENDAR"
-        );
+        ];
 
-        $result = Reader::read(implode("\r\n",$data));
+        $result = Reader::read(implode("\r\n", $data));
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
@@ -157,16 +157,16 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     function testReadNestedComponent() {
 
-        $data = array(
+        $data = [
             "BEGIN:VCALENDAR",
             "BEGIN:VTIMEZONE",
             "BEGIN:DAYLIGHT",
             "END:DAYLIGHT",
             "END:VTIMEZONE",
             "END:VCALENDAR"
-        );
+        ];
 
-        $result = Reader::read(implode("\r\n",$data));
+        $result = Reader::read(implode("\r\n", $data));
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
@@ -209,7 +209,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($result->parameters()));
         $this->assertEquals('N', $result->parameters['N']->name);
         $this->assertEquals('1,2,3,4,5,6,7,8,9,10,"11"', $result->parameters['N']->getValue());
-        $this->assertEquals(array(1,2,3,4,5,6,"7,8",9,10,'"11"'), $result->parameters['N']->getParts());
+        $this->assertEquals([1, 2, 3, 4, 5, 6, "7,8", 9, 10, '"11"'], $result->parameters['N']->getParts());
 
     }
 
@@ -226,7 +226,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($result->parameters()));
         $this->assertEquals('TYPE', $result->parameters['TYPE']->name);
         $this->assertEquals('WORK,VOICE,PREF', $result->parameters['TYPE']->getValue());
-        $this->assertEquals(array('WORK', 'VOICE', 'PREF'), $result->parameters['TYPE']->getParts());
+        $this->assertEquals(['WORK', 'VOICE', 'PREF'], $result->parameters['TYPE']->getParts());
 
     }
 
@@ -331,29 +331,29 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     function testReadForgiving() {
 
-        $data = array(
+        $data = [
             "BEGIN:VCALENDAR",
             "X_PROP:propValue",
             "END:VCALENDAR"
-        );
+        ];
 
         $caught = false;
         try {
-            $result = Reader::read(implode("\r\n",$data));
+            $result = Reader::read(implode("\r\n", $data));
         } catch (ParseException $e) {
             $caught = true;
         }
 
         $this->assertEquals(true, $caught);
 
-        $result = Reader::read(implode("\r\n",$data), Reader::OPTION_FORGIVING);
+        $result = Reader::read(implode("\r\n", $data), Reader::OPTION_FORGIVING);
 
-        $expected = implode("\r\n", array(
+        $expected = implode("\r\n", [
             "BEGIN:VCALENDAR",
             "X_PROP:propValue",
             "END:VCALENDAR",
             ""
-        ));
+        ]);
 
         $this->assertEquals($expected, $result->serialize());
 
@@ -361,30 +361,30 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
     function testReadWithInvalidLine() {
 
-        $data = array(
+        $data = [
             "BEGIN:VCALENDAR",
             "DESCRIPTION:propValue",
             "Yes, we've actually seen a file with non-idented property values on multiple lines",
             "END:VCALENDAR"
-        );
+        ];
 
         $caught = false;
         try {
-            $result = Reader::read(implode("\r\n",$data));
+            $result = Reader::read(implode("\r\n", $data));
         } catch (ParseException $e) {
             $caught = true;
         }
 
         $this->assertEquals(true, $caught);
 
-        $result = Reader::read(implode("\r\n",$data), Reader::OPTION_IGNORE_INVALID_LINES);
+        $result = Reader::read(implode("\r\n", $data), Reader::OPTION_IGNORE_INVALID_LINES);
 
-        $expected = implode("\r\n", array(
+        $expected = implode("\r\n", [
             "BEGIN:VCALENDAR",
             "DESCRIPTION:propValue",
             "END:VCALENDAR",
             ""
-        ));
+        ]);
 
         $this->assertEquals($expected, $result->serialize());
 

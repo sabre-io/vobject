@@ -14,7 +14,7 @@ class MimeDirTest extends \PHPUnit_Framework_TestCase {
     function testParseError() {
 
         $mimeDir = new MimeDir();
-        $mimeDir->parse(fopen(__FILE__,'a'));
+        $mimeDir->parse(fopen(__FILE__, 'a'));
 
     }
 

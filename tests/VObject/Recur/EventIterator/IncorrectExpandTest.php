@@ -2,14 +2,12 @@
 
 namespace Sabre\VObject;
 
-use
-    DateTime,
-    DateTimeZone;
+use DateTime;
 
 /**
  * This is a unittest for Issue #53.
  */
-class RecurrenceIteratorIncorrectExpandTest extends \PHPUnit_Framework_TestCase {
+class IncorrectExpandTest extends \PHPUnit_Framework_TestCase {
 
     function testExpand() {
 

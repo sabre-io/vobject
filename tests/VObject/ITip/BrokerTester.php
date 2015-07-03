@@ -6,27 +6,27 @@ use Sabre\VObject\Reader;
 
 /**
  * Utilities for testing the broker
- * 
+ *
  * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
- * @author Evert Pot (http://evertpot.com/) 
+ * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
 abstract class BrokerTester extends \Sabre\VObject\TestCase {
 
-    function parse($oldMessage, $newMessage, $expected = array(), $currentUser = 'mailto:one@example.org') {
+    function parse($oldMessage, $newMessage, $expected = [], $currentUser = 'mailto:one@example.org') {
 
         $broker = new Broker();
         $result = $broker->parseEvent($newMessage, $currentUser, $oldMessage);
 
         $this->assertEquals(count($expected), count($result));
 
-        foreach($expected as $index=>$ex) {
+        foreach ($expected as $index => $ex) {
 
             $message = $result[$index];
 
-            foreach($ex as $key=>$val) {
+            foreach ($ex as $key => $val) {
 
-                if ($key==='message') {
+                if ($key === 'message') {
                     $this->assertVObjEquals(
                         $val,
                         $message->message->serialize()
@@ -47,23 +47,23 @@ abstract class BrokerTester extends \Sabre\VObject\TestCase {
 
         $vcal = Reader::read($input);
 
-        foreach($vcal->getComponents() as $mainComponent) {
+        foreach ($vcal->getComponents() as $mainComponent) {
             break;
         }
 
         $message = new Message();
         $message->message = $vcal;
-        $message->method = isset($vcal->METHOD)?$vcal->METHOD->getValue():null;
+        $message->method = isset($vcal->METHOD) ? $vcal->METHOD->getValue() : null;
         $message->component = $mainComponent->name;
         $message->uid = $mainComponent->uid->getValue();
-        $message->sequence = isset($vcal->VEVENT[0])?(string)$vcal->VEVENT[0]->SEQUENCE:null;
+        $message->sequence = isset($vcal->VEVENT[0]) ? (string)$vcal->VEVENT[0]->SEQUENCE : null;
 
         if ($message->method === 'REPLY') {
 
             $message->sender = $mainComponent->ATTENDEE->getValue();
-            $message->senderName = isset($mainComponent->ATTENDEE['CN'])?$mainComponent->ATTENDEE['CN']->getValue():null;
+            $message->senderName = isset($mainComponent->ATTENDEE['CN']) ? $mainComponent->ATTENDEE['CN']->getValue() : null;
             $message->recipient = $mainComponent->ORGANIZER->getValue();
-            $message->recipientName = isset($mainComponent->ORGANIZER['CN'])?$mainComponent->ORGANIZER['CN']:null;
+            $message->recipientName = isset($mainComponent->ORGANIZER['CN']) ? $mainComponent->ORGANIZER['CN'] : null;
 
         }
 
@@ -91,7 +91,7 @@ abstract class BrokerTester extends \Sabre\VObject\TestCase {
         }
         if ($result instanceof \Sabre\VObject\Component\VCalendar) {
             $result = $result->serialize();
-            $result = rtrim($result,"\r\n");
+            $result = rtrim($result, "\r\n");
         }
 
         $this->assertEquals(

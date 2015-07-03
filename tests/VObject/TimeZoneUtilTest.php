@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject;
 
-class TimezoneUtilTest extends \PHPUnit_Framework_TestCase {
+class TimeZoneUtilTest extends \PHPUnit_Framework_TestCase {
 
     function setUp() {
 
@@ -20,7 +20,7 @@ class TimezoneUtilTest extends \PHPUnit_Framework_TestCase {
             $tz = new \DateTimeZone($timezoneName);
             $this->assertInstanceOf('DateTimeZone', $tz);
         } catch (\Exception $e) {
-            if (strpos($e->getMessage(), "Unknown or bad timezone")!==false) {
+            if (strpos($e->getMessage(), "Unknown or bad timezone") !== false) {
                 $this->markTestSkipped($timezoneName . ' is not (yet) supported in this PHP version. Update pecl/timezonedb');
             } else {
                 throw $e;
@@ -37,7 +37,7 @@ class TimezoneUtilTest extends \PHPUnit_Framework_TestCase {
         // PHPUNit requires an array of arrays
         return array_map(
             function($value) {
-                return array($value);
+                return [$value];
             },
             TimeZoneUtil::$map
         );
@@ -189,7 +189,7 @@ HI;
         // PHPUNit requires an array of arrays
         return array_map(
             function($value) {
-                return array($value);
+                return [$value];
             },
             \DateTimeZone::listIdentifiers()
         );
@@ -201,7 +201,7 @@ HI;
         // PHPUNit requires an array of arrays
         return array_map(
             function($value) {
-                return array($value);
+                return [$value];
             },
             TimeZoneUtil::getIdentifiersBC()
         );

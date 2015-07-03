@@ -8,10 +8,10 @@ class TextTest extends \PHPUnit_Framework_TestCase {
 
     function assertVCard21serialization($propValue, $expected) {
 
-        $doc = new VCard(array(
-            'VERSION'=>'2.1',
-            'PROP' => $propValue
-        ), false);
+        $doc = new VCard([
+            'VERSION' => '2.1',
+            'PROP'   => $propValue
+        ], false);
 
         // Adding quoted-printable, because we're testing if it gets removed
         // automatically.
@@ -38,7 +38,7 @@ class TextTest extends \PHPUnit_Framework_TestCase {
     function testSerializeVCard21Array() {
 
         $this->assertVCard21Serialization(
-            array('f;oo','bar'),
+            ['f;oo', 'bar'],
             'PROP;P1=V1:f\;oo;bar'
         );
 
@@ -46,8 +46,8 @@ class TextTest extends \PHPUnit_Framework_TestCase {
     function testSerializeVCard21Fold() {
 
         $this->assertVCard21Serialization(
-            str_repeat('x',80),
-            'PROP;P1=V1:' . str_repeat('x',64) . "\r\n " . str_repeat('x',16)
+            str_repeat('x', 80),
+            'PROP;P1=V1:' . str_repeat('x', 64) . "\r\n " . str_repeat('x', 16)
         );
 
     }

@@ -2,10 +2,6 @@
 
 namespace Sabre\VObject;
 
-use
-    DateTime,
-    DateTimeZone;
-
 class Issue26Test extends \PHPUnit_Framework_TestCase {
 
     /**

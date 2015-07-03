@@ -8,7 +8,7 @@ namespace Sabre\VObject;
  * VObject will provide a workaround for this, so end-user still get expected
  * values.
  */
-class GoogleColonEscaping extends \PHPUnit_Framework_TestCase {
+class GoogleColonEscapingTest extends \PHPUnit_Framework_TestCase {
 
     function testDecode() {
 

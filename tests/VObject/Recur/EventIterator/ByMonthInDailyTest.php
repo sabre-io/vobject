@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject\Recur;
 
-use
-    Sabre\VObject\Reader,
-    DateTime;
+use Sabre\VObject\Reader;
+use DateTime;
 
 class ByMonthInDailyTest extends \PHPUnit_Framework_TestCase {
 
@@ -44,14 +43,14 @@ ICS;
             $dates[] = $event->DTSTART->getValue();
         }
 
-        $expectedDates = array(
+        $expectedDates = [
             "20130929T160000Z",
             "20131006T160000Z",
             "20131013T160000Z",
             "20131020T160000Z",
             "20131027T160000Z",
             "20140907T160000Z"
-        );
+        ];
 
         $this->assertEquals($expectedDates, $dates, 'Recursed dates are restricted by month');
     }

@@ -2,13 +2,11 @@
 
 namespace Sabre\VObject\Splitter;
 
-use Sabre\VObject;
-
 class VCardTest extends \PHPUnit_Framework_TestCase {
 
     function createStream($data) {
 
-        $stream = fopen('php://memory','r+');
+        $stream = fopen('php://memory', 'r+');
         fwrite($stream, $data);
         rewind($stream);
         return $stream;
@@ -26,7 +24,7 @@ EOT;
         $objects = new VCard($tempFile);
 
         $count = 0;
-        while($objects->getNext()) {
+        while ($objects->getNext()) {
             $count++;
         }
         $this->assertEquals(1, $count);
@@ -64,7 +62,7 @@ EOT;
 
         $splitter = new VCard($tempFile);
 
-        while($object=$splitter->getNext()) {
+        while ($object = $splitter->getNext()) {
         }
 
     }
@@ -93,7 +91,7 @@ EOT;
         $splitter = new VCard($tempFile);
 
         $count = 0;
-        while($object=$splitter->getNext()) {
+        while ($object = $splitter->getNext()) {
             $count++;
         }
         $this->assertEquals(4, $count);
@@ -109,7 +107,7 @@ EOT;
         $tempFile = $this->createStream($data);
 
         $objects = new VCard($tempFile);
-        $object=$objects->getNext();
+        $object = $objects->getNext();
 
         $this->assertNull($objects->getNext());
 
@@ -127,7 +125,7 @@ EOT;
         $tempFile = $this->createStream($data);
 
         $objects = new VCard($tempFile);
-        while($objects->getNext()) { }
+        while ($objects->getNext()) { }
 
     }
 
@@ -145,7 +143,7 @@ EOT;
         $objects = new VCard($tempFile);
 
         $count = 0;
-        while($objects->getNext()) {
+        while ($objects->getNext()) {
             $count++;
         }
         $this->assertEquals(2, $count);
@@ -185,7 +183,7 @@ EOT;
         $objects = new VCard($tempFile);
 
         $count = 0;
-        while($objects->getNext()) {
+        while ($objects->getNext()) {
             $count++;
         }
 

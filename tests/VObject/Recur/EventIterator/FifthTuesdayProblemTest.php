@@ -40,7 +40,7 @@ ICS;
         $vObject = Reader::read($ics);
         $it = new Recur\EventIterator($vObject, (string)$vObject->VEVENT->UID);
 
-        while($it->valid()) {
+        while ($it->valid()) {
             $it->next();
         }
 

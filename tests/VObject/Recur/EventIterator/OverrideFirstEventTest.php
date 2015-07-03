@@ -66,7 +66,7 @@ END:VCALENDAR
 ICS;
 
         $newIcs = $vcal->serialize();
-        $newIcs = str_replace("\r\n","\n", $newIcs);
+        $newIcs = str_replace("\r\n", "\n", $newIcs);
         $this->assertEquals(
             $expected,
             $newIcs
@@ -111,7 +111,7 @@ END:VCALENDAR
 ICS;
 
         $newIcs = $vcal->serialize();
-        $newIcs = str_replace("\r\n","\n", $newIcs);
+        $newIcs = str_replace("\r\n", "\n", $newIcs);
         $this->assertEquals(
             $expected,
             $newIcs

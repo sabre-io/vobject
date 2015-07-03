@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject;
 
-class IssueEmptyParameterTest extends \PHPUnit_Framework_TestCase {
+class EmptyParameterTest extends \PHPUnit_Framework_TestCase {
 
     function testRead() {
 
@@ -41,27 +41,27 @@ END:VCARD
 
 VCF;
 
-        $this->assertEquals($expected, str_replace("\r","", $vcard));
+        $this->assertEquals($expected, str_replace("\r", "", $vcard));
 
     }
 
     function testVCard21Parameter() {
 
-        $vcard = new Component\VCard(array(), false);
+        $vcard = new Component\VCard([], false);
         $vcard->VERSION = '2.1';
         $vcard->PHOTO = 'random_stuff';
-        $vcard->PHOTO->add(null,'BASE64');
+        $vcard->PHOTO->add(null, 'BASE64');
         $vcard->UID = 'foo-bar';
 
         $result = $vcard->serialize();
-        $expected = array(
+        $expected = [
             "BEGIN:VCARD",
             "VERSION:2.1",
             "PHOTO;BASE64:" . base64_encode('random_stuff'),
             "UID:foo-bar",
             "END:VCARD",
             "",
-        );
+        ];
 
         $this->assertEquals(implode("\r\n", $expected), $result);
 

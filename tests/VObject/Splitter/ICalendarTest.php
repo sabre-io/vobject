@@ -14,7 +14,7 @@ class ICalendarTest extends \PHPUnit_Framework_TestCase {
 
     function createStream($data) {
 
-        $stream = fopen('php://memory','r+');
+        $stream = fopen('php://memory', 'r+');
         fwrite($stream, $data);
         rewind($stream);
         return $stream;
@@ -37,10 +37,10 @@ EOT;
         $objects = new ICalendar($tempFile);
 
         $return = "";
-        while($object=$objects->getNext()) {
+        while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
+        $this->assertEquals([], VObject\Reader::read($return)->validate());
     }
 
     /**
@@ -76,10 +76,10 @@ EOT;
         $objects = new ICalendar($tempFile);
 
         $return = "";
-        while($object=$objects->getNext()) {
+        while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->assertNull($object=$objects->getNext());
+        $this->assertNull($object = $objects->getNext());
     }
 
     /**
@@ -124,7 +124,7 @@ EOT;
 
         $return = "";
         $i = 0;
-        while($object=$objects->getNext()) {
+        while ($object = $objects->getNext()) {
 
             $expected = <<<EOT
 BEGIN:VCALENDAR
@@ -141,7 +141,7 @@ EOT;
             $this->assertEquals($expected, $object->serialize());
             $i++;
         }
-        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
+        $this->assertEquals([], VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportEventWithoutUID() {
@@ -163,7 +163,7 @@ EOT;
         $objects = new ICalendar($tempFile);
 
         $return = "";
-        while($object=$objects->getNext()) {
+        while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }
 
@@ -176,7 +176,7 @@ EOT;
             );
             $this->fail('Validation errors: ' . implode("\n", $messages));
         } else {
-            $this->assertEquals(array(), $messages);
+            $this->assertEquals([], $messages);
         }
     }
 
@@ -258,7 +258,7 @@ EOT;
 
         $return = "";
         $i = 0;
-        while($object=$objects->getNext()) {
+        while ($object = $objects->getNext()) {
 
             $expected = <<<EOT
 BEGIN:VCALENDAR
@@ -278,7 +278,7 @@ EOT;
 
         }
 
-        $this->assertEquals(array(), VObject\Reader::read($return)->validate());
+        $this->assertEquals([], VObject\Reader::read($return)->validate());
     }
 
     function testICalendarImportWithOutVTIMEZONES() {
@@ -314,12 +314,12 @@ EOT;
         $objects = new ICalendar($tempFile);
 
         $return = "";
-        while($object=$objects->getNext()) {
+        while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }
 
         $messages = VObject\Reader::read($return)->validate();
-        $this->assertEquals(array(), $messages);
+        $this->assertEquals([], $messages);
     }
 
 }

@@ -866,7 +866,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION; 
+        $version = \Sabre\VObject\Version::VERSION;
         $expectedICS = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -1723,17 +1723,17 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $expected = array(
-            array(
-                'uid' => '20140813T153116Z-12176-1000-1065-6@johnny-lubuntu',
-                'method' => 'REQUEST',
-                'sender' => 'mailto:martin@fruux.com',
-                'senderName' => null,
-                'recipient' => 'mailto:dominik@fruux.com',
+        $expected = [
+            [
+                'uid'           => '20140813T153116Z-12176-1000-1065-6@johnny-lubuntu',
+                'method'        => 'REQUEST',
+                'sender'        => 'mailto:martin@fruux.com',
+                'senderName'    => null,
+                'recipient'     => 'mailto:dominik@fruux.com',
                 'recipientName' => null,
-                'message' => $expectedICS,
-            )
-        ); 
+                'message'       => $expectedICS,
+            ]
+        ];
         $this->parse(null, $ics, $expected, 'mailto:martin@fruux.com');
 
     }
@@ -1743,7 +1743,7 @@ ICS;
      * again mangled by iCal. This triggered a few bugs related to email
      * address scheme casing.
      */
-    public function testAttendeeModify() {
+    function testAttendeeModify() {
 
         $old = <<<ICS
 BEGIN:VCALENDAR
@@ -2644,7 +2644,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->parse($old, $new, array(), 'mailto:a1@example.org');
+        $this->parse($old, $new, [], 'mailto:a1@example.org');
 
 
     }

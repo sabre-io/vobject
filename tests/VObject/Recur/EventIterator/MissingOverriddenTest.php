@@ -2,11 +2,9 @@
 
 namespace Sabre\VObject;
 
-use
-    DateTime,
-    DateTimeZone;
+use DateTime;
 
-class RecurrenceIteratorMissingOverriddenTest extends \PHPUnit_Framework_TestCase {
+class MissingOverriddenTest extends \PHPUnit_Framework_TestCase {
 
     function testExpand() {
 
@@ -56,7 +54,7 @@ END:VEVENT
 END:VCALENDAR
 
 ICS;
-        $this->assertEquals($output, str_replace("\r","",$result));
+        $this->assertEquals($output, str_replace("\r", "", $result));
     
     }
 

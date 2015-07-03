@@ -12,7 +12,7 @@ class BinaryTest extends \PHPUnit_Framework_TestCase {
     function testMimeDir() {
 
         $vcard = new VObject\Component\VCard();
-        $vcard->add('PHOTO', array('a','b'));
+        $vcard->add('PHOTO', ['a', 'b']);
 
     }
 

@@ -2,9 +2,8 @@
 
 namespace Sabre\VObject\Recur;
 
-use
-    Sabre\VObject\Reader,
-    DateTime;
+use Sabre\VObject\Reader;
+use DateTime;
 
 class BySetPosHangTest extends \PHPUnit_Framework_TestCase {
 
@@ -39,7 +38,7 @@ ICS;
             $dates[] = $event->DTSTART->getValue();
         }
 
-        $expectedDates = array(
+        $expectedDates = [
             "20150101T160000Z",
             "20150122T160000Z",
             "20150219T160000Z",
@@ -53,7 +52,7 @@ ICS;
             "20151022T150000Z",
             "20151119T160000Z",
             "20151224T160000Z",
-        );
+        ];
 
         $this->assertEquals($expectedDates, $dates);
     }

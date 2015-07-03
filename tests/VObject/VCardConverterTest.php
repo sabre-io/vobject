@@ -418,10 +418,10 @@ OUT;
         list(
             $input,
             $output
-        ) = array(
+        ) = [
             $output,
             $input
-        );
+        ];
 
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
@@ -473,10 +473,10 @@ OUT;
         list(
             $input,
             $output
-        ) = array(
+        ) = [
             $output,
             $input
-        );
+        ];
 
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
@@ -524,7 +524,7 @@ END:VCARD
 
 VCF;
 
-      $this->assertEquals($expected, str_replace("\r","", $vcard));
+      $this->assertEquals($expected, str_replace("\r", "", $vcard));
 
     }
 

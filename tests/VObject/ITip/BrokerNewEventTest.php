@@ -63,18 +63,18 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REQUEST',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:strunk@example.org',
-                'senderName' => 'Strunk',
-                'recipient' => 'mailto:white@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REQUEST',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:white@example.org',
                 'recipientName' => 'White',
-                'message' => $expectedMessage,
-            ),
-        );
+                'message'       => $expectedMessage,
+            ],
+        ];
 
         $result = $this->parse($message, $expected);
 
@@ -101,8 +101,8 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $expected = array();
-        $this->parse($message, array());
+        $expected = [];
+        $this->parse($message, []);
 
     }
     /**
@@ -126,8 +126,8 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $expected = array();
-        $this->parse($message, array());
+        $expected = [];
+        $this->parse($message, []);
 
     }
 
@@ -158,16 +158,16 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REQUEST',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:strunk@example.org',
-                'senderName' => 'Strunk',
-                'recipient' => 'mailto:one@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REQUEST',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:one@example.org',
                 'recipientName' => 'One',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -185,16 +185,16 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
-            array(
-                'uid' => 'foobar',
-                'method' => 'REQUEST',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:strunk@example.org',
-                'senderName' => 'Strunk',
-                'recipient' => 'mailto:two@example.org',
+            ],
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REQUEST',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:two@example.org',
                 'recipientName' => 'Two',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -220,16 +220,16 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
-            array(
-                'uid' => 'foobar',
-                'method' => 'REQUEST',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:strunk@example.org',
-                'senderName' => 'Strunk',
-                'recipient' => 'mailto:three@example.org',
+            ],
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REQUEST',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:three@example.org',
                 'recipientName' => 'Three',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -246,8 +246,8 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
-        );
+            ],
+        ];
 
         $result = $this->parse($message, $expected);
 
@@ -281,16 +281,16 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array(
-            array(
-                'uid' => 'foobar',
-                'method' => 'REQUEST',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:strunk@example.org',
-                'senderName' => 'Strunk',
-                'recipient' => 'mailto:one@example.org',
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REQUEST',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:one@example.org',
                 'recipientName' => 'One',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -308,16 +308,16 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
-            array(
-                'uid' => 'foobar',
-                'method' => 'REQUEST',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:strunk@example.org',
-                'senderName' => 'Strunk',
-                'recipient' => 'mailto:two@example.org',
+            ],
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REQUEST',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:two@example.org',
                 'recipientName' => 'Two',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -342,16 +342,16 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
-            array(
-                'uid' => 'foobar',
-                'method' => 'REQUEST',
-                'component' => 'VEVENT',
-                'sender' => 'mailto:strunk@example.org',
-                'senderName' => 'Strunk',
-                'recipient' => 'mailto:three@example.org',
+            ],
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REQUEST',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:three@example.org',
                 'recipientName' => 'Three',
-                'message' => <<<ICS
+                'message'       => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -368,8 +368,8 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ),
-        );
+            ],
+        ];
 
         $result = $this->parse($message, $expected);
 
@@ -391,7 +391,7 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = array();
+        $expected = [];
         $result = $this->parse($message, $expected);
 
     }
@@ -424,13 +424,12 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $result = $this->parse($message, array());
+        $result = $this->parse($message, []);
 
     }
 
     /**
      * @expectedException Sabre\VObject\ITip\SameOrganizerForAllComponentsException
-     *
      */
     function testChangingOrganizers() {
 
@@ -457,7 +456,7 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $result = $this->parse($message, array());
+        $result = $this->parse($message, []);
 
     }
     function testNoOrganizerHasAttendee() {
@@ -472,24 +471,24 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->parse($message, array());
+        $this->parse($message, []);
 
     }
 
-    function parse($message, $expected = array()) {
+    function parse($message, $expected = []) {
 
         $broker = new Broker();
         $result = $broker->parseEvent($message, 'mailto:strunk@example.org');
 
         $this->assertEquals(count($expected), count($result));
 
-        foreach($expected as $index=>$ex) {
+        foreach ($expected as $index => $ex) {
 
             $message = $result[$index];
 
-            foreach($ex as $key=>$val) {
+            foreach ($ex as $key => $val) {
 
-                if ($key==='message') {
+                if ($key === 'message') {
                     $this->assertEquals(
                         str_replace("\n", "\r\n", $val),
                         rtrim($message->message->serialize(), "\r\n")

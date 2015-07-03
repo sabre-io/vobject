@@ -9,151 +9,151 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
 
     function testRoundTripJCard() {
 
-        $input = array(
+        $input = [
             "vcard",
-            array(
-                array(
+            [
+                [
                     "version",
                     new \StdClass(),
                     "text",
                     "4.0"
-                ),
-                array(
+                ],
+                [
                     "prodid",
                     new \StdClass(),
                     "text",
                     "-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN",
-                ),
-                array(
+                ],
+                [
                     "uid",
                     new \StdClass(),
                     "text",
                     "foo",
-                ),
-                array(
+                ],
+                [
                     "bday",
                     new \StdClass(),
                     "date-and-or-time",
                     "1985-04-07",
-                ),
-                array(
+                ],
+                [
                     "rev",
                     new \StdClass(),
                     "timestamp",
                     "1995-10-31T22:27:10Z",
-                ),
-                array(
+                ],
+                [
                     "lang",
                     new \StdClass(),
                     "language-tag",
                     "nl",
-                ),
-                array(
+                ],
+                [
                     "n",
                     new \StdClass(),
                     "text",
-                    array("Last", "First", "Middle", "", ""),
-                ),
-                array(
+                    ["Last", "First", "Middle", "", ""],
+                ],
+                [
                     "tel",
-                    (object)array(
+                    (object)[
                         "group" => "item1",
-                    ),
+                    ],
                     "text",
                     "+1 555 123456",
-                ),
-                array(
+                ],
+                [
                     "x-ab-label",
-                    (object)array(
+                    (object)[
                         "group" => "item1",
-                    ),
+                    ],
                     "unknown",
                     "Walkie Talkie",
-                ),
-                array(
+                ],
+                [
                     "adr",
                     new \StdClass(),
                     "text",
-                        array(
+                        [
                             "",
                             "",
-                            array("My Street", "Left Side", "Second Shack"),
+                            ["My Street", "Left Side", "Second Shack"],
                             "Hometown",
                             "PA",
                             "18252",
                             "U.S.A",
-                        ),
-                ),
-                array(
+                        ],
+                ],
+                [
                     "bday",
-                    (object)array(
-                        'x-param' => array(1,2),
-                    ),
+                    (object)[
+                        'x-param' => [1,2],
+                    ],
                     "date",
                     "1979-12-25",
-                ),
-                array(
+                ],
+                [
                     "bday",
                     new \StdClass(),
                     "date-time",
                     "1979-12-25T02:00:00",
-                ),
-                array(
+                ],
+                [
                     "x-truncated",
                     new \StdClass(),
                     "date",
                     "--12-25",
-                ),
-                array(
+                ],
+                [
                     "x-time-local",
                     new \StdClass(),
                     "time",
                     "12:30:00"
-                ),
-                array(
+                ],
+                [
                     "x-time-utc",
                     new \StdClass(),
                     "time",
                     "12:30:00Z"
-                ),
-                array(
+                ],
+                [
                     "x-time-offset",
                     new \StdClass(),
                     "time",
                     "12:30:00-08:00"
-                ),
-                array(
+                ],
+                [
                     "x-time-reduced",
                     new \StdClass(),
                     "time",
                     "23"
-                ),
-                array(
+                ],
+                [
                     "x-time-truncated",
                     new \StdClass(),
                     "time",
                     "--30"
-                ),
-                array(
+                ],
+                [
                     "x-karma-points",
                     new \StdClass(),
                     "integer",
                     42
-                ),
-                array(
+                ],
+                [
                     "x-grade",
                     new \StdClass(),
                     "float",
                     1.3
-                ),
-                array(
+                ],
+                [
                     "tz",
                     new \StdClass(),
                     "utc-offset",
                     "-05:00",
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $parser = new Json(json_encode($input));
         $vobj = $parser->parse();
@@ -198,114 +198,114 @@ VCF;
 
     function testRoundTripJCal() {
 
-        $input = array(
+        $input = [
             "vcalendar",
-            array(
-                array(
+            [
+                [
                     "version",
                     new \StdClass(),
                     "text",
                     "2.0"
-                ),
-                array(
+                ],
+                [
                     "prodid",
                     new \StdClass(),
                     "text",
                     "-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN",
-                ),
-                array(
+                ],
+                [
                     "calscale",
                     new \StdClass(),
                     "text",
                     "GREGORIAN"
-                ),
-            ),
-            array(
-                array("vevent",
-                    array(
-                        array(
+                ],
+            ],
+            [
+                ["vevent",
+                    [
+                        [
                             "uid", new \StdClass(), "text", "foo",
-                        ),
-                        array(
+                        ],
+                        [
                             "dtstart", new \StdClass(), "date", "2013-05-26",
-                        ),
-                        array(
+                        ],
+                        [
                             "duration", new \StdClass(), "duration", "P1D",
-                        ),
-                        array(
+                        ],
+                        [
                             "categories", new \StdClass(), "text", "home", "testing",
-                        ),
-                        array(
+                        ],
+                        [
                             "created", new \StdClass(), "date-time", "2013-05-26T18:10:00Z",
-                        ),
-                        array(
+                        ],
+                        [
                             "attach", new \StdClass(), "binary", base64_encode('attachment')
-                        ),
-                        array(
+                        ],
+                        [
                             "attendee", new \StdClass(), "cal-address", "mailto:armin@example.org",
-                        ),
-                        array(
-                            "geo", new \StdClass(), "float", array(51.96668, 7.61876),
-                        ),
-                        array(
+                        ],
+                        [
+                            "geo", new \StdClass(), "float", [51.96668, 7.61876],
+                        ],
+                        [
                             "sequence", new \StdClass(), "integer", 5
-                        ),
-                        array(
-                            "freebusy", new \StdClass(), "period",  array("2013-05-26T21:02:13", "PT1H"), array("2013-06-26T12:00:00", "2013-06-26T13:00:00"),
-                        ),
-                        array(
+                        ],
+                        [
+                            "freebusy", new \StdClass(), "period",  ["2013-05-26T21:02:13", "PT1H"], ["2013-06-26T12:00:00", "2013-06-26T13:00:00"],
+                        ],
+                        [
                             "url", new \StdClass(), "uri", "http://example.org/",
-                        ),
-                        array(
+                        ],
+                        [
                             "tzoffsetfrom", new \StdClass(), "utc-offset", "+05:00",
-                        ),
-                        array(
-                            "rrule", new \StdClass(), "recur", array(
-                                'freq' => 'WEEKLY',
-                                'byday' => array('MO', 'TU'),
-                            ),
-                        ),
-                        array(
+                        ],
+                        [
+                            "rrule", new \StdClass(), "recur", [
+                                'freq'  => 'WEEKLY',
+                                'byday' => ['MO', 'TU'],
+                            ],
+                        ],
+                        [
                             "x-bool", new \StdClass(), "boolean", true
-                        ),
-                        array(
+                        ],
+                        [
                             "x-time", new \StdClass(), "time", "08:00:00",
-                        ),
-                        array(
+                        ],
+                        [
                             "attendee",
-                            (object)array(
-                                "cn" => "Dominik",
+                            (object)[
+                                "cn"       => "Dominik",
                                 "partstat" => "DECLINED",
-                            ),
+                            ],
                             "cal-address",
                             "mailto:dominik@example.org"
-                        ),
-                        array(
+                        ],
+                        [
                             "request-status",
                             new \StdClass(),
                             "text",
-                            array("2.0", "Success"),
-                        ),
-                        array(
+                            ["2.0", "Success"],
+                        ],
+                        [
                             "request-status",
                             new \StdClass(),
                             "text",
-                            array("3.7", "Invalid Calendar User", "ATTENDEE:mailto:jsmith@example.org"),
-                        ),
-                    ),
-                    array(
-                        array("valarm",
-                            array(
-                                array(
+                            ["3.7", "Invalid Calendar User", "ATTENDEE:mailto:jsmith@example.org"],
+                        ],
+                    ],
+                    [
+                        ["valarm",
+                            [
+                                [
                                     "action", new \StdClass(), "text", "DISPLAY",
-                                ),
-                            ),
-                            array(),
-                        ),
-                    ),
-                )
-            ),
-        );
+                                ],
+                            ],
+                            [],
+                        ],
+                    ],
+                ]
+            ],
+        ];
 
         $parser = new Json(json_encode($input));
         $vobj = $parser->parse();
@@ -355,20 +355,20 @@ VCF;
 
     function testParseStreamArg() {
 
-        $input = array(
+        $input = [
             "vcard",
-            array(
-                array(
+            [
+                [
                     "FN", new \StdClass(), 'text', "foo",
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $stream = fopen('php://memory','r+');
+        $stream = fopen('php://memory', 'r+');
         fwrite($stream, json_encode($input));
         rewind($stream);
 
-        $result = VObject\Reader::readJson($stream,0);
+        $result = VObject\Reader::readJson($stream, 0);
         $this->assertEquals('foo', $result->FN->getValue());
 
     }
@@ -379,14 +379,14 @@ VCF;
     function testParseInvalidData() {
 
         $json = new Json();
-        $input = array(
+        $input = [
             "vlist",
-            array(
-                array(
+            [
+                [
                     "FN", new \StdClass(), 'text', "foo",
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $json->parse(json_encode($input), 0);
 

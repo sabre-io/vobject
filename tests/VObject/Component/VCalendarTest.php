@@ -10,7 +10,7 @@ class VCalendarTest extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider expandData
      */
-    public function testExpand($input, $output, $timeZone = 'UTC', $start = '2011-12-01', $end = '2011-12-31') {
+    function testExpand($input, $output, $timeZone = 'UTC', $start = '2011-12-01', $end = '2011-12-31') {
 
         $vcal = VObject\Reader::read($input);
 
@@ -29,9 +29,9 @@ class VCalendarTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function expandData() {
+    function expandData() {
 
-        $tests = array();
+        $tests = [];
 
         // No data
         $input = 'BEGIN:VCALENDAR
@@ -41,7 +41,7 @@ END:VCALENDAR
 ';
 
         $output = $input;
-        $tests[] = array($input,$output);
+        $tests[] = [$input,$output];
 
 
         // Simple events
@@ -72,7 +72,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
-        $tests[] = array($input, $output);
+        $tests[] = [$input, $output];
 
         // Removing timezone info
         $input = 'BEGIN:VCALENDAR
@@ -100,7 +100,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
-        $tests[] = array($input, $output);
+        $tests[] = [$input, $output];
 
         // Recurrence rule
         $input = 'BEGIN:VCALENDAR
@@ -157,7 +157,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
-        $tests[] = array($input, $output);
+        $tests[] = [$input, $output];
 
         // Recurrence rule + override
         $input = 'BEGIN:VCALENDAR
@@ -221,7 +221,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
-        $tests[] = array($input, $output);
+        $tests[] = [$input, $output];
 
         // Floating dates and times.
         $input = <<<ICS
@@ -266,7 +266,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $tests[] = array($input, $output, 'America/Argentina/Buenos_Aires', '2014-01-01', '2015-01-01');
+        $tests[] = [$input, $output, 'America/Argentina/Buenos_Aires', '2014-01-01', '2015-01-01'];
 
         // Recurrence rule with no valid instances
         $input = 'BEGIN:VCALENDAR
@@ -289,7 +289,7 @@ VERSION:2.0
 END:VCALENDAR
 ';
 
-        $tests[] = array($input, $output);
+        $tests[] = [$input, $output];
         return $tests;
 
     }
@@ -297,7 +297,7 @@ END:VCALENDAR
     /**
      * @expectedException LogicException
      */
-    public function testBrokenEventExpand() {
+    function testBrokenEventExpand() {
 
         $input = 'BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
@@ -339,7 +339,7 @@ END:VCALENDAR
 ';
 
         $vcal = VObject\Reader::read($input);
-        $this->assertEquals(array(), $vcal->validate(), 'Got an error');
+        $this->assertEquals([], $vcal->validate(), 'Got an error');
 
     }
 
@@ -676,8 +676,8 @@ ICS;
 
     function assertValidateResult($input, $expectedLevel, $expectedMessage = null) {
 
-        $messages = array();
-        foreach($input as $warning) {
+        $messages = [];
+        foreach ($input as $warning) {
             $messages[] = $warning['message'];
         }
 

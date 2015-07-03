@@ -38,7 +38,7 @@ BLA;
 
     }
 
-    public function testValidate() {
+    function testValidate() {
 
         $input = <<<HI
 BEGIN:VCALENDAR
@@ -54,12 +54,12 @@ HI;
         $obj = Reader::read($input);
 
         $warnings = $obj->validate();
-        $messages = array();
-        foreach($warnings as $warning) {
+        $messages = [];
+        foreach ($warnings as $warning) {
             $messages[] = $warning['message'];
         }
 
-        $this->assertEquals(array(), $messages);
+        $this->assertEquals([], $messages);
 
     }
 
