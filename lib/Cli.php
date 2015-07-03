@@ -583,9 +583,10 @@ HELP
 
         };
 
-        $tmp = $vObj->children;
+        $children = $vObj->children();
+        $tmp = $children;
         uksort(
-            $vObj->children,
+            $children,
             function($a, $b) use ($sortScore, $tmp) {
 
                 $sA = $sortScore($a, $tmp);
@@ -596,7 +597,7 @@ HELP
             }
         );
 
-        foreach ($vObj->children as $child) {
+        foreach ($children as $child) {
             if ($child instanceof Component) {
                 $this->serializeComponent($child);
             } else {

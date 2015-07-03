@@ -172,7 +172,8 @@ class Component extends Node {
     }
 
     /**
-     * Returns an iterable list of children.
+     * Returns a flat list of all the properties and components in this
+     * component.
      *
      * @return array
      */
@@ -432,7 +433,7 @@ class Component extends Node {
 
         if ($name==='children') {
 
-            throw new \RuntimeException('Starting sabre/vobject 4.0 the children property is now protected. You should use the select() method instead');
+            throw new \RuntimeException('Starting sabre/vobject 4.0 the children property is now protected. You should use the children() method instead');
 
         }
 
