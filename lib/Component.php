@@ -30,7 +30,7 @@ class Component extends Node {
      *
      * @var array
      */
-    public $children = [];
+    protected $children = [];
 
     /**
      * Creates a new component.
@@ -429,6 +429,12 @@ class Component extends Node {
      * @return Property
      */
     function __get($name) {
+
+        if ($name==='children') {
+
+            throw new \RuntimeException('Starting sabre/vobject 4.0 the children property is now protected. You should use the select() method instead');
+
+        }
 
         $matches = $this->select($name);
         if (count($matches) === 0) {
