@@ -154,18 +154,17 @@ class Component extends Node {
                 $child->destroy();
                 unset($this->children[$k]);
             }
-            return $child;
-        } else {
-            foreach ($this->children as $k => $child) {
-                if ($child === $item) {
-                    $child->destroy();
-                    unset($this->children[$k]);
-                }
-            }
-
-            throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
-
+            return;
         }
+        foreach ($this->children as $k => $child) {
+            if ($child === $item) {
+                $child->destroy();
+                unset($this->children[$k]);
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
 
     }
 

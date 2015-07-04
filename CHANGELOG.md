@@ -20,6 +20,8 @@ ChangeLog
 * Removed `RecurrenceIterator` (use Recur\EventIterator instead).
 * Now using php-cs-fixer to automatically enforce and correct CS.
 * #233: The `+00:00` timezone is now recognized as UTC. (@c960657)
+* #237: Added a `destroy()` method to all documents. This method breaks any
+  circular references, allowing PHP to free up memory.
 
 
 3.4.5 (2015-06-02)
