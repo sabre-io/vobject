@@ -12,6 +12,7 @@ bin/phpunit
 bin/phpcs
 bin/php-cs-fixer
 bin/sabre-cs-fixer
+bin/hoa
 
 # Development stuff
 testdata/

@@ -151,7 +151,6 @@ class Component extends Node {
     function remove($item) {
 
         if (is_string($item)) {
-
             // If there's no dot in the name, it's an exact property name and
             // we can just wipe out all those properties.
             //
@@ -173,10 +172,9 @@ class Component extends Node {
                     return;
                 }
             }
-
-            throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
-
         }
+
+        throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
 
     }
 
@@ -672,6 +670,26 @@ class Component extends Node {
 
         }
         return $messages;
+
+    }
+
+    /**
+     * Call this method on a document if you're done using it.
+     *
+     * It's intended to remove all circular references, so PHP can easily clean
+     * it up.
+     *
+     * @return void
+     */
+    function destroy() {
+
+        parent::destroy();
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
+                $child->destroy();
+            }
+        }
+        $this->children = [];
 
     }
 

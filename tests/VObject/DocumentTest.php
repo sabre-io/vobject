@@ -62,6 +62,27 @@ class DocumentTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testDestroy() {
+
+        $vcal = new Component\VCalendar([], false);
+        $event = $vcal->createComponent('VEVENT');
+
+        $this->assertInstanceOf('Sabre\VObject\Component\VEvent', $event);
+        $vcal->add($event);
+
+        $prop = $vcal->createProperty('X-PROP', '1234256', ['X-PARAM' => '3']);
+
+        $event->add($prop);
+
+        $this->assertEquals($event, $prop->parent);
+
+        $vcal->destroy();
+
+        $this->assertNull($prop->parent);
+
+
+    }
+
 }
 
 
