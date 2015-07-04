@@ -41,6 +41,8 @@ while (true) {
     $vcard2 = $vcard->serialize();
     $bench->serialize->pause();
 
+    $vcard->destroy();
+
 }
 
 

@@ -641,4 +641,22 @@ abstract class Property extends Node {
 
     }
 
+    /**
+     * Call this method on a document if you're done using it.
+     *
+     * It's intended to remove all circular references, so PHP can easily clean
+     * it up.
+     *
+     * @return void
+     */
+    function destroy() {
+
+        parent::destroy();
+        foreach($this->parameters as $param) {
+            $param->destroy();
+        }
+        $this->parameters = [];
+
+    }
+
 }
