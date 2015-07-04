@@ -174,25 +174,46 @@ class VCalendar extends VObject\Document {
      */
     function getBaseComponents($componentName = null) {
 
-        $components = [];
-        foreach ($this->children as $component) {
+        $isBaseComponent = function($component) {
 
-            if (!$component instanceof VObject\Component)
-                continue;
+            if (!$component instanceof VObject\Component) {
+                return false;
+            }
+            if ($component->name === 'VTIMEZONE') {
+                return false;
+            }
+            if (isset($component->{'RECURRENCE-ID'})) {
+                return false;
+            }
+            return true;
 
-            if (isset($component->{'RECURRENCE-ID'}))
-                continue;
+        };
 
-            if ($componentName && $component->name !== strtoupper($componentName))
-                continue;
-
-            if ($component->name === 'VTIMEZONE')
-                continue;
-
-            $components[] = $component;
-
+        if ($componentName) {
+            // Early exit
+            return array_filter(
+                $this->select($componentName),
+                $isBaseComponent
+            );
         }
 
+        $components = [];
+        foreach($this->children as $childGroup) {
+
+            foreach($childGroup as $child) {
+
+                if (!$child instanceof Component) {
+                    // If one child is not a component, they all are so we skip
+                    // the entire group.
+                    continue 2;
+                }
+                if ($isBaseComponent($child)) {
+                    $components[] = $child;
+                }
+
+            }
+
+        }
         return $components;
 
     }
@@ -209,23 +230,40 @@ class VCalendar extends VObject\Document {
      */
     function getBaseComponent($componentName = null) {
 
-        foreach ($this->children as $component) {
+        $isBaseComponent = function($component) {
 
-            if (!$component instanceof VObject\Component)
-                continue;
+            if (!$component instanceof VObject\Component) {
+                return false;
+            }
+            if ($component->name === 'VTIMEZONE') {
+                return false;
+            }
+            if (isset($component->{'RECURRENCE-ID'})) {
+                return false;
+            }
+            return true;
 
-            if (isset($component->{'RECURRENCE-ID'}))
-                continue;
+        };
 
-            if ($componentName && $component->name !== strtoupper($componentName))
-                continue;
+        if ($componentName) {
+            foreach ($this->select($componentName) as $child) {
+                if ($isBaseComponent($child)) {
+                    return $child;
+                }
+                return null;
+            }
+        }
 
-            if ($component->name === 'VTIMEZONE')
-                continue;
-
-            return $component;
+        // Searching all components
+        foreach ($this->children as $childGroup) {
+            foreach($childGroup as $child) {
+                if ($isBaseComponent($child)) {
+                    return $child;
+                }
+            }
 
         }
+        return null;
 
     }
 
@@ -322,14 +360,16 @@ class VCalendar extends VObject\Document {
         // Setting all properties to UTC time.
         foreach ($newEvents as $newEvent) {
 
-            foreach ($newEvent->children as $child) {
-                if ($child instanceof VObject\Property\ICalendar\DateTime && $child->hasTime()) {
-                    $dt = $child->getDateTimes($timeZone);
-                    // We only need to update the first timezone, because
-                    // setDateTimes will match all other timezones to the
-                    // first.
-                    $dt[0] = $dt[0]->setTimeZone(new DateTimeZone('UTC'));
-                    $child->setDateTimes($dt);
+            foreach ($newEvent->children as $childGroup) {
+                foreach($childGroup as $child) {
+                    if ($child instanceof VObject\Property\ICalendar\DateTime && $child->hasTime()) {
+                        $dt = $child->getDateTimes($timeZone);
+                        // We only need to update the first timezone, because
+                        // setDateTimes will match all other timezones to the
+                        // first.
+                        $dt[0] = $dt[0]->setTimeZone(new DateTimeZone('UTC'));
+                        $child->setDateTimes($dt);
+                    }
                 }
             }
             $this->add($newEvent);
@@ -426,7 +466,7 @@ class VCalendar extends VObject\Document {
         $componentsFound = 0;
         $componentTypes = [];
 
-        foreach ($this->children as $child) {
+        foreach ($this->children() as $child) {
             if ($child instanceof Component) {
                 $componentsFound++;
 
@@ -508,11 +548,8 @@ class VCalendar extends VObject\Document {
      */
     function getByUID($uid) {
 
-        return array_filter($this->children, function($item) use ($uid) {
+        return array_filter($this->getComponents(), function($item) use ($uid) {
 
-            if (!$item instanceof Component) {
-                return false;
-            }
             if (!$itemUid = $item->select('UID')) {
                 return false;
             }

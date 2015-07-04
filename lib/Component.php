@@ -114,23 +114,26 @@ class Component extends Node {
                 throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject Node');
             }
             $a1->parent = $this;
-            $this->children[] = $a1;
-
-            return $a1;
+            $newNode = $a1;
 
         } elseif (is_string($a1)) {
 
-            $item = $this->root->create($a1, $a2, $a3);
-            $item->parent = $this;
-            $this->children[] = $item;
-
-            return $item;
+            $newNode = $this->root->create($a1, $a2, $a3);
+            $newNode->parent = $this;
 
         } else {
 
             throw new \InvalidArgumentException('The first argument must either be a \\Sabre\\VObject\\Node or a string');
 
         }
+
+        $name = $newNode->name;
+        if (isset($this->children[$name])) {
+            $this->children[$name][] = $newNode;
+        } else {
+            $this->children[$name] = [$newNode];
+        }
+        return $newNode;
 
     }
 
@@ -142,26 +145,32 @@ class Component extends Node {
      * pass an instance of a property or component, in which case only that
      * exact item will be removed.
      *
-     * The removed item will be returned. In case there were more than 1 items
-     * removed, only the last one will be returned.
-     *
-     * @param mixed $item
-     *
+     * @param string|Property|Component $item
      * @return void
      */
     function remove($item) {
 
         if (is_string($item)) {
-            $children = $this->select($item);
-            foreach ($children as $k => $child) {
-                unset($this->children[$k]);
+
+            // If there's no dot in the name, it's an exact property name and
+            // we can just wipe out all those properties.
+            //
+            if (strpos($item, '.')===false) {
+                unset($this->children[strtoupper($item)]);
+                return;
             }
-            return $child;
+            // If there was a dot, we need to ask select() to help us out and
+            // then we just call remove recursively.
+            foreach ($this->select($item) as $child) {
+
+                $this->remove($child);
+
+            }
         } else {
-            foreach ($this->children as $k => $child) {
+            foreach ($this->select($item->name) as $k => $child) {
                 if ($child === $item) {
-                    unset($this->children[$k]);
-                    return $child;
+                    unset($this->children[$item->name][$k]);
+                    return;
                 }
             }
 
@@ -179,7 +188,11 @@ class Component extends Node {
      */
     function children() {
 
-        return $this->children;
+        $result = [];
+        foreach ($this->children as $childGroup) {
+            $result = array_merge($result, $childGroup);
+        }
+        return $result;
 
     }
 
@@ -192,12 +205,14 @@ class Component extends Node {
     function getComponents() {
 
         $result = [];
-        foreach ($this->children as $child) {
-            if ($child instanceof self) {
-                $result[] = $child;
+
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
+                if ($child instanceof self) {
+                    $result[] = $child;
+                }
             }
         }
-
         return $result;
 
     }
@@ -211,12 +226,8 @@ class Component extends Node {
      * search for a property in a specific group, you can select on the entire
      * string ("HOME.EMAIL"). If you want to search on a specific property that
      * has not been assigned a group, specify ".EMAIL".
-     *
-     * Keys are retained from the 'children' array, which may be confusing in
-     * certain cases.
-     *
+
      * @param string $name
-     *
      * @return array
      */
     function select($name) {
@@ -226,27 +237,43 @@ class Component extends Node {
         if (strpos($name, '.') !== false) {
             list($group, $name) = explode('.', $name, 2);
         }
+        if ($name==='') $name = null;
 
-        $result = [];
-        foreach ($this->children as $key => $child) {
+        if (!is_null($name)) {
 
-            if (
-                (
-                    strtoupper($child->name) === $name
-                    && (is_null($group) || ($child instanceof Property && strtoupper($child->group) === $group))
-                )
-                ||
-                (
-                    $name === '' && $child instanceof Property && strtoupper($child->group) === $group
-                )
-            ) {
+            $result = isset($this->children[$name]) ? $this->children[$name] : [];
 
-                $result[$key] = $child;
+            if (is_null($group)) {
+                return $result;
+            } else {
+                // If we have a group filter as well, we need to narrow it down
+                // more.
+                return array_filter(
+                    $result,
+                    function($child) use ($group) {
 
+                        return $child instanceof Property && strtoupper($child->group) === $group;
+
+                    }
+                );
             }
+
         }
 
-        reset($result);
+        // If we got to this point, it means there was no 'name' specified for
+        // searching, implying that this is a group-only search.
+        $result = [];
+        foreach ($this->children as $childGroup) {
+
+            foreach ($childGroup as $child) {
+
+                if ($child instanceof Property && strtoupper($child->group) === $group) {
+                    $result[] = $child;
+                }
+
+            }
+
+        }
         return $result;
 
     }
@@ -305,9 +332,10 @@ class Component extends Node {
 
         };
 
-        $tmp = $this->children;
+        $children = $this->children();
+        $tmp = $children;
         uksort(
-            $this->children,
+            $children,
             function($a, $b) use ($sortScore, $tmp) {
 
                 $sA = $sortScore($a, $tmp);
@@ -318,7 +346,7 @@ class Component extends Node {
             }
         );
 
-        foreach ($this->children as $child) $str .= $child->serialize();
+        foreach ($children as $child) $str .= $child->serialize();
         $str .= "END:" . $this->name . "\r\n";
 
         return $str;
@@ -336,11 +364,13 @@ class Component extends Node {
         $components = [];
         $properties = [];
 
-        foreach ($this->children as $child) {
-            if ($child instanceof self) {
-                $components[] = $child->jsonSerialize();
-            } else {
-                $properties[] = $child->jsonSerialize();
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
+                if ($child instanceof self) {
+                    $components[] = $child->jsonSerialize();
+                } else {
+                    $properties[] = $child->jsonSerialize();
+                }
             }
         }
 
@@ -365,11 +395,13 @@ class Component extends Node {
         $components = [];
         $properties = [];
 
-        foreach ($this->children as $child) {
-            if ($child instanceof self) {
-                $components[] = $child;
-            } else {
-                $properties[] = $child;
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
+                if ($child instanceof self) {
+                    $components[] = $child;
+                } else {
+                    $properties[] = $child;
+                }
             }
         }
 
@@ -479,24 +511,12 @@ class Component extends Node {
      */
     function __set($name, $value) {
 
-        $matches = $this->select($name);
-        $overWrite = count($matches) ? key($matches) : null;
-
+        $name = strtoupper($name);
+        $this->remove($name);
         if ($value instanceof self || $value instanceof Property) {
-            $value->parent = $this;
-            if (!is_null($overWrite)) {
-                $this->children[$overWrite] = $value;
-            } else {
-                $this->children[] = $value;
-            }
+            $this->add($value);
         } else {
-            $property = $this->root->create($name, $value);
-            $property->parent = $this;
-            if (!is_null($overWrite)) {
-                $this->children[$overWrite] = $property;
-            } else {
-                $this->children[] = $property;
-            }
+            $this->add($name, $value);
         }
     }
 
@@ -510,13 +530,7 @@ class Component extends Node {
      */
     function __unset($name) {
 
-        $matches = $this->select($name);
-        foreach ($matches as $k => $child) {
-
-            unset($this->children[$k]);
-            $child->parent = null;
-
-        }
+        $this->remove($name);
 
     }
 
@@ -530,9 +544,10 @@ class Component extends Node {
      */
     function __clone() {
 
-        foreach ($this->children as $key => $child) {
-            $this->children[$key] = clone $child;
-            $this->children[$key]->parent = $this;
+        foreach ($this->children as $childName => $childGroup) {
+            foreach ($childGroup as $key => $child) {
+                $this->children[$childName][$key] = clone $child;
+            }
         }
 
     }
@@ -597,7 +612,7 @@ class Component extends Node {
 
         $messages = [];
 
-        foreach ($this->children as $child) {
+        foreach ($this->children() as $child) {
             $name = strtoupper($child->name);
             if (!isset($propertyCounters[$name])) {
                 $propertyCounters[$name] = 1;

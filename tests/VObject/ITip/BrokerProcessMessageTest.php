@@ -19,7 +19,7 @@ ICS;
 
         $expected = <<<ICS
 BEGIN:VCALENDAR
-%foo%
+VERSION:2.0
 BEGIN:VEVENT
 SEQUENCE:1
 UID:foobar
@@ -46,7 +46,6 @@ ICS;
 
         $old = <<<ICS
 BEGIN:VCALENDAR
-%foo%
 BEGIN:VEVENT
 SEQUENCE:1
 UID:foobar
@@ -56,7 +55,6 @@ ICS;
 
         $expected = <<<ICS
 BEGIN:VCALENDAR
-%foo%
 BEGIN:VEVENT
 SEQUENCE:2
 UID:foobar
@@ -83,7 +81,6 @@ ICS;
 
         $old = <<<ICS
 BEGIN:VCALENDAR
-%foo%
 BEGIN:VEVENT
 SEQUENCE:1
 UID:foobar
@@ -93,11 +90,10 @@ ICS;
 
         $expected = <<<ICS
 BEGIN:VCALENDAR
-%foo%
 BEGIN:VEVENT
-SEQUENCE:2
 UID:foobar
 STATUS:CANCELLED
+SEQUENCE:2
 END:VEVENT
 END:VCALENDAR
 ICS;
