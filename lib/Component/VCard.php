@@ -426,7 +426,7 @@ class VCard extends VObject\Document {
         // method to remove that array element.
         $properties = [];
 
-        foreach ($this->children as $child) {
+        foreach ($this->children() as $child) {
             $properties[] = $child->jsonSerialize();
         }
 
@@ -449,7 +449,7 @@ class VCard extends VObject\Document {
 
         $propertiesByGroup = [];
 
-        foreach ($this->children as $property) {
+        foreach ($this->children() as $property) {
 
             $group = $property->group;
 

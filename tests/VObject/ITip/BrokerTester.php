@@ -80,21 +80,12 @@ abstract class BrokerTester extends \Sabre\VObject\TestCase {
 
         $result = $broker->processMessage($message, $existingObject);
 
-        if (is_string($expected)) {
-            $expected = str_replace(
-                '%foo%',
-                "VERSION:2.0\nPRODID:-//Sabre//Sabre VObject $version//EN\nCALSCALE:GREGORIAN",
-                $expected
-            );
-            $expected = str_replace("\n", "\r\n", $expected);
-
-        }
-        if ($result instanceof \Sabre\VObject\Component\VCalendar) {
-            $result = $result->serialize();
-            $result = rtrim($result, "\r\n");
+        if (is_null($expected)) {
+            $this->assertTrue(!$result);
+            return;
         }
 
-        $this->assertEquals(
+        $this->assertVObjEquals(
             $expected,
             $result
         );

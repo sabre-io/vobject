@@ -49,7 +49,7 @@ class VCardConverter {
             'VERSION' => $newVersion,
         ]);
 
-        foreach ($input->children as $property) {
+        foreach ($input->children() as $property) {
 
             $this->convertProperty($input, $output, $property, $targetVersion);
 

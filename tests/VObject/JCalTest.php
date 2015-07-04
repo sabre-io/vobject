@@ -76,9 +76,17 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                         [
                             "created", new \StdClass(), "date-time", "2013-05-26T18:10:00Z",
                         ],
-
                         [
                             "attendee", new \StdClass(), "cal-address", "mailto:armin@example.org",
+                        ],
+                        [
+                            "attendee",
+                            (object)[
+                                "cn"       => "Dominik",
+                                "partstat" => "DECLINED",
+                            ],
+                            "cal-address",
+                            "mailto:dominik@example.org"
                         ],
                         [
                             "geo", new \StdClass(), "float", [51.96668, 7.61876],
@@ -109,15 +117,6 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
                         ],
                         [
                             "attach", new \StdClass(), "binary", base64_encode('attachment')
-                        ],
-                        [
-                            "attendee",
-                            (object)[
-                                "cn"       => "Dominik",
-                                "partstat" => "DECLINED",
-                            ],
-                            "cal-address",
-                            "mailto:dominik@example.org"
                         ],
                         [
                             "request-status",

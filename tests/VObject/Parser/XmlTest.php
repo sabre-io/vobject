@@ -1256,12 +1256,12 @@ XML
    <text>tel:+1-555-555-556</text>
   </tel>
   <group name="contact">
-   <fn>
-    <text>Gordon</text>
-   </fn>
    <tel>
     <text>tel:+1-555-555-555</text>
    </tel>
+   <fn>
+    <text>Gordon</text>
+   </fn>
   </group>
   <group name="media">
    <fn>
@@ -1275,8 +1275,8 @@ XML
             'BEGIN:VCARD' . CRLF .
             'VERSION:4.0' . CRLF .
             'TEL:tel:+1-555-555-556' . CRLF .
-            'contact.FN:Gordon' . CRLF .
             'contact.TEL:tel:+1-555-555-555' . CRLF .
+            'contact.FN:Gordon' . CRLF .
             'media.FN:Gordon' . CRLF .
             'END:VCARD' . CRLF
         );

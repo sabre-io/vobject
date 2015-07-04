@@ -214,7 +214,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(1, count($comp->children()));
 
-        $bla = $comp->children[0];
+        $bla = $comp->children()[0];
 
         $this->assertTrue($bla instanceof Property);
         $this->assertEquals('MYPROP', $bla->name);
@@ -230,7 +230,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(1, count($comp->children()));
 
-        $bla = $comp->children[0];
+        $bla = $comp->children()[0];
 
         $this->assertInstanceOf('Sabre\\VObject\\Property', $bla);
         $this->assertEquals('MYPROP', $bla->name);
