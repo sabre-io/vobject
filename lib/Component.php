@@ -155,7 +155,7 @@ class Component extends Node {
             // If there's no dot in the name, it's an exact property name and
             // we can just wipe out all those properties.
             //
-            if (strpos($item, '.')===false) {
+            if (strpos($item, '.') === false) {
                 unset($this->children[strtoupper($item)]);
                 return;
             }
@@ -226,7 +226,7 @@ class Component extends Node {
      * search for a property in a specific group, you can select on the entire
      * string ("HOME.EMAIL"). If you want to search on a specific property that
      * has not been assigned a group, specify ".EMAIL".
-
+     *
      * @param string $name
      * @return array
      */
@@ -237,7 +237,7 @@ class Component extends Node {
         if (strpos($name, '.') !== false) {
             list($group, $name) = explode('.', $name, 2);
         }
-        if ($name==='') $name = null;
+        if ($name === '') $name = null;
 
         if (!is_null($name)) {
 
@@ -463,7 +463,7 @@ class Component extends Node {
      */
     function __get($name) {
 
-        if ($name==='children') {
+        if ($name === 'children') {
 
             throw new \RuntimeException('Starting sabre/vobject 4.0 the children property is now protected. You should use the children() method instead');
 

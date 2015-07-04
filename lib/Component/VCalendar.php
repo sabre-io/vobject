@@ -198,9 +198,9 @@ class VCalendar extends VObject\Document {
         }
 
         $components = [];
-        foreach($this->children as $childGroup) {
+        foreach ($this->children as $childGroup) {
 
-            foreach($childGroup as $child) {
+            foreach ($childGroup as $child) {
 
                 if (!$child instanceof Component) {
                     // If one child is not a component, they all are so we skip
@@ -256,7 +256,7 @@ class VCalendar extends VObject\Document {
 
         // Searching all components
         foreach ($this->children as $childGroup) {
-            foreach($childGroup as $child) {
+            foreach ($childGroup as $child) {
                 if ($isBaseComponent($child)) {
                     return $child;
                 }
@@ -361,7 +361,7 @@ class VCalendar extends VObject\Document {
         foreach ($newEvents as $newEvent) {
 
             foreach ($newEvent->children as $childGroup) {
-                foreach($childGroup as $child) {
+                foreach ($childGroup as $child) {
                     if ($child instanceof VObject\Property\ICalendar\DateTime && $child->hasTime()) {
                         $dt = $child->getDateTimes($timeZone);
                         // We only need to update the first timezone, because

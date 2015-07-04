@@ -322,7 +322,7 @@ VCAL
         $validationResult = $document->validate();
         if ($validationResult) {
             $messages = array_map(function($item) { return $item['message']; }, $validationResult);
-            $this->fail('Failed to assert that the supplied document is a valid document. Validation messages: ' . implode(', ', $messages) );
+            $this->fail('Failed to assert that the supplied document is a valid document. Validation messages: ' . implode(', ', $messages));
         }
         $this->assertEmpty($document->validate());
 
