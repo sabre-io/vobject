@@ -142,9 +142,6 @@ class Component extends Node {
      * pass an instance of a property or component, in which case only that
      * exact item will be removed.
      *
-     * The removed item will be returned. In case there were more than 1 items
-     * removed, only the last one will be returned.
-     *
      * @param mixed $item
      *
      * @return void
@@ -154,20 +151,20 @@ class Component extends Node {
         if (is_string($item)) {
             $children = $this->select($item);
             foreach ($children as $k => $child) {
+                $child->destroy();
                 unset($this->children[$k]);
             }
-            return $child;
-        } else {
-            foreach ($this->children as $k => $child) {
-                if ($child === $item) {
-                    unset($this->children[$k]);
-                    return $child;
-                }
-            }
-
-            throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
-
+            return;
         }
+        foreach ($this->children as $k => $child) {
+            if ($child === $item) {
+                $child->destroy();
+                unset($this->children[$k]);
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
 
     }
 
@@ -650,6 +647,26 @@ class Component extends Node {
 
         }
         return $messages;
+
+    }
+
+    /**
+     * Call this method on a document if you're done using it.
+     *
+     * It's intended to remove all circular references, so PHP can easily clean
+     * it up.
+     *
+     * @return void
+     */
+    function destroy() {
+
+        parent::destroy();
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
+                $child->destroy();
+            }
+        }
+        $this->children = [];
 
     }
 

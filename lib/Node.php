@@ -90,6 +90,21 @@ abstract class Node
      */
     abstract function xmlSerialize(Xml\Writer $writer);
 
+    /**
+     * Call this method on a document if you're done using it.
+     *
+     * It's intended to remove all circular references, so PHP can easily clean
+     * it up.
+     *
+     * @return void
+     */
+    function destroy() {
+
+        $this->parent = null;
+        $this->root = null;
+
+    }
+
     /* {{{ IteratorAggregator interface */
 
     /**

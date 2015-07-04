@@ -10,7 +10,7 @@ class TextTest extends \PHPUnit_Framework_TestCase {
 
         $doc = new VCard([
             'VERSION' => '2.1',
-            'PROP'   => $propValue
+            'PROP'    => $propValue
         ], false);
 
         // Adding quoted-printable, because we're testing if it gets removed
