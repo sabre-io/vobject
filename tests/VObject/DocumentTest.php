@@ -78,7 +78,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->destroy();
 
-        $this->assertNull($event, $prop->parent);
+        $this->assertNull($prop->parent);
 
 
     }
