@@ -652,7 +652,7 @@ abstract class Property extends Node {
     function destroy() {
 
         parent::destroy();
-        foreach($this->parameters as $param) {
+        foreach ($this->parameters as $param) {
             $param->destroy();
         }
         $this->parameters = [];

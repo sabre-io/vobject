@@ -661,8 +661,8 @@ class Component extends Node {
     function destroy() {
 
         parent::destroy();
-        foreach($this->children as $childGroup) {
-            foreach($childGroup as $child) {
+        foreach ($this->children as $childGroup) {
+            foreach ($childGroup as $child) {
                 $child->destroy();
             }
         }
