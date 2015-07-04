@@ -11,7 +11,10 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      * It supports objects being supplied as strings, streams or
      * Sabre\VObject\Component instances.
      *
-     * PRODID is removed from both objects as this is often variable.
+     * PRODID is removed from both objects as this is often changes and would
+     * just get in the way.
+     *
+     * CALSCALE will automatically get removed if it's set to GREGORIAN.
      *
      * @param resource|string|Component $expected
      * @param resource|string|Component $actual
@@ -32,6 +35,9 @@ class TestCase extends \PHPUnit_Framework_TestCase {
                 $this->fail('Input must be a string, stream or VObject component');
             }
             unset($input->PRODID);
+            if ($input instanceof Component\VCalendar && (string)$input->CALSCALE === 'GREGORIAN') {
+                unset($input->CALSCALE);
+            }
             return $input;
 
         };

@@ -70,6 +70,20 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                     "1985-04-07",
                 ],
                 [
+                    "bday",
+                    (object)[
+                        'x-param' => [1,2],
+                    ],
+                    "date",
+                    "1979-12-25",
+                ],
+                [
+                    "bday",
+                    new \StdClass(),
+                    "date-time",
+                    "1979-12-25T02:00:00",
+                ],
+                [
                     "rev",
                     new \StdClass(),
                     "timestamp",
@@ -116,20 +130,6 @@ class JCardTest extends \PHPUnit_Framework_TestCase {
                             "18252",
                             "U.S.A",
                         ],
-                ],
-                [
-                    "bday",
-                    (object)[
-                        'x-param' => [1,2],
-                    ],
-                    "date",
-                    "1979-12-25",
-                ],
-                [
-                    "bday",
-                    new \StdClass(),
-                    "date-time",
-                    "1979-12-25T02:00:00",
                 ],
                 [
                     "x-truncated",
