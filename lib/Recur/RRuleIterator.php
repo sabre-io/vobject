@@ -494,7 +494,7 @@ class RRuleIterator implements Iterator {
         $this->currentDate = $this->currentDate->setDate(
             (int)$this->currentDate->format('Y'),
             (int)$this->currentDate->format('n'),
-            $occurrence
+            (int)$occurrence
         );
 
     }
