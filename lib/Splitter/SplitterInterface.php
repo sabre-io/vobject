@@ -12,7 +12,7 @@ namespace Sabre\VObject\Splitter;
  * to exist in their own objects, instead of one large one.
  *
  * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
- * @author Dominik Tobschall
+ * @author Dominik Tobschall (http://tobschall.de/)
  * @license http://sabre.io/license/ Modified BSD License
  */
 interface SplitterInterface {
