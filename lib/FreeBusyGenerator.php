@@ -8,6 +8,7 @@ use DateTimeZone;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
+use SplDoublyLinkedList;
 
 /**
  * This class helps with generating FREEBUSY reports based on existing sets of
@@ -49,7 +50,7 @@ class FreeBusyGenerator {
     /**
      * VCALENDAR object.
      *
-     * @var Component
+     * @var Document
      */
     protected $baseObject;
 
@@ -67,6 +68,16 @@ class FreeBusyGenerator {
      * @var DateTimeZone
      */
     protected $timeZone;
+
+    /**
+     * A VAVAILABILITY document.
+     *
+     * If this is set, it's information will be included when calculating
+     * freebusy time.
+     *
+     * @var Document
+     */
+    protected $vavailability;
 
     /**
      * Creates the generator.
@@ -103,13 +114,24 @@ class FreeBusyGenerator {
      *
      * The VFREEBUSY object will be automatically added though.
      *
-     * @param Component $vcalendar
-     *
+     * @param Document $vcalendar
      * @return void
      */
-    function setBaseObject(Component $vcalendar) {
+    function setBaseObject(Document $vcalendar) {
 
         $this->baseObject = $vcalendar;
+
+    }
+
+    /**
+     * Sets a VAVAILABILITY document.
+     *
+     * @param Document $vcalendar
+     * @return void
+     */
+    function setVAvailablility(Document $vcalendar) {
+
+        $this->vavailability = $vcalendar;
 
     }
 
@@ -314,8 +336,6 @@ class FreeBusyGenerator {
 
                         }
                         break;
-
-
 
                 }
 
