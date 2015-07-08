@@ -5,6 +5,7 @@ ChangeLog
 ------------
 
 * sabre/vobject now requires PHP 5.5.
+* #244: PHP7 support.
 * #160: Support for xCal! (@Hywan)
 * #192: Support for xCard! (@Hywan)
 * #186: Fixing conversion of `UTC-OFFSET` properties when going back and
