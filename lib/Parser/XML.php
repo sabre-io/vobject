@@ -213,7 +213,7 @@ class XML extends Parser {
                 $this->pointer = &$xmlProperty['value'];
                 $this->parseProperties(
                     $parentComponent,
-                    $xmlProperty['attributes']['name'] . '.'
+                    strtoupper($xmlProperty['attributes']['name']) . '.'
                 );
 
                 continue;
