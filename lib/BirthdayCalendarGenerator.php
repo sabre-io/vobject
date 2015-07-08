@@ -46,6 +46,13 @@ class BirthdayCalendarGenerator {
     protected $defaultYear = 1900;
 
     /**
+     * Output format for the SUMMARY.
+     *
+     * @var string
+     */
+    protected $format = '%1$s\'s Birthday';
+
+    /**
      * Creates the generator.
      *
      * Check the setTimeRange and setObjects methods for details about the
@@ -122,6 +129,19 @@ class BirthdayCalendarGenerator {
     }
 
     /**
+     * Sets the output format for the SUMMARY
+     *
+     * @param string $format
+     *
+     * @return void
+     */
+    function setFormat($format) {
+
+        $this->format = $format;
+
+    }
+
+    /**
      * Parses the input data and returns a VCALENDAR.
      *
      * @return Component/VCalendar
@@ -163,7 +183,7 @@ class BirthdayCalendarGenerator {
 
             // Create event.
             $event = $calendar->add('VEVENT', [
-                'SUMMARY'      => $object->FN->getValue() .'\'s Birthday',
+                'SUMMARY'      => sprintf($this->format, $object->FN->getValue()),
                 'DTSTART'      => new \DateTime($object->BDAY->getValue(), $this->timeZone),
                 'RRULE'        => 'FREQ=YEARLY',
                 'TRANSP'       => 'TRANSPARENT',
@@ -180,7 +200,5 @@ class BirthdayCalendarGenerator {
         return $calendar;
 
     }
-
-
 
 }

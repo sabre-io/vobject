@@ -317,4 +317,43 @@ ICS;
 
     }
 
+    function testVcardStringWithValidBirthdayLocalized() {
+
+        $input = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+N:Gump;Forrest;;Mr.
+FN:Forrest Gump
+BDAY:19850407
+UID:foo
+END:VCARD
+VCF;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:Forrest Gump's Geburtstag
+DTSTART:19850407T000000Z
+RRULE:FREQ=YEARLY
+TRANSP:TRANSPARENT
+X-SABRE-BDAY;X-SABRE-VCARD-UID=foo;X-SABRE-VCARD-FN=Forrest Gump:BDAY
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $this->generator->setObjects($input);
+        $this->generator->setFormat('%1$s\'s Geburtstag');
+        $output = $this->generator->getResult();
+
+        $this->assertVObjEquals(
+            $expected,
+            $output
+        );
+
+        // Reset to default format
+        $this->generator->setFormat('%1$s\'s Birthday');
+
+    }
+
 }
