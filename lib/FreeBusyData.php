@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject;
 
-use DateTimeInterface;
-
 /**
  * FreeBusyData is a helper class that manages freebusy information.
  *
@@ -72,17 +70,17 @@ class FreeBusyData {
         if ($end > $this->end) {
             // The item ends after our requested time range
             $end = $this->end;
-        }  
+        }
 
         // Finding out where we need to insert the new item.
         $currentIndex = 0;
-        while($start > $this->data[$currentIndex]['end']) {
+        while ($start > $this->data[$currentIndex]['end']) {
             $currentIndex++;
         }
 
         // The standard insertion point will be one _after_ the first
         // overlapping item.
-        $insertStartIndex = $currentIndex+1;
+        $insertStartIndex = $currentIndex + 1;
 
         $newItem = [
             'start' => $start,
@@ -90,8 +88,8 @@ class FreeBusyData {
             'type'  => $type,
         ];
 
-        $preceedingItem = $this->data[$insertStartIndex-1];
-        if ($this->data[$insertStartIndex-1]['start'] === $start) {
+        $preceedingItem = $this->data[$insertStartIndex - 1];
+        if ($this->data[$insertStartIndex - 1]['start'] === $start) {
             // The old item starts at the exact same point as the new item.
             $insertStartIndex--;
          }
@@ -101,12 +99,12 @@ class FreeBusyData {
         // looking one item before the insertStartIndex, because it's possible
         // that the new item 'sits inside' the previous old item.
         if ($insertStartIndex > 0) {
-            $currentIndex = $insertStartIndex-1;
+            $currentIndex = $insertStartIndex - 1;
         } else {
             $currentIndex = 0;
         }
 
-        while($end > $this->data[$currentIndex]['end']) {
+        while ($end > $this->data[$currentIndex]['end']) {
 
             $currentIndex++;
 
@@ -151,29 +149,29 @@ class FreeBusyData {
         $mergeItem = $newItem;
         $mergeDelete = 1;
 
-        if (isset($this->data[$insertStartIndex-1])) {
+        if (isset($this->data[$insertStartIndex - 1])) {
             // Updating the start time of the previous item.
-            $this->data[$insertStartIndex-1]['end'] = $start - 1;
+            $this->data[$insertStartIndex - 1]['end'] = $start;
 
             // If the previous and the current are of the same type, we can
             // merge them into one item.
-            if ($this->data[$insertStartIndex-1]['type'] === $this->data[$insertStartIndex]['type']) {
+            if ($this->data[$insertStartIndex - 1]['type'] === $this->data[$insertStartIndex]['type']) {
                 $doMerge = true;
                 $mergeOffset--;
                 $mergeDelete++;
-                $mergeItem['start'] = $this->data[$insertStartIndex-1]['start'];
+                $mergeItem['start'] = $this->data[$insertStartIndex - 1]['start'];
             }
         }
-        if (isset($this->data[$insertStartIndex+1])) {
+        if (isset($this->data[$insertStartIndex + 1])) {
             // Updating the start time of the next item.
-            $this->data[$insertStartIndex+1]['start'] = $end + 1;
+            $this->data[$insertStartIndex + 1]['start'] = $end;
 
             // If the next and the current are of the same type, we can
             // merge them into one item.
-            if ($this->data[$insertStartIndex+1]['type'] === $this->data[$insertStartIndex]['type']) {
+            if ($this->data[$insertStartIndex + 1]['type'] === $this->data[$insertStartIndex]['type']) {
                 $doMerge = true;
                 $mergeDelete++;
-                $mergeItem['end'] = $this->data[$insertStartIndex+1]['end'];
+                $mergeItem['end'] = $this->data[$insertStartIndex + 1]['end'];
             }
 
         }

@@ -203,9 +203,7 @@ ICS;
             Reader::read($blob),
             [
                 '20110103T010000Z/20110103T020000Z',
-                '20110103T030000Z/20110103T040000Z',
-                '20110103T040000Z/20110103T050000Z',
-                '20110103T050000Z/20110103T060000Z',
+                '20110103T030000Z/20110103T060000Z',
             ]
         ];
 
@@ -278,7 +276,7 @@ ICS;
             new \DateTimeZone('America/Toronto')
         ];
 
-        // All-day event
+        // All-day event, slightly outside of the VFREEBUSY range.
         $blob = <<<ICS
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -290,7 +288,7 @@ ICS;
 
         $tests[] = [
             $blob,
-            "20110101T000000Z/20110102T000000Z"
+            "20110101T110000Z/20110102T000000Z"
         ];
 
         // All-day event + reference timezone
@@ -305,7 +303,7 @@ ICS;
 
         $tests[] = [
             $blob,
-            "20110101T050000Z/20110102T050000Z",
+            "20110101T110000Z/20110102T050000Z",
             new \DateTimeZone('America/Toronto')
         ];
 
@@ -343,14 +341,18 @@ ICS;
         );
 
         $result = $gen->getResult();
+        //print_r($result->serialize());die();
 
         $expected = (array)$expected;
+
+        if ($input instanceof Document) $input = $input->serialize();
+        $debugInfo = "Input:\n$input\n\nExpected:\n" . print_r($expected, true) . "\nActual result:\n" . $result->serialize() . "\n";
 
         $freebusy = $result->VFREEBUSY->select('FREEBUSY');
 
         foreach ($freebusy as $fb) {
 
-            $this->assertContains((string)$fb, $expected, "$fb did not appear in our list of expected freebusy strings. This is concerning!");
+            $this->assertContains((string)$fb, $expected, "$fb did not appear in our list of expected freebusy strings. This is concerning! Debug info:\n" . $debugInfo);
 
             $k = array_search((string)$fb, $expected);
             unset($expected[$k]);

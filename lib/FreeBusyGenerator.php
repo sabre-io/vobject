@@ -8,7 +8,6 @@ use DateTimeZone;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
-use SplDoublyLinkedList;
 
 /**
  * This class helps with generating FREEBUSY reports based on existing sets of
@@ -92,9 +91,7 @@ class FreeBusyGenerator {
      */
     function __construct(DateTimeInterface $start = null, DateTimeInterface $end = null, $objects = null, DateTimeZone $timeZone = null) {
 
-        if ($start && $end) {
-            $this->setTimeRange($start, $end);
-        }
+        $this->setTimeRange($start, $end);
 
         if ($objects) {
             $this->setObjects($objects);
@@ -179,6 +176,12 @@ class FreeBusyGenerator {
      */
     function setTimeRange(DateTimeInterface $start = null, DateTimeInterface $end = null) {
 
+        if (!$start) {
+            $start = new DateTimeImmutable(Settings::$minDate);
+        }
+        if (!$end) {
+            $end = new DateTimeImmutable(Settings::$maxDate);
+        }
         $this->start = $start;
         $this->end = $end;
 
@@ -205,7 +208,10 @@ class FreeBusyGenerator {
      */
     function getResult() {
 
-        $busyTimes = [];
+        $busyTimes = new FreeBusyData(
+            $this->start->getTimeStamp(),
+            $this->end->getTimeStamp()
+        );
 
         foreach ($this->objects as $key => $object) {
 
@@ -293,11 +299,11 @@ class FreeBusyGenerator {
                             if ($this->end && $time[0] > $this->end) break;
                             if ($this->start && $time[1] < $this->start) break;
 
-                            $busyTimes[] = [
-                                $time[0],
-                                $time[1],
-                                $FBTYPE,
-                            ];
+                            $busyTimes->add(
+                                $time[0]->getTimeStamp(),
+                                $time[1]->getTimeStamp(),
+                                $FBTYPE
+                            );
                         }
                         break;
 
@@ -325,11 +331,11 @@ class FreeBusyGenerator {
 
                                 if ($this->start && $this->start > $endTime) continue;
                                 if ($this->end && $this->end < $startTime) continue;
-                                $busyTimes[] = [
-                                    $startTime,
-                                    $endTime,
+                                $busyTimes->add(
+                                    $startTime->getTimeStamp(),
+                                    $endTime->getTimeStamp(),
                                     $fbType
-                                ];
+                                );
 
                             }
 
@@ -363,20 +369,27 @@ class FreeBusyGenerator {
             $dtend->setDateTime($this->end);
             $vfreebusy->add($dtend);
         }
+
+        $tz = new \DateTimeZone('UTC');
         $dtstamp = $calendar->createProperty('DTSTAMP');
-        $dtstamp->setDateTime(new DateTimeImmutable('now', new \DateTimeZone('UTC')));
+        $dtstamp->setDateTime(new DateTimeImmutable('now', $tz));
         $vfreebusy->add($dtstamp);
 
-        foreach ($busyTimes as $busyTime) {
+        foreach ($busyTimes->getData() as $busyTime) {
 
-            $busyTime[0] = $busyTime[0]->setTimeZone(new \DateTimeZone('UTC'));
-            $busyTime[1] = $busyTime[1]->setTimeZone(new \DateTimeZone('UTC'));
+            // Ignoring all the FREE parts, because those are already assumed.
+            if ($busyTime['type'] === 'FREE') {
+                continue;
+            }
+
+            $busyTime[0] = new \DateTimeImmutable('@' . $busyTime['start'], $tz);
+            $busyTime[1] = new \DateTimeImmutable('@' . $busyTime['end'], $tz);
 
             $prop = $calendar->createProperty(
                 'FREEBUSY',
                 $busyTime[0]->format('Ymd\\THis\\Z') . '/' . $busyTime[1]->format('Ymd\\THis\\Z')
             );
-            $prop['FBTYPE'] = $busyTime[2];
+            $prop['FBTYPE'] = $busyTime['type'];
             $vfreebusy->add($prop);
 
         }
