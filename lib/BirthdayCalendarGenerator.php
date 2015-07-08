@@ -41,7 +41,7 @@ class BirthdayCalendarGenerator {
      * Default year.
      * Used for dates without a year.
      *
-     * @var string
+     * @var int
      */
     protected $defaultYear = 1900;
 
