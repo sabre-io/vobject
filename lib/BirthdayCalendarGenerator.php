@@ -137,6 +137,10 @@ class BirthdayCalendarGenerator {
                 continue;
             }
 
+            // We're always converting to vCard 4.0 so we can rely on the
+            // VCardConverter handling the X-APPLE-OMIT-YEAR property for us.
+            $object = $object->convert(Document::VCARD40);
+
             // Skip if the BDAY property is not of the right type.
             if (!$object->BDAY instanceof Property\VCard\DateAndOrTime) {
                 continue;
@@ -152,17 +156,9 @@ class BirthdayCalendarGenerator {
             // Set a year if it's not set.
             if (!$dateParts['year']) {
                 $object->BDAY=$this->defaultYear . '-' . $dateParts['month'] . '-' . $dateParts['date'];
-            }
 
-            // Set a year, if X-APPLE-OMIT-YEAR is set.
-            if (isset($object->BDAY['X-APPLE-OMIT-YEAR'])) {
-                if ($dateParts['year'] === $object->BDAY['X-APPLE-OMIT-YEAR']->getValue()) {
-                    // @TODO:
-                    // It probably makes sense to add an info to our event that the year is unknown.
-                    // Maybe we should just keep this and also set the X-APPLE-OMIT-YEAR PARAM on our PROPERTY
-                    $object->BDAY=$this->defaultYear . '-' . $dateParts['month'] . '-' . $dateParts['date'];
-                }
-
+                // @TODO:
+                // It may make sense to add an info to our event that the year was unknown.
             }
 
             // Generate the event.
