@@ -15,7 +15,7 @@ use Sabre\Xml;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Float extends Property {
+class FloatValue extends Property {
 
     /**
      * In case this is a multi-value property. This string will be used as a
