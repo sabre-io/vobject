@@ -15,7 +15,7 @@ use Sabre\VObject\Parser\MimeDir;
  * component individually.
  *
  * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
- * @author Dominik Tobschall
+ * @author Dominik Tobschall (http://tobschall.de/)
  * @author Armin Hackmann
  * @license http://sabre.io/license/ Modified BSD License
  */
