@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject;
 
-use DateTimeInterface;
 use DateTimezone;
 use Sabre\VObject\Component\VCalendar;
 
@@ -175,7 +174,7 @@ class BirthdayCalendarGenerator {
 
             // Set a year if it's not set.
             if (!$dateParts['year']) {
-                $object->BDAY=$this->defaultYear . '-' . $dateParts['month'] . '-' . $dateParts['date'];
+                $object->BDAY = $this->defaultYear . '-' . $dateParts['month'] . '-' . $dateParts['date'];
 
                 // @TODO:
                 // It may make sense to add an info to our event that the year was unknown.
