@@ -13,7 +13,7 @@ class FloatTest extends \PHPUnit_Framework_TestCase {
 
         $result = $mimeDir->parse($input);
 
-        $this->assertInstanceOf('Sabre\VObject\Property\Float', $result->{'X-FLOAT'});
+        $this->assertInstanceOf('Sabre\VObject\Property\FloatValue', $result->{'X-FLOAT'});
 
         $this->assertEquals(array(
             0.234,

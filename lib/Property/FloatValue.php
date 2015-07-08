@@ -6,16 +6,24 @@ use
     Sabre\VObject\Property;
 
 /**
- * Integer property
+ * Float property
  *
- * This object represents INTEGER values. These are always a single integer.
- * They may be preceeded by either + or -.
+ * This object represents FLOAT values. These can be 1 or more floating-point
+ * numbers.
  *
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Integer extends Property {
+class FloatValue extends Property {
+
+    /**
+     * In case this is a multi-value property. This string will be used as a
+     * delimiter.
+     *
+     * @var string|null
+     */
+    public $delimiter = ';';
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -28,7 +36,11 @@ class Integer extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $this->setValue((int)$val);
+        $val = explode($this->delimiter, $val);
+        foreach($val as &$item) {
+            $item = (float)$item;
+        }
+        $this->setParts($val);
 
     }
 
@@ -39,7 +51,10 @@ class Integer extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return $this->value;
+        return implode(
+            $this->delimiter,
+            $this->getParts()
+        );
 
     }
 
@@ -53,7 +68,7 @@ class Integer extends Property {
      */
     public function getValueType() {
 
-        return "INTEGER";
+        return "FLOAT";
 
     }
 
@@ -66,7 +81,24 @@ class Integer extends Property {
      */
     public function getJsonValue() {
 
-        return array((int)$this->getValue());
+        $val = array_map(
+            function($item) {
+
+                return (float)$item;
+
+            },
+            $this->getParts()
+        );
+
+        // Special-casing the GEO property.
+        //
+        // See:
+        // http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-04#section-3.4.1.2
+        if ($this->name==='GEO') {
+            return array($val);
+        } else {
+            return $val;
+        }
 
     }
 }

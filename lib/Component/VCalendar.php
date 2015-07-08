@@ -57,8 +57,8 @@ class VCalendar extends VObject\Document {
         'DATE'             => 'Sabre\\VObject\\Property\\ICalendar\\Date',
         'DATE-TIME'        => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
         'DURATION'         => 'Sabre\\VObject\\Property\\ICalendar\\Duration',
-        'FLOAT'            => 'Sabre\\VObject\\Property\\Float',
-        'INTEGER'          => 'Sabre\\VObject\\Property\\Integer',
+        'FLOAT'            => 'Sabre\\VObject\\Property\\FloatValue',
+        'INTEGER'          => 'Sabre\\VObject\\Property\\IntegerValue',
         'PERIOD'           => 'Sabre\\VObject\\Property\\ICalendar\\Period',
         'RECUR'            => 'Sabre\\VObject\\Property\\ICalendar\\Recur',
         'TEXT'             => 'Sabre\\VObject\\Property\\Text',
@@ -86,10 +86,10 @@ class VCalendar extends VObject\Document {
         'CLASS'             => 'Sabre\\VObject\\Property\\FlatText',
         'COMMENT'           => 'Sabre\\VObject\\Property\\FlatText',
         'DESCRIPTION'       => 'Sabre\\VObject\\Property\\FlatText',
-        'GEO'               => 'Sabre\\VObject\\Property\\Float',
+        'GEO'               => 'Sabre\\VObject\\Property\\FloatValue',
         'LOCATION'          => 'Sabre\\VObject\\Property\\FlatText',
-        'PERCENT-COMPLETE'  => 'Sabre\\VObject\\Property\\Integer',
-        'PRIORITY'          => 'Sabre\\VObject\\Property\\Integer',
+        'PERCENT-COMPLETE'  => 'Sabre\\VObject\\Property\\IntegerValue',
+        'PRIORITY'          => 'Sabre\\VObject\\Property\\IntegerValue',
         'RESOURCES'         => 'Sabre\\VObject\\Property\\Text',
         'STATUS'            => 'Sabre\\VObject\\Property\\FlatText',
         'SUMMARY'           => 'Sabre\\VObject\\Property\\FlatText',
@@ -127,14 +127,14 @@ class VCalendar extends VObject\Document {
 
         // Alarm Component Properties
         'ACTION'        => 'Sabre\\VObject\\Property\\FlatText',
-        'REPEAT'        => 'Sabre\\VObject\\Property\\Integer',
+        'REPEAT'        => 'Sabre\\VObject\\Property\\IntegerValue',
         'TRIGGER'       => 'Sabre\\VObject\\Property\\ICalendar\\Duration',
 
         // Change Management Component Properties
         'CREATED'       => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
         'DTSTAMP'       => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
         'LAST-MODIFIED' => 'Sabre\\VObject\\Property\\ICalendar\\DateTime',
-        'SEQUENCE'      => 'Sabre\\VObject\\Property\\Integer',
+        'SEQUENCE'      => 'Sabre\\VObject\\Property\\IntegerValue',
 
         // Request Status
         'REQUEST-STATUS' => 'Sabre\\VObject\\Property\\Text',
