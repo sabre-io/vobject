@@ -161,13 +161,18 @@ class BirthdayCalendarGenerator {
                 // It may make sense to add an info to our event that the year was unknown.
             }
 
-            // Generate the event.
-            $calendar->add('VEVENT', [
+            // Create event.
+            $event = $calendar->add('VEVENT', [
                 'SUMMARY'      => $object->FN->getValue() .'\'s Birthday',
                 'DTSTART'      => new \DateTime($object->BDAY->getValue(), $this->timeZone),
                 'RRULE'        => 'FREQ=YEARLY',
                 'TRANSP'       => 'TRANSPARENT',
-                'X-SABRE-BDAY' => [$object->UID->getValue(), 'BDAY', $object->FN->getValue()]
+            ]);
+
+            // Add X-SABRE-BDAY property.
+            $event->add('X-SABRE-BDAY', 'BDAY', [
+                'X-SABRE-VCARD-UID' => $object->UID->getValue(),
+                'X-SABRE-VCARD-FN'  => $object->FN->getValue(),
             ]);
 
         }
