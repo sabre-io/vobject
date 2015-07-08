@@ -491,7 +491,11 @@ class RRuleIterator implements Iterator {
 
         }
 
-        $this->currentDate = $this->currentDate->setDate($this->currentDate->format('Y'), $this->currentDate->format('n'), $occurrence);
+        $this->currentDate = $this->currentDate->setDate(
+            (int)$this->currentDate->format('Y'),
+            (int)$this->currentDate->format('n'),
+            $occurrence
+        );
 
     }
 
@@ -578,12 +582,20 @@ class RRuleIterator implements Iterator {
                     }
                 } while (!in_array($currentMonth, $this->byMonth));
 
-                $this->currentDate = $this->currentDate->setDate($currentYear, $currentMonth, $currentDayOfMonth);
+                $this->currentDate = $this->currentDate->setDate(
+                    (int)$currentYear,
+                    (int)$currentMonth,
+                    (int)$currentDayOfMonth
+                );
 
             }
 
             // If we made it here, it means we got a valid occurrence
-            $this->currentDate = $this->currentDate->setDate($currentYear, $currentMonth, $occurrence);
+            $this->currentDate = $this->currentDate->setDate(
+                (int)$currentYear,
+                (int)$currentMonth,
+                (int)$occurrence
+            );
             return;
 
         } else {
@@ -598,7 +610,11 @@ class RRuleIterator implements Iterator {
                     $currentMonth = 1;
                 }
             } while (!in_array($currentMonth, $this->byMonth));
-            $this->currentDate = $this->currentDate->setDate($currentYear, $currentMonth, $currentDayOfMonth);
+            $this->currentDate = $this->currentDate->setDate(
+                (int)$currentYear,
+                (int)$currentMonth,
+                (int)$currentDayOfMonth
+            );
 
             return;
 
