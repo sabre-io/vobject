@@ -28,7 +28,7 @@ ChangeLog
 * #197: The `$children` property on components has been changed from `public`
   to `protected`. Use the `children()` method instead to get a flat list of
   objects.
-* #239: Added a `getBirthdayEvent()` method in Component\VCard. (@DominikTo)
+* #239: Added a `BirthdayCalendarGenerator`. (@DominikTo)
 
 
 3.4.5 (2015-06-02)

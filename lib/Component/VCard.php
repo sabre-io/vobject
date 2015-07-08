@@ -415,46 +415,6 @@ class VCard extends VObject\Document {
     }
 
     /**
-     * This method returns a birthday event for the card.
-     * If the BDAY property is not present, it returns null.
-     * If the BDAY property didn't contain a valid date, it returns false.
-     *
-     * With $format, it's possible to localize or modify the SUMMARY of
-     * the generated event, e.g. "$format = Geburtstag von %s"
-     *
-     * @param string $format
-     * @return VCalendar|null|false
-     */
-    function getBirthdayEvent($format = null) {
-
-        if ($format === null) {
-            $format = '%s\'s Birthday';
-        }
-
-        if (!$this->select('BDAY')) {
-            return null;
-        }
-
-        $vCal = new VCalendar();
-
-        try {
-            $vCal->add('VEVENT', [
-                'SUMMARY' => sprintf($format, $this->FN->getValue()),
-                'DTSTART' => new \DateTime($this->BDAY->getValue()),
-                'RRULE'   => 'FREQ=YEARLY',
-                'TRANSP'  => 'TRANSPARENT',
-            ]);
-
-        // If the BDAY property didn't contain a valid date, false is returned
-        } catch (\Exception $e) {
-            return false;
-        }
-
-        return $vCal;
-
-    }
-
-    /**
      * This method returns an array, with the representation as it should be
      * encoded in json. This is used to create jCard or jCal documents.
      *
