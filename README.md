@@ -32,6 +32,12 @@ After that, just declare the vobject dependency as follows:
 
 Then, run `composer.phar update` and you should be good.
 
+or
+
+```sh
+composer.phar sabre/vobject"
+```
+
 Usage
 -----
 
