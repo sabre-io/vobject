@@ -35,7 +35,7 @@ Then, run `composer.phar update` and you should be good.
 or
 
 ```sh
-composer.phar require sabre/vobject"
+composer.phar require sabre/vobject
 ```
 
 Usage
