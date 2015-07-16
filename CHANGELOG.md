@@ -5,13 +5,14 @@ ChangeLog
 ------------
 
 * sabre/vobject now requires PHP 5.5.
+* #244: PHP7 support.
 * #160: Support for xCal! (@Hywan)
 * #192: Support for xCard! (@Hywan)
 * #186: Fixing conversion of `UTC-OFFSET` properties when going back and
   forward between jCal and iCalendar.
 * Properties, Components and Parameters now implement PHP's `JsonSerializable`
   interface.
-* #139: We now accept `DateTimeInterface` whereever it accepted `DateTime`
+* #139: We now accept `DateTimeInterface` wherever it accepted `DateTime`
    before in arguments. This means that either `DateTime` or
   `DateTimeImmutable` may be used everywhere.
 * #139: We now _always_ return `DateTimeImmutable` from any method. This could
@@ -565,7 +566,7 @@ ChangeLog
 * Added: A new 'Compound' property, that can automatically split up parts for
   properties such as N, ADR, ORG and CATEGORIES.
 * Added: Splitter classes, that can split up large objects (such as exports)
-  into individual objects (thanks @DominikTO and @armin-hackmann).
+  into individual objects (thanks @DominikTo and @armin-hackmann).
 * Added: VFREEBUSY component, which allows easily checking wether timeslots are
   available.
 * Added: The Reader class now has a 'FORGIVING' option, which allows it to parse

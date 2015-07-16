@@ -2,12 +2,10 @@
 
 namespace Sabre\VObject\Parser;
 
-use
-    Sabre\VObject;
+use Sabre\VObject;
+use Sabre\VObject\TestCase;
 
-const CRLF = "\r\n";
-
-class XmlTest extends \PHPUnit_Framework_TestCase {
+class XmlTest extends TestCase {
 
     function testRFC6321Example1() {
 
@@ -49,18 +47,18 @@ class XmlTest extends \PHPUnit_Framework_TestCase {
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
+            'BEGIN:VCALENDAR' . "\n" .
             // VERSION comes first because this is required by vCard 4.0.
-            'VERSION:2.0' . CRLF .
-            'CALSCALE:GREGORIAN' . CRLF .
-            'PRODID:-//Example Inc.//Example Calendar//EN' . CRLF .
-            'BEGIN:VEVENT' . CRLF .
-            'DTSTAMP:20080205T191224Z' . CRLF .
-            'DTSTART;VALUE=DATE:20081006' . CRLF .
-            'SUMMARY:Planning meeting' . CRLF .
-            'UID:4088E990AD89CB3DBB484909' . CRLF .
-            'END:VEVENT' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'VERSION:2.0' . "\n" .
+            'CALSCALE:GREGORIAN' . "\n" .
+            'PRODID:-//Example Inc.//Example Calendar//EN' . "\n" .
+            'BEGIN:VEVENT' . "\n" .
+            'DTSTAMP:20080205T191224Z' . "\n" .
+            'DTSTART;VALUE=DATE:20081006' . "\n" .
+            'SUMMARY:Planning meeting' . "\n" .
+            'UID:4088E990AD89CB3DBB484909' . "\n" .
+            'END:VEVENT' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -213,49 +211,49 @@ meetings.</text>
 XML;
 
         $component = VObject\Reader::readXML($xml);
-        $this->assertEquals(
-            'BEGIN:VCALENDAR' . CRLF .
-            'VERSION:2.0' . CRLF .
-            'PRODID:-//Example Inc.//Example Client//EN' . CRLF .
-            'BEGIN:VTIMEZONE' . CRLF .
-            'LAST-MODIFIED:20040110T032845Z' . CRLF .
-            'TZID:US/Eastern' . CRLF .
-            'BEGIN:DAYLIGHT' . CRLF .
-            'DTSTART:20000404T020000' . CRLF .
-            'RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4' . CRLF .
-            'TZNAME:EDT' . CRLF .
-            'TZOFFSETFROM:-0500' . CRLF .
-            'TZOFFSETTO:-0400' . CRLF .
-            'END:DAYLIGHT' . CRLF .
-            'BEGIN:STANDARD' . CRLF .
-            'DTSTART:20001026T020000' . CRLF .
-            'RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10' . CRLF .
-            'TZNAME:EST' . CRLF .
-            'TZOFFSETFROM:-0400' . CRLF .
-            'TZOFFSETTO:-0500' . CRLF .
-            'END:STANDARD' . CRLF .
-            'END:VTIMEZONE' . CRLF .
-            'BEGIN:VEVENT' . CRLF .
-            'DTSTAMP:20060206T001121Z' . CRLF .
-            'DTSTART;TZID=US/Eastern:20060102T120000' . CRLF .
-            'DURATION:PT1H' . CRLF .
-            'RRULE:FREQ=DAILY;COUNT=5' . CRLF .
-            'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H' . CRLF .
-            'SUMMARY:Event #2' . CRLF .
-            'DESCRIPTION:We are having a meeting all this week at 12\npm for one hour\, ' . CRLF .
-            ' with an additional meeting on the first day\n2 hours long.\nPlease bring y' . CRLF .
-            ' our own lunch for the 12 pm\nmeetings.' . CRLF .
-            'UID:00959BC664CA650E933C892C@example.com' . CRLF .
-            'END:VEVENT' . CRLF .
-            'BEGIN:VEVENT' . CRLF .
-            'DTSTAMP:20060206T001121Z' . CRLF .
-            'DTSTART;TZID=US/Eastern:20060104T140000' . CRLF .
-            'DURATION:PT1H' . CRLF .
-            'RECURRENCE-ID;TZID=US/Eastern:20060104T120000' . CRLF .
-            'SUMMARY:Event #2 bis' . CRLF .
-            'UID:00959BC664CA650E933C892C@example.com' . CRLF .
-            'END:VEVENT' . CRLF .
-            'END:VCALENDAR' . CRLF,
+        $this->assertVObjEquals(
+            'BEGIN:VCALENDAR' . "\n" .
+            'VERSION:2.0' . "\n" .
+            'PRODID:-//Example Inc.//Example Client//EN' . "\n" .
+            'BEGIN:VTIMEZONE' . "\n" .
+            'LAST-MODIFIED:20040110T032845Z' . "\n" .
+            'TZID:US/Eastern' . "\n" .
+            'BEGIN:DAYLIGHT' . "\n" .
+            'DTSTART:20000404T020000' . "\n" .
+            'RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4' . "\n" .
+            'TZNAME:EDT' . "\n" .
+            'TZOFFSETFROM:-0500' . "\n" .
+            'TZOFFSETTO:-0400' . "\n" .
+            'END:DAYLIGHT' . "\n" .
+            'BEGIN:STANDARD' . "\n" .
+            'DTSTART:20001026T020000' . "\n" .
+            'RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10' . "\n" .
+            'TZNAME:EST' . "\n" .
+            'TZOFFSETFROM:-0400' . "\n" .
+            'TZOFFSETTO:-0500' . "\n" .
+            'END:STANDARD' . "\n" .
+            'END:VTIMEZONE' . "\n" .
+            'BEGIN:VEVENT' . "\n" .
+            'DTSTAMP:20060206T001121Z' . "\n" .
+            'DTSTART;TZID=US/Eastern:20060102T120000' . "\n" .
+            'DURATION:PT1H' . "\n" .
+            'RRULE:FREQ=DAILY;COUNT=5' . "\n" .
+            'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H' . "\n" .
+            'SUMMARY:Event #2' . "\n" .
+            'DESCRIPTION:We are having a meeting all this week at 12\npm for one hour\, ' . "\n" .
+            ' with an additional meeting on the first day\n2 hours long.\nPlease bring y' . "\n" .
+            ' our own lunch for the 12 pm\nmeetings.' . "\n" .
+            'UID:00959BC664CA650E933C892C@example.com' . "\n" .
+            'END:VEVENT' . "\n" .
+            'BEGIN:VEVENT' . "\n" .
+            'DTSTAMP:20060206T001121Z' . "\n" .
+            'DTSTART;TZID=US/Eastern:20060104T140000' . "\n" .
+            'DURATION:PT1H' . "\n" .
+            'RECURRENCE-ID;TZID=US/Eastern:20060104T120000' . "\n" .
+            'SUMMARY:Event #2 bis' . "\n" .
+            'UID:00959BC664CA650E933C892C@example.com' . "\n" .
+            'END:VEVENT' . "\n" .
+            'END:VCALENDAR' . "\n",
             VObject\Writer::write($component)
         );
 
@@ -274,8 +272,8 @@ XML;
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
     }
 
@@ -303,24 +301,24 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'BEGIN:VTIMEZONE' . CRLF .
-            'END:VTIMEZONE' . CRLF .
-            'BEGIN:VEVENT' . CRLF .
-            'END:VEVENT' . CRLF .
-            'BEGIN:VTODO' . CRLF .
-            'END:VTODO' . CRLF .
-            'BEGIN:VJOURNAL' . CRLF .
-            'END:VJOURNAL' . CRLF .
-            'BEGIN:VFREEBUSY' . CRLF .
-            'END:VFREEBUSY' . CRLF .
-            'BEGIN:STANDARD' . CRLF .
-            'END:STANDARD' . CRLF .
-            'BEGIN:DAYLIGHT' . CRLF .
-            'END:DAYLIGHT' . CRLF .
-            'BEGIN:VALARM' . CRLF .
-            'END:VALARM' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'BEGIN:VTIMEZONE' . "\n" .
+            'END:VTIMEZONE' . "\n" .
+            'BEGIN:VEVENT' . "\n" .
+            'END:VEVENT' . "\n" .
+            'BEGIN:VTODO' . "\n" .
+            'END:VTODO' . "\n" .
+            'BEGIN:VJOURNAL' . "\n" .
+            'END:VJOURNAL' . "\n" .
+            'BEGIN:VFREEBUSY' . "\n" .
+            'END:VFREEBUSY' . "\n" .
+            'BEGIN:STANDARD' . "\n" .
+            'END:STANDARD' . "\n" .
+            'BEGIN:DAYLIGHT' . "\n" .
+            'END:DAYLIGHT' . "\n" .
+            'BEGIN:VALARM' . "\n" .
+            'END:VALARM' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -345,9 +343,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'GEO:37.386013;-122.082932' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'GEO:37.386013;-122.082932' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -373,9 +371,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'REQUEST-STATUS:2.0;Success' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'REQUEST-STATUS:2.0;Success' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         // Example 2 of RFC5545, Section 3.8.8.3.
@@ -395,9 +393,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'REQUEST-STATUS:3.1;Invalid property value;DTSTART:96-Apr-01' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'REQUEST-STATUS:3.1;Invalid property value;DTSTART:96-Apr-01' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         // Example 3 of RFC5545, Section 3.8.8.3.
@@ -417,10 +415,10 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'REQUEST-STATUS:2.8;Success\, repeating event ignored. Scheduled as a single' .  CRLF .
-            '  event.;RRULE:FREQ=WEEKLY\;INTERVAL=2' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'REQUEST-STATUS:2.8;Success\, repeating event ignored. Scheduled as a single' .  "\n" .
+            '  event.;RRULE:FREQ=WEEKLY\;INTERVAL=2' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         // Example 4 of RFC5545, Section 3.8.8.3.
@@ -439,9 +437,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'REQUEST-STATUS:4.1;Event conflict.  Date-time is busy.' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'REQUEST-STATUS:4.1;Event conflict.  Date-time is busy.' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         // Example 5 of RFC5545, Section 3.8.8.3.
@@ -461,9 +459,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'REQUEST-STATUS:3.7;Invalid calendar user;ATTENDEE:mailto:jsmith@example.com' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'REQUEST-STATUS:3.7;Invalid calendar user;ATTENDEE:mailto:jsmith@example.com' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -487,9 +485,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'ATTACH:SGVsbG8gV29ybGQh' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'ATTACH:SGVsbG8gV29ybGQh' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         // In vCard 4, BINARY no longer exists and is replaced by URI.
@@ -507,9 +505,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'ATTACH:SGVsbG8gV29ybGQh' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'ATTACH:SGVsbG8gV29ybGQh' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -536,9 +534,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'ATTENDEE;RSVP=true:mailto:cyrus@example.com' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'ATTENDEE;RSVP=true:mailto:cyrus@example.com' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -562,9 +560,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'ATTENDEE:mailto:cyrus@example.com' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'ATTENDEE:mailto:cyrus@example.com' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -588,9 +586,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'DTSTART;VALUE=DATE:20110517' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'DTSTART;VALUE=DATE:20110517' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -614,9 +612,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'DTSTART:20110517T120000' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'DTSTART:20110517T120000' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -640,9 +638,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'DURATION:P1D' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'DURATION:P1D' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -676,9 +674,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'FOO:42' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'FOO:42' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         $this->assertXMLEqualsToMimeDir(
@@ -695,9 +693,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'FOO:-42' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'FOO:-42' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -724,9 +722,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'FREEBUSY:20110517T120000/P1H' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'FREEBUSY:20110517T120000/P1H' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -746,9 +744,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'FREEBUSY:20110517T120000/20120517T120000' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'FREEBUSY:20110517T120000/20120517T120000' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -777,9 +775,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'RRULE:FREQ=YEARLY;COUNT=5;BYDAY=-1SU;BYMONTH=10' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'RRULE:FREQ=YEARLY;COUNT=5;BYDAY=-1SU;BYMONTH=10' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -803,9 +801,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'CALSCALE:GREGORIAN' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'CALSCALE:GREGORIAN' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -829,9 +827,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'FOO:120000' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'FOO:120000' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -855,9 +853,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'ATTACH:http://calendar.example.com' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'ATTACH:http://calendar.example.com' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -882,9 +880,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'TZOFFSETFROM:-0500' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'TZOFFSETFROM:-0500' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         // Example 2 of RFC5545, Section 3.3.14.
@@ -902,9 +900,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'TZOFFSETFROM:+0100' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'TZOFFSETFROM:+0100' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -928,9 +926,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'X-PROPERTY:20110512T120000Z' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'X-PROPERTY:20110512T120000Z' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -952,9 +950,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'DTSTART;X-PARAM=PT30M:20110512T130000Z' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'DTSTART;X-PARAM=PT30M:20110512T130000Z' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -975,9 +973,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'RDATE:20080205T191224Z' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'RDATE:20080205T191224Z' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -995,9 +993,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'RDATE:20080205T191224Z,20090205T191224Z' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'RDATE:20080205T191224Z,20090205T191224Z' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -1018,9 +1016,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'RDATE:20081006' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'RDATE:20081006' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         $this->assertXMLEqualsToMimeDir(
@@ -1039,9 +1037,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'RDATE:20081006,20091006,20101006' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'RDATE:20081006,20091006,20101006' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -1070,9 +1068,9 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
         $this->assertXMLEqualsToMimeDir(
@@ -1101,10 +1099,10 @@ XML
 </icalendar>
 XML
 ,
-            'BEGIN:VCALENDAR' . CRLF .
-            'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H,20080102T150000/PT1' . CRLF .
-            ' H' . CRLF .
-            'END:VCALENDAR' . CRLF
+            'BEGIN:VCALENDAR' . "\n" .
+            'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H,20080102T150000/PT1' . "\n" .
+            ' H' . "\n" .
+            'END:VCALENDAR' . "\n"
         );
 
     }
@@ -1133,11 +1131,11 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'FN:J. Doe' . CRLF .
-            'N:Doe;J.;;;' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'FN:J. Doe' . "\n" .
+            'N:Doe;J.;;;' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1175,14 +1173,14 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'FN:J. Doe' . CRLF .
-            'N:Doe;J.;;;' . CRLF .
-            'X-FILE;MEDIATYPE=image/jpeg:alien.jpg' . CRLF .
-            'XML:<a xmlns="http://www.w3.org/1999/xhtml" href="http://www.example.com">M' . CRLF .
-            ' y web page!</a>' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'FN:J. Doe' . "\n" .
+            'N:Doe;J.;;;' . "\n" .
+            'X-FILE;MEDIATYPE=image/jpeg:alien.jpg' . "\n" .
+            'XML:<a xmlns="http://www.w3.org/1999/xhtml" href="http://www.example.com">M' . "\n" .
+            ' y web page!</a>' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1210,10 +1208,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'TEL;TYPE="voice,video":tel:+1-555-555-555' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'TEL;TYPE="voice,video":tel:+1-555-555-555' . "\n" .
+            'END:VCARD' . "\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1234,10 +1232,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'TEL;TYPE="voice,video":tel:+1-555-555-555' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'TEL;TYPE="voice,video":tel:+1-555-555-555' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1272,13 +1270,13 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'TEL:tel:+1-555-555-556' . CRLF .
-            'contact.TEL:tel:+1-555-555-555' . CRLF .
-            'contact.FN:Gordon' . CRLF .
-            'media.FN:Gordon' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'TEL:tel:+1-555-555-556' . "\n" .
+            'contact.TEL:tel:+1-555-555-555' . "\n" .
+            'contact.FN:Gordon' . "\n" .
+            'media.FN:Gordon' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1305,10 +1303,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'X-MY-PROP;PREF=1:value goes here' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'X-MY-PROP;PREF=1:value goes here' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1330,10 +1328,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:20150128' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:20150128' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1355,10 +1353,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:2015-01' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:2015-01' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1380,10 +1378,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:--01' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:--01' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1405,10 +1403,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:--0128' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:--0128' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1430,10 +1428,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:---28' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:---28' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1455,10 +1453,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:13' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:13' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1480,10 +1478,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:1353' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:1353' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1505,10 +1503,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:135301' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:135301' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1530,10 +1528,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:-53' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:-53' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1555,10 +1553,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:-5301' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:-5301' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1588,10 +1586,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:--01' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:--01' . "\n" .
+            'END:VCARD' . "\n"
         );
         */
 
@@ -1614,10 +1612,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:--01Z' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:--01Z' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1639,10 +1637,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:--01+1234' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:--01+1234' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1664,10 +1662,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:20150128T13' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:20150128T13' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1689,10 +1687,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:--0128T13' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:--0128T13' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1714,10 +1712,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:---28T13' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:---28T13' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1739,10 +1737,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:---28T1353' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:---28T1353' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1764,10 +1762,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:---28T135301' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:---28T135301' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1789,10 +1787,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:---28T13Z' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:---28T13Z' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1814,10 +1812,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:---28T13+1234' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:---28T13+1234' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1839,10 +1837,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'SOURCE:ldap://ldap.example.com/cn=Babs%20Jensen\,%20o=Babsco\,%20c=US' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'SOURCE:ldap://ldap.example.com/cn=Babs%20Jensen\,%20o=Babsco\,%20c=US' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1864,10 +1862,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'KIND:individual' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'KIND:individual' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1889,10 +1887,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'FN:Mr. John Q. Public\, Esq.' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'FN:Mr. John Q. Public\, Esq.' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1918,10 +1916,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'N:Stevenson;John;Philip\,Paul;Dr.;Jr.\,M.D.\,A.C.P.' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'N:Stevenson;John;Philip\,Paul;Dr.;Jr.\,M.D.\,A.C.P.' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1944,10 +1942,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'NICKNAME:Jim,Jimmie' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'NICKNAME:Jim,Jimmie' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1969,10 +1967,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'PHOTO:http://www.example.com/pub/photos/jqpublic.gif' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'PHOTO:http://www.example.com/pub/photos/jqpublic.gif' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -1991,10 +1989,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'BDAY:19531015T231000Z' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'BDAY:19531015T231000Z' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2013,10 +2011,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'ANNIVERSARY:19960415' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'ANNIVERSARY:19960415' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2039,10 +2037,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'GENDER:Jim;Jimmie' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'GENDER:Jim;Jimmie' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2070,10 +2068,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'ADR:;;123 Main Street;Any Town;CA;91921-1234;U.S.A.' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'ADR:;;123 Main Street;Any Town;CA;91921-1234;U.S.A.' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2110,10 +2108,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'TEL;TYPE=home:tel:+33-01-23-45-67' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'TEL;TYPE=home:tel:+33-01-23-45-67' . "\n" .
+            'END:VCARD' . "\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -2133,10 +2131,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'TEL;TYPE=home:tel:+33-01-23-45-67' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'TEL;TYPE=home:tel:+33-01-23-45-67' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2163,10 +2161,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'EMAIL;TYPE=work:jqpublic@xyz.example.com' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'EMAIL;TYPE=work:jqpublic@xyz.example.com' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2193,10 +2191,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'IMPP;PREF=1:xmpp:alice@example.com' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'IMPP;PREF=1:xmpp:alice@example.com' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2226,10 +2224,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'LANG;TYPE=work;PREF=2:en' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'LANG;TYPE=work;PREF=2:en' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2251,10 +2249,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'TZ:Raleigh/North America' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'TZ:Raleigh/North America' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2276,10 +2274,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'GEO:geo:37.386013\,-122.082932' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'GEO:geo:37.386013\,-122.082932' . "\n" .
+            'END:VCARD' . "\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -2294,10 +2292,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'GEO:geo:37.386013\,-122.082932' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'GEO:geo:37.386013\,-122.082932' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2319,10 +2317,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'TITLE:Research Scientist' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'TITLE:Research Scientist' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2344,10 +2342,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'ROLE:Project Leader' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'ROLE:Project Leader' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2369,10 +2367,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'LOGO:http://www.example.com/pub/logos/abccorp.jpg' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'LOGO:http://www.example.com/pub/logos/abccorp.jpg' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2396,10 +2394,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'ORG:ABC\, Inc.;North American Division;Marketing' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'ORG:ABC\, Inc.;North American Division;Marketing' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2421,10 +2419,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'MEMBER:urn:uuid:03a0e51f-d1aa-4385-8a53-e29025acd8af' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'MEMBER:urn:uuid:03a0e51f-d1aa-4385-8a53-e29025acd8af' . "\n" .
+            'END:VCARD' . "\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -2448,13 +2446,13 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'MEMBER:mailto:subscriber1@example.com' . CRLF .
-            'MEMBER:xmpp:subscriber2@example.com' . CRLF .
-            'MEMBER:sip:subscriber3@example.com' . CRLF .
-            'MEMBER:tel:+1-418-555-5555' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'MEMBER:mailto:subscriber1@example.com' . "\n" .
+            'MEMBER:xmpp:subscriber2@example.com' . "\n" .
+            'MEMBER:sip:subscriber3@example.com' . "\n" .
+            'MEMBER:tel:+1-418-555-5555' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2481,10 +2479,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'RELATED;TYPE=friend:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'RELATED;TYPE=friend:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2509,10 +2507,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'CATEGORIES:INTERNET,IETF,INDUSTRY,INFORMATION TECHNOLOGY' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'CATEGORIES:INTERNET,IETF,INDUSTRY,INFORMATION TECHNOLOGY' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2534,10 +2532,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'NOTE:Foo\, bar' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'NOTE:Foo\, bar' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2559,10 +2557,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'PRODID:-//ONLINE DIRECTORY//NONSGML Version 1//EN' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'PRODID:-//ONLINE DIRECTORY//NONSGML Version 1//EN' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2581,10 +2579,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'REV:19951031T222710Z' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'REV:19951031T222710Z' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2606,10 +2604,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com' . "\n" .
+            'END:VCARD' . "\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -2624,10 +2622,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2649,10 +2647,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'UID:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'UID:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2675,10 +2673,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'CLIENTPIDMAP:1;urn:uuid:3df403f4-5924-4bb7-b077-3c711d9eb34b' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'CLIENTPIDMAP:1;urn:uuid:3df403f4-5924-4bb7-b077-3c711d9eb34b' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2700,10 +2698,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'URL:http://example.org/restaurant.french/~chezchic.html' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'URL:http://example.org/restaurant.french/~chezchic.html' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2721,9 +2719,9 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2750,10 +2748,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'KEY;MEDIATYPE=application/pgp-keys:ftp://example.com/keys/jdoe' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'KEY;MEDIATYPE=application/pgp-keys:ftp://example.com/keys/jdoe' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2780,10 +2778,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'FBURL;PREF=1:http://www.example.com/busy/janedoe' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'FBURL;PREF=1:http://www.example.com/busy/janedoe' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2805,10 +2803,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'CALADRURI:http://example.com/calendar/jdoe' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'CALADRURI:http://example.com/calendar/jdoe' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2835,10 +2833,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'CALURI;PREF=1:http://cal.example.com/calA' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'CALURI;PREF=1:http://cal.example.com/calA' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2860,10 +2858,10 @@ XML
 </vcards>
 XML
 ,
-            'BEGIN:VCARD' . CRLF .
-            'VERSION:4.0' . CRLF .
-            'CAPURI:http://cap.example.com/capA' . CRLF .
-            'END:VCARD' . CRLF
+            'BEGIN:VCARD' . "\n" .
+            'VERSION:4.0' . "\n" .
+            'CAPURI:http://cap.example.com/capA' . "\n" .
+            'END:VCARD' . "\n"
         );
 
     }
@@ -2875,7 +2873,7 @@ XML
     protected function assertXMLEqualsToMimeDir($xml, $mimedir) {
 
         $component = VObject\Reader::readXML($xml);
-        $this->assertEquals($mimedir, VObject\Writer::write($component));
+        $this->assertVObjEquals($mimedir, $component);
 
     }
 
@@ -2888,7 +2886,7 @@ XML
         $this->assertXMLEqualsToMimeDir($xml, $mimedir);
 
         $component = VObject\Reader::read($mimedir);
-        $this->assertEquals($xml, rtrim(VObject\Writer::writeXML($component)));
+        $this->assertXmlStringEqualsXmlString($xml, VObject\Writer::writeXML($component));
 
     }
 }

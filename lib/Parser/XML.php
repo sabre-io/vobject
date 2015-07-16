@@ -170,7 +170,7 @@ class XML extends Parser {
 
         foreach ($this->pointer ?: [] as $xmlProperty) {
 
-            list($namespace, $tagName) = SabreXml\Util::parseClarkNotation($xmlProperty['name']);
+            list($namespace, $tagName) = SabreXml\Service::parseClarkNotation($xmlProperty['name']);
 
             $propertyName       = $tagName;
             $propertyValue      = [];
@@ -213,7 +213,7 @@ class XML extends Parser {
                 $this->pointer = &$xmlProperty['value'];
                 $this->parseProperties(
                     $parentComponent,
-                    $xmlProperty['attributes']['name'] . '.'
+                    strtoupper($xmlProperty['attributes']['name']) . '.'
                 );
 
                 continue;
@@ -421,7 +421,7 @@ class XML extends Parser {
      */
     protected static function getTagName($clarkedTagName) {
 
-        list(, $tagName) = SabreXml\Util::parseClarkNotation($clarkedTagName);
+        list(, $tagName) = SabreXml\Service::parseClarkNotation($clarkedTagName);
         return $tagName;
 
     }

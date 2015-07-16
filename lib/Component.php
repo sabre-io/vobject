@@ -544,7 +544,10 @@ class Component extends Node {
 
         foreach ($this->children as $childName => $childGroup) {
             foreach ($childGroup as $key => $child) {
-                $this->children[$childName][$key] = clone $child;
+                $clonedChild = clone $child;
+                $clonedChild->parent = $this;
+                $clonedChild->root = $this->root;
+                $this->children[$childName][$key] = $clonedChild;
             }
         }
 

@@ -135,7 +135,7 @@ class FreeBusyGenerator {
     /**
      * Sets the input objects.
      *
-     * You must either specify a valendar object as a strong, or as the parse
+     * You must either specify a valendar object as a string, or as the parse
      * Component.
      * It's also possible to specify multiple objects as an array.
      *
