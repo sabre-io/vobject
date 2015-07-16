@@ -208,12 +208,46 @@ class FreeBusyGenerator {
      */
     function getResult() {
 
-        $busyTimes = new FreeBusyData(
+        $fbData = new FreeBusyData(
             $this->start->getTimeStamp(),
             $this->end->getTimeStamp()
         );
+        if ($this->vavailability) {
 
-        foreach ($this->objects as $key => $object) {
+            $this->calculateAvailability($fbData, $this->vavailability);
+
+        }
+
+        $this->calculateBusy($fbData, $this->objects);
+
+        return $this->generateFreeBusyCalendar($fbData);
+
+
+    }
+
+    /**
+     * This method takes a VAVAILABILITY component and figures out all the
+     * available times.
+     *
+     * @param FreeBusyData $fbData
+     * @param VCalendar $vavailability
+     * @return void
+     */
+    protected function calculateAvailability(FreeBusyData $fbData, VCalendar $vavailability) {
+
+
+    }
+
+    /**
+     * This method takes an array of iCalendar objects and applies its busy
+     * times on fbData.
+     *
+     * @param FreeBusyData $fbData
+     * @param VCalendar[] $objects
+     */
+    protected function calculateBusy(FreeBusyData $fbData, array $objects) {
+
+        foreach ($objects as $key => $object) {
 
             foreach ($object->getBaseComponents() as $component) {
 
@@ -299,7 +333,7 @@ class FreeBusyGenerator {
                             if ($this->end && $time[0] > $this->end) break;
                             if ($this->start && $time[1] < $this->start) break;
 
-                            $busyTimes->add(
+                            $fbData->add(
                                 $time[0]->getTimeStamp(),
                                 $time[1]->getTimeStamp(),
                                 $FBTYPE
@@ -331,7 +365,7 @@ class FreeBusyGenerator {
 
                                 if ($this->start && $this->start > $endTime) continue;
                                 if ($this->end && $this->end < $startTime) continue;
-                                $busyTimes->add(
+                                $fbData->add(
                                     $startTime->getTimeStamp(),
                                     $endTime->getTimeStamp(),
                                     $fbType
@@ -349,6 +383,16 @@ class FreeBusyGenerator {
             }
 
         }
+
+    }
+
+    /**
+     * This method takes a FreeBusyData object and generates the VCALENDAR
+     * object associated with it.
+     *
+     * @return VCalendar
+     */
+    function generateFreeBusyCalendar(FreeBusyData $fbData) {
 
         if ($this->baseObject) {
             $calendar = $this->baseObject;
@@ -375,7 +419,7 @@ class FreeBusyGenerator {
         $dtstamp->setDateTime(new DateTimeImmutable('now', $tz));
         $vfreebusy->add($dtstamp);
 
-        foreach ($busyTimes->getData() as $busyTime) {
+        foreach ($fbData->getData() as $busyTime) {
 
             // Ignoring all the FREE parts, because those are already assumed.
             if ($busyTime['type'] === 'FREE') {
@@ -395,6 +439,7 @@ class FreeBusyGenerator {
         }
 
         return $calendar;
+
 
     }
 
