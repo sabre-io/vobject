@@ -547,6 +547,44 @@ ICS;
     }
 
     /**
+     * This VAVAILABILITY object does not overlap at all with the freebusy
+     * report, so it should be ignored.
+     */
+    function testVAvailabilityIrrelevant() {
+
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:lalala
+DTSTART:20110101T120000Z
+DTEND:20110101T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $vavail = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20150101T000000Z
+DTEND:20160101T000000Z
+BEGIN:AVAILABLE
+DTSTART:20150101T000000Z
+DTEND:20150101T010000Z
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+ICS;
+
+        $this->assertFreeBusyReport(
+            "FREEBUSY:20110101T120000Z/20110101T130000Z",
+            $blob,
+            null,
+            $vavail
+        );
+
+    }
+
+    /**
      * This VAVAILABILITY object has a 9am-5pm AVAILABLE object for office
      * hours.
      */
@@ -565,7 +603,7 @@ ICS;
         $vavail = <<<ICS
 BEGIN:VCALENDAR
 BEGIN:VAVAILABILITY
-DTSTART:20110101T000000Z
+DTSTART:20100101T000000Z
 DTEND:20120101T000000Z
 BUSYTYPE:BUSY-TENTATIVE
 BEGIN:AVAILABLE
@@ -588,4 +626,101 @@ ICS;
 
     }
 
+    /**
+     * This test has the same office hours, but has a vacation blocked off for
+     * the relevant time, using a higher priority. (lower number).
+     */
+    function testVAvailabilityOfficeHoursVacation() {
+
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:lalala
+DTSTART:20110101T120000Z
+DTEND:20110101T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $vavail = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20100101T000000Z
+DTEND:20120101T000000Z
+BUSYTYPE:BUSY-TENTATIVE
+PRIORITY:2
+BEGIN:AVAILABLE
+DTSTART:20101213T090000Z
+DTEND:20101213T170000Z
+RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR
+END:AVAILABLE
+END:VAVAILABILITY
+BEGIN:VAVAILABILITY
+PRIORITY:1
+DTSTART:20101214T000000Z
+DTEND:20110107T000000Z
+BUSYTYPE:BUSY
+END:VAVAILABILITY
+END:VCALENDAR
+ICS;
+
+        $this->assertFreeBusyReport(
+            "FREEBUSY:20110101T110000Z/20110103T110000Z",
+            $blob,
+            null,
+            $vavail
+        );
+
+    }
+
+    /**
+     * This test has the same input as the last, except somebody mixed up the
+     * PRIORITY values.
+     *
+     * The end-result is that the vacation VAVAILABILITY is completely ignored.
+     */
+    function testVAvailabilityOfficeHoursVacation2() {
+
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:lalala
+DTSTART:20110101T120000Z
+DTEND:20110101T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $vavail = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20100101T000000Z
+DTEND:20120101T000000Z
+BUSYTYPE:BUSY-TENTATIVE
+PRIORITY:1
+BEGIN:AVAILABLE
+DTSTART:20101213T090000Z
+DTEND:20101213T170000Z
+RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR
+END:AVAILABLE
+END:VAVAILABILITY
+BEGIN:VAVAILABILITY
+PRIORITY:2
+DTSTART:20101214T000000Z
+DTEND:20110107T000000Z
+BUSYTYPE:BUSY
+END:VAVAILABILITY
+END:VCALENDAR
+ICS;
+
+        $this->assertFreeBusyReport(
+            "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T110000Z/20110101T120000Z\n" .
+            "FREEBUSY:20110101T120000Z/20110101T130000Z\n" .
+            "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T130000Z/20110103T090000Z\n",
+            $blob,
+            null,
+            $vavail
+        );
+
+    }
 }

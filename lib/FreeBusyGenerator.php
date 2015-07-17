@@ -276,7 +276,7 @@ class FreeBusyGenerator {
             if (is_null($compStart) || $compStart < $this->start) {
                 $compStart = $this->start;
             }
-            if (is_null($compEnd) || $compEnd < $this->end) {
+            if (is_null($compEnd) || $compEnd > $this->end) {
                 $compEnd = $this->end;
             }
 
@@ -336,7 +336,7 @@ class FreeBusyGenerator {
             );
 
             // Looping over the AVAILABLE components.
-            foreach ($vavail->AVAILABLE as $available) {
+            if (isset($vavail->AVAILABLE)) foreach ($vavail->AVAILABLE as $available) {
 
                 list($availStart, $availEnd) = $available->getEffectiveStartEnd();
                 $fbData->add(

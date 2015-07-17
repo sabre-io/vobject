@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeInterface;
 use Sabre\VObject;
 
 /**
@@ -34,8 +35,8 @@ class VAvailability extends VObject\Component {
 
         list($effectiveStart, $effectiveEnd) = $this->getEffectiveStartEnd();
         return (
-            (is_null($start) || $start < $effectiveEnd) &&
-            (is_null($end) || $end > $effectiveStart)
+            (is_null($effectiveStart) || $start < $effectiveEnd) &&
+            (is_null($effectiveEnd) || $end > $effectiveStart)
         );
 
     }
