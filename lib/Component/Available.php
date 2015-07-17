@@ -39,6 +39,8 @@ class Available extends VObject\Component {
 
         return [$effectiveStart, $effectiveEnd];
 
+    }
+
     /**
      * A simple list of validation rules.
      *
