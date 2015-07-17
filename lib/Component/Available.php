@@ -17,6 +17,29 @@ use Sabre\VObject;
 class Available extends VObject\Component {
 
     /**
+     * Returns the 'effective start' and 'effective end' of this VAVAILABILITY
+     * component.
+     *
+     * We use the DTSTART and DTEND or DURATION to determine this.
+     *
+     * The returned value is an array containing DateTimeImmutable instances.
+     * If either the start or end is 'unbounded' its value will be null
+     * instead.
+     *
+     * @return array
+     */
+    function getEffectiveStartEnd() {
+
+        $effectiveStart = $this->DTSTART->getDateTime();
+        if (isset($this->DTEND)) {
+            $effectiveEnd = $this->DTEND->getDateTime();
+        } else {
+            $effectiveEnd = $effectiveStart->add(VObject\DateTimeParser::parseDuration($this->DURATION));
+        }
+
+        return [$effectiveStart, $effectiveEnd];
+
+    /**
      * A simple list of validation rules.
      *
      * This is simply a list of properties, and how many times they either

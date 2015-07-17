@@ -17,6 +17,61 @@ use Sabre\VObject;
 class VAvailability extends VObject\Component {
 
     /**
+     * Returns true or false depending on if the event falls in the specified
+     * time-range. This is used for filtering purposes.
+     *
+     * The rules used to determine if an event falls within the specified
+     * time-range is based on:
+     *
+     * https://tools.ietf.org/html/draft-daboo-calendar-availability-05#section-3.1
+     *
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
+     *
+     * @return bool
+     */
+    function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
+
+        list($effectiveStart, $effectiveEnd) = $this->getEffectiveStartEnd();
+        return (
+            (is_null($start) || $start < $effectiveEnd) &&
+            (is_null($end) || $end > $effectiveStart)
+        );
+
+    }
+
+    /**
+     * Returns the 'effective start' and 'effective end' of this VAVAILABILITY
+     * component.
+     *
+     * We use the DTSTART and DTEND or DURATION to determine this.
+     *
+     * The returned value is an array containing DateTimeImmutable instances.
+     * If either the start or end is 'unbounded' its value will be null
+     * instead.
+     *
+     * @return array
+     */
+    function getEffectiveStartEnd() {
+
+        $effectiveStart = null;
+        $effectiveEnd = null;
+
+        if (isset($this->DTSTART)) {
+            $effectiveStart = $this->DTSTART->getDateTime();
+        }
+        if (isset($this->DTEND)) {
+            $effectiveEnd = $this->DTEND->getDateTime();
+        } elseif ($effectiveStart && isset($this->DURATION)) {
+            $effectiveEnd = $effectiveStart->add(VObject\DateTimeParser::parseDuration($this->DURATION));
+        }
+
+        return [$effectiveStart, $effectiveEnd];
+
+    }
+
+
+    /**
      * A simple list of validation rules.
      *
      * This is simply a list of properties, and how many times they either

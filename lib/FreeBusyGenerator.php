@@ -235,6 +235,156 @@ class FreeBusyGenerator {
      */
     protected function calculateAvailability(FreeBusyData $fbData, VCalendar $vavailability) {
 
+        $vavailComps = usort(
+            iterator_to_array($vavailability->VAVAILABILITY),
+            function($a, $b) {
+
+                // We need to order the components by priority. Priority 1
+                // comes first, up until priority 9. Priority 0 comes after
+                // priority 9. No priority implies priority 0.
+                //
+                // Yes, I'm serious.
+                $priorityA = isset($a->PRIORITY) ? (int)$a->PRIORITY->getValue() : 0;
+                $priorityB = isset($b->PRIORITY) ? (int)$b->PRIORITY->getValue() : 0;
+
+                if ($priorityA === 0) $priorityA = 10;
+                if ($priorityB === 0) $priorityB = 10;
+
+                return $priorityA - $priorityB;
+
+            }
+        );
+
+        // Now we go over all the VAVAILABILITY components and figure if
+        // there's any we don't need to consider.
+        //
+        // This is can be because of one of two reasons: either the
+        // VAVAILABILITY component falls outside the time we are interested in,
+        // or a different VAVAILABILITY component with a higher priority has
+        // already completely covered the time-range.
+        $old = $vavailComps;
+        $new = [];
+
+        foreach($old as $vavail) {
+
+            list($compStart, $compEnd) = $vavail->getEffectiveStartEnd();
+
+            // We don't care about datetimes that are earlier or later than the
+            // start and end of the freebusy report, so this gets normalized
+            // first.
+            if (is_null($compStart) || $compStart < $this->start) {
+                $compStart = $this->start;
+            }
+            if (is_null($compEnd) || $compEnd < $this->end) {
+                $compEnd = $this->end;
+            }
+
+            // If the item fell out of the timerange, we can just skip it.
+            if ($compStart > $this->end || $compEnd < $this->start) {
+                continue;
+            }
+
+            // Going through our existing list of components to see if there's
+            // a higher priority component that already fully covers this one.
+            foreach($new as $higherVavail) {
+
+                list($higherStart, $higherEnd) = $higherVavail->getEffectiveStartEnd();
+                if (
+                    (is_null($higherStart) || $higherStart < $compStart) &&
+                    (is_null($higherEnd)   || $higherEnd > $compEnd)
+                ) {
+
+                    // Component is fully covered by a higher priority
+                    // component. We can skip this component.
+                    continue 2;
+
+                }
+
+            }
+
+            // We're keeping it!
+            $new[] = $vavail;
+
+        }
+
+        // Lastly, we need to traverse the remaining components and fill in the
+        // freebusydata slots.
+        //
+        // We traverse the components in reverse, because we want the higher
+        // priority components to override the lower ones.
+        foreach(array_reverse($new) as $vavail) {
+
+            $busyType = isset($vavail->busyType) ? strtoupper($vavail->busyType) : 'BUSY-UNAVAILABLE';
+            list($vavailStart, $vavailEnd) = $vavail->getEffectiveStartEnd();
+
+            // Making the component size no larger than the requested free-busy
+            // report range.
+            if (!$vavailStart || $vavailStart < $this->start) {
+                $vavailStart = $this->start;
+            }
+            if (!$vavailEnd || $vavailEnd > $this->end) {
+                $vavailEnd = $this->end;
+            }
+
+            // Marking the entire time range of the VAVAILABILITY component as
+            // busy.
+            $fbData->add(
+                $vavailStart->getTimeStamp(),
+                $vavailEnd->getTimeStamp(),
+                $busyType
+            );
+
+            // Looping over the AVAILABLE components.
+            foreach($vavail->AVAILABLE as $available) {
+
+                list($availStart, $availEnd) = $available->getEffectiveStartEnd();
+                $fbData->add(
+                    $availStart->getTimeStamp(),
+                    $availEnd->getTimeStamp(),
+                    'FREE'
+                );
+
+                if ($available->RRULE) {
+                    // Our favourite thing: recurrence!!
+
+                    $rruleIterator = new Recur\RRuleIterator(
+                        $available->RRULE->getValue(),
+                        $availStart
+                    );
+                    $rruleIterator->fastForward($vavailStart);
+
+                    $startEndDiff = $availStart->diff($availEnd);
+
+                    while($rruleIterator->valid()) {
+
+                        $recurStart = $rruleIterator->current();
+                        $recurEnd = $recurStart->add($startEndDiff);
+
+                        if ($recurStart > $vavailEnd) {
+                            // We're beyond the legal timerange.
+                            break;
+                        }
+
+                        if ($recurEnd > $vavailEnd) {
+                            // Truncating the end if it exceeds the
+                            // VAVAILABILITY end.
+                            $recurEnd = $vavailEnd;
+                        }
+
+                        $fbData->add(
+                            $recurStart->getTimeStamp(),
+                            $recurEnd->getTimeStamp(),
+                            'FREE'
+                        );
+
+                        $rruleIterator->next();
+
+                    }
+                }
+
+            }
+
+        }
 
     }
 
@@ -392,7 +542,7 @@ class FreeBusyGenerator {
      *
      * @return VCalendar
      */
-    function generateFreeBusyCalendar(FreeBusyData $fbData) {
+    protected function generateFreeBusyCalendar(FreeBusyData $fbData) {
 
         if ($this->baseObject) {
             $calendar = $this->baseObject;
