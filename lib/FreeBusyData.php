@@ -133,8 +133,6 @@ class FreeBusyData {
                     'type'  => $preceedingItem['type']
                 ];
             }
-        } else {
-          
         }
 
         array_splice(
