@@ -118,14 +118,6 @@ class Available extends VObject\Component {
             ];
         }
 
-        if (isset($this->DURATION) && !isset($this->DTSTART)) {
-            $result[] = [
-                'level'   => 3,
-                'message' => 'DURATION must be declared with a DTSTART.',
-                'node'    => $this
-            ];
-        }
-
         return $result;
 
     }
