@@ -266,7 +266,7 @@ class FreeBusyGenerator {
         $old = $vavailComps;
         $new = [];
 
-        foreach($old as $vavail) {
+        foreach ($old as $vavail) {
 
             list($compStart, $compEnd) = $vavail->getEffectiveStartEnd();
 
@@ -287,7 +287,7 @@ class FreeBusyGenerator {
 
             // Going through our existing list of components to see if there's
             // a higher priority component that already fully covers this one.
-            foreach($new as $higherVavail) {
+            foreach ($new as $higherVavail) {
 
                 list($higherStart, $higherEnd) = $higherVavail->getEffectiveStartEnd();
                 if (
@@ -313,7 +313,7 @@ class FreeBusyGenerator {
         //
         // We traverse the components in reverse, because we want the higher
         // priority components to override the lower ones.
-        foreach(array_reverse($new) as $vavail) {
+        foreach (array_reverse($new) as $vavail) {
 
             $busyType = isset($vavail->busyType) ? strtoupper($vavail->busyType) : 'BUSY-UNAVAILABLE';
             list($vavailStart, $vavailEnd) = $vavail->getEffectiveStartEnd();
@@ -336,7 +336,7 @@ class FreeBusyGenerator {
             );
 
             // Looping over the AVAILABLE components.
-            foreach($vavail->AVAILABLE as $available) {
+            foreach ($vavail->AVAILABLE as $available) {
 
                 list($availStart, $availEnd) = $available->getEffectiveStartEnd();
                 $fbData->add(
@@ -356,7 +356,7 @@ class FreeBusyGenerator {
 
                     $startEndDiff = $availStart->diff($availEnd);
 
-                    while($rruleIterator->valid()) {
+                    while ($rruleIterator->valid()) {
 
                         $recurStart = $rruleIterator->current();
                         $recurEnd = $recurStart->add($startEndDiff);
