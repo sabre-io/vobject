@@ -126,7 +126,7 @@ class FreeBusyGenerator {
      * @param Document $vcalendar
      * @return void
      */
-    function setVAvailablility(Document $vcalendar) {
+    function setVAvailability(Document $vcalendar) {
 
         $this->vavailability = $vcalendar;
 
@@ -235,8 +235,9 @@ class FreeBusyGenerator {
      */
     protected function calculateAvailability(FreeBusyData $fbData, VCalendar $vavailability) {
 
-        $vavailComps = usort(
-            iterator_to_array($vavailability->VAVAILABILITY),
+        $vavailComps = iterator_to_array($vavailability->VAVAILABILITY);
+        usort(
+            $vavailComps,
             function($a, $b) {
 
                 // We need to order the components by priority. Priority 1

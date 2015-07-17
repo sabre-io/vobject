@@ -58,6 +58,9 @@ class FreeBusyGeneratorTest extends TestCase {
         );
 
         if ($vavailability) {
+            if (is_string($vavailability)) {
+                $vavailability = Reader::read($vavailability);
+            }
             $gen->setVAvailability($vavailability);
         }
 
@@ -499,6 +502,46 @@ ICS;
         $this->assertFreeBusyReport(
             "",
             $blob
+        );
+
+    }
+
+    /**
+     * This VAVAILABILITY object overlaps with the time-range, but we're just
+     * busy the entire time.
+     */
+    function testVAvailabilitySimple() {
+
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:lalala
+DTSTART:20110101T120000Z
+DTEND:20110101T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $vavail = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20110101T000000Z
+DTEND:20120101T000000Z
+BEGIN:AVAILABLE
+DTSTART:20110101T000000Z
+DTEND:20110101T010000Z
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+ICS;
+
+        $this->assertFreeBusyReport(
+            "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T110000Z/20110101T120000Z\n" .
+            "FREEBUSY:20110101T120000Z/20110101T130000Z\n" .
+            "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T130000Z/20110103T110000Z",
+            $blob,
+            null,
+            $vavail
         );
 
 
