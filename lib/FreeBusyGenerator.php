@@ -571,8 +571,10 @@ class FreeBusyGenerator {
 
         foreach ($fbData->getData() as $busyTime) {
 
+            $busyType = strtoupper($busyTime['type']);
+
             // Ignoring all the FREE parts, because those are already assumed.
-            if ($busyTime['type'] === 'FREE') {
+            if ($busyType === 'FREE') {
                 continue;
             }
 
@@ -583,7 +585,12 @@ class FreeBusyGenerator {
                 'FREEBUSY',
                 $busyTime[0]->format('Ymd\\THis\\Z') . '/' . $busyTime[1]->format('Ymd\\THis\\Z')
             );
-            $prop['FBTYPE'] = $busyTime['type'];
+
+            // Only setting FBTYPE if it's not BUSY, because BUSY is the
+            // default anyway.
+            if ($busyType !== 'BUSY') {
+                $prop['FBTYPE'] = $busyType;
+            }
             $vfreebusy->add($prop);
 
         }
