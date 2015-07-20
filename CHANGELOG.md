@@ -4,7 +4,7 @@ ChangeLog
 4.0.0-alpha2 (2015-??-??)
 -------------------------
 
-* ...
+* #239: Added a `BirthdayCalendarGenerator`. (@DominikTo)
 
 4.0.0-alpha1 (2015-07-17)
 -------------------------
@@ -37,8 +37,12 @@ ChangeLog
 * #197: The `$children` property on components has been changed from `public`
   to `protected`. Use the `children()` method instead to get a flat list of
   objects.
+<<<<<<< HEAD
+
+=======
 * #244: The `Float` and `Integer` classes have been renamed to `FloatValue`
   and `IntegerValue` to allow PHP 7 compatibility.
+>>>>>>> master
 
 
 3.4.5 (2015-06-02)
