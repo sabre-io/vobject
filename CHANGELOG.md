@@ -1,19 +1,28 @@
 ChangeLog
 =========
 
-4.0.0-alpha1
-------------
+4.0.0-alpha2 (2015-??-??)
+-------------------------
+
+* #239: Added a `BirthdayCalendarGenerator`. (@DominikTo)
+
+4.0.0-alpha1 (2015-07-17)
+-------------------------
 
 * sabre/vobject now requires PHP 5.5.
-* #160: Support for xCal! (@Hywan)
-* #192: Support for xCard! (@Hywan)
+* #244: PHP7 support.
+* Lots of speedups and reduced memory usage!
+* #160: Support for xCal a.k.a. RFC6321! (@Hywan)
+* #192: Support for xCard a.k.a. RFC6351! (@Hywan)
+* #139: We now accept `DateTimeInterface` wherever it accepted `DateTime`
+   before in arguments. This means that either `DateTime` or
+  `DateTimeImmutable` may be used everywhere.
+* #242: Full support for the `VAVAILABILITY` component, and calculating
+  `VFREEBUSY` based on `VAVAILABILITY` data.
 * #186: Fixing conversion of `UTC-OFFSET` properties when going back and
   forward between jCal and iCalendar.
 * Properties, Components and Parameters now implement PHP's `JsonSerializable`
   interface.
-* #139: We now accept `DateTimeInterface` wherever it accepted `DateTime`
-   before in arguments. This means that either `DateTime` or
-  `DateTimeImmutable` may be used everywhere.
 * #139: We now _always_ return `DateTimeImmutable` from any method. This could
   potentially have big implications if you manipulate Date objects anywhere.
 * #161: Simplified `ElementList` by extending `ArrayIterator`.
@@ -28,7 +37,12 @@ ChangeLog
 * #197: The `$children` property on components has been changed from `public`
   to `protected`. Use the `children()` method instead to get a flat list of
   objects.
-* #239: Added a `BirthdayCalendarGenerator`. (@DominikTo)
+<<<<<<< HEAD
+
+=======
+* #244: The `Float` and `Integer` classes have been renamed to `FloatValue`
+  and `IntegerValue` to allow PHP 7 compatibility.
+>>>>>>> master
 
 
 3.4.5 (2015-06-02)

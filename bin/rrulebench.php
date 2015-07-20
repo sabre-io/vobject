@@ -18,7 +18,7 @@ $bench = new Hoa\Bench\Bench();
 $bench->parse->start();
 
 echo "Parsing.\n";
-$vobj = Sabre\VObject\Reader::read(fopen($inputFile,'r'));
+$vobj = Sabre\VObject\Reader::read(fopen($inputFile, 'r'));
 
 $bench->parse->stop();
 

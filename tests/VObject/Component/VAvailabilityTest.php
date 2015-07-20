@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Sabre\VObject;
 use Sabre\VObject\Reader;
 
@@ -22,6 +24,106 @@ VCAL;
         $document = Reader::read($vcal);
 
         $this->assertInstanceOf(__NAMESPACE__ . '\VAvailability', $document->VAVAILABILITY);
+
+    }
+
+    function testGetEffectiveStartEnd() {
+
+        $vcal = <<<VCAL
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20150717T162200Z
+DTEND:20150717T172200Z
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL;
+
+        $document = Reader::read($vcal);
+        $tz = new DateTimeZone('UTC');
+        $this->assertEquals(
+            [
+                new DateTimeImmutable('2015-07-17 16:22:00', $tz),
+                new DateTimeImmutable('2015-07-17 17:22:00', $tz),
+            ],
+            $document->VAVAILABILITY->getEffectiveStartEnd()
+        );
+
+    }
+
+    function testGetEffectiveStartDuration() {
+
+        $vcal = <<<VCAL
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20150717T162200Z
+DURATION:PT1H
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL;
+
+        $document = Reader::read($vcal);
+        $tz = new DateTimeZone('UTC');
+        $this->assertEquals(
+            [
+                new DateTimeImmutable('2015-07-17 16:22:00', $tz),
+                new DateTimeImmutable('2015-07-17 17:22:00', $tz),
+            ],
+            $document->VAVAILABILITY->getEffectiveStartEnd()
+        );
+
+    }
+
+    function testGetEffectiveStartEndUnbound() {
+
+        $vcal = <<<VCAL
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL;
+
+        $document = Reader::read($vcal);
+        $this->assertEquals(
+            [
+                null,
+                null,
+            ],
+            $document->VAVAILABILITY->getEffectiveStartEnd()
+        );
+
+    }
+
+    function testIsInTimeRangeUnbound() {
+
+        $vcal = <<<VCAL
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL;
+
+        $document = Reader::read($vcal);
+        $this->assertTrue(
+            $document->VAVAILABILITY->isInTimeRange(new DateTimeImmutable('2015-07-17'), new DateTimeImmutable('2015-07-18'))
+        );
+
+    }
+
+    function testIsInTimeRangeOutside() {
+
+        $vcal = <<<VCAL
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20140101T000000Z
+DTEND:20140102T000000Z
+END:VAVAILABILITY
+END:VCALENDAR
+VCAL;
+
+        $document = Reader::read($vcal);
+        $this->assertFalse(
+            $document->VAVAILABILITY->isInTimeRange(new DateTimeImmutable('2015-07-17'), new DateTimeImmutable('2015-07-18'))
+        );
 
     }
 

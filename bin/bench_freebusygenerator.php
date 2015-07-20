@@ -19,7 +19,7 @@ list(, $inputFile) = $argv;
 $bench = new Hoa\Bench\Bench();
 $bench->parse->start();
 
-$vcal = Sabre\VObject\Reader::read(fopen($inputFile,'r'));
+$vcal = Sabre\VObject\Reader::read(fopen($inputFile, 'r'));
 
 $bench->parse->stop();
 
@@ -30,7 +30,7 @@ $timeZone = new \DateTimeZone('America/Toronto');
 
 $bench->fb->start();
 
-for($i=0; $i<$repeat; $i++) {
+for ($i = 0; $i < $repeat; $i++) {
 
     $fb = new Sabre\VObject\FreeBusyGenerator($start, $end, $vcal, $timeZone);
     $results = $fb->getResult();
@@ -48,9 +48,9 @@ function formatMemory($input) {
 
         return round($input / (1024 * 1024)) . 'M';
 
-    } else if (strlen($input) > 3) {
+    } elseif (strlen($input) > 3) {
 
-        return round($input/1024) . 'K'; 
+        return round($input / 1024) . 'K';
 
     }
 

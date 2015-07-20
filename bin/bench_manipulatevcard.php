@@ -6,7 +6,7 @@ if ($argc < 2) {
     echo "sabre/vobject ", Sabre\VObject\Version::VERSION, " manipulation benchmark\n";
     echo "\n";
     echo "This script can be used to measure the speed of opening a large amount of\n";
-    echo "vcards, making a few alterations and serializing them again.\n"; 
+    echo "vcards, making a few alterations and serializing them again.\n";
     echo "system.";
     echo "\n";
     echo "Usage: " . $argv[0] . " inputfile.vcf\n";
@@ -32,7 +32,7 @@ while (true) {
     $bench->manipulate->start();
     $vcard->{'X-FOO'} = 'Random new value!';
     $emails = [];
-    if (isset($vcard->EMAIL)) foreach($vcard->EMAIL as $email) {
+    if (isset($vcard->EMAIL)) foreach ($vcard->EMAIL as $email) {
         $emails[] = (string)$email;
     }
     $bench->manipulate->pause();
@@ -55,9 +55,9 @@ function formatMemory($input) {
 
         return round($input / (1024 * 1024)) . 'M';
 
-    } else if (strlen($input) > 3) {
+    } elseif (strlen($input) > 3) {
 
-        return round($input/1024) . 'K'; 
+        return round($input / 1024) . 'K';
 
     }
 

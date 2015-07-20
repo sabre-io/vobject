@@ -15,7 +15,7 @@ use
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Integer extends Property {
+class IntegerValue extends Property {
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
