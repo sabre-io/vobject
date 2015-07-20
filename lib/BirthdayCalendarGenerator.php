@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject;
 
-use DateTimezone;
 use Sabre\VObject\Component\VCalendar;
 
 /**
@@ -20,21 +19,6 @@ class BirthdayCalendarGenerator {
      * @var array
      */
     protected $objects = [];
-
-    /**
-     * Reference timezone.
-     *
-     * When generating events, and we come across so-called
-     * floating times (times without a timezone), we use the reference timezone
-     * instead.
-     *
-     * This is also used for all-day events.
-     *
-     * This defaults to UTC.
-     *
-     * @var DateTimeZone
-     */
-    protected $timeZone;
 
     /**
      * Default year.
@@ -58,17 +42,12 @@ class BirthdayCalendarGenerator {
      * arguments.
      *
      * @param mixed $objects
-     * @param DateTimeZone $timeZone
      */
-    function __construct($objects = null, DateTimeZone $timeZone = null) {
+    function __construct($objects = null) {
 
         if ($objects) {
             $this->setObjects($objects);
         }
-        if (is_null($timeZone)) {
-            $timeZone = new DateTimeZone('UTC');
-        }
-        $this->setTimeZone($timeZone);
 
     }
 
@@ -111,19 +90,6 @@ class BirthdayCalendarGenerator {
             }
 
         }
-
-    }
-
-    /**
-     * Sets the reference timezone for floating times.
-     *
-     * @param DateTimeZone $timeZone
-     *
-     * @return void
-     */
-    function setTimeZone(DateTimeZone $timeZone) {
-
-        $this->timeZone = $timeZone;
 
     }
 
@@ -184,7 +150,7 @@ class BirthdayCalendarGenerator {
             // Create event.
             $event = $calendar->add('VEVENT', [
                 'SUMMARY'      => sprintf($this->format, $object->FN->getValue()),
-                'DTSTART'      => new \DateTime($object->BDAY->getValue(), $this->timeZone),
+                'DTSTART'      => new \DateTime($object->BDAY->getValue()),
                 'RRULE'        => 'FREQ=YEARLY',
                 'TRANSP'       => 'TRANSPARENT',
             ]);
