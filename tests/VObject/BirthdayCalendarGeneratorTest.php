@@ -4,12 +4,9 @@ namespace Sabre\VObject;
 
 class BirthdayCalendarGeneratorTest extends TestCase {
 
-    function setUp() {
-        $this->generator = new BirthdayCalendarGenerator();
-    }
-
     function testVcardStringWithValidBirthday() {
 
+        $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
@@ -25,7 +22,7 @@ BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 SUMMARY:Forrest Gump's Birthday
-DTSTART:19850407T000000Z
+DTSTART;VALUE=DATE:19850407
 RRULE:FREQ=YEARLY
 TRANSP:TRANSPARENT
 X-SABRE-BDAY;X-SABRE-VCARD-UID=foo;X-SABRE-VCARD-FN=Forrest Gump:BDAY
@@ -33,8 +30,8 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->generator->setObjects($input);
-        $output = $this->generator->getResult();
+        $generator->setObjects($input);
+        $output = $generator->getResult();
 
         $this->assertVObjEquals(
             $expected,
@@ -45,6 +42,7 @@ ICS;
 
     function testArrayOfVcardStringsWithValidBirthdays() {
 
+        $generator = new BirthdayCalendarGenerator();
         $input = [];
 
         $input[] = <<<VCF
@@ -72,14 +70,14 @@ BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 SUMMARY:Forrest Gump's Birthday
-DTSTART:19850407T000000Z
+DTSTART;VALUE=DATE:19850407
 RRULE:FREQ=YEARLY
 TRANSP:TRANSPARENT
 X-SABRE-BDAY;X-SABRE-VCARD-UID=foo;X-SABRE-VCARD-FN=Forrest Gump:BDAY
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:John Doe's Birthday
-DTSTART:19820210T000000Z
+DTSTART;VALUE=DATE:19820210
 RRULE:FREQ=YEARLY
 TRANSP:TRANSPARENT
 X-SABRE-BDAY;X-SABRE-VCARD-UID=bar;X-SABRE-VCARD-FN=John Doe:BDAY
@@ -87,8 +85,64 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->generator->setObjects($input);
-        $output = $this->generator->getResult();
+        $generator->setObjects($input);
+        $output = $generator->getResult();
+
+        $this->assertVObjEquals(
+            $expected,
+            $output
+        );
+
+    }
+
+    function testArrayOfVcardStringsWithValidBirthdaysViaConstructor() {
+
+        $input = [];
+
+        $input[] = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+N:Gump;Forrest;;Mr.
+FN:Forrest Gump
+BDAY:19850407
+UID:foo
+END:VCARD
+VCF;
+
+        $input[] = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+N:Doe;John;;Mr.
+FN:John Doe
+BDAY:19820210
+UID:bar
+END:VCARD
+VCF;
+
+        $generator = new BirthdayCalendarGenerator($input);
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:Forrest Gump's Birthday
+DTSTART;VALUE=DATE:19850407
+RRULE:FREQ=YEARLY
+TRANSP:TRANSPARENT
+X-SABRE-BDAY;X-SABRE-VCARD-UID=foo;X-SABRE-VCARD-FN=Forrest Gump:BDAY
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:John Doe's Birthday
+DTSTART;VALUE=DATE:19820210
+RRULE:FREQ=YEARLY
+TRANSP:TRANSPARENT
+X-SABRE-BDAY;X-SABRE-VCARD-UID=bar;X-SABRE-VCARD-FN=John Doe:BDAY
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $generator->setObjects($input);
+        $output = $generator->getResult();
 
         $this->assertVObjEquals(
             $expected,
@@ -99,6 +153,7 @@ ICS;
 
     function testVcardObjectWithValidBirthday() {
 
+        $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
@@ -116,7 +171,7 @@ BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 SUMMARY:Forrest Gump's Birthday
-DTSTART:19850407T000000Z
+DTSTART;VALUE=DATE:19850407
 RRULE:FREQ=YEARLY
 TRANSP:TRANSPARENT
 X-SABRE-BDAY;X-SABRE-VCARD-UID=foo;X-SABRE-VCARD-FN=Forrest Gump:BDAY
@@ -124,8 +179,8 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->generator->setObjects($input);
-        $output = $this->generator->getResult();
+        $generator->setObjects($input);
+        $output = $generator->getResult();
 
         $this->assertVObjEquals(
             $expected,
@@ -136,6 +191,7 @@ ICS;
 
     function testArrayOfVcardObjectsWithValidBirthdays() {
 
+        $generator = new BirthdayCalendarGenerator();
         $input = [];
 
         $input[] = <<<VCF
@@ -167,14 +223,14 @@ BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 SUMMARY:Forrest Gump's Birthday
-DTSTART:19850407T000000Z
+DTSTART;VALUE=DATE:19850407
 RRULE:FREQ=YEARLY
 TRANSP:TRANSPARENT
 X-SABRE-BDAY;X-SABRE-VCARD-UID=foo;X-SABRE-VCARD-FN=Forrest Gump:BDAY
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:John Doe's Birthday
-DTSTART:19820210T000000Z
+DTSTART;VALUE=DATE:19820210
 RRULE:FREQ=YEARLY
 TRANSP:TRANSPARENT
 X-SABRE-BDAY;X-SABRE-VCARD-UID=bar;X-SABRE-VCARD-FN=John Doe:BDAY
@@ -182,8 +238,8 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->generator->setObjects($input);
-        $output = $this->generator->getResult();
+        $generator->setObjects($input);
+        $output = $generator->getResult();
 
         $this->assertVObjEquals(
             $expected,
@@ -194,6 +250,7 @@ ICS;
 
     function testVcardStringWithValidBirthdayWithXAppleOmitYear() {
 
+        $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
@@ -209,7 +266,7 @@ BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 SUMMARY:Forrest Gump's Birthday
-DTSTART:20000407T000000Z
+DTSTART;VALUE=DATE:20000407
 RRULE:FREQ=YEARLY
 TRANSP:TRANSPARENT
 X-SABRE-BDAY;X-SABRE-VCARD-UID=foo;X-SABRE-VCARD-FN=Forrest Gump;X-SABRE-OMIT-YEAR=2000:BDAY
@@ -217,8 +274,8 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->generator->setObjects($input);
-        $output = $this->generator->getResult();
+        $generator->setObjects($input);
+        $output = $generator->getResult();
 
         $this->assertVObjEquals(
             $expected,
@@ -229,6 +286,7 @@ ICS;
 
     function testVcardStringWithValidBirthdayWithoutYear() {
 
+        $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:4.0
@@ -244,7 +302,7 @@ BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 SUMMARY:Forrest Gump's Birthday
-DTSTART:20000407T000000Z
+DTSTART;VALUE=DATE:20000407
 RRULE:FREQ=YEARLY
 TRANSP:TRANSPARENT
 X-SABRE-BDAY;X-SABRE-VCARD-UID=foo;X-SABRE-VCARD-FN=Forrest Gump;X-SABRE-OMIT-YEAR=2000:BDAY
@@ -252,8 +310,8 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->generator->setObjects($input);
-        $output = $this->generator->getResult();
+        $generator->setObjects($input);
+        $output = $generator->getResult();
 
         $this->assertVObjEquals(
             $expected,
@@ -264,6 +322,7 @@ ICS;
 
     function testVcardStringWithInvalidBirthday() {
 
+        $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
@@ -280,8 +339,8 @@ VERSION:2.0
 END:VCALENDAR
 ICS;
 
-        $this->generator->setObjects($input);
-        $output = $this->generator->getResult();
+        $generator->setObjects($input);
+        $output = $generator->getResult();
 
         $this->assertVObjEquals(
             $expected,
@@ -292,6 +351,7 @@ ICS;
 
     function testVcardStringWithNoBirthday() {
 
+        $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
@@ -307,8 +367,8 @@ VERSION:2.0
 END:VCALENDAR
 ICS;
 
-        $this->generator->setObjects($input);
-        $output = $this->generator->getResult();
+        $generator->setObjects($input);
+        $output = $generator->getResult();
 
         $this->assertVObjEquals(
             $expected,
@@ -319,6 +379,7 @@ ICS;
 
     function testVcardStringWithValidBirthdayLocalized() {
 
+        $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
@@ -334,7 +395,7 @@ BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 SUMMARY:Forrest Gump's Geburtstag
-DTSTART:19850407T000000Z
+DTSTART;VALUE=DATE:19850407
 RRULE:FREQ=YEARLY
 TRANSP:TRANSPARENT
 X-SABRE-BDAY;X-SABRE-VCARD-UID=foo;X-SABRE-VCARD-FN=Forrest Gump:BDAY
@@ -342,17 +403,78 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->generator->setObjects($input);
-        $this->generator->setFormat('%1$s\'s Geburtstag');
-        $output = $this->generator->getResult();
+        $generator->setObjects($input);
+        $generator->setFormat('%1$s\'s Geburtstag');
+        $output = $generator->getResult();
 
         $this->assertVObjEquals(
             $expected,
             $output
         );
 
-        // Reset to default format
-        $this->generator->setFormat('%1$s\'s Birthday');
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\ParseException
+     */
+    function testParseException() {
+
+        $generator = new BirthdayCalendarGenerator();
+        $input = <<<FOO
+BEGIN:FOO
+FOO:Bar
+END:FOO
+FOO;
+
+        $generator->setObjects($input);
+
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    function testInvalidArgumentException() {
+
+        $generator = new BirthdayCalendarGenerator();
+        $input = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:Foo
+DTSTART;VALUE=DATE:19850407
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $generator->setObjects($input);
+
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    function testInvalidArgumentExceptionForPartiallyInvalidArray() {
+
+        $generator = new BirthdayCalendarGenerator();
+        $input = [];
+
+        $input[] = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+N:Gump;Forrest;;Mr.
+FN:Forrest Gump
+BDAY:19850407
+UID:foo
+END:VCARD
+VCF;
+        $calendar = new Component\VCalendar();
+
+        $input = $calendar->add('VEVENT', [
+            'SUMMARY'      => 'Foo',
+            'DTSTART'      => new \DateTime('NOW'),
+        ]);
+
+        $generator->setObjects($input);
 
     }
 
