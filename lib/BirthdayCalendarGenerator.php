@@ -189,6 +189,9 @@ class BirthdayCalendarGenerator {
                 'TRANSP'       => 'TRANSPARENT',
             ]);
 
+            // add VALUE=date
+            $event->DTSTART['VALUE'] = 'DATE';
+
             // Add X-SABRE-BDAY property.
             if ($unknownYear) {
                 $event->add('X-SABRE-BDAY', 'BDAY', [
