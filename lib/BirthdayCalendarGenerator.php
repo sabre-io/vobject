@@ -23,10 +23,8 @@ class BirthdayCalendarGenerator {
     /**
      * Default year.
      * Used for dates without a year.
-     *
-     * @var int
      */
-    protected $defaultYear = 2000;
+    const DEFAULT_YEAR = 2000;
 
     /**
      * Output format for the SUMMARY.
@@ -142,7 +140,7 @@ class BirthdayCalendarGenerator {
             $unknownYear = false;
 
             if (!$dateParts['year']) {
-                $object->BDAY = $this->defaultYear . '-' . $dateParts['month'] . '-' . $dateParts['date'];
+                $object->BDAY = self::DEFAULT_YEAR . '-' . $dateParts['month'] . '-' . $dateParts['date'];
 
                 $unknownYear = true;
             }
@@ -163,7 +161,7 @@ class BirthdayCalendarGenerator {
                 $event->add('X-SABRE-BDAY', 'BDAY', [
                     'X-SABRE-VCARD-UID' => $object->UID->getValue(),
                     'X-SABRE-VCARD-FN'  => $object->FN->getValue(),
-                    'X-SABRE-OMIT-YEAR' => $this->defaultYear,
+                    'X-SABRE-OMIT-YEAR' => self::DEFAULT_YEAR,
                 ]);
             } else {
                 $event->add('X-SABRE-BDAY', 'BDAY', [
