@@ -366,4 +366,50 @@ HI;
 
     }
 
+    function testEventFromSouthendzone() {
+
+        // from http://www.southendzone.com/ical/vikings.ics
+
+$vobj = <<<HI
+BEGIN:VCALENDAR
+VERSION:2.0
+X-WR-CALNAME:Minnesota Vikings
+X-WR-CALDESC:Scott Crevier, smc@smcnet.com
+PRODID:-//Scott Crevier//SouthEndZone.com//EN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:US-Central
+BEGIN:STANDARD
+DTSTART:16010101T020000
+TZOFFSETTO:-0600
+TZOFFSETFROM:-0500
+RRULE:FREQ=YEARLY;WKST=MO;INTERVAL=1;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:16010101T020000
+TZOFFSETTO:-0500
+TZOFFSETFROM:-0600
+RRULE:FREQ=YEARLY;WKST=MO;INTERVAL=1;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:2015p00PGHMIN@southendzone.com
+SUMMARY:Pittsburgh at Minnesota
+DESCRIPTION:Hall of Fame Game\n\nTV: NBC (Natl)\nPRE-SEASON\n\nhttp://www.southendzone.com/\nhttp://m.sez.net/\nhttp://www.facebook.com/southendzone\n\n18Jul2015 05:14pm CT data updated by Scott\n23Jul2015 6:51am CT data updated by your calendar program\n
+DTSTART;TZID=US-Central:20150809T190000
+DTEND;TZID=US-Central:20150809T220000
+LOCATION:Fawcett Stadium\, Canton\, OH
+STATUS:CONFIRMED
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+HI;
+
+        $tz = TimeZoneUtil::getTimeZone('US-Central', Reader::read($vobj), true);
+        $ex = new \DateTimeZone('US/Central');
+        $this->assertEquals($ex->getName(), $tz->getName());
+
+    }
+
+
 }
