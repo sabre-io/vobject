@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Automatically generated timezone file.
+ * Automatically generated timezone file
  *
- * Last update: 2015-01-30T15:01:05-05:00
+ * Last update: 2015-07-27T16:56:36-04:00
  * Source: http://unicode.org/repos/cldr/trunk/common/supplemental/windowsZones.xml
  *
  * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
@@ -43,6 +43,7 @@ return [
   'E. Australia Standard Time'      => 'Australia/Brisbane',
   'E. South America Standard Time'  => 'America/Sao_Paulo',
   'Eastern Standard Time'           => 'America/New_York',
+  'Eastern Standard Time (Mexico)'  => 'America/Cancun',
   'Egypt Standard Time'             => 'Africa/Cairo',
   'Ekaterinburg Standard Time'      => 'Asia/Yekaterinburg',
   'FLE Standard Time'               => 'Europe/Kiev',

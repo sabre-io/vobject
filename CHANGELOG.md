@@ -4,7 +4,8 @@ ChangeLog
 4.0.0-alpha2 (2015-??-??)
 -------------------------
 
-* ...
+* Updated windows timezone file to support new mexican timezone.
+
 
 4.0.0-alpha1 (2015-07-17)
 -------------------------
