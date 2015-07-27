@@ -5,6 +5,7 @@ ChangeLog
 -------------------------
 
 * Updated windows timezone file to support new mexican timezone.
+* #239: Added a `BirthdayCalendarGenerator`. (@DominikTo)
 
 
 4.0.0-alpha1 (2015-07-17)
