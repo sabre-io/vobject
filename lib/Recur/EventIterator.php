@@ -92,7 +92,7 @@ class EventIterator implements \Iterator {
      */
     function __construct($input, $uid = null, DateTimeZone $timeZone = null) {
 
-        if (is_null($this->timeZone)) {
+        if (is_null($timeZone)) {
             $timeZone = new DateTimeZone('UTC');
         }
         $this->timeZone = $timeZone;
