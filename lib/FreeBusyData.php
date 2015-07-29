@@ -92,7 +92,7 @@ class FreeBusyData {
         if ($this->data[$insertStartIndex - 1]['start'] === $start) {
             // The old item starts at the exact same point as the new item.
             $insertStartIndex--;
-         }
+        }
 
         // Now we know where to insert the item, we need to know where it
         // starts overlapping with items on the tail end. We need to start
