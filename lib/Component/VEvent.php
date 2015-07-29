@@ -32,7 +32,7 @@ class VEvent extends VObject\Component {
     function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end) {
 
         if ($this->RRULE) {
-            $it = new EventIterator($this);
+            $it = new EventIterator($this, null, $start->getTimezone());
             $it->fastForward($start);
 
             // We fast-forwarded to a spot where the end-time of the

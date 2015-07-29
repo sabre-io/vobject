@@ -69,6 +69,8 @@ class VEventTest extends \PHPUnit_Framework_TestCase {
         $vevent7->DTSTART['VALUE'] = 'DATE';
         $vevent7->RRULE = 'FREQ=MONTHLY';
         $tests[] = [$vevent7, new \DateTime('2012-02-01 15:00:00'), new \DateTime('2012-02-02'), true];
+        // The timezone of timerange in question should also be considered.
+        $tests[] = [$vevent7, new \DateTime('2012-02-02 00:00:00', new \DateTimeZone('Europe/Berlin')), new \DateTime('2012-02-03 00:00:00', new \DateTimeZone('Europe/Berlin')), false];
         return $tests;
 
     }
