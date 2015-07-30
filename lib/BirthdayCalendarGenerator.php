@@ -136,6 +136,11 @@ class BirthdayCalendarGenerator {
                 continue;
             }
 
+            // Skip if the card has no FN property.
+            if (!isset($object->FN)) {
+                continue;
+            }
+
             // Set a year if it's not set.
             $unknownYear = false;
 

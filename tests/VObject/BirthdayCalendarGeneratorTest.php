@@ -478,4 +478,32 @@ VCF;
 
     }
 
+    function testBrokenVcardWithoutFN() {
+
+        $generator = new BirthdayCalendarGenerator();
+        $input = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+N:Gump;Forrest;;Mr.
+BDAY:19850407
+UID:foo
+END:VCARD
+VCF;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+END:VCALENDAR
+ICS;
+
+        $generator->setObjects($input);
+        $output = $generator->getResult();
+
+        $this->assertVObjEquals(
+            $expected,
+            $output
+        );
+
+    }
+
 }
