@@ -8,6 +8,8 @@ ChangeLog
 * #239: Added a `BirthdayCalendarGenerator`. (@DominikTo)
 * #250: `isInTimeRange()` now considers the timezone for floating dates and
   times. (@armin-hackmann)
+* #251: `BirthdayCalendarGenerator` now skips cards that have no FN property.
+  (@DominikTo)
 
 
 4.0.0-alpha1 (2015-07-17)
