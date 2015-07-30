@@ -124,6 +124,11 @@ class BirthdayCalendarGenerator {
             // VCardConverter handling the X-APPLE-OMIT-YEAR property for us.
             $object = $object->convert(Document::VCARD40);
 
+            // Skip if the card has no FN property.
+            if (!isset($object->FN)) {
+                continue;
+            }
+
             // Skip if the BDAY property is not of the right type.
             if (!$object->BDAY instanceof Property\VCard\DateAndOrTime) {
                 continue;
@@ -133,11 +138,6 @@ class BirthdayCalendarGenerator {
             try {
                 $dateParts = DateTimeParser::parseVCardDateTime($object->BDAY->getValue());
             } catch (\InvalidArgumentException $e) {
-                continue;
-            }
-
-            // Skip if the card has no FN property.
-            if (!isset($object->FN)) {
                 continue;
             }
 
