@@ -100,8 +100,6 @@ while($vcard = $splitter->getNext()) {
 
     }
 
-    $fn = (string)$vcard->FN;
-
     if (!isset($collectedNames[$fn])) {
 
         $collectedNames[$fn] = $vcard;
@@ -134,7 +132,6 @@ while($vcard = $splitter->getNext()) {
                     // We're going to make another attempt to find this
                     // property, this time just by value. If we find it, we
                     // consider it a success.
-                    $ok = false;
                     foreach($collectedNames[$fn]->select($newProp->name) as $compareProp) {
 
                         if ($compareProp->getValue() === $newProp->getValue()) {
