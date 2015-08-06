@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+3.4.6 (2015-08-06)
+------------------
+
+* #250: Recurring all-day events are incorrectly included in time range
+  requests when not using UTC in the time range. (@armin-hackmann)
+
+
 3.4.5 (2015-06-02)
 ------------------
 
