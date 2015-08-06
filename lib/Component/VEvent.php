@@ -4,6 +4,7 @@ namespace Sabre\VObject\Component;
 
 use Sabre\VObject;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\NoInstancesException;
 
 /**
  * VEvent component
@@ -30,7 +31,13 @@ class VEvent extends VObject\Component {
     public function isInTimeRange(\DateTime $start, \DateTime $end) {
 
         if ($this->RRULE) {
-            $it = new EventIterator($this);
+            try {
+                $it = new EventIterator($this);
+            } catch (NoInstancesException $dummy) {
+                // If there are no instances, then it is not in the
+                // time range.
+                return false;
+            }
             $it->fastForward($start);
 
             // We fast-forwarded to a spot where the end-time of the
