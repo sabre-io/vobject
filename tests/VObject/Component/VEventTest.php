@@ -71,6 +71,18 @@ class VEventTest extends \PHPUnit_Framework_TestCase {
         $vevent7->DTSTART['VALUE'] = 'DATE';
         $vevent7->RRULE = 'FREQ=MONTHLY';
         $tests[] = array($vevent7, new \DateTime('2012-02-01 15:00:00'), new \DateTime('2012-02-02'), true);
+        // The timezone of timerange in question should also be considered.
+        $tests[] = array($vevent7, new \DateTime('2012-02-02 00:00:00', new \DateTimeZone('Europe/Berlin')), new \DateTime('2012-02-03 00:00:00', new \DateTimeZone('Europe/Berlin')), false);
+
+        // Added this test to check recurring events that have no instances.
+        $vevent8 = clone $vevent;
+        $vevent8->DTSTART = '20130329T140000';
+        $vevent8->DTEND = '20130329T153000';
+        $vevent8->RRULE = array('FREQ' => 'WEEKLY', 'BYDAY' => array('FR'), 'UNTIL' => '20130412T115959Z');
+        $vevent8->add('EXDATE', '20130405T140000');
+        $vevent8->add('EXDATE', '20130329T140000');
+        $tests[] = array($vevent8, new \DateTime('2013-03-01'), new \DateTime('2013-04-01'), false);
+
         return $tests;
 
     }
