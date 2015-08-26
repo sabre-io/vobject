@@ -9,6 +9,8 @@ ChangeLog
 * #250: `isInTimeRange()` now considers the timezone for floating dates and
   times. (@armin-hackmann)
 * Added a duplicate vcard merging tool for the command line.
+* #253: `isInTimeRange()` now correctly handles events that throw the
+  `NoInstancesException` exception. (@migrax, @DominikTo)
 
 
 4.0.0-alpha1 (2015-07-17)
