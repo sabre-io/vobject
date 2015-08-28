@@ -48,6 +48,13 @@ ChangeLog
   and `IntegerValue` to allow PHP 7 compatibility.
 
 
+3.4.7 (????-??-??)
+------------------
+
+* #253: Handle `isInTimeRange` for recurring events that have 0 valid
+  instances. (@DominikTo, @migrax).
+
+
 3.4.6 (2015-08-06)
 ------------------
 
