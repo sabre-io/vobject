@@ -11,6 +11,8 @@ ChangeLog
 * Added a duplicate vcard merging tool for the command line.
 * #253: `isInTimeRange()` now correctly handles events that throw the
   `NoInstancesException` exception. (@migrax, @DominikTo)
+* #254: The parser threw an `E_NOTICE` for certain invalid objects. It now
+  correctly throws a `ParseException`.
 
 
 4.0.0-alpha1 (2015-07-17)

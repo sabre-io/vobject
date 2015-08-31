@@ -344,6 +344,9 @@ class MimeDir extends Parser {
 
                 $value = $this->unescapeParam($value);
 
+                if (is_null($lastParam)) {
+                    throw new ParseException('Invalid Mimedir file. Line starting at ' . $this->startLine . ' did not follow iCalendar/vCard conventions');
+                }
                 if (is_null($property['parameters'][$lastParam])) {
                     $property['parameters'][$lastParam] = $value;
                 } elseif (is_array($property['parameters'][$lastParam])) {
