@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-4.0.0-alpha2 (2015-??-??)
+4.0.0-alpha2 (2015-09-04)
 -------------------------
 
 * Updated windows timezone file to support new mexican timezone.
@@ -50,7 +50,7 @@ ChangeLog
   and `IntegerValue` to allow PHP 7 compatibility.
 
 
-3.4.7 (????-??-??)
+3.4.7 (2015-09-04)
 ------------------
 
 * #253: Handle `isInTimeRange` for recurring events that have 0 valid
