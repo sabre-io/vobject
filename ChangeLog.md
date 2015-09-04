@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.4.7 (2015-09-04)
+3.4.7 (2015-09-05)
 ------------------
 
 * #253: Handle `isInTimeRange` for recurring events that have 0 valid
