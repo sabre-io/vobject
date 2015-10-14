@@ -91,7 +91,8 @@ class RDateIterator implements Iterator {
 
         $this->currentDate =
             DateTimeParser::parse(
-                $this->dates[$this->counter - 1]
+                $this->dates[$this->counter - 1],
+                $this->startDate->getTimezone()
             );
 
     }
