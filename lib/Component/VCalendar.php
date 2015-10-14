@@ -310,7 +310,7 @@ class VCalendar extends VObject\Document {
                 throw new \LogicException('Event did not have a UID!');
             }
 
-            if (isset($vevent->{'RECURRENCE-ID'}) || isset($vevent->RRULE)) {
+            if (isset($vevent->{'RECURRENCE-ID'}) || isset($vevent->RRULE) || isset($vevent->{'RDATE'})) {
                 if (isset($recurringEvents[$uid])) {
                     $recurringEvents[$uid][] = $vevent;
                 } else {

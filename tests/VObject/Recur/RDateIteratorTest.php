@@ -27,6 +27,30 @@ class RDateIteratorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testTimezone() {
+
+        $tz = new DateTimeZone('Europe/Berlin');
+        $it = new RDateIterator('20140901T000000,20141001T000000', new DateTimeImmutable('2014-08-01 00:00:00', $tz));
+
+        $expected = [
+            new DateTimeImmutable('2014-08-01 00:00:00', $tz),
+            new DateTimeImmutable('2014-09-01 00:00:00', $tz),
+            new DateTimeImmutable('2014-10-01 00:00:00', $tz),
+        ];
+
+        $result = iterator_to_array($it);
+
+        $this->assertEquals(
+            $expected,
+            iterator_to_array($it)
+        );
+
+
+        $this->assertFalse($it->isInfinite());
+
+    }
+
+
     function testFastForward() {
 
         $utc = new DateTimeZone('UTC');
