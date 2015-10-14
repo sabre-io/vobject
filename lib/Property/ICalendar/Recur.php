@@ -91,7 +91,6 @@ class Recur extends Property {
      * Sets a multi-valued property.
      *
      * @param array $parts
-     *
      * @return void
      */
     function setParts(array $parts) {
