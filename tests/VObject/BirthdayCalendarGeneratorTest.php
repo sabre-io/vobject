@@ -414,6 +414,35 @@ ICS;
 
     }
 
+    function testVcardStringWithEmptyBirthdayProperty() {
+
+        $generator = new BirthdayCalendarGenerator();
+        $input = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+N:Gump;Forrest;;Mr.
+FN:Forrest Gump
+BDAY:
+UID:foo
+END:VCARD
+VCF;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+END:VCALENDAR
+ICS;
+
+        $generator->setObjects($input);
+        $output = $generator->getResult();
+
+        $this->assertVObjEquals(
+            $expected,
+            $output
+        );
+
+    }
+
     /**
      * @expectedException \Sabre\VObject\ParseException
      */

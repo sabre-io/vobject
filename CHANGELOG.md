@@ -1,7 +1,14 @@
 ChangeLog
 =========
 
-4.0.0-alpha2 (2015-??-??)
+4.0.0-alpha3 (????-??-??)
+-------------------------
+
+* #258: Support for expanding events that use `RDATE`. (@jabdoa2)
+* #258: Correctly support TZID for events that use `RDATE`. (@jabdoa2)
+
+
+4.0.0-alpha2 (2015-09-04)
 -------------------------
 
 * Updated windows timezone file to support new mexican timezone.
@@ -9,6 +16,10 @@ ChangeLog
 * #250: `isInTimeRange()` now considers the timezone for floating dates and
   times. (@armin-hackmann)
 * Added a duplicate vcard merging tool for the command line.
+* #253: `isInTimeRange()` now correctly handles events that throw the
+  `NoInstancesException` exception. (@migrax, @DominikTo)
+* #254: The parser threw an `E_NOTICE` for certain invalid objects. It now
+  correctly throws a `ParseException`.
 
 
 4.0.0-alpha1 (2015-07-17)
@@ -44,6 +55,13 @@ ChangeLog
   objects.
 * #244: The `Float` and `Integer` classes have been renamed to `FloatValue`
   and `IntegerValue` to allow PHP 7 compatibility.
+
+
+3.4.7 (2015-09-04)
+------------------
+
+* #253: Handle `isInTimeRange` for recurring events that have 0 valid
+  instances. (@DominikTo, @migrax).
 
 
 3.4.6 (2015-08-06)
