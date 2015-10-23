@@ -1,7 +1,7 @@
 {
     "name": "sabre/vobject",
     "description" : "The VObject library for PHP allows you to easily parse and manipulate iCalendar and vCard objects",
-    "keywords" : [ "VObject", "iCalendar", "vCard", "jCard", "jCal" ],
+    "keywords" : [ "VObject", "iCalendar", "vCard", "jCard", "jCal", "ics", "vcf" ],
     "homepage" : "http://sabre.io/vobject/",
     "license" : "BSD-3-Clause",
     "require" : {
