@@ -27,6 +27,12 @@ Make sure you have [composer][3] installed, and then run:
 
 This package requires PHP 5.3.
 
+or
+
+```sh
+composer.phar require sabre/vobject
+```
+
 Usage
 -----
 
