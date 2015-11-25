@@ -21,16 +21,11 @@ Build status
 Installation
 ------------
 
-VObject requires PHP 5.3, and should be installed using composer.
-The general composer instructions can be found on the [composer website](http://getcomposer.org/doc/00-intro.md composer website).
+Make sure you have [composer][3] installed, and then run:
 
-After that, just declare the vobject dependency as follows:
+    composer require sabre/vobject "^3.4"
 
-    "require" : {
-        "sabre/vobject" : "~3.4"
-    }
-
-Then, run `composer.phar update` and you should be good.
+This package requires PHP 5.3.
 
 Usage
 -----
