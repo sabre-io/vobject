@@ -67,4 +67,31 @@ VCF;
         $this->assertEquals("umlaut u - \xFC", $vcard->FN->getValue());
 
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    function testDecodeUnsupportedCharset() {
+
+        $mimeDir = new Mimedir();
+        $mimeDir->setCharSet('foobar');
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\ParseException
+     */
+    function testDecodeUnsupportedInlineCharset() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+FN;CHARSET=foobar:nothing
+END:VCARD\n
+VCF;
+
+        $mimeDir = new Mimedir();
+        $mimeDir->parse($vcard);
+
+    }
 }
