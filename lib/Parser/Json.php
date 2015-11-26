@@ -116,7 +116,7 @@ class Json extends Parser {
         return $this->root->createComponent(
             $jComp[0],
             array_merge($properties, $components),
-            $defaults = false
+            false
         );
 
     }

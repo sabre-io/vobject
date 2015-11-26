@@ -509,7 +509,7 @@ class VCalendar extends VObject\Document {
                     'node'    => $this,
                 ];
             }
-            if (count(array_unique($componentTypes)) === 0) {
+            if (count($componentTypes) === 0) {
                 $warnings[] = [
                     'level'   => 3,
                     'message' => 'A calendar object on a CalDAV server must have at least 1 component (VTODO, VEVENT, VJOURNAL).',

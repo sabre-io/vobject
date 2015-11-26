@@ -302,7 +302,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue1^nvalue2^^nvalue3:propValue\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
-        $result = $result->propname;
+        $result = $result->PROPNAME;
 
         $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
         $this->assertEquals('PROPNAME', $result->name);
@@ -318,7 +318,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=\"param:value\":propValue\r\nEND:VCALENDAR";
         $result = Reader::read($data);
-        $result = $result->propname;
+        $result = $result->PROPNAME;
 
         $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
         $this->assertEquals('PROPNAME', $result->name);
