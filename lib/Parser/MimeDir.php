@@ -454,7 +454,7 @@ class MimeDir extends Parser {
                 // vCard 2.1 allows the character set to be specified per property.
                 $charset = (string)$propObj['CHARSET'];
             }
-            switch($charset) {
+            switch ($charset) {
                 case 'UTF-8' :
                     break;
                 case 'ISO-8859-1' :
