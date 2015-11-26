@@ -38,6 +38,20 @@ class MimeDir extends Parser {
     protected $root;
 
     /**
+     * By default all input will be assumed to be UTF-8.
+     *
+     * However, both iCalendar and vCard might be encoded using different
+     * character sets. The character set is usually set in the mime-type.
+     *
+     * If this is the case, use setEncoding to specify that a different
+     * encoding will be used. If this is set, the parser will automatically
+     * convert all incoming data to UTF-8.
+     *
+     * @var string
+     */
+    protected $charset = 'UTF-8';
+
+    /**
      * Parses an iCalendar or vCard file.
      *
      * Pass a stream or a string. If null is parsed, the existing buffer is
@@ -63,6 +77,29 @@ class MimeDir extends Parser {
         $this->parseDocument();
 
         return $this->root;
+
+    }
+
+    /**
+     * By default all input will be assumed to be UTF-8.
+     *
+     * However, both iCalendar and vCard might be encoded using different
+     * character sets. The character set is usually set in the mime-type.
+     *
+     * If this is the case, use setEncoding to specify that a different
+     * encoding will be used. If this is set, the parser will automatically
+     * convert all incoming data to UTF-8.
+     *
+     * @param string $charset
+     */
+    function setCharset($charset) {
+
+        $supportedEncodings = ['UTF-8', 'ISO-8859-1'];
+
+        if (!in_array($charset, $supportedEncodings)) {
+            throw new \InvalidArgumentException('Unsupported encoding. (Supported encodings: ' . implode(', ', $supportedEncodings) . ')');
+        }
+        $this->charset = $charset;
 
     }
 
@@ -412,6 +449,20 @@ class MimeDir extends Parser {
         if (strtoupper($propObj['ENCODING']) === 'QUOTED-PRINTABLE') {
             $propObj->setQuotedPrintableValue($this->extractQuotedPrintableValue());
         } else {
+            $charset = $this->charset;
+            if (isset($propObj['CHARSET'])) {
+                // vCard 2.1 allows the character set to be specified per property.
+                $charset = (string)$propObj['CHARSET'];
+            }
+            switch ($charset) {
+                case 'UTF-8' :
+                    break;
+                case 'ISO-8859-1' :
+                    $property['value'] = utf8_encode($property['value']);
+                    break;
+                default :
+                    throw new ParseException('Unsupported CHARSET: ' . $propObj['CHARSET']);
+            }
             $propObj->setRawMimeDirValue($property['value']);
         }
 

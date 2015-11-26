@@ -18,6 +18,8 @@ ChangeLog
   `Component\VCalendar` or `Component\VCard` during parsing.
 * #263: Lots of small cleanups. (@jakobsack)
 * #220: Automatically stop recurring after 3500 recurrences.
+* #41: Allow user to set different encoding than UTF-8 when decoding vCards.
+* #41: Support the `ENCODING` parameter from vCard 2.1.
 
 
 4.0.0-alpha2 (2015-09-04)
