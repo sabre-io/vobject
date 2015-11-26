@@ -12,6 +12,8 @@ ChangeLog
 * #265: Using the new `InvalidDataException` in place of
   `InvalidArgumentException` and `LogicException` in all places where we fail
   because there was something wrong with input data.
+* #227: Always add `VALUE=URI` to `PHOTO` properties.
+* #235: Always add `VALUE=URI` to `URL` properties.
 
 
 4.0.0-alpha2 (2015-09-04)

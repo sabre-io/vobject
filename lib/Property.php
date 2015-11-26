@@ -238,7 +238,7 @@ abstract class Property extends Node {
         $str = $this->name;
         if ($this->group) $str = $this->group . '.' . $this->name;
 
-        foreach ($this->parameters as $param) {
+        foreach ($this->parameters() as $param) {
 
             $str .= ';' . $param->serialize();
 
