@@ -77,7 +77,7 @@ class InfiniteLoopProblemTest extends \PHPUnit_Framework_TestCase {
      * this means we increase the current day (or week, month) by 0, this also
      * results in an infinite loop.
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \Sabre\VObject\InvalidDataException
      * @return void
      */
     function testZeroInterval() {

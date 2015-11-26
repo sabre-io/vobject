@@ -9,6 +9,9 @@ ChangeLog
 * #240: `Component\VCalendar::expand()` now returns a new expanded `VCalendar`
   object, instead of editing the existing `VCalendar` in-place. This is a BC
   break.
+* #265: Using the new `InvalidDataException` in place of
+  `InvalidArgumentException` and `LogicException` in all places where we fail
+  because there was something wrong with input data.
 
 
 4.0.0-alpha2 (2015-09-04)

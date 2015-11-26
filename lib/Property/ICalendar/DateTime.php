@@ -4,8 +4,9 @@ namespace Sabre\VObject\Property\ICalendar;
 
 use DateTimeInterface;
 use DateTimeZone;
-use Sabre\VObject\Property;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Property;
 use Sabre\VObject\TimeZoneUtil;
 
 /**
@@ -390,7 +391,7 @@ class DateTime extends Property {
                         break;
                 }
             }
-        } catch (\LogicException $e) {
+        } catch (InvalidDataException $e) {
             $messages[] = [
                 'level'   => 3,
                 'message' => 'The supplied value (' . $value . ') is not a correct ' . $valueType,

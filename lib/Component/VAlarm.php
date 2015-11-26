@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Component;
 
 use Sabre\VObject;
+use Sabre\VObject\InvalidDataException;
 use DateTimeInterface;
 use DateTimeImmutable;
 
@@ -48,7 +49,7 @@ class VAlarm extends VObject\Component {
                 } elseif ($parentComponent->name === 'VEVENT') {
                     $endProp = 'DTEND';
                 } else {
-                    throw new \LogicException('time-range filters on VALARM components are only supported when they are a child of VTODO or VEVENT');
+                    throw new InvalidDataException('time-range filters on VALARM components are only supported when they are a child of VTODO or VEVENT');
                 }
 
                 if (isset($parentComponent->$endProp)) {

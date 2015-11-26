@@ -29,7 +29,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \Sabre\VObject\InvalidDataException
      * @depends testValues
      */
     function testInvalidFreq() {
