@@ -38,6 +38,32 @@ class Time extends Text {
     }
 
     /**
+     * Sets the JSON value, as it would appear in a jCard or jCal object.
+     *
+     * The value must always be an array.
+     *
+     * @param array $value
+     *
+     * @return void
+     */
+    function setJsonValue(array $value) {
+
+        // Removing colons from value.
+        $value = str_replace(
+            ':',
+            '',
+            $value
+        );
+
+        if (count($value) === 1) {
+            $this->setValue(reset($value));
+        } else {
+            $this->setValue($value);
+        }
+
+    }
+
+    /**
      * Returns the value, in the format it should be encoded for json.
      *
      * This method must always return an array.
@@ -83,7 +109,12 @@ class Time extends Text {
 
         // Timezone
         if (!is_null($parts['timezone'])) {
-            $timeStr .= $parts['timezone'];
+            if ($parts['timezone'] === 'Z') {
+                $timeStr .= 'Z';
+            } else {
+                $timeStr .=
+                    preg_replace('/([0-9]{2})([0-9]{2})$/', '$1:$2', $parts['timezone']);
+            }
         }
 
         return [$timeStr];
