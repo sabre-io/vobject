@@ -14,6 +14,9 @@ ChangeLog
   because there was something wrong with input data.
 * #227: Always add `VALUE=URI` to `PHOTO` properties.
 * #235: Always add `VALUE=URI` to `URL` properties.
+* It's now possible to override which class is used instead of
+  `Component\VCalendar` or `Component\VCard` during parsing.
+* #263: Lots of small cleanups. (@jakobsack)
 
 
 4.0.0-alpha2 (2015-09-04)

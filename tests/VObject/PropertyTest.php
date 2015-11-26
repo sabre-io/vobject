@@ -287,7 +287,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $result = $property->validate(Property::REPAIR);
 
         $this->assertEquals('Property contained a control character (0x7f)', $result[0]['message']);
-        $this->assertEquals("chars[7F()5E(^)5C(\\\\)3B(\\;)3A(:)2C(\\,)22(\")20( )1F()1E()1D()1C()1B()1A()19()18()17()16()15()14()13()12()11()10()0F()0E()0D()0C()0B()0A(\\n)09(	)08()07()06()05()04()03()02()01()00()]end", $property->getRawMimeDirValue());
+        $this->assertEquals("chars[7F()5E(^)5C(\\\\)3B(\\;)3A(:)2C(\\,)22(\")20( )1F()1E()1D()1C()1B()1A()19()18()17()16()15()14()13()12()11()10()0F()0E()0D()0C()0B()0A(\\n)09(\t)08()07()06()05()04()03()02()01()00()]end", $property->getRawMimeDirValue());
 
     }
 

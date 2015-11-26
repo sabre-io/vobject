@@ -34,6 +34,15 @@ class VCard extends VObject\Document {
     private $version = null;
 
     /**
+     * This is a list of components, and which classes they should map to.
+     *
+     * @var array
+     */
+    static $componentMap = [
+        'VCARD' => 'Sabre\\VObject\\Component\\VCard',
+    ];
+
+    /**
      * List of value-types, and which classes they map to.
      *
      * @var array

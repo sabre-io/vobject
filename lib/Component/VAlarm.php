@@ -90,7 +90,7 @@ class VAlarm extends VObject\Component {
 
         if (isset($this->DURATION)) {
             $duration = VObject\DateTimeParser::parseDuration($this->DURATION);
-            $repeat = (string)$this->repeat;
+            $repeat = (string)$this->REPEAT;
             if (!$repeat) {
                 $repeat = 1;
             }
