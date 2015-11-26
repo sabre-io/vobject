@@ -1,10 +1,12 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTime;
+use Sabre\VObject\Reader;
+use Sabre\VObject\TestCase;
 
-class MissingOverriddenTest extends \PHPUnit_Framework_TestCase {
+class MissingOverriddenTest extends TestCase {
 
     function testExpand() {
 
@@ -31,9 +33,7 @@ ICS;
         $vcal = Reader::read($input);
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
 
-        $vcal->expand(new DateTime('2011-01-01'), new DateTime('2015-01-01'));
-
-        $result = $vcal->serialize();
+        $vcal = $vcal->expand(new DateTime('2011-01-01'), new DateTime('2015-01-01'));
 
         $output = <<<ICS
 BEGIN:VCALENDAR
@@ -52,9 +52,8 @@ DURATION:PT1H
 SUMMARY:B
 END:VEVENT
 END:VCALENDAR
-
 ICS;
-        $this->assertEquals($output, str_replace("\r", "", $result));
+        $this->assertVObjEquals($output, $vcal);
     
     }
 

@@ -5,7 +5,7 @@ namespace Sabre\VObject\Component;
 use DateTimeZone;
 use Sabre\VObject;
 
-class VCalendarTest extends \PHPUnit_Framework_TestCase {
+class VCalendarTest extends VObject\TestCase {
 
     /**
      * @dataProvider expandData
@@ -16,7 +16,7 @@ class VCalendarTest extends \PHPUnit_Framework_TestCase {
 
         $timeZone = new DateTimeZone($timeZone);
 
-        $vcal->expand(
+        $vcal = $vcal->expand(
             new \DateTime($start),
             new \DateTime($end),
             $timeZone
@@ -25,7 +25,7 @@ class VCalendarTest extends \PHPUnit_Framework_TestCase {
         // This will normalize the output
         $output = VObject\Reader::read($output)->serialize();
 
-        $this->assertEquals($output, $vcal->serialize());
+        $this->assertVObjEquals($output, $vcal->serialize());
 
     }
 
@@ -295,7 +295,7 @@ END:VCALENDAR
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testBrokenEventExpand() {
 

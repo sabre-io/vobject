@@ -1,10 +1,11 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use Sabre\VObject\Reader;
 
 /**
  * This is a unittest for Issue #53.
@@ -36,22 +37,22 @@ ICS;
         $vcal = Reader::read($input);
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
 
-        $vcal->expand(new DateTime('2015-01-01'), new DateTime('2015-12-01'));
+        $vcal = $vcal->expand(new DateTime('2015-01-01'), new DateTime('2015-12-01'));
 
         $result = iterator_to_array($vcal->vevent);
 
         $this->assertEquals(5, count($result));
 
         $utc = new DateTimeZone('UTC');
-        $expected = array(
+        $expected = [
             new DateTimeImmutable("2015-10-12", $utc),
             new DateTimeImmutable("2015-10-15", $utc),
             new DateTimeImmutable("2015-10-17", $utc),
             new DateTimeImmutable("2015-10-18", $utc),
             new DateTimeImmutable("2015-10-20", $utc),
-        );
+        ];
 
-        $result = array_map(function($ev){return $ev->dtstart->getDateTime();}, $result);
+        $result = array_map(function($ev) {return $ev->dtstart->getDateTime();}, $result);
         $this->assertEquals($expected, $result);
     
     }
