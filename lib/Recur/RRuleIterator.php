@@ -4,7 +4,6 @@ namespace Sabre\VObject\Recur;
 
 use DateTimeInterface;
 use DateTimeImmutable;
-use InvalidArgumentException;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;

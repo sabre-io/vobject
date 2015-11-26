@@ -5,8 +5,6 @@ namespace Sabre\VObject;
 use DateTimeImmutable;
 use DateTimeZone;
 use DateInterval;
-use InvalidArgumentException;
-use LogicException;
 
 /**
  * DateTimeParser.
