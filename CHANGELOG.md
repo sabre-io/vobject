@@ -17,6 +17,7 @@ ChangeLog
 * It's now possible to override which class is used instead of
   `Component\VCalendar` or `Component\VCard` during parsing.
 * #263: Lots of small cleanups. (@jakobsack)
+* #220: Automatically stop recurring after 3500 recurrences.
 
 
 4.0.0-alpha2 (2015-09-04)
