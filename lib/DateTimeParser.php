@@ -39,7 +39,7 @@ class DateTimeParser {
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/', $dt, $matches);
 
         if (!$result) {
-            throw new LogicException('The supplied iCalendar datetime value is incorrect: ' . $dt);
+            throw new InvalidDataException('The supplied iCalendar datetime value is incorrect: ' . $dt);
         }
 
         if ($matches[7] === 'Z' || is_null($tz)) {
@@ -65,7 +65,7 @@ class DateTimeParser {
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])$/', $date, $matches);
 
         if (!$result) {
-            throw new LogicException('The supplied iCalendar date value is incorrect: ' . $date);
+            throw new InvalidDataException('The supplied iCalendar date value is incorrect: ' . $date);
         }
 
         if (is_null($tz)) {
@@ -93,7 +93,7 @@ class DateTimeParser {
 
         $result = preg_match('/^(?<plusminus>\+|-)?P((?<week>\d+)W)?((?<day>\d+)D)?(T((?<hour>\d+)H)?((?<minute>\d+)M)?((?<second>\d+)S)?)?$/', $duration, $matches);
         if (!$result) {
-            throw new LogicException('The supplied iCalendar duration value is incorrect: ' . $duration);
+            throw new InvalidDataException('The supplied iCalendar duration value is incorrect: ' . $duration);
         }
 
         if (!$asString) {
@@ -314,7 +314,7 @@ class DateTimeParser {
                 $/x';
 
             if (!preg_match($regex, $date, $matches)) {
-                throw new InvalidArgumentException('Invalid vCard date-time string: ' . $date);
+                throw new InvalidDataException('Invalid vCard date-time string: ' . $date);
             }
 
         }
@@ -420,7 +420,7 @@ class DateTimeParser {
                 $/x';
 
             if (!preg_match($regex, $date, $matches)) {
-                throw new InvalidArgumentException('Invalid vCard time string: ' . $date);
+                throw new InvalidDataException('Invalid vCard time string: ' . $date);
             }
 
         }
@@ -533,7 +533,7 @@ class DateTimeParser {
         if (0 === preg_match($valueDate, $date, $matches)
             && 0 === preg_match($valueDateTime, $date, $matches)
             && 0 === preg_match($valueTime, $date, $matches)) {
-            throw new InvalidArgumentException('Invalid vCard date-time string: ' . $date);
+            throw new InvalidDataException('Invalid vCard date-time string: ' . $date);
         }
 
         $parts = [

@@ -33,7 +33,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testParseICalendarDurationFail() {
 
@@ -53,7 +53,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testParseICalendarDateTime
-     * @expectedException LogicException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testParseICalendarDateTimeBadFormat() {
 
@@ -144,7 +144,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testParseICalendarDate
-     * @expectedException LogicException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testParseICalendarDateBadFormat() {
 
@@ -166,7 +166,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @dataProvider vcardDates
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testBadVCardDate() {
 
@@ -176,7 +176,7 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @dataProvider vcardDates
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testBadVCardTime() {
 

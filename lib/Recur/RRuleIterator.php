@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use InvalidArgumentException;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property;
 
 /**
@@ -649,7 +650,7 @@ class RRuleIterator implements Iterator {
                         $value,
                         ['secondly', 'minutely', 'hourly', 'daily', 'weekly', 'monthly', 'yearly']
                     )) {
-                        throw new InvalidArgumentException('Unknown value for FREQ=' . strtoupper($value));
+                        throw new InvalidDataException('Unknown value for FREQ=' . strtoupper($value));
                     }
                     $this->frequency = $value;
                     break;
@@ -676,7 +677,7 @@ class RRuleIterator implements Iterator {
                 case 'COUNT' :
                     $val = (int)$value;
                     if ($val < 1) {
-                        throw new \InvalidArgumentException(strtoupper($key) . ' in RRULE must be a positive integer!');
+                        throw new InvalidDataException(strtoupper($key) . ' in RRULE must be a positive integer!');
                     }
                     $key = strtolower($key);
                     $this->$key = $val;
@@ -698,7 +699,7 @@ class RRuleIterator implements Iterator {
                     $value = (array)$value;
                     foreach ($value as $part) {
                         if (!preg_match('#^  (-|\+)? ([1-5])? (MO|TU|WE|TH|FR|SA|SU) $# xi', $part)) {
-                            throw new \InvalidArgumentException('Invalid part in BYDAY clause: ' . $part);
+                            throw new InvalidDataException('Invalid part in BYDAY clause: ' . $part);
                         }
                     }
                     $this->byDay = $value;
@@ -729,7 +730,7 @@ class RRuleIterator implements Iterator {
                     break;
 
                 default:
-                    throw new \InvalidArgumentException('Not supported: ' . strtoupper($key));
+                    throw new InvalidDataException('Not supported: ' . strtoupper($key));
 
             }
 

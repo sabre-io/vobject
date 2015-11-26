@@ -541,7 +541,7 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
      * this means we increase the current day (or week, month) by 0, this also
      * results in an infinite loop.
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testZeroInterval() {
 
@@ -555,7 +555,7 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testInvalidFreq() {
 
@@ -568,7 +568,7 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testByDayBadOffset() {
 
@@ -643,7 +643,7 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testUnsupportedPart() {
 

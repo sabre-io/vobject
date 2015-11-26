@@ -2,12 +2,13 @@
 
 namespace Sabre\VObject\Property\VCard;
 
-use Sabre\VObject\DateTimeParser;
-use Sabre\VObject\Property;
-use Sabre\Xml;
 use DateTimeInterface;
 use DateTimeImmutable;
 use DateTime;
+use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Property;
+use Sabre\Xml;
 
 /**
  * DateAndOrTime property.
@@ -393,7 +394,7 @@ class DateAndOrTime extends Property {
 
         try {
             DateTimeParser::parseVCardDateTime($value);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidDataException $e) {
             $messages[] = [
                 'level'   => 3,
                 'message' => 'The supplied value (' . $value . ') is not a correct DATE-AND-OR-TIME property',
