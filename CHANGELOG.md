@@ -6,7 +6,7 @@ ChangeLog
 
 * #258: Support for expanding events that use `RDATE`. (@jabdoa2)
 * #258: Correctly support TZID for events that use `RDATE`. (@jabdoa2)
-* #264: `Component\VCalendar::expand()` now returns a new expanded `VCalendar`
+* #240: `Component\VCalendar::expand()` now returns a new expanded `VCalendar`
   object, instead of editing the existing `VCalendar` in-place. This is a BC
   break.
 
