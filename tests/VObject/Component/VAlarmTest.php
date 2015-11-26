@@ -129,7 +129,7 @@ class VAlarmTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testInTimeRangeInvalidComponent() {
 

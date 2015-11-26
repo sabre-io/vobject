@@ -11,10 +11,9 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: hhvm
-    - php: 7
 
 script:
   - phpunit --configuration tests/phpunit.xml
-  - ./bin/sabre-cs-fixer fix lib/ --dry-run --diff
+  - ./bin/sabre-cs-fixer fix . --dry-run --diff
 
 before_script: composer install

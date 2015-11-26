@@ -144,7 +144,7 @@ class BirthdayCalendarGenerator {
             // Skip if we can't parse the BDAY value.
             try {
                 $dateParts = DateTimeParser::parseVCardDateTime($object->BDAY->getValue());
-            } catch (\InvalidArgumentException $e) {
+            } catch (InvalidDataException $e) {
                 continue;
             }
 

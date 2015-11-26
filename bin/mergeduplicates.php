@@ -10,7 +10,7 @@ $paths = [
     __DIR__ . '/../../../autoload.php',   // In case vobject is a composer dependency.
 ];
 
-foreach($paths as $path) {
+foreach ($paths as $path) {
     if (file_exists($path)) {
         include $path;
         break;
@@ -27,7 +27,7 @@ echo "sabre/vobject ", Version::VERSION, " duplicate contact merge tool\n";
 if ($argc < 3) {
 
     echo "\n";
-    echo "Usage: ", $argv[0], " input.vcf output.vcf [debug.log]\n"; 
+    echo "Usage: ", $argv[0], " input.vcf output.vcf [debug.log]\n";
     die(1);
 
 }
@@ -50,22 +50,22 @@ $ignoredProperties = [
 ];
 
 
-$collectedNames = []; 
+$collectedNames = [];
 
 $stats = [
-    "Total vcards" => 0,
-    "No FN property" => 0,
+    "Total vcards"       => 0,
+    "No FN property"     => 0,
     "Ignored duplicates" => 0,
-    "Merged values" => 0,
-    "Error" => 0,
-    "Unique cards" => 0,
-    "Total written" => 0,
+    "Merged values"      => 0,
+    "Error"              => 0,
+    "Unique cards"       => 0,
+    "Total written"      => 0,
 ];
 
 function writeStats() {
 
     global $stats;
-    foreach($stats as $name=>$value) {
+    foreach ($stats as $name => $value) {
         echo str_pad($name, 23, " ", STR_PAD_RIGHT), str_pad($value, 6, " ", STR_PAD_LEFT), "\n";
     }
     // Moving cursor back a few lines.
@@ -82,7 +82,7 @@ function write($vcard) {
 
 }
 
-while($vcard = $splitter->getNext()) {
+while ($vcard = $splitter->getNext()) {
 
     $stats["Total vcards"]++;
     writeStats();
@@ -110,14 +110,14 @@ while($vcard = $splitter->getNext()) {
 
         // Starting comparison for all properties. We only check if properties
         // in the current vcard exactly appear in the earlier vcard as well.
-        foreach($vcard->children() as $newProp) {
+        foreach ($vcard->children() as $newProp) {
 
             if (in_array($newProp->name, $ignoredProperties)) {
                 // We don't care about properties such as UID and REV.
                 continue;
             }
             $ok = false;
-            foreach($collectedNames[$fn]->select($newProp->name) as $compareProp) {
+            foreach ($collectedNames[$fn]->select($newProp->name) as $compareProp) {
 
                 if ($compareProp->serialize() === $newProp->serialize()) {
                     $ok = true;
@@ -132,7 +132,7 @@ while($vcard = $splitter->getNext()) {
                     // We're going to make another attempt to find this
                     // property, this time just by value. If we find it, we
                     // consider it a success.
-                    foreach($collectedNames[$fn]->select($newProp->name) as $compareProp) {
+                    foreach ($collectedNames[$fn]->select($newProp->name) as $compareProp) {
 
                         if ($compareProp->getValue() === $newProp->getValue()) {
                             $ok = true;
@@ -157,7 +157,7 @@ while($vcard = $splitter->getNext()) {
 
                 // echo $newProp->serialize() . " does not appear in earlier vcard!\n";
                 $stats['Error']++;
-                if ($debug) fwrite($debug, "Missing '" . $newProp->name .  "' property in duplicate. Earlier vcard:\n" . $collectedNames[$fn]->serialize() . "\n\nLater:\n". $vcard->serialize() . "\n\n");
+                if ($debug) fwrite($debug, "Missing '" . $newProp->name .  "' property in duplicate. Earlier vcard:\n" . $collectedNames[$fn]->serialize() . "\n\nLater:\n" . $vcard->serialize() . "\n\n");
                 
                 $vcard->destroy();
                 continue 2;
@@ -172,7 +172,7 @@ while($vcard = $splitter->getNext()) {
 
 }
 
-foreach($collectedNames as $vcard) {
+foreach ($collectedNames as $vcard) {
 
     // Overwriting any old PRODID
     $vcard->PRODID = '-//Sabre//Sabre VObject ' . Version::VERSION . '//EN';

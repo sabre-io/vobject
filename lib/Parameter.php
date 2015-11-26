@@ -137,7 +137,7 @@ class Parameter extends Node {
             case 'DIB' :
             case 'PICT' :
             case 'TIFF' :
-            case 'PDF ':
+            case 'PDF':
             case 'PS' :
             case 'JPEG' :
             case 'MPEG' :

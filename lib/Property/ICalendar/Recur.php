@@ -51,6 +51,9 @@ class Recur extends Property {
                     if (strpos($v, ',') !== false) {
                         $v = explode(',', $v);
                     }
+                    if (strcmp($k, 'until') === 0) {
+                        $v = strtr($v, [':' => '', '-' => '']);
+                    }
                 } else {
                     $v = array_map('strtoupper', $v);
                 }
@@ -91,7 +94,6 @@ class Recur extends Property {
      * Sets a multi-valued property.
      *
      * @param array $parts
-     *
      * @return void
      */
     function setParts(array $parts) {

@@ -1,7 +1,29 @@
 ChangeLog
 =========
 
-4.0.0-alpha2 (2015-??-??)
+4.0.0-alpha3 (????-??-??)
+-------------------------
+
+* #258: Support for expanding events that use `RDATE`. (@jabdoa2)
+* #258: Correctly support TZID for events that use `RDATE`. (@jabdoa2)
+* #240: `Component\VCalendar::expand()` now returns a new expanded `VCalendar`
+  object, instead of editing the existing `VCalendar` in-place. This is a BC
+  break.
+* #265: Using the new `InvalidDataException` in place of
+  `InvalidArgumentException` and `LogicException` in all places where we fail
+  because there was something wrong with input data.
+* #227: Always add `VALUE=URI` to `PHOTO` properties.
+* #235: Always add `VALUE=URI` to `URL` properties.
+* It's now possible to override which class is used instead of
+  `Component\VCalendar` or `Component\VCard` during parsing.
+* #263: Lots of small cleanups. (@jakobsack)
+* #220: Automatically stop recurring after 3500 recurrences.
+* #41: Allow user to set different encoding than UTF-8 when decoding vCards.
+* #41: Support the `ENCODING` parameter from vCard 2.1.
+* #185: Fix encoding/decoding of `TIME` values in jCal/jCard.
+
+
+4.0.0-alpha2 (2015-09-04)
 -------------------------
 
 * Updated windows timezone file to support new mexican timezone.
@@ -11,6 +33,8 @@ ChangeLog
 * Added a duplicate vcard merging tool for the command line.
 * #253: `isInTimeRange()` now correctly handles events that throw the
   `NoInstancesException` exception. (@migrax, @DominikTo)
+* #254: The parser threw an `E_NOTICE` for certain invalid objects. It now
+  correctly throws a `ParseException`.
 
 
 4.0.0-alpha1 (2015-07-17)
@@ -48,7 +72,7 @@ ChangeLog
   and `IntegerValue` to allow PHP 7 compatibility.
 
 
-3.4.7 (????-??-??)
+3.4.7 (2015-09-04)
 ------------------
 
 * #253: Handle `isInTimeRange` for recurring events that have 0 valid

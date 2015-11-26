@@ -6,8 +6,10 @@ use DateTimeInterface;
 use DateTimeZone;
 use Sabre\VObject;
 use Sabre\VObject\Component;
+use Sabre\VObject\Property;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
+use Sabre\VObject\InvalidDataException;
 
 /**
  * The VCalendar component.
@@ -35,6 +37,7 @@ class VCalendar extends VObject\Document {
      * @var array
      */
     static $componentMap = [
+        'VCALENDAR'     => 'Sabre\\VObject\\Component\\VCalendar',
         'VALARM'        => 'Sabre\\VObject\\Component\\VAlarm',
         'VEVENT'        => 'Sabre\\VObject\\Component\\VEvent',
         'VFREEBUSY'     => 'Sabre\\VObject\\Component\\VFreeBusy',
@@ -268,6 +271,9 @@ class VCalendar extends VObject\Document {
     }
 
     /**
+     * Expand all events in this VCalendar object and return a new VCalendar
+     * with the expanded events.
+     *
      * If this calendar object, has events with recurrence rules, this method
      * can be used to expand the event into multiple sub-events.
      *
@@ -278,52 +284,66 @@ class VCalendar extends VObject\Document {
      * In addition, this method will cause timezone information to be stripped,
      * and normalized to UTC.
      *
-     * This method will alter the VCalendar. This cannot be reversed.
-     *
-     * This functionality is specifically used by the CalDAV standard. It is
-     * possible for clients to request expand events, if they are rather simple
-     * clients and do not have the possibility to calculate recurrences.
-     *
      * @param DateTimeInterface $start
      * @param DateTimeInterface $end
      * @param DateTimeZone $timeZone reference timezone for floating dates and
      *                     times.
-     *
-     * @return void
+     * @return VCalendar
      */
     function expand(DateTimeInterface $start, DateTimeInterface $end, DateTimeZone $timeZone = null) {
 
-        $newEvents = [];
+        $newChildren = [];
+        $recurringEvents = [];
 
         if (!$timeZone) {
             $timeZone = new DateTimeZone('UTC');
         }
 
-        // An array of events. Events are indexed by UID. Each item in this
-        // array is a list of one or more events that match the UID.
-        $recurringEvents = [];
+        $stripTimezones = function(Component $component) use ($timeZone) {
 
-        foreach ($this->select('VEVENT') as $key => $vevent) {
+            foreach ($component->children() as $componentChild) {
+                if ($componentChild instanceof Property\ICalendar\DateTime && $componentChild->hasTime()) {
 
-            $uid = (string)$vevent->UID;
-            if (!$uid) {
-                throw new \LogicException('Event did not have a UID!');
-            }
-
-            if (isset($vevent->{'RECURRENCE-ID'}) || isset($vevent->RRULE)) {
-                if (isset($recurringEvents[$uid])) {
-                    $recurringEvents[$uid][] = $vevent;
-                } else {
-                    $recurringEvents[$uid] = [$vevent];
+                    $dt = $componentChild->getDateTimes($timeZone);
+                    // We only need to update the first timezone, because
+                    // setDateTimes will match all other timezones to the
+                    // first.
+                    $dt[0] = $dt[0]->setTimeZone(new DateTimeZone('UTC'));
+                    $componentChild->setDateTimes($dt);
+                } elseif ($componentChild instanceof Component) {
+                    $stripTimezones($componentChild);
                 }
-                continue;
-            }
 
-            if (!isset($vevent->RRULE)) {
-                if ($vevent->isInTimeRange($start, $end)) {
-                    $newEvents[] = $vevent;
+            }
+            return $component;
+
+        };
+
+        foreach ($this->children() as $child) {
+
+            if ($child instanceof Property && $child->name !== 'PRODID') {
+                // We explictly want to ignore PRODID, because we want to
+                // overwrite it with our own.
+                $newChildren[] = clone $child;
+            } elseif ($child instanceof Component && $child->name !== 'VTIMEZONE') {
+
+                // We're also stripping all VTIMEZONE objects because we're
+                // converting everything to UTC.
+                if ($child->name === 'VEVENT' && (isset($child->{'RECURRENCE-ID'}) || isset($child->RRULE) || isset($child->RDATE))) {
+                    // Handle these a bit later.
+                    $uid = (string)$child->UID;
+                    if (!$uid) {
+                        throw new InvalidDataException('Every VEVENT object must have a UID property');
+                    }
+                    if (isset($recurringEvents[$uid])) {
+                        $recurringEvents[$uid][] = clone $child;
+                    } else {
+                        $recurringEvents[$uid] = [clone $child];
+                    }
+                } elseif ($child->name === 'VEVENT' && $child->isInTimeRange($start, $end)) {
+                    $newChildren[] = $stripTimezones(clone $child);
                 }
-                continue;
+
             }
 
         }
@@ -345,7 +365,7 @@ class VCalendar extends VObject\Document {
 
                 if ($it->getDTEnd() > $start) {
 
-                    $newEvents[] = $it->getEventObject();
+                    $newChildren[] = $stripTimezones($it->getEventObject());
 
                 }
                 $it->next();
@@ -354,30 +374,7 @@ class VCalendar extends VObject\Document {
 
         }
 
-        // Wiping out all old VEVENT objects
-        unset($this->VEVENT);
-
-        // Setting all properties to UTC time.
-        foreach ($newEvents as $newEvent) {
-
-            foreach ($newEvent->children as $childGroup) {
-                foreach ($childGroup as $child) {
-                    if ($child instanceof VObject\Property\ICalendar\DateTime && $child->hasTime()) {
-                        $dt = $child->getDateTimes($timeZone);
-                        // We only need to update the first timezone, because
-                        // setDateTimes will match all other timezones to the
-                        // first.
-                        $dt[0] = $dt[0]->setTimeZone(new DateTimeZone('UTC'));
-                        $child->setDateTimes($dt);
-                    }
-                }
-            }
-            $this->add($newEvent);
-
-        }
-
-        // Removing all VTIMEZONE components
-        unset($this->VTIMEZONE);
+        return new self($newChildren);
 
     }
 
@@ -513,7 +510,7 @@ class VCalendar extends VObject\Document {
                     'node'    => $this,
                 ];
             }
-            if (count(array_unique($componentTypes)) === 0) {
+            if (count($componentTypes) === 0) {
                 $warnings[] = [
                     'level'   => 3,
                     'message' => 'A calendar object on a CalDAV server must have at least 1 component (VTODO, VEVENT, VJOURNAL).',

@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Property;
 
 use Sabre\VObject\Property;
+use Sabre\VObject\Parameter;
 
 /**
  * URI property.
@@ -34,6 +35,29 @@ class Uri extends Text {
     function getValueType() {
 
         return 'URI';
+
+    }
+
+    /**
+     * Returns an iterable list of children.
+     *
+     * @return array
+     */
+    function parameters() {
+
+        $parameters = parent::parameters();
+        if (!isset($parameters['VALUE']) && in_array($this->name, ['URL', 'PHOTO'])) {
+            // If we are encoding a URI value, and this URI value has no
+            // VALUE=URI parameter, we add it anyway.
+            //
+            // This is not required by any spec, but both Apple iCal and Apple
+            // AddressBook (at least in version 10.8) will trip over this if
+            // this is not set, and so it improves compatibility.
+            //
+            // See Issue #227 and #235
+            $parameters['VALUE'] = new Parameter($this->root, 'VALUE', 'URI');
+        }
+        return $parameters;
 
     }
 

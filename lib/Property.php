@@ -120,7 +120,7 @@ abstract class Property extends Node {
             } elseif (count($this->value) === 1) {
                 return $this->value[0];
             } else {
-                return $this->getRawMimeDirValue($this->value);
+                return $this->getRawMimeDirValue();
             }
         } else {
             return $this->value;
@@ -238,7 +238,7 @@ abstract class Property extends Node {
         $str = $this->name;
         if ($this->group) $str = $this->group . '.' . $this->name;
 
-        foreach ($this->parameters as $param) {
+        foreach ($this->parameters() as $param) {
 
             $str .= ';' . $param->serialize();
 
