@@ -53,8 +53,10 @@ class MimeDir extends Parser {
 
     /**
      * The list of character sets we support when decoding.
+     *
+     * This would be a const expression but for now we need to support PHP 5.5
      */
-    const SUPPORTED_CHARSETS = [
+    protected $SUPPORTED_CHARSETS = [
         'UTF-8',
         'ISO-8859-1',
         'Windows-1252',
@@ -103,7 +105,7 @@ class MimeDir extends Parser {
      */
     function setCharset($charset) {
 
-        if (!in_array($charset, self::SUPPORTED_CHARSETS)) {
+        if (!in_array($charset, self::$SUPPORTED_CHARSETS)) {
             throw new \InvalidArgumentException('Unsupported encoding. (Supported encodings: ' . implode(', ', self::SUPPORTED_CHARSETS) . ')');
         }
         $this->charset = $charset;
