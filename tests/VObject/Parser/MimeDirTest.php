@@ -94,4 +94,35 @@ VCF;
         $mimeDir->parse($vcard);
 
     }
+
+    function testDecodeWindows1252() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+FN:Euro \x80
+END:VCARD\n
+VCF;
+
+        $mimeDir = new Mimedir();
+        $mimeDir->setCharSet('Windows-1252');
+        $vcard = $mimeDir->parse($vcard);
+        $this->assertEquals("Euro \xE2\x82\xAC", $vcard->FN->getValue());
+
+    }
+
+    function testDecodeWindows1252Inline() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+FN;CHARSET=Windows-1252:Euro \x80
+END:VCARD\n
+VCF;
+
+        $mimeDir = new Mimedir();
+        $vcard = $mimeDir->parse($vcard);
+        $this->assertEquals("Euro \xE2\x82\xAC", $vcard->FN->getValue());
+
+    }
 }

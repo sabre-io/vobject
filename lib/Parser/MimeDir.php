@@ -52,6 +52,17 @@ class MimeDir extends Parser {
     protected $charset = 'UTF-8';
 
     /**
+     * The list of character sets we support when decoding.
+     *
+     * This would be a const expression but for now we need to support PHP 5.5
+     */
+    protected static $SUPPORTED_CHARSETS = [
+        'UTF-8',
+        'ISO-8859-1',
+        'Windows-1252',
+    ];
+
+    /**
      * Parses an iCalendar or vCard file.
      *
      * Pass a stream or a string. If null is parsed, the existing buffer is
@@ -94,10 +105,8 @@ class MimeDir extends Parser {
      */
     function setCharset($charset) {
 
-        $supportedEncodings = ['UTF-8', 'ISO-8859-1'];
-
-        if (!in_array($charset, $supportedEncodings)) {
-            throw new \InvalidArgumentException('Unsupported encoding. (Supported encodings: ' . implode(', ', $supportedEncodings) . ')');
+        if (!in_array($charset, self::$SUPPORTED_CHARSETS)) {
+            throw new \InvalidArgumentException('Unsupported encoding. (Supported encodings: ' . implode(', ', self::$SUPPORTED_CHARSETS) . ')');
         }
         $this->charset = $charset;
 
@@ -459,6 +468,9 @@ class MimeDir extends Parser {
                     break;
                 case 'ISO-8859-1' :
                     $property['value'] = utf8_encode($property['value']);
+                    break;
+                case 'Windows-1252' :
+                    $property['value'] = mb_convert_encoding($property['value'], 'UTF-8', $charset);
                     break;
                 default :
                     throw new ParseException('Unsupported CHARSET: ' . $propObj['CHARSET']);

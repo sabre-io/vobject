@@ -20,6 +20,7 @@ ChangeLog
 * #220: Automatically stop recurring after 3500 recurrences.
 * #41: Allow user to set different encoding than UTF-8 when decoding vCards.
 * #41: Support the `ENCODING` parameter from vCard 2.1.
+  Both ISO-8859-1 and Windows-1252 are currently supported.
 * #185: Fix encoding/decoding of `TIME` values in jCal/jCard.
 
 
