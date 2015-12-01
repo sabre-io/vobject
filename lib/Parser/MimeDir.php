@@ -56,7 +56,7 @@ class MimeDir extends Parser {
      *
      * This would be a const expression but for now we need to support PHP 5.5
      */
-    static protected $SUPPORTED_CHARSETS = [
+    protected static $SUPPORTED_CHARSETS = [
         'UTF-8',
         'ISO-8859-1',
         'Windows-1252',
