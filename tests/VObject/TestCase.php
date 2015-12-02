@@ -16,6 +16,8 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      *
      * CALSCALE will automatically get removed if it's set to GREGORIAN.
      *
+     * Any property that has the value **ANY** will be treated as a wildcard.
+     *
      * @param resource|string|Component $expected
      * @param resource|string|Component $actual
      * @param string $message
@@ -42,12 +44,25 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 
         };
 
-        $expected = $getObj($expected);
-        $actual = $getObj($actual);
+        $expected = $getObj($expected)->serialize();
+        $actual = $getObj($actual)->serialize();
+
+        // Finding wildcards in expected.
+        preg_match_all('|^([A-Z]+):\\*\\*ANY\\*\\*\r$|m', $expected, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+
+            $actual = preg_replace(
+                '|^' . preg_quote($match[1], '|') . ':(.*)\r$|m',
+                $match[1] . ':**ANY**' . "\r",
+                $actual
+            );
+
+        }
 
         $this->assertEquals(
-            $expected->serialize(),
-            $actual->serialize(),
+            $expected,
+            $actual,
             $message
         );
 

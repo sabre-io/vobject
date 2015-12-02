@@ -49,6 +49,9 @@ class VCardConverter {
             'VERSION' => $newVersion,
         ]);
 
+        // We might have generated a default UID. Remove it!
+        unset($output->UID);
+
         foreach ($input->children() as $property) {
 
             $this->convertProperty($input, $output, $property, $targetVersion);

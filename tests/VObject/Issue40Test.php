@@ -14,6 +14,8 @@ class Issue40Test extends \PHPUnit_Framework_TestCase {
         $card = new Component\VCard();
         $card->add('N', ['van der Harten', ['Rene', 'J.'], "", 'Sir', 'R.D.O.N.'], ['SORT-AS' => ['Harten', 'Rene']]);
 
+        unset($card->UID);
+
         $expected = implode("\r\n", [
             "BEGIN:VCARD",
             "VERSION:3.0",

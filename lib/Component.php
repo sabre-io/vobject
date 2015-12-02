@@ -81,7 +81,6 @@ class Component extends Node {
         } else {
             foreach ($children as $k => $child) {
                 if ($child instanceof Node) {
-
                     // Component or Property
                     $this->add($child);
                 } else {
@@ -107,19 +106,20 @@ class Component extends Node {
      *
      * @return Node
      */
-    function add($a1, $a2 = null, $a3 = null) {
+    function add() {
 
-        if ($a1 instanceof Node) {
-            if (!is_null($a2)) {
+        $arguments = func_get_args();
+
+        if ($arguments[0] instanceof Node) {
+            if (isset($arguments[1])) {
                 throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject Node');
             }
-            $a1->parent = $this;
-            $newNode = $a1;
+            $arguments[0]->parent = $this;
+            $newNode = $arguments[0];
 
-        } elseif (is_string($a1)) {
+        } elseif (is_string($arguments[0])) {
 
-            $newNode = $this->root->create($a1, $a2, $a3);
-            $newNode->parent = $this;
+            $newNode = call_user_func_array([$this->root, 'create'], $arguments);
 
         } else {
 

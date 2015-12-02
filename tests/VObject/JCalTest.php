@@ -22,7 +22,7 @@ class JCalTest extends \PHPUnit_Framework_TestCase {
             "URL"          => "http://example.org/",
             "TZOFFSETFROM" => "+0500",
             "RRULE"        => ['FREQ' => 'WEEKLY', 'BYDAY' => ['MO', 'TU']],
-        ]);
+        ], false);
 
         // Modifying DTSTART to be a date-only.
         $event->dtstart['VALUE'] = 'DATE';

@@ -346,7 +346,8 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
         $comp = new VCalendar([], false);
         $event = $comp->add($comp->createComponent('VEVENT'));
         unset($event->DTSTAMP, $event->UID);
-        $comp->add($comp->createComponent('VTODO'));
+        $todo = $comp->add($comp->createComponent('VTODO'));
+        unset($todo->DTSTAMP, $todo->UID);
 
         $str = $comp->serialize();
 
