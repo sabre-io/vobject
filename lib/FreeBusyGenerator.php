@@ -437,7 +437,7 @@ class FreeBusyGenerator {
                                 $iterator->fastForward($this->start);
                             }
 
-                            $maxRecurrences = 200;
+                            $maxRecurrences = Settings::$maxRecurrences;
 
                             while ($iterator->valid() && --$maxRecurrences) {
 

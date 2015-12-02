@@ -8,6 +8,7 @@ use DateTimeInterface;
 use InvalidArgumentException;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Settings;
 
 /**
  * This class is used to determine new for a recurring event, when the next
@@ -70,21 +71,6 @@ class EventIterator implements \Iterator {
      * @var bool
      */
     protected $allDay = false;
-
-
-    /**
-     * Automatically stop iterating after this many iterations.
-     *
-     * This is a security measure. Without this, it would be possible to craft
-     * specific events that recur many, many times, potentially DDOSing the
-     * server.
-     *
-     * The default (3500) allows creation of a dialy event that goes on for 10
-     * years, which is hopefully long enouogh for most.
-     *
-     * Set this value to -1 to disable this control altogether.
-     */
-    static $maxInstances = 3500;
 
     /**
      * Creates the iterator.
@@ -329,8 +315,8 @@ class EventIterator implements \Iterator {
      */
     function valid() {
 
-        if ($this->counter > self::$maxInstances && self::$maxInstances !== -1) {
-            throw new MaxInstancesExceededException('Recurring events are only allowed to generate ' . self::$maxInstances);
+        if ($this->counter > Settings::$maxRecurrences && Settings::$maxRecurrences !== -1) {
+            throw new MaxInstancesExceededException('Recurring events are only allowed to generate ' . Settings::$maxRecurrences);
         }
         return !!$this->currentDate;
 
