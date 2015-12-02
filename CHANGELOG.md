@@ -6,6 +6,9 @@ ChangeLog
 
 * `ParseException` now extends `\Exception`.
 * `Sabre\VObject\Reader::read` now has a `$charset` argument.
+* `Sabre\VObject\Recur\EventIterator::$maxInstances` is now
+  `Sabre\VObject\Settings::$maxRecurrences` and is also honored by the
+  FreeBusyGenerator.
 
 
 4.0.0-beta1 (2015-12-02)

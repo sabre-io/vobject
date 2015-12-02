@@ -3,7 +3,7 @@
 namespace Sabre\VObject\Recur\EventIterator;
 
 use Sabre\VObject\Reader;
-use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Settings;
 use Sabre\VObject\TestCase;
 use DateTime;
 
@@ -26,15 +26,15 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $temp = EventIterator::$maxInstances;
-        EventIterator::$maxInstances = 4;
+        $temp = Settings::$maxRecurrences;
+        Settings::$maxRecurrences = 4;
         try {
 
             $vcal = Reader::read($input);
             $vcal->expand(new DateTime('2014-08-01'), new DateTime('2014-09-01'));
 
         } finally {
-            EventIterator::$maxInstances = $temp;
+            Settings::$maxRecurrences = $temp;
         }
 
     }
