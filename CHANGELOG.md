@@ -5,6 +5,7 @@ ChangeLog
 ------------------
 
 * `ParseException` now extends `\Exception`.
+* `Sabre\VObject\Reader::read` now has a `$charset` argument.
 
 
 4.0.0-beta1 (2015-12-02)
