@@ -1,8 +1,8 @@
 ChangeLog
 =========
 
-4.0.0-alpha3 (????-??-??)
--------------------------
+4.0.0-beta1 (2015-12-02)
+------------------------
 
 * #258: Support for expanding events that use `RDATE`. (@jabdoa2)
 * #258: Correctly support TZID for events that use `RDATE`. (@jabdoa2)
