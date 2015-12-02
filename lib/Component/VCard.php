@@ -419,6 +419,7 @@ class VCard extends VObject\Document {
         return [
             'VERSION' => '3.0',
             'PRODID'  => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
+            'UID'     => 'sabre-vobject-' . VObject\UUIDUtil::getUUID(),
         ];
 
     }

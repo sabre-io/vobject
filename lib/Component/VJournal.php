@@ -90,4 +90,18 @@ class VJournal extends VObject\Component {
         ];
 
     }
+
+    /**
+     * This method should return a list of default property values.
+     *
+     * @return array
+     */
+    protected function getDefaults() {
+
+        return [
+            'UID'     => 'sabre-vobject-' . VObject\UUIDUtil::getUUID(),
+            'DTSTAMP' => date('Ymd\\THis\\Z'),
+        ];
+
+    }
 }
