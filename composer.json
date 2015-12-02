@@ -11,8 +11,11 @@
     },
     "require-dev" : {
         "phpunit/phpunit" : "*",
-        "sabre/cs"        : "~0.0.3",
-        "hoa/bench"       : "~2.15.05.29"
+        "sabre/cs"        : "~0.0.3"
+
+    },
+    "suggest" : {
+        "hoa/bench"       : "If you would like to run the benchmark scripts"
     },
     "authors" : [
         {
