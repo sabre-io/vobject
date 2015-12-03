@@ -21,7 +21,7 @@ Build status
 Installation
 ------------
 
-Make sure you have [composer][3] installed, and then run:
+Make sure you have [Composer][1] installed, and then run:
 
     composer require sabre/vobject "^3.4"
 
@@ -43,3 +43,5 @@ Made at fruux
 -------------
 
 This library is being developed by [fruux](https://fruux.com/). Drop us a line for commercial services or enterprise support.
+
+[1]: https://getcomposer.org/
