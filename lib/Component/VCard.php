@@ -417,7 +417,7 @@ class VCard extends VObject\Document {
     protected function getDefaults() {
 
         return [
-            'VERSION' => '3.0',
+            'VERSION' => '4.0',
             'PRODID'  => '-//Sabre//Sabre VObject ' . VObject\Version::VERSION . '//EN',
             'UID'     => 'sabre-vobject-' . VObject\UUIDUtil::getUUID(),
         ];

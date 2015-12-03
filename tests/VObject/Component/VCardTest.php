@@ -48,7 +48,7 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
             [
                 'VERSION MUST appear exactly once in a VCARD component',
             ],
-            "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:John Doe\r\nUID:foo\r\nEND:VCARD\r\n",
+            "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:John Doe\r\nUID:foo\r\nEND:VCARD\r\n",
         ];
 
         // Unknown version
