@@ -18,7 +18,7 @@ class Issue40Test extends \PHPUnit_Framework_TestCase {
 
         $expected = implode("\r\n", [
             "BEGIN:VCARD",
-            "VERSION:3.0",
+            "VERSION:4.0",
             "PRODID:-//Sabre//Sabre VObject " . Version::VERSION . '//EN',
             "N;SORT-AS=Harten,Rene:van der Harten;Rene,J.;;Sir;R.D.O.N.",
             "END:VCARD",

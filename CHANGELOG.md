@@ -4,9 +4,12 @@ ChangeLog
 4.0.0 (????-??-??)
 ------------------
 
+* #274: When creating new vCards, the default vCard version is now 4.0.
+* #275: `VEVENT`, `VTODO` and `VCARD` now automatically get a `UID` and
+  `DTSTAMP` property if this was not already specified.
 * `ParseException` now extends `\Exception`.
 * `Sabre\VObject\Reader::read` now has a `$charset` argument.
-* `Sabre\VObject\Recur\EventIterator::$maxInstances` is now
+* #272: `Sabre\VObject\Recur\EventIterator::$maxInstances` is now
   `Sabre\VObject\Settings::$maxRecurrences` and is also honored by the
   FreeBusyGenerator.
 
