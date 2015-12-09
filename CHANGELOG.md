@@ -12,6 +12,7 @@ ChangeLog
 * #272: `Sabre\VObject\Recur\EventIterator::$maxInstances` is now
   `Sabre\VObject\Settings::$maxRecurrences` and is also honored by the
   FreeBusyGenerator.
+* #287: `expand()` did not work correctly on events with sub-components.
 
 
 4.0.0-beta1 (2015-12-02)
