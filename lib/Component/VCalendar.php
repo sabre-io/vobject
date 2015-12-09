@@ -299,7 +299,7 @@ class VCalendar extends VObject\Document {
             $timeZone = new DateTimeZone('UTC');
         }
 
-        $stripTimezones = function(Component $component) use ($timeZone) {
+        $stripTimezones = function(Component $component) use ($timeZone, &$stripTimezones) {
 
             foreach ($component->children() as $componentChild) {
                 if ($componentChild instanceof Property\ICalendar\DateTime && $componentChild->hasTime()) {
