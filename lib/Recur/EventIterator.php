@@ -405,7 +405,7 @@ class EventIterator implements \Iterator {
 
         // 1. Always include dtstart (counter == 1)
         // 2. Do not emit an event twice
-        if ($this->counter == 1 or ! $this->previousEvent or $nextDate != $this->previousEvent) {
+        if ($this->counter == 1 || ! $this->previousEvent || $nextDate != $this->previousEvent) {
             $this->previousEvent = $nextDate;
             $this->currentDate = $nextDate;
         } else {
