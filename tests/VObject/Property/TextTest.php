@@ -6,7 +6,7 @@ use Sabre\VObject\Component\VCard;
 
 class TextTest extends \PHPUnit_Framework_TestCase {
 
-    function assertVCard21serialization($propValue, $expected) {
+    function assertVCard21Serialization($propValue, $expected) {
 
         $doc = new VCard([
             'VERSION' => '2.1',

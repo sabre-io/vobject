@@ -315,7 +315,7 @@ class FreeBusyGenerator {
         // priority components to override the lower ones.
         foreach (array_reverse($new) as $vavail) {
 
-            $busyType = isset($vavail->busyType) ? strtoupper($vavail->busyType) : 'BUSY-UNAVAILABLE';
+            $busyType = isset($vavail->BUSYTYPE) ? strtoupper($vavail->BUSYTYPE) : 'BUSY-UNAVAILABLE';
             list($vavailStart, $vavailEnd) = $vavail->getEffectiveStartEnd();
 
             // Making the component size no larger than the requested free-busy
@@ -424,7 +424,7 @@ class FreeBusyGenerator {
 
                         if ($component->RRULE) {
                             try {
-                                $iterator = new EventIterator($object, (string)$component->uid, $this->timeZone);
+                                $iterator = new EventIterator($object, (string)$component->UID, $this->timeZone);
                             } catch (NoInstancesException $e) {
                                 // This event is recurring, but it doesn't have a single
                                 // instance. We are skipping this event from the output

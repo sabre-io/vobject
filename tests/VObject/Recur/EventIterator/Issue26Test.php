@@ -28,7 +28,6 @@ ICS;
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
 
         $it = new EventIterator($vcal, 'bae5d57a98');
-        iterator_to_array($it);
 
     }
 

@@ -57,8 +57,8 @@ class InfiniteLoopProblemTest extends \PHPUnit_Framework_TestCase {
         $collect = [];
 
         while ($it->valid()) {
-            $collect[] = $it->getDTSTART();
-            if ($it->getDTSTART() > new DateTimeImmutable('2013-02-05 22:59:59', new DateTimeZone('UTC'))) {
+            $collect[] = $it->getDtStart();
+            if ($it->getDtStart() > new DateTimeImmutable('2013-02-05 22:59:59', new DateTimeZone('UTC'))) {
                 break;
             }
             $it->next();

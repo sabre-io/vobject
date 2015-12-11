@@ -49,8 +49,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase {
         $event = $vcal->create('VEVENT');
         $this->assertInstanceOf('Sabre\VObject\Component\VEvent', $event);
 
-        $event = $vcal->create('CALSCALE');
-        $this->assertInstanceOf('Sabre\VObject\Property\Text', $event);
+        $prop = $vcal->create('CALSCALE');
+        $this->assertInstanceOf('Sabre\VObject\Property\Text', $prop);
 
     }
 

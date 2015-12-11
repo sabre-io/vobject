@@ -23,7 +23,6 @@ END:VCARD
 VCF;
 
         $vcard = Reader::read($input, Reader::OPTION_FORGIVING);
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCard', $vcard);
 
     }
 

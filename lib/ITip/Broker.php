@@ -376,7 +376,7 @@ class Broker {
                             $attendee['PARTSTAT'] = $instances[$recurId];
                             $attendee['SCHEDULE-STATUS'] = $requestStatus;
                             // Un-setting the RSVP status, because we now know
-                            // that the attende already replied.
+                            // that the attendee already replied.
                             unset($attendee['RSVP']);
                             break;
                         }
