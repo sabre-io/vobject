@@ -96,9 +96,9 @@ class RDateIterator implements Iterator {
             );
 
         // This is RDate and not RTime. So whatever is there. Ignore it.
-        $hour = $this->startDate->format("H");
-        $min = $this->startDate->format("i");
-        $sec = $this->startDate->format("s");
+        $hour = (int) $this->startDate->format("H");
+        $min = (int) $this->startDate->format("i");
+        $sec = (int) $this->startDate->format("s");
         $this->currentDate = $this->currentDate->setTime($hour, $min, $sec);
 
     }
