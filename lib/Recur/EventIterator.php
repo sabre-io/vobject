@@ -66,6 +66,14 @@ class EventIterator implements \Iterator {
     protected $timeZone;
 
     /**
+     * We have to remember the previous time. Because every time should be only
+     * emitted once
+     *
+     * @var DateTime
+     */
+    protected $previousEvent;
+
+    /**
      * True if we're iterating an all-day event.
      *
      * @var bool
@@ -387,19 +395,22 @@ class EventIterator implements \Iterator {
 
                 // Putting the rrule next date aside.
                 $this->nextDate = $nextDate;
-                $this->currentDate = $this->currentOverriddenEvent->DTSTART->getDateTime($this->timeZone);
+                $nextDate = $this->currentOverriddenEvent->DTSTART->getDateTime($this->timeZone);
 
                 // Ensuring that this item will only be used once.
                 array_pop($this->overriddenEventsIndex);
-
-                // Exit point!
-                return;
-
             }
 
         }
 
-        $this->currentDate = $nextDate;
+        // 1. Always include dtstart (counter == 1)
+        // 2. Do not emit an event twice
+        if ($this->counter == 1 || ! $this->previousEvent || $nextDate != $this->previousEvent) {
+            $this->previousEvent = $nextDate;
+            $this->currentDate = $nextDate;
+        } else {
+            $this->next();
+        }
 
     }
 
