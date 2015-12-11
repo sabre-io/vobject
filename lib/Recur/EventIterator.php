@@ -69,9 +69,9 @@ class EventIterator implements \Iterator {
      * We have to remember the previous time. Because every time should be only
      * emitted once
      *
-     * @var DateTimeZone
+     * @var DateTime
      */
-    protected $previousEvent = false;
+    protected $previousEvent;
 
     /**
      * True if we're iterating an all-day event.
