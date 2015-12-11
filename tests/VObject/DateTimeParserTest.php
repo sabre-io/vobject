@@ -165,7 +165,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @dataProvider vcardDates
      * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testBadVCardDate() {
@@ -175,7 +174,6 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @dataProvider vcardDates
      * @expectedException \Sabre\VObject\InvalidDataException
      */
     function testBadVCardTime() {

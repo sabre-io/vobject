@@ -504,4 +504,11 @@ class EventIterator implements \Iterator {
      */
     protected $nextDate;
 
+    /**
+     * The event that overwrites the current iteration
+     *
+     * @var VEVENT
+     */
+    protected $currentOverriddenEvent;
+
 }

@@ -403,7 +403,6 @@ VCARD
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        // vCard 2.1 is not supported yet, so this returns a failure.
         $this->assertEquals(
             2,
             $this->cli->main(['vobject', 'convert', '--format=vcard21', '--pretty', '-'])
@@ -449,7 +448,7 @@ VCARD
     );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
-        // vCard 2.1 is not supported yet, so this returns a failure.
+        // vCard 2.0 is not supported yet, so this returns a failure.
         $this->assertEquals(
             2,
             $this->cli->main(['vobject', 'validate', '-'])
@@ -470,7 +469,7 @@ VCARD
     );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
-        // vCard 2.1 is not supported yet, so this returns a failure.
+
         $this->assertEquals(
             2,
             $this->cli->main(['vobject', 'validate', '-'])
@@ -491,7 +490,7 @@ VCARD
     );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
-        // vCard 2.1 is not supported yet, so this returns a failure.
+
         $this->assertEquals(
             2,
             $this->cli->main(['vobject', 'repair', '-'])
@@ -520,7 +519,6 @@ VCARD
     );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
-        // vCard 2.1 is not supported yet, so this returns a failure.
 
         $result = $this->cli->main(['vobject', 'repair', '-']);
 
@@ -568,7 +566,6 @@ VCARD
     );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
-        // vCard 2.1 is not supported yet, so this returns a failure.
 
         $result = $this->cli->main(['vobject', 'color', '-']);
 
@@ -611,7 +608,6 @@ VCARD
     );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
-        // vCard 2.1 is not supported yet, so this returns a failure.
 
         $result = $this->cli->main(['vobject', 'color', '-']);
 
@@ -628,8 +624,6 @@ VCARD
 }
 
 class CliMock extends Cli {
-
-    public $log = [];
 
     public $quiet = false;
 

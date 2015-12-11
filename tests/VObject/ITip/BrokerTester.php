@@ -55,7 +55,7 @@ abstract class BrokerTester extends \Sabre\VObject\TestCase {
         $message->message = $vcal;
         $message->method = isset($vcal->METHOD) ? $vcal->METHOD->getValue() : null;
         $message->component = $mainComponent->name;
-        $message->uid = $mainComponent->uid->getValue();
+        $message->uid = $mainComponent->UID->getValue();
         $message->sequence = isset($vcal->VEVENT[0]) ? (string)$vcal->VEVENT[0]->SEQUENCE : null;
 
         if ($message->method === 'REPLY') {

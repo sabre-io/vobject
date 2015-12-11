@@ -139,12 +139,12 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
             'FREQ=DAILY;BYMONTH=9,10;BYDAY=SU',
             '2007-10-04 16:00:00',
             [
-                "2013-09-29 16:00:00",
-                "2013-10-06 16:00:00",
-                "2013-10-13 16:00:00",
-                "2013-10-20 16:00:00",
-                "2013-10-27 16:00:00",
-                "2014-09-07 16:00:00"
+                '2013-09-29 16:00:00',
+                '2013-10-06 16:00:00',
+                '2013-10-13 16:00:00',
+                '2013-10-20 16:00:00',
+                '2013-10-27 16:00:00',
+                '2014-09-07 16:00:00'
             ],
             '2013-09-28'
         );
@@ -487,7 +487,7 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
             'FREQ=MONTHLY;INTERVAL=1;UNTIL=20071030T035959Z;BYDAY=5TU',
             '2007-10-04 14:46:42',
             [
-                "2007-10-04 14:46:42",
+                '2007-10-04 14:46:42',
             ]
         );
 
@@ -580,7 +580,7 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    function testUntilBeginHAsTimezone() {
+    function testUntilBeginHasTimezone() {
 
         $this->parse(
             'FREQ=WEEKLY;UNTIL=20131118T183000',
