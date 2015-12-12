@@ -18,7 +18,7 @@ END:VCARD\r
 VCF;
 
         $vobj = Reader::read($input);
-        $output = $vobj->serialize($input);
+        $output = $vobj->serialize();
 
         $this->assertEquals($input, $output);
 
@@ -35,7 +35,7 @@ END:VCARD
 VCF;
 
         $vobj = Reader::read($input);
-        $output = $vobj->serialize($input);
+        $output = $vobj->serialize();
 
         $expected = <<<VCF
 BEGIN:VCARD\r

@@ -172,4 +172,11 @@ class RDateIterator implements Iterator {
 
     }
 
+    /**
+     * Array with the RRULE dates
+     *
+     * @var array
+     */
+    protected $dates = [];
+
 }

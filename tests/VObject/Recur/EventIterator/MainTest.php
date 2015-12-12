@@ -22,7 +22,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $this->assertTrue($it->isInfinite());
 
@@ -44,7 +44,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $ev->add($dtStart);
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
     }
 
@@ -84,7 +84,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         $ev->add($dtStart);
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, $ev->uid);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Max is to prevent overflow
         $max = 12;
@@ -137,7 +137,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, $ev->uid);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Max is to prevent overflow
         $max = 12;
@@ -184,7 +184,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, $ev->uid);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Max is to prevent overflow
         $max = 12;
@@ -226,7 +226,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -279,7 +279,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -332,7 +332,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -385,7 +385,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         // Max is to prevent overflow
         $max = 12;
@@ -436,7 +436,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         // Grabbing the next 12 items
         $max = 15;
@@ -492,7 +492,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -545,7 +545,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -598,7 +598,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 14;
         $result = [];
@@ -644,7 +644,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 14;
         $result = [];
@@ -697,7 +697,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 14;
         $result = [];
@@ -750,11 +750,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 20;
         $result = [];
-        foreach ($it as $k => $item) {
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -806,11 +806,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 20;
         $result = [];
-        foreach ($it as $k => $item) {
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -856,11 +856,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 20;
         $result = [];
-        foreach ($it as $k => $item) {
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -906,11 +906,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 20;
         $result = [];
-        foreach ($it as $k => $item) {
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -956,11 +956,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 20;
         $result = [];
-        foreach ($it as $k => $item) {
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -999,11 +999,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 20;
         $result = [];
-        foreach ($it as $k => $item) {
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -1047,11 +1047,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 20;
         $result = [];
-        foreach ($it as $k => $item) {
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -1095,7 +1095,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         // The idea is that we're fast-forwarding too far in the future, so
         // there will be no results left.
@@ -1113,7 +1113,6 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         }
 
-        $tz = new DateTimeZone('UTC');
         $this->assertEquals([], $result);
 
     }
@@ -1144,11 +1143,11 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string)$ev->uid);
+        $it = new EventIterator($vcal, (string)$ev->UID);
 
         $max = 20;
         $result = [];
-        foreach ($it as $k => $item) {
+        foreach ($it as $item) {
 
             $result[] = $item;
             $max--;
@@ -1335,7 +1334,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
         // We stop the loop when it hits the 6th of februari. Normally this
         // iterator would hit 24, 25 (overriden from 31) and 7 feb but because
         // we 'filter' from the 28th till the 6th, we should get 0 results.
-        while ($it->valid() && $it->getDTSTart() < new DateTimeImmutable('2012-02-06 23:00:00')) {
+        while ($it->valid() && $it->getDTStart() < new DateTimeImmutable('2012-02-06 23:00:00')) {
 
             $dates[] = $it->getDTStart();
             $summaries[] = (string)$it->getEventObject()->SUMMARY;
@@ -1368,7 +1367,7 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, $ev->uid);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Max is to prevent overflow
         $max = 12;

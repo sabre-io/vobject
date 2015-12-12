@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
-class BrokerNewEventTest extends \PHPUnit_Framework_TestCase {
+class BrokerNewEventTest extends BrokerTester {
 
     function testNoAttendee() {
 
@@ -101,7 +101,6 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $expected = [];
         $this->parse($message, []);
 
     }
@@ -126,7 +125,6 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $expected = [];
         $this->parse($message, []);
 
     }
@@ -477,29 +475,7 @@ ICS;
 
     function parse($message, $expected = []) {
 
-        $broker = new Broker();
-        $result = $broker->parseEvent($message, 'mailto:strunk@example.org');
-
-        $this->assertEquals(count($expected), count($result));
-
-        foreach ($expected as $index => $ex) {
-
-            $message = $result[$index];
-
-            foreach ($ex as $key => $val) {
-
-                if ($key === 'message') {
-                    $this->assertEquals(
-                        str_replace("\n", "\r\n", $val),
-                        rtrim($message->message->serialize(), "\r\n")
-                    );
-                } else {
-                    $this->assertEquals($val, $message->$key);
-                }
-
-            }
-
-        }
+        parent::parse(null, $message, $expected, 'mailto:strunk@example.org');
 
     }
 
