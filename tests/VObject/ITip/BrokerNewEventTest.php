@@ -15,7 +15,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->parse($message);
+        $result = $this->parse(null, $message, []);
 
     }
 
@@ -29,7 +29,7 @@ END:VTODO
 END:VCALENDAR
 ICS;
 
-        $result = $this->parse($message);
+        $result = $this->parse(null, $message, []);
 
     }
 
@@ -76,7 +76,7 @@ ICS;
             ],
         ];
 
-        $result = $this->parse($message, $expected);
+        $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -101,7 +101,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->parse($message, []);
+        $this->parse(null, $message, [], 'mailto:strunk@example.org');
 
     }
     /**
@@ -125,7 +125,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->parse($message, []);
+        $this->parse(null, $message, [], 'mailto:strunk@example.org');
 
     }
 
@@ -247,7 +247,7 @@ ICS
             ],
         ];
 
-        $result = $this->parse($message, $expected);
+        $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -369,7 +369,7 @@ ICS
             ],
         ];
 
-        $result = $this->parse($message, $expected);
+        $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -389,8 +389,7 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = [];
-        $result = $this->parse($message, $expected);
+        $this->parse(null, $message, [], 'mailto:strunk@example.org');
 
     }
 
@@ -422,7 +421,7 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $result = $this->parse($message, []);
+        $this->parse(null, $message, [], 'mailto:strunk@example.org');
 
     }
 
@@ -454,7 +453,7 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $result = $this->parse($message, []);
+        $this->parse(null, $message, [], 'mailto:strunk@example.org');
 
     }
     function testNoOrganizerHasAttendee() {
@@ -469,13 +468,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->parse($message, []);
-
-    }
-
-    function parse($message, $expected = []) {
-
-        parent::parse(null, $message, $expected, 'mailto:strunk@example.org');
+        $this->parse(null, $message, [], 'mailto:strunk@example.org');
 
     }
 
