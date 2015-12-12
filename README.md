@@ -6,6 +6,28 @@ and [vCard](https://tools.ietf.org/html/rfc6350) objects using PHP.
 
 The goal of the VObject library is to create a very complete library, with an easy to use API.
 
+
+Installation
+------------
+
+Make sure you have [Composer][1] installed, and then run:
+
+    composer require sabre/vobject "^4.0"
+
+This package requires PHP 5.5. If you need the PHP 5.3/5.4 version of this package instead, use:
+
+
+    composer require sabre/vobject "^3.4"
+
+
+Usage
+-----
+
+* [Working with vCards](http://sabre.io/vobject/vcard/)
+* [Working with iCalendar](http://sabre.io/vobject/icalendar/)
+
+
+
 Build status
 ------------
 
@@ -18,21 +40,6 @@ Build status
 | 2.0    | [![Build Status](https://travis-ci.org/fruux/sabre-vobject.svg?branch=2.0)](https://travis-ci.org/fruux/sabre-vobject) |
 
 
-Installation
-------------
-
-Make sure you have [Composer][1] installed, and then run:
-
-    composer require sabre/vobject "^3.4"
-
-This package requires PHP 5.3.
-
-Usage
------
-
-* [3.x documentation](http://sabre.io/vobject/usage/)
-* [2.x documentation](http://sabre.io/vobject/usage_2/)
-* [Migrating from 2.x to 3.x](http://sabre.io/vobject/upgrade/)
 
 Support
 -------
