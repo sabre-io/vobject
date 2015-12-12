@@ -182,15 +182,15 @@ class Component extends Node {
      * Returns a flat list of all the properties and components in this
      * component.
      *
-     * @return array
+     * @return \Traversable
      */
     function children() {
 
-        $result = [];
         foreach ($this->children as $childGroup) {
-            $result = array_merge($result, $childGroup);
+            foreach($childGroup as $child) {
+                yield $child;
+            }
         }
-        return $result;
 
     }
 
@@ -198,20 +198,17 @@ class Component extends Node {
      * This method only returns a list of sub-components. Properties are
      * ignored.
      *
-     * @return array
+     * @return \Traversable
      */
     function getComponents() {
-
-        $result = [];
 
         foreach ($this->children as $childGroup) {
             foreach ($childGroup as $child) {
                 if ($child instanceof self) {
-                    $result[] = $child;
+                    yield $child;
                 }
             }
         }
-        return $result;
 
     }
 
@@ -225,8 +222,14 @@ class Component extends Node {
      * string ("HOME.EMAIL"). If you want to search on a specific property that
      * has not been assigned a group, specify ".EMAIL".
      *
+     * Examples:
+     *    select('EMAIL');
+     *    select('home.EMAIL');
+     *    select('.EMAIL');
+     *    select('home.');
+     *
      * @param string $name
-     * @return array
+     * @return \Traversable
      */
     function select($name) {
 
@@ -239,40 +242,42 @@ class Component extends Node {
 
         if (!is_null($name)) {
 
-            $result = isset($this->children[$name]) ? $this->children[$name] : [];
+            if (!isset($this->children[$name])) {
+                return;
+            }
 
             if (is_null($group)) {
-                return $result;
+                foreach($this->children[$name] as $child) {
+                    yield $child;
+                }
+                return;
             } else {
                 // If we have a group filter as well, we need to narrow it down
                 // more.
-                return array_filter(
-                    $result,
-                    function($child) use ($group) {
+                foreach ($this->children[$name] as $child) {
 
-                        return $child instanceof Property && strtoupper($child->group) === $group;
-
+                    if ($child instanceof Property && strtoupper($child->group) === $group) {
+                        yield $child;
                     }
-                );
+                }
+                return;
             }
 
         }
 
         // If we got to this point, it means there was no 'name' specified for
         // searching, implying that this is a group-only search.
-        $result = [];
         foreach ($this->children as $childGroup) {
 
             foreach ($childGroup as $child) {
 
                 if ($child instanceof Property && strtoupper($child->group) === $group) {
-                    $result[] = $child;
+                    yield $child;
                 }
 
             }
 
         }
-        return $result;
 
     }
 
@@ -456,7 +461,6 @@ class Component extends Node {
      * $event = $calendar->VEVENT;
      *
      * @param string $name
-     *
      * @return Property
      */
     function __get($name) {
@@ -473,7 +477,7 @@ class Component extends Node {
         } else {
             $firstMatch = current($matches);
             /** @var $firstMatch Property */
-            $firstMatch->setIterator(new ElementList(array_values($matches)));
+            $firstMatch->setIterator($matches);
             return $firstMatch;
         }
 
@@ -488,8 +492,7 @@ class Component extends Node {
      */
     function __isset($name) {
 
-        $matches = $this->select($name);
-        return count($matches) > 0;
+        return $this->select($name)->valid();
 
     }
 

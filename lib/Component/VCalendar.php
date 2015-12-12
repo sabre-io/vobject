@@ -173,7 +173,7 @@ class VCalendar extends VObject\Document {
      *
      * @param string $componentName filter by component name
      *
-     * @return VObject\Component[]
+     * @return Traversable
      */
     function getBaseComponents($componentName = null) {
 
@@ -193,14 +193,15 @@ class VCalendar extends VObject\Document {
         };
 
         if ($componentName) {
-            // Early exit
-            return array_filter(
-                $this->select($componentName),
-                $isBaseComponent
-            );
+
+            foreach($this->select($componentName) as $component) {
+                if ($isBaseComponent($component)) {
+                    yield $component;
+                }
+                return;
+            }
         }
 
-        $components = [];
         foreach ($this->children as $childGroup) {
 
             foreach ($childGroup as $child) {
@@ -211,13 +212,12 @@ class VCalendar extends VObject\Document {
                     continue 2;
                 }
                 if ($isBaseComponent($child)) {
-                    $components[] = $child;
+                    yield $child;
                 }
 
             }
 
         }
-        return $components;
 
     }
 
