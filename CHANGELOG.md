@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-4.0.0 (????-??-??)
+4.0.0 (2015-12-11)
 ------------------
 
 * #274: When creating new vCards, the default vCard version is now 4.0.
