@@ -335,7 +335,7 @@ class Component extends Node {
 
         };
 
-        $children = $this->children();
+        $children = iterator_to_array($this->children());
         $tmp = $children;
         uksort(
             $children,
@@ -471,13 +471,13 @@ class Component extends Node {
 
         }
 
-        $matches = $this->select($name);
-        if (count($matches) === 0) {
+        $matches = iterator_to_array($this->select($name));
+        if (empty($matches)) {
             return;
         } else {
             $firstMatch = current($matches);
             /** @var $firstMatch Property */
-            $firstMatch->setIterator($matches);
+            $firstMatch->setIterator(new ElementList($matches));
             return $firstMatch;
         }
 

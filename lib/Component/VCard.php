@@ -230,8 +230,7 @@ class VCard extends VObject\Document {
             self::VCARD40 => '4.0',
         ];
 
-        $version = $this->select('VERSION');
-        if (count($version) === 1) {
+        if (isset($this->children['VERSION'])) {
             $version = (string)$this->VERSION;
             if ($version !== '2.1' && $version !== '3.0' && $version !== '4.0') {
                 $warnings[] = [
@@ -253,7 +252,7 @@ class VCard extends VObject\Document {
 
         }
         $uid = $this->select('UID');
-        if (count($uid) === 0) {
+        if (!$uid->valid()) {
             if ($options & self::PROFILE_CARDDAV) {
                 // Required for CardDAV
                 $warningLevel = 3;
@@ -275,10 +274,10 @@ class VCard extends VObject\Document {
         }
 
         $fn = $this->select('FN');
-        if (count($fn) !== 1) {
+        if (!$fn->valid()) {
 
             $repaired = false;
-            if (($options & self::REPAIR) && count($fn) === 0) {
+            if ($options & self::REPAIR) {
                 // We're going to try to see if we can use the contents of the
                 // N property.
                 if (isset($this->N)) {

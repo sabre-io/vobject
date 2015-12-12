@@ -583,7 +583,7 @@ HELP
 
         };
 
-        $children = $vObj->children();
+        $children = iterator_to_array($vObj->children());
         $tmp = $children;
         uksort(
             $children,

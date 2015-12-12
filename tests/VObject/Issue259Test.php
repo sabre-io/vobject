@@ -11,9 +11,9 @@ class Issue259Test extends \PHPUnit_Framework_TestCase {
 
         $vcalendar = $parser->parse();
         $eventAsArray = $vcalendar->select('VEVENT');
-        $event = reset($eventAsArray);
+        $event = $eventAsArray->current();
         $rruleAsArray = $event->select('RRULE');
-        $rrule = reset($rruleAsArray);
+        $rrule = $rruleAsArray->current();
         $this->assertNotNull($rrule);
         $this->assertEquals($rrule->getValue(), 'FREQ=MONTHLY;UNTIL=20160101T220000Z');
     }

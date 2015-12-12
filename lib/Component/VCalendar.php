@@ -541,21 +541,20 @@ class VCalendar extends VObject\Document {
     /**
      * Returns all components with a specific UID value.
      *
-     * @return array
+     * @return Traversable
      */
     function getByUID($uid) {
 
-        return array_filter($this->getComponents(), function($item) use ($uid) {
-
-            if (!$itemUid = $item->select('UID')) {
-                return false;
+        foreach($this->getComponents() as $item) {
+            $itemUid = $item->UID;
+            if (!$itemUid) {
+                continue;
             }
-            $itemUid = current($itemUid)->getValue();
-            return $uid === $itemUid;
-
-        });
+            if ($uid === $itemUid->getValue()) {
+               yield $item;
+            }
+        }
 
     }
-
 
 }

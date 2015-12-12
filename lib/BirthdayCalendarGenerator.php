@@ -116,7 +116,7 @@ class BirthdayCalendarGenerator {
         foreach ($this->objects as $object) {
 
             // Skip if there is no BDAY property.
-            if (!$object->select('BDAY')) {
+            if (!$object->select('BDAY')->valid()) {
                 continue;
             }
 
