@@ -13,6 +13,8 @@ ChangeLog
   `Sabre\VObject\Settings::$maxRecurrences` and is also honored by the
   FreeBusyGenerator.
 * #287: `expand()` did not work correctly on events with sub-components.
+* #282: We're now returning generators from functions such as `select()`,
+  `getComponents()`, `getBaseComponents()` and `select()`.
 
 
 4.0.0-beta1 (2015-12-02)
