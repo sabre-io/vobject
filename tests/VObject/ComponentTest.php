@@ -162,7 +162,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $comp->add($event2);
 
-        $this->assertEquals(2, count($comp->children()));
+        $this->assertEquals(2, count(iterator_to_array($comp->children())));
         $this->assertTrue($comp->vevent[1] instanceof Component);
         $this->assertEquals('Event 2', (string)$comp->vevent[1]->summary);
 
@@ -214,7 +214,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(1, count($comp->children()));
 
-        $bla = $comp->children()[0];
+        $bla = $comp->children()->current();
 
         $this->assertTrue($bla instanceof Property);
         $this->assertEquals('MYPROP', $bla->name);
@@ -230,7 +230,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(1, count($comp->children()));
 
-        $bla = $comp->children()[0];
+        $bla = $comp->children()->current();
 
         $this->assertInstanceOf('Sabre\\VObject\\Property', $bla);
         $this->assertEquals('MYPROP', $bla->name);
@@ -263,7 +263,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
         $comp->add($comp->createComponent('VEVENT'));
         $comp->add($comp->createComponent('VEVENT'));
 
-        $this->assertEquals(2, count($comp->children()));
+        $this->assertEquals(2, count(iterator_to_array($comp->children())));
 
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
 
@@ -296,7 +296,7 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
         unset($comp->vevent);
 
-        $this->assertEquals(0, count($comp->children()));
+        $this->assertEquals(0, count(iterator_to_array($comp->children())));
 
     }
 
@@ -317,8 +317,8 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
         $comp->add($comp->createComponent('VTODO'));
 
         $r = $comp->children();
-        $this->assertInternalType('array', $r);
-        $this->assertEquals(2, count($r));
+        $this->assertInstanceOf('Traversable', $r);
+        $this->assertEquals(2, count(iterator_to_array($r)));
     }
 
     function testGetComponents() {
@@ -329,7 +329,8 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
         $comp->add($comp->createComponent('VTODO'));
 
         $r = $comp->getComponents();
-        $this->assertInternalType('array', $r);
+        $this->assertInstanceOf('Traversable', $r);
+        $r = iterator_to_array($r);
         $this->assertEquals(1, count($r));
         $this->assertEquals('VTODO', $r[0]->name);
     }

@@ -12,7 +12,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertEquals(0, count($result->children()));
+        $this->assertFalse($result->children()->valid());
 
     }
 
@@ -28,7 +28,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertEquals(0, count($result->children()));
+        $this->assertFalse($result->children()->valid());
 
     }
 
@@ -40,7 +40,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertEquals(0, count($result->children()));
+        $this->assertFalse($result->children()->valid());
 
     }
 
@@ -52,7 +52,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertEquals(0, count($result->children()));
+        $this->assertFalse($result->children()->valid());
 
     }
 
@@ -149,9 +149,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result->children()[0]);
-        $this->assertEquals('PROPNAME', $result->children()[0]->name);
-        $this->assertEquals('propValue', $result->children()[0]->getValue());
+        $this->assertInstanceOf('Sabre\\VObject\\Property', $result->children()->current());
+        $this->assertEquals('PROPNAME', $result->children()->current()->name);
+        $this->assertEquals('propValue', $result->children()->current()->getValue());
 
     }
 
@@ -171,11 +171,11 @@ class ReaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result->children()[0]);
-        $this->assertEquals('VTIMEZONE', $result->children()[0]->name);
-        $this->assertEquals(1, count($result->children()[0]->children()));
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result->children()[0]->children()[0]);
-        $this->assertEquals('DAYLIGHT', $result->children()[0]->children()[0]->name);
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result->children()->current());
+        $this->assertEquals('VTIMEZONE', $result->children()->current()->name);
+        $this->assertEquals(1, count($result->children()->current()->children()));
+        $this->assertInstanceOf('Sabre\\VObject\\Component', $result->children()->current()->children()->current());
+        $this->assertEquals('DAYLIGHT', $result->children()->current()->children()->current()->name);
 
 
     }
@@ -444,7 +444,6 @@ ICS;
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertEquals(0, count($result->children()));
 
     }
 
@@ -462,7 +461,6 @@ XML;
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertEquals(0, count($result->children()));
 
     }
 
@@ -484,7 +482,6 @@ XML;
 
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertEquals(0, count($result->children()));
 
     }
 

@@ -127,7 +127,7 @@ class VCardConverter {
                     // group, so we first need to find a groupname that doesn't
                     // exist yet.
                     $x = 1;
-                    while ($output->select('ITEM' . $x . '.')) {
+                    while ($output->select('ITEM' . $x . '.')->valid()) {
                         $x++;
                     }
                     $output->add('ITEM' . $x . '.X-ABDATE', $newProperty->getValue(), ['VALUE' => 'DATE-AND-OR-TIME']);
