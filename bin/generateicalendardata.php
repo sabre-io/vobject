@@ -31,9 +31,7 @@ fwrite(STDERR, "Generating " . $events . " events\n");
 
 $currentDate = new DateTime('-' . round($events / 2) .  ' days');
 
-$calendar = VObject\Component::create('VCALENDAR');
-$calendar->version = '2.0';
-$calendar->calscale = 'GREGORIAN';
+$calendar = new VObject\Component\VCalendar();
 
 $ii = 0;
 
@@ -41,7 +39,7 @@ while ($ii < $events) {
 
     $ii++;
 
-    $event = VObject\Component::create('VEVENT');
+    $event = $calendar->add('VEVENT');
     $event->DTSTART = 'bla';
     $event->SUMMARY = 'Event #' . $ii;
     $event->UID = md5(microtime(true));
@@ -55,8 +53,9 @@ while ($ii < $events) {
             $dtStart = clone $currentDate;
             $dtEnd = clone $currentDate;
             $dtEnd->modify('+' . mt_rand(1, 3) . ' days');
-            $event->DTSTART->setDateTime($dtStart, VObject\Property\DateTime::DATE);
-            $event->DTEND->setDateTime($dtEnd, VObject\Property\DateTime::DATE);
+            $event->DTSTART->setDateTime($dtStart);
+            $event->DTSTART['VALUE'] = 'DATE';
+            $event->DTEND->setDateTime($dtEnd);
             break;
         case 2 :
             $event->RRULE = 'FREQ=DAILY;COUNT=' . mt_rand(1, 10);
@@ -64,13 +63,12 @@ while ($ii < $events) {
         default :
             $dtStart = clone $currentDate;
             $dtStart->setTime(mt_rand(1, 23), mt_rand(0, 59), mt_rand(0, 59));
-            $event->DTSTART->setDateTime($dtStart, VObject\Property\DateTime::UTC);
+            $event->DTSTART->setDateTime($dtStart);
             $event->DURATION = 'PT' . mt_rand(1, 3) . 'H';
             break;
 
     }
     
-    $calendar->add($event);
     $currentDate->modify('+ ' . mt_rand(0, 3) . ' days');
 
 }
