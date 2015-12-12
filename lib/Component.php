@@ -187,7 +187,7 @@ class Component extends Node {
     function children() {
 
         foreach ($this->children as $childGroup) {
-            foreach($childGroup as $child) {
+            foreach ($childGroup as $child) {
                 yield $child;
             }
         }
@@ -247,7 +247,7 @@ class Component extends Node {
             }
 
             if (is_null($group)) {
-                foreach($this->children[$name] as $child) {
+                foreach ($this->children[$name] as $child) {
                     yield $child;
                 }
                 return;

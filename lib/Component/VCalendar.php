@@ -194,7 +194,7 @@ class VCalendar extends VObject\Document {
 
         if ($componentName) {
 
-            foreach($this->select($componentName) as $component) {
+            foreach ($this->select($componentName) as $component) {
                 if ($isBaseComponent($component)) {
                     yield $component;
                 }
@@ -545,7 +545,7 @@ class VCalendar extends VObject\Document {
      */
     function getByUID($uid) {
 
-        foreach($this->getComponents() as $item) {
+        foreach ($this->getComponents() as $item) {
             $itemUid = $item->UID;
             if (!$itemUid) {
                 continue;
