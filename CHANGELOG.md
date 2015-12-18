@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+4.0.1 (201?-??-??)
+------------------
+
+* #284: When generating `CANCEL` iTip messages, we now include `DTEND`.
+  (@kewisch)
+
+
 4.0.0 (2015-12-11)
 ------------------
 
