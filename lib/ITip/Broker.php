@@ -531,6 +531,11 @@ class Broker {
                     $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
                 }
                 $event->add(clone $calendar->VEVENT->DTSTART);
+                if (isset($calendar->VEVENT->DTEND)) {
+                    $event->add(clone $calendar->VEVENT->DTEND);
+                } elseif (isset($calendar->VEVENT->DURATION)) {
+                    $event->add(clone $calendar->VEVENT->DURATION);
+                }
                 $org = $event->add('ORGANIZER', $eventInfo['organizer']);
                 if ($eventInfo['organizerName']) $org['CN'] = $eventInfo['organizerName'];
                 $event->add('ATTENDEE', $attendee['href'], [
@@ -742,6 +747,11 @@ class Broker {
             if (isset($eventInfo['instances'][$instance['id']])) {
                 $instanceObj = $eventInfo['instances'][$instance['id']];
                 $event->add(clone $instanceObj->DTSTART);
+                if (isset($instanceObj->DTEND)) {
+                    $event->add(clone $instanceObj->DTEND);
+                } elseif (isset($instanceObj->DURATION)) {
+                    $event->add(clone $instanceObj->DURATION);
+                }
                 if (isset($instanceObj->SUMMARY)) {
                     $event->add('SUMMARY', $instanceObj->SUMMARY->getValue());
                 } elseif ($summary) {
