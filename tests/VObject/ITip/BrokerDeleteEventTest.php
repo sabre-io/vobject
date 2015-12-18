@@ -111,8 +111,8 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = [
-            [
+        $expected = array(
+            array(
                 'uid'           => 'foobar',
                 'method'        => 'CANCEL',
                 'component'     => 'VEVENT',
@@ -137,9 +137,9 @@ ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
 ICS
-            ],
+            ),
 
-            [
+            array(
                 'uid'           => 'foobar',
                 'method'        => 'CANCEL',
                 'component'     => 'VEVENT',
@@ -165,8 +165,8 @@ END:VEVENT
 END:VCALENDAR
 ICS
 
-            ],
-        ];
+            ),
+        );
 
         $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
@@ -195,8 +195,8 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $expected = [
-            [
+        $expected = array(
+            array(
                 'uid'           => 'foobar',
                 'method'        => 'REPLY',
                 'component'     => 'VEVENT',
@@ -221,8 +221,8 @@ ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
 ICS
-            ],
-        ];
+            ),
+        );
 
         $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
 
