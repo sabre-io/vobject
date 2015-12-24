@@ -68,7 +68,7 @@ ICS
 
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -218,7 +218,7 @@ ICS
 
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -361,7 +361,7 @@ ICS
 
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -396,7 +396,7 @@ ICS;
 
 
         $expected = [];
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -458,7 +458,7 @@ ICS
             ]
 
         ];
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -492,7 +492,7 @@ END:VCALENDAR
 ICS;
 
         $expected = [];
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -566,7 +566,7 @@ ICS
 
             ],
         ];
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -638,7 +638,7 @@ ICS
 
             ],
         ];
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -710,7 +710,7 @@ ICS
 
             ],
         ];
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -775,7 +775,7 @@ ICS
 
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -814,7 +814,7 @@ ICS;
 
         $expected = [];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -868,10 +868,9 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
         $expected = [];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -907,7 +906,7 @@ ICS;
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [];
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -972,7 +971,7 @@ ICS
 
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -1049,7 +1048,7 @@ ICS
 
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 
@@ -1109,8 +1108,6 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
-
         $expected = [
             [
                 'uid'           => 'foobar',
@@ -1143,7 +1140,7 @@ ICS
 
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected);
+        $this->parse($oldMessage, $newMessage, $expected);
 
     }
 }

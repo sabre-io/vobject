@@ -177,7 +177,6 @@ ICS
         );
 
         rewind($this->cli->stdout);
-        $version = Version::VERSION;
 
         // PHP 5.5.12 changed the output
 
@@ -280,7 +279,6 @@ VCF;
 
     function testConvertDefaultFormats() {
 
-        $inputStream = fopen('php://memory', 'r+');
         $outputFile = SABRE_TEMPDIR . 'bar.json';
 
         $this->assertEquals(

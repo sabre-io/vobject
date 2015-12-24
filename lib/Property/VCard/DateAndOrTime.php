@@ -94,9 +94,6 @@ class DateAndOrTime extends Property {
      */
     function setDateTime(DateTimeInterface $dt) {
 
-        $tz = null;
-        $isUtc = false;
-
         $tz = $dt->getTimeZone();
         $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
 
