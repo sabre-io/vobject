@@ -11,7 +11,7 @@
  * Some more info here:
  * http://evertpot.com/php-5-5-10-timezone-changes/
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
 return [

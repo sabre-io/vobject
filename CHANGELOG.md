@@ -94,7 +94,14 @@ ChangeLog
   and `IntegerValue` to allow PHP 7 compatibility.
 
 
-3.4.7 (2015-09-04)
+3.4.8 (201?-??-??)
+------------------
+
+* #284: When generating `CANCEL` iTip messages, we now include `DTEND`.
+  (@kewisch).
+
+
+3.4.7 (2015-09-05)
 ------------------
 
 * #253: Handle `isInTimeRange` for recurring events that have 0 valid

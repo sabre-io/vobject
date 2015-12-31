@@ -31,7 +31,7 @@ use Sabre\VObject\Recur\EventIterator;
  * 6. It can process a reply from an invite and update an events attendee
  *     status based on a reply.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

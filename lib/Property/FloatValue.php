@@ -11,7 +11,7 @@ use Sabre\Xml;
  * This object represents FLOAT values. These can be 1 or more floating-point
  * numbers.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
