@@ -7,7 +7,7 @@ use Sabre\VObject\Component\VCalendar;
 /**
  * This class generates birthday calendars.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Dominik Tobschall (http://tobschall.de/)
  * @license http://sabre.io/license/ Modified BSD License
  */

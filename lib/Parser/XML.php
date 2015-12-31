@@ -14,7 +14,7 @@ use Sabre\Xml as SabreXml;
  *
  * This parser parses both the xCal and xCard formats.
  *
- * @copyright Copyright (C) 2007-2014 fruux GmbH. All rights reserved.
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  */

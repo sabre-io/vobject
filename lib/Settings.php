@@ -11,7 +11,7 @@ namespace Sabre\VObject;
  * The global nature of them does mean that changing the settings for one
  * instance has a global influence.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

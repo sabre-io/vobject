@@ -14,7 +14,7 @@ use Sabre\VObject\Parser\MimeDir;
  * class checks for BEGIN:VCARD and END:VCARD and parses each encountered
  * component individually.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Dominik Tobschall (http://tobschall.de/)
  * @author Armin Hackmann
  * @license http://sabre.io/license/ Modified BSD License
