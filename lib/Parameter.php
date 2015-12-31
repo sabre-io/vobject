@@ -13,7 +13,7 @@ use
  *   DTSTART;VALUE=DATE:20101108
  * VALUE=DATE would be the parameter name and value.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

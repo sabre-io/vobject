@@ -11,7 +11,7 @@
  * directly, we use this file because DateTimeZone::ALL_WITH_BC is not properly
  * supported by all PHP version and HHVM.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
 return array(

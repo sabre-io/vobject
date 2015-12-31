@@ -18,7 +18,7 @@ namespace Sabre\VObject\Property;
  * vCard 4.0 states something similar. An unescaped semi-colon _may_ be a
  * delimiter, depending on the property.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

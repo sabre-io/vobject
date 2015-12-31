@@ -17,7 +17,7 @@ use Sabre\VObject\DateTimeParser;
  * For instance, passing: FREQ=DAILY;LIMIT=5 will cause the iterator to contain
  * 5 items, one for each day.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */

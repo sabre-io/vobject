@@ -8,7 +8,7 @@ namespace Sabre\VObject;
  * A property is always in a KEY:VALUE structure, and may optionally contain
  * parameters.
  *
- * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
