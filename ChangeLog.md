@@ -1,6 +1,16 @@
 ChangeLog
 =========
 
+3.5.0 (????-??-??)
+-----------------
+
+* This release supports PHP 7, contrary to 3.4.x versions.
+* BC Break: `Sabre\VObject\Property\Float` has been renamed to
+  `Sabre\VObject\Property\FloatValue`.
+* BC Break: `Sabre\VObject\Property\Integer` has been renamed to
+  `Sabre\VObject\Property\IntegerValue`.
+
+
 3.4.8 (2016-01-04)
 ------------------
 
