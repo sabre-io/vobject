@@ -45,8 +45,8 @@ class VCard extends VObject\Document {
         'DATE'             => 'Sabre\\VObject\\Property\\VCard\\Date',
         'DATE-TIME'        => 'Sabre\\VObject\\Property\\VCard\\DateTime',
         'DATE-AND-OR-TIME' => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime', // vCard only
-        'FLOAT'            => 'Sabre\\VObject\\Property\\Float',
-        'INTEGER'          => 'Sabre\\VObject\\Property\\Integer',
+        'FLOAT'            => 'Sabre\\VObject\\Property\\FloatValue',
+        'INTEGER'          => 'Sabre\\VObject\\Property\\IntegerValue',
         'LANGUAGE-TAG'     => 'Sabre\\VObject\\Property\\VCard\\LanguageTag',
         'TIMESTAMP'        => 'Sabre\\VObject\\Property\\VCard\\TimeStamp',
         'TEXT'             => 'Sabre\\VObject\\Property\\Text',

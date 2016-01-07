@@ -6,24 +6,16 @@ use
     Sabre\VObject\Property;
 
 /**
- * Float property
+ * Integer property
  *
- * This object represents FLOAT values. These can be 1 or more floating-point
- * numbers.
+ * This object represents INTEGER values. These are always a single integer.
+ * They may be preceeded by either + or -.
  *
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class Float extends Property {
-
-    /**
-     * In case this is a multi-value property. This string will be used as a
-     * delimiter.
-     *
-     * @var string|null
-     */
-    public $delimiter = ';';
+class IntegerValue extends Property {
 
     /**
      * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
@@ -36,11 +28,7 @@ class Float extends Property {
      */
     public function setRawMimeDirValue($val) {
 
-        $val = explode($this->delimiter, $val);
-        foreach($val as &$item) {
-            $item = (float)$item;
-        }
-        $this->setParts($val);
+        $this->setValue((int)$val);
 
     }
 
@@ -51,10 +39,7 @@ class Float extends Property {
      */
     public function getRawMimeDirValue() {
 
-        return implode(
-            $this->delimiter,
-            $this->getParts()
-        );
+        return $this->value;
 
     }
 
@@ -68,7 +53,7 @@ class Float extends Property {
      */
     public function getValueType() {
 
-        return "FLOAT";
+        return "INTEGER";
 
     }
 
@@ -81,24 +66,7 @@ class Float extends Property {
      */
     public function getJsonValue() {
 
-        $val = array_map(
-            function($item) {
-
-                return (float)$item;
-
-            },
-            $this->getParts()
-        );
-
-        // Special-casing the GEO property.
-        //
-        // See:
-        // http://tools.ietf.org/html/draft-ietf-jcardcal-jcal-04#section-3.4.1.2
-        if ($this->name==='GEO') {
-            return array($val);
-        } else {
-            return $val;
-        }
+        return array((int)$this->getValue());
 
     }
 }
