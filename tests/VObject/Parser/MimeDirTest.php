@@ -78,6 +78,22 @@ VCF;
 
     }
 
+    function testDecodeSupportedLowercaseInlineCharset() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+FN;CHARSET=utf-8:nothing
+END:VCARD\n
+VCF;
+
+        $mimeDir = new Mimedir();
+        $mimeDir->parse($vcard);
+
+        $this->assertEquals("nothing", $vcard->FN->getValue());
+
+    }
+
     /**
      * @expectedException \Sabre\VObject\ParseException
      */
