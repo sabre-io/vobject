@@ -49,6 +49,21 @@ VCF;
 
     }
 
+    function testIgnoreCharsetVCard30() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+FN;CHARSET=unknown:foo-bar - \xFC
+END:VCARD\n
+VCF;
+
+        $mimeDir = new Mimedir();
+        $vcard = $mimeDir->parse($vcard);
+        $this->assertEquals("foo-bar - \xFC", $vcard->FN->getValue());
+
+    }
+
     function testDontDecodeLatin1() {
 
         $vcard = <<<VCF
@@ -85,7 +100,7 @@ VCF;
 
         $vcard = <<<VCF
 BEGIN:VCARD
-VERSION:3.0
+VERSION:2.1
 FN;CHARSET=foobar:nothing
 END:VCARD\n
 VCF;
@@ -115,7 +130,7 @@ VCF;
 
         $vcard = <<<VCF
 BEGIN:VCARD
-VERSION:3.0
+VERSION:2.1
 FN;CHARSET=Windows-1252:Euro \x80
 END:VCARD\n
 VCF;

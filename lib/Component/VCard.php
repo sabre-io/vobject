@@ -161,8 +161,9 @@ class VCard extends VObject\Document {
                     $this->version = self::VCARD40;
                     break;
                 default :
-                    $this->version = self::UNKNOWN;
-                    break;
+                    // We don't want to cache the version if it's unknown,
+                    // because we might get a version property in a bit.
+                    return self::UNKNOWN;
             }
         }
 
