@@ -460,7 +460,7 @@ class MimeDir extends Parser {
             $propObj->setQuotedPrintableValue($this->extractQuotedPrintableValue());
         } else {
             $charset = $this->charset;
-            if ($this->root->getDocumentType()===Document::VCARD21 && isset($propObj['CHARSET'])) {
+            if ($this->root->getDocumentType() === Document::VCARD21 && isset($propObj['CHARSET'])) {
                 // vCard 2.1 allows the character set to be specified per property.
                 $charset = (string)$propObj['CHARSET'];
             }
