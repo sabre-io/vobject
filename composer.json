@@ -5,7 +5,7 @@
     "homepage" : "http://sabre.io/vobject/",
     "license" : "BSD-3-Clause",
     "require" : {
-        "php"          : ">=5.3.1,<7",
+        "php"          : ">=5.3.1",
         "ext-mbstring" : "*"
     },
     "require-dev" : {
