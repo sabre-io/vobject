@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-4.0.2 (????-??-??)
+4.0.2 (2016-01-11)
 ------------------
 
 * #288: Only decode `CHARSET` if we're reading vCard 2.1. If it appears
