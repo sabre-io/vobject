@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.5.0 (????-??-??)
+3.5.0 (2016-01-11)
 -----------------
 
 * This release supports PHP 7, contrary to 3.4.x versions.
