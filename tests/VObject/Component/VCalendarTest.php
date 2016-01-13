@@ -576,6 +576,55 @@ END:VCALENDAR
 
     }
 
+    function testGetBaseComponentWithFilter() {
+
+        $input = 'BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:foo
+METHOD:REQUEST
+BEGIN:VEVENT
+SUMMARY:test
+DTSTART;VALUE=DATE:20111202
+UID:foo
+DTSTAMP:20140122T234434Z
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20111202
+UID:foo
+DTSTAMP:20140122T234434Z
+RECURRENCE-ID;VALUE=DATE:20111202
+END:VEVENT
+END:VCALENDAR
+';
+
+        $vcal = VObject\Reader::read($input);
+
+        $result = $vcal->getBaseComponent('VEVENT');
+        $this->assertEquals('test', $result->SUMMARY->getValue());
+
+    }
+
+    function testGetBaseComponentWithFilterNoResult() {
+
+        $input = 'BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:foo
+METHOD:REQUEST
+BEGIN:VTODO
+SUMMARY:test
+UID:foo
+DTSTAMP:20140122T234434Z
+END:VTODO
+END:VCALENDAR
+';
+
+        $vcal = VObject\Reader::read($input);
+
+        $result = $vcal->getBaseComponent('VEVENT');
+        $this->assertNull($result);
+
+    }
+
     function testNoComponents() {
 
         $input = <<<ICS

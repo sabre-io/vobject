@@ -253,8 +253,8 @@ class VCalendar extends VObject\Document {
                 if ($isBaseComponent($child)) {
                     return $child;
                 }
-                return null;
             }
+            return null;
         }
 
         // Searching all components
