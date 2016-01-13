@@ -93,6 +93,18 @@ abstract class Property extends Node {
      */
     function setValue($value) {
 
+        if ($this->name != 'DESCRIPTION') {
+            if (is_string($value)) {
+                $value = trim($value, ' ');
+            }
+            if (is_array($value)) {
+                foreach ($value as $key => $val) {
+                    if (is_string($val)) {
+                        $value[$key] = trim($val, ' ');
+                    }
+                }
+            }
+        }
         $this->value = $value;
 
     }
