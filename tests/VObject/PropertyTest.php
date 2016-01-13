@@ -48,6 +48,31 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testSetValueWithWhiteSpaces() {
+
+        $cal = new VCalendar();
+
+        $property = $cal->createProperty('propname', 'propvalue');
+        $property->setValue(' value2 ');
+
+        $this->assertEquals('PROPNAME', $property->name);
+        $this->assertEquals('value2', $property->__toString());
+
+    }
+
+    function testSetArrayValueWithWhiteSpaces() {
+
+        $cal = new VCalendar();
+
+        $property = $cal->createProperty('propname', 'propvalue');
+        $property->setValue(array('value2 '));
+
+        $this->assertEquals('PROPNAME', $property->name);
+        $this->assertEquals('value2', $property->__toString());
+
+    }
+
+
     function testParameterExists() {
 
         $cal = new VCalendar();
