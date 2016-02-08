@@ -27,8 +27,8 @@ FN:umlaut u - \xFC
 END:VCARD\n
 VCF;
 
-        $mimeDir = new MimeDir();
-        $mimeDir->setCharset('ISO-8859-1');
+        $mimeDir = new Mimedir();
+        $mimeDir->setCharSet('ISO-8859-1');
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("umlaut u - \xC3\xBC", $vcard->FN->getValue());
 
@@ -43,7 +43,7 @@ FN;CHARSET=ISO-8859-1:umlaut u - \xFC
 END:VCARD\n
 VCF;
 
-        $mimeDir = new MimeDir();
+        $mimeDir = new Mimedir();
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("umlaut u - \xC3\xBC", $vcard->FN->getValue());
 
@@ -58,7 +58,7 @@ FN;CHARSET=unknown:foo-bar - \xFC
 END:VCARD\n
 VCF;
 
-        $mimeDir = new MimeDir();
+        $mimeDir = new Mimedir();
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("foo-bar - \xFC", $vcard->FN->getValue());
 
@@ -73,7 +73,7 @@ FN:umlaut u - \xFC
 END:VCARD\n
 VCF;
 
-        $mimeDir = new MimeDir();
+        $mimeDir = new Mimedir();
         $vcard = $mimeDir->parse($vcard);
         // This basically tests that we don't touch the input string if
         // the encoding was set to UTF-8. The result is actually invalid
@@ -88,8 +88,8 @@ VCF;
      */
     function testDecodeUnsupportedCharset() {
 
-        $mimeDir = new MimeDir();
-        $mimeDir->setCharset('foobar');
+        $mimeDir = new Mimedir();
+        $mimeDir->setCharSet('foobar');
 
     }
 
@@ -105,7 +105,7 @@ FN;CHARSET=foobar:nothing
 END:VCARD\n
 VCF;
 
-        $mimeDir = new MimeDir();
+        $mimeDir = new Mimedir();
         $mimeDir->parse($vcard);
 
     }
@@ -119,8 +119,8 @@ FN:Euro \x80
 END:VCARD\n
 VCF;
 
-        $mimeDir = new MimeDir();
-        $mimeDir->setCharset('Windows-1252');
+        $mimeDir = new Mimedir();
+        $mimeDir->setCharSet('Windows-1252');
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("Euro \xE2\x82\xAC", $vcard->FN->getValue());
 
@@ -135,7 +135,7 @@ FN;CHARSET=Windows-1252:Euro \x80
 END:VCARD\n
 VCF;
 
-        $mimeDir = new MimeDir();
+        $mimeDir = new Mimedir();
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("Euro \xE2\x82\xAC", $vcard->FN->getValue());
 

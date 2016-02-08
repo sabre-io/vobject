@@ -474,7 +474,7 @@ class MimeDir extends Parser {
                     $property['value'] = mb_convert_encoding($property['value'], 'UTF-8', $charset);
                     break;
                 default :
-                    throw new ParseException('Unsupported CHARSET: ' . $charset);
+                    throw new ParseException('Unsupported CHARSET: ' . $propObj['CHARSET']);
             }
             $propObj->setRawMimeDirValue($property['value']);
         }
