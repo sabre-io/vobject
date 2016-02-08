@@ -100,8 +100,6 @@ END:VEVENT
 END:VCALENDAR
 ';
 
-        $tests[] = [$input, $output];
-
         // Removing timezone info from sub-components. See Issue #278
         $input = 'BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
