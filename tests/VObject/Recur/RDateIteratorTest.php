@@ -38,8 +38,6 @@ class RDateIteratorTest extends \PHPUnit_Framework_TestCase {
             new DateTimeImmutable('2014-10-01 00:00:00', $tz),
         ];
 
-        $result = iterator_to_array($it);
-
         $this->assertEquals(
             $expected,
             iterator_to_array($it)
