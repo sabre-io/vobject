@@ -12,7 +12,7 @@ class MaxInstancesTest extends TestCase {
     /**
      * @expectedException \Sabre\VObject\Recur\MaxInstancesExceededException
      */
-    function testOverrideFirstEvent() {
+    function testExceedMaxRecurrences() {
 
         $input =  <<<ICS
 BEGIN:VCALENDAR

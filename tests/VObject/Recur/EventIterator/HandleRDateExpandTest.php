@@ -39,7 +39,7 @@ ICS;
 
         $vcal = $vcal->expand(new DateTime('2015-01-01'), new DateTime('2015-12-01'));
 
-        $result = iterator_to_array($vcal->vevent);
+        $result = iterator_to_array($vcal->VEVENT);
 
         $this->assertEquals(5, count($result));
 
@@ -52,7 +52,7 @@ ICS;
             new DateTimeImmutable("2015-10-20", $utc),
         ];
 
-        $result = array_map(function($ev) {return $ev->dtstart->getDateTime();}, $result);
+        $result = array_map(function($ev) {return $ev->DTSTART->getDateTime();}, $result);
         $this->assertEquals($expected, $result);
     
     }

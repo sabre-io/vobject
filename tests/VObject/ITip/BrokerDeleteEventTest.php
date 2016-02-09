@@ -86,7 +86,7 @@ ICS
             ],
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -172,7 +172,7 @@ ICS
             ],
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -229,12 +229,12 @@ ICS
             ],
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
 
 
     }
 
-    function testAttendeeDeleteWithDuration() {
+    function testAttendeeReplyWithDuration() {
 
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -287,7 +287,7 @@ ICS
             ],
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
 
 
     }
@@ -313,11 +313,9 @@ ICS;
 
         $newMessage = null;
 
-        $version = \Sabre\VObject\Version::VERSION;
-
         $expected = [];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
 
 
     }
