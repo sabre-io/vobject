@@ -411,6 +411,25 @@ class VCard extends VObject\Document {
     }
 
     /**
+     * Returns a property with a specific TYPE value (ADR, TEL, or EMAIL).
+     *
+     * This function will return null if the property does not exist. If there are
+     * multiple properties with the same TYPE value, only one will be returned.
+     *
+     * @param string $propertyName
+     * @param string $type
+     *
+     * @return VObject\Property|null
+     */
+    function getByType($propertyName, $type) {
+        foreach ($this->select($propertyName) as $field) {
+            if (isset($field['TYPE']) && $field['TYPE']->has($type)) {
+                return $field;
+            }
+        }
+    }
+
+    /**
      * This method should return a list of default property values.
      *
      * @return array
