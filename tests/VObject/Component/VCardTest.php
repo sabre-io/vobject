@@ -115,6 +115,22 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(VCard::UNKNOWN, $vcard->getDocumentType());
     }
 
+    function testGetByType() {
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+EMAIL;TYPE=home:1@example.org
+EMAIL;TYPE=work:2@example.org
+END:VCARD
+VCF;
+
+        $vcard = VObject\Reader::read($vcard);
+        $this->assertEquals('1@example.org', $vcard->getByType('EMAIL', 'home')->getValue());
+        $this->assertEquals('2@example.org', $vcard->getByType('EMAIL', 'work')->getValue());
+        $this->assertNull($vcard->getByType('EMAIL', 'non-existant'));
+        $this->assertNull($vcard->getByType('ADR', 'non-existant'));
+    }
+
     function testPreferredNoPref() {
 
         $vcard = <<<VCF
