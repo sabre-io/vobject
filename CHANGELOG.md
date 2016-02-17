@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+4.0.3 (????-??-??)
+------------------
+
+* 300: Added `VCard::getByType()` to quickly get a property with a specific
+  `TYPE` parameter. (@kbond).
+
+
 4.0.2 (2016-01-11)
 ------------------
 
