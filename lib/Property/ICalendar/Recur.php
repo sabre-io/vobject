@@ -168,7 +168,12 @@ class Recur extends Property {
 
         $values = [];
         foreach ($this->getParts() as $k => $v) {
-            $values[strtolower($k)] = $v;
+            if (strcmp($k, 'UNTIL') === 0) {
+                $date = new DateTime($this->root, null, $v);
+                $values[strtolower($k)] = $date->getJsonValue()[0];
+            } else {
+                $values[strtolower($k)] = $v;
+            }
         }
         return [$values];
 
