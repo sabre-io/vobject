@@ -54,7 +54,7 @@ class Recur extends Property {
                     if (strcmp($k, 'until') === 0) {
                         $v = strtr($v, [':' => '', '-' => '']);
                     }
-                } else {
+                } elseif (is_array($v)) {
                     $v = array_map('strtoupper', $v);
                 }
 
@@ -171,6 +171,8 @@ class Recur extends Property {
             if (strcmp($k, 'UNTIL') === 0) {
                 $date = new DateTime($this->root, null, $v);
                 $values[strtolower($k)] = $date->getJsonValue()[0];
+            } elseif (strcmp($k, 'COUNT') === 0) {
+                $values[strtolower($k)] = intval($v);
             } else {
                 $values[strtolower($k)] = $v;
             }
@@ -225,7 +227,6 @@ class Recur extends Property {
         }
 
         return $newValue;
-
     }
 
 }
