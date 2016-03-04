@@ -32,6 +32,34 @@ class RecurTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testSetValueWithCount() {
+        $vcal = new VCalendar();
+        $recur = $vcal->add('RRULE', 'FREQ=Daily');
+        $recur->setValue(['COUNT' => 3]);
+        $this->assertEquals($recur->getParts()['COUNT'], 3);
+    }
+
+    function testGetJSONWithCount() {
+        $input = 'BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:908d53c0-e1a3-4883-b69f-530954d6bd62
+TRANSP:OPAQUE
+DTSTART;TZID=Europe/Berlin:20160301T150000
+DTEND;TZID=Europe/Berlin:20160301T170000
+SUMMARY:test
+RRULE:FREQ=DAILY;COUNT=3
+ORGANIZER;CN=robert pipo:mailto:robert@pipo.com
+END:VEVENT
+END:VCALENDAR
+';
+
+        $vcal = Reader::read($input);
+        $rrule = $vcal->VEVENT->RRULE;
+        $count = $rrule->getJsonValue()[0]['count'];
+        $this->assertTrue(is_int($count));
+        $this->assertEquals(3, $count);
+    }
+
     function testSetSubParts() {
 
         $vcal = new VCalendar();
