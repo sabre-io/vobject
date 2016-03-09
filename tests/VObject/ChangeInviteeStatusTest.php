@@ -1,0 +1,352 @@
+<?php
+
+namespace Sabre\VObject;
+
+class ChangeInviteeStatusTest extends \PHPUnit_Framework_TestCase {
+
+    /**
+     * @return array
+     * @see testChangeStatusInvitee
+     */
+    public function providerChangeStatusInvitees() {
+
+        return array(
+            'First event' => array(
+                'after' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.9.5//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+ATTENDEE;CN=User Test1;CUTYPE=INDIVIDUAL;PARTSTAT=NEEDS-ACTION:mailto:invitee@company.name
+ATTENDEE;CN=User Test2;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:organizer@company.name
+DTEND:20160321T173000Z
+TRANSP:OPAQUE
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+UID:e66117e7-d7fb-7ac6-fd92-56d867b8830e
+DTSTAMP:20160303T193459Z
+SEQUENCE:0
+SUMMARY:test
+DTSTART:20160321T170000Z
+CREATED:20160303T163540Z
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20160323T235959Z
+END:VEVENT
+BEGIN:VEVENT
+CREATED:20160303T163540Z
+UID:e66117e7-d7fb-7ac6-fd92-56d867b8830e
+DTEND:20160321T173000Z
+TRANSP:OPAQUE
+ATTENDEE;CN=User Test1;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:mailto:invitee@company.name
+ATTENDEE;CN=User Test2;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:organizer@company.name
+SUMMARY:test
+DTSTART:20160321T170000Z
+DTSTAMP:20160303T163605Z
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+SEQUENCE:0
+RECURRENCE-ID:20160321T170000Z
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+                'old' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Minsk
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:e66117e7-d7fb-7ac6-fd92-56d867b8830e
+DTSTAMP:20160303T193459Z
+SUMMARY:test
+DTSTART:20160321T170000Z
+DURATION:PT30M
+ATTENDEE;CN=User Test1;PARTSTAT=NEEDS-ACTION:mailto:invitee@company.name
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test2;ROLE=CHAIR:mailto:organizer@company.name
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20160323T235959Z
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+                'reply' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:e66117e7-d7fb-7ac6-fd92-56d867b8830e
+SEQUENCE:0
+DTSTART:20160321T170000Z
+DTEND:20160321T173000Z
+SUMMARY:test
+RECURRENCE-ID:20160321T170000Z
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test1:mailto:invitee@company.name
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+                'addresses' => array('mailto:invitee@company.name'),
+                'before' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Minsk
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:e66117e7-d7fb-7ac6-fd92-56d867b8830e
+DTSTAMP:20160303T193459Z
+SUMMARY:test
+DTSTART:20160321T170000Z
+DURATION:PT30M
+ATTENDEE;CN=User Test1;PARTSTAT=NEEDS-ACTION:mailto:invitee@company.name
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test2;ROLE=CHAIR:mailto:organizer@company.name
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20160323T235959Z
+END:VEVENT
+BEGIN:VEVENT
+UID:e66117e7-d7fb-7ac6-fd92-56d867b8830e
+DTSTAMP:20160303T193459Z
+SUMMARY:test
+DTSTART:20160321T170000Z
+DURATION:PT30M
+ATTENDEE;CN=User Test1;PARTSTAT=ACCEPTED:mailto:invitee@company.name
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test2;ROLE=CHAIR:mailto:organizer@company.name
+RECURRENCE-ID:20160321T170000Z
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+            ),
+            'Second event' => array(
+                'after' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.9.5//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+ATTENDEE;CN=User Test1;CUTYPE=INDIVIDUAL;PARTSTAT=NEEDS-ACTION:mailto:invitee@company.name
+ATTENDEE;CN=User Test2;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:organizer@company.name
+DTEND:20160314T150000Z
+TRANSP:OPAQUE
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+UID:af0384f7-f88a-8e2a-b9de-56d998e086dd
+DTSTAMP:20160304T171408Z
+SEQUENCE:0
+SUMMARY:test
+DTSTART:20160314T143000Z
+CREATED:20160304T141710Z
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20160316T235959Z
+END:VEVENT
+BEGIN:VEVENT
+CREATED:20160304T141710Z
+UID:af0384f7-f88a-8e2a-b9de-56d998e086dd
+DTEND:20160315T150000Z
+TRANSP:OPAQUE
+ATTENDEE;CN=User Test1;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:mailto:invitee@company.name
+ATTENDEE;CN=User Test2;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:organizer@company.name
+SUMMARY:test
+DTSTART:20160315T143000Z
+DTSTAMP:20160304T141718Z
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+SEQUENCE:0
+RECURRENCE-ID:20160315T143000Z
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+                'old' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Minsk
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:af0384f7-f88a-8e2a-b9de-56d998e086dd
+DTSTAMP:20160304T171408Z
+SUMMARY:test
+DTSTART:20160314T143000Z
+DURATION:PT30M
+ATTENDEE;CN=User Test1;PARTSTAT=NEEDS-ACTION:mailto:invitee@company.name
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test2;ROLE=CHAIR:mailto:organizer@company.name
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20160316T235959Z
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+                'reply' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:af0384f7-f88a-8e2a-b9de-56d998e086dd
+SEQUENCE:0
+DTSTART:20160315T143000Z
+DTEND:20160315T150000Z
+SUMMARY:test
+RECURRENCE-ID:20160315T143000Z
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test1:mailto:invitee@company.name
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+                'addresses' => array('mailto:invitee@company.name'),
+                'before' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Minsk
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:af0384f7-f88a-8e2a-b9de-56d998e086dd
+DTSTAMP:20160304T171408Z
+SUMMARY:test
+DTSTART:20160314T143000Z
+DURATION:PT30M
+ATTENDEE;CN=User Test1;PARTSTAT=NEEDS-ACTION:mailto:invitee@company.name
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test2;ROLE=CHAIR:mailto:organizer@company.name
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20160316T235959Z
+END:VEVENT
+BEGIN:VEVENT
+UID:af0384f7-f88a-8e2a-b9de-56d998e086dd
+DTSTAMP:20160304T171408Z
+SUMMARY:test
+DTSTART:20160315T143000Z
+DURATION:PT30M
+ATTENDEE;CN=User Test1;PARTSTAT=ACCEPTED:mailto:invitee@company.name
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test2;ROLE=CHAIR:mailto:organizer@company.name
+RECURRENCE-ID:20160315T143000Z
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+            ),
+            'All events' => array(
+                'after' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//Mac OS X 10.9.5//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:ef04f41a-a8f7-b559-d8ab-56d99c8e8ef3
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20160316T235959Z
+DTEND:20160314T153000Z
+TRANSP:OPAQUE
+ATTENDEE;CN=User Test1;CUTYPE=INDIVIDUAL;PARTSTAT=TENTATIVE:mailto:invitee@company.name
+ATTENDEE;CN=User Test2;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:organizer@company.name
+SUMMARY:test
+DTSTART:20160314T150000Z
+DTSTAMP:20160304T173347Z
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+                'old' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Minsk
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:ef04f41a-a8f7-b559-d8ab-56d99c8e8ef3
+DTSTAMP:20160304T173347Z
+SUMMARY:test
+DTSTART:20160314T150000Z
+DURATION:PT30M
+ATTENDEE;CN=User Test1;PARTSTAT=NEEDS-ACTION:mailto:invitee@company.name
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test2;ROLE=CHAIR:mailto:organizer@company.name
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20160316T235959Z
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+                'reply' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:ef04f41a-a8f7-b559-d8ab-56d99c8e8ef3
+SEQUENCE:0
+DTSTART:20160314T150000Z
+DTEND:20160314T153000Z
+SUMMARY:test
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=TENTATIVE;CN=User Test1:mailto:invitee@company.name
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+                'addresses' => array('mailto:invitee@company.name'),
+                'before' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 3.5.0//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Minsk
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:ef04f41a-a8f7-b559-d8ab-56d99c8e8ef3
+DTSTAMP:20160304T173347Z
+SUMMARY:test
+DTSTART:20160314T150000Z
+DURATION:PT30M
+ATTENDEE;CN=User Test1;PARTSTAT=TENTATIVE;SCHEDULE-STATUS=2.0:mailto:invitee@company.name
+ORGANIZER;CN=User Test2:mailto:organizer@company.name
+ATTENDEE;PARTSTAT=ACCEPTED;CN=User Test2;ROLE=CHAIR:mailto:organizer@company.name
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20160316T235959Z
+END:VEVENT
+END:VCALENDAR
+ICS
+                ,
+            ),
+        );
+    }
+
+    /**
+     * @param string $after
+     * @param string $old
+     * @param string $reply
+     * @param array  $addresses
+     * @param string $before
+     * @dataProvider providerChangeStatusInvitees
+     */
+    public function testChangeStatusInvitee($after, $old, $reply, $addresses, $before) {
+
+        $afterVCal = Reader::read($after);
+        $oldVCal = Reader::read($old);
+
+        $broker = new ITip\Broker();
+        $messages = $broker->parseEvent($afterVCal, $addresses, $oldVCal);
+        $iTipMessage = $messages[0];
+
+        $this->assertEquals(Reader::read($reply)->serialize(), $iTipMessage->message->serialize());
+
+        $beforeVCal = $broker->processMessage($iTipMessage, $oldVCal);
+
+        $this->assertEquals(Reader::read($before)->serialize(), $beforeVCal->serialize());
+    }
+}
