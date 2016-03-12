@@ -15,4 +15,6 @@ script:
   - phpunit --configuration tests/phpunit.xml
   - ./bin/sabre-cs-fixer fix . --dry-run --diff
 
-before_script: composer install
+before_script:
+  - phpenv config-rm xdebug.ini
+  - composer install
