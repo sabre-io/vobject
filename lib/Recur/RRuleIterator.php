@@ -338,15 +338,15 @@ class RRuleIterator implements Iterator {
             return;
         }
 
-        if (isset($this->byHour)) {
+        if (!empty($this->byHour)) {
             $recurrenceHours = $this->getHours();
         }
 
-        if (isset($this->byDay)) {
+        if (!empty($this->byDay)) {
             $recurrenceDays = $this->getDays();
         }
 
-        if (isset($this->byMonth)) {
+        if (!empty($this->byMonth)) {
             $recurrenceMonths = $this->getMonths();
         }
 
@@ -511,7 +511,7 @@ class RRuleIterator implements Iterator {
         $currentDayOfMonth = $this->currentDate->format('j');
 
         // No sub-rules, so we just advance by year
-        if (!$this->byMonth) {
+        if (empty($this->byMonth)) {
 
             // Unless it was a leap day!
             if ($currentMonth == 2 && $currentDayOfMonth == 29) {
