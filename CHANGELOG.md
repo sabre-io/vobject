@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-4.0.3 (????-??-??)
+4.0.3 (2016-03-12)
 ------------------
 
 * #300: Added `VCard::getByType()` to quickly get a property with a specific
@@ -9,6 +9,7 @@ ChangeLog
 * #302: `UNTIL` was not encoded correctly when converting to jCal.
   (@GrahamLinagora)
 * #303: `COUNT` is now encoded as an int in jCal instead of a string. (@strokyl)
+
 
 4.0.2 (2016-01-11)
 ------------------
