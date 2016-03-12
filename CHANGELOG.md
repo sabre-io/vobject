@@ -9,6 +9,7 @@ ChangeLog
 * #302: `UNTIL` was not encoded correctly when converting to jCal.
   (@GrahamLinagora)
 * #303: `COUNT` is now encoded as an int in jCal instead of a string. (@strokyl)
+* #295: `RRULE` now has more validation and repair rules.
 
 
 4.0.2 (2016-01-11)
