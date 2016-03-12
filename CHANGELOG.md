@@ -109,6 +109,22 @@ ChangeLog
   objects.
 * #244: The `Float` and `Integer` classes have been renamed to `FloatValue`
   and `IntegerValue` to allow PHP 7 compatibility.
+=======
+3.5.0 (2016-01-11)
+-----------------
+
+* This release supports PHP 7, contrary to 3.4.x versions.
+* BC Break: `Sabre\VObject\Property\Float` has been renamed to
+  `Sabre\VObject\Property\FloatValue`.
+* BC Break: `Sabre\VObject\Property\Integer` has been renamed to
+  `Sabre\VObject\Property\IntegerValue`.
+
+
+3.4.9 (2016-01-11)
+------------------
+
+* This package now specifies in composer.json that it does not support PHP 7.
+  For PHP 7, use version 3.5.x or 4.x.
 
 
 3.4.8 (2016-01-04)
