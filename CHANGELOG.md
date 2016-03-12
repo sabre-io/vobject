@@ -109,7 +109,8 @@ ChangeLog
   objects.
 * #244: The `Float` and `Integer` classes have been renamed to `FloatValue`
   and `IntegerValue` to allow PHP 7 compatibility.
-=======
+
+
 3.5.0 (2016-01-11)
 -----------------
 
