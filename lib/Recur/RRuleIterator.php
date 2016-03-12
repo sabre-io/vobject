@@ -717,7 +717,9 @@ class RRuleIterator implements Iterator {
                     break;
 
                 case 'BYMONTH' :
-                    $this->byMonth = (array)$value;
+                    if (!empty($value)) {
+                        $this->byMonth = (array)$value;
+                    }
                     break;
 
                 case 'BYSETPOS' :

@@ -58,6 +58,9 @@ class VEvent extends VObject\Component {
 
         }
 
+        if (!isset($this->DTSTART)) {
+            return false;
+        }
         $effectiveStart = $this->DTSTART->getDateTime($start->getTimezone());
         if (isset($this->DTEND)) {
 
