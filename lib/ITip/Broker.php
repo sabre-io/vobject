@@ -777,9 +777,9 @@ class Broker {
                 $dt = DateTimeParser::parse($instance['id'], $eventInfo['timezone']);
                 // Treat is as a DATE field
                 if (strlen($instance['id']) <= 8) {
-                    $recur = $event->add('RECURRENCE-ID', $dt, ['VALUE' => 'DATE']);
+                    $event->add('RECURRENCE-ID', $dt, ['VALUE' => 'DATE']);
                 } else {
-                    $recur = $event->add('RECURRENCE-ID', $dt);
+                    $event->add('RECURRENCE-ID', $dt);
                 }
             }
             $organizer = $event->add('ORGANIZER', $message->recipient);
