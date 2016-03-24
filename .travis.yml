@@ -16,5 +16,5 @@ script:
   - ./bin/sabre-cs-fixer fix . --dry-run --diff
 
 before_script:
-  - phpenv config-rm xdebug.ini
+  - phpenv config-rm xdebug.ini; true
   - composer install
