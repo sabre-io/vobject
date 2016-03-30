@@ -1,10 +1,11 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur\EventIterator;
 
 use
     DateTime,
-    DateTimeZone;
+    DateTimeZone,
+    Sabre\VObject\Reader;
 
 class ExpandFloatingTimesTest extends \PHPUnit_Framework_TestCase {
 
@@ -36,6 +37,7 @@ BEGIN:VEVENT
 UID:foo
 DTSTART:20150109T090000Z
 DTEND:20150109T100000Z
+RECURRENCE-ID:20150109T090000Z
 END:VEVENT
 BEGIN:VEVENT
 UID:foo
@@ -90,6 +92,7 @@ BEGIN:VEVENT
 UID:foo
 DTSTART:20150109T080000Z
 DTEND:20150109T090000Z
+RECURRENCE-ID:20150109T080000Z
 END:VEVENT
 BEGIN:VEVENT
 UID:foo

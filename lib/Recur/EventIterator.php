@@ -278,16 +278,9 @@ class EventIterator implements \Iterator {
         if (isset($event->DTEND)) {
             $event->DTEND->setDateTime($this->getDtEnd(), $event->DTEND->isFloating());
         }
-        // Including a RECURRENCE-ID to the object, unless this is the first
-        // object.
-        //
-        // The inner recurIterator is always one step ahead, this is why we're
-        // checking for the key being higher than 1.
-        if ($this->recurIterator->key() > 1) {
-            $recurid = clone $event->DTSTART;
-            $recurid->name = 'RECURRENCE-ID';
-            $event->add($recurid);
-        }
+        $recurid = clone $event->DTSTART;
+        $recurid->name = 'RECURRENCE-ID';
+        $event->add($recurid);
         return $event;
 
     }
