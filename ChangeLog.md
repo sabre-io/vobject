@@ -1,8 +1,15 @@
 ChangeLog
 =========
 
+3.5.1 (????-??-??)
+------------------
+
+* #306: When expanding recurring events, the first event should also have a
+  `RECURRENCE-ID` property.
+
+
 3.5.0 (2016-01-11)
------------------
+------------------
 
 * This release supports PHP 7, contrary to 3.4.x versions.
 * BC Break: `Sabre\VObject\Property\Float` has been renamed to

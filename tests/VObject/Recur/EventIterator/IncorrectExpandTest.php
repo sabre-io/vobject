@@ -1,10 +1,11 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur\EventIterator;
 
 use
     DateTime,
-    DateTimeZone;
+    DateTimeZone,
+    Sabre\VObject\Reader;
 
 /**
  * This is a unittest for Issue #53.
@@ -45,6 +46,7 @@ BEGIN:VEVENT
 UID:foo
 DTSTART:20130711T050000Z
 DTEND:20130711T053000Z
+RECURRENCE-ID:20130711T050000Z
 END:VEVENT
 BEGIN:VEVENT
 UID:foo

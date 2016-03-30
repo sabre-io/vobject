@@ -1,10 +1,11 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur\EventIterator;
 
 use
     DateTime,
-    DateTimeZone;
+    DateTimeZone,
+    Sabre\VObject\Reader;
 
 class RecurrenceIteratorMissingOverriddenTest extends \PHPUnit_Framework_TestCase {
 
@@ -45,6 +46,7 @@ UID:foo
 DTSTART:20130727T120000Z
 DURATION:PT1H
 SUMMARY:A
+RECURRENCE-ID:20130727T120000Z
 END:VEVENT
 BEGIN:VEVENT
 RECURRENCE-ID:20130728T120000Z
