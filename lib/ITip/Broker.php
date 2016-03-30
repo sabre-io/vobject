@@ -814,9 +814,15 @@ class Broker {
      * 1. uid
      * 2. organizer
      * 3. organizerName
-     * 4. attendees
-     * 5. instances
-     *
+     * 4. organizerScheduleAgent
+     * 5. organizerForceSend
+     * 6. instances
+     * 7. attendees
+     * 8. sequence
+     * 9. exdate
+     * 10. timezone
+     * 11. significantChangeHash
+     * 12. status
      * @param VCalendar $calendar
      *
      * @return array

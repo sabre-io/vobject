@@ -112,8 +112,17 @@ ChangeLog
   and `IntegerValue` to allow PHP 7 compatibility.
 
 
+3.5.1 (????-??-??)
+------------------
+
+* #309: When expanding recurring events, the first event should also have a
+  `RECURRENCE-ID` property.
+* #306: iTip REPLYs to the first instance of a recurring event was not handled
+  correctly.
+
+
 3.5.0 (2016-01-11)
------------------
+------------------
 
 * This release supports PHP 7, contrary to 3.4.x versions.
 * BC Break: `Sabre\VObject\Property\Float` has been renamed to
