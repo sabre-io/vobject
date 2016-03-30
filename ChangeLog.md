@@ -4,7 +4,7 @@ ChangeLog
 3.5.1 (????-??-??)
 ------------------
 
-* #306: When expanding recurring events, the first event should also have a
+* #309: When expanding recurring events, the first event should also have a
   `RECURRENCE-ID` property.
 
 
