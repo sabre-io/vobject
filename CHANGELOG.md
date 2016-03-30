@@ -1,6 +1,15 @@
 ChangeLog
 =========
 
+4.0.4 (????-??-??)
+------------------
+
+* #309: When expanding recurring events, the first event should also have a
+  `RECURRENCE-ID` property.
+* #306: iTip REPLYs to the first instance of a recurring event was not handled
+  correctly.
+
+
 4.0.3 (2016-03-12)
 ------------------
 
