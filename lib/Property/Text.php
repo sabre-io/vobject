@@ -396,7 +396,7 @@ class Text extends Property {
             $parts = $this->getParts();
             if (count($parts) < $minimum) {
                 $warnings[] = [
-                    'level'   => 1,
+                    'level'   => $options & self::REPAIR ? 1 : 3,
                     'message' => 'The ' . $this->name  . ' property must have at least ' . $minimum . ' values. It only has ' . count($parts),
                     'node'    => $this,
                 ];
