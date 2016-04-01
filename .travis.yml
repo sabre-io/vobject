@@ -18,3 +18,7 @@ script:
 before_script:
   - phpenv config-rm xdebug.ini; true
   - composer install
+
+cache:
+  directories:
+    - $HOME/.composer/cache
