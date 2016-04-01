@@ -826,7 +826,7 @@ class Broker {
         $organizerName = null;
         $organizerForceSend = null;
         $sequence = null;
-        $timezone = null;
+        $timezone = $calendar->VTIMEZONE ? $calendar->VTIMEZONE->getTimeZone() : null;
         $status = null;
         $organizerScheduleAgent = 'SERVER';
 
