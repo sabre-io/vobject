@@ -8,6 +8,7 @@ ChangeLog
   `RECURRENCE-ID` property.
 * #306: iTip REPLYs to the first instance of a recurring event was not handled
   correctly.
+* Slightly better error message during validation of `N` and `ADR` properties.
 
 
 4.0.3 (2016-03-12)
