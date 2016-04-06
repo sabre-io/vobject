@@ -11,6 +11,8 @@ ChangeLog
 * Slightly better error message during validation of `N` and `ADR` properties.
 * #312: Correctly extracing timezone in the iTip broker, even when we don't
   have a master event. (@vkomrakov-sugar).
+* When validating a component's property that must appear once and which could
+  automatically be repaired, make sure we report the change as 'repaired'.
 
 
 4.0.3 (2016-03-12)
