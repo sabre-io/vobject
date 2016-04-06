@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-4.0.4 (????-??-??)
+4.1.0 (????-??-??)
 ------------------
 
 * #309: When expanding recurring events, the first event should also have a
@@ -13,6 +13,8 @@ ChangeLog
   have a master event. (@vkomrakov-sugar).
 * When validating a component's property that must appear once and which could
   automatically be repaired, make sure we report the change as 'repaired'.
+* Added a PHPUnitAssertions trait. This trait makes it easy to compare two
+  vcards or iCalendar objects semantically.
 
 
 4.0.3 (2016-03-12)
