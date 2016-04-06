@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class FreeBusyGeneratorTest extends TestCase {
+class FreeBusyGeneratorTest extends \PHPUnit_Framework_TestCase {
+
+    use PHPUnitAssertions;
 
     function testGeneratorBaseObject() {
 
@@ -80,7 +82,7 @@ END:VFREEBUSY
 END:VCALENDAR
 ICS;
 
-        $this->assertVObjEquals($expected, $output);
+        $this->assertVObjectEqualsVObject($expected, $output);
 
     }
 

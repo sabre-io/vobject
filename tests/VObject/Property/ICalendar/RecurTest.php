@@ -4,9 +4,10 @@ namespace Sabre\VObject\Property\ICalendar;
 
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
-use Sabre\VObject\TestCase;
 
-class RecurTest extends TestCase {
+class RecurTest extends \PHPUnit_Framework_TestCase {
+
+    use \Sabre\VObject\PHPUnitAssertions;
 
     function testParts() {
 
@@ -139,7 +140,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $vcal
         );
@@ -189,7 +190,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $vcal
         );

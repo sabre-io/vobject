@@ -4,10 +4,9 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use Sabre\VObject\Reader;
 use Sabre\VObject\Settings;
-use Sabre\VObject\TestCase;
 use DateTime;
 
-class MaxInstancesTest extends TestCase {
+class MaxInstancesTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException \Sabre\VObject\Recur\MaxInstancesExceededException

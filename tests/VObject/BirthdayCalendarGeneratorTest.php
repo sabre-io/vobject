@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class BirthdayCalendarGeneratorTest extends TestCase {
+class BirthdayCalendarGeneratorTest extends \PHPUnit_Framework_TestCase {
+
+    use PHPUnitAssertions;
 
     function testVcardStringWithValidBirthday() {
 
@@ -35,7 +37,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -94,7 +96,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -154,7 +156,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -194,7 +196,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -257,7 +259,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -295,7 +297,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -333,7 +335,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -362,7 +364,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -390,7 +392,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -429,7 +431,7 @@ ICS;
         $generator->setFormat('%1$s\'s Geburtstag');
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -458,7 +460,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -550,7 +552,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $output
         );

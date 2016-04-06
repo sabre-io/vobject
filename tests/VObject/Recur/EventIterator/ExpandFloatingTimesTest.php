@@ -5,9 +5,10 @@ namespace Sabre\VObject\Recur\EventIterator;
 use DateTime;
 use DateTimeZone;
 use Sabre\VObject\Reader;
-use Sabre\VObject\TestCase;
 
-class ExpandFloatingTimesTest extends TestCase {
+class ExpandFloatingTimesTest extends \PHPUnit_Framework_TestCase {
+
+    use \Sabre\VObject\PHPUnitAssertions;
 
     function testExpand() {
 
@@ -57,7 +58,7 @@ END:VEVENT
 END:VCALENDAR
 
 ICS;
-        $this->assertVObjEquals($output, $vcal);
+        $this->assertVObjectEqualsVObject($output, $vcal);
 
     }
 
@@ -114,7 +115,7 @@ END:VEVENT
 END:VCALENDAR
 
 ICS;
-        $this->assertVObjEquals($output, $vcal);
+        $this->assertVObjectEqualsVObject($output, $vcal);
 
     }
 

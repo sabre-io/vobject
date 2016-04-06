@@ -3,9 +3,10 @@
 namespace Sabre\VObject\Parser;
 
 use Sabre\VObject;
-use Sabre\VObject\TestCase;
 
-class XmlTest extends TestCase {
+class XmlTest extends \PHPUnit_Framework_TestCase {
+
+    use VObject\PHPUnitAssertions;
 
     function testRFC6321Example1() {
 
@@ -211,7 +212,7 @@ meetings.</text>
 XML;
 
         $component = VObject\Reader::readXML($xml);
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             'BEGIN:VCALENDAR' . "\n" .
             'VERSION:2.0' . "\n" .
             'PRODID:-//Example Inc.//Example Client//EN' . "\n" .
@@ -2873,7 +2874,7 @@ XML
     protected function assertXMLEqualsToMimeDir($xml, $mimedir) {
 
         $component = VObject\Reader::readXML($xml);
-        $this->assertVObjEquals($mimedir, $component);
+        $this->assertVObjectEqualsVObject($mimedir, $component);
 
     }
 
