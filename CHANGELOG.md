@@ -9,6 +9,8 @@ ChangeLog
 * #306: iTip REPLYs to the first instance of a recurring event was not handled
   correctly.
 * Slightly better error message during validation of `N` and `ADR` properties.
+* #312: Correctly extracing timezone in the iTip broker, even when we don't
+  have a master event. (@vkomrakov-sugar).
 
 
 4.0.3 (2016-03-12)
