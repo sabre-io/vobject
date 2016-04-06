@@ -820,7 +820,8 @@ class Broker {
      * 7. attendees
      * 8. sequence
      * 9. exdate
-     * 10. timezone
+     * 10. timezone - strictly the timezone on which the recurrence rule is
+     *                based on.
      * 11. significantChangeHash
      * 12. status
      * @param VCalendar $calendar
@@ -834,7 +835,7 @@ class Broker {
         $organizerName = null;
         $organizerForceSend = null;
         $sequence = null;
-        $timezone = $calendar->VTIMEZONE ? $calendar->VTIMEZONE->getTimeZone() : null;
+        $timezone = null;
         $status = null;
         $organizerScheduleAgent = 'SERVER';
 
@@ -893,8 +894,12 @@ class Broker {
             }
 
             $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getValue() : 'master';
-            if ($recurId === 'master') {
-                $timezone = $vevent->DTSTART->getDateTime()->getTimeZone();
+            if (is_null($timezone)) {
+                if ($recurId === 'master') {
+                    $timezone = $vevent->DTSTART->getDateTime()->getTimeZone();
+                } else {
+                    $timezone = $vevent->{'RECURRENCE-ID'}->getDateTime()->getTimeZone();
+                }
             }
             if (isset($vevent->ATTENDEE)) {
                 foreach ($vevent->ATTENDEE as $attendee) {

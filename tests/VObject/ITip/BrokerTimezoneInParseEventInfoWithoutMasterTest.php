@@ -71,7 +71,7 @@ ICS;
         $reflectionMethod = new \ReflectionMethod($broker, 'parseEventInfo');
         $reflectionMethod->setAccessible(true);
         $data = $reflectionMethod->invoke($broker, $calendar);
-
+        $this->assertInstanceOf('DateTimeZone', $data['timezone']);
         $this->assertEquals($data['timezone']->getName(), 'Europe/Minsk');
     }
 }
