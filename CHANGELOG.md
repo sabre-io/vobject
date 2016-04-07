@@ -1,7 +1,8 @@
 ChangeLog
 =========
 
-4.1.0 (????-??-??)
+
+4.1.0 (2016-04-06)
 ------------------
 
 * #309: When expanding recurring events, the first event should also have a
@@ -15,6 +16,7 @@ ChangeLog
   automatically be repaired, make sure we report the change as 'repaired'.
 * Added a PHPUnitAssertions trait. This trait makes it easy to compare two
   vcards or iCalendar objects semantically.
+* Better error message when parsing objects with an invalid `VALUE` parameter.
 
 
 4.0.3 (2016-03-12)
@@ -128,7 +130,7 @@ ChangeLog
   and `IntegerValue` to allow PHP 7 compatibility.
 
 
-3.5.1 (????-??-??)
+3.5.1 (2016-04-06)
 ------------------
 
 * #309: When expanding recurring events, the first event should also have a
