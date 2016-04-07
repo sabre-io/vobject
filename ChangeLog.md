@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.5.1 (????-??-??)
+3.5.1 (2016-04-06)
 ------------------
 
 * #309: When expanding recurring events, the first event should also have a
