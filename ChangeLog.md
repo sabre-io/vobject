@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+3.5.2 (????-??-??)
+-----------------
+
+* #312: Backported a fix related to iTip processing of events with timezones,
+  without a master event.
+
+
 3.5.1 (2016-04-06)
 ------------------
 
