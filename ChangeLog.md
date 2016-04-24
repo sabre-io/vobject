@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.5.2 (????-??-??)
+3.5.2 (2016-04-24)
 -----------------
 
 * #312: Backported a fix related to iTip processing of events with timezones,
