@@ -320,6 +320,9 @@ ICS;
 
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     function testNoCalendar() {
 
         $this->parse(null, null, [], 'mailto:one@example.org');

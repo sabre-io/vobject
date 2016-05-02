@@ -66,7 +66,7 @@ END:VCALENDAR
 ICS;
 
         $calendar = Reader::read($calendar);
-        $broker = new Broker();
+        $broker = new EventBroker();
 
         $reflectionMethod = new \ReflectionMethod($broker, 'parseEventInfo');
         $reflectionMethod->setAccessible(true);
