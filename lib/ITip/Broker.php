@@ -168,6 +168,9 @@ class Broker extends AbstractBroker {
             case 'VEVENT' :
                 $broker = new EventBroker();
                 break;
+            case 'VTODO' :
+                $broker = new TodoBroker();
+                break;
             default :
                 $broker = new NullBroker();
                 break;

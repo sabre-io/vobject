@@ -68,7 +68,7 @@ ICS;
         $calendar = Reader::read($calendar);
         $broker = new EventBroker();
 
-        $reflectionMethod = new \ReflectionMethod($broker, 'parseEventInfo');
+        $reflectionMethod = new \ReflectionMethod($broker, 'extractSchedulingInfo');
         $reflectionMethod->setAccessible(true);
         $data = $reflectionMethod->invoke($broker, $calendar);
         $this->assertInstanceOf('DateTimeZone', $data['timezone']);

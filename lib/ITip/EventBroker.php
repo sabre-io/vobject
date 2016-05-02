@@ -47,7 +47,7 @@ class EventBroker extends AbstractBroker {
     function processICalendarChange(VCalendar $before = null, VCalendar $after = null, $userUri) {
 
         if ($before) {
-            $oldEventInfo = $this->parseEventInfo($before);
+            $oldEventInfo = $this->extractSchedulingInfo($before);
         } else {
             $oldEventInfo = [
                 'organizer'             => null,
@@ -60,7 +60,7 @@ class EventBroker extends AbstractBroker {
 
         if (!is_null($after)) {
 
-            $eventInfo = $this->parseEventInfo($after);
+            $eventInfo = $this->extractSchedulingInfo($after);
             if (!$eventInfo['attendees'] && !$oldEventInfo['attendees']) {
                 // If there were no attendees on either side of the equation,
                 // we don't need to do anything.
@@ -720,187 +720,6 @@ class EventBroker extends AbstractBroker {
 
         }
         return $existingObject;
-
-    }
-
-    /**
-     * Returns attendee information and information about instances of an
-     * event.
-     *
-     * Returns an array with the following keys:
-     *
-     * 1. uid
-     * 2. organizer
-     * 3. organizerName
-     * 4. organizerScheduleAgent
-     * 5. organizerForceSend
-     * 6. instances
-     * 7. attendees
-     * 8. sequence
-     * 9. exdate
-     * 10. timezone - strictly the timezone on which the recurrence rule is
-     *                based on.
-     * 11. significantChangeHash
-     * 12. status
-     * @param VCalendar $calendar
-     *
-     * @return array
-     */
-    protected function parseEventInfo(VCalendar $calendar = null) {
-
-        $uid = null;
-        $organizer = null;
-        $organizerName = null;
-        $organizerForceSend = null;
-        $sequence = null;
-        $timezone = null;
-        $status = null;
-        $organizerScheduleAgent = 'SERVER';
-
-        $significantChangeHash = '';
-
-        // Now we need to collect a list of attendees, and which instances they
-        // are a part of.
-        $attendees = [];
-
-        $instances = [];
-        $exdate = [];
-
-        foreach ($calendar->VEVENT as $vevent) {
-
-            if (is_null($uid)) {
-                $uid = $vevent->UID->getValue();
-            } else {
-                if ($uid !== $vevent->UID->getValue()) {
-                    throw new ITipException('If a calendar contained more than one event, they must have the same UID.');
-                }
-            }
-
-            if (!isset($vevent->DTSTART)) {
-                throw new ITipException('An event MUST have a DTSTART property.');
-            }
-
-            if (isset($vevent->ORGANIZER)) {
-                if (is_null($organizer)) {
-                    $organizer = $vevent->ORGANIZER->getNormalizedValue();
-                    $organizerName = isset($vevent->ORGANIZER['CN']) ? $vevent->ORGANIZER['CN'] : null;
-                } else {
-                    if ($organizer !== $vevent->ORGANIZER->getNormalizedValue()) {
-                        throw new SameOrganizerForAllComponentsException('Every instance of the event must have the same organizer.');
-                    }
-                }
-                $organizerForceSend =
-                    isset($vevent->ORGANIZER['SCHEDULE-FORCE-SEND']) ?
-                    strtoupper($vevent->ORGANIZER['SCHEDULE-FORCE-SEND']) :
-                    null;
-                $organizerScheduleAgent =
-                    isset($vevent->ORGANIZER['SCHEDULE-AGENT']) ?
-                    strtoupper((string)$vevent->ORGANIZER['SCHEDULE-AGENT']) :
-                    'SERVER';
-            }
-            if (is_null($sequence) && isset($vevent->SEQUENCE)) {
-                $sequence = $vevent->SEQUENCE->getValue();
-            }
-            if (isset($vevent->EXDATE)) {
-                foreach ($vevent->select('EXDATE') as $val) {
-                    $exdate = array_merge($exdate, $val->getParts());
-                }
-                sort($exdate);
-            }
-            if (isset($vevent->STATUS)) {
-                $status = strtoupper($vevent->STATUS->getValue());
-            }
-
-            $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getValue() : 'master';
-            if (is_null($timezone)) {
-                if ($recurId === 'master') {
-                    $timezone = $vevent->DTSTART->getDateTime()->getTimeZone();
-                } else {
-                    $timezone = $vevent->{'RECURRENCE-ID'}->getDateTime()->getTimeZone();
-                }
-            }
-            if (isset($vevent->ATTENDEE)) {
-                foreach ($vevent->ATTENDEE as $attendee) {
-
-                    if ($this->scheduleAgentServerRules &&
-                        isset($attendee['SCHEDULE-AGENT']) &&
-                        strtoupper($attendee['SCHEDULE-AGENT']->getValue()) === 'CLIENT'
-                    ) {
-                        continue;
-                    }
-                    $partStat =
-                        isset($attendee['PARTSTAT']) ?
-                        strtoupper($attendee['PARTSTAT']) :
-                        'NEEDS-ACTION';
-
-                    $forceSend =
-                        isset($attendee['SCHEDULE-FORCE-SEND']) ?
-                        strtoupper($attendee['SCHEDULE-FORCE-SEND']) :
-                        null;
-
-
-                    if (isset($attendees[$attendee->getNormalizedValue()])) {
-                        $attendees[$attendee->getNormalizedValue()]['instances'][$recurId] = [
-                            'id'         => $recurId,
-                            'partstat'   => $partStat,
-                            'force-send' => $forceSend,
-                        ];
-                    } else {
-                        $attendees[$attendee->getNormalizedValue()] = [
-                            'href'      => $attendee->getNormalizedValue(),
-                            'instances' => [
-                                $recurId => [
-                                    'id'       => $recurId,
-                                    'partstat' => $partStat,
-                                ],
-                            ],
-                            'name'      => isset($attendee['CN']) ? (string)$attendee['CN'] : null,
-                            'forceSend' => $forceSend,
-                        ];
-                    }
-
-                }
-                $instances[$recurId] = $vevent;
-
-            }
-
-            foreach ($this->significantChangeProperties as $prop) {
-                if (isset($vevent->$prop)) {
-                    $propertyValues = $vevent->select($prop);
-
-                    $significantChangeHash .= $prop . ':';
-
-                    if ($prop === 'EXDATE') {
-
-                        $significantChangeHash .= implode(',', $exdate) . ';';
-
-                    } else {
-
-                        foreach ($propertyValues as $val) {
-                            $significantChangeHash .= $val->getValue() . ';';
-                        }
-
-                    }
-                }
-            }
-
-        }
-        $significantChangeHash = md5($significantChangeHash);
-
-        return compact(
-            'uid',
-            'organizer',
-            'organizerName',
-            'organizerScheduleAgent',
-            'organizerForceSend',
-            'instances',
-            'attendees',
-            'sequence',
-            'exdate',
-            'timezone',
-            'significantChangeHash',
-            'status'
-        );
 
     }
 
