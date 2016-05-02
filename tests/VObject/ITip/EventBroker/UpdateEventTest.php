@@ -1,8 +1,10 @@
 <?php
 
-namespace Sabre\VObject\ITip;
+namespace Sabre\VObject\ITip\EventBroker;
 
-class BrokerUpdateEventTest extends BrokerTester {
+use Sabre\VObject\ITip\BrokerTester;
+
+class UpdateEventTest extends BrokerTester {
 
     function testInviteChange() {
 
@@ -135,7 +137,7 @@ ICS
             ],
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -200,7 +202,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -262,7 +264,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -296,7 +298,7 @@ ICS;
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [];
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -367,7 +369,7 @@ ICS
             ],
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -507,7 +509,7 @@ ICS
             ],
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -578,7 +580,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -649,7 +651,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -749,7 +751,7 @@ ICS
             ],
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $result = $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -840,7 +842,7 @@ ICS
             ],
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 }

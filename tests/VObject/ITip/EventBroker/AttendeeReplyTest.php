@@ -1,8 +1,10 @@
 <?php
 
-namespace Sabre\VObject\ITip;
+namespace Sabre\VObject\ITip\EventBroker;
 
-class BrokerAttendeeReplyTest extends BrokerTester {
+use Sabre\VObject\ITip\BrokerTester;
+
+class AttendeeReplyTest extends BrokerTester {
 
     function testAccepted() {
 
@@ -68,7 +70,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -218,7 +220,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -361,7 +363,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -396,7 +398,7 @@ ICS;
 
 
         $expected = [];
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -458,7 +460,7 @@ ICS
             ]
 
         ];
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -492,7 +494,7 @@ END:VCALENDAR
 ICS;
 
         $expected = [];
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -566,7 +568,7 @@ ICS
 
             ],
         ];
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -638,7 +640,7 @@ ICS
 
             ],
         ];
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -710,7 +712,7 @@ ICS
 
             ],
         ];
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -775,7 +777,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -814,7 +816,7 @@ ICS;
 
         $expected = [];
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -870,7 +872,7 @@ ICS;
 
         $expected = [];
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -906,7 +908,7 @@ ICS;
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [];
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -971,7 +973,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -1048,7 +1050,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 
@@ -1140,7 +1142,7 @@ ICS
 
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected);
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected);
 
     }
 }

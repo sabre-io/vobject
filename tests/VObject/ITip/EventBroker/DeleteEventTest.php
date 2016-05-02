@@ -1,8 +1,10 @@
 <?php
 
-namespace Sabre\VObject\ITip;
+namespace Sabre\VObject\ITip\EventBroker;
 
-class BrokerDeleteEventTest extends BrokerTester {
+use Sabre\VObject\ITip\BrokerTester;
+
+class DeleteEventTest extends BrokerTester {
 
     function testOrganizerDeleteWithDtend() {
 
@@ -86,7 +88,7 @@ ICS
             ],
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -172,7 +174,7 @@ ICS
             ],
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -229,7 +231,7 @@ ICS
             ],
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
 
 
     }
@@ -287,7 +289,7 @@ ICS
             ],
         ];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
 
 
     }
@@ -315,7 +317,7 @@ ICS;
 
         $expected = [];
 
-        $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
+        $this->assertICalendarChange($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
 
 
     }
@@ -325,7 +327,7 @@ ICS;
      */
     function testNoCalendar() {
 
-        $this->parse(null, null, [], 'mailto:one@example.org');
+        $this->assertICalendarChange(null, null, [], 'mailto:one@example.org');
 
     }
 
@@ -340,7 +342,7 @@ SEQUENCE:1
 END:VTODO
 END:VCALENDAR
 ICS;
-        $this->parse($oldMessage, null, [], 'mailto:one@example.org');
+        $this->assertICalendarChange($oldMessage, null, [], 'mailto:one@example.org');
 
     }
 
