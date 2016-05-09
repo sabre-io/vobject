@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
-class BrokerProcessMessageTest extends BrokerTester {
+class ProcessMessageTest extends BrokerTester {
 
     function testRequestNew() {
 

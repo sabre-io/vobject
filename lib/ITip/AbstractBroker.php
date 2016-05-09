@@ -119,7 +119,7 @@ abstract class AbstractBroker {
      * This method takes an calendar and spits out a lot of useful
      * information required for scheduling.
      *
-* It returns an array with the following elements:
+     * It returns an array with the following elements:
      *
      * * uid - The UID of the scheduled object
      * * component - The component type, for example VEVENT
@@ -163,24 +163,24 @@ abstract class AbstractBroker {
     protected function extractSchedulingInfo(VCalendar $calendar) {
     
         $result = [
-            'uid' => null,
-            'component' => null,
-            'organizer' => null,
-            'organizerName' => null,
-            'organizerForceSend' => null,
+            'uid'                    => null,
+            'component'              => null,
+            'organizer'              => null,
+            'organizerName'          => null,
+            'organizerForceSend'     => null,
             'organizerScheduleAgent' => 'SERVER',
-            'sequence' => null,
-            'timezone' => null,
-            'status' => null,
-            'significantChangeHash' => '',
-            'attendees' => [],
-            'instances' => [],
-            'exdate' => [],
+            'sequence'               => null,
+            'timezone'               => null,
+            'status'                 => null,
+            'significantChangeHash'  => '',
+            'attendees'              => [],
+            'instances'              => [],
+            'exdate'                 => [],
         ];
 
         $significantChangeHash = '';
 
-        foreach($calendar->getComponents() as $component) {
+        foreach ($calendar->getComponents() as $component) {
 
             if ($component->name === 'VTIMEZONE') {
                 continue;

@@ -182,7 +182,7 @@ class VCalendar extends VObject\Document {
     function getComponentType() {
 
         $hasVTimeZone = false;
-        foreach($this->children as $childType => $nodes) {
+        foreach ($this->children as $childType => $nodes) {
 
             if ($childType === 'VTIMEZONE') {
                 $hasVTimeZone = true;

@@ -44,6 +44,19 @@ class TodoBroker extends AbstractBroker {
      */
     function processICalendarChange(VCalendar $before = null, VCalendar $after = null, $userUri) {
 
+        if ($before) {
+            $beforeInfo = $this->extractSchedulingInfo($before);
+        } else {
+            $beforeInfo = null;
+        }
+        if ($after) {
+            $afterInfo = $this->extractSchedulingInfo($after);
+        } else {
+            $afterInfo = null;
+        }
+
+        $info = $beforeInfo ?: $afterInfo;
+
 
     }
 

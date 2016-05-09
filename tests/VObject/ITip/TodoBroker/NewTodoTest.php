@@ -49,7 +49,7 @@ ICS;
                 'recipientName'     => null,
                 'scheduleStatus'    => null,
                 'significantChange' => true,
-                'message'        => <<<ICS
+                'message'           => <<<ICS
 BEGIN:VCALENDAR
 METHOD:REQUEST
 BEGIN:VTODO
