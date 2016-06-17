@@ -3,6 +3,8 @@
     "description" : "The VObject library for PHP allows you to easily parse and manipulate iCalendar and vCard objects",
     "keywords" : [
         "iCalendar",
+        "iCal",
+        "vCalendar",
         "vCard",
         "jCard",
         "jCal",
