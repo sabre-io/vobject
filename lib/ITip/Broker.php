@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
+use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Reader;
@@ -262,6 +263,15 @@ class Broker {
         }
         return [];
 
+    }
+
+    private function stripVAlarms(Component $component) {
+        foreach ($component->getComponents() as $childComponent) {
+            if (strcmp($childComponent->name, 'VALARM') === 0) {
+                $component->remove($childComponent);
+            }
+        }
+        return $component;
     }
 
     /**
@@ -541,6 +551,7 @@ class Broker {
                 $event->add('ATTENDEE', $attendee['href'], [
                     'CN' => $attendee['name'],
                 ]);
+                $event = $this->stripVAlarms($event);
                 $message->significantChange = true;
 
             } else {
@@ -572,6 +583,9 @@ class Broker {
                 foreach ($attendee['newInstances'] as $instanceId => $instanceInfo) {
 
                     $currentEvent = clone $eventInfo['instances'][$instanceId];
+
+                    $this->stripVAlarms($currentEvent);
+
                     if ($instanceId === 'master') {
 
                         // We need to find a list of events that the attendee
