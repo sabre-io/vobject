@@ -43,7 +43,12 @@ class DateTimeParser {
         if ($matches[7] === 'Z' || is_null($tz)) {
             $tz = new DateTimeZone('UTC');
         }
-        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] . ':' . $matches[6], $tz);
+
+        try {
+            $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] . ':' . $matches[6], $tz);
+        } catch (\Exception $e) {
+            throw new InvalidDataException('The supplied iCalendar datetime value is incorrect: ' . $dt);
+        }
 
         return $date;
 
@@ -70,7 +75,11 @@ class DateTimeParser {
             $tz = new DateTimeZone('UTC');
         }
 
-        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3], $tz);
+        try {
+            $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3], $tz);
+        } catch (\Exception $e) {
+            throw new InvalidDataException('The supplied iCalendar date value is incorrect: ' . $date);
+        }
 
         return $date;
 
