@@ -417,7 +417,7 @@ XML
 XML
 ,
             'BEGIN:VCALENDAR' . "\n" .
-            'REQUEST-STATUS:2.8;Success\, repeating event ignored. Scheduled as a single' .  "\n" .
+            'REQUEST-STATUS:2.8;Success\, repeating event ignored. Scheduled as a single' . "\n" .
             '  event.;RRULE:FREQ=WEEKLY\;INTERVAL=2' . "\n" .
             'END:VCALENDAR' . "\n"
         );

@@ -157,7 +157,7 @@ while ($vcard = $splitter->getNext()) {
 
                 // echo $newProp->serialize() . " does not appear in earlier vcard!\n";
                 $stats['Error']++;
-                if ($debug) fwrite($debug, "Missing '" . $newProp->name .  "' property in duplicate. Earlier vcard:\n" . $collectedNames[$fn]->serialize() . "\n\nLater:\n" . $vcard->serialize() . "\n\n");
+                if ($debug) fwrite($debug, "Missing '" . $newProp->name . "' property in duplicate. Earlier vcard:\n" . $collectedNames[$fn]->serialize() . "\n\nLater:\n" . $vcard->serialize() . "\n\n");
                 
                 $vcard->destroy();
                 continue 2;
