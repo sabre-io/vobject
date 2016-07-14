@@ -328,7 +328,7 @@ class EventIterator implements \Iterator {
         $index = array();
         foreach($this->overriddenEvents as $key=>$event) {
             $stamp = $event->DTSTART->getDateTime($this->timeZone)->getTimeStamp();
-            $index[$stamp][] = $key;
+            $index[$stamp] = $key;
         }
         krsort($index);
         $this->counter = 0;
@@ -375,9 +375,8 @@ class EventIterator implements \Iterator {
         // overridden event may cut ahead.
         if ($this->overriddenEventsIndex) {
 
-            $offsets = end($this->overriddenEventsIndex);
+            $offset = end($this->overriddenEventsIndex);
             $timestamp = key($this->overriddenEventsIndex);
-            $offset = end($offsets);
             if (!$nextDate || $timestamp < $nextDate->getTimeStamp()) {
                 // Overridden event comes first.
                 $this->currentOverriddenEvent = $this->overriddenEvents[$offset];
@@ -387,10 +386,7 @@ class EventIterator implements \Iterator {
                 $this->currentDate = $this->currentOverriddenEvent->DTSTART->getDateTime($this->timeZone);
 
                 // Ensuring that this item will only be used once.
-                array_pop($this->overriddenEventsIndex[$timestamp]);
-                if (!$this->overriddenEventsIndex[$timestamp]) {
-                    array_pop($this->overriddenEventsIndex);
-                }
+                array_pop($this->overriddenEventsIndex);
 
                 // Exit point!
                 return;
@@ -458,7 +454,7 @@ class EventIterator implements \Iterator {
     /**
      * Overridden event index.
      *
-     * Key is timestamp, value is the list of indexes of the item in the $overriddenEvent
+     * Key is timestamp, value is the index of the item in the $overriddenEvent
      * property.
      *
      * @var array
