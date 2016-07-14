@@ -260,7 +260,7 @@ class Recur extends Property {
 
         foreach ($values as $key => $value) {
 
-            if (empty($value)) {
+            if ($value === '') {
                 $warnings[] = [
                     'level'   => $repair ? 3 : 1,
                     'message' => 'Invalid value for ' . $key . ' in ' . $this->name,

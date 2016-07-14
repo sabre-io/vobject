@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Property\ICalendar;
 
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Node;
 use Sabre\VObject\Reader;
 
 class RecurTest extends \PHPUnit_Framework_TestCase {
@@ -194,6 +195,21 @@ END:VCALENDAR
             $expected,
             $vcal
         );
+
+    }
+
+    /**
+     * test for issue #336
+     */
+    function testValidateRruleBySecondZero() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=DAILY;BYHOUR=10;BYMINUTE=30;BYSECOND=0;UNTIL=20150616T153000Z');
+        $result = $property->validate(Node::REPAIR);
+
+        // There should be 0 warnings and the value should be unchanged
+        $this->assertEmpty($result);
+        $this->assertEquals('FREQ=DAILY;BYHOUR=10;BYMINUTE=30;BYSECOND=0;UNTIL=20150616T153000Z', $property->getValue());
 
     }
 
