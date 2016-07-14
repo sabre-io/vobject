@@ -718,6 +718,11 @@ class RRuleIterator implements Iterator {
 
                 case 'BYMONTH' :
                     $this->byMonth = (array)$value;
+                    foreach ($this->byMonth as $byMonth) {
+                        if (!is_numeric($byMonth) || (int)$byMonth < 1 || (int)$byMonth > 12) {
+                            throw new InvalidDataException('BYMONTH in RRULE must have value(s) betweeen 1 and 12!');
+                        }
+                    }
                     break;
 
                 case 'BYSETPOS' :
