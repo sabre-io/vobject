@@ -439,6 +439,58 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByMonthInvalidValue1() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=0',
+            '2011-04-07 00:00:00',
+            []
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByMonthInvalidValue2() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=bla',
+            '2011-04-07 00:00:00',
+            []
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByMonthManyInvalidValues() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=0,bla',
+            '2011-04-07 00:00:00',
+            []
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByMonthEmptyValue() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=',
+            '2011-04-07 00:00:00',
+            []
+        );
+
+    }
+
     function testYearlyByMonthByDay() {
 
         $this->parse(
