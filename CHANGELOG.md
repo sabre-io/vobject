@@ -1,6 +1,16 @@
 ChangeLog
 =========
 
+4.1.1 (????-??-??)
+------------------
+
+* #327: Throwing `InvalidDataException` in more cases where invalid iCalendar
+  dates and times were provided. (@rsto)
+* #331: Behave correctly when multiple recurrence instances are overridden and
+  fall on the same date/time. (@afedyk-sugarcrm)
+* #333: Fix endless loop on invalid `BYMONTH` values in recurrence.
+  (@PHPGangsta)
+
 
 4.1.0 (2016-04-06)
 ------------------
