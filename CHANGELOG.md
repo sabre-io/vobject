@@ -1,6 +1,16 @@
 ChangeLog
 =========
 
+4.1.1 (????-??-??)
+------------------
+
+* #327: Throwing `InvalidDataException` in more cases where invalid iCalendar
+  dates and times were provided. (@rsto)
+* #331: Fix dealing with multiple overridden instances falling on the same
+  date/time (@afedyk-sugarcrm).
+* #333: Fix endless loop on invalid `BYMONTH` values in recurrence.
+  (@PHPGangsta)
+
 
 4.1.0 (2016-04-06)
 ------------------
@@ -128,6 +138,20 @@ ChangeLog
   objects.
 * #244: The `Float` and `Integer` classes have been renamed to `FloatValue`
   and `IntegerValue` to allow PHP 7 compatibility.
+
+
+3.5.3 (????-??-??)
+------------------
+
+* #331: Fix dealing with multiple overridden instances falling on the same
+  date/time (@afedyk-sugarcrm).
+
+
+3.5.2 (2016-04-24)
+-----------------
+
+* #312: Backported a fix related to iTip processing of events with timezones,
+  without a master event.
 
 
 3.5.1 (2016-04-06)

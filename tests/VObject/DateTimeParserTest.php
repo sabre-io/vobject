@@ -63,6 +63,16 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @depends testParseICalendarDateTime
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testParseICalendarDateTimeInvalidTime() {
+
+        $dateTime = DateTimeParser::parseDateTime('20100316T251405');
+
+    }
+
+    /**
+     * @depends testParseICalendarDateTime
      */
     function testParseICalendarDateTimeUTC() {
 
@@ -149,6 +159,16 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
     function testParseICalendarDateBadFormat() {
 
         $dateTime = DateTimeParser::parseDate('20100316T141405');
+
+    }
+
+    /**
+     * @depends testParseICalendarDate
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testParseICalendarDateInvalidDate() {
+
+        $dateTime = DateTimeParser::parseDate('20101331');
 
     }
 
