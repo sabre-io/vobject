@@ -588,6 +588,11 @@ class RRuleIterator implements Iterator {
                     (int)$currentDayOfMonth
                 );
 
+                // maximum year 10000 should be safe to stop (2016 + max 3500 yearly occurrences)
+                if ((int)$currentYear > 10000) {
+                    throw new NoInstancesException('This recurrence rule does not generate any valid instances, stopped in year 10000');
+                }
+
             }
 
             // If we made it here, it means we got a valid occurrence
