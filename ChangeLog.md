@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+3.5.3 (????-??-??)
+------------------
+
+* #331: Fix dealing with multiple overridden instances falling on the same
+  date/time (@afedyk-sugarcrm).
+
+
 3.5.2 (2016-04-24)
 -----------------
 
