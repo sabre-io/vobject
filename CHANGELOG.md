@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-4.1.1 (????-??-??)
+4.1.1 (2016-07-15)
 ------------------
 
 * #327: Throwing `InvalidDataException` in more cases where invalid iCalendar
