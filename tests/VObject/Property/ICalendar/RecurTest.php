@@ -207,8 +207,7 @@ END:VCALENDAR
         $this->assertCount(1, $result);
         $this->assertEquals('BYMONTH in RRULE must have value(s) between 1 and 12!', $result[0]['message']);
         $this->assertEquals(1, $result[0]['level']);
-        // BYMONTH will be repaired from 0 to 1
-        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=1', $property->getValue());
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24', $property->getValue());
 
     }
 
@@ -234,7 +233,6 @@ END:VCALENDAR
         $this->assertCount(1, $result);
         $this->assertEquals('BYMONTH in RRULE must have value(s) between 1 and 12!', $result[0]['message']);
         $this->assertEquals(1, $result[0]['level']);
-        // repair means remove BYMONTH
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24', $property->getValue());
 
     }
@@ -262,8 +260,7 @@ END:VCALENDAR
         $this->assertCount(1, $result);
         $this->assertEquals('BYMONTH in RRULE must have value(s) between 1 and 12!', $result[0]['message']);
         $this->assertEquals(1, $result[0]['level']);
-        // BYMONTH will be repaired from 14 to 12
-        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=12', $property->getValue());
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24', $property->getValue());
 
     }
 
@@ -278,8 +275,7 @@ END:VCALENDAR
         $this->assertEquals(1, $result[0]['level']);
         $this->assertEquals('BYMONTH in RRULE must have value(s) between 1 and 12!', $result[1]['message']);
         $this->assertEquals(1, $result[1]['level']);
-        // repair 14->12, 0->1, and remove duplicates
-        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=1,2,3,4,12', $property->getValue());
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=1,2,3,4', $property->getValue());
 
     }
 
