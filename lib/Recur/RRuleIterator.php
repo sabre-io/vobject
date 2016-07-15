@@ -590,7 +590,7 @@ class RRuleIterator implements Iterator {
                 );
 
                 if ($this->currentDate->format('Y-m-d') > Settings::$maxDate) {
-                    throw new NoInstancesException('This recurrence rule does not generate any valid instances before '.Settings::$maxDate);
+                    throw new NoInstancesException('This recurrence rule does not generate any valid instances before ' . Settings::$maxDate);
                 }
 
             }
