@@ -262,7 +262,7 @@ class Recur extends Property {
 
             if (empty($value)) {
                 $warnings[] = [
-                    'level'   => $repair ? 3 : 1,
+                    'level'   => $repair ? 1 : 3,
                     'message' => 'Invalid value for ' . $key . ' in ' . $this->name,
                     'node'    => $this
                 ];
@@ -274,7 +274,7 @@ class Recur extends Property {
         }
         if (!isset($values['FREQ'])) {
             $warnings[] = [
-                'level'   => $repair ? 3 : 1,
+                'level'   => $repair ? 1 : 3,
                 'message' => 'FREQ is required in ' . $this->name,
                 'node'    => $this
             ];

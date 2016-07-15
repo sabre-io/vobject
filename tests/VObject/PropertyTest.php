@@ -365,7 +365,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $result = $property->validate();
 
         $this->assertEquals('ENCODING=INVALID is not valid for this document type.', $result[0]['message']);
-        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals(3, $result[0]['level']);
 
     }
 
@@ -378,7 +378,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $result = $property->validate();
 
         $this->assertEquals('ENCODING parameter is not valid in vCard 4.', $result[0]['message']);
-        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals(3, $result[0]['level']);
 
     }
 
@@ -391,7 +391,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $result = $property->validate();
 
         $this->assertEquals('ENCODING=BASE64 is not valid for this document type.', $result[0]['message']);
-        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals(3, $result[0]['level']);
 
     }
 
@@ -404,7 +404,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
         $result = $property->validate();
 
         $this->assertEquals('ENCODING=B is not valid for this document type.', $result[0]['message']);
-        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals(3, $result[0]['level']);
 
     }
 }
