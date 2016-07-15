@@ -260,21 +260,39 @@ class Recur extends Property {
 
         foreach ($values as $key => $value) {
 
-            if (empty($value)) {
+            if ($value === '') {
                 $warnings[] = [
-                    'level'   => $repair ? 3 : 1,
+                    'level'   => $repair ? 1 : 3,
                     'message' => 'Invalid value for ' . $key . ' in ' . $this->name,
                     'node'    => $this
                 ];
                 if ($repair) {
                     unset($values[$key]);
                 }
+            } elseif ($key == 'BYMONTH') {
+                $byMonth = (array)$value;
+                foreach ($byMonth as $i => $v) {
+                    if (!is_numeric($v) || (int)$v < 1 || (int)$v > 12) {
+                        $warnings[] = [
+                            'level'   => $repair ? 1 : 3,
+                            'message' => 'BYMONTH in RRULE must have value(s) between 1 and 12!',
+                            'node'    => $this
+                        ];
+                        if ($repair) {
+                            if (is_array($value)) {
+                                unset($values[$key][$i]);
+                            } else {
+                                unset($values[$key]);
+                            }
+                        }
+                    }
+                }
             }
 
         }
         if (!isset($values['FREQ'])) {
             $warnings[] = [
-                'level'   => $repair ? 3 : 1,
+                'level'   => $repair ? 1 : 3,
                 'message' => 'FREQ is required in ' . $this->name,
                 'node'    => $this
             ];
