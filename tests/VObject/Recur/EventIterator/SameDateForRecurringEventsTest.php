@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Recur;
 
-use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Reader;
 
 /**
@@ -16,7 +15,7 @@ class SameDateForRecurringEventsTest extends \PHPUnit_Framework_TestCase
     /**
      * Checking is all events iterated by EventIterator.
      */
-    public function testAllEventsArePresentInIterator()
+    function testAllEventsArePresentInIterator()
     {
         $ics = <<<ICS
 BEGIN:VCALENDAR
