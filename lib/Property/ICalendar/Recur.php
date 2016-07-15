@@ -287,6 +287,32 @@ class Recur extends Property {
                         }
                     }
                 }
+                // if there is no valid entry left, remove the whole value
+                if (is_array($value) && empty($values[$key])) {
+                    unset($values[$key]);
+                }
+            } elseif ($key == 'BYWEEKNO') {
+                $byWeekNo = (array)$value;
+                foreach ($byWeekNo as $i => $v) {
+                    if (!is_numeric($v) || (int)$v < -53 || (int)$v == 0 || (int)$v > 53) {
+                        $warnings[] = [
+                            'level'   => $repair ? 1 : 3,
+                            'message' => 'BYWEEKNO in RRULE must have value(s) from -53 to -1, or 1 to 53!',
+                            'node'    => $this
+                        ];
+                        if ($repair) {
+                            if (is_array($value)) {
+                                unset($values[$key][$i]);
+                            } else {
+                                unset($values[$key]);
+                            }
+                        }
+                    }
+                }
+                // if there is no valid entry left, remove the whole value
+                if (is_array($value) && empty($values[$key])) {
+                    unset($values[$key]);
+                }
             }
 
         }
