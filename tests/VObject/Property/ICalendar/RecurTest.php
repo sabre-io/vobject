@@ -298,11 +298,22 @@ END:VCALENDAR
 
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=2,3');
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=2,3', $property->getValue());
+
+    }
+
+    /**
+     * test for issue #336
+     */
+    function testValidateRruleBySecondZero() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=DAILY;BYHOUR=10;BYMINUTE=30;BYSECOND=0;UNTIL=20150616T153000Z');
         $result = $property->validate(Node::REPAIR);
 
         // There should be 0 warnings and the value should be unchanged
         $this->assertEmpty($result);
-        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=2,3', $property->getValue());
+        $this->assertEquals('FREQ=DAILY;BYHOUR=10;BYMINUTE=30;BYSECOND=0;UNTIL=20150616T153000Z', $property->getValue());
 
     }
 
