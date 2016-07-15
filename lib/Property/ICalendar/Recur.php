@@ -269,6 +269,55 @@ class Recur extends Property {
                 if ($repair) {
                     unset($values[$key]);
                 }
+            } elseif ($key == 'BYMONTH') {
+                $byMonth = (array)$value;
+                foreach ($byMonth as $i => $v) {
+                    if (!is_numeric($v)) {
+                        $warnings[] = [
+                            'level'   => $repair ? 1 : 3,
+                            'message' => 'BYMONTH in RRULE must have value(s) between 1 and 12!',
+                            'node'    => $this
+                        ];
+                        if ($repair) {
+                            if (is_array($value)) {
+                                unset($values[$key][$i]);
+                            } else {
+                                unset($values[$key]);
+                            }
+                        }
+                    } elseif ((int)$v < 1) {
+                        $warnings[] = [
+                            'level'   => $repair ? 1 : 3,
+                            'message' => 'BYMONTH in RRULE must have value(s) between 1 and 12!',
+                            'node'    => $this
+                        ];
+                        if ($repair) {
+                            if (is_array($value)) {
+                                $values[$key][$i] = 1;
+                            } else {
+                                $values[$key] = 1;
+                            }
+                        }
+                    } elseif ((int)$v > 12) {
+                        $warnings[] = [
+                            'level'   => $repair ? 1 : 3,
+                            'message' => 'BYMONTH in RRULE must have value(s) between 1 and 12!',
+                            'node'    => $this
+                        ];
+                        if ($repair) {
+                            if (is_array($value)) {
+                                $values[$key][$i] = 12;
+                            } else {
+                                $values[$key] = 12;
+                            }
+                        }
+                    }
+                }
+
+                if ($repair && is_array($value)) {
+                    // because of repair, we can have multiple 1 or 12
+                    $values[$key] = array_unique($values[$key]);
+                }
             }
 
         }
