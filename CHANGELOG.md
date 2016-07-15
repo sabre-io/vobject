@@ -10,6 +10,9 @@ ChangeLog
   date/time (@afedyk-sugarcrm).
 * #333: Fix endless loop on invalid `BYMONTH` values in recurrence.
   (@PHPGangsta)
+* #339: Fixed a few `validate()` results when repair is off. (@PHPGangsta)
+* #338: Stripping invalid `BYMONTH=` rules during `validate()` (@PHPGangsta)
+* #336: Fix incorrect `BYSECOND=` validation. (@PHPGangsta)
 
 
 4.1.0 (2016-04-06)
