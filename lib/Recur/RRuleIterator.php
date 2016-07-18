@@ -537,6 +537,43 @@ class RRuleIterator implements Iterator {
 
             }
 
+            if ($this->byWeekNo !== null) { // byWeekNo is an array with values from -53 to -1, or 1 to 53
+                $dayOffsets = [];
+                if ($this->byDay) {
+                    foreach ($this->byDay as $byDay) {
+                        $dayOffsets[] = $this->dayMap[$byDay];
+                    }
+                } else {   // default is Monday
+                    $dayOffsets[] = 1;
+                }
+
+                $currentYear = $this->currentDate->format('Y');
+
+                while (true) {
+                    $checkDates = [];
+
+                    // loop through all WeekNo and Days to check all the combinations
+                    foreach ($this->byWeekNo as $byWeekNo) {
+                        foreach ($dayOffsets as $dayOffset) {
+                            $date = clone $this->currentDate;
+                            $date->setISODate($currentYear, $byWeekNo, $dayOffset);
+
+                            if ($date > $this->currentDate) {
+                                $checkDates[] = $date;
+                            }
+                        }
+                    }
+
+                    if (count($checkDates) > 0) {
+                        $this->currentDate = min($checkDates);
+                        return;
+                    }
+
+                    // if there is no date found, check the next year
+                    $currentYear++;
+                }
+            }
+
             // The easiest form
             $this->currentDate = $this->currentDate->modify('+' . $this->interval . ' years');
             return;
@@ -714,6 +751,11 @@ class RRuleIterator implements Iterator {
 
                 case 'BYWEEKNO' :
                     $this->byWeekNo = (array)$value;
+                    foreach ($this->byWeekNo as $byWeekNo) {
+                        if (!is_numeric($byWeekNo) || (int)$byWeekNo < -53 || (int)$byWeekNo == 0 || (int)$byWeekNo > 53) {
+                            throw new InvalidDataException('BYWEEKNO in RRULE must have value(s) from 1 to 53, or -53 to -1!');
+                        }
+                    }
                     break;
 
                 case 'BYMONTH' :

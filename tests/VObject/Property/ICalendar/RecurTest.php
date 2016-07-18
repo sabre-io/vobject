@@ -317,4 +317,70 @@ END:VCALENDAR
 
     }
 
+    function testValidateValidByWeekNoWithRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=11');
+        $result = $property->validate(Node::REPAIR);
+
+        $this->assertCount(0, $result);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYWEEKNO=11', $property->getValue());
+
+    }
+
+    function testValidateInvalidByWeekNoWithRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=55;BYDAY=WE');
+        $result = $property->validate(Node::REPAIR);
+
+        $this->assertCount(1, $result);
+        $this->assertEquals('BYWEEKNO in RRULE must have value(s) from -53 to -1, or 1 to 53!', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYDAY=WE', $property->getValue());
+
+    }
+
+    function testValidateMultipleInvalidByWeekNoWithRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=55,2,-80;BYDAY=WE');
+        $result = $property->validate(Node::REPAIR);
+
+        $this->assertCount(2, $result);
+        $this->assertEquals('BYWEEKNO in RRULE must have value(s) from -53 to -1, or 1 to 53!', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals('BYWEEKNO in RRULE must have value(s) from -53 to -1, or 1 to 53!', $result[1]['message']);
+        $this->assertEquals(1, $result[1]['level']);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYWEEKNO=2;BYDAY=WE', $property->getValue());
+
+    }
+
+    function testValidateAllInvalidByWeekNoWithRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=55,-80;BYDAY=WE');
+        $result = $property->validate(Node::REPAIR);
+
+        $this->assertCount(2, $result);
+        $this->assertEquals('BYWEEKNO in RRULE must have value(s) from -53 to -1, or 1 to 53!', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals('BYWEEKNO in RRULE must have value(s) from -53 to -1, or 1 to 53!', $result[1]['message']);
+        $this->assertEquals(1, $result[1]['level']);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYDAY=WE', $property->getValue());
+
+    }
+
+    function testValidateInvalidByWeekNoWithoutRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=55;BYDAY=WE');
+        $result = $property->validate();
+
+        $this->assertCount(1, $result);
+        $this->assertEquals('BYWEEKNO in RRULE must have value(s) from -53 to -1, or 1 to 53!', $result[0]['message']);
+        $this->assertEquals(3, $result[0]['level']);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYWEEKNO=55;BYDAY=WE', $property->getValue());
+
+    }
 }
