@@ -8,6 +8,7 @@ use Iterator;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property;
+use Sabre\VObject\Settings;
 
 /**
  * RRuleParser.
@@ -624,6 +625,10 @@ class RRuleIterator implements Iterator {
                     (int)$currentMonth,
                     (int)$currentDayOfMonth
                 );
+
+                if ($this->currentDate->format('Y-m-d') > Settings::$maxDate) {
+                    throw new NoInstancesException('This recurrence rule does not generate any valid instances before ' . Settings::$maxDate);
+                }
 
             }
 

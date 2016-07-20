@@ -275,7 +275,7 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    function testMonlthyEndOfMonth() {
+    function testMonthlyEndOfMonth() {
 
         $this->parse(
             'FREQ=MONTHLY;INTERVAL=2;COUNT=12',
@@ -506,6 +506,36 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
                 '2016-10-03 00:00:00',
                 '2016-10-30 00:00:00',
             ]
+        );
+
+    }
+
+    /**
+     * There is no November 31st, the endless loop should be stopped by an Exception
+     *
+     * @expectedException \Sabre\VObject\Recur\NoInstancesException
+     */
+    function testYearlyByMonthByMonthDayNotExistingDay() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYMONTH=11;BYMONTHDAY=31',
+            '2011-04-04 00:00:00',
+            []
+        );
+
+    }
+
+    /**
+     * There is no February 29th in odd years, the endless loop should be stopped by an Exception
+     *
+     * @expectedException \Sabre\VObject\Recur\NoInstancesException
+     */
+    function testYearlyLeapYearsInOddYears() {
+
+        $this->parse(
+            'FREQ=YEARLY;INTERVAL=2;COUNT=6;BYMONTH=2;BYMONTHDAY=29',
+            '2011-02-29 00:00:00',
+            []
         );
 
     }
