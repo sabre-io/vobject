@@ -570,7 +570,47 @@ class RRuleIterator implements Iterator {
                     }
 
                     // if there is no date found, check the next year
-                    $currentYear++;
+                    $currentYear += $this->interval;
+                }
+            }
+
+            if ($this->byYearDay !== null) { // byYearDay is an array with values from -366 to -1, or 1 to 366
+                $dayOffsets = [];
+                if ($this->byDay) {
+                    foreach ($this->byDay as $byDay) {
+                        $dayOffsets[] = $this->dayMap[$byDay];
+                    }
+                } else {   // default is Monday-Sunday
+                    $dayOffsets = [1,2,3,4,5,6,7];
+                }
+
+                $currentYear = $this->currentDate->format('Y');
+
+                while (true) {
+                    $checkDates = [];
+
+                    // loop through all YearDay and Days to check all the combinations
+                    foreach ($this->byYearDay as $byYearDay) {
+                        $date = clone $this->currentDate;
+                        $date->setDate($currentYear, 1, 1);
+                        if ($byYearDay > 0) {
+                            $date->add(new \DateInterval('P' . $byYearDay . 'D'));
+                        } else {
+                            $date->sub(new \DateInterval('P' . abs($byYearDay) . 'D'));
+                        }
+
+                        if ($date > $this->currentDate && in_array($date->format('N'), $dayOffsets)) {
+                            $checkDates[] = $date;
+                        }
+                    }
+
+                    if (count($checkDates) > 0) {
+                        $this->currentDate = min($checkDates);
+                        return;
+                    }
+
+                    // if there is no date found, check the next year
+                    $currentYear += $this->interval;
                 }
             }
 
@@ -747,6 +787,11 @@ class RRuleIterator implements Iterator {
 
                 case 'BYYEARDAY' :
                     $this->byYearDay = (array)$value;
+                    foreach ($this->byYearDay as $byYearDay) {
+                        if (!is_numeric($byYearDay) || (int)$byYearDay < -366 || (int)$byYearDay == 0 || (int)$byYearDay > 366) {
+                            throw new InvalidDataException('BYYEARDAY in RRULE must have value(s) from 1 to 366, or -366 to -1!');
+                        }
+                    }
                     break;
 
                 case 'BYWEEKNO' :
