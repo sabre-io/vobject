@@ -510,6 +510,107 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testYearlyByYearDay() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=7;INTERVAL=2;BYYEARDAY=190',
+            '2011-07-10 03:07:00',
+            [
+                '2011-07-10 03:07:00',
+                '2013-07-10 03:07:00',
+                '2015-07-10 03:07:00',
+                '2017-07-10 03:07:00',
+                '2019-07-10 03:07:00',
+                '2021-07-10 03:07:00',
+                '2023-07-10 03:07:00',
+            ]
+        );
+
+    }
+
+    function testYearlyByYearDayMultiple() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;INTERVAL=3;BYYEARDAY=190,301',
+            '2011-07-10 14:53:11',
+            [
+                '2011-07-10 14:53:11',
+                '2011-10-29 14:53:11',
+                '2014-07-10 14:53:11',
+                '2014-10-29 14:53:11',
+                '2017-07-10 14:53:11',
+                '2017-10-29 14:53:11',
+                '2020-07-09 14:53:11',
+                '2020-10-28 14:53:11',
+            ]
+        );
+
+    }
+
+    function testYearlyByYearDayByDay() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYYEARDAY=97;BYDAY=SA',
+            '2001-04-07 14:53:11',
+            [
+                '2001-04-07 14:53:11',
+                '2006-04-08 14:53:11',
+                '2012-04-07 14:53:11',
+                '2017-04-08 14:53:11',
+                '2023-04-08 14:53:11',
+                '2034-04-08 14:53:11',
+            ]
+        );
+
+    }
+
+    function testYearlyByYearDayNegative() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;BYYEARDAY=-97,-5',
+            '2001-09-26 14:53:11',
+            [
+                '2001-09-26 14:53:11',
+                '2001-12-27 14:53:11',
+                '2002-09-26 14:53:11',
+                '2002-12-27 14:53:11',
+                '2003-09-26 14:53:11',
+                '2003-12-27 14:53:11',
+                '2004-09-26 14:53:11',
+                '2004-12-27 14:53:11',
+            ]
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByYearDayInvalid390() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;INTERVAL=4;BYYEARDAY=390',
+            '2011-04-07 00:00:00',
+            [
+            ]
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByYearDayInvalid0() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;INTERVAL=4;BYYEARDAY=0',
+            '2011-04-07 00:00:00',
+            [
+            ]
+        );
+
+    }
+
     function testFastForward() {
 
         // The idea is that we're fast-forwarding too far in the future, so

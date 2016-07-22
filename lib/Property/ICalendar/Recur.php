@@ -313,6 +313,28 @@ class Recur extends Property {
                 if (is_array($value) && empty($values[$key])) {
                     unset($values[$key]);
                 }
+            } elseif ($key == 'BYYEARDAY') {
+                $byYearDay = (array)$value;
+                foreach ($byYearDay as $i => $v) {
+                    if (!is_numeric($v) || (int)$v < -366 || (int)$v == 0 || (int)$v > 366) {
+                        $warnings[] = [
+                            'level'   => $repair ? 1 : 3,
+                            'message' => 'BYYEARDAY in RRULE must have value(s) from -366 to -1, or 1 to 366!',
+                            'node'    => $this
+                        ];
+                        if ($repair) {
+                            if (is_array($value)) {
+                                unset($values[$key][$i]);
+                            } else {
+                                unset($values[$key]);
+                            }
+                        }
+                    }
+                }
+                // if there is no valid entry left, remove the whole value
+                if (is_array($value) && empty($values[$key])) {
+                    unset($values[$key]);
+                }
             }
 
         }

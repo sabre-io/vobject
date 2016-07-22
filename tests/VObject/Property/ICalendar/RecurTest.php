@@ -383,4 +383,71 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYWEEKNO=55;BYDAY=WE', $property->getValue());
 
     }
+
+    function testValidateValidByYearDayWithRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=119');
+        $result = $property->validate(Node::REPAIR);
+
+        $this->assertCount(0, $result);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYYEARDAY=119', $property->getValue());
+
+    }
+
+    function testValidateInvalidByYearDayWithRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=367;BYDAY=WE');
+        $result = $property->validate(Node::REPAIR);
+
+        $this->assertCount(1, $result);
+        $this->assertEquals('BYYEARDAY in RRULE must have value(s) from -366 to -1, or 1 to 366!', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYDAY=WE', $property->getValue());
+
+    }
+
+    function testValidateMultipleInvalidByYearDayWithRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=380,2,-390;BYDAY=WE');
+        $result = $property->validate(Node::REPAIR);
+
+        $this->assertCount(2, $result);
+        $this->assertEquals('BYYEARDAY in RRULE must have value(s) from -366 to -1, or 1 to 366!', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals('BYYEARDAY in RRULE must have value(s) from -366 to -1, or 1 to 366!', $result[1]['message']);
+        $this->assertEquals(1, $result[1]['level']);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYYEARDAY=2;BYDAY=WE', $property->getValue());
+
+    }
+
+    function testValidateAllInvalidByYearDayWithRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=455,-480;BYDAY=WE');
+        $result = $property->validate(Node::REPAIR);
+
+        $this->assertCount(2, $result);
+        $this->assertEquals('BYYEARDAY in RRULE must have value(s) from -366 to -1, or 1 to 366!', $result[0]['message']);
+        $this->assertEquals(1, $result[0]['level']);
+        $this->assertEquals('BYYEARDAY in RRULE must have value(s) from -366 to -1, or 1 to 366!', $result[1]['message']);
+        $this->assertEquals(1, $result[1]['level']);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYDAY=WE', $property->getValue());
+
+    }
+
+    function testValidateInvalidByYearDayWithoutRepair() {
+
+        $calendar = new VCalendar();
+        $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=380;BYDAY=WE');
+        $result = $property->validate();
+
+        $this->assertCount(1, $result);
+        $this->assertEquals('BYYEARDAY in RRULE must have value(s) from -366 to -1, or 1 to 366!', $result[0]['message']);
+        $this->assertEquals(3, $result[0]['level']);
+        $this->assertEquals('FREQ=YEARLY;COUNT=6;BYYEARDAY=380;BYDAY=WE', $property->getValue());
+
+    }
 }
