@@ -5,6 +5,7 @@ ChangeLog
 ------------------
 
 * #340: Support for `BYYEARDAY` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
+* #341: Support for `BYWEEKNO` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
 
 4.1.1 (2016-07-15)
 ------------------
