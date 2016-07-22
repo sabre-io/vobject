@@ -43,6 +43,7 @@ use Sabre\VObject\Settings;
  *     * BYSETPOS
  *   * FREQ=YEARLY
  *     * BYMONTH
+ *     * BYYEARDAY
  *     * BYMONTHDAY (only if BYMONTH is also set)
  *     * BYDAY (only if BYMONTH is also set)
  *

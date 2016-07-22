@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+4.1.2 (????-??-??)
+------------------
+
+* #340: Support for `BYYEARDAY` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
+
 4.1.1 (2016-07-15)
 ------------------
 
