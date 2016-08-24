@@ -159,10 +159,10 @@ class BirthdayCalendarGenerator {
 
             // Create event.
             $event = $calendar->add('VEVENT', [
-                'SUMMARY'      => sprintf($this->format, $object->FN->getValue()),
-                'DTSTART'      => new \DateTime($object->BDAY->getValue()),
-                'RRULE'        => 'FREQ=YEARLY',
-                'TRANSP'       => 'TRANSPARENT',
+                'SUMMARY' => sprintf($this->format, $object->FN->getValue()),
+                'DTSTART' => new \DateTime($object->BDAY->getValue()),
+                'RRULE'   => 'FREQ=YEARLY',
+                'TRANSP'  => 'TRANSPARENT',
             ]);
 
             // add VALUE=date

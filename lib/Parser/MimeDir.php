@@ -2,12 +2,12 @@
 
 namespace Sabre\VObject\Parser;
 
-use Sabre\VObject\ParseException;
-use Sabre\VObject\EofException;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Document;
+use Sabre\VObject\EofException;
+use Sabre\VObject\ParseException;
 
 /**
  * MimeDir parser.

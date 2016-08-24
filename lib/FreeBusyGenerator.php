@@ -2,8 +2,8 @@
 
 namespace Sabre\VObject;
 
-use DateTimeInterface;
 use DateTimeImmutable;
+use DateTimeInterface;
 use DateTimeZone;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Recur\EventIterator;
@@ -292,7 +292,7 @@ class FreeBusyGenerator {
                 list($higherStart, $higherEnd) = $higherVavail->getEffectiveStartEnd();
                 if (
                     (is_null($higherStart) || $higherStart < $compStart) &&
-                    (is_null($higherEnd)   || $higherEnd > $compEnd)
+                    (is_null($higherEnd) || $higherEnd > $compEnd)
                 ) {
 
                     // Component is fully covered by a higher priority

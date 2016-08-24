@@ -2,8 +2,8 @@
 
 namespace Sabre\VObject;
 
-use Sabre\Xml;
 use ArrayIterator;
+use Sabre\Xml;
 
 /**
  * VObject Parameter.
