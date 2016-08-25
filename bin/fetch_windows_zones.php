@@ -36,7 +36,7 @@ fwrite($f, " *\n");
 fwrite($f, " * Last update: " . date(DATE_W3C) . "\n");
 fwrite($f, " * Source: " . $windowsZonesUrl . "\n");
 fwrite($f, " *\n");
-fwrite($f, " * @copyright Copyright (C) 2011-2015 fruux GmbH (https://fruux.com/).\n");
+fwrite($f, " * @copyright Copyright (C) fruux GmbH (https://fruux.com/).\n");
 fwrite($f, " * @license http://sabre.io/license/ Modified BSD License\n");
 fwrite($f, " */\n");
 fwrite($f, "\n");
