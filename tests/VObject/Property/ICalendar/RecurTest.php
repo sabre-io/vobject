@@ -18,7 +18,7 @@ class RecurTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('Sabre\VObject\Property\ICalendar\Recur', $recur);
 
         $this->assertEquals(['FREQ' => 'DAILY'], $recur->getParts());
-        $recur->setParts(['freq'    => 'MONTHLY']);
+        $recur->setParts(['freq' => 'MONTHLY']);
 
         $this->assertEquals(['FREQ' => 'MONTHLY'], $recur->getParts());
 

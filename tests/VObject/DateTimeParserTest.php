@@ -2,9 +2,9 @@
 
 namespace Sabre\VObject;
 
+use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
-use DateInterval;
 
 class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 

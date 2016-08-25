@@ -2,10 +2,10 @@
 
 namespace Sabre\VObject\Property;
 
-use Sabre\VObject\Property;
 use Sabre\VObject\Component;
-use Sabre\VObject\Parser\MimeDir;
 use Sabre\VObject\Document;
+use Sabre\VObject\Parser\MimeDir;
+use Sabre\VObject\Property;
 use Sabre\Xml;
 
 /**

@@ -2,9 +2,9 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTimeZone;
 use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use InvalidArgumentException;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VEvent;

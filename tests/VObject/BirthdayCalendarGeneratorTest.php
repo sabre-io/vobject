@@ -523,8 +523,8 @@ VCF;
         $calendar = new Component\VCalendar();
 
         $input = $calendar->add('VEVENT', [
-            'SUMMARY'      => 'Foo',
-            'DTSTART'      => new \DateTime('NOW'),
+            'SUMMARY' => 'Foo',
+            'DTSTART' => new \DateTime('NOW'),
         ]);
 
         $generator->setObjects($input);

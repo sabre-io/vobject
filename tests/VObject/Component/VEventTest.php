@@ -56,7 +56,7 @@ class VEventTest extends \PHPUnit_Framework_TestCase {
         $vevent6 = clone $vevent;
         $vevent6->DTSTART = '20111225';
         $vevent6->DTSTART['VALUE'] = 'DATE';
-        $vevent6->DTEND   = '20111225';
+        $vevent6->DTEND = '20111225';
         $vevent6->DTEND['VALUE'] = 'DATE';
 
         $tests[] = [$vevent6, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];

@@ -4,8 +4,8 @@ namespace Sabre\VObject\Parser;
 
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
-use Sabre\VObject\ParseException;
 use Sabre\VObject\EofException;
+use Sabre\VObject\ParseException;
 
 /**
  * Json Parser.

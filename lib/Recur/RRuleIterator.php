@@ -2,8 +2,8 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTimeInterface;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -374,8 +374,8 @@ class RRuleIterator implements Iterator {
             $currentHour = $this->currentDate->format('G');
 
         } while (
-            ($this->byDay   && !in_array($currentDay, $recurrenceDays)) ||
-            ($this->byHour  && !in_array($currentHour, $recurrenceHours)) ||
+            ($this->byDay && !in_array($currentDay, $recurrenceDays)) ||
+            ($this->byHour && !in_array($currentHour, $recurrenceHours)) ||
             ($this->byMonth && !in_array($currentMonth, $recurrenceMonths))
         );
 
