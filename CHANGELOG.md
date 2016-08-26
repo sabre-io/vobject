@@ -7,6 +7,9 @@ ChangeLog
 * #340: Support for `BYYEARDAY` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
 * #341: Support for `BYWEEKNO` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
 * Updated to the latest windows timezone data mappings.
+* #345: Auto-detecting more Outlook 365-generated timezone identifiers.
+  (@jpirkey)
+
 
 4.1.1 (2016-07-15)
 ------------------
