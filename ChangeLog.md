@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-3.5.3 (????-??-??)
+3.5.3 (2016-10-06)
 ------------------
 
 * #331: Fix dealing with multiple overridden instances falling on the same
