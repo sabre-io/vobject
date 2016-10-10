@@ -38,7 +38,7 @@
     },
     "require-dev" : {
         "phpunit/phpunit" : "*",
-        "sabre/cs"        : "~0.0.3"
+        "sabre/cs"        : "^1.0.0"
 
     },
     "suggest" : {
