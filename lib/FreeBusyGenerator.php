@@ -152,7 +152,7 @@ class FreeBusyGenerator {
         $this->objects = [];
         foreach ($objects as $object) {
 
-            if (is_string($object)) {
+            if (is_string($object) || is_resource($object)) {
                 $this->objects[] = Reader::read($object);
             } elseif ($object instanceof Component) {
                 $this->objects[] = $object;

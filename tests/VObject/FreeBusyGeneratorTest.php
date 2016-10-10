@@ -106,6 +106,29 @@ ICS;
 
     }
 
+    function testSource() {
+
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:foobar
+DTSTART:20110101T120000Z
+DTEND:20110101T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+        $h = fopen('php://memory', 'r+');
+        fwrite($h, $blob);
+        rewind($h);
+
+
+        $this->assertFreeBusyReport(
+            "FREEBUSY:20110101T120000Z/20110101T130000Z",
+            $h
+        );
+
+    }
+
     /**
      * Testing TRANSP:OPAQUE
      */

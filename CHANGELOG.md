@@ -9,6 +9,7 @@ ChangeLog
 * Updated to the latest windows timezone data mappings.
 * #345: Auto-detecting more Outlook 365-generated timezone identifiers.
   (@jpirkey)
+* #348: `FreeBusyGenerator` can now accept streams.
 
 
 4.1.1 (2016-07-15)
