@@ -6,8 +6,8 @@ use DateTimeImmutable;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Recur;
 use Sabre\VObject\Reader;
+use Sabre\VObject\Recur;
 
 class InfiniteLoopProblemTest extends TestCase {
 

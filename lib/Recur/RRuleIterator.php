@@ -635,7 +635,7 @@ class RRuleIterator implements Iterator {
             while (true) {
 
                 $occurrences = $this->getMonthlyOccurrences();
-                if(!$occurrences) {
+                if (!$occurrences) {
                     // We are counting subsequent months where there weren't
                     // occurrences. If we exceed the treshold we might be
                     // dealing with a recurrence rule that doesn't generate
