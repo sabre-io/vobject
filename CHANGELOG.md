@@ -10,6 +10,8 @@ ChangeLog
 * #345: Auto-detecting more Outlook 365-generated timezone identifiers.
   (@jpirkey)
 * #348: `FreeBusyGenerator` can now accept streams.
+* #329: Infinite loop when using `BYMONTHDAY`, `BYDAY` and/or `BYSETPOS` to
+  expand a `BYMONTH` rule.
 
 
 4.1.1 (2016-07-15)

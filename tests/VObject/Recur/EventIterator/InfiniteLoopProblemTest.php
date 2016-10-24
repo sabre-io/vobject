@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Recur;
+use Sabre\VObject\Reader;
 
 class InfiniteLoopProblemTest extends \PHPUnit_Framework_TestCase {
 
@@ -92,6 +93,44 @@ class InfiniteLoopProblemTest extends \PHPUnit_Framework_TestCase {
         $it->fastForward(new DateTimeImmutable('2013-01-01 23:00:00', new DateTimeZone('UTC')));
 
         // if we got this far.. it means we are no longer infinitely looping
+
+    }
+
+    /**
+     * Another infinite loop, from Issue #329.
+     *
+     * This was triggered due to a BYMONTHDAY rule that was using a value that
+     * never occurred in the BYMONTH rule.
+     *
+     * This bug surfaced similar issues with BYDAY and BYSETPOS.
+     *
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testBadByMonthday() {
+
+        $input = Reader::read(<<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//something//DE
+CALSCALE:GREGORIAN
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:20160103T123422CET-9863LIMv8E
+DTSTAMP:20160103T113422Z
+DESCRIPTION:important date
+DTSTART;TZID=Europe/Berlin:20151231T000000
+DTEND;TZID=Europe/Berlin:20151231T235900
+RRULE:FREQ=YEARLY;COUNT=6;BYMONTHDAY=31;BYMONTH=11
+SUMMARY:important date
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
+ICS
+        );
+        $input->expand(
+            new DateTimeImmutable('2015-01-01'),
+            new DateTimeImmutable('2016-01-01')
+        );
 
     }
 
