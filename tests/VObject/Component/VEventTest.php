@@ -81,6 +81,13 @@ class VEventTest extends \PHPUnit_Framework_TestCase {
         $vevent8->add('EXDATE', '20130329T140000');
         $tests[] = [$vevent8, new \DateTime('2013-03-01'), new \DateTime('2013-04-01'), false];
 
+        // Added this test to check recurring all day event that repeat every day
+        $vevent9 = clone $vevent;
+        $vevent9->DTSTART = '20161027';
+        $vevent9->DTEND = '20161028';
+        $vevent9->RRULE = 'FREQ=DAILY';
+        $tests[] = [$vevent9, new \DateTime('2016-10-31'), new \DateTime('2016-12-12'), true];
+
         return $tests;
 
     }

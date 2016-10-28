@@ -1120,6 +1120,33 @@ class MainTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testValues
      */
+    function testFastForwardAllDayEventThatStopAtTheStartTime() {
+        $vcal = new VCalendar();
+        $ev = $vcal->createComponent('VEVENT');
+
+        $ev->UID = 'bla';
+        $ev->RRULE = 'FREQ=DAILY';
+
+        $dtStart = $vcal->createProperty('DTSTART');
+        $dtStart->setDateTime(new DateTimeImmutable('2011-04-04', new DateTimeZone('UTC')));
+        $ev->add($dtStart);
+
+        $dtEnd = $vcal->createProperty('DTSTART');
+        $dtEnd->setDateTime(new DateTimeImmutable('2011-04-05', new DateTimeZone('UTC')));
+        $ev->add($dtEnd);
+
+        $vcal->add($ev);
+
+        $it = new EventIterator($vcal, (string)$ev->UID);
+
+        $it->fastForward(new DateTimeImmutable('2011-04-05T000000', new DateTimeZone('UTC')));
+
+        $this->assertEquals(new DateTimeImmutable('2011-04-06'), $it->getDTStart());
+    }
+
+    /**
+     * @depends testValues
+     */
     function testComplexExclusions() {
 
         $vcal = new VCalendar();
