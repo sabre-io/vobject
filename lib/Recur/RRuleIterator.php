@@ -620,11 +620,13 @@ class RRuleIterator implements Iterator {
 
         }
 
-        $currentMonth = $this->currentDate->format('n');
-        $currentYear = $this->currentDate->format('Y');
-        $currentDayOfMonth = $this->currentDate->format('j');
+        //$currentMonth = $this->currentDate->format('n');
+        //$currentYear = $this->currentDate->format('Y');
+        //$currentDayOfMonth = $this->currentDate->format('j');
 
         $advancedToNewMonth = false;
+
+        $noOccurrenceCounter = 0;
 
         // If we got a byDay or getMonthDay filter, we must first expand
         // further.
@@ -633,6 +635,18 @@ class RRuleIterator implements Iterator {
             while (true) {
 
                 $occurrences = $this->getMonthlyOccurrences();
+                if (!$occurrences) {
+                    // We are counting subsequent months where there weren't
+                    // occurrences. If we exceed the treshold we might be
+                    // dealing with a recurrence rule that doesn't generate
+                    // valid instances.
+                    $noOccurrenceCounter++;
+                    if (++$noOccurrenceCounter > 10) {
+                        throw new InvalidDataException('BYDAY, BYMONTHDAY and/or BYSETPOS rules don\'t generate valid recurrence instances');
+                    }
+                } else {
+                    $noOccurrenceCounter = 0;
+                }
 
                 foreach ($occurrences as $occurrence) {
 
