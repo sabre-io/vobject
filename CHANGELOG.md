@@ -10,6 +10,7 @@ ChangeLog
 * #345: Auto-detecting more Outlook 365-generated timezone identifiers.
   (@jpirkey)
 * #348: `FreeBusyGenerator` can now accept streams.
+* Support sabre/xml 1.5 and 2.0.
 
 
 4.1.1 (2016-07-15)

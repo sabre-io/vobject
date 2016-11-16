@@ -34,7 +34,7 @@
     "require" : {
         "php"          : ">=5.5",
         "ext-mbstring" : "*",
-        "sabre/xml"    : "~1.1"
+        "sabre/xml"    : ">=1.5 <3.0"
     },
     "require-dev" : {
         "phpunit/phpunit" : "*",
