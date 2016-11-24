@@ -33,7 +33,7 @@ class KeyValue extends SabreXml\Element\KeyValue {
      * $reader->parseInnerTree() will parse the entire sub-tree, and advance to
      * the next element.
      *
-     * @param XML\Reader $reader
+     * @param SabreXml\Reader $reader
      *
      * @return mixed
      */

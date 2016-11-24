@@ -84,7 +84,7 @@ class ICalendar implements SplitterInterface {
      *
      * When the end is reached, null will be returned.
      *
-     * @return Sabre\VObject\Component|null
+     * @return VCalendar|null
      */
     function getNext() {
 

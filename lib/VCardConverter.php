@@ -268,8 +268,8 @@ class VCardConverter {
      *
      * @param Component\VCard $output
      * @param Property\Uri $property The input property.
-     * @param $parameters List of parameters that will eventually be added to
-     *                    the new property.
+     * @param array $parameters List of parameters that will eventually be added to
+     *                          the new property.
      *
      * @return Property\Uri
      */

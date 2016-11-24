@@ -143,7 +143,7 @@ class DateTime extends Property {
      *
      * @param DateTimeZone $timeZone
      *
-     * @return DateTimeImmutable
+     * @return \DateTimeImmutable
      */
     function getDateTime(DateTimeZone $timeZone = null) {
 
@@ -163,8 +163,7 @@ class DateTime extends Property {
      *
      * @param DateTimeZone $timeZone
      *
-     * @return DateTimeImmutable[]
-     * @return \DateTime[]
+     * @return \DateTimeImmutable[]
      */
     function getDateTimes(DateTimeZone $timeZone = null) {
 
@@ -187,7 +186,7 @@ class DateTime extends Property {
      * Sets the property as a DateTime object.
      *
      * @param DateTimeInterface $dt
-     * @param bool isFloating If set to true, timezones will be ignored.
+     * @param bool $isFloating If set to true, timezones will be ignored.
      *
      * @return void
      */
@@ -204,7 +203,7 @@ class DateTime extends Property {
      * the otehr values will be adjusted for that timezone
      *
      * @param DateTimeInterface[] $dt
-     * @param bool isFloating If set to true, timezones will be ignored.
+     * @param bool $isFloating If set to true, timezones will be ignored.
      *
      * @return void
      */

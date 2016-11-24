@@ -118,9 +118,9 @@ class TimeZoneUtil {
      * exception if we cannot accurately determine the timezone.
      *
      * @param string $tzid
-     * @param Sabre\VObject\Component $vcalendar
+     * @param Component $vcalendar
      *
-     * @return DateTimeZone
+     * @return \DateTimeZone
      */
     static function getTimeZone($tzid, Component $vcalendar = null, $failIfUncertain = false) {
 
