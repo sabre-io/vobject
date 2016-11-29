@@ -45,7 +45,7 @@ class DateAndOrTime extends Property {
     /**
      * Sets a multi-valued property.
      *
-     * You may also specify DateTime objects here.
+     * You may also specify DateTimeInterface objects here.
      *
      * @param array $parts
      *
@@ -56,7 +56,7 @@ class DateAndOrTime extends Property {
         if (count($parts) > 1) {
             throw new \InvalidArgumentException('Only one value allowed');
         }
-        if (isset($parts[0]) && $parts[0] instanceof \DateTime) {
+        if (isset($parts[0]) && $parts[0] instanceof DateTimeInterface) {
             $this->setDateTime($parts[0]);
         } else {
             parent::setParts($parts);
@@ -69,15 +69,15 @@ class DateAndOrTime extends Property {
      *
      * This may be either a single, or multiple strings in an array.
      *
-     * Instead of strings, you may also use DateTime here.
+     * Instead of strings, you may also use DateTimeInterface here.
      *
-     * @param string|array|\DateTime $value
+     * @param string|array|DateTimeInterface $value
      *
      * @return void
      */
     function setValue($value) {
 
-        if ($value instanceof \DateTime) {
+        if ($value instanceof DateTimeInterface) {
             $this->setDateTime($value);
         } else {
             parent::setValue($value);
