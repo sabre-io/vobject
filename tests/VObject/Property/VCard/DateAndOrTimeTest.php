@@ -95,6 +95,19 @@ class DateAndOrTimeTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testSetPartsDateTimeImmutable() {
+
+        $vcard = new VObject\Component\VCard();
+
+        $prop = $vcard->createProperty('BDAY');
+        $prop->setParts([
+            new \DateTimeImmutable('2014-04-02 18:37:00')
+        ]);
+
+        $this->assertEquals('20140402T183700Z', $prop->getValue());
+
+    }
+
     /**
      * @expectedException InvalidArgumentException
      */
@@ -130,6 +143,19 @@ class DateAndOrTimeTest extends \PHPUnit_Framework_TestCase {
         $prop = $vcard->createProperty('BDAY');
         $prop->setValue(
             new \DateTime('2014-04-02 18:37:00')
+        );
+
+        $this->assertEquals('20140402T183700Z', $prop->getValue());
+
+    }
+
+    function testSetValueDateTimeImmutable() {
+
+        $vcard = new VObject\Component\VCard();
+
+        $prop = $vcard->createProperty('BDAY');
+        $prop->setValue(
+            new \DateTimeImmutable('2014-04-02 18:37:00')
         );
 
         $this->assertEquals('20140402T183700Z', $prop->getValue());
