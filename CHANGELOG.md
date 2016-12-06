@@ -1,16 +1,20 @@
 ChangeLog
 =========
 
-4.1.2 (????-??-??)
+4.1.2 (2016-12-15)
 ------------------
 
 * #340: Support for `BYYEARDAY` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
 * #341: Support for `BYWEEKNO` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
 * Updated to the latest windows timezone data mappings.
-* #345: Auto-detecting more Outlook 365-generated timezone identifiers.
+* #344: Auto-detecting more Outlook 365-generated timezone identifiers.
   (@jpirkey)
 * #348: `FreeBusyGenerator` can now accept streams.
 * Support sabre/xml 1.5 and 2.0.
+* #355: Support `DateTimeInterface` in more places where only `DateTime` was
+  supported. (@gharlan).
+* #351: Fixing an inclusive/exclusive problem with `isInTimeRange` and
+  `fastForward` with all-day events. (@strokyl, thanks you are brilliant).
 
 
 4.1.1 (2016-07-15)
