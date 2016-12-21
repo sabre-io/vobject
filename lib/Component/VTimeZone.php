@@ -53,8 +53,7 @@ class VTimeZone extends VObject\Component {
             'LAST-MODIFIED' => '?',
             'TZURL'         => '?',
 
-            // At least 1 STANDARD or DAYLIGHT must appear, or more. But both
-            // cannot appear in the same VTIMEZONE.
+            // At least 1 STANDARD or DAYLIGHT must appear.
             //
             // The validator is not specific yet to pick this up, so these
             // rules are too loose.

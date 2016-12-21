@@ -2,8 +2,8 @@
 
 namespace Sabre\VObject\Recur;
 
-use Sabre\VObject\Reader;
 use DateTime;
+use Sabre\VObject\Reader;
 
 class ByMonthInDailyTest extends \PHPUnit_Framework_TestCase {
 

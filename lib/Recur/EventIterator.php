@@ -2,9 +2,9 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTimeZone;
 use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use InvalidArgumentException;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VEvent;
@@ -43,6 +43,8 @@ use Sabre\VObject\Settings;
  *     * BYSETPOS
  *   * FREQ=YEARLY
  *     * BYMONTH
+ *     * BYYEARDAY
+ *     * BYWEEKNO
  *     * BYMONTHDAY (only if BYMONTH is also set)
  *     * BYDAY (only if BYMONTH is also set)
  *
@@ -279,16 +281,9 @@ class EventIterator implements \Iterator {
         if (isset($event->DTEND)) {
             $event->DTEND->setDateTime($this->getDtEnd(), $event->DTEND->isFloating());
         }
-        // Including a RECURRENCE-ID to the object, unless this is the first
-        // object.
-        //
-        // The inner recurIterator is always one step ahead, this is why we're
-        // checking for the key being higher than 1.
-        if ($this->recurIterator->key() > 1) {
-            $recurid = clone $event->DTSTART;
-            $recurid->name = 'RECURRENCE-ID';
-            $event->add($recurid);
-        }
+        $recurid = clone $event->DTSTART;
+        $recurid->name = 'RECURRENCE-ID';
+        $event->add($recurid);
         return $event;
 
     }
@@ -332,7 +327,7 @@ class EventIterator implements \Iterator {
         $index = [];
         foreach ($this->overriddenEvents as $key => $event) {
             $stamp = $event->DTSTART->getDateTime($this->timeZone)->getTimeStamp();
-            $index[$stamp] = $key;
+            $index[$stamp][] = $key;
         }
         krsort($index);
         $this->counter = 0;
@@ -379,8 +374,9 @@ class EventIterator implements \Iterator {
         // overridden event may cut ahead.
         if ($this->overriddenEventsIndex) {
 
-            $offset = end($this->overriddenEventsIndex);
+            $offsets = end($this->overriddenEventsIndex);
             $timestamp = key($this->overriddenEventsIndex);
+            $offset = end($offsets);
             if (!$nextDate || $timestamp < $nextDate->getTimeStamp()) {
                 // Overridden event comes first.
                 $this->currentOverriddenEvent = $this->overriddenEvents[$offset];
@@ -390,7 +386,10 @@ class EventIterator implements \Iterator {
                 $this->currentDate = $this->currentOverriddenEvent->DTSTART->getDateTime($this->timeZone);
 
                 // Ensuring that this item will only be used once.
-                array_pop($this->overriddenEventsIndex);
+                array_pop($this->overriddenEventsIndex[$timestamp]);
+                if (!$this->overriddenEventsIndex[$timestamp]) {
+                    array_pop($this->overriddenEventsIndex);
+                }
 
                 // Exit point!
                 return;
@@ -410,7 +409,7 @@ class EventIterator implements \Iterator {
      */
     function fastForward(DateTimeInterface $dateTime) {
 
-        while ($this->valid() && $this->getDtEnd() < $dateTime) {
+        while ($this->valid() && $this->getDtEnd() <= $dateTime) {
             $this->next();
         }
 
@@ -458,7 +457,7 @@ class EventIterator implements \Iterator {
     /**
      * Overridden event index.
      *
-     * Key is timestamp, value is the index of the item in the $overriddenEvent
+     * Key is timestamp, value is the list of indexes of the item in the $overriddenEvent
      * property.
      *
      * @var array

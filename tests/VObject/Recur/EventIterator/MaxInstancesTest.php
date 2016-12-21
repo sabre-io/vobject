@@ -2,19 +2,18 @@
 
 namespace Sabre\VObject\Recur\EventIterator;
 
+use DateTime;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Settings;
-use Sabre\VObject\TestCase;
-use DateTime;
 
-class MaxInstancesTest extends TestCase {
+class MaxInstancesTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException \Sabre\VObject\Recur\MaxInstancesExceededException
      */
     function testExceedMaxRecurrences() {
 
-        $input =  <<<ICS
+        $input = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT

@@ -439,6 +439,58 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByMonthInvalidValue1() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=0',
+            '2011-04-07 00:00:00',
+            []
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByMonthInvalidValue2() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=bla',
+            '2011-04-07 00:00:00',
+            []
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByMonthManyInvalidValues() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=0,bla',
+            '2011-04-07 00:00:00',
+            []
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByMonthEmptyValue() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=',
+            '2011-04-07 00:00:00',
+            []
+        );
+
+    }
+
     function testYearlyByMonthByDay() {
 
         $this->parse(
@@ -453,6 +505,107 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
                 '2016-04-24 00:00:00',
                 '2016-10-03 00:00:00',
                 '2016-10-30 00:00:00',
+            ]
+        );
+
+    }
+
+    function testYearlyByYearDay() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=7;INTERVAL=2;BYYEARDAY=190',
+            '2011-07-10 03:07:00',
+            [
+                '2011-07-10 03:07:00',
+                '2013-07-10 03:07:00',
+                '2015-07-10 03:07:00',
+                '2017-07-10 03:07:00',
+                '2019-07-10 03:07:00',
+                '2021-07-10 03:07:00',
+                '2023-07-10 03:07:00',
+            ]
+        );
+
+    }
+
+    function testYearlyByYearDayMultiple() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;INTERVAL=3;BYYEARDAY=190,301',
+            '2011-07-10 14:53:11',
+            [
+                '2011-07-10 14:53:11',
+                '2011-10-29 14:53:11',
+                '2014-07-10 14:53:11',
+                '2014-10-29 14:53:11',
+                '2017-07-10 14:53:11',
+                '2017-10-29 14:53:11',
+                '2020-07-09 14:53:11',
+                '2020-10-28 14:53:11',
+            ]
+        );
+
+    }
+
+    function testYearlyByYearDayByDay() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=6;BYYEARDAY=97;BYDAY=SA',
+            '2001-04-07 14:53:11',
+            [
+                '2001-04-07 14:53:11',
+                '2006-04-08 14:53:11',
+                '2012-04-07 14:53:11',
+                '2017-04-08 14:53:11',
+                '2023-04-08 14:53:11',
+                '2034-04-08 14:53:11',
+            ]
+        );
+
+    }
+
+    function testYearlyByYearDayNegative() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;BYYEARDAY=-97,-5',
+            '2001-09-26 14:53:11',
+            [
+                '2001-09-26 14:53:11',
+                '2001-12-27 14:53:11',
+                '2002-09-26 14:53:11',
+                '2002-12-27 14:53:11',
+                '2003-09-26 14:53:11',
+                '2003-12-27 14:53:11',
+                '2004-09-26 14:53:11',
+                '2004-12-27 14:53:11',
+            ]
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByYearDayInvalid390() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;INTERVAL=4;BYYEARDAY=390',
+            '2011-04-07 00:00:00',
+            [
+            ]
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testYearlyByYearDayInvalid0() {
+
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;INTERVAL=4;BYYEARDAY=0',
+            '2011-04-07 00:00:00',
+            [
             ]
         );
 
@@ -514,6 +667,135 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
                 '2009-06-15 18:00:00',
                 '2009-06-22 18:00:00',
                 '2009-06-29 18:00:00',
+            ]
+        );
+
+    }
+
+    function testValidByWeekNo() {
+
+        $this->parse(
+            'FREQ=YEARLY;BYWEEKNO=20;BYDAY=TU',
+            '2011-02-07 00:00:00',
+            [
+                '2011-02-07 00:00:00',
+                '2011-05-17 00:00:00',
+                '2012-05-15 00:00:00',
+                '2013-05-14 00:00:00',
+                '2014-05-13 00:00:00',
+                '2015-05-12 00:00:00',
+                '2016-05-17 00:00:00',
+                '2017-05-16 00:00:00',
+                '2018-05-15 00:00:00',
+                '2019-05-14 00:00:00',
+                '2020-05-12 00:00:00',
+                '2021-05-18 00:00:00',
+            ]
+        );
+
+    }
+
+    function testNegativeValidByWeekNo() {
+
+        $this->parse(
+            'FREQ=YEARLY;BYWEEKNO=-20;BYDAY=TU,FR',
+            '2011-09-02 00:00:00',
+            [
+                '2011-09-02 00:00:00',
+                '2012-08-07 00:00:00',
+                '2012-08-10 00:00:00',
+                '2013-08-06 00:00:00',
+                '2013-08-09 00:00:00',
+                '2014-08-05 00:00:00',
+                '2014-08-08 00:00:00',
+                '2015-08-11 00:00:00',
+                '2015-08-14 00:00:00',
+                '2016-08-09 00:00:00',
+                '2016-08-12 00:00:00',
+                '2017-08-08 00:00:00',
+            ]
+        );
+
+    }
+
+    function testTwoValidByWeekNo() {
+
+        $this->parse(
+            'FREQ=YEARLY;BYWEEKNO=20;BYDAY=TU,FR',
+            '2011-09-07 09:00:00',
+            [
+                '2011-09-07 09:00:00',
+                '2012-05-15 09:00:00',
+                '2012-05-18 09:00:00',
+                '2013-05-14 09:00:00',
+                '2013-05-17 09:00:00',
+                '2014-05-13 09:00:00',
+                '2014-05-16 09:00:00',
+                '2015-05-12 09:00:00',
+                '2015-05-15 09:00:00',
+                '2016-05-17 09:00:00',
+                '2016-05-20 09:00:00',
+                '2017-05-16 09:00:00',
+            ]
+        );
+
+    }
+
+    function testValidByWeekNoByDayDefault() {
+
+        $this->parse(
+            'FREQ=YEARLY;BYWEEKNO=20',
+            '2011-05-16 00:00:00',
+            [
+                '2011-05-16 00:00:00',
+                '2012-05-14 00:00:00',
+                '2013-05-13 00:00:00',
+                '2014-05-12 00:00:00',
+                '2015-05-11 00:00:00',
+                '2016-05-16 00:00:00',
+                '2017-05-15 00:00:00',
+                '2018-05-14 00:00:00',
+                '2019-05-13 00:00:00',
+                '2020-05-11 00:00:00',
+                '2021-05-17 00:00:00',
+                '2022-05-16 00:00:00',
+            ]
+        );
+
+    }
+
+    function testMultipleValidByWeekNo() {
+
+        $this->parse(
+            'FREQ=YEARLY;BYWEEKNO=20,50;BYDAY=TU,FR',
+            '2011-01-16 00:00:00',
+            [
+                '2011-01-16 00:00:00',
+                '2011-05-17 00:00:00',
+                '2011-05-20 00:00:00',
+                '2011-12-13 00:00:00',
+                '2011-12-16 00:00:00',
+                '2012-05-15 00:00:00',
+                '2012-05-18 00:00:00',
+                '2012-12-11 00:00:00',
+                '2012-12-14 00:00:00',
+                '2013-05-14 00:00:00',
+                '2013-05-17 00:00:00',
+                '2013-12-10 00:00:00',
+            ]
+        );
+
+    }
+
+    /**
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testInvalidByWeekNo() {
+
+        $this->parse(
+            'FREQ=YEARLY;BYWEEKNO=54',
+            '2011-05-16 00:00:00',
+            [
             ]
         );
 

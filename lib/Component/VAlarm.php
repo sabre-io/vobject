@@ -2,10 +2,10 @@
 
 namespace Sabre\VObject\Component;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Sabre\VObject;
 use Sabre\VObject\InvalidDataException;
-use DateTimeInterface;
-use DateTimeImmutable;
 
 /**
  * VAlarm component.

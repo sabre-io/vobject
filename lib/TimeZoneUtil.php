@@ -165,6 +165,16 @@ class TimeZoneUtil {
             return new \DateTimeZone(self::$map[$tzid]);
         }
 
+        // Some Microsoft products prefix the offset first, so let's strip that off
+        // and see if it is our tzid map.  We don't want to check for this first just
+        // in case there are overrides in our tzid map.
+        if (preg_match('/^\((UTC|GMT)(\+|\-)[\d]{2}\:[\d]{2}\) (.*)/', $tzid, $matches)) {
+            $tzidAlternate = $matches[3];
+            if (isset(self::$map[$tzidAlternate])) {
+                return new \DateTimeZone(self::$map[$tzidAlternate]);
+            }
+        }
+
         // Maybe the author was hyper-lazy and just included an offset. We
         // support it, but we aren't happy about it.
         if (preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches)) {
@@ -240,10 +250,10 @@ class TimeZoneUtil {
         if (!is_null(self::$map)) return;
 
         self::$map = array_merge(
-            include __DIR__ .  '/timezonedata/windowszones.php',
-            include __DIR__ .  '/timezonedata/lotuszones.php',
-            include __DIR__ .  '/timezonedata/exchangezones.php',
-            include __DIR__ .  '/timezonedata/php-workaround.php'
+            include __DIR__ . '/timezonedata/windowszones.php',
+            include __DIR__ . '/timezonedata/lotuszones.php',
+            include __DIR__ . '/timezonedata/exchangezones.php',
+            include __DIR__ . '/timezonedata/php-workaround.php'
         );
 
     }
@@ -260,7 +270,7 @@ class TimeZoneUtil {
      * @return array
      */
     static function getIdentifiersBC() {
-        return include __DIR__ .  '/timezonedata/php-bc.php';
+        return include __DIR__ . '/timezonedata/php-bc.php';
     }
 
 }

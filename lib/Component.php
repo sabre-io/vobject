@@ -640,6 +640,7 @@ class Component extends Node {
                         $repaired = false;
                         if ($options & self::REPAIR && isset($defaults[$propName])) {
                             $this->add($propName, $defaults[$propName]);
+                            $repaired = true;
                         }
                         $messages[] = [
                             'level'   => $repaired ? 1 : 3,

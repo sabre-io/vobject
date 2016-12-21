@@ -781,9 +781,9 @@ class Broker {
                 $dt = DateTimeParser::parse($instance['id'], $eventInfo['timezone']);
                 // Treat is as a DATE field
                 if (strlen($instance['id']) <= 8) {
-                    $recur = $event->add('RECURRENCE-ID', $dt, ['VALUE' => 'DATE']);
+                    $event->add('RECURRENCE-ID', $dt, ['VALUE' => 'DATE']);
                 } else {
-                    $recur = $event->add('RECURRENCE-ID', $dt);
+                    $event->add('RECURRENCE-ID', $dt);
                 }
             }
             $organizer = $event->add('ORGANIZER', $message->recipient);
@@ -818,9 +818,16 @@ class Broker {
      * 1. uid
      * 2. organizer
      * 3. organizerName
-     * 4. attendees
-     * 5. instances
-     *
+     * 4. organizerScheduleAgent
+     * 5. organizerForceSend
+     * 6. instances
+     * 7. attendees
+     * 8. sequence
+     * 9. exdate
+     * 10. timezone - strictly the timezone on which the recurrence rule is
+     *                based on.
+     * 11. significantChangeHash
+     * 12. status
      * @param VCalendar $calendar
      *
      * @return array
@@ -891,8 +898,12 @@ class Broker {
             }
 
             $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getValue() : 'master';
-            if ($recurId === 'master') {
-                $timezone = $vevent->DTSTART->getDateTime()->getTimeZone();
+            if (is_null($timezone)) {
+                if ($recurId === 'master') {
+                    $timezone = $vevent->DTSTART->getDateTime()->getTimeZone();
+                } else {
+                    $timezone = $vevent->{'RECURRENCE-ID'}->getDateTime()->getTimeZone();
+                }
             }
             if (isset($vevent->ATTENDEE)) {
                 foreach ($vevent->ATTENDEE as $attendee) {

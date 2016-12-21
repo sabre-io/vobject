@@ -54,7 +54,7 @@ class Recur extends Property {
                     if (strcmp($k, 'until') === 0) {
                         $v = strtr($v, [':' => '', '-' => '']);
                     }
-                } else {
+                } elseif (is_array($v)) {
                     $v = array_map('strtoupper', $v);
                 }
 
@@ -171,6 +171,8 @@ class Recur extends Property {
             if (strcmp($k, 'UNTIL') === 0) {
                 $date = new DateTime($this->root, null, $v);
                 $values[strtolower($k)] = $date->getJsonValue()[0];
+            } elseif (strcmp($k, 'COUNT') === 0) {
+                $values[strtolower($k)] = intval($v);
             } else {
                 $values[strtolower($k)] = $v;
             }
@@ -225,6 +227,132 @@ class Recur extends Property {
         }
 
         return $newValue;
+    }
+
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   Node::REPAIR - May attempt to automatically repair the problem.
+     *
+     * This method returns an array with detected problems.
+     * Every element has the following properties:
+     *
+     *  * level - problem level.
+     *  * message - A human-readable string describing the issue.
+     *  * node - A reference to the problematic node.
+     *
+     * The level means:
+     *   1 - The issue was repaired (only happens if REPAIR was turned on)
+     *   2 - An inconsequential issue
+     *   3 - A severe issue.
+     *
+     * @param int $options
+     *
+     * @return array
+     */
+    function validate($options = 0) {
+
+        $repair = ($options & self::REPAIR);
+
+        $warnings = parent::validate($options);
+        $values = $this->getParts();
+
+        foreach ($values as $key => $value) {
+
+            if ($value === '') {
+                $warnings[] = [
+                    'level'   => $repair ? 1 : 3,
+                    'message' => 'Invalid value for ' . $key . ' in ' . $this->name,
+                    'node'    => $this
+                ];
+                if ($repair) {
+                    unset($values[$key]);
+                }
+            } elseif ($key == 'BYMONTH') {
+                $byMonth = (array)$value;
+                foreach ($byMonth as $i => $v) {
+                    if (!is_numeric($v) || (int)$v < 1 || (int)$v > 12) {
+                        $warnings[] = [
+                            'level'   => $repair ? 1 : 3,
+                            'message' => 'BYMONTH in RRULE must have value(s) between 1 and 12!',
+                            'node'    => $this
+                        ];
+                        if ($repair) {
+                            if (is_array($value)) {
+                                unset($values[$key][$i]);
+                            } else {
+                                unset($values[$key]);
+                            }
+                        }
+                    }
+                }
+                // if there is no valid entry left, remove the whole value
+                if (is_array($value) && empty($values[$key])) {
+                    unset($values[$key]);
+                }
+            } elseif ($key == 'BYWEEKNO') {
+                $byWeekNo = (array)$value;
+                foreach ($byWeekNo as $i => $v) {
+                    if (!is_numeric($v) || (int)$v < -53 || (int)$v == 0 || (int)$v > 53) {
+                        $warnings[] = [
+                            'level'   => $repair ? 1 : 3,
+                            'message' => 'BYWEEKNO in RRULE must have value(s) from -53 to -1, or 1 to 53!',
+                            'node'    => $this
+                        ];
+                        if ($repair) {
+                            if (is_array($value)) {
+                                unset($values[$key][$i]);
+                            } else {
+                                unset($values[$key]);
+                            }
+                        }
+                    }
+                }
+                // if there is no valid entry left, remove the whole value
+                if (is_array($value) && empty($values[$key])) {
+                    unset($values[$key]);
+                }
+            } elseif ($key == 'BYYEARDAY') {
+                $byYearDay = (array)$value;
+                foreach ($byYearDay as $i => $v) {
+                    if (!is_numeric($v) || (int)$v < -366 || (int)$v == 0 || (int)$v > 366) {
+                        $warnings[] = [
+                            'level'   => $repair ? 1 : 3,
+                            'message' => 'BYYEARDAY in RRULE must have value(s) from -366 to -1, or 1 to 366!',
+                            'node'    => $this
+                        ];
+                        if ($repair) {
+                            if (is_array($value)) {
+                                unset($values[$key][$i]);
+                            } else {
+                                unset($values[$key]);
+                            }
+                        }
+                    }
+                }
+                // if there is no valid entry left, remove the whole value
+                if (is_array($value) && empty($values[$key])) {
+                    unset($values[$key]);
+                }
+            }
+
+        }
+        if (!isset($values['FREQ'])) {
+            $warnings[] = [
+                'level'   => $repair ? 1 : 3,
+                'message' => 'FREQ is required in ' . $this->name,
+                'node'    => $this
+            ];
+            if ($repair) {
+                $this->parent->remove($this);
+            }
+        }
+        if ($repair) {
+            $this->setValue($values);
+        }
+
+        return $warnings;
 
     }
 

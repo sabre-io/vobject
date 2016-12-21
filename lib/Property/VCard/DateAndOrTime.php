@@ -2,9 +2,9 @@
 
 namespace Sabre\VObject\Property\VCard;
 
-use DateTimeInterface;
-use DateTimeImmutable;
 use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property;
@@ -45,7 +45,7 @@ class DateAndOrTime extends Property {
     /**
      * Sets a multi-valued property.
      *
-     * You may also specify DateTime objects here.
+     * You may also specify DateTimeInterface objects here.
      *
      * @param array $parts
      *
@@ -56,7 +56,7 @@ class DateAndOrTime extends Property {
         if (count($parts) > 1) {
             throw new \InvalidArgumentException('Only one value allowed');
         }
-        if (isset($parts[0]) && $parts[0] instanceof \DateTime) {
+        if (isset($parts[0]) && $parts[0] instanceof DateTimeInterface) {
             $this->setDateTime($parts[0]);
         } else {
             parent::setParts($parts);
@@ -69,15 +69,15 @@ class DateAndOrTime extends Property {
      *
      * This may be either a single, or multiple strings in an array.
      *
-     * Instead of strings, you may also use DateTime here.
+     * Instead of strings, you may also use DateTimeInterface here.
      *
-     * @param string|array|\DateTime $value
+     * @param string|array|DateTimeInterface $value
      *
      * @return void
      */
     function setValue($value) {
 
-        if ($value instanceof \DateTime) {
+        if ($value instanceof DateTimeInterface) {
             $this->setDateTime($value);
         } else {
             parent::setValue($value);
@@ -261,8 +261,8 @@ class DateAndOrTime extends Property {
     protected function xmlSerializeValue(Xml\Writer $writer) {
 
         $valueType = strtolower($this->getValueType());
-        $parts     = DateTimeParser::parseVCardDateAndOrTime($this->getValue());
-        $value     = '';
+        $parts = DateTimeParser::parseVCardDateAndOrTime($this->getValue());
+        $value = '';
 
         // $d = defined
         $d = function($part) use ($parts) {
@@ -280,7 +280,7 @@ class DateAndOrTime extends Property {
         // value-date = element date {
         //     xsd:string { pattern = "\d{8}|\d{4}-\d\d|--\d\d(\d\d)?|---\d\d" }
         //   }
-        if (($d('year') ||  $d('month')  ||  $d('date'))
+        if (($d('year') || $d('month') || $d('date'))
             && (!$d('hour') && !$d('minute') && !$d('second') && !$d('timezone'))) {
 
             if ($d('year') && $d('month') && $d('date')) {
@@ -298,8 +298,8 @@ class DateAndOrTime extends Property {
         //     xsd:string { pattern = "(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d?)|--\d\d)"
         //                          ~ "(Z|[+\-]\d\d(\d\d)?)?" }
         //   }
-        } elseif ((!$d('year') && !$d('month')  && !$d('date'))
-                  && ($d('hour') ||  $d('minute') ||  $d('second'))) {
+        } elseif ((!$d('year') && !$d('month') && !$d('date'))
+                  && ($d('hour') || $d('minute') || $d('second'))) {
 
             if ($d('hour')) {
                 $value .= $r('hour') . $r('minute') . $r('second');

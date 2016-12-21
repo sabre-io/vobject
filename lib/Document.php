@@ -216,6 +216,9 @@ abstract class Document extends Component {
             // If a VALUE parameter is supplied, we should use that.
             if (isset($parameters['VALUE'])) {
                 $class = $this->getClassNameForPropertyValue($parameters['VALUE']);
+                if (is_null($class)) {
+                    throw new InvalidDataException('Unsupported VALUE parameter for ' . $name . ' property. You supplied "' . $parameters['VALUE'] . '"');
+                }
             }
             else {
                 $class = $this->getClassNameForPropertyName($name);
@@ -236,8 +239,7 @@ abstract class Document extends Component {
      * This method returns null if we don't have a specialized class.
      *
      * @param string $valueParam
-     *
-     * @return void
+     * @return string|null
      */
     function getClassNameForPropertyValue($valueParam) {
 

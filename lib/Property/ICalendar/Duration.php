@@ -2,8 +2,8 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use Sabre\VObject\Property;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\Property;
 
 /**
  * Duration property.

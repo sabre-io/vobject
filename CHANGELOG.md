@@ -1,11 +1,62 @@
 ChangeLog
 =========
 
-4.0.3 (????-??-??)
+4.1.2 (2016-12-15)
 ------------------
 
-* 300: Added `VCard::getByType()` to quickly get a property with a specific
-  `TYPE` parameter. (@kbond).
+* #340: Support for `BYYEARDAY` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
+* #341: Support for `BYWEEKNO` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
+* Updated to the latest windows timezone data mappings.
+* #344: Auto-detecting more Outlook 365-generated timezone identifiers.
+  (@jpirkey)
+* #348: `FreeBusyGenerator` can now accept streams.
+* Support sabre/xml 1.5 and 2.0.
+* #355: Support `DateTimeInterface` in more places where only `DateTime` was
+  supported. (@gharlan).
+* #351: Fixing an inclusive/exclusive problem with `isInTimeRange` and
+  `fastForward` with all-day events. (@strokyl, thanks you are brilliant).
+
+
+4.1.1 (2016-07-15)
+------------------
+
+* #327: Throwing `InvalidDataException` in more cases where invalid iCalendar
+  dates and times were provided. (@rsto)
+* #331: Fix dealing with multiple overridden instances falling on the same
+  date/time (@afedyk-sugarcrm).
+* #333: Fix endless loop on invalid `BYMONTH` values in recurrence.
+  (@PHPGangsta)
+* #339: Fixed a few `validate()` results when repair is off. (@PHPGangsta)
+* #338: Stripping invalid `BYMONTH=` rules during `validate()` (@PHPGangsta)
+* #336: Fix incorrect `BYSECOND=` validation. (@PHPGangsta)
+
+
+4.1.0 (2016-04-06)
+------------------
+
+* #309: When expanding recurring events, the first event should also have a
+  `RECURRENCE-ID` property.
+* #306: iTip REPLYs to the first instance of a recurring event was not handled
+  correctly.
+* Slightly better error message during validation of `N` and `ADR` properties.
+* #312: Correctly extracing timezone in the iTip broker, even when we don't
+  have a master event. (@vkomrakov-sugar).
+* When validating a component's property that must appear once and which could
+  automatically be repaired, make sure we report the change as 'repaired'.
+* Added a PHPUnitAssertions trait. This trait makes it easy to compare two
+  vcards or iCalendar objects semantically.
+* Better error message when parsing objects with an invalid `VALUE` parameter.
+
+
+4.0.3 (2016-03-12)
+------------------
+
+* #300: Added `VCard::getByType()` to quickly get a property with a specific
+  `TYPE` parameter. (@kbond)
+* #302: `UNTIL` was not encoded correctly when converting to jCal.
+  (@GrahamLinagora)
+* #303: `COUNT` is now encoded as an int in jCal instead of a string. (@strokyl)
+* #295: `RRULE` now has more validation and repair rules.
 
 
 4.0.2 (2016-01-11)
@@ -106,6 +157,46 @@ ChangeLog
   objects.
 * #244: The `Float` and `Integer` classes have been renamed to `FloatValue`
   and `IntegerValue` to allow PHP 7 compatibility.
+
+
+3.5.3 (2016-10-06)
+------------------
+
+* #331: Fix dealing with multiple overridden instances falling on the same
+  date/time (@afedyk-sugarcrm).
+
+
+3.5.2 (2016-04-24)
+-----------------
+
+* #312: Backported a fix related to iTip processing of events with timezones,
+  without a master event.
+
+
+3.5.1 (2016-04-06)
+------------------
+
+* #309: When expanding recurring events, the first event should also have a
+  `RECURRENCE-ID` property.
+* #306: iTip REPLYs to the first instance of a recurring event was not handled
+  correctly.
+
+
+3.5.0 (2016-01-11)
+------------------
+
+* This release supports PHP 7, contrary to 3.4.x versions.
+* BC Break: `Sabre\VObject\Property\Float` has been renamed to
+  `Sabre\VObject\Property\FloatValue`.
+* BC Break: `Sabre\VObject\Property\Integer` has been renamed to
+  `Sabre\VObject\Property\IntegerValue`.
+
+
+3.4.9 (2016-01-11)
+------------------
+
+* This package now specifies in composer.json that it does not support PHP 7.
+  For PHP 7, use version 3.5.x or 4.x.
 
 
 3.4.8 (2016-01-04)

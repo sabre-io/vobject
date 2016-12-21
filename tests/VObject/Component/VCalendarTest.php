@@ -5,7 +5,9 @@ namespace Sabre\VObject\Component;
 use DateTimeZone;
 use Sabre\VObject;
 
-class VCalendarTest extends VObject\TestCase {
+class VCalendarTest extends \PHPUnit_Framework_TestCase {
+
+    use VObject\PHPUnitAssertions;
 
     /**
      * @dataProvider expandData
@@ -25,7 +27,7 @@ class VCalendarTest extends VObject\TestCase {
         // This will normalize the output
         $output = VObject\Reader::read($output)->serialize();
 
-        $this->assertVObjEquals($output, $vcal->serialize());
+        $this->assertVObjectEqualsVObject($output, $vcal->serialize());
 
     }
 
@@ -291,6 +293,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:bla3
 DTSTART;VALUE=DATE:20141112
+RECURRENCE-ID;VALUE=DATE:20141112
 END:VEVENT
 BEGIN:VEVENT
 UID:bla3

@@ -2,7 +2,17 @@
 
 namespace Sabre\VObject;
 
-class TestCase extends \PHPUnit_Framework_TestCase {
+/**
+ * PHPUnit Assertions
+ *
+ * This trait can be added to your unittest to make it easier to test iCalendar
+ * and/or vCards.
+ *
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
+ * @author Evert Pot (http://evertpot.com/)
+ * @license http://sabre.io/license/ Modified BSD License
+ */
+trait PHPUnitAssertions {
 
     /**
      * This method tests wether two vcards or icalendar objects are
@@ -22,7 +32,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      * @param resource|string|Component $actual
      * @param string $message
      */
-    function assertVObjEquals($expected, $actual, $message = '') {
+    function assertVObjectEqualsVObject($expected, $actual, $message = '') {
 
         $self = $this;
         $getObj = function($input) use ($self) {
@@ -67,5 +77,6 @@ class TestCase extends \PHPUnit_Framework_TestCase {
         );
 
     }
+
 
 }

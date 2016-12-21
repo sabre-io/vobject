@@ -2,8 +2,8 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTimeInterface;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -338,15 +338,15 @@ class RRuleIterator implements Iterator {
             return;
         }
 
-        if (isset($this->byHour)) {
+        if (!empty($this->byHour)) {
             $recurrenceHours = $this->getHours();
         }
 
-        if (isset($this->byDay)) {
+        if (!empty($this->byDay)) {
             $recurrenceDays = $this->getDays();
         }
 
-        if (isset($this->byMonth)) {
+        if (!empty($this->byMonth)) {
             $recurrenceMonths = $this->getMonths();
         }
 
@@ -374,8 +374,8 @@ class RRuleIterator implements Iterator {
             $currentHour = $this->currentDate->format('G');
 
         } while (
-            ($this->byDay   && !in_array($currentDay, $recurrenceDays)) ||
-            ($this->byHour  && !in_array($currentHour, $recurrenceHours)) ||
+            ($this->byDay && !in_array($currentDay, $recurrenceDays)) ||
+            ($this->byHour && !in_array($currentHour, $recurrenceHours)) ||
             ($this->byMonth && !in_array($currentMonth, $recurrenceMonths))
         );
 
@@ -511,7 +511,7 @@ class RRuleIterator implements Iterator {
         $currentDayOfMonth = $this->currentDate->format('j');
 
         // No sub-rules, so we just advance by year
-        if (!$this->byMonth) {
+        if (empty($this->byMonth)) {
 
             // Unless it was a leap day!
             if ($currentMonth == 2 && $currentDayOfMonth == 29) {
@@ -535,6 +535,83 @@ class RRuleIterator implements Iterator {
 
                 return;
 
+            }
+
+            if ($this->byWeekNo !== null) { // byWeekNo is an array with values from -53 to -1, or 1 to 53
+                $dayOffsets = [];
+                if ($this->byDay) {
+                    foreach ($this->byDay as $byDay) {
+                        $dayOffsets[] = $this->dayMap[$byDay];
+                    }
+                } else {   // default is Monday
+                    $dayOffsets[] = 1;
+                }
+
+                $currentYear = $this->currentDate->format('Y');
+
+                while (true) {
+                    $checkDates = [];
+
+                    // loop through all WeekNo and Days to check all the combinations
+                    foreach ($this->byWeekNo as $byWeekNo) {
+                        foreach ($dayOffsets as $dayOffset) {
+                            $date = clone $this->currentDate;
+                            $date->setISODate($currentYear, $byWeekNo, $dayOffset);
+
+                            if ($date > $this->currentDate) {
+                                $checkDates[] = $date;
+                            }
+                        }
+                    }
+
+                    if (count($checkDates) > 0) {
+                        $this->currentDate = min($checkDates);
+                        return;
+                    }
+
+                    // if there is no date found, check the next year
+                    $currentYear += $this->interval;
+                }
+            }
+
+            if ($this->byYearDay !== null) { // byYearDay is an array with values from -366 to -1, or 1 to 366
+                $dayOffsets = [];
+                if ($this->byDay) {
+                    foreach ($this->byDay as $byDay) {
+                        $dayOffsets[] = $this->dayMap[$byDay];
+                    }
+                } else {   // default is Monday-Sunday
+                    $dayOffsets = [1,2,3,4,5,6,7];
+                }
+
+                $currentYear = $this->currentDate->format('Y');
+
+                while (true) {
+                    $checkDates = [];
+
+                    // loop through all YearDay and Days to check all the combinations
+                    foreach ($this->byYearDay as $byYearDay) {
+                        $date = clone $this->currentDate;
+                        $date->setDate($currentYear, 1, 1);
+                        if ($byYearDay > 0) {
+                            $date->add(new \DateInterval('P' . $byYearDay . 'D'));
+                        } else {
+                            $date->sub(new \DateInterval('P' . abs($byYearDay) . 'D'));
+                        }
+
+                        if ($date > $this->currentDate && in_array($date->format('N'), $dayOffsets)) {
+                            $checkDates[] = $date;
+                        }
+                    }
+
+                    if (count($checkDates) > 0) {
+                        $this->currentDate = min($checkDates);
+                        return;
+                    }
+
+                    // if there is no date found, check the next year
+                    $currentYear += $this->interval;
+                }
             }
 
             // The easiest form
@@ -710,14 +787,29 @@ class RRuleIterator implements Iterator {
 
                 case 'BYYEARDAY' :
                     $this->byYearDay = (array)$value;
+                    foreach ($this->byYearDay as $byYearDay) {
+                        if (!is_numeric($byYearDay) || (int)$byYearDay < -366 || (int)$byYearDay == 0 || (int)$byYearDay > 366) {
+                            throw new InvalidDataException('BYYEARDAY in RRULE must have value(s) from 1 to 366, or -366 to -1!');
+                        }
+                    }
                     break;
 
                 case 'BYWEEKNO' :
                     $this->byWeekNo = (array)$value;
+                    foreach ($this->byWeekNo as $byWeekNo) {
+                        if (!is_numeric($byWeekNo) || (int)$byWeekNo < -53 || (int)$byWeekNo == 0 || (int)$byWeekNo > 53) {
+                            throw new InvalidDataException('BYWEEKNO in RRULE must have value(s) from 1 to 53, or -53 to -1!');
+                        }
+                    }
                     break;
 
                 case 'BYMONTH' :
                     $this->byMonth = (array)$value;
+                    foreach ($this->byMonth as $byMonth) {
+                        if (!is_numeric($byMonth) || (int)$byMonth < 1 || (int)$byMonth > 12) {
+                            throw new InvalidDataException('BYMONTH in RRULE must have value(s) betweeen 1 and 12!');
+                        }
+                    }
                     break;
 
                 case 'BYSETPOS' :

@@ -2,9 +2,9 @@
 
 namespace Sabre\VObject;
 
+use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
-use DateInterval;
 
 /**
  * DateTimeParser.
@@ -43,7 +43,12 @@ class DateTimeParser {
         if ($matches[7] === 'Z' || is_null($tz)) {
             $tz = new DateTimeZone('UTC');
         }
-        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] . ':' . $matches[6], $tz);
+
+        try {
+            $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3] . ' ' . $matches[4] . ':' . $matches[5] . ':' . $matches[6], $tz);
+        } catch (\Exception $e) {
+            throw new InvalidDataException('The supplied iCalendar datetime value is incorrect: ' . $dt);
+        }
 
         return $date;
 
@@ -70,7 +75,11 @@ class DateTimeParser {
             $tz = new DateTimeZone('UTC');
         }
 
-        $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3], $tz);
+        try {
+            $date = new DateTimeImmutable($matches[1] . '-' . $matches[2] . '-' . $matches[3], $tz);
+        } catch (\Exception $e) {
+            throw new InvalidDataException('The supplied iCalendar date value is incorrect: ' . $date);
+        }
 
         return $date;
 
@@ -500,7 +509,7 @@ class DateTimeParser {
     static function parseVCardDateAndOrTime($date) {
 
         // \d{8}|\d{4}-\d\d|--\d\d(\d\d)?|---\d\d
-        $valueDate     = '/^(?J)(?:' .
+        $valueDate = '/^(?J)(?:' .
                          '(?<year>\d{4})(?<month>\d\d)(?<date>\d\d)' .
                          '|(?<year>\d{4})-(?<month>\d\d)' .
                          '|--(?<month>\d\d)(?<date>\d\d)?' .
@@ -508,7 +517,7 @@ class DateTimeParser {
                          ')$/';
 
         // (\d\d(\d\d(\d\d)?)?|-\d\d(\d\d)?|--\d\d)(Z|[+\-]\d\d(\d\d)?)?
-        $valueTime     = '/^(?J)(?:' .
+        $valueTime = '/^(?J)(?:' .
                          '((?<hour>\d\d)((?<minute>\d\d)(?<second>\d\d)?)?' .
                          '|-(?<minute>\d\d)(?<second>\d\d)?' .
                          '|--(?<second>\d\d))' .
@@ -545,12 +554,12 @@ class DateTimeParser {
         ];
 
         // The $valueDateTime expression has a bug with (?J) so we simulate it.
-        $parts['date0']  = &$parts['date'];
-        $parts['date1']  = &$parts['date'];
-        $parts['date2']  = &$parts['date'];
+        $parts['date0'] = &$parts['date'];
+        $parts['date1'] = &$parts['date'];
+        $parts['date2'] = &$parts['date'];
         $parts['month0'] = &$parts['month'];
         $parts['month1'] = &$parts['month'];
-        $parts['year0']  = &$parts['year'];
+        $parts['year0'] = &$parts['year'];
 
         foreach ($parts as $part => &$value) {
             if (!empty($matches[$part])) {

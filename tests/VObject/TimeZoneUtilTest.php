@@ -366,4 +366,12 @@ HI;
 
     }
 
+
+    function testPrefixedOffsetExchangeIdentifier()
+    {
+        $tz = TimeZoneUtil::getTimeZone('(UTC-05:00) Eastern Time (US & Canada)');
+        $ex = new \DateTimeZone('America/New_York');
+        $this->assertEquals($ex->getName(), $tz->getName());
+    }
+
 }

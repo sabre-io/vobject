@@ -2,15 +2,16 @@
 
 namespace Sabre\VObject\RecurrenceIterator;
 
-use Sabre\VObject\Reader;
-use Sabre\VObject\TestCase;
 use DateTime;
+use Sabre\VObject\Reader;
 
-class OverrideFirstEventTest extends TestCase {
+class OverrideFirstEventTest extends \PHPUnit_Framework_TestCase {
+
+    use \Sabre\VObject\PHPUnitAssertions;
 
     function testOverrideFirstEvent() {
 
-        $input =  <<<ICS
+        $input = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
@@ -67,7 +68,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $vcal
         );
@@ -77,7 +78,7 @@ ICS;
 
     function testRemoveFirstEvent() {
 
-        $input =  <<<ICS
+        $input = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
@@ -111,7 +112,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertVObjEquals(
+        $this->assertVObjectEqualsVObject(
             $expected,
             $vcal
         );

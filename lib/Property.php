@@ -579,7 +579,7 @@ abstract class Property extends Node {
         // Checking if the propertyname does not contain any invalid bytes.
         if (!preg_match('/^([A-Z0-9-]+)$/', $this->name)) {
             $warnings[] = [
-                'level'   => 1,
+                'level'   => $options & self::REPAIR ? 1 : 3,
                 'message' => 'The propertyname: ' . $this->name . ' contains invalid characters. Only A-Z, 0-9 and - are allowed',
                 'node'    => $this,
             ];
@@ -599,7 +599,7 @@ abstract class Property extends Node {
 
             if ($this->root->getDocumentType() === Document::VCARD40) {
                 $warnings[] = [
-                    'level'   => 1,
+                    'level'   => 3,
                     'message' => 'ENCODING parameter is not valid in vCard 4.',
                     'node'    => $this
                 ];
@@ -623,7 +623,7 @@ abstract class Property extends Node {
                 }
                 if ($allowedEncoding && !in_array(strtoupper($encoding), $allowedEncoding)) {
                     $warnings[] = [
-                        'level'   => 1,
+                        'level'   => 3,
                         'message' => 'ENCODING=' . strtoupper($encoding) . ' is not valid for this document type.',
                         'node'    => $this
                     ];

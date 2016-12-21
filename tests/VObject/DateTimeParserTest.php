@@ -2,9 +2,9 @@
 
 namespace Sabre\VObject;
 
+use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
-use DateInterval;
 
 class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
 
@@ -58,6 +58,16 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
     function testParseICalendarDateTimeBadFormat() {
 
         $dateTime = DateTimeParser::parseDateTime('20100316T141405 ');
+
+    }
+
+    /**
+     * @depends testParseICalendarDateTime
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testParseICalendarDateTimeInvalidTime() {
+
+        $dateTime = DateTimeParser::parseDateTime('20100316T251405');
 
     }
 
@@ -149,6 +159,16 @@ class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
     function testParseICalendarDateBadFormat() {
 
         $dateTime = DateTimeParser::parseDate('20100316T141405');
+
+    }
+
+    /**
+     * @depends testParseICalendarDate
+     * @expectedException \Sabre\VObject\InvalidDataException
+     */
+    function testParseICalendarDateInvalidDate() {
+
+        $dateTime = DateTimeParser::parseDate('20101331');
 
     }
 

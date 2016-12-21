@@ -2,8 +2,8 @@
 
 namespace Sabre\VObject\Recur\EventIterator;
 
-use Sabre\VObject\Recur;
 use Sabre\VObject\Reader;
+use Sabre\VObject\Recur;
 
 class FifthTuesdayProblemTest extends \PHPUnit_Framework_TestCase {
 

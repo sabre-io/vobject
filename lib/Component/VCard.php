@@ -74,19 +74,19 @@ class VCard extends VObject\Document {
     static $propertyMap = [
 
         // vCard 2.1 properties and up
-        'N'       => 'Sabre\\VObject\\Property\\Text',
-        'FN'      => 'Sabre\\VObject\\Property\\FlatText',
-        'PHOTO'   => 'Sabre\\VObject\\Property\\Binary',
-        'BDAY'    => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
-        'ADR'     => 'Sabre\\VObject\\Property\\Text',
-        'LABEL'   => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
-        'TEL'     => 'Sabre\\VObject\\Property\\FlatText',
-        'EMAIL'   => 'Sabre\\VObject\\Property\\FlatText',
-        'MAILER'  => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
-        'GEO'     => 'Sabre\\VObject\\Property\\FlatText',
-        'TITLE'   => 'Sabre\\VObject\\Property\\FlatText',
-        'ROLE'    => 'Sabre\\VObject\\Property\\FlatText',
-        'LOGO'    => 'Sabre\\VObject\\Property\\Binary',
+        'N'      => 'Sabre\\VObject\\Property\\Text',
+        'FN'     => 'Sabre\\VObject\\Property\\FlatText',
+        'PHOTO'  => 'Sabre\\VObject\\Property\\Binary',
+        'BDAY'   => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
+        'ADR'    => 'Sabre\\VObject\\Property\\Text',
+        'LABEL'  => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
+        'TEL'    => 'Sabre\\VObject\\Property\\FlatText',
+        'EMAIL'  => 'Sabre\\VObject\\Property\\FlatText',
+        'MAILER' => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
+        'GEO'    => 'Sabre\\VObject\\Property\\FlatText',
+        'TITLE'  => 'Sabre\\VObject\\Property\\FlatText',
+        'ROLE'   => 'Sabre\\VObject\\Property\\FlatText',
+        'LOGO'   => 'Sabre\\VObject\\Property\\Binary',
         // 'AGENT'   => 'Sabre\\VObject\\Property\\',      // Todo: is an embedded vCard. Probably rare, so
                                  // not supported at the moment
         'ORG'     => 'Sabre\\VObject\\Property\\Text',
@@ -107,13 +107,13 @@ class VCard extends VObject\Document {
         'CLASS'       => 'Sabre\\VObject\\Property\\FlatText', // Removed in vCard 4.0
 
         // rfc2739 properties
-        'FBURL'        => 'Sabre\\VObject\\Property\\Uri',
-        'CAPURI'       => 'Sabre\\VObject\\Property\\Uri',
-        'CALURI'       => 'Sabre\\VObject\\Property\\Uri',
-        'CALADRURI'    => 'Sabre\\VObject\\Property\\Uri',
+        'FBURL'     => 'Sabre\\VObject\\Property\\Uri',
+        'CAPURI'    => 'Sabre\\VObject\\Property\\Uri',
+        'CALURI'    => 'Sabre\\VObject\\Property\\Uri',
+        'CALADRURI' => 'Sabre\\VObject\\Property\\Uri',
 
         // rfc4770 properties
-        'IMPP'         => 'Sabre\\VObject\\Property\\Uri',
+        'IMPP' => 'Sabre\\VObject\\Property\\Uri',
 
         // vCard 4.0 properties
         'SOURCE'       => 'Sabre\\VObject\\Property\\Uri',
@@ -127,9 +127,9 @@ class VCard extends VObject\Document {
         'RELATED'      => 'Sabre\\VObject\\Property\\Uri',
 
         // rfc6474 properties
-        'BIRTHPLACE'    => 'Sabre\\VObject\\Property\\FlatText',
-        'DEATHPLACE'    => 'Sabre\\VObject\\Property\\FlatText',
-        'DEATHDATE'     => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
+        'BIRTHPLACE' => 'Sabre\\VObject\\Property\\FlatText',
+        'DEATHPLACE' => 'Sabre\\VObject\\Property\\FlatText',
+        'DEATHDATE'  => 'Sabre\\VObject\\Property\\VCard\\DateAndOrTime',
 
         // rfc6715 properties
         'EXPERTISE'     => 'Sabre\\VObject\\Property\\FlatText',
@@ -368,7 +368,7 @@ class VCard extends VObject\Document {
             // FN is commented out, because it's already handled by the
             // validate function, which may also try to repair it.
             // 'FN'           => '+',
-            'UID'          => '?',
+            'UID' => '?',
         ];
 
     }
