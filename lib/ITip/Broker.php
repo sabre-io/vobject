@@ -343,7 +343,10 @@ class Broker
             // used a different format/timezone to express the event date-time.
             $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() : 'master';
             $attendee = $vevent->ATTENDEE;
-            $instances[$recurId] = $attendee['PARTSTAT']->getValue();
+            $instances[$recurId] = [
+                'partstat'        => $attendee['PARTSTAT']->getValue(),
+                'recurIdDateTime' => isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getDateTime() : null
+            ];
             if (isset($vevent->{'REQUEST-STATUS'})) {
                 $requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
                 list($requestStatus) = explode(';', $requestStatus);
@@ -365,7 +368,7 @@ class Broker
                     foreach ($vevent->ATTENDEE as $attendee) {
                         if ($attendee->getValue() === $itipMessage->sender) {
                             $attendeeFound = true;
-                            $attendee['PARTSTAT'] = $instances[$recurId];
+                            $attendee['PARTSTAT'] = $instances[$recurId]['partstat'];
                             $attendee['SCHEDULE-STATUS'] = $requestStatus;
                             // Un-setting the RSVP status, because we now know
                             // that the attendee already replied.
@@ -378,7 +381,7 @@ class Broker
                     // Adding a new attendee. The iTip documentation calls this
                     // a party crasher.
                     $attendee = $vevent->add('ATTENDEE', $itipMessage->sender, [
-                        'PARTSTAT' => $instances[$recurId],
+                        'PARTSTAT' => $instances[$recurId]['partstat']
                     ]);
                     if ($itipMessage->senderName) {
                         $attendee['CN'] = $itipMessage->senderName;
@@ -394,10 +397,11 @@ class Broker
         }
         // If we got replies to instances that did not exist in the
         // original list, it means that new exceptions must be created.
-        foreach ($instances as $recurId => $partstat) {
+        foreach ($instances as $recurId => $instance) {
             $recurrenceIterator = new EventIterator($existingObject, $itipMessage->uid);
             $found = false;
             $iterations = 1000;
+            $recurIdDate = $instance['recurIdDateTime'];
             do {
                 $newObject = $recurrenceIterator->getEventObject();
                 $recurrenceIterator->next();
@@ -426,7 +430,7 @@ class Broker
                 foreach ($newObject->ATTENDEE as $attendee) {
                     if ($attendee->getValue() === $itipMessage->sender) {
                         $attendeeFound = true;
-                        $attendee['PARTSTAT'] = $partstat;
+                        $attendee['PARTSTAT'] = $instance['partstat'];
                         break;
                     }
                 }
@@ -434,7 +438,7 @@ class Broker
             if (!$attendeeFound) {
                 // Adding a new attendee
                 $attendee = $newObject->add('ATTENDEE', $itipMessage->sender, [
-                    'PARTSTAT' => $partstat,
+                    'PARTSTAT' => $instance['partstat']
                 ]);
                 if ($itipMessage->senderName) {
                     $attendee['CN'] = $itipMessage->senderName;
