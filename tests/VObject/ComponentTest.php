@@ -5,6 +5,7 @@ namespace Sabre\VObject;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
+use Sabre\VObject\Property\Text;
 
 class ComponentTest extends TestCase
 {
