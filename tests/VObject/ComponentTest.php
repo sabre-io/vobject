@@ -483,6 +483,66 @@ class ComponentTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    function testValidateRepairShouldNotDeduplicatePropertiesWhenValuesDiffer() {
+        $vcard = new Component\VCard();
+
+        $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
+        $component->add('BAZ', 'BAZ');
+        $component->add('GIR', 'VALUE1');
+        $component->add('GIR', 'VALUE2'); // Different values
+
+        $messages = $component->validate(Component::REPAIR);
+
+        $this->assertEquals(1, count($messages));
+        $this->assertEquals(3, $messages[0]['level']);
+        $this->assertEquals(2, count($component->GIR));
+    }
+
+    function testValidateRepairShouldNotDeduplicatePropertiesWhenParametersDiffer() {
+        $vcard = new Component\VCard();
+
+        $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
+        $component->add('BAZ', 'BAZ');
+        $component->add('GIR', 'VALUE')->add('PARAM', '1');
+        $component->add('GIR', 'VALUE')->add('PARAM', '2'); // Same value but different parameters
+
+        $messages = $component->validate(Component::REPAIR);
+
+        $this->assertEquals(1, count($messages));
+        $this->assertEquals(3, $messages[0]['level']);
+        $this->assertEquals(2, count($component->GIR));
+    }
+
+    function testValidateRepairShouldDeduplicatePropertiesWhenValuesAndParametersAreEqual() {
+        $vcard = new Component\VCard();
+
+        $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
+        $component->add('BAZ', 'BAZ');
+        $component->add('GIR', 'VALUE')->add('PARAM', 'P');
+        $component->add('GIR', 'VALUE')->add('PARAM', 'P');
+
+        $messages = $component->validate(Component::REPAIR);
+
+        $this->assertEquals(1, count($messages));
+        $this->assertEquals(1, $messages[0]['level']);
+        $this->assertEquals(1, count($component->GIR));
+    }
+
+    function testValidateRepairShouldDeduplicatePropertiesWhenValuesAreEqual() {
+        $vcard = new Component\VCard();
+
+        $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
+        $component->add('BAZ', 'BAZ');
+        $component->add('GIR', 'VALUE');
+        $component->add('GIR', 'VALUE');
+
+        $messages = $component->validate(Component::REPAIR);
+
+        $this->assertEquals(1, count($messages));
+        $this->assertEquals(1, $messages[0]['level']);
+        $this->assertEquals(1, count($component->GIR));
+    }
+
     function ruleData() {
 
         return [
