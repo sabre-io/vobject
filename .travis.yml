@@ -8,7 +8,7 @@ php:
 sudo: false
 
 script:
-  - phpunit --configuration tests/phpunit.xml
+  - ./bin/phpunit --configuration tests/phpunit.xml
   - ./bin/sabre-cs-fixer fix . --dry-run --diff
 
 before_script:
