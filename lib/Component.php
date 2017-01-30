@@ -662,8 +662,23 @@ class Component extends Node {
                     break;
                 case '?' :
                     if (isset($propertyCounters[$propName]) && $propertyCounters[$propName] > 1) {
+                        $level = 3;
+
+                        // We try to repair the same property appearing multiple times with the exact same value
+                        // by removing the duplicates and keeping only one property
+                        if ($options & self::REPAIR) {
+                            $properties = array_unique($this->select($propName), SORT_REGULAR);
+
+                            if (count($properties) === 1) {
+                                $this->remove($propName);
+                                $this->add($properties[0]);
+
+                                $level = 1;
+                            }
+                        }
+
                         $messages[] = [
-                            'level'   => 3,
+                            'level'   => $level,
                             'message' => $propName . ' MUST NOT appear more than once in a ' . $this->name . ' component',
                             'node'    => $this,
                         ];

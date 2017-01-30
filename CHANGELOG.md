@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+4.1.3 (????-??-??)
+------------------
+
+* #363: Repair script and de-duplicate properties that are only allowed once,
+  but appear more than once. (@ddolcimascolo).
+
+
 4.1.2 (2016-12-15)
 ------------------
 
