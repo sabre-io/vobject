@@ -34,12 +34,8 @@ class VAlarm extends VObject\Component {
 
             $parentComponent = $this->parent;
             if ($related === 'START') {
-
-                if ($parentComponent->name === 'VTODO') {
-                    $propName = 'DUE';
-                } else {
-                    $propName = 'DTSTART';
-                }
+                
+                $propName = 'DTSTART';
 
                 $effectiveTrigger = $parentComponent->$propName->getDateTime();
                 $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
