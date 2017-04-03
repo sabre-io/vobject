@@ -37,8 +37,8 @@
         "sabre/xml"    : ">=1.5 <3.0"
     },
     "require-dev" : {
-        "phpunit/phpunit" : "*",
-        "sabre/cs"        : "^1.0.0"
+        "sabre/cs"        : "^1.0.0",
+        "phpunit/phpunit": "^4.8"
 
     },
     "suggest" : {
