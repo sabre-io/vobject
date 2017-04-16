@@ -260,34 +260,11 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
     function testValidateNonUTF8() {
 
         $calendar = new VCalendar();
-        $property = $calendar->createProperty('X-PROP', "Bla\x00");
+        $property = $calendar->createProperty('X-PROP', "Bla\x80");
         $result = $property->validate(Property::REPAIR);
 
-        $this->assertEquals('Property contained a control character (0x00)', $result[0]['message']);
-        $this->assertEquals('Bla', $property->getValue());
-
-    }
-
-    function testValidateControlChars() {
-
-        $s = "chars[";
-        foreach (array(
-            0x7F, 0x5E, 0x5C, 0x3B, 0x3A, 0x2C, 0x22, 0x20,
-            0x1F, 0x1E, 0x1D, 0x1C, 0x1B, 0x1A, 0x19, 0x18,
-            0x17, 0x16, 0x15, 0x14, 0x13, 0x12, 0x11, 0x10,
-            0x0F, 0x0E, 0x0D, 0x0C, 0x0B, 0x0A, 0x09, 0x08,
-            0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00,
-          ) as $c) {
-            $s .= sprintf('%02X(%c)', $c, $c);
-        }
-        $s .= "]end";
-
-        $calendar = new VCalendar();
-        $property = $calendar->createProperty('X-PROP', $s);
-        $result = $property->validate(Property::REPAIR);
-
-        $this->assertEquals('Property contained a control character (0x7f)', $result[0]['message']);
-        $this->assertEquals("chars[7F()5E(^)5C(\\\\)3B(\\;)3A(:)2C(\\,)22(\")20( )1F()1E()1D()1C()1B()1A()19()18()17()16()15()14()13()12()11()10()0F()0E()0D()0C()0B()0A(\\n)09(	)08()07()06()05()04()03()02()01()00()]end", $property->getRawMimeDirValue());
+        $this->assertEquals("Property is not valid UTF-8! Bla\x80", $result[0]['message']);
+        $this->assertEquals("Bla\xC2\x80", $property->getValue());
 
     }
 

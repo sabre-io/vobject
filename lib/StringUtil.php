@@ -38,26 +38,39 @@ class StringUtil {
      * @return string
      */
     static public function convertToUTF8($str) {
+        /*
+         * Unfortunately, mb_check_encoding is not reliable.
+         * But mb_convert_encoding can be used to convert
+         * from (presumed) UTF-8 to UTF-16 then back to UTF-8,
+         * and will replace invalid input with question marks.
+         * That means if previous and result are not equal,
+         * the input was not UTF-8, in which case we convert
+         * it as if it were ISO-8859-1; all 256 bytes are
+         * (after conversion) valid per RFC3629 §4. We need,
+         * for this to work, to temporarily change the internal
+         * encoding used by the mb_* functions, though.
+         */
+        $mb_encoding = mb_internal_encoding();
+        mb_internal_encoding("UTF-8");
 
-        $encoding = mb_detect_encoding($str , array('UTF-8','ISO-8859-1', 'WINDOWS-1252'), true);
-
-        switch($encoding) {
-            case 'ISO-8859-1' :
-                $newStr = utf8_encode($str);
-                break;
-            /* Unreachable code. Not sure yet how we can improve this
-             * situation.
-            case 'WINDOWS-1252' :
-                $newStr = iconv('cp1252', 'UTF-8', $str);
-                break;
-             */
-            default :
-                 $newStr = $str;
-
+        /* coerce to string first */
+        $str = ''.$str;
+        /* check for UTF-8 encoding as detailed above */
+        $ws = mb_convert_encoding($str, "UTF-16LE", "UTF-8");
+        $mbs = mb_convert_encoding($ws, "UTF-8", "UTF-16LE");
+        /* match? */
+        if ($mbs !== $str) {
+            /* convert from ISO-8859-1 to UTF-16LE */
+            $ws = implode("\0", str_split($str)) . "\0";
+            /* convert from UTF-16LE to UTF-8 */
+            $mbs = mb_convert_encoding($ws, "UTF-8", "UTF-16LE");
         }
 
-        // Removing any control characters
-        return (preg_replace('%(?:[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F])%', '', $newStr));
+        /* restore internal encoding used by the mb_* functions */
+        mb_internal_encoding($mb_encoding);
+
+        /* remove any C0 control characters (C1 are fine) */
+        return (preg_replace('%(?:[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F])%', '', $mbs));
 
     }
 
