@@ -15,10 +15,10 @@ abstract class BrokerTester extends \PHPUnit_Framework_TestCase {
 
     use \Sabre\VObject\PHPUnitAssertions;
 
-    function parse($oldMessage, $newMessage, $expected = [], $currentUser = 'mailto:one@example.org') {
+    function parse($oldMessage, $newMessage, $expected = [], $currentUser = 'mailto:one@example.org', $usersWithWriteAccessAddresses = []) {
 
         $broker = new Broker();
-        $result = $broker->parseEvent($newMessage, $currentUser, $oldMessage);
+        $result = $broker->parseEvent($newMessage, $currentUser, $usersWithWriteAccessAddresses, $oldMessage);
 
         $this->assertEquals(count($expected), count($result));
 
