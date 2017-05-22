@@ -85,6 +85,7 @@ return [
     'Saskatchewan'                                             => 'America/Edmonton',
     'Arizona'                                                  => 'America/Phoenix',
     'Mountain Time (US & Canada)'                              => 'America/Denver', // Best guess
+    'Pacific Time (US & Canada)'                               => 'America/Los_Angeles', // Best guess
     'Pacific Time (US & Canada); Tijuana'                      => 'America/Los_Angeles', // Best guess
     'Alaska'                                                   => 'America/Anchorage',
     'Hawaii'                                                   => 'Pacific/Honolulu',
