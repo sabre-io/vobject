@@ -40,7 +40,7 @@ class XML extends Parser {
     /**
      * Document, root component.
      *
-     * @var Sabre\VObject\Document
+     * @var \Sabre\VObject\Document
      */
     protected $root;
 
@@ -72,7 +72,7 @@ class XML extends Parser {
      *
      * @throws \Exception
      *
-     * @return Sabre\VObject\Document
+     * @return \Sabre\VObject\Document
      */
     function parse($input = null, $options = 0) {
 

@@ -56,7 +56,7 @@ class VCard implements SplitterInterface {
      *
      * When the end is reached, null will be returned.
      *
-     * @return Sabre\VObject\Component|null
+     * @return VObject\Component\VCard|null
      */
     function getNext() {
 

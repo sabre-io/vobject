@@ -28,7 +28,7 @@ class Json extends Parser {
     /**
      * Root component.
      *
-     * @var Document
+     * @var \Sabre\VObject\Document
      */
     protected $root;
 
@@ -43,7 +43,7 @@ class Json extends Parser {
      * @param resource|string|array|null $input
      * @param int $options
      *
-     * @return Sabre\VObject\Document
+     * @return \Sabre\VObject\Document
      */
     function parse($input = null, $options = 0) {
 

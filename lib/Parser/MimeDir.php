@@ -72,7 +72,7 @@ class MimeDir extends Parser {
      * @param string|resource|null $input
      * @param int $options
      *
-     * @return Sabre\VObject\Document
+     * @return Document
      */
     function parse($input = null, $options = 0) {
 
@@ -198,7 +198,7 @@ class MimeDir extends Parser {
      *
      * @param string $line Unfolded line
      *
-     * @return Node
+     * @return \Sabre\VObject\Node|false
      */
     protected function parseLine($line) {
 
