@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Component;
 
 use DateTimeInterface;
+use DateInterval;
 use Sabre\VObject;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
@@ -46,7 +47,7 @@ class VEvent extends VObject\Component {
 
             }
 
-            $it->fastForward($start);
+            $it->fastForward($start->add(new DateInterval('PT1S')));
 
             // We fast-forwarded to a spot where the end-time of the
             // recurrence instance exceeded the start of the requested
