@@ -925,7 +925,7 @@ class Broker {
                         $attendees[$attendee->getNormalizedValue()]['instances'][$recurId] = [
                             'id'         => $recurId,
                             'partstat'   => $partStat,
-                            'force-send' => $forceSend,
+                            'forceSend' => $forceSend,
                         ];
                     } else {
                         $attendees[$attendee->getNormalizedValue()] = [
