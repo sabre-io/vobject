@@ -94,7 +94,7 @@ class VCardTest extends \PHPUnit_Framework_TestCase {
         ];
         // No FN, EMAIL fallback
         $tests[] = [
-            "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\EMAIL:1@example.org\r\nEND:VCARD\r\n",
+            "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nEMAIL:1@example.org\r\nEND:VCARD\r\n",
             [
                 'The FN property must appear in the VCARD component exactly 1 time',
             ],
