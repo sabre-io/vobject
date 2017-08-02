@@ -166,10 +166,16 @@ class TimeZoneUtil
         // Some Microsoft products prefix the offset first, so let's strip that off
         // and see if it is our tzid map.  We don't want to check for this first just
         // in case there are overrides in our tzid map.
-        if (preg_match('/^\((UTC|GMT)(\+|\-)[\d]{2}\:[\d]{2}\) (.*)/', $tzid, $matches)) {
-            $tzidAlternate = $matches[3];
-            if (isset(self::$map[$tzidAlternate])) {
-                return new \DateTimeZone(self::$map[$tzidAlternate]);
+        $patternsArr = [
+            '/^\((UTC|GMT)(\+|\-)[\d]{2}\:[\d]{2}\) (.*)/',
+            '/^\((UTC|GMT)(\+|\-)[\d]{2}\.[\d]{2}\) (.*)/'
+        ];
+        foreach ($patternsArr as $pattern) {
+            if (preg_match($pattern, $tzid, $matches)) {
+                $tzidAlternate = $matches[3];
+                if (isset(self::$map[$tzidAlternate])) {
+                    return new \DateTimeZone(self::$map[$tzidAlternate]);
+                }
             }
         }
 
