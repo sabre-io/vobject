@@ -5,5 +5,6 @@
  */
 return [
     'Amsterdam, Berlin, Bern, Roma, Stockholm, Wien'    => 'Europe/Berlin',
-    'Canberra, Melbourne'                               => 'Australia/Sydney',
+    'Canberra, Melbourne, Sydney'                       => 'Australia/Sydney',
+    'Вильнюс, Киев, Рига, София, Таллин, Хельсинки'     => 'Europe/Kiev'
 ];
