@@ -876,4 +876,79 @@ ICS
 
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
+
+    function testSimpleInviteWithAlarm() {
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+DTSTART:20140811T220000Z
+DTEND:20140811T230000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=White:mailto:white@example.org
+BEGIN:VALARM
+TRIGGER:-PT45M
+ACTION:EMAIL
+ATTENDEE:mailto:strunk@example.org
+DESCRIPTION:Daily meeting
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+    $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+DTSTART:20140811T220000Z
+DTEND:20140811T230000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=White:mailto:white@example.org
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:EMAIL
+ATTENDEE:mailto:strunk@example.org
+DESCRIPTION:Breakfast meeting
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+ICS;
+        $version = \Sabre\VObject\Version::VERSION;
+        $expectedMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:foobar
+DTSTART:20140811T220000Z
+DTEND:20140811T230000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=White;PARTSTAT=NEEDS-ACTION:mailto:white@example.org
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:EMAIL
+ATTENDEE:mailto:white@example.org
+DESCRIPTION:Breakfast meeting
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+ICS;
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REQUEST',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:white@example.org',
+                'recipientName' => 'White',
+                'message'       => $expectedMessage,
+            ],
+        ];
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+    }
 }
