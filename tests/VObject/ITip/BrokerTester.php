@@ -15,10 +15,21 @@ abstract class BrokerTester extends \PHPUnit_Framework_TestCase {
 
     use \Sabre\VObject\PHPUnitAssertions;
 
-    function parse($oldMessage, $newMessage, $expected = [], $currentUser = 'mailto:one@example.org') {
+    /**
+     * This method calls processICalendarChange and asserts whether the
+     * change yielded a list of iTip messsages.
+     */
+    function assertICalendarChange($before, $after, $expected = [], $userUri = 'mailto:one@example.org') {
+
+        if (is_string($before)) {
+            $before = Reader::read($before);
+        }
+        if (is_string($after)) {
+            $after = Reader::read($after);
+        }
 
         $broker = new Broker();
-        $result = $broker->parseEvent($newMessage, $currentUser, $oldMessage);
+        $result = $broker->processICalendarChange($before, $after, $userUri);
 
         $this->assertEquals(count($expected), count($result));
 

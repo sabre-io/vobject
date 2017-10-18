@@ -1,6 +1,8 @@
 <?php
 
-namespace Sabre\VObject\ITip;
+namespace Sabre\VObject\ITip\EventBroker;
+
+use Sabre\VObject\ITip\BrokerTester;
 
 class EvolutionTest extends BrokerTester {
 
@@ -1734,7 +1736,7 @@ ICS;
                 'message'       => $expectedICS,
             ]
         ];
-        $this->parse(null, $ics, $expected, 'mailto:martin@fruux.com');
+        $this->assertICalendarChange(null, $ics, $expected, 'mailto:martin@fruux.com');
 
     }
 
@@ -2644,7 +2646,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->parse($old, $new, [], 'mailto:a1@example.org');
+        $this->assertICalendarChange($old, $new, [], 'mailto:a1@example.org');
 
 
     }

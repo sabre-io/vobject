@@ -1,8 +1,10 @@
 <?php
 
-namespace Sabre\VObject\ITip;
+namespace Sabre\VObject\ITip\EventBroker;
 
-class BrokerNewEventTest extends BrokerTester {
+use Sabre\VObject\ITip\BrokerTester;
+
+class NewEventTest extends BrokerTester {
 
     function testNoAttendee() {
 
@@ -16,7 +18,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->parse(null, $message, []);
+        $result = $this->assertICalendarChange(null, $message, []);
 
     }
 
@@ -30,7 +32,7 @@ END:VTODO
 END:VCALENDAR
 ICS;
 
-        $result = $this->parse(null, $message, []);
+        $result = $this->assertICalendarChange(null, $message, []);
 
     }
 
@@ -79,7 +81,7 @@ ICS;
             ],
         ];
 
-        $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange(null, $message, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -104,7 +106,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->parse(null, $message, [], 'mailto:strunk@example.org');
+        $this->assertICalendarChange(null, $message, [], 'mailto:strunk@example.org');
 
     }
     /**
@@ -128,7 +130,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->parse(null, $message, [], 'mailto:strunk@example.org');
+        $this->assertICalendarChange(null, $message, [], 'mailto:strunk@example.org');
 
     }
 
@@ -256,7 +258,7 @@ ICS
             ],
         ];
 
-        $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange(null, $message, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -384,7 +386,7 @@ ICS
             ],
         ];
 
-        $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
+        $this->assertICalendarChange(null, $message, $expected, 'mailto:strunk@example.org');
 
     }
 
@@ -405,7 +407,7 @@ ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
 
-        $this->parse(null, $message, [], 'mailto:strunk@example.org');
+        $this->assertICalendarChange(null, $message, [], 'mailto:strunk@example.org');
 
     }
 
@@ -439,7 +441,7 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $this->parse(null, $message, [], 'mailto:strunk@example.org');
+        $this->assertICalendarChange(null, $message, [], 'mailto:strunk@example.org');
 
     }
 
@@ -473,7 +475,7 @@ END:VCALENDAR
 ICS;
 
         $version = \Sabre\VObject\Version::VERSION;
-        $this->parse(null, $message, [], 'mailto:strunk@example.org');
+        $this->assertICalendarChange(null, $message, [], 'mailto:strunk@example.org');
 
     }
     function testNoOrganizerHasAttendee() {
@@ -489,7 +491,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->parse(null, $message, [], 'mailto:strunk@example.org');
+        $this->assertICalendarChange(null, $message, [], 'mailto:strunk@example.org');
 
     }
 

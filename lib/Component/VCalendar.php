@@ -165,6 +165,37 @@ class VCalendar extends VObject\Document {
     }
 
     /**
+     * Returns what kind of component this iCalendar object contains.
+     *
+     * This is useful in scenarios where only one component type may appear in
+     * a single iCalendar stream, such as CalDAV or iTip, but it makes no sense
+     * for calendars with mixed objects.
+     *
+     * All this does is loop through it's internal component and returns the
+     * name of the first component it runs into that's not a VTIMEZONE.
+     *
+     * If no such component is found, but there was an embedded VTIMEZONE,
+     * we'll return VTIMEZONE.
+     *
+     * @return string
+     */
+    function getComponentType() {
+
+        $hasVTimeZone = false;
+        foreach ($this->children as $childType => $nodes) {
+
+            if ($childType === 'VTIMEZONE') {
+                $hasVTimeZone = true;
+            } elseif (array_key_exists($childType, self::$componentMap)) {
+                return $childType;
+            }
+
+        }
+        return $hasVTimeZone ? 'VTIMEZONE' : null;
+
+    }
+
+    /**
      * Returns a list of all 'base components'. For instance, if an Event has
      * a recurrence rule, and one instance is overridden, the overridden event
      * will have the same UID, but will be excluded from this list.
