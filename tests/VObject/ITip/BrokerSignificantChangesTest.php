@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
-class SignificantChangesTest extends BrokerTester {
+class BrokerSignificantChangesTest extends BrokerTester {
 
     /**
      * Check significant changes detection (no change)
@@ -33,7 +33,7 @@ END:VCALENDAR
 ICS;
 
         $new = $old;
-        $expected = [ [ 'significantChange' => false, ] ];
+        $expected = [['significantChange' => false, ]];
 
         $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
     }
@@ -67,7 +67,7 @@ END:VCALENDAR
 ICS;
 
         $new = str_replace('FREQ=WEEKLY', 'FREQ=WEEKLY;INTERVAL=1', $old);
-        $expected = [ [ 'significantChange' => false, ] ];
+        $expected = [['significantChange' => false, ]];
 
         $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
     }
@@ -102,7 +102,7 @@ END:VCALENDAR
 ICS;
 
         $new = str_replace('FREQ=WEEKLY;BYDAY=MO', 'BYDAY=MO;FREQ=WEEKLY', $old);
-        $expected = [ [ 'significantChange' => false, ] ];
+        $expected = [['significantChange' => false, ]];
 
         $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
     }

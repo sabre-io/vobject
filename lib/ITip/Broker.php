@@ -891,10 +891,10 @@ class Broker {
                 sort($exdate);
             }
             if (isset($vevent->RRULE)) {
-                foreach ($vevent->select('RRULE') as $val) {
-                    foreach($val->getParts() as $key => $val) {
+                foreach ($vevent->select('RRULE') as $rr) {
+                    foreach ($rr->getParts() as $key => $val) {
                         // ignore default values (https://github.com/sabre-io/vobject/issues/126)
-                        if ($key == 'INTERVAL' && $val == 1) {
+                        if ($key === 'INTERVAL' && $val == 1) {
                             continue;
                         }
                         $rrule[] = "$key=$val";
