@@ -4,7 +4,9 @@ ChangeLog
 4.1.4 (????-??-??)
 ------------------
 
-*
+* #392: Improved significant change detection. This should reduce the number
+  of unneeded update emails in scheduling systems. (@alecpl).
+
 
 4.1.3 (2017-10-18)
 ------------------
