@@ -549,7 +549,8 @@ class RRuleIterator implements Iterator {
 
                 $currentYear = $this->currentDate->format('Y');
 
-                while (true) {
+                $x = 0;
+                while ($x < 2000) {
                     $checkDates = [];
 
                     // loop through all WeekNo and Days to check all the combinations
@@ -571,6 +572,7 @@ class RRuleIterator implements Iterator {
 
                     // if there is no date found, check the next year
                     $currentYear += $this->interval;
+                    ++$x;
                 }
             }
 
@@ -586,7 +588,8 @@ class RRuleIterator implements Iterator {
 
                 $currentYear = $this->currentDate->format('Y');
 
-                while (true) {
+                $x = 0;
+                while ($x < 2000) {
                     $checkDates = [];
 
                     // loop through all YearDay and Days to check all the combinations
@@ -611,6 +614,7 @@ class RRuleIterator implements Iterator {
 
                     // if there is no date found, check the next year
                     $currentYear += $this->interval;
+                    ++$x;
                 }
             }
 
