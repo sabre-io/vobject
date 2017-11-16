@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class LineFoldingIssueTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class LineFoldingIssueTest extends TestCase {
 
     function testRead() {
 

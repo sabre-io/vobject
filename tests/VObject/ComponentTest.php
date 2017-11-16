@@ -2,10 +2,11 @@
 
 namespace Sabre\VObject;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
 
-class ComponentTest extends \PHPUnit_Framework_TestCase {
+class ComponentTest extends TestCase {
 
     function testIterate() {
 

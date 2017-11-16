@@ -2,11 +2,13 @@
 
 namespace Sabre\VObject\Parser;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Note that most MimeDir related tests can actually be found in the ReaderTest
  * class one level up.
  */
-class MimeDirTest extends \PHPUnit_Framework_TestCase {
+class MimeDirTest extends TestCase {
 
     /**
      * @expectedException \Sabre\VObject\ParseException

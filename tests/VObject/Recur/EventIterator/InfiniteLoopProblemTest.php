@@ -4,10 +4,11 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Recur;
 
-class InfiniteLoopProblemTest extends \PHPUnit_Framework_TestCase {
+class InfiniteLoopProblemTest extends TestCase {
 
     function setUp() {
 

@@ -3,9 +3,10 @@
 namespace Sabre\VObject\Component;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class VAlarmTest extends \PHPUnit_Framework_TestCase {
+class VAlarmTest extends TestCase {
 
     /**
      * @dataProvider timeRangeTestData

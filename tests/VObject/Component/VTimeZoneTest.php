@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Component;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class VTimeZoneTest extends \PHPUnit_Framework_TestCase {
+class VTimeZoneTest extends TestCase {
 
     function testValidate() {
 

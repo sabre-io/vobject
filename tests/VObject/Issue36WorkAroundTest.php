@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class Issue36WorkAroundTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class Issue36WorkAroundTest extends TestCase {
 
     function testWorkaround() {
 

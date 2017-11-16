@@ -2,10 +2,11 @@
 
 namespace Sabre\VObject\Recur\EventIterator;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur;
 
-class FifthTuesdayProblemTest extends \PHPUnit_Framework_TestCase {
+class FifthTuesdayProblemTest extends TestCase {
 
     /**
      * A pretty slow test. Had to be marked as 'medium' for phpunit to not die

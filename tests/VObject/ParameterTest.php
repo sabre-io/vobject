@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class ParameterTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class ParameterTest extends TestCase {
 
     function testSetup() {
 

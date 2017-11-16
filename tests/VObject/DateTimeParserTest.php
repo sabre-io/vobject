@@ -5,8 +5,9 @@ namespace Sabre\VObject;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 
-class DateTimeParserTest extends \PHPUnit_Framework_TestCase {
+class DateTimeParserTest extends TestCase {
 
     function testParseICalendarDuration() {
 

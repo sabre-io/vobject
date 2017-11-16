@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class UUIDUtilTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class UUIDUtilTest extends TestCase {
 
     function testValidateUUID() {
 

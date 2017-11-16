@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Property;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCard;
 
-class TextTest extends \PHPUnit_Framework_TestCase {
+class TextTest extends TestCase {
 
     function assertVCard21Serialization($propValue, $expected) {
 
