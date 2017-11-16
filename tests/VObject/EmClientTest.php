@@ -3,8 +3,9 @@
 namespace Sabre\VObject;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 
-class EmClientTest extends \PHPUnit_Framework_TestCase {
+class EmClientTest extends TestCase {
 
     function testParseTz() {
 

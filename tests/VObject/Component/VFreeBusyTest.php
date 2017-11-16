@@ -2,10 +2,11 @@
 
 namespace Sabre\VObject\Component;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 use Sabre\VObject\Reader;
 
-class VFreeBusyTest extends \PHPUnit_Framework_TestCase {
+class VFreeBusyTest extends TestCase {
 
     function testIsFree() {
 

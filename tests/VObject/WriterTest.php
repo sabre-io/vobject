@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class WriterTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class WriterTest extends TestCase {
 
     function getComponent() {
 

@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Component;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 
-class VCardTest extends \PHPUnit_Framework_TestCase {
+class VCardTest extends TestCase {
 
     /**
      * @dataProvider validateData

@@ -3,9 +3,10 @@
 namespace Sabre\VObject\Recur;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class BySetPosHangTest extends \PHPUnit_Framework_TestCase {
+class BySetPosHangTest extends TestCase {
 
     /**
      * Using this iCalendar object, including BYSETPOS=-2 causes the iterator

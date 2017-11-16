@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 
-class DateTimeTest extends \PHPUnit_Framework_TestCase {
+class DateTimeTest extends TestCase {
 
     protected $vcal;
 

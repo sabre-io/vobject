@@ -2,10 +2,11 @@
 
 namespace Sabre\VObject\Recur\EventIterator;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 
-class Issue26Test extends \PHPUnit_Framework_TestCase {
+class Issue26Test extends TestCase {
 
     /**
      * @expectedException \Sabre\VObject\InvalidDataException
