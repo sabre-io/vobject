@@ -142,4 +142,19 @@ VCF;
         $this->assertEquals("Euro \xE2\x82\xAC", $vcard->FN->getValue());
 
     }
+
+    function testDecodeutf8() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:2.1
+FN;CHARSET=utf-8:Hello
+END:VCARD\n
+VCF;
+
+        $mimeDir = new MimeDir();
+        $vcard = $mimeDir->parse($vcard);
+        $this->assertEquals("Hello", $vcard->FN->getValue());
+
+	}
 }
