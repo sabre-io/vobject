@@ -466,6 +466,7 @@ class MimeDir extends Parser {
             }
             switch ($charset) {
                 case 'UTF-8' :
+                case 'utf-8' :
                     break;
                 case 'ISO-8859-1' :
                     $property['value'] = utf8_encode($property['value']);
