@@ -1,10 +1,11 @@
 ChangeLog
 =========
 
-4.1.4 (????-??-??)
+4.1.4 (2017-12-22)
 ------------------
 
-* #392: Improved significant change detection. This should reduce the number
+* #383:  Fix possible infinite loop in RRuleIterator, when the RRule FREQ is YEARLY and it uses BYYEARDAY only.
+* #392: Improved significant change detection. This should reduce the number (@mvdnes)
   of unneeded update emails in scheduling systems. (@alecpl).
 * #395: Removed `Canada/East-Saskatchewan` timezone, as it got removed from
   PHP as well. (@remicollet).
