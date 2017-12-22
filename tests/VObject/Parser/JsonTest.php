@@ -2,10 +2,10 @@
 
 namespace Sabre\VObject\Parser;
 
-use
-    Sabre\VObject;
+use PHPUnit\Framework\TestCase;
+use Sabre\VObject;
 
-class JsonTest extends \PHPUnit_Framework_TestCase {
+class JsonTest extends TestCase {
 
     function testRoundTripJCard() {
 

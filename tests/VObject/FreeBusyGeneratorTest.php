@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class FreeBusyGeneratorTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class FreeBusyGeneratorTest extends TestCase {
 
     use PHPUnitAssertions;
 

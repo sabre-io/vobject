@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Recur;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
 /**
@@ -9,7 +10,7 @@ use Sabre\VObject\Reader;
  *
  * Class SameDateForRecurringEventsTest
  */
-class SameDateForRecurringEventsTest extends \PHPUnit_Framework_TestCase
+class SameDateForRecurringEventsTest extends TestCase
 {
 
     /**

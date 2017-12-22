@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject\Component;
 
-class VEventTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class VEventTest extends TestCase {
 
     /**
      * @dataProvider timeRangeTestData

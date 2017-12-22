@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\ICalendar;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class AttachParseTest extends \PHPUnit_Framework_TestCase {
+class AttachParseTest extends TestCase {
 
     /**
      * See issue #128 for more info.

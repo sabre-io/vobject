@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class EmptyParameterTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class EmptyParameterTest extends TestCase {
 
     function testRead() {
 

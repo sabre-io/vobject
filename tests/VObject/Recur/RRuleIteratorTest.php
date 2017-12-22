@@ -5,8 +5,9 @@ namespace Sabre\VObject\Recur;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 
-class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
+class RRuleIteratorTest extends TestCase {
 
     function testHourly() {
 

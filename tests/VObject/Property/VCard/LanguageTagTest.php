@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Property\VCard;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 
-class LanguageTagTest extends \PHPUnit_Framework_TestCase {
+class LanguageTagTest extends TestCase {
 
     function testMimeDir() {
 

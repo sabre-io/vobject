@@ -2,10 +2,11 @@
 
 namespace Sabre\VObject\Component;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component;
 use Sabre\VObject\Reader;
 
-class VTodoTest extends \PHPUnit_Framework_TestCase {
+class VTodoTest extends TestCase {
 
     /**
      * @dataProvider timeRangeTestData

@@ -1,11 +1,22 @@
 ChangeLog
 =========
 
-4.1.3 (????-??-??)
+4.1.4 (????-??-??)
+------------------
+
+* #392: Improved significant change detection. This should reduce the number
+  of unneeded update emails in scheduling systems. (@alecpl).
+* #395: Removed `Canada/East-Saskatchewan` timezone, as it got removed from
+  PHP as well. (@remicollet).
+
+
+4.1.3 (2017-10-18)
 ------------------
 
 * #363: Repair script and de-duplicate properties that are only allowed once,
   but appear more than once. (@ddolcimascolo).
+* #377: Addes Pacific Time (US & Canada) as exchange timezone
+* #384: Added fallback for VCards without `FN`
 
 
 4.1.2 (2016-12-15)

@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject\Splitter;
 
-class VCardTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class VCardTest extends TestCase {
 
     function createStream($data) {
 

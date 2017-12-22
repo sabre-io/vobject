@@ -2,10 +2,11 @@
 
 namespace Sabre\VObject\Property\VCard;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 use Sabre\VObject\Reader;
 
-class DateAndOrTimeTest extends \PHPUnit_Framework_TestCase {
+class DateAndOrTimeTest extends TestCase {
 
     /**
      * @dataProvider dates

@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class JCalTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class JCalTest extends TestCase {
 
     function testToJCal() {
 
