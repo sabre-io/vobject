@@ -1,10 +1,10 @@
 ChangeLog
 =========
 
-4.1.5 (????-??-??)
+4.1.5 (2018-03-08)
 ------------------
 
-*
+* Serialization: Performance boost for long properties (@gharlan)
 
 4.1.4 (2017-12-22)
 ------------------
