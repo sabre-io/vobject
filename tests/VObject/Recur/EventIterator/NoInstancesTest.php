@@ -2,10 +2,10 @@
 
 namespace Sabre\VObject\Recur;
 
-use
-    Sabre\VObject\Reader;
+use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Reader;
 
-class NoInstancesTest extends \PHPUnit_Framework_TestCase {
+class NoInstancesTest extends TestCase {
 
     /**
      * @expectedException \Sabre\VObject\Recur\NoInstancesException

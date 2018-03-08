@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Property;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCard;
 
-class CompoundTest extends \PHPUnit_Framework_TestCase {
+class CompoundTest extends TestCase {
 
     function testSetParts() {
 

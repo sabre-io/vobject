@@ -5,12 +5,13 @@ namespace Sabre\VObject\Recur\EventIterator;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
 /**
  * This is a unittest for Issue #53.
  */
-class HandleRDateExpandTest extends \PHPUnit_Framework_TestCase {
+class HandleRDateExpandTest extends TestCase {
 
     function testExpand() {
 
@@ -54,7 +55,7 @@ ICS;
 
         $result = array_map(function($ev) {return $ev->DTSTART->getDateTime();}, $result);
         $this->assertEquals($expected, $result);
-    
+
     }
 
 }

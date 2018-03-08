@@ -3,9 +3,10 @@
 namespace Sabre\VObject\Component;
 
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 
-class VCalendarTest extends \PHPUnit_Framework_TestCase {
+class VCalendarTest extends TestCase {
 
     use VObject\PHPUnitAssertions;
 

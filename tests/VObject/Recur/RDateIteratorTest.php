@@ -4,8 +4,9 @@ namespace Sabre\VObject\Recur;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 
-class RDateIteratorTest extends \PHPUnit_Framework_TestCase {
+class RDateIteratorTest extends TestCase {
 
     function testSimple() {
 

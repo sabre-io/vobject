@@ -3,9 +3,10 @@
 namespace Sabre\VObject\Recur;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class ByMonthInDailyTest extends \PHPUnit_Framework_TestCase {
+class ByMonthInDailyTest extends TestCase {
 
     /**
      * This tests the expansion of dates with DAILY frequency in RRULE with BYMONTH restrictions

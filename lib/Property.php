@@ -249,8 +249,9 @@ abstract class Property extends Node {
         $out = '';
         while (strlen($str) > 0) {
             if (strlen($str) > 75) {
-                $out .= mb_strcut($str, 0, 75, 'utf-8') . "\r\n";
-                $str = ' ' . mb_strcut($str, 75, strlen($str), 'utf-8');
+                $part = mb_strcut($str, 0, 75, 'utf-8');
+                $out .= $part . "\r\n";
+                $str = ' ' . substr($str, strlen($part));
             } else {
                 $out .= $str . "\r\n";
                 $str = '';

@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-class CalAddressTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class CalAddressTest extends TestCase {
 
     /**
      * @dataProvider values

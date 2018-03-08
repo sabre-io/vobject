@@ -2,10 +2,12 @@
 
 namespace Sabre\VObject;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Assorted vcard 2.1 tests.
  */
-class VCard21Test extends \PHPUnit_Framework_TestCase {
+class VCard21Test extends TestCase {
 
     function testPropertyWithNoName() {
 

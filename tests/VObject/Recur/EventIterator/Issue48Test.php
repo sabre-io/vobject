@@ -4,8 +4,9 @@ namespace Sabre\VObject;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 
-class Issue48Test extends \PHPUnit_Framework_TestCase {
+class Issue48Test extends TestCase {
 
     function testExpand() {
 
