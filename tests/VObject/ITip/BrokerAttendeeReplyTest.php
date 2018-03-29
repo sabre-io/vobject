@@ -284,6 +284,23 @@ RECURRENCE-ID:20140726T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
 END:VEVENT
+END:VCALENDAR
+ICS
+            ],
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
@@ -294,6 +311,23 @@ RECURRENCE-ID:20140724T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
 END:VEVENT
+END:VCALENDAR
+ICS
+            ],
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
@@ -304,6 +338,23 @@ RECURRENCE-ID:20140728T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=TENTATIVE;CN=One:mailto:one@example.org
 END:VEVENT
+END:VCALENDAR
+ICS
+            ],
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
@@ -314,6 +365,23 @@ RECURRENCE-ID:20140729T120000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
 END:VEVENT
+END:VCALENDAR
+ICS
+            ],
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REPLY',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:one@example.org',
+                'senderName'    => 'One',
+                'recipient'     => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
@@ -427,6 +495,24 @@ RECURRENCE-ID;VALUE=DATE:20140726
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
 END:VEVENT
+END:VCALENDAR
+ICS
+
+        ],
+        [
+            'uid'           => 'foobar',
+            'method'        => 'REPLY',
+            'component'     => 'VEVENT',
+            'sender'        => 'mailto:one@example.org',
+            'senderName'    => 'One',
+            'recipient'     => 'mailto:strunk@example.org',
+            'recipientName' => 'Strunk',
+            'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
@@ -436,6 +522,24 @@ RECURRENCE-ID;VALUE=DATE:20140724
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=DECLINED;CN=One:mailto:one@example.org
 END:VEVENT
+END:VCALENDAR
+ICS
+
+        ],
+        [
+            'uid'           => 'foobar',
+            'method'        => 'REPLY',
+            'component'     => 'VEVENT',
+            'sender'        => 'mailto:one@example.org',
+            'senderName'    => 'One',
+            'recipient'     => 'mailto:strunk@example.org',
+            'recipientName' => 'Strunk',
+            'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
@@ -445,6 +549,24 @@ RECURRENCE-ID;VALUE=DATE:20140728
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=TENTATIVE;CN=One:mailto:one@example.org
 END:VEVENT
+END:VCALENDAR
+ICS
+
+        ],
+        [
+            'uid'           => 'foobar',
+            'method'        => 'REPLY',
+            'component'     => 'VEVENT',
+            'sender'        => 'mailto:one@example.org',
+            'senderName'    => 'One',
+            'recipient'     => 'mailto:strunk@example.org',
+            'recipientName' => 'Strunk',
+            'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
@@ -454,6 +576,24 @@ RECURRENCE-ID;VALUE=DATE:20140729
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
 END:VEVENT
+END:VCALENDAR
+ICS
+
+        ],
+        [
+            'uid'           => 'foobar',
+            'method'        => 'REPLY',
+            'component'     => 'VEVENT',
+            'sender'        => 'mailto:one@example.org',
+            'senderName'    => 'One',
+            'recipient'     => 'mailto:strunk@example.org',
+            'recipientName' => 'Strunk',
+            'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
@@ -652,7 +792,6 @@ METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
-SEQUENCE:1
 DTSTART:20140818T200000Z
 RECURRENCE-ID:20140818T200000Z
 ORGANIZER:mailto:organizer@example.org
@@ -721,7 +860,6 @@ METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
-SEQUENCE:1
 DTSTART;TZID=America/Toronto:20140818T200000
 RECURRENCE-ID;TZID=America/Toronto:20140818T200000
 ORGANIZER:mailto:organizer@example.org
@@ -789,7 +927,6 @@ METHOD:REPLY
 BEGIN:VEVENT
 UID:foobar
 DTSTAMP:**ANY**
-SEQUENCE:1
 DTSTART;VALUE=DATE:20140818
 SUMMARY:Weekly meeting
 RECURRENCE-ID;VALUE=DATE:20140818
