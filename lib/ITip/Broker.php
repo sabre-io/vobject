@@ -800,24 +800,7 @@ class Broker
             }
         }
 
-        $message = new Message();
-        $message->uid = $eventInfo['uid'];
-        $message->method = 'REPLY';
-        $message->component = 'VEVENT';
-        $message->sequence = $eventInfo['sequence'];
-        $message->sender = $attendee;
-        $message->senderName = $eventInfo['attendees'][$attendee]['name'];
-        $message->recipient = $eventInfo['organizer'];
-        $message->recipientName = $eventInfo['organizerName'];
-
-        $icalMsg = new VCalendar();
-        $icalMsg->METHOD = 'REPLY';
-
-        foreach ($calendar->select('VTIMEZONE') as $timezone) {
-            $icalMsg->add(clone $timezone);
-        }
-
-        $hasReply = false;
+        $messages = [];
 
         foreach ($instances as $instance) {
             if ($instance['oldstatus'] == $instance['newstatus'] && 'REPLY' !== $eventInfo['organizerForceSend']) {
@@ -825,14 +808,35 @@ class Broker
                 continue;
             }
 
+            $message = new Message();
+            $message->uid = $eventInfo['uid'];
+            $message->method = 'REPLY';
+            $message->component = 'VEVENT';
+            $message->sender = $attendee;
+            $message->senderName = $eventInfo['attendees'][$attendee]['name'];
+            $message->recipient = $eventInfo['organizer'];
+            $message->recipientName = $eventInfo['organizerName'];
+
+            $icalMsg = new VCalendar();
+            $icalMsg->METHOD = 'REPLY';
+
+            foreach ($calendar->select('VTIMEZONE') as $timezone) {
+                $icalMsg->add(clone $timezone);
+            }
+
             $event = $icalMsg->add('VEVENT', [
                 'UID' => $message->uid,
-                'SEQUENCE' => $message->sequence,
             ]);
+
             $summary = isset($calendar->VEVENT->SUMMARY) ? $calendar->VEVENT->SUMMARY->getValue() : '';
             // Adding properties from the correct source instance
             if (isset($eventInfo['instances'][$instance['id']])) {
                 $instanceObj = $eventInfo['instances'][$instance['id']];
+                if (isset($instanceObj->SEQUENCE)) {
+                    $event->add('SEQUENCE', $instanceObj->SEQUENCE);
+
+                    $message->sequence = $eventInfo['sequence'];
+                }
                 $event->add(clone $instanceObj->DTSTART);
                 if (isset($instanceObj->DTEND)) {
                     $event->add(clone $instanceObj->DTEND);
@@ -873,22 +877,17 @@ class Broker
             if ($message->recipientName) {
                 $organizer['CN'] = $message->recipientName;
             }
-            $attendee = $event->add('ATTENDEE', $message->sender, [
-                'PARTSTAT' => $instance['newstatus'],
+            $msgAttendee = $event->add('ATTENDEE', $message->sender, [
+                'PARTSTAT' => $instance['newstatus']
             ]);
             if ($message->senderName) {
-                $attendee['CN'] = $message->senderName;
+                $msgAttendee['CN'] = $message->senderName;
             }
-            $hasReply = true;
-        }
-
-        if ($hasReply) {
             $message->message = $icalMsg;
-
-            return [$message];
-        } else {
-            return [];
+            $messages[] = $message;
         }
+
+        return $messages;
     }
 
     /**
