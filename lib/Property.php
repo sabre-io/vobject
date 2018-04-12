@@ -247,8 +247,8 @@ abstract class Property extends Node {
         $str .= ':' . $this->getRawMimeDirValue();
 
         $out = '';
-        while (strlen($str) > 0) {
-            if (strlen($str) > 75) {
+        while (($len = strlen($str)) > 0) {
+            if ($len > 75) {
                 $part = mb_strcut($str, 0, 75, 'utf-8');
                 $out .= $part . "\r\n";
                 $str = ' ' . substr($str, strlen($part));
