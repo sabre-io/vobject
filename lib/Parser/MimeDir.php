@@ -315,8 +315,9 @@ class MimeDir extends Parser {
                 break;
             }
             if ($nextLine[0] === "\t" || $nextLine[0] === " ") {
-                $line .= substr($nextLine, 1);
-                $rawLine .= "\n " . substr($nextLine, 1);
+                $curLine = substr($nextLine, 1);
+                $line .= $curLine;
+                $rawLine .= "\n " . $curLine;
             } else {
                 $this->lineBuffer = $nextLine;
                 break;
