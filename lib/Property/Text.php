@@ -272,20 +272,10 @@ class Text extends Property {
 
         } else {
             $str .= ':' . $val;
-            $out = '';
-            while (($len = \strlen($str)) > 0) {
-                if ($len > 75) {
-                    $part = \mb_strcut($str, 0, 75, 'utf-8');
-                    $out .= $part . "\r\n";
-                    $str = ' ' . \substr($str, \strlen($part));
-                } else {
-                    $out .= $str . "\r\n";
-                    $str = '';
-                    break;
-                }
-            }
 
-            return $out;
+            $str = \preg_replace('/((?:^.)?.{1,74}(?![\x80-\xbf]))/', "$1\r\n ", $str);
+
+            return \substr($str, 0, -1);
 
         }
 
