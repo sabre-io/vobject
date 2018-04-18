@@ -213,16 +213,16 @@ class Text extends Property {
         $val = $this->getParts();
 
         if (isset($this->minimumPropertyValues[$this->name])) {
-            $val = array_pad($val, $this->minimumPropertyValues[$this->name], '');
+            $val = \array_pad($val, $this->minimumPropertyValues[$this->name], '');
         }
 
         // Imploding multiple parts into a single value, and splitting the
         // values with ;.
         if (count($val) > 1) {
             foreach ($val as $k => $v) {
-                $val[$k] = str_replace(';', '\;', $v);
+                $val[$k] = \str_replace(';', '\;', $v);
             }
-            $val = implode(';', $val);
+            $val = \implode(';', $val);
         } else {
             $val = $val[0];
         }
@@ -242,7 +242,7 @@ class Text extends Property {
 
         // If the resulting value contains a \n, we must encode it as
         // quoted-printable.
-        if (strpos($val, "\n") !== false) {
+        if (\strpos($val, "\n") !== false) {
 
             $str .= ';ENCODING=QUOTED-PRINTABLE:';
             $lastLine = $str;
@@ -252,15 +252,15 @@ class Text extends Property {
             // encode newlines for us. Specifically, the \r\n sequence must in
             // vcards be encoded as =0D=OA and we must insert soft-newlines
             // every 75 bytes.
-            for ($ii = 0;$ii < strlen($val);$ii++) {
-                $ord = ord($val[$ii]);
+            for ($ii = 0;$ii < \strlen($val);$ii++) {
+                $ord = \ord($val[$ii]);
                 // These characters are encoded as themselves.
                 if ($ord >= 32 && $ord <= 126) {
                     $lastLine .= $val[$ii];
                 } else {
-                    $lastLine .= '=' . strtoupper(bin2hex($val[$ii]));
+                    $lastLine .= '=' . \strtoupper(\bin2hex($val[$ii]));
                 }
-                if (strlen($lastLine) >= 75) {
+                if (\strlen($lastLine) >= 75) {
                     // Soft line break
                     $out .= $lastLine . "=\r\n ";
                     $lastLine = null;
@@ -273,11 +273,11 @@ class Text extends Property {
         } else {
             $str .= ':' . $val;
             $out = '';
-            while (($len = strlen($str)) > 0) {
+            while (($len = \strlen($str)) > 0) {
                 if ($len > 75) {
-                    $part = mb_strcut($str, 0, 75, 'utf-8');
+                    $part = \mb_strcut($str, 0, 75, 'utf-8');
                     $out .= $part . "\r\n";
-                    $str = ' ' . substr($str, strlen($part));
+                    $str = ' ' . \substr($str, \strlen($part));
                 } else {
                     $out .= $str . "\r\n";
                     $str = '';
