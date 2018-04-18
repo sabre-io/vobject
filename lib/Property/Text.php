@@ -267,7 +267,7 @@ class Text extends Property {
                 }
 
             }
-            if (!is_null($lastLine)) $out .= $lastLine . "\r\n";
+            if (!\is_null($lastLine)) $out .= $lastLine . "\r\n";
             return $out;
 
         } else {
