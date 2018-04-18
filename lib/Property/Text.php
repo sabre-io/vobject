@@ -218,7 +218,7 @@ class Text extends Property {
 
         // Imploding multiple parts into a single value, and splitting the
         // values with ;.
-        if (count($val) > 1) {
+        if (\count($val) > 1) {
             foreach ($val as $k => $v) {
                 $val[$k] = \str_replace(';', '\;', $v);
             }
