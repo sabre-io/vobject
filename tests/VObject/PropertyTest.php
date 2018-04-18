@@ -161,7 +161,7 @@ class PropertyTest extends TestCase {
     function testSerializeUTF8LineFold() {
 
         $cal = new VCalendar();
-        $value = str_repeat('!', 65) . "\xc3\xa4bla" . str_repeat('!', 142) . "\xc3\xa4foo1"; // inserted umlaut-a
+        $value = str_repeat('!', 65) . "\xc3\xa4bla" . str_repeat('!', 142) . "\xc3\xa4foo"; // inserted umlaut-a
         $property = $cal->createProperty('propname', $value);
 
         // PROPNAME:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ("PROPNAME:" + 65x"!" = 74 bytes)
