@@ -246,8 +246,17 @@ abstract class Property extends Node {
 
         $str .= ':' . $this->getRawMimeDirValue();
 
-        $str = \preg_replace('/((?:^.)?.{1,74}(?![\x80-\xbf]))/', "$1\r\n ", $str);
+        $str = \preg_replace(
+            '/(
+                (?:^.)?         # 1 additional byte in first line because of missing single space (see next line)
+                .{1,74}         # max 75 bytes per line (1 byte is used for a single space added after every CRLF)
+                (?![\x80-\xbf]) # prevent splitting multibyte characters
+            )/x',
+            "$1\r\n ",
+            $str
+        );
 
+        // remove single space after last CRLF
         return \substr($str, 0, -1);
 
     }
