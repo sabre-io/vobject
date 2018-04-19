@@ -283,22 +283,22 @@ class MimeDir extends Parser {
      */
     protected function readLine() {
 
-        if (!is_null($this->lineBuffer)) {
+        if (!\is_null($this->lineBuffer)) {
             $rawLine = $this->lineBuffer;
             $this->lineBuffer = null;
         } else {
             do {
-                $eof = feof($this->input);
+                $eof = \feof($this->input);
 
-                $rawLine = fgets($this->input);
+                $rawLine = \fgets($this->input);
 
-                if ($eof || (feof($this->input) && $rawLine === false)) {
+                if ($eof || (\feof($this->input) && $rawLine === false)) {
                     throw new EofException('End of document reached prematurely');
                 }
                 if ($rawLine === false) {
                     throw new ParseException('Error reading from input stream');
                 }
-                $rawLine = rtrim($rawLine, "\r\n");
+                $rawLine = \rtrim($rawLine, "\r\n");
             } while ($rawLine === ''); // Skipping empty lines
             $this->lineIndex++;
         }
@@ -309,13 +309,13 @@ class MimeDir extends Parser {
         // Looking ahead for folded lines.
         while (true) {
 
-            $nextLine = rtrim(fgets($this->input), "\r\n");
+            $nextLine = \rtrim(\fgets($this->input), "\r\n");
             $this->lineIndex++;
             if (!$nextLine) {
                 break;
             }
             if ($nextLine[0] === "\t" || $nextLine[0] === " ") {
-                $curLine = substr($nextLine, 1);
+                $curLine = \substr($nextLine, 1);
                 $line .= $curLine;
                 $rawLine .= "\n " . $curLine;
             } else {
