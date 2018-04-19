@@ -897,6 +897,9 @@ class Broker {
                         if ($key === 'INTERVAL' && $val == 1) {
                             continue;
                         }
+                        if (is_array($val)) {
+                            $val = implode(',', $val);
+                        }
                         $rrule[] = "$key=$val";
                     }
                 }
