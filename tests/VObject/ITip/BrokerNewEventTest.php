@@ -388,6 +388,58 @@ ICS
 
     }
 
+    function testRecurrenceInvite3() {
+
+        // This method tests a complex rrule
+        $message = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=8;BYDAY=SA,SU
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'REQUEST',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:one@example.org',
+                'recipientName' => 'One',
+                'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:foobar
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One;PARTSTAT=NEEDS-ACTION:mailto:one@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=8;BYDAY=SA,SU
+END:VEVENT
+END:VCALENDAR
+ICS
+
+            ],
+        ];
+
+        $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
+
+    }
+
     function testScheduleAgentClient() {
 
         $message = <<<ICS
