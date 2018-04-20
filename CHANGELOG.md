@@ -1,10 +1,12 @@
 ChangeLog
 =========
 
-4.1.6 (????-??-??)
+4.1.6 (2018-04-20)
 ------------------
 
-*
+* Another round of performance improvements in serialization of properties (@gharlan, @staabm)
+* Fixes in iTip handling of `SCHEDULE-FORCE-SEND` (@alecpl)
+* Fixes in iTip for handling `BYDAY=SA,SO` (@gharlan)
 
 4.1.5 (2018-03-08)
 ------------------
