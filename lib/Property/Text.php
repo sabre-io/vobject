@@ -272,20 +272,19 @@ class Text extends Property {
 
         } else {
             $str .= ':' . $val;
-            $out = '';
-            while (($len = \strlen($str)) > 0) {
-                if ($len > 75) {
-                    $part = \mb_strcut($str, 0, 75, 'utf-8');
-                    $out .= $part . "\r\n";
-                    $str = ' ' . \substr($str, \strlen($part));
-                } else {
-                    $out .= $str . "\r\n";
-                    $str = '';
-                    break;
-                }
-            }
 
-            return $out;
+            $str = \preg_replace(
+                '/(
+                    (?:^.)?         # 1 additional byte in first line because of missing single space (see next line)
+                    .{1,74}         # max 75 bytes per line (1 byte is used for a single space added after every CRLF)
+                    (?![\x80-\xbf]) # prevent splitting multibyte characters
+                )/x',
+                "$1\r\n ",
+                $str
+            );
+
+            // remove single space after last CRLF
+            return \substr($str, 0, -1);
 
         }
 
