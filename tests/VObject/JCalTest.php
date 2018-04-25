@@ -97,7 +97,7 @@ class JCalTest extends TestCase
                             'sequence', new \stdClass(), 'integer', 5,
                         ],
                         [
-                            'freebusy', new \stdClass(), 'period',  ['2013-05-26T21:02:13', 'PT1H'], ['2013-06-26T12:00:00', '2013-06-26T13:00:00'],
+                            'freebusy', new \StdClass(), 'period',  ['2013-05-26T21:02:13Z', 'PT1H'], ['2013-06-26T12:00:00Z', '2013-06-26T13:00:00Z'],
                         ],
                         [
                             'url', new \stdClass(), 'uri', 'http://example.org/',

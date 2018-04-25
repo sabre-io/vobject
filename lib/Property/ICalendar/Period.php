@@ -79,6 +79,10 @@ class Period extends Property
         parent::setJsonValue($value);
     }
 
+    function appendUtc($strDate) {
+        return strpos($strDate, 'Z') === false ? '' : 'Z';
+    }
+
     /**
      * Returns the value, in the format it should be encoded for json.
      *
@@ -92,23 +96,19 @@ class Period extends Property
         foreach ($this->getParts() as $item) {
             list($start, $end) = explode('/', $item, 2);
 
-            $start = DateTimeParser::parseDateTime($start);
-
-            // Check if the datetime is in UTC timezone
-            $isUtc = in_array($start->getTimezone()->getName(), ['UTC', 'GMT', 'Z', '+00:00']);
-            $zSuffix = $isUtc ? 'Z' : '';
-
             // This is a duration value.
-            if ('P' === $end[0]) {
+            $startDt = DateTimeParser::parseDateTime($start)->format('Y-m-d\\TH:i:s') . $this->appendUtc($start);
+
+            if ($end[0] === 'P') {
                 $return[] = [
-                    $start->format('Y-m-d\\TH:i:s').$zSuffix,
-                    $end,
+                    $startDt,
+                    $end
                 ];
             } else {
-                $end = DateTimeParser::parseDateTime($end);
+                $endDt = DateTimeParser::parseDateTime($end)->format('Y-m-d\\TH:i:s') . $this->appendUtc($end);
                 $return[] = [
-                    $start->format('Y-m-d\\TH:i:s').$zSuffix,
-                    $end->format('Y-m-d\\TH:i:s').$zSuffix,
+                    $startDt,
+                    $endDt
                 ];
             }
         }
