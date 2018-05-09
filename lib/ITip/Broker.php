@@ -286,16 +286,43 @@ class Broker {
                 $existingObject->add(clone $component);
             }
         } else {
-            // We need to update an existing object with all the new
-            // information. We can just remove all existing components
-            // and create new ones.
+            // We need to update an existing object with all the new information.
+            // We start by removing all non-VEVENT components (VTIMEZONE, etc.)
             foreach ($existingObject->getComponents() as $component) {
-                $existingObject->remove($component);
+                if ($component->name !== 'VEVENT') {
+                    $existingObject->remove($component);
+                }
             }
+
+            // Then we search for a master event in the iTip, if we find it we remove all VEVENT from the original
+            // calendar object, as we will later add new components from the iTip
+            foreach ($itipMessage->message->select('VEVENT') as $vEvent) {
+                if (!isset($vEvent->{'RECURRENCE-ID'})) {
+                    $existingObject->remove('VEVENT');
+                }
+            }
+
+            // Then we iterate over the iTip to add new or updated components to the original calendar object
             foreach ($itipMessage->message->getComponents() as $component) {
-                $existingObject->add(clone $component);
+                if ($component->name !== 'VEVENT') {
+                    $existingObject->add(clone $component);
+                } else {
+                    // It's an exception to a recurring event, we try to find it in the original event to remove it
+                    if (isset($component->{'RECURRENCE-ID'})) {
+                        foreach ($existingObject->select('VEVENT') as $vEvent) {
+                            if (isset($vEvent->{'RECURRENCE-ID'}) && ($vEvent->{'RECURRENCE-ID'}->getDateTime() == $component->{'RECURRENCE-ID'}->getDateTime())) {
+                                $existingObject->remove($vEvent);
+
+                                break;
+                            }
+                        }
+                    }
+
+                    $existingObject->add(clone $component);
+                }
             }
         }
+
         return $existingObject;
 
     }
