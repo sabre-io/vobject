@@ -620,10 +620,6 @@ class RRuleIterator implements Iterator {
 
         }
 
-        //$currentMonth = $this->currentDate->format('n');
-        //$currentYear = $this->currentDate->format('Y');
-        //$currentDayOfMonth = $this->currentDate->format('j');
-
         $advancedToNewMonth = false;
 
         $noOccurrenceCounter = 0;
