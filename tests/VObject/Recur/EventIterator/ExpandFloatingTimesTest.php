@@ -4,9 +4,10 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTime;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class ExpandFloatingTimesTest extends \PHPUnit_Framework_TestCase {
+class ExpandFloatingTimesTest extends TestCase {
 
     use \Sabre\VObject\PHPUnitAssertions;
 

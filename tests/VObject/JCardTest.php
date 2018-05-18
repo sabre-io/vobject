@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class JCardTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class JCardTest extends TestCase {
 
     function testToJCard() {
 

@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class VCardConverterTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class VCardConverterTest extends TestCase {
 
     use \Sabre\VObject\PHPUnitAssertions;
 

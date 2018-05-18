@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class ElementListTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class ElementListTest extends TestCase {
 
     function testIterate() {
 

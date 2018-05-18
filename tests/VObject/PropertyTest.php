@@ -2,10 +2,11 @@
 
 namespace Sabre\VObject;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
 
-class PropertyTest extends \PHPUnit_Framework_TestCase {
+class PropertyTest extends TestCase {
 
     function testToString() {
 
@@ -160,9 +161,14 @@ class PropertyTest extends \PHPUnit_Framework_TestCase {
     function testSerializeUTF8LineFold() {
 
         $cal = new VCalendar();
-        $value = str_repeat('!', 65) . "\xc3\xa4bla"; // inserted umlaut-a
+        $value = str_repeat('!', 65) . "\xc3\xa4bla" . str_repeat('!', 142) . "\xc3\xa4foo"; // inserted umlaut-a
         $property = $cal->createProperty('propname', $value);
-        $expected = "PROPNAME:" . str_repeat('!', 65) . "\r\n \xc3\xa4bla\r\n";
+
+        // PROPNAME:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ("PROPNAME:" + 65x"!" = 74 bytes)
+        //  äbla!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (" äbla"     + 69x"!" = 75 bytes)
+        //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (" "         + 73x"!" = 74 bytes)
+        //  äfoo
+        $expected = "PROPNAME:" . str_repeat('!', 65) . "\r\n \xc3\xa4bla" . str_repeat('!', 69) . "\r\n " . str_repeat('!', 73) . "\r\n \xc3\xa4foo\r\n";
         $this->assertEquals($expected, $property->serialize());
 
     }

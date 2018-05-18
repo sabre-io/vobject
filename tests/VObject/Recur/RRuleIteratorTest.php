@@ -3,9 +3,11 @@
 namespace Sabre\VObject\Recur;
 
 use DateTime;
+use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 
-class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
+class RRuleIteratorTest extends TestCase {
 
     function testHourly() {
 
@@ -526,6 +528,24 @@ class RRuleIteratorTest extends \PHPUnit_Framework_TestCase {
             ]
         );
 
+    }
+
+    /*
+     * Regression test for #383
+     * $parser->next() used to cause an infinite loop.
+     */
+    function testYearlyByYearDayImmutable() {
+        $start = '2011-07-10 03:07:00';
+        $rule = 'FREQ=YEARLY;COUNT=7;INTERVAL=2;BYYEARDAY=190';
+        $tz = "UTC";
+
+        $dt = new DateTimeImmutable($start, new DateTimeZone($tz));
+        $parser = new RRuleIterator($rule, $dt);
+
+        $parser->next();
+
+        $item = $parser->current();
+        $this->assertEquals($item->format('Y-m-d H:i:s'), '2013-07-10 03:07:00');
     }
 
     function testYearlyByYearDayMultiple() {

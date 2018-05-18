@@ -3,12 +3,13 @@
 namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
 /**
  * This is a unittest for Issue #53.
  */
-class IncorrectExpandTest extends \PHPUnit_Framework_TestCase {
+class IncorrectExpandTest extends TestCase {
 
     use \Sabre\VObject\PHPUnitAssertions;
 
@@ -56,7 +57,7 @@ END:VCALENDAR
 
 ICS;
         $this->assertVObjectEqualsVObject($output, $vcal);
-    
+
     }
 
 }

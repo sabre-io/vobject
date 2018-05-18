@@ -2,10 +2,10 @@
 
 namespace Sabre\VObject\Parser;
 
-use
-    Sabre\VObject\Reader;
+use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Reader;
 
-class QuotedPrintableTest extends \PHPUnit_Framework_TestCase {
+class QuotedPrintableTest extends TestCase {
 
     function testReadQuotedPrintableSimple() {
 

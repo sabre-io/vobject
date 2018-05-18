@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class StringUtilTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class StringUtilTest extends TestCase {
 
     function testNonUTF8() {
 

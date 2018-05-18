@@ -283,22 +283,22 @@ class MimeDir extends Parser {
      */
     protected function readLine() {
 
-        if (!is_null($this->lineBuffer)) {
+        if (!\is_null($this->lineBuffer)) {
             $rawLine = $this->lineBuffer;
             $this->lineBuffer = null;
         } else {
             do {
-                $eof = feof($this->input);
+                $eof = \feof($this->input);
 
-                $rawLine = fgets($this->input);
+                $rawLine = \fgets($this->input);
 
-                if ($eof || (feof($this->input) && $rawLine === false)) {
+                if ($eof || (\feof($this->input) && $rawLine === false)) {
                     throw new EofException('End of document reached prematurely');
                 }
                 if ($rawLine === false) {
                     throw new ParseException('Error reading from input stream');
                 }
-                $rawLine = rtrim($rawLine, "\r\n");
+                $rawLine = \rtrim($rawLine, "\r\n");
             } while ($rawLine === ''); // Skipping empty lines
             $this->lineIndex++;
         }
@@ -309,14 +309,15 @@ class MimeDir extends Parser {
         // Looking ahead for folded lines.
         while (true) {
 
-            $nextLine = rtrim(fgets($this->input), "\r\n");
+            $nextLine = \rtrim(\fgets($this->input), "\r\n");
             $this->lineIndex++;
             if (!$nextLine) {
                 break;
             }
             if ($nextLine[0] === "\t" || $nextLine[0] === " ") {
-                $line .= substr($nextLine, 1);
-                $rawLine .= "\n " . substr($nextLine, 1);
+                $curLine = \substr($nextLine, 1);
+                $line .= $curLine;
+                $rawLine .= "\n " . $curLine;
             } else {
                 $this->lineBuffer = $nextLine;
                 break;
@@ -464,13 +465,13 @@ class MimeDir extends Parser {
                 // vCard 2.1 allows the character set to be specified per property.
                 $charset = (string)$propObj['CHARSET'];
             }
-            switch ($charset) {
-                case 'UTF-8' :
+            switch (strtolower($charset)) {
+                case 'utf-8' :
                     break;
-                case 'ISO-8859-1' :
+                case 'iso-8859-1' :
                     $property['value'] = utf8_encode($property['value']);
                     break;
-                case 'Windows-1252' :
+                case 'windows-1252' :
                     $property['value'] = mb_convert_encoding($property['value'], 'UTF-8', $charset);
                     break;
                 default :
