@@ -2,11 +2,13 @@
 
 namespace Sabre\VObject\Parser;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Note that most MimeDir related tests can actually be found in the ReaderTest
  * class one level up.
  */
-class MimeDirTest extends \PHPUnit_Framework_TestCase {
+class MimeDirTest extends TestCase {
 
     /**
      * @expectedException \Sabre\VObject\ParseException
@@ -138,6 +140,24 @@ VCF;
         $mimeDir = new MimeDir();
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("Euro \xE2\x82\xAC", $vcard->FN->getValue());
+
+    }
+
+    function testCaseInsensitiveInlineCharset() {
+
+        $vcard = <<<VCF
+BEGIN:VCARD
+VERSION:2.1
+FN;CHARSET=iSo-8859-1:Euro
+N;CHARSET=utf-8:Test2
+END:VCARD\n
+VCF;
+
+        $mimeDir = new MimeDir();
+        $vcard = $mimeDir->parse($vcard);
+        // we can do a simple assertion here. As long as we don't get an exception, everything is thing
+        $this->assertEquals("Euro", $vcard->FN->getValue());
+        $this->assertEquals("Test2", $vcard->N->getValue());
 
     }
 }

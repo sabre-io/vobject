@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Splitter;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 
-class ICalendarTest extends \PHPUnit_Framework_TestCase {
+class ICalendarTest extends TestCase {
 
     protected $version;
 

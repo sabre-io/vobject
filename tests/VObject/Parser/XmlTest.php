@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Parser;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 
-class XmlTest extends \PHPUnit_Framework_TestCase {
+class XmlTest extends TestCase {
 
     use VObject\PHPUnitAssertions;
 

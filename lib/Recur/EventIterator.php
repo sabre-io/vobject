@@ -409,7 +409,7 @@ class EventIterator implements \Iterator {
      */
     function fastForward(DateTimeInterface $dateTime) {
 
-        while ($this->valid() && $this->getDtEnd() < $dateTime) {
+        while ($this->valid() && $this->getDtEnd() <= $dateTime) {
             $this->next();
         }
 

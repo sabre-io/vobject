@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class IssueUndefinedIndexTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class IssueUndefinedIndexTest extends TestCase {
 
     /**
      * @expectedException \Sabre\VObject\ParseException

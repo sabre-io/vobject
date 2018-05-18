@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Property;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 
-class BinaryTest extends \PHPUnit_Framework_TestCase {
+class BinaryTest extends TestCase {
 
     /**
      * @expectedException \InvalidArgumentException

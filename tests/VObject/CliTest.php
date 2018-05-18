@@ -2,12 +2,14 @@
 
 namespace Sabre\VObject;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Tests the cli.
  *
  * Warning: these tests are very rudimentary.
  */
-class CliTest extends \PHPUnit_Framework_TestCase {
+class CliTest extends TestCase {
 
     function setUp() {
 

@@ -3,9 +3,10 @@
 namespace Sabre\VObject\RecurrenceIterator;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class OverrideFirstEventTest extends \PHPUnit_Framework_TestCase {
+class OverrideFirstEventTest extends TestCase {
 
     use \Sabre\VObject\PHPUnitAssertions;
 

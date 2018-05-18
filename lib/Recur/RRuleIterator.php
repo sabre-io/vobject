@@ -592,11 +592,11 @@ class RRuleIterator implements Iterator {
                     // loop through all YearDay and Days to check all the combinations
                     foreach ($this->byYearDay as $byYearDay) {
                         $date = clone $this->currentDate;
-                        $date->setDate($currentYear, 1, 1);
+                        $date = $date->setDate($currentYear, 1, 1);
                         if ($byYearDay > 0) {
-                            $date->add(new \DateInterval('P' . $byYearDay . 'D'));
+                            $date = $date->add(new \DateInterval('P' . $byYearDay . 'D'));
                         } else {
-                            $date->sub(new \DateInterval('P' . abs($byYearDay) . 'D'));
+                            $date = $date->sub(new \DateInterval('P' . abs($byYearDay) . 'D'));
                         }
 
                         if ($date > $this->currentDate && in_array($date->format('N'), $dayOffsets)) {
@@ -619,10 +619,6 @@ class RRuleIterator implements Iterator {
             return;
 
         }
-
-        //$currentMonth = $this->currentDate->format('n');
-        //$currentYear = $this->currentDate->format('Y');
-        //$currentDayOfMonth = $this->currentDate->format('j');
 
         $advancedToNewMonth = false;
 

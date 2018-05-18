@@ -4,10 +4,11 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Recur\EventIterator;
 
-class MainTest extends \PHPUnit_Framework_TestCase {
+class MainTest extends TestCase {
 
     function testValues() {
 
@@ -1115,6 +1116,33 @@ class MainTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals([], $result);
 
+    }
+
+    /**
+     * @depends testValues
+     */
+    function testFastForwardAllDayEventThatStopAtTheStartTime() {
+        $vcal = new VCalendar();
+        $ev = $vcal->createComponent('VEVENT');
+
+        $ev->UID = 'bla';
+        $ev->RRULE = 'FREQ=DAILY';
+
+        $dtStart = $vcal->createProperty('DTSTART');
+        $dtStart->setDateTime(new DateTimeImmutable('2011-04-04', new DateTimeZone('UTC')));
+        $ev->add($dtStart);
+
+        $dtEnd = $vcal->createProperty('DTSTART');
+        $dtEnd->setDateTime(new DateTimeImmutable('2011-04-05', new DateTimeZone('UTC')));
+        $ev->add($dtEnd);
+
+        $vcal->add($ev);
+
+        $it = new EventIterator($vcal, (string)$ev->UID);
+
+        $it->fastForward(new DateTimeImmutable('2011-04-05T000000', new DateTimeZone('UTC')));
+
+        $this->assertEquals(new DateTimeImmutable('2011-04-06'), $it->getDTStart());
     }
 
     /**

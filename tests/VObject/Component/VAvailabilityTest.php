@@ -4,6 +4,7 @@ namespace Sabre\VObject\Component;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 use Sabre\VObject\Reader;
 
@@ -11,7 +12,7 @@ use Sabre\VObject\Reader;
  * We use `RFCxxx` has a placeholder for the
  * https://tools.ietf.org/html/draft-daboo-calendar-availability-05 name.
  */
-class VAvailabilityTest extends \PHPUnit_Framework_TestCase {
+class VAvailabilityTest extends TestCase {
 
     function testVAvailabilityComponent() {
 

@@ -2,7 +2,9 @@
 
 namespace Sabre\VObject;
 
-class VersionTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class VersionTest extends TestCase {
 
     function testString() {
 

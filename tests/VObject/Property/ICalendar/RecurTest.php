@@ -2,11 +2,12 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Node;
 use Sabre\VObject\Reader;
 
-class RecurTest extends \PHPUnit_Framework_TestCase {
+class RecurTest extends TestCase {
 
     use \Sabre\VObject\PHPUnitAssertions;
 

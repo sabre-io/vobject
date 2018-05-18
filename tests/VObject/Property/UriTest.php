@@ -2,9 +2,10 @@
 
 namespace Sabre\VObject\Property;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class UriTest extends \PHPUnit_Framework_TestCase {
+class UriTest extends TestCase {
 
     function testAlwaysEncodeUriVCalendar() {
 

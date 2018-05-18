@@ -1,17 +1,59 @@
 ChangeLog
 =========
 
-4.1.2 (????-??-??)
+4.1.7 (????-??-??)
+------------------
+
+* 
+* #329: Infinite loop when using `BYMONTHDAY`, `BYDAY` and/or `BYSETPOS` to
+  expand a `BYMONTH` rule.
+
+4.1.6 (2018-04-20)
+------------------
+
+* #406, #407, #408, #409: Another round of performance improvements in serialization of properties (@gharlan, @staabm)
+* #410: Fixes in iTip for handling `BYDAY=SA,SO` (@gharlan)
+* #381: Fixes in iTip handling of `SCHEDULE-FORCE-SEND` (@alecpl)
+
+4.1.5 (2018-03-08)
+------------------
+
+* #404: Serialization: Performance boost for long properties (@gharlan)
+
+4.1.4 (2017-12-22)
+------------------
+
+* #383: Fix possible infinite loop in RRuleIterator, when the RRule FREQ
+  is YEARLY and it uses BYYEARDAY only (@mvdnes).
+* #392: Improved significant change detection. This should reduce the number of
+  unneeded update emails in scheduling systems. (@alecpl).
+* #395: Removed `Canada/East-Saskatchewan` timezone, as it got removed
+  from PHP as well. (@remicollet).
+
+
+4.1.3 (2017-10-18)
+------------------
+
+* #363: Repair script and de-duplicate properties that are only allowed once,
+  but appear more than once. (@ddolcimascolo).
+* #377: Added Pacific Time (US & Canada) as exchange timezone
+* #384: Added fallback for VCards without `FN`
+
+
+4.1.2 (2016-12-15)
 ------------------
 
 * #340: Support for `BYYEARDAY` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
 * #341: Support for `BYWEEKNO` recurrence when `FREQ=YEARLY`. (@PHPGangsta)
 * Updated to the latest windows timezone data mappings.
-* #345: Auto-detecting more Outlook 365-generated timezone identifiers.
+* #344: Auto-detecting more Outlook 365-generated timezone identifiers.
   (@jpirkey)
 * #348: `FreeBusyGenerator` can now accept streams.
-* #329: Infinite loop when using `BYMONTHDAY`, `BYDAY` and/or `BYSETPOS` to
-  expand a `BYMONTH` rule.
+* Support sabre/xml 1.5 and 2.0.
+* #355: Support `DateTimeInterface` in more places where only `DateTime` was
+  supported. (@gharlan).
+* #351: Fixing an inclusive/exclusive problem with `isInTimeRange` and
+  `fastForward` with all-day events. (@strokyl, thanks you are brilliant).
 
 
 4.1.1 (2016-07-15)

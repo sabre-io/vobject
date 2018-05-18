@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\ITip;
 
+use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
 /**
@@ -11,7 +12,7 @@ use Sabre\VObject\Reader;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-abstract class BrokerTester extends \PHPUnit_Framework_TestCase {
+abstract class BrokerTester extends TestCase {
 
     use \Sabre\VObject\PHPUnitAssertions;
 
