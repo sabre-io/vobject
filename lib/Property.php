@@ -616,7 +616,7 @@ abstract class Property extends Node {
                         $allowedEncoding = ['QUOTED-PRINTABLE', 'BASE64', '8BIT'];
                         break;
                     case Document::VCARD30 :
-                        $allowedEncoding = ['B'];
+                        $allowedEncoding = ['B', 'BASE64'];
                         break;
 
                 }
