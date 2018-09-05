@@ -523,6 +523,11 @@ class Broker {
                 // Creating the new iCalendar body.
                 $icalMsg = new VCalendar();
                 $icalMsg->METHOD = $message->method;
+
+                foreach ($calendar->select('VTIMEZONE') as $timezone) {
+                    $icalMsg->add(clone $timezone);
+                }
+
                 $event = $icalMsg->add('VEVENT', [
                     'UID'      => $message->uid,
                     'SEQUENCE' => $message->sequence,
