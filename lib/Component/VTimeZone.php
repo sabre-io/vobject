@@ -49,9 +49,17 @@ class VTimeZone extends VObject\Component {
 
         return [
             'TZID' => 1,
+            'DTSTART' => 1,
+            'TZOFFSETTO' => 1,
+            'TZOFFSETFROM' => 1,
 
             'LAST-MODIFIED' => '?',
-            'TZURL'         => '?',
+            'TZURL' => '?',
+
+            'COMMENT' => '*',
+            'RDATE' => '*',
+            'RRULE' => '*',
+            'TZNAME' => '*',
 
             // At least 1 STANDARD or DAYLIGHT must appear.
             //
