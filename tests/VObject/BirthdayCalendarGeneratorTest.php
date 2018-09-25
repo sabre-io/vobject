@@ -475,11 +475,11 @@ ICS;
     function testParseException() {
 
         $generator = new BirthdayCalendarGenerator();
-        $input = <<<FOO
+        $input = <<<EOT
 BEGIN:FOO
 FOO:Bar
 END:FOO
-FOO;
+EOT;
 
         $generator->setObjects($input);
 
