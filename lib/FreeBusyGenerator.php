@@ -430,7 +430,7 @@ class FreeBusyGenerator {
                                 // instance. We are skipping this event from the output
                                 // entirely.
                                 unset($this->objects[$key]);
-                                continue 2;
+                                break;
                             }
 
                             if ($this->start) {
