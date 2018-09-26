@@ -5,6 +5,8 @@ ChangeLog
 ------------------
 
 * 
+* #329: Infinite loop when using `BYMONTHDAY`, `BYDAY` and/or `BYSETPOS` to
+  expand a `BYMONTH` rule.
 
 4.1.6 (2018-04-20)
 ------------------
