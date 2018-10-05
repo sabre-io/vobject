@@ -16,7 +16,7 @@ class QuotedPrintableTest extends TestCase {
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCARD', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertEquals("Aachen", $this->getPropertyValue($result->LABEL));
+        $this->assertEquals('Aachen', $this->getPropertyValue($result->LABEL));
 
     }
 
@@ -28,7 +28,7 @@ class QuotedPrintableTest extends TestCase {
         $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
         $this->assertEquals('VCARD', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertEquals("Aachen", $this->getPropertyValue($result->LABEL));
+        $this->assertEquals('Aachen', $this->getPropertyValue($result->LABEL));
 
     }
 

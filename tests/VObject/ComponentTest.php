@@ -64,11 +64,11 @@ class ComponentTest extends TestCase {
         $emails = $comp->email;
         $this->assertEquals(3, count($emails));
 
-        $email1 = $comp->{"group1.email"};
+        $email1 = $comp->{'group1.email'};
         $this->assertEquals('EMAIL', $email1[0]->name);
         $this->assertEquals('GROUP1', $email1[0]->group);
 
-        $email3 = $comp->{".email"};
+        $email3 = $comp->{'.email'};
         $this->assertEquals('EMAIL', $email3[0]->name);
         $this->assertEquals(null, $email3[0]->group);
 

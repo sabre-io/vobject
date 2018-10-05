@@ -283,7 +283,7 @@ class Component extends Node {
      */
     function serialize() {
 
-        $str = "BEGIN:" . $this->name . "\r\n";
+        $str = 'BEGIN:' . $this->name . "\r\n";
 
         /**
          * Gives a component a 'score' for sorting purposes.
@@ -302,7 +302,7 @@ class Component extends Node {
          */
         $sortScore = function($key, $array) {
 
-            if ($array[$key] instanceof Component) {
+            if ($array[$key] instanceof self) {
 
                 // We want to encode VTIMEZONE first, this is a personal
                 // preference.
@@ -345,7 +345,7 @@ class Component extends Node {
         );
 
         foreach ($children as $child) $str .= $child->serialize();
-        $str .= "END:" . $this->name . "\r\n";
+        $str .= 'END:' . $this->name . "\r\n";
 
         return $str;
 

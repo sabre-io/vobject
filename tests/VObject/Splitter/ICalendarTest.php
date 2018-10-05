@@ -37,7 +37,7 @@ EOT;
 
         $objects = new ICalendar($tempFile);
 
-        $return = "";
+        $return = '';
         while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }
@@ -76,7 +76,7 @@ EOT;
 
         $objects = new ICalendar($tempFile);
 
-        $return = "";
+        $return = '';
         while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }
@@ -123,7 +123,7 @@ EOT;
 
         $objects = new ICalendar($tempFile);
 
-        $return = "";
+        $return = '';
         $i = 0;
         while ($object = $objects->getNext()) {
 
@@ -163,7 +163,7 @@ EOT;
 
         $objects = new ICalendar($tempFile);
 
-        $return = "";
+        $return = '';
         while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }
@@ -257,7 +257,7 @@ EOT;
 
         $objects = new ICalendar($tempFile);
 
-        $return = "";
+        $return = '';
         $i = 0;
         while ($object = $objects->getNext()) {
 
@@ -314,7 +314,7 @@ EOT;
 
         $objects = new ICalendar($tempFile);
 
-        $return = "";
+        $return = '';
         while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }

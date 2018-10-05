@@ -314,7 +314,7 @@ class MimeDir extends Parser {
             if (!$nextLine) {
                 break;
             }
-            if ($nextLine[0] === "\t" || $nextLine[0] === " ") {
+            if ($nextLine[0] === "\t" || $nextLine[0] === ' ') {
                 $curLine = \substr($nextLine, 1);
                 $line .= $curLine;
                 $rawLine .= "\n " . $curLine;
@@ -360,7 +360,7 @@ class MimeDir extends Parser {
             /xi";
 
         //echo $regex, "\n"; die();
-        preg_match_all($regex, $line, $matches,  PREG_SET_ORDER);
+        preg_match_all($regex, $line, $matches, PREG_SET_ORDER);
 
         $property = [
             'name'       => null,

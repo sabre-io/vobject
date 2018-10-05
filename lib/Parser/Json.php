@@ -168,7 +168,7 @@ class Json extends Parser {
         // type for the given property (e.g.: BDAY), we need to add a VALUE=
         // parameter.
         if ($defaultPropertyClass !== get_class($prop)) {
-            $prop["VALUE"] = $valueType;
+            $prop['VALUE'] = $valueType;
         }
 
         return $prop;

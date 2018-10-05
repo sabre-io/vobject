@@ -188,7 +188,7 @@ class DateTimeParser {
 
         if ($newDur === '+') {
             $newDur = '+0 seconds';
-        };
+        }
 
         return $newDur;
 

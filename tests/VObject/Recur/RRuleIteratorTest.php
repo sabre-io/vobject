@@ -537,7 +537,7 @@ class RRuleIteratorTest extends TestCase {
     function testYearlyByYearDayImmutable() {
         $start = '2011-07-10 03:07:00';
         $rule = 'FREQ=YEARLY;COUNT=7;INTERVAL=2;BYYEARDAY=190';
-        $tz = "UTC";
+        $tz = 'UTC';
 
         $dt = new DateTimeImmutable($start, new DateTimeZone($tz));
         $parser = new RRuleIterator($rule, $dt);

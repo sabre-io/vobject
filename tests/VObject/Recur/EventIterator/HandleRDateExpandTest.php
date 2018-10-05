@@ -46,11 +46,11 @@ ICS;
 
         $utc = new DateTimeZone('UTC');
         $expected = [
-            new DateTimeImmutable("2015-10-12", $utc),
-            new DateTimeImmutable("2015-10-15", $utc),
-            new DateTimeImmutable("2015-10-17", $utc),
-            new DateTimeImmutable("2015-10-18", $utc),
-            new DateTimeImmutable("2015-10-20", $utc),
+            new DateTimeImmutable('2015-10-12', $utc),
+            new DateTimeImmutable('2015-10-15', $utc),
+            new DateTimeImmutable('2015-10-17', $utc),
+            new DateTimeImmutable('2015-10-18', $utc),
+            new DateTimeImmutable('2015-10-20', $utc),
         ];
 
         $result = array_map(function($ev) {return $ev->DTSTART->getDateTime();}, $result);

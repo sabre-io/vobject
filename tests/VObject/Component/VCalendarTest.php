@@ -644,7 +644,7 @@ ICS;
             $input,
             0,
             3,
-           "An iCalendar object must have at least 1 component."
+           'An iCalendar object must have at least 1 component.'
         );
 
     }
@@ -665,7 +665,7 @@ ICS;
             $input,
             VCalendar::PROFILE_CALDAV,
             3,
-           "A calendar object on a CalDAV server must have at least 1 component (VTODO, VEVENT, VJOURNAL)."
+           'A calendar object on a CalDAV server must have at least 1 component (VTODO, VEVENT, VJOURNAL).'
         );
 
     }
@@ -693,7 +693,7 @@ ICS;
             $input,
             VCalendar::PROFILE_CALDAV,
             3,
-           "A calendar object on a CalDAV server may only have components with the same UID."
+           'A calendar object on a CalDAV server may only have components with the same UID.'
         );
 
     }
@@ -722,7 +722,7 @@ ICS;
             $input,
             VCalendar::PROFILE_CALDAV,
             3,
-           "A calendar object on a CalDAV server may only have 1 type of component (VEVENT, VTODO or VJOURNAL)."
+           'A calendar object on a CalDAV server may only have 1 type of component (VEVENT, VTODO or VJOURNAL).'
         );
 
     }
@@ -747,7 +747,7 @@ ICS;
             $input,
             VCalendar::PROFILE_CALDAV,
             3,
-           "A calendar object on a CalDAV server MUST NOT have a METHOD property."
+           'A calendar object on a CalDAV server MUST NOT have a METHOD property.'
         );
 
     }

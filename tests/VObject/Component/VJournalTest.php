@@ -3,7 +3,6 @@
 namespace Sabre\VObject\Component;
 
 use PHPUnit\Framework\TestCase;
-use Sabre\VObject\Component;
 use Sabre\VObject\Reader;
 
 class VJournalTest extends TestCase {
@@ -66,7 +65,7 @@ HI;
         }
 
         $this->assertEquals(
-            ["URL MUST NOT appear more than once in a VJOURNAL component"],
+            ['URL MUST NOT appear more than once in a VJOURNAL component'],
             $messages
         );
 

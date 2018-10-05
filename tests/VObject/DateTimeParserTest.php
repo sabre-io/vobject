@@ -12,7 +12,7 @@ class DateTimeParserTest extends TestCase {
     function testParseICalendarDuration() {
 
         $this->assertEquals('+1 weeks', DateTimeParser::parseDuration('P1W', true));
-        $this->assertEquals('+5 days',  DateTimeParser::parseDuration('P5D', true));
+        $this->assertEquals('+5 days', DateTimeParser::parseDuration('P5D', true));
         $this->assertEquals('+5 days 3 hours 50 minutes 12 seconds', DateTimeParser::parseDuration('P5DT3H50M12S', true));
         $this->assertEquals('-1 weeks 50 minutes', DateTimeParser::parseDuration('-P1WT50M', true));
         $this->assertEquals('+50 days 3 hours 2 seconds', DateTimeParser::parseDuration('+P50DT3H2S', true));
@@ -207,225 +207,225 @@ class DateTimeParserTest extends TestCase {
 
         return [
             [
-                "19961022T140000",
+                '19961022T140000',
                 [
-                    "year"     => 1996,
-                    "month"    => 10,
-                    "date"     => 22,
-                    "hour"     => 14,
-                    "minute"   => 00,
-                    "second"   => 00,
-                    "timezone" => null
+                    'year'     => 1996,
+                    'month'    => 10,
+                    'date'     => 22,
+                    'hour'     => 14,
+                    'minute'   => 00,
+                    'second'   => 00,
+                    'timezone' => null
                 ],
             ],
             [
-                "--1022T1400",
+                '--1022T1400',
                 [
-                    "year"     => null,
-                    "month"    => 10,
-                    "date"     => 22,
-                    "hour"     => 14,
-                    "minute"   => 00,
-                    "second"   => null,
-                    "timezone" => null
+                    'year'     => null,
+                    'month'    => 10,
+                    'date'     => 22,
+                    'hour'     => 14,
+                    'minute'   => 00,
+                    'second'   => null,
+                    'timezone' => null
                 ],
             ],
             [
-                "---22T14",
+                '---22T14',
                 [
-                    "year"     => null,
-                    "month"    => null,
-                    "date"     => 22,
-                    "hour"     => 14,
-                    "minute"   => null,
-                    "second"   => null,
-                    "timezone" => null
+                    'year'     => null,
+                    'month'    => null,
+                    'date'     => 22,
+                    'hour'     => 14,
+                    'minute'   => null,
+                    'second'   => null,
+                    'timezone' => null
                 ],
             ],
             [
-                "19850412",
+                '19850412',
                 [
-                    "year"     => 1985,
-                    "month"    => 4,
-                    "date"     => 12,
-                    "hour"     => null,
-                    "minute"   => null,
-                    "second"   => null,
-                    "timezone" => null
+                    'year'     => 1985,
+                    'month'    => 4,
+                    'date'     => 12,
+                    'hour'     => null,
+                    'minute'   => null,
+                    'second'   => null,
+                    'timezone' => null
                 ],
             ],
             [
-                "1985-04",
+                '1985-04',
                 [
-                    "year"     => 1985,
-                    "month"    => 04,
-                    "date"     => null,
-                    "hour"     => null,
-                    "minute"   => null,
-                    "second"   => null,
-                    "timezone" => null
+                    'year'     => 1985,
+                    'month'    => 04,
+                    'date'     => null,
+                    'hour'     => null,
+                    'minute'   => null,
+                    'second'   => null,
+                    'timezone' => null
                 ],
             ],
             [
-                "1985",
+                '1985',
                 [
-                    "year"     => 1985,
-                    "month"    => null,
-                    "date"     => null,
-                    "hour"     => null,
-                    "minute"   => null,
-                    "second"   => null,
-                    "timezone" => null
+                    'year'     => 1985,
+                    'month'    => null,
+                    'date'     => null,
+                    'hour'     => null,
+                    'minute'   => null,
+                    'second'   => null,
+                    'timezone' => null
                 ],
             ],
             [
-                "--0412",
+                '--0412',
                 [
-                    "year"     => null,
-                    "month"    => 4,
-                    "date"     => 12,
-                    "hour"     => null,
-                    "minute"   => null,
-                    "second"   => null,
-                    "timezone" => null
+                    'year'     => null,
+                    'month'    => 4,
+                    'date'     => 12,
+                    'hour'     => null,
+                    'minute'   => null,
+                    'second'   => null,
+                    'timezone' => null
                 ],
             ],
             [
-                "---12",
+                '---12',
                 [
-                    "year"     => null,
-                    "month"    => null,
-                    "date"     => 12,
-                    "hour"     => null,
-                    "minute"   => null,
-                    "second"   => null,
-                    "timezone" => null
+                    'year'     => null,
+                    'month'    => null,
+                    'date'     => 12,
+                    'hour'     => null,
+                    'minute'   => null,
+                    'second'   => null,
+                    'timezone' => null
                 ],
             ],
             [
-                "T102200",
+                'T102200',
                 [
-                    "year"     => null,
-                    "month"    => null,
-                    "date"     => null,
-                    "hour"     => 10,
-                    "minute"   => 22,
-                    "second"   => 0,
-                    "timezone" => null
+                    'year'     => null,
+                    'month'    => null,
+                    'date'     => null,
+                    'hour'     => 10,
+                    'minute'   => 22,
+                    'second'   => 0,
+                    'timezone' => null
                 ],
             ],
             [
-                "T1022",
+                'T1022',
                 [
-                    "year"     => null,
-                    "month"    => null,
-                    "date"     => null,
-                    "hour"     => 10,
-                    "minute"   => 22,
-                    "second"   => null,
-                    "timezone" => null
+                    'year'     => null,
+                    'month'    => null,
+                    'date'     => null,
+                    'hour'     => 10,
+                    'minute'   => 22,
+                    'second'   => null,
+                    'timezone' => null
                 ],
             ],
             [
-                "T10",
+                'T10',
                 [
-                    "year"     => null,
-                    "month"    => null,
-                    "date"     => null,
-                    "hour"     => 10,
-                    "minute"   => null,
-                    "second"   => null,
-                    "timezone" => null
+                    'year'     => null,
+                    'month'    => null,
+                    'date'     => null,
+                    'hour'     => 10,
+                    'minute'   => null,
+                    'second'   => null,
+                    'timezone' => null
                 ],
             ],
             [
-                "T-2200",
+                'T-2200',
                 [
-                    "year"     => null,
-                    "month"    => null,
-                    "date"     => null,
-                    "hour"     => null,
-                    "minute"   => 22,
-                    "second"   => 00,
-                    "timezone" => null
+                    'year'     => null,
+                    'month'    => null,
+                    'date'     => null,
+                    'hour'     => null,
+                    'minute'   => 22,
+                    'second'   => 00,
+                    'timezone' => null
                 ],
             ],
             [
-                "T--00",
+                'T--00',
                 [
-                    "year"     => null,
-                    "month"    => null,
-                    "date"     => null,
-                    "hour"     => null,
-                    "minute"   => null,
-                    "second"   => 00,
-                    "timezone" => null
+                    'year'     => null,
+                    'month'    => null,
+                    'date'     => null,
+                    'hour'     => null,
+                    'minute'   => null,
+                    'second'   => 00,
+                    'timezone' => null
                 ],
             ],
             [
-                "T102200Z",
+                'T102200Z',
                 [
-                    "year"     => null,
-                    "month"    => null,
-                    "date"     => null,
-                    "hour"     => 10,
-                    "minute"   => 22,
-                    "second"   => 00,
-                    "timezone" => 'Z'
+                    'year'     => null,
+                    'month'    => null,
+                    'date'     => null,
+                    'hour'     => 10,
+                    'minute'   => 22,
+                    'second'   => 00,
+                    'timezone' => 'Z'
                 ],
             ],
             [
-                "T102200-0800",
+                'T102200-0800',
                 [
-                    "year"     => null,
-                    "month"    => null,
-                    "date"     => null,
-                    "hour"     => 10,
-                    "minute"   => 22,
-                    "second"   => 00,
-                    "timezone" => '-0800'
+                    'year'     => null,
+                    'month'    => null,
+                    'date'     => null,
+                    'hour'     => 10,
+                    'minute'   => 22,
+                    'second'   => 00,
+                    'timezone' => '-0800'
                 ],
             ],
 
             // extended format
             [
-                "2012-11-29T15:10:53Z",
+                '2012-11-29T15:10:53Z',
                 [
-                    "year"     => 2012,
-                    "month"    => 11,
-                    "date"     => 29,
-                    "hour"     => 15,
-                    "minute"   => 10,
-                    "second"   => 53,
-                    "timezone" => 'Z'
+                    'year'     => 2012,
+                    'month'    => 11,
+                    'date'     => 29,
+                    'hour'     => 15,
+                    'minute'   => 10,
+                    'second'   => 53,
+                    'timezone' => 'Z'
                 ],
             ],
 
             // with milliseconds
             [
-                "20121129T151053.123Z",
+                '20121129T151053.123Z',
                 [
-                    "year"     => 2012,
-                    "month"    => 11,
-                    "date"     => 29,
-                    "hour"     => 15,
-                    "minute"   => 10,
-                    "second"   => 53,
-                    "timezone" => 'Z'
+                    'year'     => 2012,
+                    'month'    => 11,
+                    'date'     => 29,
+                    'hour'     => 15,
+                    'minute'   => 10,
+                    'second'   => 53,
+                    'timezone' => 'Z'
                 ],
             ],
 
             // extended format with milliseconds
             [
-                "2012-11-29T15:10:53.123Z",
+                '2012-11-29T15:10:53.123Z',
                 [
-                    "year"     => 2012,
-                    "month"    => 11,
-                    "date"     => 29,
-                    "hour"     => 15,
-                    "minute"   => 10,
-                    "second"   => 53,
-                    "timezone" => 'Z'
+                    'year'     => 2012,
+                    'month'    => 11,
+                    'date'     => 29,
+                    'hour'     => 15,
+                    'minute'   => 10,
+                    'second'   => 53,
+                    'timezone' => 'Z'
                 ],
             ],
         ];
