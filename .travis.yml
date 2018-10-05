@@ -15,12 +15,11 @@ addons:
       # required for php7.3
       - libzip4
 
+before_script:
+- composer install
+
 script:
   - ./bin/phpunit --configuration tests/phpunit.xml --coverage-clover=coverage.xml
-  - ./bin/sabre-cs-fixer fix . --dry-run --diff
-
-before_script:
-  - composer install
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
@@ -28,6 +27,7 @@ after_success:
 cache:
   directories:
     - $HOME/.composer/cache
+    - tools
 
 matrix:
   allow_failures:

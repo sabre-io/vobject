@@ -1,0 +1,63 @@
+<?php
+
+$config = PhpCsFixer\Config::create();
+$config->getFinder()
+    ->exclude('vendor')
+    ->in(__DIR__);
+$config->setRules([
+    '@PSR1' => true,
+    'binary_operator_spaces' => ['align_double_arrow' => true],
+    // 'blankline_after_open_tag', // This prevents us from having strict_types on the same line
+    'concat_space' => ['spacing' => 'one'],
+    'no_empty_statement' => true,
+    'no_alias_functions' => true,
+    'no_leading_namespace_whitespace' => true,
+    'new_with_braces' => true,
+    'no_blank_lines_after_phpdoc' => true,
+    'object_operator_without_whitespace' => true,
+    'phpdoc_indent' => true,
+    'phpdoc_no_access' => true,
+    'phpdoc_no_package' => true,
+    'phpdoc_scalar' => true,
+    'phpdoc_trim' => true,
+    'phpdoc_no_alias_tag' => ['type' => 'var'],
+    'phpdoc_types' => true,
+    'phpdoc_var_without_name' => true,
+    'no_mixed_echo_print' => ['use' => 'echo'],
+    'no_leading_import_slash' => true,
+    'no_extra_consecutive_blank_lines' => ['use'],
+    'self_accessor' => true,
+    'single_blank_line_before_namespace' => true,
+    'single_quote' => true,
+    'no_singleline_whitespace_before_semicolons' => true,
+    'standardize_not_equals' => true,
+    'ternary_operator_spaces' => true,
+    'trim_array_spaces' => true,
+    'no_unused_imports' => true,
+    'no_whitespace_in_blank_line' => true,
+
+    // psr-2
+    'elseif' => true,
+    'single_blank_line_at_eof' => true,
+    'no_spaces_after_function_name' => true,
+    //'function_declaration' => true,
+    'indentation_type' => true,
+    'blank_line_after_namespace' => true,
+    'line_ending' => true,
+    'lowercase_constants' => true,
+    'lowercase_keywords' => true,
+    'method_argument_space' => true,
+    'single_import_per_statement' => true,
+    'no_spaces_inside_parenthesis' => true,
+    'no_closing_tag' => true,
+    'single_line_after_imports' => true,
+    'no_trailing_whitespace' => true,
+
+    // contrib
+    'ordered_imports' => true,
+    'phpdoc_order' => true,
+    'array_syntax' => ['syntax' => 'short'],
+
+]);
+
+return $config;
