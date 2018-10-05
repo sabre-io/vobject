@@ -16,11 +16,14 @@ addons:
       - libzip4
 
 script:
-  - ./bin/phpunit --configuration tests/phpunit.xml
+  - ./bin/phpunit --configuration tests/phpunit.xml --coverage-clover=coverage.xml
   - ./bin/sabre-cs-fixer fix . --dry-run --diff
 
 before_script:
   - composer install
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
 
 cache:
   directories:
