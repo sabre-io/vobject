@@ -22,12 +22,12 @@ if (!class_exists('Sabre\\VObject\\Version')) {
     die(1);
 }
 
-echo "sabre/vobject ", Version::VERSION, " duplicate contact merge tool\n";
+echo 'sabre/vobject ', Version::VERSION, " duplicate contact merge tool\n";
 
 if ($argc < 3) {
 
     echo "\n";
-    echo "Usage: ", $argv[0], " input.vcf output.vcf [debug.log]\n";
+    echo 'Usage: ', $argv[0], " input.vcf output.vcf [debug.log]\n";
     die(1);
 
 }
@@ -42,34 +42,34 @@ $splitter = new Splitter\VCard($input);
 // but not in others, we don't consider them for the sake of finding
 // differences.
 $ignoredProperties = [
-    "PRODID",
-    "VERSION",
-    "REV",
-    "UID",
-    "X-ABLABEL",
+    'PRODID',
+    'VERSION',
+    'REV',
+    'UID',
+    'X-ABLABEL',
 ];
 
 
 $collectedNames = [];
 
 $stats = [
-    "Total vcards"       => 0,
-    "No FN property"     => 0,
-    "Ignored duplicates" => 0,
-    "Merged values"      => 0,
-    "Error"              => 0,
-    "Unique cards"       => 0,
-    "Total written"      => 0,
+    'Total vcards'       => 0,
+    'No FN property'     => 0,
+    'Ignored duplicates' => 0,
+    'Merged values'      => 0,
+    'Error'              => 0,
+    'Unique cards'       => 0,
+    'Total written'      => 0,
 ];
 
 function writeStats() {
 
     global $stats;
     foreach ($stats as $name => $value) {
-        echo str_pad($name, 23, " ", STR_PAD_RIGHT), str_pad($value, 6, " ", STR_PAD_LEFT), "\n";
+        echo str_pad($name, 23, ' ', STR_PAD_RIGHT), str_pad($value, 6, ' ', STR_PAD_LEFT), "\n";
     }
     // Moving cursor back a few lines.
-    echo "\033[" . count($stats) . "A";
+    echo "\033[" . count($stats) . 'A';
 
 }
 
@@ -77,14 +77,14 @@ function write($vcard) {
 
     global $stats, $output;
 
-    $stats["Total written"]++;
+    $stats['Total written']++;
     fwrite($output, $vcard->serialize() . "\n");
 
 }
 
 while ($vcard = $splitter->getNext()) {
 
-    $stats["Total vcards"]++;
+    $stats['Total vcards']++;
     writeStats();
 
     $fn = isset($vcard->FN) ? (string)$vcard->FN : null;
@@ -92,7 +92,7 @@ while ($vcard = $splitter->getNext()) {
     if (empty($fn)) {
 
         // Immediately write this vcard, we don't compare it.
-        $stats["No FN property"]++;
+        $stats['No FN property']++;
         $stats['Unique cards']++;
         write($vcard);
         $vcard->destroy();
@@ -158,7 +158,7 @@ while ($vcard = $splitter->getNext()) {
                 // echo $newProp->serialize() . " does not appear in earlier vcard!\n";
                 $stats['Error']++;
                 if ($debug) fwrite($debug, "Missing '" . $newProp->name . "' property in duplicate. Earlier vcard:\n" . $collectedNames[$fn]->serialize() . "\n\nLater:\n" . $vcard->serialize() . "\n\n");
-                
+
                 $vcard->destroy();
                 continue 2;
             }

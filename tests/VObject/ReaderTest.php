@@ -141,9 +141,9 @@ class ReaderTest extends TestCase {
     function testReadPropertyInComponent() {
 
         $data = [
-            "BEGIN:VCALENDAR",
-            "PROPNAME:propValue",
-            "END:VCALENDAR"
+            'BEGIN:VCALENDAR',
+            'PROPNAME:propValue',
+            'END:VCALENDAR'
         ];
 
         $result = Reader::read(implode("\r\n", $data));
@@ -160,12 +160,12 @@ class ReaderTest extends TestCase {
     function testReadNestedComponent() {
 
         $data = [
-            "BEGIN:VCALENDAR",
-            "BEGIN:VTIMEZONE",
-            "BEGIN:DAYLIGHT",
-            "END:DAYLIGHT",
-            "END:VTIMEZONE",
-            "END:VCALENDAR"
+            'BEGIN:VCALENDAR',
+            'BEGIN:VTIMEZONE',
+            'BEGIN:DAYLIGHT',
+            'END:DAYLIGHT',
+            'END:VTIMEZONE',
+            'END:VCALENDAR'
         ];
 
         $result = Reader::read(implode("\r\n", $data));
@@ -211,7 +211,7 @@ class ReaderTest extends TestCase {
         $this->assertEquals(1, count($result->parameters()));
         $this->assertEquals('N', $result->parameters['N']->name);
         $this->assertEquals('1,2,3,4,5,6,7,8,9,10,"11"', $result->parameters['N']->getValue());
-        $this->assertEquals([1, 2, 3, 4, 5, 6, "7,8", 9, 10, '"11"'], $result->parameters['N']->getParts());
+        $this->assertEquals([1, 2, 3, 4, 5, 6, '7,8', 9, 10, '"11"'], $result->parameters['N']->getParts());
 
     }
 
@@ -334,9 +334,9 @@ class ReaderTest extends TestCase {
     function testReadForgiving() {
 
         $data = [
-            "BEGIN:VCALENDAR",
-            "X_PROP:propValue",
-            "END:VCALENDAR"
+            'BEGIN:VCALENDAR',
+            'X_PROP:propValue',
+            'END:VCALENDAR'
         ];
 
         $caught = false;
@@ -351,10 +351,10 @@ class ReaderTest extends TestCase {
         $result = Reader::read(implode("\r\n", $data), Reader::OPTION_FORGIVING);
 
         $expected = implode("\r\n", [
-            "BEGIN:VCALENDAR",
-            "X_PROP:propValue",
-            "END:VCALENDAR",
-            ""
+            'BEGIN:VCALENDAR',
+            'X_PROP:propValue',
+            'END:VCALENDAR',
+            ''
         ]);
 
         $this->assertEquals($expected, $result->serialize());
@@ -364,10 +364,10 @@ class ReaderTest extends TestCase {
     function testReadWithInvalidLine() {
 
         $data = [
-            "BEGIN:VCALENDAR",
-            "DESCRIPTION:propValue",
+            'BEGIN:VCALENDAR',
+            'DESCRIPTION:propValue',
             "Yes, we've actually seen a file with non-idented property values on multiple lines",
-            "END:VCALENDAR"
+            'END:VCALENDAR'
         ];
 
         $caught = false;
@@ -382,10 +382,10 @@ class ReaderTest extends TestCase {
         $result = Reader::read(implode("\r\n", $data), Reader::OPTION_IGNORE_INVALID_LINES);
 
         $expected = implode("\r\n", [
-            "BEGIN:VCALENDAR",
-            "DESCRIPTION:propValue",
-            "END:VCALENDAR",
-            ""
+            'BEGIN:VCALENDAR',
+            'DESCRIPTION:propValue',
+            'END:VCALENDAR',
+            ''
         ]);
 
         $this->assertEquals($expected, $result->serialize());

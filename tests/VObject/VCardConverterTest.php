@@ -528,7 +528,7 @@ END:VCARD
 
 VCF;
 
-      $this->assertEquals($expected, str_replace("\r", "", $vcard));
+      $this->assertEquals($expected, str_replace("\r", '', $vcard));
 
     }
 

@@ -152,7 +152,7 @@ class PropertyTest extends TestCase {
         $value = str_repeat('!', 200);
         $property = $cal->createProperty('propname', $value);
 
-        $expected = "PROPNAME:" . str_repeat('!', 66) . "\r\n " . str_repeat('!', 74) . "\r\n " . str_repeat('!', 60) . "\r\n";
+        $expected = 'PROPNAME:' . str_repeat('!', 66) . "\r\n " . str_repeat('!', 74) . "\r\n " . str_repeat('!', 60) . "\r\n";
 
         $this->assertEquals($expected, $property->serialize());
 
@@ -168,7 +168,7 @@ class PropertyTest extends TestCase {
         //  äbla!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (" äbla"     + 69x"!" = 75 bytes)
         //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (" "         + 73x"!" = 74 bytes)
         //  äfoo
-        $expected = "PROPNAME:" . str_repeat('!', 65) . "\r\n \xc3\xa4bla" . str_repeat('!', 69) . "\r\n " . str_repeat('!', 73) . "\r\n \xc3\xa4foo\r\n";
+        $expected = 'PROPNAME:' . str_repeat('!', 65) . "\r\n \xc3\xa4bla" . str_repeat('!', 69) . "\r\n " . str_repeat('!', 73) . "\r\n \xc3\xa4foo\r\n";
         $this->assertEquals($expected, $property->serialize());
 
     }
@@ -276,7 +276,7 @@ class PropertyTest extends TestCase {
 
     function testValidateControlChars() {
 
-        $s = "chars[";
+        $s = 'chars[';
         foreach ([
             0x7F, 0x5E, 0x5C, 0x3B, 0x3A, 0x2C, 0x22, 0x20,
             0x1F, 0x1E, 0x1D, 0x1C, 0x1B, 0x1A, 0x19, 0x18,
@@ -286,7 +286,7 @@ class PropertyTest extends TestCase {
           ] as $c) {
             $s .= sprintf('%02X(%c)', $c, $c);
         }
-        $s .= "]end";
+        $s .= ']end';
 
         $calendar = new VCalendar();
         $property = $calendar->createProperty('X-PROP', $s);
@@ -300,7 +300,7 @@ class PropertyTest extends TestCase {
     function testValidateBadPropertyName() {
 
         $calendar = new VCalendar();
-        $property = $calendar->createProperty("X_*&PROP*", "Bla");
+        $property = $calendar->createProperty('X_*&PROP*', 'Bla');
         $result = $property->validate(Property::REPAIR);
 
         $this->assertEquals($result[0]['message'], 'The propertyname: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed');
@@ -311,7 +311,7 @@ class PropertyTest extends TestCase {
     function testGetValue() {
 
         $calendar = new VCalendar();
-        $property = $calendar->createProperty("SUMMARY", null);
+        $property = $calendar->createProperty('SUMMARY', null);
         $this->assertEquals([], $property->getParts());
         $this->assertNull($property->getValue());
 
@@ -340,7 +340,7 @@ class PropertyTest extends TestCase {
     function testArrayAccessSetInt() {
 
         $calendar = new VCalendar();
-        $property = $calendar->createProperty("X-PROP", null);
+        $property = $calendar->createProperty('X-PROP', null);
 
         $calendar->add($property);
         $calendar->{'X-PROP'}[0] = 'Something!';
@@ -355,7 +355,7 @@ class PropertyTest extends TestCase {
     function testArrayAccessUnsetInt() {
 
         $calendar = new VCalendar();
-        $property = $calendar->createProperty("X-PROP", null);
+        $property = $calendar->createProperty('X-PROP', null);
 
         $calendar->add($property);
         unset($calendar->{'X-PROP'}[0]);

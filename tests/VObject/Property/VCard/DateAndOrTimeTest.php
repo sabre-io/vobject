@@ -24,60 +24,60 @@ class DateAndOrTimeTest extends TestCase {
 
         return [
             [
-                "19961022T140000",
-                "1996-10-22T14:00:00",
+                '19961022T140000',
+                '1996-10-22T14:00:00',
             ],
             [
-                "--1022T1400",
-                "--10-22T14:00",
+                '--1022T1400',
+                '--10-22T14:00',
             ],
             [
-                "---22T14",
-                "---22T14",
+                '---22T14',
+                '---22T14',
             ],
             [
-                "19850412",
-                "1985-04-12",
+                '19850412',
+                '1985-04-12',
             ],
             [
-                "1985-04",
-                "1985-04",
+                '1985-04',
+                '1985-04',
             ],
             [
-                "1985",
-                "1985",
+                '1985',
+                '1985',
             ],
             [
-                "--0412",
-                "--04-12",
+                '--0412',
+                '--04-12',
             ],
             [
-                "T102200",
-                "T10:22:00",
+                'T102200',
+                'T10:22:00',
             ],
             [
-                "T1022",
-                "T10:22",
+                'T1022',
+                'T10:22',
             ],
             [
-                "T10",
-                "T10",
+                'T10',
+                'T10',
             ],
             [
-                "T-2200",
-                "T-22:00",
+                'T-2200',
+                'T-22:00',
             ],
             [
-                "T102200Z",
-                "T10:22:00Z",
+                'T102200Z',
+                'T10:22:00Z',
             ],
             [
-                "T102200-0800",
-                "T10:22:00-0800",
+                'T102200-0800',
+                'T10:22:00-0800',
             ],
             [
-                "T--00",
-                "T--00",
+                'T--00',
+                'T--00',
             ],
         ];
 
@@ -130,7 +130,7 @@ class DateAndOrTimeTest extends TestCase {
 
         $prop = $vcard->createProperty('BDAY');
         $prop->setParts([
-            "20140402T183700Z"
+            '20140402T183700Z'
         ]);
 
         $this->assertEquals('20140402T183700Z', $prop->getValue());
@@ -184,7 +184,7 @@ class DateAndOrTimeTest extends TestCase {
         $prop = $vcard->createProperty('BDAY', $datetime);
 
         $dt = $prop->getDateTime();
-        $this->assertEquals('2014-04-02T18:37:00-04:00', $dt->format('c'), "For some reason this one failed. Current default timezone is: " . date_default_timezone_get());
+        $this->assertEquals('2014-04-02T18:37:00-04:00', $dt->format('c'), 'For some reason this one failed. Current default timezone is: ' . date_default_timezone_get());
 
     }
 

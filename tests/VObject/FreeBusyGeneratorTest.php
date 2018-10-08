@@ -102,7 +102,7 @@ ICS;
 
 
         $this->assertFreeBusyReport(
-            "FREEBUSY:20110101T120000Z/20110101T130000Z",
+            'FREEBUSY:20110101T120000Z/20110101T130000Z',
             $blob
         );
 
@@ -125,7 +125,7 @@ ICS;
 
 
         $this->assertFreeBusyReport(
-            "FREEBUSY:20110101T120000Z/20110101T130000Z",
+            'FREEBUSY:20110101T120000Z/20110101T130000Z',
             $h
         );
 
@@ -148,7 +148,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "FREEBUSY:20110101T130000Z/20110101T140000Z",
+            'FREEBUSY:20110101T130000Z/20110101T140000Z',
             $blob
         );
 
@@ -172,7 +172,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "",
+            '',
             $blob
         );
 
@@ -196,7 +196,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "",
+            '',
             $blob
         );
 
@@ -445,7 +445,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "FREEBUSY:20110101T120000Z/20110101T130000Z",
+            'FREEBUSY:20110101T120000Z/20110101T130000Z',
             $blob
         );
 
@@ -465,7 +465,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "FREEBUSY:20110101T170000Z/20110101T180000Z",
+            'FREEBUSY:20110101T170000Z/20110101T180000Z',
             $blob,
             new \DateTimeZone('America/Toronto')
         );
@@ -485,7 +485,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "FREEBUSY:20110101T110000Z/20110102T000000Z",
+            'FREEBUSY:20110101T110000Z/20110102T000000Z',
             $blob
         );
 
@@ -504,7 +504,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "FREEBUSY:20110101T110000Z/20110102T050000Z",
+            'FREEBUSY:20110101T110000Z/20110102T050000Z',
             $blob,
             new \DateTimeZone('America/Toronto')
         );
@@ -527,7 +527,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "",
+            '',
             $blob
         );
 
@@ -565,7 +565,7 @@ ICS;
         $this->assertFreeBusyReport(
             "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T110000Z/20110101T120000Z\n" .
             "FREEBUSY:20110101T120000Z/20110101T130000Z\n" .
-            "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T130000Z/20110103T110000Z",
+            'FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T130000Z/20110103T110000Z',
             $blob,
             null,
             $vavail
@@ -603,7 +603,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "FREEBUSY:20110101T120000Z/20110101T130000Z",
+            'FREEBUSY:20110101T120000Z/20110101T130000Z',
             $blob,
             null,
             $vavail
@@ -692,7 +692,7 @@ END:VCALENDAR
 ICS;
 
         $this->assertFreeBusyReport(
-            "FREEBUSY:20110101T110000Z/20110103T110000Z",
+            'FREEBUSY:20110101T110000Z/20110103T110000Z',
             $blob,
             null,
             $vavail

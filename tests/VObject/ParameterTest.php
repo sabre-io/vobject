@@ -84,7 +84,7 @@ class ParameterTest extends TestCase {
     function testSerializeComplex() {
 
         $cal = new Component\VCalendar();
-        $param = new Parameter($cal, 'name', ["val1", "val2;", "val3^", "val4\n", "val5\""]);
+        $param = new Parameter($cal, 'name', ['val1', 'val2;', 'val3^', "val4\n", 'val5"']);
         $this->assertEquals('NAME=val1,"val2;","val3^^","val4^n","val5^\'"', $param->serialize());
 
     }
@@ -98,7 +98,7 @@ class ParameterTest extends TestCase {
     function testSerializePlusSign() {
 
         $cal = new Component\VCalendar();
-        $param = new Parameter($cal, 'EMAIL', "user+something@example.org");
+        $param = new Parameter($cal, 'EMAIL', 'user+something@example.org');
         $this->assertEquals('EMAIL="user+something@example.org"', $param->serialize());
 
     }

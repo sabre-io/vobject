@@ -3,7 +3,6 @@
 namespace Sabre\VObject\Component;
 
 use PHPUnit\Framework\TestCase;
-use Sabre\VObject\Component;
 use Sabre\VObject\Reader;
 
 class VTodoTest extends TestCase {
@@ -112,8 +111,8 @@ HI;
         }
 
         $this->assertEquals([
-            "UID MUST appear exactly once in a VTODO component",
-            "DTSTAMP MUST appear exactly once in a VTODO component",
+            'UID MUST appear exactly once in a VTODO component',
+            'DTSTAMP MUST appear exactly once in a VTODO component',
         ], $messages);
 
     }
@@ -142,7 +141,7 @@ HI;
         }
 
         $this->assertEquals([
-            "The value type (DATE or DATE-TIME) must be identical for DUE and DTSTART",
+            'The value type (DATE or DATE-TIME) must be identical for DUE and DTSTART',
         ], $messages);
 
     }
@@ -171,7 +170,7 @@ HI;
         }
 
         $this->assertEquals([
-            "DUE must occur after DTSTART",
+            'DUE must occur after DTSTART',
         ], $messages);
 
     }

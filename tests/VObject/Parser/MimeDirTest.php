@@ -156,8 +156,8 @@ VCF;
         $mimeDir = new MimeDir();
         $vcard = $mimeDir->parse($vcard);
         // we can do a simple assertion here. As long as we don't get an exception, everything is thing
-        $this->assertEquals("Euro", $vcard->FN->getValue());
-        $this->assertEquals("Test2", $vcard->N->getValue());
+        $this->assertEquals('Euro', $vcard->FN->getValue());
+        $this->assertEquals('Test2', $vcard->N->getValue());
 
     }
 }

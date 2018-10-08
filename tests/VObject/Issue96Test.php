@@ -19,7 +19,7 @@ VCF;
 
         $vcard = Reader::read($input, Reader::OPTION_FORGIVING);
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCard', $vcard);
-        $this->assertEquals("http://www.example.org", $vcard->URL->getValue());
+        $this->assertEquals('http://www.example.org', $vcard->URL->getValue());
 
     }
 

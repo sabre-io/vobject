@@ -14,17 +14,17 @@ class Issue40Test extends TestCase {
     function testEncode() {
 
         $card = new Component\VCard();
-        $card->add('N', ['van der Harten', ['Rene', 'J.'], "", 'Sir', 'R.D.O.N.'], ['SORT-AS' => ['Harten', 'Rene']]);
+        $card->add('N', ['van der Harten', ['Rene', 'J.'], '', 'Sir', 'R.D.O.N.'], ['SORT-AS' => ['Harten', 'Rene']]);
 
         unset($card->UID);
 
         $expected = implode("\r\n", [
-            "BEGIN:VCARD",
-            "VERSION:4.0",
-            "PRODID:-//Sabre//Sabre VObject " . Version::VERSION . '//EN',
-            "N;SORT-AS=Harten,Rene:van der Harten;Rene,J.;;Sir;R.D.O.N.",
-            "END:VCARD",
-            ""
+            'BEGIN:VCARD',
+            'VERSION:4.0',
+            'PRODID:-//Sabre//Sabre VObject ' . Version::VERSION . '//EN',
+            'N;SORT-AS=Harten,Rene:van der Harten;Rene,J.;;Sir;R.D.O.N.',
+            'END:VCARD',
+            ''
         ]);
 
         $this->assertEquals($expected, $card->serialize());

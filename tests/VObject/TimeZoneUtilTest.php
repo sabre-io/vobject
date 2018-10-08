@@ -22,7 +22,7 @@ class TimeZoneUtilTest extends TestCase {
             $tz = new \DateTimeZone($timezoneName);
             $this->assertInstanceOf('DateTimeZone', $tz);
         } catch (\Exception $e) {
-            if (strpos($e->getMessage(), "Unknown or bad timezone") !== false) {
+            if (strpos($e->getMessage(), 'Unknown or bad timezone') !== false) {
                 $this->markTestSkipped($timezoneName . ' is not (yet) supported in this PHP version. Update pecl/timezonedb');
             } else {
                 throw $e;

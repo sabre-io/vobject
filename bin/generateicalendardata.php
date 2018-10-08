@@ -27,7 +27,7 @@ if (isset($argv[1])) $events = (int)$argv[1];
 
 include __DIR__ . '/../vendor/autoload.php';
 
-fwrite(STDERR, "Generating " . $events . " events\n");
+fwrite(STDERR, 'Generating ' . $events . " events\n");
 
 $currentDate = new DateTime('-' . round($events / 2) . ' days');
 
@@ -68,7 +68,7 @@ while ($ii < $events) {
             break;
 
     }
-    
+
     $currentDate->modify('+ ' . mt_rand(0, 3) . ' days');
 
 }

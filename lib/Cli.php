@@ -121,7 +121,7 @@ class Cli {
             if (isset($options['q'])) {
                 $this->quiet = true;
             }
-            $this->log($this->colorize('green', "sabre/vobject ") . $this->colorize('yellow', Version::VERSION));
+            $this->log($this->colorize('green', 'sabre/vobject ') . $this->colorize('yellow', Version::VERSION));
 
             foreach ($options as $name => $value) {
 
@@ -282,19 +282,19 @@ class Cli {
     protected function showHelp() {
 
         $this->log('Usage:', 'yellow');
-        $this->log("  vobject [options] command [arguments]");
+        $this->log('  vobject [options] command [arguments]');
         $this->log('');
         $this->log('Options:', 'yellow');
         $this->log($this->colorize('green', '  -q            ') . "Don't output anything.");
-        $this->log($this->colorize('green', '  -help -h      ') . "Display this help message.");
-        $this->log($this->colorize('green', '  --format      ') . "Convert to a specific format. Must be one of: vcard, vcard21,");
-        $this->log($this->colorize('green', '  --forgiving   ') . "Makes the parser less strict.");
-        $this->log("                vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.");
-        $this->log($this->colorize('green', '  --inputformat ') . "If the input format cannot be guessed from the extension, it");
-        $this->log("                must be specified here.");
+        $this->log($this->colorize('green', '  -help -h      ') . 'Display this help message.');
+        $this->log($this->colorize('green', '  --format      ') . 'Convert to a specific format. Must be one of: vcard, vcard21,');
+        $this->log($this->colorize('green', '  --forgiving   ') . 'Makes the parser less strict.');
+        $this->log('                vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.');
+        $this->log($this->colorize('green', '  --inputformat ') . 'If the input format cannot be guessed from the extension, it');
+        $this->log('                must be specified here.');
         // Only PHP 5.4 and up
         if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
-            $this->log($this->colorize('green', '  --pretty      ') . "json pretty-print.");
+            $this->log($this->colorize('green', '  --pretty      ') . 'json pretty-print.');
         }
         $this->log('');
         $this->log('Commands:', 'yellow');
@@ -335,16 +335,16 @@ HELP
 
         switch ($vObj->name) {
             case 'VCALENDAR' :
-                $this->log("iCalendar: " . (string)$vObj->VERSION);
+                $this->log('iCalendar: ' . (string)$vObj->VERSION);
                 break;
             case 'VCARD' :
-                $this->log("vCard: " . (string)$vObj->VERSION);
+                $this->log('vCard: ' . (string)$vObj->VERSION);
                 break;
         }
 
         $warnings = $vObj->validate();
         if (!count($warnings)) {
-            $this->log("  No warnings!");
+            $this->log('  No warnings!');
         } else {
 
             $levels = [
@@ -359,7 +359,7 @@ HELP
                 if ($warn['node'] instanceof Property) {
                     $extra = ' (property: "' . $warn['node']->name . '")';
                 }
-                $this->log("  [" . $levels[$warn['level']] . '] ' . $warn['message'] . $extra);
+                $this->log('  [' . $levels[$warn['level']] . '] ' . $warn['message'] . $extra);
 
             }
 
@@ -382,16 +382,16 @@ HELP
 
         switch ($vObj->name) {
             case 'VCALENDAR' :
-                $this->log("iCalendar: " . (string)$vObj->VERSION);
+                $this->log('iCalendar: ' . (string)$vObj->VERSION);
                 break;
             case 'VCARD' :
-                $this->log("vCard: " . (string)$vObj->VERSION);
+                $this->log('vCard: ' . (string)$vObj->VERSION);
                 break;
         }
 
         $warnings = $vObj->validate(Node::REPAIR);
         if (!count($warnings)) {
-            $this->log("  No warnings!");
+            $this->log('  No warnings!');
         } else {
 
             $levels = [
@@ -406,7 +406,7 @@ HELP
                 if ($warn['node'] instanceof Property) {
                     $extra = ' (property: "' . $warn['node']->name . '")';
                 }
-                $this->log("  [" . $levels[$warn['level']] . '] ' . $warn['message'] . $extra);
+                $this->log('  [' . $levels[$warn['level']] . '] ' . $warn['message'] . $extra);
 
             }
 
@@ -514,7 +514,7 @@ HELP
             'default' => '0',
             'purple'  => '0;35',
         ];
-        return "\033[" . $colors[$color] . 'm' . $str . "\033[" . $colors[$resetTo] . "m";
+        return "\033[" . $colors[$color] . 'm' . $str . "\033[" . $colors[$resetTo] . 'm';
 
     }
 
@@ -667,7 +667,7 @@ HELP
                             ';'  => $this->colorize('purple', '\;', 'green'),
                             ','  => $this->colorize('purple', '\,', 'green'),
                             "\n" => $this->colorize('purple', "\\n\n\t", 'green'),
-                            "\r" => "",
+                            "\r" => '',
                         ]
                     );
 
@@ -676,7 +676,7 @@ HELP
             }
 
         }
-        $this->cWrite("default", "\n");
+        $this->cWrite('default', "\n");
 
     }
 

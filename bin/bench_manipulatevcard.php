@@ -3,13 +3,13 @@
 include __DIR__ . '/../vendor/autoload.php';
 
 if ($argc < 2) {
-    echo "sabre/vobject ", Sabre\VObject\Version::VERSION, " manipulation benchmark\n";
+    echo 'sabre/vobject ', Sabre\VObject\Version::VERSION, " manipulation benchmark\n";
     echo "\n";
     echo "This script can be used to measure the speed of opening a large amount of\n";
     echo "vcards, making a few alterations and serializing them again.\n";
-    echo "system.";
+    echo 'system.';
     echo "\n";
-    echo "Usage: " . $argv[0] . " inputfile.vcf\n";
+    echo 'Usage: ' . $argv[0] . " inputfile.vcf\n";
     die();
 }
 
@@ -65,5 +65,5 @@ function formatMemory($input) {
 
 unset($input, $splitter);
 
-echo "peak memory usage: " . formatMemory(memory_get_peak_usage()), "\n";
-echo "current memory usage: " . formatMemory(memory_get_usage()), "\n";
+echo 'peak memory usage: ' . formatMemory(memory_get_peak_usage()), "\n";
+echo 'current memory usage: ' . formatMemory(memory_get_usage()), "\n";
