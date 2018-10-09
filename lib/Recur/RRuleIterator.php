@@ -85,30 +85,27 @@ class RRuleIterator implements Iterator
 
     /**
      * Goes on to the next iteration.
+     * @param int $amount
      */
-    public function next()
+    public function next($amount = 1)
     {
         // Otherwise, we find the next event in the normal RRULE
         // sequence.
         switch ($this->frequency) {
-            case 'hourly':
-                $this->nextHourly();
+            case 'hourly' :
+                $this->nextHourly($amount);
                 break;
-
-            case 'daily':
-                $this->nextDaily();
+            case 'daily' :
+                $this->nextDaily($amount);
                 break;
-
-            case 'weekly':
-                $this->nextWeekly();
+            case 'weekly' :
+                $this->nextWeekly($amount);
                 break;
-
-            case 'monthly':
-                $this->nextMonthly();
+            case 'monthly' :
+                $this->nextMonthly($amount);
                 break;
-
-            case 'yearly':
-                $this->nextYearly();
+            case 'yearly' :
+                $this->nextYearly($amount);
                 break;
         }
         ++$this->counter;
@@ -134,8 +131,48 @@ class RRuleIterator implements Iterator
      */
     public function fastForward(DateTimeInterface $dt)
     {
+        if (!isset($this->count)) {
+            do {
+                $diff = $this->currentDate->diff($dt);
+                switch ($this->frequency) {
+                    case 'hourly' :
+                        $i = $diff->days * 24;
+                        break;
+                    case 'daily' :
+                        $i = $diff->days;
+                        break;
+                    case 'weekly' :
+                        $i = $diff->days / 7;
+                        break;
+                    case 'monthly' :
+                        $i = $diff->days / 30;
+                        break;
+                    case 'yearly' :
+                        $i = $diff->days / 365;
+                        break;
+                }
+                $i /= $this->interval;
+                $i /= 4;
+                $i = floor($i);
+                $i = max(1, $i);
+                do {
+                    $previousDate = clone $this->currentDate;
+                    $this->next($i);
+                } while ($this->valid() && $this->currentDate < $dt);
+
+                $this->currentDate = $previousDate;
+                // do one step to avoid deadlock
+                $this->next();
+            } while ($i > 5 && $this->valid() && $this->currentDate < $dt);
+        }
+
         while ($this->valid() && $this->currentDate < $dt) {
             $this->next();
+        }
+
+        if (!isset($this->count)) {
+            // We don't know the counter at this point anymore
+            $this->counter = NAN;
         }
     }
 
@@ -306,19 +343,18 @@ class RRuleIterator implements Iterator
     /**
      * Does the processing for advancing the iterator for hourly frequency.
      */
-    protected function nextHourly()
+    protected function nextHourly($amount = 1)
     {
-        $this->currentDate = $this->currentDate->modify('+'.$this->interval.' hours');
+        $this->currentDate = $this->currentDate->modify('+'.$amount * $this->interval.' hours');
     }
 
     /**
      * Does the processing for advancing the iterator for daily frequency.
      */
-    protected function nextDaily()
+    protected function nextDaily($amount = 1)
     {
         if (!$this->byHour && !$this->byDay) {
-            $this->currentDate = $this->currentDate->modify('+'.$this->interval.' days');
-
+            $this->currentDate = $this->currentDate->modify('+'.$amount * $this->interval.' days');
             return;
         }
 
@@ -338,13 +374,16 @@ class RRuleIterator implements Iterator
             if ($this->byHour) {
                 if ('23' == $this->currentDate->format('G')) {
                     // to obey the interval rule
-                    $this->currentDate = $this->currentDate->modify('+'.$this->interval - 1 .' days');
+                    $this->currentDate = $this->currentDate->modify('+'.(($amount * $this->interval) - 1).' days');
+                    $amount = 1;
                 }
 
                 $this->currentDate = $this->currentDate->modify('+1 hours');
             } else {
-                $this->currentDate = $this->currentDate->modify('+'.$this->interval.' days');
+                $this->currentDate = $this->currentDate->modify('+'.($amount * $this->interval).' days');
+                $amount = 1;
             }
+
 
             // Current month of the year
             $currentMonth = $this->currentDate->format('n');
@@ -364,11 +403,10 @@ class RRuleIterator implements Iterator
     /**
      * Does the processing for advancing the iterator for weekly frequency.
      */
-    protected function nextWeekly()
-    {
-        if (!$this->byHour && !$this->byDay) {
-            $this->currentDate = $this->currentDate->modify('+'.$this->interval.' weeks');
+    protected function nextWeekly($amount = 1) {
 
+        if (!$this->byHour && !$this->byDay) {
+            $this->currentDate = $this->currentDate->modify('+' .($amount * $this->interval).' weeks');
             return;
         }
 
@@ -397,9 +435,9 @@ class RRuleIterator implements Iterator
             $currentHour = (int) $this->currentDate->format('G');
 
             // We need to roll over to the next week
-            if ($currentDay === $firstDay && (!$this->byHour || '0' == $currentHour)) {
-                $this->currentDate = $this->currentDate->modify('+'.$this->interval - 1 .' weeks');
-
+            if ($currentDay === $firstDay && (!$this->byHour || $currentHour == '0')) {
+                $this->currentDate = $this->currentDate->modify('+'.(($amount * $this->interval) - 1).' weeks');
+                $amount = 1;
                 // We need to go to the first day of this week, but only if we
                 // are not already on this first day of this week.
                 if ($this->currentDate->format('w') != $firstDay) {
@@ -414,7 +452,7 @@ class RRuleIterator implements Iterator
     /**
      * Does the processing for advancing the iterator for monthly frequency.
      */
-    protected function nextMonthly()
+    protected function nextMonthly($amount = 1)
     {
         $currentDayOfMonth = $this->currentDate->format('j');
         $currentHourOfMonth = $this->currentDate->format('G');
@@ -425,9 +463,9 @@ class RRuleIterator implements Iterator
             // occur to the next month. We Must skip these invalid
             // entries.
             if ($currentDayOfMonth < 29) {
-                $this->currentDate = $this->currentDate->modify('+'.$this->interval.' months');
+                $this->currentDate = $this->currentDate->modify('+'.($amount * $this->interval).' months');
             } else {
-                $increase = 0;
+                $increase = $amount - 1;
                 do {
                     ++$increase;
                     $tempDate = clone $this->currentDate;
@@ -443,7 +481,7 @@ class RRuleIterator implements Iterator
             $occurrences = $this->getMonthlyOccurrences();
 
             foreach ($occurrences as $occurrence) {
-                // The first occurrence thats higher than the current
+                // The first occurrence that's higher than the current
                 // day of the month wins.
                 if ($occurrence[0] > $currentDayOfMonth) {
                     break 2;
@@ -469,13 +507,14 @@ class RRuleIterator implements Iterator
             // If we made it all the way here, it means there were no
             // valid occurrences, and we need to advance to the next
             // month.
-            //
-            // This line does not currently work in hhvm. Temporary workaround
-            // follows:
-            // $this->currentDate->modify('first day of this month');
-            $this->currentDate = new DateTimeImmutable($this->currentDate->format('Y-m-1 H:i:s'), $this->currentDate->getTimezone());
+            $this->currentDate = $this->currentDate->setDate(
+                (int) $this->currentDate->format('Y'),
+                (int) $this->currentDate->format('n'),
+                1
+            );
             // end of workaround
-            $this->currentDate = $this->currentDate->modify('+ '.$this->interval.' months');
+            $this->currentDate = $this->currentDate->modify('+ '.($amount * $this->interval).' months');
+            $amount = 1;
 
             // This goes to 0 because we need to start counting at the
             // beginning.
@@ -495,10 +534,10 @@ class RRuleIterator implements Iterator
     /**
      * Does the processing for advancing the iterator for yearly frequency.
      */
-    protected function nextYearly()
+    protected function nextYearly($amount = 1)
     {
-        $currentMonth = $this->currentDate->format('n');
         $currentYear = $this->currentDate->format('Y');
+        $currentMonth = $this->currentDate->format('n');
         $currentDayOfMonth = $this->currentDate->format('j');
         $currentHourOfMonth = $this->currentDate->format('G');
         $currentMinuteOfMonth = $this->currentDate->format('i');
@@ -562,7 +601,8 @@ class RRuleIterator implements Iterator
                     }
 
                     // if there is no date found, check the next year
-                    $currentYear += $this->interval;
+                    $currentYear += $amount * $this->interval;
+                    $amount = 1;
                 }
             }
 
@@ -604,12 +644,13 @@ class RRuleIterator implements Iterator
                     }
 
                     // if there is no date found, check the next year
-                    $currentYear += $this->interval;
+                    $currentYear += ($amount * $this->interval);
+                    $amount = 1;
                 }
             }
 
             // The easiest form
-            $this->currentDate = $this->currentDate->modify('+'.$this->interval.' years');
+            $this->currentDate = $this->currentDate->modify('+'.($amount * $this->interval).' years');
 
             return;
         }
@@ -656,7 +697,8 @@ class RRuleIterator implements Iterator
                 do {
                     ++$currentMonth;
                     if ($currentMonth > 12) {
-                        $currentYear += $this->interval;
+                        $currentYear += ($amount * $this->interval);
+                        $amount = 1;
                         $currentMonth = 1;
                     }
                 } while (!in_array($currentMonth, $this->byMonth));
