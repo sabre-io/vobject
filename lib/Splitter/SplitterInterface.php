@@ -15,8 +15,8 @@ namespace Sabre\VObject\Splitter;
  * @author Dominik Tobschall (http://tobschall.de/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-interface SplitterInterface {
-
+interface SplitterInterface
+{
     /**
      * Constructor.
      *
@@ -24,7 +24,7 @@ interface SplitterInterface {
      *
      * @param resource $input
      */
-    function __construct($input);
+    public function __construct($input);
 
     /**
      * Every time getNext() is called, a new object will be parsed, until we
@@ -34,6 +34,5 @@ interface SplitterInterface {
      *
      * @return Sabre\VObject\Component|null
      */
-    function getNext();
-
+    public function getNext();
 }

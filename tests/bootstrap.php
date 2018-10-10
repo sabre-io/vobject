@@ -3,8 +3,8 @@
 date_default_timezone_set('UTC');
 
 $try = [
-    __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/../../../autoload.php',
+    __DIR__.'/../vendor/autoload.php',
+    __DIR__.'/../../../autoload.php',
 ];
 
 foreach ($try as $path) {
@@ -14,12 +14,12 @@ foreach ($try as $path) {
     }
 }
 
-$autoLoader->addPsr4('Sabre\\VObject\\', __DIR__ . '/VObject');
+$autoLoader->addPsr4('Sabre\\VObject\\', __DIR__.'/VObject');
 
 if (!defined('SABRE_TEMPDIR')) {
-  define('SABRE_TEMPDIR', __DIR__ . '/temp/');
+    define('SABRE_TEMPDIR', __DIR__.'/temp/');
 }
 
 if (!file_exists(SABRE_TEMPDIR)) {
-  mkdir(SABRE_TEMPDIR);
+    mkdir(SABRE_TEMPDIR);
 }

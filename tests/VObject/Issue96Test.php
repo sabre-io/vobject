@@ -4,10 +4,10 @@ namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
 
-class Issue96Test extends TestCase {
-
-    function testRead() {
-
+class Issue96Test extends TestCase
+{
+    public function testRead()
+    {
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:2.1
@@ -19,8 +19,6 @@ VCF;
 
         $vcard = Reader::read($input, Reader::OPTION_FORGIVING);
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCard', $vcard);
-        $this->assertEquals("http://www.example.org", $vcard->URL->getValue());
-
+        $this->assertEquals('http://www.example.org', $vcard->URL->getValue());
     }
-
 }

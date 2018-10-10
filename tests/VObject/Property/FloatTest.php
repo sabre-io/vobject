@@ -5,10 +5,10 @@ namespace Sabre\VObject\Property;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 
-class FloatTest extends TestCase {
-
-    function testMimeDir() {
-
+class FloatTest extends TestCase
+{
+    public function testMimeDir()
+    {
         $input = "BEGIN:VCARD\r\nVERSION:4.0\r\nX-FLOAT;VALUE=FLOAT:0.234;1.245\r\nEND:VCARD\r\n";
         $mimeDir = new VObject\Parser\MimeDir($input);
 
@@ -25,7 +25,5 @@ class FloatTest extends TestCase {
             $input,
             $result->serialize()
         );
-
     }
-
 }

@@ -5,10 +5,10 @@ namespace Sabre\VObject\Property\VCard;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 
-class LanguageTagTest extends TestCase {
-
-    function testMimeDir() {
-
+class LanguageTagTest extends TestCase
+{
+    public function testMimeDir()
+    {
         $input = "BEGIN:VCARD\r\nVERSION:4.0\r\nLANG:nl\r\nEND:VCARD\r\n";
         $mimeDir = new VObject\Parser\MimeDir($input);
 
@@ -22,11 +22,10 @@ class LanguageTagTest extends TestCase {
             $input,
             $result->serialize()
         );
-
     }
 
-    function testChangeAndSerialize() {
-
+    public function testChangeAndSerialize()
+    {
         $input = "BEGIN:VCARD\r\nVERSION:4.0\r\nLANG:nl\r\nEND:VCARD\r\n";
         $mimeDir = new VObject\Parser\MimeDir($input);
 
@@ -45,5 +44,4 @@ class LanguageTagTest extends TestCase {
             $result->serialize()
         );
     }
-
 }

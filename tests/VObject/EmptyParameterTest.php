@@ -4,10 +4,10 @@ namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
 
-class EmptyParameterTest extends TestCase {
-
-    function testRead() {
-
+class EmptyParameterTest extends TestCase
+{
+    public function testRead()
+    {
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:2.1
@@ -43,12 +43,11 @@ END:VCARD
 
 VCF;
 
-        $this->assertEquals($expected, str_replace("\r", "", $vcard));
-
+        $this->assertEquals($expected, str_replace("\r", '', $vcard));
     }
 
-    function testVCard21Parameter() {
-
+    public function testVCard21Parameter()
+    {
         $vcard = new Component\VCard([], false);
         $vcard->VERSION = '2.1';
         $vcard->PHOTO = 'random_stuff';
@@ -57,15 +56,14 @@ VCF;
 
         $result = $vcard->serialize();
         $expected = [
-            "BEGIN:VCARD",
-            "VERSION:2.1",
-            "PHOTO;BASE64:" . base64_encode('random_stuff'),
-            "UID:foo-bar",
-            "END:VCARD",
-            "",
+            'BEGIN:VCARD',
+            'VERSION:2.1',
+            'PHOTO;BASE64:'.base64_encode('random_stuff'),
+            'UID:foo-bar',
+            'END:VCARD',
+            '',
         ];
 
         $this->assertEquals(implode("\r\n", $expected), $result);
-
     }
 }

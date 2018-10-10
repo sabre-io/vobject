@@ -4,48 +4,46 @@ namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
 
-class FreeBusyDataTest extends TestCase {
-
-    function testGetData() {
-
+class FreeBusyDataTest extends TestCase
+{
+    public function testGetData()
+    {
         $fb = new FreeBusyData(100, 200);
 
         $this->assertEquals(
             [
                 [
                     'start' => 100,
-                    'end'   => 200,
-                    'type'  => 'FREE',
-                ]
+                    'end' => 200,
+                    'type' => 'FREE',
+                ],
             ],
             $fb->getData()
         );
-
     }
 
     /**
      * @depends testGetData
      */
-    function testAddBeginning() {
-
+    public function testAddBeginning()
+    {
         $fb = new FreeBusyData(100, 200);
 
         // Overwriting the first half
         $fb->add(100, 150, 'BUSY');
 
-
         $this->assertEquals(
             [
                 [
                     'start' => 100,
-                    'end'   => 150,
-                    'type'  => 'BUSY',
+                    'end' => 150,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 150,
-                    'end'   => 200,
-                    'type'  => 'FREE',
-                ]
+                    'end' => 200,
+                    'type' => 'FREE',
+                ],
             ],
             $fb->getData()
         );
@@ -57,89 +55,83 @@ class FreeBusyDataTest extends TestCase {
             [
                 [
                     'start' => 100,
-                    'end'   => 150,
-                    'type'  => 'BUSY-TENTATIVE',
+                    'end' => 150,
+                    'type' => 'BUSY-TENTATIVE',
                 ],
                 [
                     'start' => 150,
-                    'end'   => 200,
-                    'type'  => 'FREE',
-                ]
+                    'end' => 200,
+                    'type' => 'FREE',
+                ],
             ],
             $fb->getData()
         );
-
     }
 
     /**
      * @depends testAddBeginning
      */
-    function testAddEnd() {
-
+    public function testAddEnd()
+    {
         $fb = new FreeBusyData(100, 200);
 
         // Overwriting the first half
         $fb->add(150, 200, 'BUSY');
 
-
         $this->assertEquals(
             [
                 [
                     'start' => 100,
-                    'end'   => 150,
-                    'type'  => 'FREE',
+                    'end' => 150,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 150,
-                    'end'   => 200,
-                    'type'  => 'BUSY',
+                    'end' => 200,
+                    'type' => 'BUSY',
                 ],
             ],
             $fb->getData()
         );
-
-
     }
 
     /**
      * @depends testAddEnd
      */
-    function testAddMiddle() {
-
+    public function testAddMiddle()
+    {
         $fb = new FreeBusyData(100, 200);
 
         // Overwriting the first half
         $fb->add(150, 160, 'BUSY');
 
-
         $this->assertEquals(
             [
                 [
                     'start' => 100,
-                    'end'   => 150,
-                    'type'  => 'FREE',
+                    'end' => 150,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 150,
-                    'end'   => 160,
-                    'type'  => 'BUSY',
+                    'end' => 160,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 160,
-                    'end'   => 200,
-                    'type'  => 'FREE',
+                    'end' => 200,
+                    'type' => 'FREE',
                 ],
             ],
             $fb->getData()
         );
-
     }
 
     /**
      * @depends testAddMiddle
      */
-    function testAddMultiple() {
-
+    public function testAddMultiple()
+    {
         $fb = new FreeBusyData(100, 200);
 
         $fb->add(110, 120, 'BUSY');
@@ -149,40 +141,39 @@ class FreeBusyDataTest extends TestCase {
             [
                 [
                     'start' => 100,
-                    'end'   => 110,
-                    'type'  => 'FREE',
+                    'end' => 110,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 110,
-                    'end'   => 120,
-                    'type'  => 'BUSY',
+                    'end' => 120,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 120,
-                    'end'   => 130,
-                    'type'  => 'FREE',
+                    'end' => 130,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 130,
-                    'end'   => 140,
-                    'type'  => 'BUSY',
+                    'end' => 140,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 140,
-                    'end'   => 200,
-                    'type'  => 'FREE',
+                    'end' => 200,
+                    'type' => 'FREE',
                 ],
             ],
             $fb->getData()
         );
-
     }
 
     /**
      * @depends testAddMultiple
      */
-    function testAddMultipleOverlap() {
-
+    public function testAddMultipleOverlap()
+    {
         $fb = new FreeBusyData(100, 200);
 
         $fb->add(110, 120, 'BUSY');
@@ -192,28 +183,28 @@ class FreeBusyDataTest extends TestCase {
             [
                 [
                     'start' => 100,
-                    'end'   => 110,
-                    'type'  => 'FREE',
+                    'end' => 110,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 110,
-                    'end'   => 120,
-                    'type'  => 'BUSY',
+                    'end' => 120,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 120,
-                    'end'   => 130,
-                    'type'  => 'FREE',
+                    'end' => 130,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 130,
-                    'end'   => 140,
-                    'type'  => 'BUSY',
+                    'end' => 140,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 140,
-                    'end'   => 200,
-                    'type'  => 'FREE',
+                    'end' => 200,
+                    'type' => 'FREE',
                 ],
             ],
             $fb->getData()
@@ -225,28 +216,28 @@ class FreeBusyDataTest extends TestCase {
             [
                 [
                     'start' => 100,
-                    'end'   => 110,
-                    'type'  => 'FREE',
+                    'end' => 110,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 110,
-                    'end'   => 115,
-                    'type'  => 'BUSY',
+                    'end' => 115,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 115,
-                    'end'   => 135,
-                    'type'  => 'BUSY-TENTATIVE',
+                    'end' => 135,
+                    'type' => 'BUSY-TENTATIVE',
                 ],
                 [
                     'start' => 135,
-                    'end'   => 140,
-                    'type'  => 'BUSY',
+                    'end' => 140,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 140,
-                    'end'   => 200,
-                    'type'  => 'FREE',
+                    'end' => 200,
+                    'type' => 'FREE',
                 ],
             ],
             $fb->getData()
@@ -256,8 +247,8 @@ class FreeBusyDataTest extends TestCase {
     /**
      * @depends testAddMultipleOverlap
      */
-    function testAddMultipleOverlapAndMerge() {
-
+    public function testAddMultipleOverlapAndMerge()
+    {
         $fb = new FreeBusyData(100, 200);
 
         $fb->add(110, 120, 'BUSY');
@@ -267,28 +258,28 @@ class FreeBusyDataTest extends TestCase {
             [
                 [
                     'start' => 100,
-                    'end'   => 110,
-                    'type'  => 'FREE',
+                    'end' => 110,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 110,
-                    'end'   => 120,
-                    'type'  => 'BUSY',
+                    'end' => 120,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 120,
-                    'end'   => 130,
-                    'type'  => 'FREE',
+                    'end' => 130,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 130,
-                    'end'   => 140,
-                    'type'  => 'BUSY',
+                    'end' => 140,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 140,
-                    'end'   => 200,
-                    'type'  => 'FREE',
+                    'end' => 200,
+                    'type' => 'FREE',
                 ],
             ],
             $fb->getData()
@@ -300,18 +291,18 @@ class FreeBusyDataTest extends TestCase {
             [
                 [
                     'start' => 100,
-                    'end'   => 110,
-                    'type'  => 'FREE',
+                    'end' => 110,
+                    'type' => 'FREE',
                 ],
                 [
                     'start' => 110,
-                    'end'   => 140,
-                    'type'  => 'BUSY',
+                    'end' => 140,
+                    'type' => 'BUSY',
                 ],
                 [
                     'start' => 140,
-                    'end'   => 200,
-                    'type'  => 'FREE',
+                    'end' => 200,
+                    'type' => 'FREE',
                 ],
             ],
             $fb->getData()

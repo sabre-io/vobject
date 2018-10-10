@@ -6,10 +6,10 @@ use DateTimeImmutable;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 
-class Issue50Test extends TestCase {
-
-    function testExpand() {
-
+class Issue50Test extends TestCase
+{
+    public function testExpand()
+    {
         $input = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -108,9 +108,7 @@ ICS;
 
         $result = [];
         foreach ($it as $instance) {
-
             $result[] = $instance;
-
         }
 
         $tz = new DateTimeZone('Europe/Brussels');
@@ -122,7 +120,5 @@ ICS;
             new DateTimeImmutable('2013-07-18 09:00:00', $tz),
             new DateTimeImmutable('2013-07-19 07:00:00', $tz),
         ], $result);
-
     }
-
 }

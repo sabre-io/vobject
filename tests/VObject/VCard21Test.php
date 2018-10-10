@@ -7,10 +7,10 @@ use PHPUnit\Framework\TestCase;
 /**
  * Assorted vcard 2.1 tests.
  */
-class VCard21Test extends TestCase {
-
-    function testPropertyWithNoName() {
-
+class VCard21Test extends TestCase
+{
+    public function testPropertyWithNoName()
+    {
         $input = <<<VCF
 BEGIN:VCARD\r
 VERSION:2.1\r
@@ -23,11 +23,10 @@ VCF;
         $output = $vobj->serialize();
 
         $this->assertEquals($input, $output);
-
     }
 
-    function testPropertyPadValueCount() {
-
+    public function testPropertyPadValueCount()
+    {
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:2.1
@@ -47,8 +46,6 @@ END:VCARD\r
 
 VCF;
 
-
         $this->assertEquals($expected, $output);
-
     }
 }

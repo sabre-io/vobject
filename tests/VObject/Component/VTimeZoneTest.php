@@ -5,10 +5,10 @@ namespace Sabre\VObject\Component;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class VTimeZoneTest extends TestCase {
-
-    function testValidate() {
-
+class VTimeZoneTest extends TestCase
+{
+    public function testValidate()
+    {
         $input = <<<HI
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -28,11 +28,10 @@ HI;
         }
 
         $this->assertEquals([], $messages);
-
     }
 
-    function testGetTimeZone() {
-
+    public function testGetTimeZone()
+    {
         $input = <<<HI
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -51,7 +50,5 @@ HI;
             $tz,
             $obj->VTIMEZONE->getTimeZone()
         );
-
     }
-
 }

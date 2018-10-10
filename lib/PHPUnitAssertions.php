@@ -3,7 +3,7 @@
 namespace Sabre\VObject;
 
 /**
- * PHPUnit Assertions
+ * PHPUnit Assertions.
  *
  * This trait can be added to your unittest to make it easier to test iCalendar
  * and/or vCards.
@@ -12,8 +12,8 @@ namespace Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-trait PHPUnitAssertions {
-
+trait PHPUnitAssertions
+{
     /**
      * This method tests wether two vcards or icalendar objects are
      * semantically identical.
@@ -30,13 +30,12 @@ trait PHPUnitAssertions {
      *
      * @param resource|string|Component $expected
      * @param resource|string|Component $actual
-     * @param string $message
+     * @param string                    $message
      */
-    function assertVObjectEqualsVObject($expected, $actual, $message = '') {
-
+    public function assertVObjectEqualsVObject($expected, $actual, $message = '')
+    {
         $self = $this;
-        $getObj = function($input) use ($self) {
-
+        $getObj = function ($input) use ($self) {
             if (is_resource($input)) {
                 $input = stream_get_contents($input);
             }
@@ -47,11 +46,11 @@ trait PHPUnitAssertions {
                 $this->fail('Input must be a string, stream or VObject component');
             }
             unset($input->PRODID);
-            if ($input instanceof Component\VCalendar && (string)$input->CALSCALE === 'GREGORIAN') {
+            if ($input instanceof Component\VCalendar && 'GREGORIAN' === (string) $input->CALSCALE) {
                 unset($input->CALSCALE);
             }
-            return $input;
 
+            return $input;
         };
 
         $expected = $getObj($expected)->serialize();
@@ -61,13 +60,11 @@ trait PHPUnitAssertions {
         preg_match_all('|^([A-Z]+):\\*\\*ANY\\*\\*\r$|m', $expected, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $match) {
-
             $actual = preg_replace(
-                '|^' . preg_quote($match[1], '|') . ':(.*)\r$|m',
-                $match[1] . ':**ANY**' . "\r",
+                '|^'.preg_quote($match[1], '|').':(.*)\r$|m',
+                $match[1].':**ANY**'."\r",
                 $actual
             );
-
         }
 
         $this->assertEquals(
@@ -75,8 +72,5 @@ trait PHPUnitAssertions {
             $actual,
             $message
         );
-
     }
-
-
 }

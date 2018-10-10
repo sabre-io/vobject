@@ -6,139 +6,133 @@ use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 use Sabre\VObject\Reader;
 
-class DateAndOrTimeTest extends TestCase {
-
+class DateAndOrTimeTest extends TestCase
+{
     /**
      * @dataProvider dates
      */
-    function testGetJsonValue($input, $output) {
-
+    public function testGetJsonValue($input, $output)
+    {
         $vcard = new VObject\Component\VCard();
         $prop = $vcard->createProperty('BDAY', $input);
 
         $this->assertEquals([$output], $prop->getJsonValue());
-
     }
 
-    function dates() {
-
+    public function dates()
+    {
         return [
             [
-                "19961022T140000",
-                "1996-10-22T14:00:00",
+                '19961022T140000',
+                '1996-10-22T14:00:00',
             ],
             [
-                "--1022T1400",
-                "--10-22T14:00",
+                '--1022T1400',
+                '--10-22T14:00',
             ],
             [
-                "---22T14",
-                "---22T14",
+                '---22T14',
+                '---22T14',
             ],
             [
-                "19850412",
-                "1985-04-12",
+                '19850412',
+                '1985-04-12',
             ],
             [
-                "1985-04",
-                "1985-04",
+                '1985-04',
+                '1985-04',
             ],
             [
-                "1985",
-                "1985",
+                '1985',
+                '1985',
             ],
             [
-                "--0412",
-                "--04-12",
+                '--0412',
+                '--04-12',
             ],
             [
-                "T102200",
-                "T10:22:00",
+                'T102200',
+                'T10:22:00',
             ],
             [
-                "T1022",
-                "T10:22",
+                'T1022',
+                'T10:22',
             ],
             [
-                "T10",
-                "T10",
+                'T10',
+                'T10',
             ],
             [
-                "T-2200",
-                "T-22:00",
+                'T-2200',
+                'T-22:00',
             ],
             [
-                "T102200Z",
-                "T10:22:00Z",
+                'T102200Z',
+                'T10:22:00Z',
             ],
             [
-                "T102200-0800",
-                "T10:22:00-0800",
+                'T102200-0800',
+                'T10:22:00-0800',
             ],
             [
-                "T--00",
-                "T--00",
+                'T--00',
+                'T--00',
             ],
         ];
-
     }
 
-    function testSetParts() {
-
+    public function testSetParts()
+    {
         $vcard = new VObject\Component\VCard();
 
         $prop = $vcard->createProperty('BDAY');
         $prop->setParts([
-            new \DateTime('2014-04-02 18:37:00')
+            new \DateTime('2014-04-02 18:37:00'),
         ]);
 
         $this->assertEquals('20140402T183700Z', $prop->getValue());
-
     }
 
-    function testSetPartsDateTimeImmutable() {
-
+    public function testSetPartsDateTimeImmutable()
+    {
         $vcard = new VObject\Component\VCard();
 
         $prop = $vcard->createProperty('BDAY');
         $prop->setParts([
-            new \DateTimeImmutable('2014-04-02 18:37:00')
+            new \DateTimeImmutable('2014-04-02 18:37:00'),
         ]);
 
         $this->assertEquals('20140402T183700Z', $prop->getValue());
-
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
-    function testSetPartsTooMany() {
-
+    public function testSetPartsTooMany()
+    {
         $vcard = new VObject\Component\VCard();
 
         $prop = $vcard->createProperty('BDAY');
         $prop->setParts([
             1,
-            2
+            2,
         ]);
-
     }
 
-    function testSetPartsString() {
-
+    public function testSetPartsString()
+    {
         $vcard = new VObject\Component\VCard();
 
         $prop = $vcard->createProperty('BDAY');
         $prop->setParts([
-            "20140402T183700Z"
+            '20140402T183700Z',
         ]);
 
         $this->assertEquals('20140402T183700Z', $prop->getValue());
-
     }
 
-    function testSetValueDateTime() {
-
+    public function testSetValueDateTime()
+    {
         $vcard = new VObject\Component\VCard();
 
         $prop = $vcard->createProperty('BDAY');
@@ -147,11 +141,10 @@ class DateAndOrTimeTest extends TestCase {
         );
 
         $this->assertEquals('20140402T183700Z', $prop->getValue());
-
     }
 
-    function testSetValueDateTimeImmutable() {
-
+    public function testSetValueDateTimeImmutable()
+    {
         $vcard = new VObject\Component\VCard();
 
         $prop = $vcard->createProperty('BDAY');
@@ -160,11 +153,10 @@ class DateAndOrTimeTest extends TestCase {
         );
 
         $this->assertEquals('20140402T183700Z', $prop->getValue());
-
     }
 
-    function testSetDateTimeOffset() {
-
+    public function testSetDateTimeOffset()
+    {
         $vcard = new VObject\Component\VCard();
 
         $prop = $vcard->createProperty('BDAY');
@@ -173,23 +165,21 @@ class DateAndOrTimeTest extends TestCase {
         );
 
         $this->assertEquals('20140402T183700-0400', $prop->getValue());
-
     }
 
-    function testGetDateTime() {
-
+    public function testGetDateTime()
+    {
         $datetime = new \DateTime('2014-04-02 18:37:00', new \DateTimeZone('America/Toronto'));
 
         $vcard = new VObject\Component\VCard();
         $prop = $vcard->createProperty('BDAY', $datetime);
 
         $dt = $prop->getDateTime();
-        $this->assertEquals('2014-04-02T18:37:00-04:00', $dt->format('c'), "For some reason this one failed. Current default timezone is: " . date_default_timezone_get());
-
+        $this->assertEquals('2014-04-02T18:37:00-04:00', $dt->format('c'), 'For some reason this one failed. Current default timezone is: '.date_default_timezone_get());
     }
 
-    function testGetDate() {
-
+    public function testGetDate()
+    {
         $datetime = new \DateTime('2014-04-02');
 
         $vcard = new VObject\Component\VCard();
@@ -197,11 +187,10 @@ class DateAndOrTimeTest extends TestCase {
 
         $this->assertEquals('DATE', $prop->getValueType());
         $this->assertEquals('BDAY:20140402', rtrim($prop->serialize()));
-
     }
 
-    function testGetDateIncomplete() {
-
+    public function testGetDateIncomplete()
+    {
         $datetime = '--0407';
 
         $vcard = new VObject\Component\VCard();
@@ -215,12 +204,11 @@ class DateAndOrTimeTest extends TestCase {
         $current = new \DateTime('now');
         $year = $current->format('Y');
 
-        $this->assertEquals($year . '0407', $dt->format('Ymd'));
-
+        $this->assertEquals($year.'0407', $dt->format('Ymd'));
     }
 
-    function testGetDateIncompleteFromVCard() {
-
+    public function testGetDateIncompleteFromVCard()
+    {
         $vcard = <<<VCF
 BEGIN:VCARD
 VERSION:4.0
@@ -238,33 +226,30 @@ VCF;
         $current = new \DateTime('now');
         $year = $current->format('Y');
 
-        $this->assertEquals($year . '0407', $dt->format('Ymd'));
-
+        $this->assertEquals($year.'0407', $dt->format('Ymd'));
     }
 
-    function testValidate() {
-
+    public function testValidate()
+    {
         $datetime = '--0407';
 
         $vcard = new VObject\Component\VCard();
         $prop = $vcard->add('BDAY', $datetime);
 
         $this->assertEquals([], $prop->validate());
-
     }
 
-    function testValidateBroken() {
-
+    public function testValidateBroken()
+    {
         $datetime = '123';
 
         $vcard = new VObject\Component\VCard();
         $prop = $vcard->add('BDAY', $datetime);
 
         $this->assertEquals([[
-            'level'   => 3,
+            'level' => 3,
             'message' => 'The supplied value (123) is not a correct DATE-AND-OR-TIME property',
-            'node'    => $prop,
+            'node' => $prop,
         ]], $prop->validate());
-
     }
 }

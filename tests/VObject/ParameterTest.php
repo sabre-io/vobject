@@ -4,31 +4,29 @@ namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
 
-class ParameterTest extends TestCase {
-
-    function testSetup() {
-
+class ParameterTest extends TestCase
+{
+    public function testSetup()
+    {
         $cal = new Component\VCalendar();
 
         $param = new Parameter($cal, 'name', 'value');
         $this->assertEquals('NAME', $param->name);
         $this->assertEquals('value', $param->getValue());
-
     }
 
-    function testSetupNameLess() {
-
+    public function testSetupNameLess()
+    {
         $card = new Component\VCard();
 
         $param = new Parameter($card, null, 'URL');
         $this->assertEquals('VALUE', $param->name);
         $this->assertEquals('URL', $param->getValue());
         $this->assertTrue($param->noName);
-
     }
 
-    function testModify() {
-
+    public function testModify()
+    {
         $cal = new Component\VCalendar();
 
         $param = new Parameter($cal, 'name', null);
@@ -44,49 +42,43 @@ class ParameterTest extends TestCase {
         $param->setValue(4);
         $param->addValue(5);
         $this->assertEquals([4, 5], $param->getParts());
-
     }
 
-    function testCastToString() {
-
+    public function testCastToString()
+    {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'value');
         $this->assertEquals('value', $param->__toString());
-        $this->assertEquals('value', (string)$param);
-
+        $this->assertEquals('value', (string) $param);
     }
 
-    function testCastNullToString() {
-
+    public function testCastNullToString()
+    {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', null);
         $this->assertEquals('', $param->__toString());
-        $this->assertEquals('', (string)$param);
-
+        $this->assertEquals('', (string) $param);
     }
 
-    function testSerialize() {
-
+    public function testSerialize()
+    {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'value');
         $this->assertEquals('NAME=value', $param->serialize());
-
     }
 
-    function testSerializeEmpty() {
-
+    public function testSerializeEmpty()
+    {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', null);
         $this->assertEquals('NAME=', $param->serialize());
-
     }
 
-    function testSerializeComplex() {
-
+    public function testSerializeComplex()
+    {
         $cal = new Component\VCalendar();
-        $param = new Parameter($cal, 'name', ["val1", "val2;", "val3^", "val4\n", "val5\""]);
+        $param = new Parameter($cal, 'name', ['val1', 'val2;', 'val3^', "val4\n", 'val5"']);
         $this->assertEquals('NAME=val1,"val2;","val3^^","val4^n","val5^\'"', $param->serialize());
-
     }
 
     /**
@@ -95,16 +87,15 @@ class ParameterTest extends TestCase {
      *
      * So we specifically added support for that.
      */
-    function testSerializePlusSign() {
-
+    public function testSerializePlusSign()
+    {
         $cal = new Component\VCalendar();
-        $param = new Parameter($cal, 'EMAIL', "user+something@example.org");
+        $param = new Parameter($cal, 'EMAIL', 'user+something@example.org');
         $this->assertEquals('EMAIL="user+something@example.org"', $param->serialize());
-
     }
 
-    function testIterate() {
-
+    public function testIterate()
+    {
         $cal = new Component\VCalendar();
 
         $param = new Parameter($cal, 'name', [1, 2, 3, 4]);
@@ -115,23 +106,19 @@ class ParameterTest extends TestCase {
         }
 
         $this->assertEquals([1, 2, 3, 4], $result);
-
     }
 
-    function testSerializeColon() {
-
+    public function testSerializeColon()
+    {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'va:lue');
         $this->assertEquals('NAME="va:lue"', $param->serialize());
-
     }
 
-    function testSerializeSemiColon() {
-
+    public function testSerializeSemiColon()
+    {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'va;lue');
         $this->assertEquals('NAME="va;lue"', $param->serialize());
-
     }
-
 }
