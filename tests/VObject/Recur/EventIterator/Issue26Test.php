@@ -6,13 +6,13 @@ use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 
-class Issue26Test extends TestCase {
-
+class Issue26Test extends TestCase
+{
     /**
      * @expectedException \Sabre\VObject\InvalidDataException
      */
-    function testExpand() {
-
+    public function testExpand()
+    {
         $input = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -29,7 +29,5 @@ ICS;
         $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
 
         $it = new EventIterator($vcal, 'bae5d57a98');
-
     }
-
 }

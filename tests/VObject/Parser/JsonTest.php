@@ -5,153 +5,153 @@ namespace Sabre\VObject\Parser;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 
-class JsonTest extends TestCase {
-
-    function testRoundTripJCard() {
-
+class JsonTest extends TestCase
+{
+    public function testRoundTripJCard()
+    {
         $input = [
-            "vcard",
+            'vcard',
             [
                 [
-                    "version",
+                    'version',
                     new \StdClass(),
-                    "text",
-                    "4.0"
+                    'text',
+                    '4.0',
                 ],
                 [
-                    "prodid",
+                    'prodid',
                     new \StdClass(),
-                    "text",
-                    "-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN",
+                    'text',
+                    '-//Sabre//Sabre VObject '.VObject\Version::VERSION.'//EN',
                 ],
                 [
-                    "uid",
+                    'uid',
                     new \StdClass(),
-                    "text",
-                    "foo",
+                    'text',
+                    'foo',
                 ],
                 [
-                    "bday",
+                    'bday',
                     new \StdClass(),
-                    "date-and-or-time",
-                    "1985-04-07",
+                    'date-and-or-time',
+                    '1985-04-07',
                 ],
                 [
-                    "bday",
-                    (object)[
-                        'x-param' => [1,2],
+                    'bday',
+                    (object) [
+                        'x-param' => [1, 2],
                     ],
-                    "date",
-                    "1979-12-25",
+                    'date',
+                    '1979-12-25',
                 ],
                 [
-                    "bday",
+                    'bday',
                     new \StdClass(),
-                    "date-time",
-                    "1979-12-25T02:00:00",
+                    'date-time',
+                    '1979-12-25T02:00:00',
                 ],
                 [
-                    "rev",
+                    'rev',
                     new \StdClass(),
-                    "timestamp",
-                    "1995-10-31T22:27:10Z",
+                    'timestamp',
+                    '1995-10-31T22:27:10Z',
                 ],
                 [
-                    "lang",
+                    'lang',
                     new \StdClass(),
-                    "language-tag",
-                    "nl",
+                    'language-tag',
+                    'nl',
                 ],
                 [
-                    "n",
+                    'n',
                     new \StdClass(),
-                    "text",
-                    ["Last", "First", "Middle", "", ""],
+                    'text',
+                    ['Last', 'First', 'Middle', '', ''],
                 ],
                 [
-                    "tel",
-                    (object)[
-                        "group" => "item1",
+                    'tel',
+                    (object) [
+                        'group' => 'item1',
                     ],
-                    "text",
-                    "+1 555 123456",
+                    'text',
+                    '+1 555 123456',
                 ],
                 [
-                    "x-ab-label",
-                    (object)[
-                        "group" => "item1",
+                    'x-ab-label',
+                    (object) [
+                        'group' => 'item1',
                     ],
-                    "unknown",
-                    "Walkie Talkie",
+                    'unknown',
+                    'Walkie Talkie',
                 ],
                 [
-                    "adr",
+                    'adr',
                     new \StdClass(),
-                    "text",
+                    'text',
                         [
-                            "",
-                            "",
-                            ["My Street", "Left Side", "Second Shack"],
-                            "Hometown",
-                            "PA",
-                            "18252",
-                            "U.S.A",
+                            '',
+                            '',
+                            ['My Street', 'Left Side', 'Second Shack'],
+                            'Hometown',
+                            'PA',
+                            '18252',
+                            'U.S.A',
                         ],
                 ],
 
                 [
-                    "x-truncated",
+                    'x-truncated',
                     new \StdClass(),
-                    "date",
-                    "--12-25",
+                    'date',
+                    '--12-25',
                 ],
                 [
-                    "x-time-local",
+                    'x-time-local',
                     new \StdClass(),
-                    "time",
-                    "12:30:00"
+                    'time',
+                    '12:30:00',
                 ],
                 [
-                    "x-time-utc",
+                    'x-time-utc',
                     new \StdClass(),
-                    "time",
-                    "12:30:00Z"
+                    'time',
+                    '12:30:00Z',
                 ],
                 [
-                    "x-time-offset",
+                    'x-time-offset',
                     new \StdClass(),
-                    "time",
-                    "12:30:00-08:00"
+                    'time',
+                    '12:30:00-08:00',
                 ],
                 [
-                    "x-time-reduced",
+                    'x-time-reduced',
                     new \StdClass(),
-                    "time",
-                    "23"
+                    'time',
+                    '23',
                 ],
                 [
-                    "x-time-truncated",
+                    'x-time-truncated',
                     new \StdClass(),
-                    "time",
-                    "--30"
+                    'time',
+                    '--30',
                 ],
                 [
-                    "x-karma-points",
+                    'x-karma-points',
                     new \StdClass(),
-                    "integer",
-                    42
+                    'integer',
+                    42,
                 ],
                 [
-                    "x-grade",
+                    'x-grade',
                     new \StdClass(),
-                    "float",
-                    1.3
+                    'float',
+                    1.3,
                 ],
                 [
-                    "tz",
+                    'tz',
                     new \StdClass(),
-                    "utc-offset",
-                    "-05:00",
+                    'utc-offset',
+                    '-05:00',
                 ],
             ],
         ];
@@ -188,123 +188,122 @@ TZ;VALUE=UTC-OFFSET:-0500
 END:VCARD
 
 VCF;
-        $this->assertEquals($expected, str_replace("\r", "", $result));
+        $this->assertEquals($expected, str_replace("\r", '', $result));
 
         $this->assertEquals(
             $input,
             $vobj->jsonSerialize()
         );
-
     }
 
-    function testRoundTripJCal() {
-
+    public function testRoundTripJCal()
+    {
         $input = [
-            "vcalendar",
+            'vcalendar',
             [
                 [
-                    "version",
+                    'version',
                     new \StdClass(),
-                    "text",
-                    "2.0"
+                    'text',
+                    '2.0',
                 ],
                 [
-                    "prodid",
+                    'prodid',
                     new \StdClass(),
-                    "text",
-                    "-//Sabre//Sabre VObject " . VObject\Version::VERSION . "//EN",
+                    'text',
+                    '-//Sabre//Sabre VObject '.VObject\Version::VERSION.'//EN',
                 ],
                 [
-                    "calscale",
+                    'calscale',
                     new \StdClass(),
-                    "text",
-                    "GREGORIAN"
+                    'text',
+                    'GREGORIAN',
                 ],
             ],
             [
-                ["vevent",
+                ['vevent',
                     [
                         [
-                            "uid", new \StdClass(), "text", "foo",
+                            'uid', new \StdClass(), 'text', 'foo',
                         ],
                         [
-                            "dtstart", new \StdClass(), "date", "2013-05-26",
+                            'dtstart', new \StdClass(), 'date', '2013-05-26',
                         ],
                         [
-                            "duration", new \StdClass(), "duration", "P1D",
+                            'duration', new \StdClass(), 'duration', 'P1D',
                         ],
                         [
-                            "categories", new \StdClass(), "text", "home", "testing",
+                            'categories', new \StdClass(), 'text', 'home', 'testing',
                         ],
                         [
-                            "created", new \StdClass(), "date-time", "2013-05-26T18:10:00Z",
+                            'created', new \StdClass(), 'date-time', '2013-05-26T18:10:00Z',
                         ],
                         [
-                            "attach", new \StdClass(), "binary", base64_encode('attachment')
+                            'attach', new \StdClass(), 'binary', base64_encode('attachment'),
                         ],
                         [
-                            "attendee", new \StdClass(), "cal-address", "mailto:armin@example.org",
+                            'attendee', new \StdClass(), 'cal-address', 'mailto:armin@example.org',
                         ],
                         [
-                            "attendee",
-                            (object)[
-                                "cn"       => "Dominik",
-                                "partstat" => "DECLINED",
+                            'attendee',
+                            (object) [
+                                'cn' => 'Dominik',
+                                'partstat' => 'DECLINED',
                             ],
-                            "cal-address",
-                            "mailto:dominik@example.org"
+                            'cal-address',
+                            'mailto:dominik@example.org',
                         ],
                         [
-                            "geo", new \StdClass(), "float", [51.96668, 7.61876],
+                            'geo', new \StdClass(), 'float', [51.96668, 7.61876],
                         ],
                         [
-                            "sequence", new \StdClass(), "integer", 5
+                            'sequence', new \StdClass(), 'integer', 5,
                         ],
                         [
-                            "freebusy", new \StdClass(), "period",  ["2013-05-26T21:02:13", "PT1H"], ["2013-06-26T12:00:00", "2013-06-26T13:00:00"],
+                            'freebusy', new \StdClass(), 'period',  ['2013-05-26T21:02:13', 'PT1H'], ['2013-06-26T12:00:00', '2013-06-26T13:00:00'],
                         ],
                         [
-                            "url", new \StdClass(), "uri", "http://example.org/",
+                            'url', new \StdClass(), 'uri', 'http://example.org/',
                         ],
                         [
-                            "tzoffsetfrom", new \StdClass(), "utc-offset", "+05:00",
+                            'tzoffsetfrom', new \StdClass(), 'utc-offset', '+05:00',
                         ],
                         [
-                            "rrule", new \StdClass(), "recur", [
-                                'freq'  => 'WEEKLY',
+                            'rrule', new \StdClass(), 'recur', [
+                                'freq' => 'WEEKLY',
                                 'byday' => ['MO', 'TU'],
                             ],
                         ],
                         [
-                            "x-bool", new \StdClass(), "boolean", true
+                            'x-bool', new \StdClass(), 'boolean', true,
                         ],
                         [
-                            "x-time", new \StdClass(), "time", "08:00:00",
+                            'x-time', new \StdClass(), 'time', '08:00:00',
                         ],
                         [
-                            "request-status",
+                            'request-status',
                             new \StdClass(),
-                            "text",
-                            ["2.0", "Success"],
+                            'text',
+                            ['2.0', 'Success'],
                         ],
                         [
-                            "request-status",
+                            'request-status',
                             new \StdClass(),
-                            "text",
-                            ["3.7", "Invalid Calendar User", "ATTENDEE:mailto:jsmith@example.org"],
+                            'text',
+                            ['3.7', 'Invalid Calendar User', 'ATTENDEE:mailto:jsmith@example.org'],
                         ],
                     ],
                     [
-                        ["valarm",
+                        ['valarm',
                             [
                                 [
-                                    "action", new \StdClass(), "text", "DISPLAY",
+                                    'action', new \StdClass(), 'text', 'DISPLAY',
                                 ],
                             ],
                             [],
                         ],
                     ],
-                ]
+                ],
             ],
         ];
 
@@ -345,22 +344,21 @@ END:VEVENT
 END:VCALENDAR
 
 VCF;
-        $this->assertEquals($expected, str_replace("\r", "", $result));
+        $this->assertEquals($expected, str_replace("\r", '', $result));
 
         $this->assertEquals(
             $input,
             $vobj->jsonSerialize()
         );
-
     }
 
-    function testParseStreamArg() {
-
+    public function testParseStreamArg()
+    {
         $input = [
-            "vcard",
+            'vcard',
             [
                 [
-                    "FN", new \StdClass(), 'text', "foo",
+                    'FN', new \StdClass(), 'text', 'foo',
                 ],
             ],
         ];
@@ -371,25 +369,23 @@ VCF;
 
         $result = VObject\Reader::readJson($stream, 0);
         $this->assertEquals('foo', $result->FN->getValue());
-
     }
 
     /**
      * @expectedException \Sabre\VObject\ParseException
      */
-    function testParseInvalidData() {
-
+    public function testParseInvalidData()
+    {
         $json = new Json();
         $input = [
-            "vlist",
+            'vlist',
             [
                 [
-                    "FN", new \StdClass(), 'text', "foo",
+                    'FN', new \StdClass(), 'text', 'foo',
                 ],
             ],
         ];
 
         $json->parse(json_encode($input), 0);
-
     }
 }

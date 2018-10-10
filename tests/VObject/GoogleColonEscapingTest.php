@@ -10,10 +10,10 @@ use PHPUnit\Framework\TestCase;
  * VObject will provide a workaround for this, so end-user still get expected
  * values.
  */
-class GoogleColonEscapingTest extends TestCase {
-
-    function testDecode() {
-
+class GoogleColonEscapingTest extends TestCase
+{
+    public function testDecode()
+    {
         $vcard = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
@@ -27,7 +27,5 @@ VCF;
 
         $vobj = Reader::read($vcard);
         $this->assertEquals('http://www.rooftopsolutions.nl/', $vobj->URL->getValue());
-
     }
-
 }

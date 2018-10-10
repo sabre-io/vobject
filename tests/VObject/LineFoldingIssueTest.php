@@ -4,10 +4,10 @@ namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
 
-class LineFoldingIssueTest extends TestCase {
-
-    function testRead() {
-
+class LineFoldingIssueTest extends TestCase
+{
+    public function testRead()
+    {
         $event = <<<ICS
 BEGIN:VCALENDAR\r
 BEGIN:VEVENT\r
@@ -19,7 +19,5 @@ ICS;
 
         $obj = Reader::read($event);
         $this->assertEquals($event, $obj->serialize());
-
     }
-
 }

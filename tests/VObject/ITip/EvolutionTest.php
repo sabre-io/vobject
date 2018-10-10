@@ -2,15 +2,15 @@
 
 namespace Sabre\VObject\ITip;
 
-class EvolutionTest extends BrokerTester {
-
+class EvolutionTest extends BrokerTester
+{
     /**
      * Evolution does things as usual a little bit differently.
      *
      * We're adding a seprate test just for it.
      */
-    function testNewEvolutionEvent() {
-
+    public function testNewEvolutionEvent()
+    {
         $ics = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -1725,17 +1725,16 @@ ICS;
 
         $expected = [
             [
-                'uid'           => '20140813T153116Z-12176-1000-1065-6@johnny-lubuntu',
-                'method'        => 'REQUEST',
-                'sender'        => 'mailto:martin@fruux.com',
-                'senderName'    => null,
-                'recipient'     => 'mailto:dominik@fruux.com',
+                'uid' => '20140813T153116Z-12176-1000-1065-6@johnny-lubuntu',
+                'method' => 'REQUEST',
+                'sender' => 'mailto:martin@fruux.com',
+                'senderName' => null,
+                'recipient' => 'mailto:dominik@fruux.com',
                 'recipientName' => null,
-                'message'       => $expectedICS,
-            ]
+                'message' => $expectedICS,
+            ],
         ];
         $this->parse(null, $ics, $expected, 'mailto:martin@fruux.com');
-
     }
 
     /**
@@ -1743,8 +1742,8 @@ ICS;
      * again mangled by iCal. This triggered a few bugs related to email
      * address scheme casing.
      */
-    function testAttendeeModify() {
-
+    public function testAttendeeModify()
+    {
         $old = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -2645,9 +2644,5 @@ END:VCALENDAR
 ICS;
 
         $this->parse($old, $new, [], 'mailto:a1@example.org');
-
-
     }
-
-
 }

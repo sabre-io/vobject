@@ -6,13 +6,13 @@ use DateTime;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
-class ByMonthInDailyTest extends TestCase {
-
+class ByMonthInDailyTest extends TestCase
+{
     /**
-     * This tests the expansion of dates with DAILY frequency in RRULE with BYMONTH restrictions
+     * This tests the expansion of dates with DAILY frequency in RRULE with BYMONTH restrictions.
      */
-    function testExpand() {
-
+    public function testExpand()
+    {
         $ics = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -45,15 +45,14 @@ ICS;
         }
 
         $expectedDates = [
-            "20130929T160000Z",
-            "20131006T160000Z",
-            "20131013T160000Z",
-            "20131020T160000Z",
-            "20131027T160000Z",
-            "20140907T160000Z"
+            '20130929T160000Z',
+            '20131006T160000Z',
+            '20131013T160000Z',
+            '20131020T160000Z',
+            '20131027T160000Z',
+            '20140907T160000Z',
         ];
 
         $this->assertEquals($expectedDates, $dates, 'Recursed dates are restricted by month');
     }
-
 }

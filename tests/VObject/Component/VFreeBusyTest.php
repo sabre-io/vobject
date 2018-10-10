@@ -6,10 +6,10 @@ use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 use Sabre\VObject\Reader;
 
-class VFreeBusyTest extends TestCase {
-
-    function testIsFree() {
-
+class VFreeBusyTest extends TestCase
+{
+    public function testIsFree()
+    {
         $input = <<<BLA
 BEGIN:VCALENDAR
 BEGIN:VFREEBUSY
@@ -36,11 +36,10 @@ BLA;
         $this->assertTrue($vfb->isFree(new \DateTime('2012-09-12 09:00:00', $tz), new \DateTime('2012-09-12 09:15:00', $tz)));
         $this->assertTrue($vfb->isFree(new \DateTime('2012-09-12 09:45:00', $tz), new \DateTime('2012-09-12 10:00:00', $tz)));
         $this->assertTrue($vfb->isFree(new \DateTime('2012-09-12 11:00:00', $tz), new \DateTime('2012-09-12 12:00:00', $tz)));
-
     }
 
-    function testValidate() {
-
+    public function testValidate()
+    {
         $input = <<<HI
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -61,7 +60,5 @@ HI;
         }
 
         $this->assertEquals([], $messages);
-
     }
-
 }

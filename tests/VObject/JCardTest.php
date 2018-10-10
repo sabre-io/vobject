@@ -4,33 +4,32 @@ namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
 
-class JCardTest extends TestCase {
-
-    function testToJCard() {
-
+class JCardTest extends TestCase
+{
+    public function testToJCard()
+    {
         $card = new Component\VCard([
-            "VERSION"          => "4.0",
-            "UID"              => "foo",
-            "BDAY"             => "19850407",
-            "REV"              => "19951031T222710Z",
-            "LANG"             => "nl",
-            "N"                => ["Last", "First", "Middle", "", ""],
-            "item1.TEL"        => "+1 555 123456",
-            "item1.X-AB-LABEL" => "Walkie Talkie",
-            "ADR"              => [
-                "",
-                "",
-                ["My Street", "Left Side", "Second Shack"],
-                "Hometown",
-                "PA",
-                "18252",
-                "U.S.A",
+            'VERSION' => '4.0',
+            'UID' => 'foo',
+            'BDAY' => '19850407',
+            'REV' => '19951031T222710Z',
+            'LANG' => 'nl',
+            'N' => ['Last', 'First', 'Middle', '', ''],
+            'item1.TEL' => '+1 555 123456',
+            'item1.X-AB-LABEL' => 'Walkie Talkie',
+            'ADR' => [
+                '',
+                '',
+                ['My Street', 'Left Side', 'Second Shack'],
+                'Hometown',
+                'PA',
+                '18252',
+                'U.S.A',
             ],
         ]);
 
         $card->add('BDAY', '1979-12-25', ['VALUE' => 'DATE', 'X-PARAM' => [1, 2]]);
         $card->add('BDAY', '1979-12-25T02:00:00', ['VALUE' => 'DATE-TIME']);
-
 
         $card->add('X-TRUNCATED', '--1225', ['VALUE' => 'DATE']);
         $card->add('X-TIME-LOCAL', '123000', ['VALUE' => 'TIME']);
@@ -45,153 +44,151 @@ class JCardTest extends TestCase {
         $card->add('TZ', '-0500', ['VALUE' => 'UTC-OFFSET']);
 
         $expected = [
-            "vcard",
+            'vcard',
             [
                 [
-                    "version",
+                    'version',
                     new \StdClass(),
-                    "text",
-                    "4.0"
+                    'text',
+                    '4.0',
                 ],
                 [
-                    "prodid",
+                    'prodid',
                     new \StdClass(),
-                    "text",
-                    "-//Sabre//Sabre VObject " . Version::VERSION . "//EN",
+                    'text',
+                    '-//Sabre//Sabre VObject '.Version::VERSION.'//EN',
                 ],
                 [
-                    "uid",
+                    'uid',
                     new \StdClass(),
-                    "text",
-                    "foo",
+                    'text',
+                    'foo',
                 ],
                 [
-                    "bday",
+                    'bday',
                     new \StdClass(),
-                    "date-and-or-time",
-                    "1985-04-07",
+                    'date-and-or-time',
+                    '1985-04-07',
                 ],
                 [
-                    "bday",
-                    (object)[
-                        'x-param' => [1,2],
+                    'bday',
+                    (object) [
+                        'x-param' => [1, 2],
                     ],
-                    "date",
-                    "1979-12-25",
+                    'date',
+                    '1979-12-25',
                 ],
                 [
-                    "bday",
+                    'bday',
                     new \StdClass(),
-                    "date-time",
-                    "1979-12-25T02:00:00",
+                    'date-time',
+                    '1979-12-25T02:00:00',
                 ],
                 [
-                    "rev",
+                    'rev',
                     new \StdClass(),
-                    "timestamp",
-                    "1995-10-31T22:27:10Z",
+                    'timestamp',
+                    '1995-10-31T22:27:10Z',
                 ],
                 [
-                    "lang",
+                    'lang',
                     new \StdClass(),
-                    "language-tag",
-                    "nl",
+                    'language-tag',
+                    'nl',
                 ],
                 [
-                    "n",
+                    'n',
                     new \StdClass(),
-                    "text",
-                    ["Last", "First", "Middle", "", ""],
+                    'text',
+                    ['Last', 'First', 'Middle', '', ''],
                 ],
                 [
-                    "tel",
-                    (object)[
-                        "group" => "item1",
+                    'tel',
+                    (object) [
+                        'group' => 'item1',
                     ],
-                    "text",
-                    "+1 555 123456",
+                    'text',
+                    '+1 555 123456',
                 ],
                 [
-                    "x-ab-label",
-                    (object)[
-                        "group" => "item1",
+                    'x-ab-label',
+                    (object) [
+                        'group' => 'item1',
                     ],
-                    "unknown",
-                    "Walkie Talkie",
+                    'unknown',
+                    'Walkie Talkie',
                 ],
                 [
-                    "adr",
+                    'adr',
                     new \StdClass(),
-                    "text",
+                    'text',
                         [
-                            "",
-                            "",
-                            ["My Street", "Left Side", "Second Shack"],
-                            "Hometown",
-                            "PA",
-                            "18252",
-                            "U.S.A",
+                            '',
+                            '',
+                            ['My Street', 'Left Side', 'Second Shack'],
+                            'Hometown',
+                            'PA',
+                            '18252',
+                            'U.S.A',
                         ],
                 ],
                 [
-                    "x-truncated",
+                    'x-truncated',
                     new \StdClass(),
-                    "date",
-                    "--12-25",
+                    'date',
+                    '--12-25',
                 ],
                 [
-                    "x-time-local",
+                    'x-time-local',
                     new \StdClass(),
-                    "time",
-                    "12:30:00"
+                    'time',
+                    '12:30:00',
                 ],
                 [
-                    "x-time-utc",
+                    'x-time-utc',
                     new \StdClass(),
-                    "time",
-                    "12:30:00Z"
+                    'time',
+                    '12:30:00Z',
                 ],
                 [
-                    "x-time-offset",
+                    'x-time-offset',
                     new \StdClass(),
-                    "time",
-                    "12:30:00-08:00"
+                    'time',
+                    '12:30:00-08:00',
                 ],
                 [
-                    "x-time-reduced",
+                    'x-time-reduced',
                     new \StdClass(),
-                    "time",
-                    "23"
+                    'time',
+                    '23',
                 ],
                 [
-                    "x-time-truncated",
+                    'x-time-truncated',
                     new \StdClass(),
-                    "time",
-                    "--30"
+                    'time',
+                    '--30',
                 ],
                 [
-                    "x-karma-points",
+                    'x-karma-points',
                     new \StdClass(),
-                    "integer",
-                    42
+                    'integer',
+                    42,
                 ],
                 [
-                    "x-grade",
+                    'x-grade',
                     new \StdClass(),
-                    "float",
-                    1.3
+                    'float',
+                    1.3,
                 ],
                 [
-                    "tz",
+                    'tz',
                     new \StdClass(),
-                    "utc-offset",
-                    "-05:00",
+                    'utc-offset',
+                    '-05:00',
                 ],
             ],
         ];
 
         $this->assertEquals($expected, $card->jsonSerialize());
-
     }
-
 }

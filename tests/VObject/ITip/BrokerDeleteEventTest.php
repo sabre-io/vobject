@@ -2,10 +2,10 @@
 
 namespace Sabre\VObject\ITip;
 
-class BrokerDeleteEventTest extends BrokerTester {
-
-    function testOrganizerDeleteWithDtend() {
-
+class BrokerDeleteEventTest extends BrokerTester
+{
+    public function testOrganizerDeleteWithDtend()
+    {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -22,21 +22,20 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-
         $newMessage = null;
 
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [
             [
-                'uid'           => 'foobar',
-                'method'        => 'CANCEL',
-                'component'     => 'VEVENT',
-                'sender'        => 'mailto:strunk@example.org',
-                'senderName'    => 'Strunk',
-                'recipient'     => 'mailto:one@example.org',
+                'uid' => 'foobar',
+                'method' => 'CANCEL',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+                'senderName' => 'Strunk',
+                'recipient' => 'mailto:one@example.org',
                 'recipientName' => 'One',
-                'message'       => <<<ICS
+                'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -57,14 +56,14 @@ ICS
             ],
 
             [
-                'uid'           => 'foobar',
-                'method'        => 'CANCEL',
-                'component'     => 'VEVENT',
-                'sender'        => 'mailto:strunk@example.org',
-                'senderName'    => 'Strunk',
-                'recipient'     => 'mailto:two@example.org',
+                'uid' => 'foobar',
+                'method' => 'CANCEL',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+                'senderName' => 'Strunk',
+                'recipient' => 'mailto:two@example.org',
                 'recipientName' => 'Two',
-                'message'       => <<<ICS
+                'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -82,16 +81,14 @@ ATTENDEE;CN=Two:mailto:two@example.org
 END:VEVENT
 END:VCALENDAR
 ICS
-
             ],
         ];
 
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
-
     }
 
-    function testOrganizerDeleteWithDuration() {
-
+    public function testOrganizerDeleteWithDuration()
+    {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -108,21 +105,20 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-
         $newMessage = null;
 
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [
             [
-                'uid'           => 'foobar',
-                'method'        => 'CANCEL',
-                'component'     => 'VEVENT',
-                'sender'        => 'mailto:strunk@example.org',
-                'senderName'    => 'Strunk',
-                'recipient'     => 'mailto:one@example.org',
+                'uid' => 'foobar',
+                'method' => 'CANCEL',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+                'senderName' => 'Strunk',
+                'recipient' => 'mailto:one@example.org',
                 'recipientName' => 'One',
-                'message'       => <<<ICS
+                'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -143,14 +139,14 @@ ICS
             ],
 
             [
-                'uid'           => 'foobar',
-                'method'        => 'CANCEL',
-                'component'     => 'VEVENT',
-                'sender'        => 'mailto:strunk@example.org',
-                'senderName'    => 'Strunk',
-                'recipient'     => 'mailto:two@example.org',
+                'uid' => 'foobar',
+                'method' => 'CANCEL',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+                'senderName' => 'Strunk',
+                'recipient' => 'mailto:two@example.org',
                 'recipientName' => 'Two',
-                'message'       => <<<ICS
+                'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -168,16 +164,14 @@ ATTENDEE;CN=Two:mailto:two@example.org
 END:VEVENT
 END:VCALENDAR
 ICS
-
             ],
         ];
 
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
-
     }
 
-    function testAttendeeDeleteWithDtend() {
-
+    public function testAttendeeDeleteWithDtend()
+    {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -194,21 +188,20 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-
         $newMessage = null;
 
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [
             [
-                'uid'           => 'foobar',
-                'method'        => 'REPLY',
-                'component'     => 'VEVENT',
-                'sender'        => 'mailto:one@example.org',
-                'senderName'    => 'One',
-                'recipient'     => 'mailto:strunk@example.org',
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
                 'recipientName' => 'Strunk',
-                'message'       => <<<ICS
+                'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -230,12 +223,10 @@ ICS
         ];
 
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
-
-
     }
 
-    function testAttendeeReplyWithDuration() {
-
+    public function testAttendeeReplyWithDuration()
+    {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -252,21 +243,20 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-
         $newMessage = null;
 
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [
             [
-                'uid'           => 'foobar',
-                'method'        => 'REPLY',
-                'component'     => 'VEVENT',
-                'sender'        => 'mailto:one@example.org',
-                'senderName'    => 'One',
-                'recipient'     => 'mailto:strunk@example.org',
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
                 'recipientName' => 'Strunk',
-                'message'       => <<<ICS
+                'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
@@ -288,12 +278,10 @@ ICS
         ];
 
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
-
-
     }
 
-    function testAttendeeDeleteCancelledEvent() {
-
+    public function testAttendeeDeleteCancelledEvent()
+    {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -310,24 +298,20 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-
         $newMessage = null;
 
         $expected = [];
 
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
-
-
     }
 
-    function testNoCalendar() {
-
+    public function testNoCalendar()
+    {
         $this->parse(null, null, [], 'mailto:one@example.org');
-
     }
 
-    function testVTodo() {
-
+    public function testVTodo()
+    {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -338,7 +322,5 @@ END:VTODO
 END:VCALENDAR
 ICS;
         $this->parse($oldMessage, null, [], 'mailto:one@example.org');
-
     }
-
 }

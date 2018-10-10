@@ -13,8 +13,8 @@ use Sabre\Xml as SabreXml;
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  */
-class KeyValue extends SabreXml\Element\KeyValue {
-
+class KeyValue extends SabreXml\Element\KeyValue
+{
     /**
      * The deserialize method is called during xml parsing.
      *
@@ -37,11 +37,12 @@ class KeyValue extends SabreXml\Element\KeyValue {
      *
      * @return mixed
      */
-    static function xmlDeserialize(SabreXml\Reader $reader) {
-
+    public static function xmlDeserialize(SabreXml\Reader $reader)
+    {
         // If there's no children, we don't do anything.
         if ($reader->isEmptyElement) {
             $reader->next();
+
             return [];
         }
 
@@ -49,22 +50,16 @@ class KeyValue extends SabreXml\Element\KeyValue {
         $reader->read();
 
         do {
-
-            if ($reader->nodeType === SabreXml\Reader::ELEMENT) {
-
+            if (SabreXml\Reader::ELEMENT === $reader->nodeType) {
                 $name = $reader->localName;
                 $values[$name] = $reader->parseCurrentElement()['value'];
-
             } else {
                 $reader->read();
             }
-
-        } while ($reader->nodeType !== SabreXml\Reader::END_ELEMENT);
+        } while (SabreXml\Reader::END_ELEMENT !== $reader->nodeType);
 
         $reader->read();
 
         return $values;
-
     }
-
 }

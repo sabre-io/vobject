@@ -12,11 +12,10 @@ use Sabre\VObject\Reader;
  */
 class SameDateForRecurringEventsTest extends TestCase
 {
-
     /**
      * Checking is all events iterated by EventIterator.
      */
-    function testAllEventsArePresentInIterator()
+    public function testAllEventsArePresentInIterator()
     {
         $ics = <<<ICS
 BEGIN:VCALENDAR
