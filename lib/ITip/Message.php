@@ -116,6 +116,17 @@ class Message
     public $significantChange = true;
 
     /**
+     * This will be set to true, if the iTip broker considers the change
+     * not 'significant' but the change need to send a message.
+     * 
+     * To see the list of properties that are considered not 'significant' but important, check
+     * out Sabre\VObject\ITip\Broker::$changeProperties.
+     *
+     * @var bool
+     */
+    public $hasChange = true;
+
+    /**
      * Returns the schedule status as a string.
      *
      * For example:
