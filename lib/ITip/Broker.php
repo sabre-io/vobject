@@ -78,6 +78,12 @@ class Broker
         'STATUS',
     ];
 
+    public $changeProperties = [
+        'LOCATION',
+        'SUMMARY',
+        'DESCRIPTION'
+    ];
+
     /**
      * This method is used to process an incoming itip message.
      *
@@ -651,7 +657,7 @@ class Broker
                 $icalMsg->METHOD = $message->method;
 
                 // We need to find out that this change is significant. If it's
-                // not, systems may opt to not send messages.
+                // not, we set another variable to find if the change need to send a message.
                 //
                 // We do this based on the 'significantChangeHash' which is
                 // some value that changes if there's a certain set of
@@ -666,6 +672,10 @@ class Broker
                     count($oldAttendeeInstances) != count($newAttendeeInstances) ||
                     count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0 ||
                     $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
+
+                $message->hasChange =
+                    $message->significantChange ||
+                    $oldEventInfo['changeHash'] !== $eventInfo['changeHash'];
 
                 foreach ($attendee['newInstances'] as $instanceId => $instanceInfo) {
                     $currentEvent = clone $eventInfo['instances'][$instanceId];
@@ -926,6 +936,7 @@ class Broker
         $organizerScheduleAgent = 'SERVER';
 
         $significantChangeHash = '';
+        $changeHash = '';
 
         // Now we need to collect a list of attendees, and which instances they
         // are a part of.
@@ -1064,6 +1075,19 @@ class Broker
                     }
                 }
             }
+
+            foreach ($this->changeProperties as $prop) {
+                if (isset($vevent->$prop)) {
+                    $propertyValues = $vevent->select($prop);
+
+                    $changeHash .= $prop . ':';
+
+                    foreach ($propertyValues as $val) {
+                        $changeHash .= $val->getValue() . ';';
+                    }
+                }
+            }
+
             $significantChangeEventProperties[] = $eventSignificantChangeHash;
         }
 
@@ -1073,6 +1097,7 @@ class Broker
             $significantChangeHash .= $eventSignificantChangeHash;
         }
         $significantChangeHash = md5($significantChangeHash);
+        $changeHash= md5($changeHash);
 
         return compact(
             'uid',
@@ -1086,6 +1111,7 @@ class Broker
             'exdate',
             'timezone',
             'significantChangeHash',
+            'changeHash',
             'status'
         );
     }

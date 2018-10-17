@@ -951,4 +951,79 @@ ICS;
         ];
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
+
+    function testLocationChange() {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+LOCATION:Paris
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = [
+            [
+                'uid'               => 'foobar',
+                'method'            => 'REQUEST',
+                'component'         => 'VEVENT',
+                'sender'            => 'mailto:strunk@example.org',
+                'senderName'        => 'Strunk',
+                'recipient'         => 'mailto:two@example.org',
+                'recipientName'     => 'Two',
+                'significantChange' => false,
+                'hasChange'         => true,
+                'message'           => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+LOCATION:Paris
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=NEEDS-ACTION:mailto:strunk@example.org
+ATTENDEE;CN=Two;PARTSTAT=NEEDS-ACTION:mailto:two@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS
+            ],
+        ];
+        
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+
+    }
 }
