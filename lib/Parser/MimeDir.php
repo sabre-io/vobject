@@ -7,6 +7,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Document;
 use Sabre\VObject\EofException;
+use Sabre\VObject\Node;
 use Sabre\VObject\ParseException;
 
 /**
@@ -72,7 +73,7 @@ class MimeDir extends Parser
      * @param string|resource|null $input
      * @param int                  $options
      *
-     * @return Sabre\VObject\Document
+     * @return \Sabre\VObject\Document
      */
     public function parse($input = null, $options = 0)
     {
