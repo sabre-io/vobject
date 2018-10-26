@@ -98,7 +98,7 @@ class VJournal extends VObject\Component
     {
         return [
             'UID' => 'sabre-vobject-'.VObject\UUIDUtil::getUUID(),
-            'DTSTAMP' => date('Ymd\\THis\\Z'),
+            'DTSTAMP' => gmdate('Ymd\\THis\\Z'),
         ];
     }
 }
