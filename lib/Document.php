@@ -95,13 +95,16 @@ abstract class Document extends Component
     public function __construct()
     {
         $args = func_get_args();
+        $name = static::$defaultName;
         if (0 === count($args) || is_array($args[0])) {
-            array_unshift($args, $this, static::$defaultName);
-            call_user_func_array(['parent', '__construct'], $args);
+            $children = isset($args[0]) ? $args[0] : [];
+            $defaults = isset($args[1]) ? $args[1] : true;
         } else {
-            array_unshift($args, $this);
-            call_user_func_array(['parent', '__construct'], $args);
+            $name = $args[0];
+            $children = isset($args[1]) ? $args[1] : [];
+            $defaults = isset($args[2]) ? $args[2] : true;
         }
+        parent::__construct($this, $name, $children, $defaults);
     }
 
     /**

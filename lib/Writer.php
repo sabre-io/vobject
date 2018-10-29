@@ -58,10 +58,10 @@ class Writer
 
         if ($component instanceof Component\VCalendar) {
             $writer->startElement('icalendar');
-            $writer->writeAttribute('xmlns', Parser\Xml::XCAL_NAMESPACE);
+            $writer->writeAttribute('xmlns', Parser\XML::XCAL_NAMESPACE);
         } else {
             $writer->startElement('vcards');
-            $writer->writeAttribute('xmlns', Parser\Xml::XCARD_NAMESPACE);
+            $writer->writeAttribute('xmlns', Parser\XML::XCARD_NAMESPACE);
         }
 
         $component->xmlSerialize($writer);

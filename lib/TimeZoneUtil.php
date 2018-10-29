@@ -120,7 +120,7 @@ class TimeZoneUtil
      * @param string                  $tzid
      * @param Sabre\VObject\Component $vcalendar
      *
-     * @return DateTimeZone
+     * @return \DateTimeZone
      */
     public static function getTimeZone($tzid, Component $vcalendar = null, $failIfUncertain = false)
     {
