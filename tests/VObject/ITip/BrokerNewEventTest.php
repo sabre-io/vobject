@@ -508,8 +508,54 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
+    }
+
+    public function testCaseInsensitiveOrganizers()
+    {
+        $message = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+RRULE:FREQ=DAILY
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+RECURRENCE-ID:20140718T120000Z
+ORGANIZER;CN=Strunk:mailto:Strunk@example.org
+ATTENDEE;CN=Two:mailto:two@example.org
+ATTENDEE;CN=Three:mailto:three@example.org
+DTSTART:20140718T120000Z
+DTEND:20140718T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $this->parse(null, $message, [
+            [
+                'uid' => 'foobar',
+                'method' => 'REQUEST',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+            ],
+            [
+                'uid' => 'foobar',
+                'method' => 'REQUEST',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+            ],
+            ['uid' => 'foobar',
+                'method' => 'REQUEST',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+            ],
+        ], 'mailto:strunk@example.org');
     }
 
     public function testNoOrganizerHasAttendee()

@@ -7,7 +7,7 @@ class EvolutionTest extends BrokerTester
     /**
      * Evolution does things as usual a little bit differently.
      *
-     * We're adding a seprate test just for it.
+     * We're adding a separate test just for it.
      */
     public function testNewEvolutionEvent()
     {
