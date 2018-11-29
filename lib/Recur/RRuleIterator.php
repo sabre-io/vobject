@@ -417,6 +417,9 @@ class RRuleIterator implements Iterator
     protected function nextMonthly()
     {
         $currentDayOfMonth = $this->currentDate->format('j');
+        $currentHourOfMonth = $this->currentDate->format('G');
+        $currentMinuteOfMonth = $this->currentDate->format('i');
+        $currentSecondOfMonth = $this->currentDate->format('s');
         if (!$this->byMonthDay && !$this->byDay) {
             // If the current day is higher than the 28th, rollover can
             // occur to the next month. We Must skip these invalid
@@ -442,7 +445,23 @@ class RRuleIterator implements Iterator
             foreach ($occurrences as $occurrence) {
                 // The first occurrence thats higher than the current
                 // day of the month wins.
-                if ($occurrence > $currentDayOfMonth) {
+                if ($occurrence[0] > $currentDayOfMonth) {
+                    break 2;
+                } elseif ($occurrence[0] < $currentDayOfMonth) {
+                    continue;
+                }
+                if ($occurrence[1] > $currentHourOfMonth) {
+                    break 2;
+                } elseif ($occurrence[1] < $currentHourOfMonth) {
+                    continue;
+                }
+
+                if ($occurrence[2] > $currentMinuteOfMonth) {
+                    break 2;
+                } elseif ($occurrence[2] < $currentMinuteOfMonth) {
+                    continue;
+                }
+                if ($occurrence[3] > $currentSecondOfMonth) {
                     break 2;
                 }
             }
@@ -461,13 +480,16 @@ class RRuleIterator implements Iterator
             // This goes to 0 because we need to start counting at the
             // beginning.
             $currentDayOfMonth = 0;
+            $currentHourOfMonth = 0;
+            $currentMinuteOfMonth = 0;
+            $currentSecondOfMonth = 0;
         }
 
         $this->currentDate = $this->currentDate->setDate(
             (int) $this->currentDate->format('Y'),
             (int) $this->currentDate->format('n'),
-            (int) $occurrence
-        );
+            $occurrence[0]
+        )->setTime($occurrence[1], $occurrence[2], $occurrence[3]);
     }
 
     /**
@@ -478,6 +500,9 @@ class RRuleIterator implements Iterator
         $currentMonth = $this->currentDate->format('n');
         $currentYear = $this->currentDate->format('Y');
         $currentDayOfMonth = $this->currentDate->format('j');
+        $currentHourOfMonth = $this->currentDate->format('G');
+        $currentMinuteOfMonth = $this->currentDate->format('i');
+        $currentSecondOfMonth = $this->currentDate->format('s');
 
         // No sub-rules, so we just advance by year
         if (empty($this->byMonth)) {
@@ -589,25 +614,38 @@ class RRuleIterator implements Iterator
             return;
         }
 
-        $currentMonth = $this->currentDate->format('n');
-        $currentYear = $this->currentDate->format('Y');
-        $currentDayOfMonth = $this->currentDate->format('j');
-
         $advancedToNewMonth = false;
 
         // If we got a byDay or getMonthDay filter, we must first expand
         // further.
         if ($this->byDay || $this->byMonthDay) {
             while (true) {
-                $occurrences = $this->getMonthlyOccurrences();
-
-                foreach ($occurrences as $occurrence) {
-                    // The first occurrence that's higher than the current
-                    // day of the month wins.
-                    // If we advanced to the next month or year, the first
-                    // occurrence is always correct.
-                    if ($occurrence > $currentDayOfMonth || $advancedToNewMonth) {
-                        break 2;
+                // If the start date is incorrect we must directly jump to the next value
+                if (in_array($currentMonth, $this->byMonth)) {
+                    $occurrences = $this->getMonthlyOccurrences();
+                    foreach ($occurrences as $occurrence) {
+                        // The first occurrence that's higher than the current
+                        // day of the month wins.
+                        // If we advanced to the next month or year, the first
+                        // occurrence is always correct.
+                        if ($occurrence[0] > $currentDayOfMonth || $advancedToNewMonth) {
+                            break 2;
+                        } elseif ($occurrence[0] < $currentDayOfMonth) {
+                            continue;
+                        }
+                        if ($occurrence[1] > $currentHourOfMonth) {
+                            break 2;
+                        } elseif ($occurrence[1] < $currentHourOfMonth) {
+                            continue;
+                        }
+                        if ($occurrence[2] > $currentMinuteOfMonth) {
+                            break 2;
+                        } elseif ($occurrence[2] < $currentMinuteOfMonth) {
+                            continue;
+                        }
+                        if ($occurrence[3] > $currentSecondOfMonth) {
+                            break 2;
+                        }
                     }
                 }
 
@@ -634,8 +672,8 @@ class RRuleIterator implements Iterator
             $this->currentDate = $this->currentDate->setDate(
                 (int) $currentYear,
                 (int) $currentMonth,
-                (int) $occurrence
-            );
+                (int) $occurrence[0]
+            )->setTime($occurrence[1], $occurrence[2], $occurrence[3]);
 
             return;
         } else {
@@ -799,7 +837,8 @@ class RRuleIterator implements Iterator
      * Returns all the occurrences for a monthly frequency with a 'byDay' or
      * 'byMonthDay' expansion for the current month.
      *
-     * The returned list is an array of integers with the day of month (1-31).
+     * The returned list is an array of arrays with as first element the day of month (1-31);
+     *  the hour; the minute and second of the occurence
      *
      * @return array
      */
@@ -885,8 +924,23 @@ class RRuleIterator implements Iterator
         } else {
             $result = $byDayResults;
         }
-        $result = array_unique($result);
-        sort($result, SORT_NUMERIC);
+
+        $result = $this->addDailyOccurences($result);
+        $result = array_unique($result, SORT_REGULAR);
+        $sortLex = function ($a, $b) {
+            if ($a[0] != $b[0]) {
+                return $a[0] - $b[0];
+            }
+            if ($a[1] != $b[1]) {
+                return $a[1] - $b[1];
+            }
+            if ($a[2] != $b[2]) {
+                return $a[2] - $b[2];
+            }
+
+            return $a[3] - $b[3];
+        };
+        usort($result, $sortLex);
 
         // The last thing that needs checking is the BYSETPOS. If it's set, it
         // means only certain items in the set survive the filter.
@@ -904,9 +958,38 @@ class RRuleIterator implements Iterator
             }
         }
 
-        sort($filteredResult, SORT_NUMERIC);
+        usort($result, $sortLex);
 
         return $filteredResult;
+    }
+
+    /**
+     * Expends daily occurrences to an array of days that an event occurs on.
+     *
+     * @param array $result an array of integers with the day of month (1-31);
+     *
+     * @return array an array of arrays with the day of the month, hours, minute and seconds of the occurence
+     */
+    protected function addDailyOccurences(array $result)
+    {
+        $output = [];
+        $hour = (int) $this->currentDate->format('G');
+        $minute = (int) $this->currentDate->format('i');
+        $second = (int) $this->currentDate->format('s');
+        foreach ($result as $day) {
+            $seconds = $this->bySecond ? $this->bySecond : [$second];
+            $minutes = $this->byMinute ? $this->byMinute : [$minute];
+            $hours = $this->byHour ? $this->byHour : [$hour];
+            foreach ($hours as $h) {
+                foreach ($minutes as $m) {
+                    foreach ($seconds as $s) {
+                        $output[] = [(int) $day, (int) $h, (int) $m, (int) $s];
+                    }
+                }
+            }
+        }
+
+        return $output;
     }
 
     /**
