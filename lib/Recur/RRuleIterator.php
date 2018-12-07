@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTimeImmutable;
 use DateTimeInterface;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
@@ -85,6 +84,7 @@ class RRuleIterator implements Iterator
 
     /**
      * Goes on to the next iteration.
+     *
      * @param int $amount
      */
     public function next($amount = 1)
@@ -92,19 +92,19 @@ class RRuleIterator implements Iterator
         // Otherwise, we find the next event in the normal RRULE
         // sequence.
         switch ($this->frequency) {
-            case 'hourly' :
+            case 'hourly':
                 $this->nextHourly($amount);
                 break;
-            case 'daily' :
+            case 'daily':
                 $this->nextDaily($amount);
                 break;
-            case 'weekly' :
+            case 'weekly':
                 $this->nextWeekly($amount);
                 break;
-            case 'monthly' :
+            case 'monthly':
                 $this->nextMonthly($amount);
                 break;
-            case 'yearly' :
+            case 'yearly':
                 $this->nextYearly($amount);
                 break;
         }
@@ -135,19 +135,19 @@ class RRuleIterator implements Iterator
             do {
                 $diff = $this->currentDate->diff($dt);
                 switch ($this->frequency) {
-                    case 'hourly' :
+                    case 'hourly':
                         $i = $diff->days * 24;
                         break;
-                    case 'daily' :
+                    case 'daily':
                         $i = $diff->days;
                         break;
-                    case 'weekly' :
+                    case 'weekly':
                         $i = $diff->days / 7;
                         break;
-                    case 'monthly' :
+                    case 'monthly':
                         $i = $diff->days / 30;
                         break;
-                    case 'yearly' :
+                    case 'yearly':
                         $i = $diff->days / 365;
                         break;
                 }
@@ -355,6 +355,7 @@ class RRuleIterator implements Iterator
     {
         if (!$this->byHour && !$this->byDay) {
             $this->currentDate = $this->currentDate->modify('+'.$amount * $this->interval.' days');
+
             return;
         }
 
@@ -384,7 +385,6 @@ class RRuleIterator implements Iterator
                 $amount = 1;
             }
 
-
             // Current month of the year
             $currentMonth = $this->currentDate->format('n');
 
@@ -403,10 +403,11 @@ class RRuleIterator implements Iterator
     /**
      * Does the processing for advancing the iterator for weekly frequency.
      */
-    protected function nextWeekly($amount = 1) {
-
+    protected function nextWeekly($amount = 1)
+    {
         if (!$this->byHour && !$this->byDay) {
-            $this->currentDate = $this->currentDate->modify('+' .($amount * $this->interval).' weeks');
+            $this->currentDate = $this->currentDate->modify('+'.($amount * $this->interval).' weeks');
+
             return;
         }
 
@@ -435,7 +436,7 @@ class RRuleIterator implements Iterator
             $currentHour = (int) $this->currentDate->format('G');
 
             // We need to roll over to the next week
-            if ($currentDay === $firstDay && (!$this->byHour || $currentHour == '0')) {
+            if ($currentDay === $firstDay && (!$this->byHour || '0' == $currentHour)) {
                 $this->currentDate = $this->currentDate->modify('+'.(($amount * $this->interval) - 1).' weeks');
                 $amount = 1;
                 // We need to go to the first day of this week, but only if we

@@ -488,7 +488,6 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
-
     public function testYearlyNewYearsEve()
     {
         $this->parse(
