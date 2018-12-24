@@ -574,7 +574,7 @@ abstract class Property extends Node
                         $allowedEncoding = ['B'];
                         //Repair vCard30 that use BASE64 encoding
                         if ($options & self::REPAIR) {
-                            if('BASE64' == strtoupper($encoding)) {
+                            if ('BASE64' == strtoupper($encoding)) {
                                 $encoding = 'B';
                                 $this->offsetSet('ENCODING', $encoding);
                                 $warnings[] = [
