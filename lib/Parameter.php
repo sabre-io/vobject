@@ -29,7 +29,7 @@ class Parameter extends Node
     /**
      * vCard 2.1 allows parameters to be encoded without a name.
      *
-     * We can deduce the parameter name based on it's value.
+     * We can deduce the parameter name based on its value.
      *
      * @var bool
      */

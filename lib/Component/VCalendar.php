@@ -269,7 +269,7 @@ class VCalendar extends VObject\Document
      * If this calendar object, has events with recurrence rules, this method
      * can be used to expand the event into multiple sub-events.
      *
-     * Each event will be stripped from it's recurrence information, and only
+     * Each event will be stripped from its recurrence information, and only
      * the instances of the event in the specified timerange will be left
      * alone.
      *

@@ -20,7 +20,7 @@ interface SplitterInterface
     /**
      * Constructor.
      *
-     * The splitter should receive an readable file stream as it's input.
+     * The splitter should receive an readable file stream as its input.
      *
      * @param resource $input
      */
