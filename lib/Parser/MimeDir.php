@@ -415,7 +415,7 @@ class MimeDir extends Parser
         }
 
         // vCard 2.1 states that parameters may appear without a name, and only
-        // a value. We can deduce the value based on it's name.
+        // a value. We can deduce the value based on its name.
         //
         // Our parser will get those as parameters without a value instead, so
         // we're filtering these parameters out first.

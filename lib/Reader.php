@@ -55,7 +55,7 @@ class Reader
      * The options argument is a bitfield. Pass any of the OPTIONS constant to
      * alter the parsers' behaviour.
      *
-     * You can either a string, a readable stream, or an array for it's input.
+     * You can either a string, a readable stream, or an array for its input.
      * Specifying the array is useful if json_decode was already called on the
      * input.
      *

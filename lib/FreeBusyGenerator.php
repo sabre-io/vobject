@@ -71,7 +71,7 @@ class FreeBusyGenerator
     /**
      * A VAVAILABILITY document.
      *
-     * If this is set, it's information will be included when calculating
+     * If this is set, its information will be included when calculating
      * freebusy time.
      *
      * @var Document

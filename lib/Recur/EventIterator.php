@@ -237,7 +237,7 @@ class EventIterator implements \Iterator
     /**
      * Returns a VEVENT for the current iterations of the event.
      *
-     * This VEVENT will have a recurrence id, and it's DTSTART and DTEND
+     * This VEVENT will have a recurrence id, and its DTSTART and DTEND
      * altered.
      *
      * @return VEvent
