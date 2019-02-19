@@ -233,7 +233,7 @@ class MimeDir extends Parser
      *
      * If that was not the case, we store it here.
      *
-     * @var null|string
+     * @var string|null
      */
     protected $lineBuffer;
 
