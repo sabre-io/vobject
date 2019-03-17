@@ -655,7 +655,7 @@ class MimeDir extends Parser
         // missing a whitespace. So if 'forgiving' is turned on, we will take
         // those as well.
         if ($this->options & self::OPTION_FORGIVING) {
-            while ('=' === substr($value, -1)) {
+            while ('=' === substr($value, -1) && $this->lineBuffer) {
                 // Reading the line
                 $this->readLine();
                 // Grabbing the raw form
