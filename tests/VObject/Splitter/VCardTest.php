@@ -101,8 +101,8 @@ EOT;
     }
 
     /**
-    * @expectedException \Sabre\VObject\ParseException
-    */
+     * @expectedException \Sabre\VObject\ParseException
+     */
     public function testVCardImportVCardNoComponent()
     {
         $data = <<<EOT
