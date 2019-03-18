@@ -100,6 +100,29 @@ EOT;
         $this->assertEquals(4, $count);
     }
 
+    /**
+     * @expectedException \Sabre\VObject\ParseException
+     */
+    public function testVCardImportVCardNoComponent()
+    {
+        $data = <<<EOT
+BEGIN:VCARD
+FN:first card
+
+BEGIN:VCARD
+FN:ok
+END:VCARD
+EOT;
+        $tempFile = $this->createStream($data);
+
+        $splitter = new VCard($tempFile);
+
+        $this->expectException(\Sabre\VObject\ParseException::class);
+        $this->expectExceptionMessage('Invalid MimeDir file. Unexpected component: "BEGIN:VCARD" in document type VCARD');
+        while ($object = $splitter->getNext()) {
+        }
+    }
+
     public function testVCardImportEndOfData()
     {
         $data = <<<EOT
