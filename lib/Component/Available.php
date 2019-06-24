@@ -14,8 +14,9 @@ use Sabre\VObject;
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property $DTSTART
- * @property $DURATION
+ * @property \DateTime $DTSTART
+ * @property \DateTime|null $DTEND
+ * @property mixed $DURATION
  */
 class Available extends VObject\Component
 {
