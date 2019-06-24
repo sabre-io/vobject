@@ -15,7 +15,9 @@ use Sabre\Xml;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property string $VERSION 
+ * @property string $UID
+ * @property string $VERSION
+ * @property string $FN
  */
 class VCard extends VObject\Document
 {
