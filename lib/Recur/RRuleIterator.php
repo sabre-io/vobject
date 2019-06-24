@@ -444,6 +444,7 @@ class RRuleIterator implements Iterator
             return;
         }
 
+        $occurrence = -1; // init to a artifical value, to prevent phpstan warning 'might not be defined'
         while (true) {
             $occurrences = $this->getMonthlyOccurrences();
 
@@ -609,6 +610,7 @@ class RRuleIterator implements Iterator
         $currentDayOfMonth = $this->currentDate->format('j');
 
         $advancedToNewMonth = false;
+        $occurrence = -1; // init to a artifical value, to prevent phpstan warning 'might not be defined'
 
         // If we got a byDay or getMonthDay filter, we must first expand
         // further.
