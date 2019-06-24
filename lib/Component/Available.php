@@ -13,6 +13,9 @@ use Sabre\VObject;
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @property $DTSTART
+ * @property $DURATION
  */
 class Available extends VObject\Component
 {
