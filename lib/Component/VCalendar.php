@@ -19,6 +19,9 @@ use Sabre\VObject\Recur\NoInstancesException;
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @property string $VERSION
+ * @property string $PRODID
  */
 class VCalendar extends VObject\Document
 {
