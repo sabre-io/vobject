@@ -15,6 +15,10 @@ use Sabre\VObject\Recur\NoInstancesException;
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @property mixed|null $RRULE
+ * @property \DateTime|null $DTSTART
+ * @property \DateTime|null $DTEND
  */
 class VEvent extends VObject\Component
 {
