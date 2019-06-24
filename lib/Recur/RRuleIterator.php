@@ -324,7 +324,7 @@ class RRuleIterator implements Iterator
 
             return;
         }
-        
+
         $recurrenceHours = array();
         if (!empty($this->byHour)) {
             $recurrenceHours = $this->getHours();
