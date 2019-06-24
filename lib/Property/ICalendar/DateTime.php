@@ -343,6 +343,7 @@ class DateTime extends Property
         $messages = parent::validate($options);
         $valueType = $this->getValueType();
         $values = $this->getParts();
+        $value = null; // init to a artifical value, to prevent phpstan warning 'might not be defined'
         try {
             foreach ($values as $value) {
                 switch ($valueType) {
