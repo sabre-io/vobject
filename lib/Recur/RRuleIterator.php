@@ -324,15 +324,18 @@ class RRuleIterator implements Iterator
 
             return;
         }
-
+        
+        $recurrenceHours = array();
         if (!empty($this->byHour)) {
             $recurrenceHours = $this->getHours();
         }
 
+        $recurrenceDays = array();
         if (!empty($this->byDay)) {
             $recurrenceDays = $this->getDays();
         }
 
+        $recurrenceMonths = array();
         if (!empty($this->byMonth)) {
             $recurrenceMonths = $this->getMonths();
         }
@@ -375,10 +378,12 @@ class RRuleIterator implements Iterator
             return;
         }
 
+        $recurrenceHours = array();
         if ($this->byHour) {
             $recurrenceHours = $this->getHours();
         }
 
+        $recurrenceDays = array();
         if ($this->byDay) {
             $recurrenceDays = $this->getDays();
         }
