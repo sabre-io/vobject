@@ -14,7 +14,7 @@ use Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property \DateTime|null $DTSTART 
+ * @property \DateTime|null $DTSTART
  */
 class VJournal extends VObject\Component
 {

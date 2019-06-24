@@ -16,7 +16,7 @@ use Sabre\VObject\Recur\NoInstancesException;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property mixed|null $RRULE
+ * @property mixed|null     $RRULE
  * @property \DateTime|null $DTSTART
  * @property \DateTime|null $DTEND
  */

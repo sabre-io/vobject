@@ -16,11 +16,11 @@ use Sabre\VObject\InvalidDataException;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property mixed $ACTION
+ * @property mixed           $ACTION
  * @property array|\DateTime $TRIGGER
- * @property mixed|null $DURATION
- * @property string|null $REPEAT
- * @property mixed|null $ATTACH
+ * @property mixed|null      $DURATION
+ * @property string|null     $REPEAT
+ * @property mixed|null      $ATTACH
  */
 class VAlarm extends VObject\Component
 {
