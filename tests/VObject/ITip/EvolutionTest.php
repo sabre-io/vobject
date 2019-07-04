@@ -844,7 +844,6 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:20140813T153116Z-12176-1000-1065-6@johnny-lubuntu
-DTSTAMP:20140813T142829Z
 DTSTART;TZID=/freeassociation.sourceforge.net/Tzfile/America/Toronto:201408
  15T110000
 DTEND;TZID=/freeassociation.sourceforge.net/Tzfile/America/Toronto:20140815
