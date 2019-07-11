@@ -505,19 +505,20 @@ class Broker
             $message->recipient = $attendee['href'];
             $message->recipientName = $attendee['name'];
 
+            // Creating the new iCalendar body.
+            $icalMsg = new VCalendar();
+
+            foreach ($calendar->select('VTIMEZONE') as $timezone) {
+                $icalMsg->add(clone $timezone);
+            }
+
             if (!$attendee['newInstances']) {
                 // If there are no instances the attendee is a part of, it
                 // means the attendee was removed and we need to send him a
                 // CANCEL.
                 $message->method = 'CANCEL';
 
-                // Creating the new iCalendar body.
-                $icalMsg = new VCalendar();
                 $icalMsg->METHOD = $message->method;
-
-                foreach ($calendar->select('VTIMEZONE') as $timezone) {
-                    $icalMsg->add(clone $timezone);
-                }
 
                 $event = $icalMsg->add('VEVENT', [
                     'UID' => $message->uid,
@@ -545,13 +546,7 @@ class Broker
                 // The attendee gets the updated event body
                 $message->method = 'REQUEST';
 
-                // Creating the new iCalendar body.
-                $icalMsg = new VCalendar();
                 $icalMsg->METHOD = $message->method;
-
-                foreach ($calendar->select('VTIMEZONE') as $timezone) {
-                    $icalMsg->add(clone $timezone);
-                }
 
                 // We need to find out that this change is significant. If it's
                 // not, systems may opt to not send messages.
@@ -710,6 +705,10 @@ class Broker
 
         $icalMsg = new VCalendar();
         $icalMsg->METHOD = 'REPLY';
+
+        foreach ($calendar->select('VTIMEZONE') as $timezone) {
+            $icalMsg->add(clone $timezone);
+        }
 
         $hasReply = false;
 
