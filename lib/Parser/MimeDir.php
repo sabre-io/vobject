@@ -407,6 +407,11 @@ class MimeDir extends Parser
             // @codeCoverageIgnoreEnd
         }
 
+        if (in_array($property['name'], self::$ignoredAttributes)) {
+            // Stop parsing attributes that are marked as ignored
+            return false;
+        }
+
         if (is_null($property['value'])) {
             $property['value'] = '';
         }

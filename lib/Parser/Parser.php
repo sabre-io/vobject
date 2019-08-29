@@ -36,6 +36,13 @@ abstract class Parser
     protected $options;
 
     /**
+     * Ignore all attributes specified in this list
+     *
+     * @var array
+     */
+    public static $ignoredAttributes = ['ATTACH'];
+
+    /**
      * Creates the parser.
      *
      * Optionally, it's possible to parse the input stream here.
