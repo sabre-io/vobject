@@ -12,12 +12,12 @@ Installation
 
 Make sure you have [Composer][1] installed, and then run:
 
-    composer require sabre/vobject "^4.0"
+    composer require protonlabs/vobject "^4.0"
 
 This package requires PHP 5.5. If you need the PHP 5.3/5.4 version of this package instead, use:
 
 
-    composer require sabre/vobject "^3.4"
+    composer require protonlabs/vobject "^3.4"
 
 
 Usage
