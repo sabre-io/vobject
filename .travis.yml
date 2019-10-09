@@ -21,8 +21,6 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: 5.5
-    - php: 7.2
-      env: RUN_PHPSTAN="TRUE"
 
 install:
   - if [ $RUN_PHPSTAN == "TRUE"  ]; then wget https://github.com/phpstan/phpstan/releases/download/0.11.8/phpstan.phar; fi
