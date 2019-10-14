@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject\Parser;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
@@ -40,6 +42,20 @@ class MimeDir extends Parser
     protected $root;
 
     /**
+     * Start of range.
+     *
+     * @var DateTimeInterface|null
+     */
+    protected $start;
+
+    /**
+     * End of range.
+     *
+     * @var DateTimeInterface|null
+     */
+    protected $end;
+
+    /**
      * By default all input will be assumed to be UTF-8.
      *
      * However, both iCalendar and vCard might be encoded using different
@@ -75,7 +91,7 @@ class MimeDir extends Parser
      *
      * @return \Sabre\VObject\Document
      */
-    public function parse($input = null, $options = 0)
+    public function parse($input = null, $options = 0, DateTimeInterface $start = null, DateTimeInterface $end = null)
     {
         $this->root = null;
 
@@ -86,6 +102,8 @@ class MimeDir extends Parser
         if (0 !== $options) {
             $this->options = $options;
         }
+
+        $this->setTimeRange($start, $end);
 
         $this->parseDocument();
 
@@ -137,6 +155,20 @@ class MimeDir extends Parser
     }
 
     /**
+     * Sets the time range.
+     *
+     * Any VEvent object falling outside of this time range will be ignored.
+     *
+     * @param DateTimeInterface $start
+     * @param DateTimeInterface $end
+     */
+    public function setTimeRange(DateTimeInterface $start = null, DateTimeInterface $end = null)
+    {
+        $this->start = $start;
+        $this->end = $end;
+    }
+
+    /**
      * Parses an entire document.
      */
     protected function parseDocument()
@@ -173,6 +205,13 @@ class MimeDir extends Parser
             }
             $result = $this->parseLine($line);
             if ($result) {
+                if ($result instanceof Component\VEvent) {
+                    if ($this->start && $this->end) {
+                        if (! $result->isInTimeRange($this->start, $this->end)) {
+                            continue;
+                        }
+                    }
+                }
                 $this->root->add($result);
             }
         }
