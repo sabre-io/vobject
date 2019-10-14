@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Parser;
 
-use DateTimeImmutable;
 use DateTimeInterface;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
@@ -91,7 +90,7 @@ class MimeDir extends Parser
      *
      * @return \Sabre\VObject\Document
      */
-    public function parse($input = null, $options = 0, DateTimeInterface $start = null, DateTimeInterface $end = null)
+    public function parse($input = null, $options = 0)
     {
         $this->root = null;
 
@@ -102,8 +101,6 @@ class MimeDir extends Parser
         if (0 !== $options) {
             $this->options = $options;
         }
-
-        $this->setTimeRange($start, $end);
 
         $this->parseDocument();
 
@@ -207,7 +204,7 @@ class MimeDir extends Parser
             if ($result) {
                 if ($result instanceof Component\VEvent) {
                     if ($this->start && $this->end) {
-                        if (! $result->isInTimeRange($this->start, $this->end)) {
+                        if (!$result->isInTimeRange($this->start, $this->end)) {
                             continue;
                         }
                     }
