@@ -1,6 +1,16 @@
 ChangeLog
 =========
 
+4.2.1 (2019-12-18)
+------------------
+
+* #469, #451: fix compat with php 7.4
+* #443: prevent running in indefinte loop
+* #449: Preventing creating a component for a root document
+* #450: Fix parse with option Forgiving with trailing equal
+* #459: fixed typo in VCalendar which resulting in usage of the wrong TimeZone
+* #462: Broker::parseEventForOrganizer copies DTSTAMP from $eventInfo that causes broken scheduling
+
 4.2.0 (2019-02-19)
 ------------------
 
