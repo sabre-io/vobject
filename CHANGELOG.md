@@ -1,7 +1,7 @@
 ChangeLog
 =========
 
-4.X.X (XXXX-XX-XX)
+4.2.2-dev (XXXX-XX-XX)
 ------------------
 
 *
