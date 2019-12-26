@@ -645,7 +645,7 @@ class Broker
                     'CN' => $attendee['name'],
                 ]);
 
-                if(isset($calendar->VEVENT->VALARM) && $calendar->VALARM->ACTION->getValue() == 'EMAIL') {
+                if(isset($calendar->VEVENT->VALARM) && $calendar->VEVENT->VALARM->ACTION->getValue() == 'EMAIL') {
                     $event->add(clone $calendar->VEVENT->VALARM);
                     $event->VALARM->ATTENDEE->setValue($attendee['href']);
                 }
