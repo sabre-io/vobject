@@ -34,8 +34,7 @@ trait PHPUnitAssertions
      */
     public function assertVObjectEqualsVObject($expected, $actual, $message = '')
     {
-        $self = $this;
-        $getObj = function ($input) use ($self) {
+        $getObj = function ($input) {
             if (is_resource($input)) {
                 $input = stream_get_contents($input);
             }
