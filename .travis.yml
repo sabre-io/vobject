@@ -20,7 +20,7 @@ before_script:
   - composer install
 
 script:
-  - if [[ $TRAVIS_PHP_VERSION =~ ^7\.1|7\.2|7\.3|7\.4$ ]]; then php phpstan.phar analyse -c phpstan.neon lib; fi
+  - if [[ $TRAVIS_PHP_VERSION =~ ^7\.1|7\.2|7\.3|7\.4$ ]]; then php phpstan.phar analyse -c phpstan.neon lib tests; fi
   - ./bin/phpunit --configuration tests/phpunit.xml --coverage-clover=coverage.xml
   
 after_success:
