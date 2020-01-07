@@ -19,6 +19,7 @@ class ComponentTest extends TestCase
         $comp->add($sub);
 
         $count = 0;
+        $key = null;
         foreach ($comp->children() as $key => $subcomponent) {
             ++$count;
             $this->assertInstanceOf('Sabre\\VObject\\Component', $subcomponent);

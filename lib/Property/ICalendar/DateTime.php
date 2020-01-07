@@ -338,8 +338,8 @@ class DateTime extends Property
         $messages = parent::validate($options);
         $valueType = $this->getValueType();
         $values = $this->getParts();
-        try {
-            foreach ($values as $value) {
+        foreach ($values as $value) {
+            try {
                 switch ($valueType) {
                     case 'DATE':
                         DateTimeParser::parseDate($value);
@@ -348,13 +348,13 @@ class DateTime extends Property
                         DateTimeParser::parseDateTime($value);
                         break;
                 }
+            } catch (InvalidDataException $e) {
+                $messages[] = [
+                    'level' => 3,
+                    'message' => 'The supplied value ('.$value.') is not a correct '.$valueType,
+                    'node' => $this,
+                ];
             }
-        } catch (InvalidDataException $e) {
-            $messages[] = [
-                'level' => 3,
-                'message' => 'The supplied value ('.$value.') is not a correct '.$valueType,
-                'node' => $this,
-            ];
         }
 
         return $messages;
