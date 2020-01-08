@@ -19,13 +19,15 @@ class ComponentTest extends TestCase
         $comp->add($sub);
 
         $count = 0;
-        $key = null;
         foreach ($comp->children() as $key => $subcomponent) {
             ++$count;
             $this->assertInstanceOf('Sabre\\VObject\\Component', $subcomponent);
+
+            if (2 === $count) {
+                $this->assertEquals(1, $key);
+            }
         }
         $this->assertEquals(2, $count);
-        $this->assertEquals(1, $key);
     }
 
     public function testMagicGet()
