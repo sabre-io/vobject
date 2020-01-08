@@ -354,6 +354,7 @@ class DateTime extends Property
                     'message' => 'The supplied value ('.$value.') is not a correct '.$valueType,
                     'node' => $this,
                 ];
+                break;
             }
         }
 
