@@ -29,7 +29,7 @@ class Cli
     protected $showHelp = false;
 
     /**
-     * Wether to spit out 'mimedir' or 'json' format.
+     * Whether to spit out 'mimedir' or 'json' format.
      *
      * @var string
      */
@@ -516,7 +516,7 @@ HELP
          *
          * A higher score means the item will be lower in the list.
          * To avoid score collisions, each "score category" has a reasonable
-         * space to accomodate elements. The $key is added to the $score to
+         * space to accommodate elements. The $key is added to the $score to
          * preserve the original relative order of elements.
          *
          * @param int   $key
