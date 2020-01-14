@@ -124,7 +124,7 @@ class MimeDir extends Parser
         $this->startLine = 0;
 
         if (is_string($input)) {
-            // Convering to a stream.
+            // Converting to a stream.
             $stream = fopen('php://temp', 'r+');
             fwrite($stream, $input);
             rewind($stream);
@@ -480,7 +480,7 @@ class MimeDir extends Parser
      * vCard 3.0 says:
      *   * (rfc2425) Backslashes, newlines (\n or \N) and comma's must be
      *     escaped, all time time.
-     *   * Comma's are used for delimeters in multiple values
+     *   * Comma's are used for delimiters in multiple values
      *   * (rfc2426) Adds to to this that the semi-colon MUST also be escaped,
      *     as in some properties semi-colon is used for separators.
      *   * Properties using semi-colons: N, ADR, GEO, ORG

@@ -232,7 +232,7 @@ class RRuleIterator implements Iterator
      *
      * This is an array of weekdays
      *
-     * This may also be preceeded by a positive or negative integer. If present,
+     * This may also be preceded by a positive or negative integer. If present,
      * this indicates the nth occurrence of a specific day within the monthly or
      * yearly rrule. For instance, -2TU indicates the second-last tuesday of
      * the month, or year.
@@ -771,7 +771,7 @@ class RRuleIterator implements Iterator
                     $this->byMonth = (array) $value;
                     foreach ($this->byMonth as $byMonth) {
                         if (!is_numeric($byMonth) || (int) $byMonth < 1 || (int) $byMonth > 12) {
-                            throw new InvalidDataException('BYMONTH in RRULE must have value(s) betweeen 1 and 12!');
+                            throw new InvalidDataException('BYMONTH in RRULE must have value(s) between 1 and 12!');
                         }
                     }
                     break;
@@ -948,7 +948,7 @@ class RRuleIterator implements Iterator
     {
         $recurrenceDays = [];
         foreach ($this->byDay as $byDay) {
-            // The day may be preceeded with a positive (+n) or
+            // The day may be preceded with a positive (+n) or
             // negative (-n) integer. However, this does not make
             // sense in 'weekly' so we ignore it here.
             $recurrenceDays[] = $this->dayMap[substr($byDay, -2)];
