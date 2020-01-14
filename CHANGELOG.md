@@ -1,10 +1,11 @@
 ChangeLog
 =========
 
-4.2.2-dev (XXXX-XX-XX)
+4.2.2 (2020-01-14)
 ------------------
 
-*
+* #465: Add TZ in iTip REPLY iTip messages
+* #486: Add PHONE-NUMBER value type (used for TEL in vCard 3.0)
 
 4.2.1 (2019-12-18)
 ------------------
