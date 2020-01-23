@@ -17,7 +17,7 @@ class QuotedPrintableTest extends TestCase
         $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCARD', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertEquals('Aachen', $this->getPropertyValue($result->LABEL));
+        $this->assertEquals('Aachen', (string) $result->LABEL);
     }
 
     public function testReadQuotedPrintableNewlineSoft()
@@ -28,7 +28,7 @@ class QuotedPrintableTest extends TestCase
         $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCARD', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertEquals('Aachen', $this->getPropertyValue($result->LABEL));
+        $this->assertEquals('Aachen', (string) $result->LABEL);
     }
 
     public function testReadQuotedPrintableNewlineHard()
@@ -39,7 +39,7 @@ class QuotedPrintableTest extends TestCase
         $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCARD', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertEquals("Aachen\r\nGermany", $this->getPropertyValue($result->LABEL));
+        $this->assertEquals("Aachen\r\nGermany", (string) $result->LABEL);
     }
 
     public function testReadQuotedPrintableCompatibilityMS()
@@ -50,7 +50,7 @@ class QuotedPrintableTest extends TestCase
         $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCARD', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertEquals("Aachen\r\nDeutschland:okay", $this->getPropertyValue($result->LABEL));
+        $this->assertEquals("Aachen\r\nDeutschland:okay", (string) $result->LABEL);
     }
 
     public function testReadQuotesPrintableCompoundValues()
@@ -69,34 +69,5 @@ VCF;
         $this->assertEquals([
             '', '', 'Münster Str. 1', 'Münster', '', '48143', 'Deutschland',
         ], $result->ADR->getParts());
-    }
-
-    private function getPropertyValue(\Sabre\VObject\Property $property)
-    {
-        return (string) $property;
-
-        /*
-        $param = $property['encoding'];
-        if ($param !== null) {
-            $encoding = strtoupper((string)$param);
-            if ($encoding === 'QUOTED-PRINTABLE') {
-                $value = quoted_printable_decode($value);
-            } else {
-                throw new Exception();
-            }
-        }
-
-        $param = $property['charset'];
-        if ($param !== null) {
-            $charset = strtoupper((string)$param);
-            if ($charset !== 'UTF-8') {
-                $value = mb_convert_encoding($value, 'UTF-8', $charset);
-            }
-        } else {
-            $value = StringUtil::convertToUTF8($value);
-        }
-
-        return $value;
-         */
     }
 }
