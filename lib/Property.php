@@ -17,15 +17,6 @@ use Sabre\Xml;
 abstract class Property extends Node
 {
     /**
-     * Property name.
-     *
-     * This will contain a string such as DTSTART, SUMMARY, FN.
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
      * Property group.
      *
      * This is only used in vcards

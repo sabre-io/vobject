@@ -61,6 +61,15 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
     protected $root;
 
     /**
+     * Node name.
+     *
+     * This will contain a string such as DTSTART, SUMMARY, FN, VEVENT, VTODO, VCALENDAR, VCARD
+     *
+     * @var string
+     */
+    public $name;
+
+    /**
      * Serializes the node into a mimedir format.
      *
      * @return string

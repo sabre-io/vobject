@@ -17,15 +17,6 @@ use Sabre\Xml;
 class Component extends Node
 {
     /**
-     * Component name.
-     *
-     * This will contain a string such as VEVENT, VTODO, VCALENDAR, VCARD.
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
      * A list of properties and/or sub-components.
      *
      * @var array

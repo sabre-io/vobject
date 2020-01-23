@@ -20,13 +20,6 @@ use Sabre\Xml;
 class Parameter extends Node
 {
     /**
-     * Parameter name.
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
      * vCard 2.1 allows parameters to be encoded without a name.
      *
      * We can deduce the parameter name based on its value.
