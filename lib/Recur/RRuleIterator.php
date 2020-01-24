@@ -165,6 +165,32 @@ class RRuleIterator implements Iterator
     }
 
     /**
+     * This method allows you to quickly go to the last occurrence.
+     */
+    public function fastForwardToEnd()
+    {
+        if ($this->isInfinite()) {
+            throw new \LogicException('Cannot fast forward to the end an infinite event.');
+        }
+
+        $hasCount = isset($this->count);
+
+        if (isset($this->until) && !$hasCount) {
+            $this->jumpForward($this->until);
+        }
+
+        // We fast forward until the last event occurrence
+        $previous = clone $this->currentDate;
+        while ($this->valid()) {
+            $previous = clone $this->currentDate;
+            $this->next();
+        }
+
+        $hasCount && $this->counter--;
+        $this->currentDate = $previous;
+    }
+
+    /**
      * Return the frequency in number of days.
      *
      * @return float|int|null
