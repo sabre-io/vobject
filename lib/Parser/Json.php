@@ -87,8 +87,6 @@ class Json extends Parser
     /**
      * Parses a component.
      *
-     * @param array $jComp
-     *
      * @return \Sabre\VObject\Component
      */
     public function parseComponent(array $jComp)
@@ -123,8 +121,6 @@ class Json extends Parser
 
     /**
      * Parses properties.
-     *
-     * @param array $jProp
      *
      * @return \Sabre\VObject\Property
      */

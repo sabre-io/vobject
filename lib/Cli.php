@@ -312,8 +312,6 @@ HELP
     /**
      * Validates a VObject file.
      *
-     * @param Component $vObj
-     *
      * @return int
      */
     protected function validate(Component $vObj)
@@ -353,8 +351,6 @@ HELP
 
     /**
      * Repairs a VObject file.
-     *
-     * @param Component $vObj
      *
      * @return int
      */
@@ -582,8 +578,6 @@ HELP
 
     /**
      * Colorizes a property.
-     *
-     * @param Property $property
      */
     protected function serializeProperty(Property $property)
     {
@@ -642,8 +636,6 @@ HELP
 
     /**
      * Parses the list of arguments.
-     *
-     * @param array $argv
      */
     protected function parseArguments(array $argv)
     {

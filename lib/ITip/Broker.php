@@ -104,7 +104,6 @@ class Broker
      *
      * If the iTip message was not supported, we will always return false.
      *
-     * @param Message   $itipMessage
      * @param VCalendar $existingObject
      *
      * @return VCalendar|null
@@ -263,8 +262,6 @@ class Broker
      * This is message from an organizer, and is either a new event
      * invite, or an update to an existing one.
      *
-     *
-     * @param Message   $itipMessage
      * @param VCalendar $existingObject
      *
      * @return VCalendar|null
@@ -300,7 +297,6 @@ class Broker
      * attendee got removed from an event, or an event got cancelled
      * altogether.
      *
-     * @param Message   $itipMessage
      * @param VCalendar $existingObject
      *
      * @return VCalendar|null
@@ -326,7 +322,6 @@ class Broker
      * The message is a reply. This is for example an attendee telling
      * an organizer he accepted the invite, or declined it.
      *
-     * @param Message   $itipMessage
      * @param VCalendar $existingObject
      *
      * @return VCalendar|null
@@ -451,10 +446,6 @@ class Broker
      *
      * We will detect which attendees got added, which got removed and create
      * specific messages for these situations.
-     *
-     * @param VCalendar $calendar
-     * @param array     $eventInfo
-     * @param array     $oldEventInfo
      *
      * @return array
      */
@@ -620,10 +611,7 @@ class Broker
      *
      * This function figures out if we need to send a reply to an organizer.
      *
-     * @param VCalendar $calendar
-     * @param array     $eventInfo
-     * @param array     $oldEventInfo
-     * @param string    $attendee
+     * @param string $attendee
      *
      * @return Message[]
      */

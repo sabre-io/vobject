@@ -201,8 +201,6 @@ class Parameter extends Node
 
     /**
      * Sets multiple values for this parameter.
-     *
-     * @param array $value
      */
     public function setParts(array $value)
     {

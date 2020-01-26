@@ -276,10 +276,8 @@ class VCalendar extends VObject\Document
      * In addition, this method will cause timezone information to be stripped,
      * and normalized to UTC.
      *
-     * @param DateTimeInterface $start
-     * @param DateTimeInterface $end
-     * @param DateTimeZone      $timeZone reference timezone for floating dates and
-     *                                    times
+     * @param DateTimeZone $timeZone reference timezone for floating dates and
+     *                               times
      *
      * @return VCalendar
      */
