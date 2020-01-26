@@ -112,8 +112,6 @@ class XML extends Parser
 
     /**
      * Parse a xCalendar component.
-     *
-     * @param Component $parentComponent
      */
     protected function parseVCalendarComponents(Component $parentComponent)
     {
@@ -134,8 +132,6 @@ class XML extends Parser
 
     /**
      * Parse a xCard component.
-     *
-     * @param Component $parentComponent
      */
     protected function parseVCardComponents(Component $parentComponent)
     {
@@ -146,8 +142,7 @@ class XML extends Parser
     /**
      * Parse xCalendar and xCard properties.
      *
-     * @param Component $parentComponent
-     * @param string    $propertyNamePrefix
+     * @param string $propertyNamePrefix
      */
     protected function parseProperties(Component $parentComponent, $propertyNamePrefix = '')
     {
@@ -302,8 +297,6 @@ class XML extends Parser
 
     /**
      * Parse a component.
-     *
-     * @param Component $parentComponent
      */
     protected function parseComponent(Component $parentComponent)
     {
@@ -327,11 +320,10 @@ class XML extends Parser
     /**
      * Create a property.
      *
-     * @param Component $parentComponent
-     * @param string    $name
-     * @param array     $parameters
-     * @param string    $type
-     * @param mixed     $value
+     * @param string $name
+     * @param array  $parameters
+     * @param string $type
+     * @param mixed  $value
      */
     protected function createProperty(Component $parentComponent, $name, $parameters, $type, $value)
     {

@@ -38,8 +38,6 @@ class DateTime extends Property
      * Sets a multi-valued property.
      *
      * You may also specify DateTime objects here.
-     *
-     * @param array $parts
      */
     public function setParts(array $parts)
     {
@@ -175,7 +173,6 @@ class DateTime extends Property
     /**
      * Sets the property as a DateTime object.
      *
-     * @param DateTimeInterface $dt
      * @param bool isFloating If set to true, timezones will be ignored
      */
     public function setDateTime(DateTimeInterface $dt, $isFloating = false)
@@ -279,8 +276,6 @@ class DateTime extends Property
      * Sets the json value, as it would appear in a jCard or jCal object.
      *
      * The value must always be an array.
-     *
-     * @param array $value
      */
     public function setJsonValue(array $value)
     {

@@ -38,8 +38,6 @@ class UtcOffset extends Text
      * Sets the JSON value, as it would appear in a jCard or jCal object.
      *
      * The value must always be an array.
-     *
-     * @param array $value
      */
     public function setJsonValue(array $value)
     {

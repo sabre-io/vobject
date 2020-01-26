@@ -380,8 +380,6 @@ class EventIterator implements \Iterator
 
     /**
      * Quickly jump to a date in the future.
-     *
-     * @param DateTimeInterface $dateTime
      */
     public function fastForward(DateTimeInterface $dateTime)
     {
