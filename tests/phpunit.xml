@@ -6,11 +6,12 @@
   convertWarningsToExceptions="true"
   beStrictAboutTestsThatDoNotTestAnything="true"
   beStrictAboutOutputDuringTests="true"
-  beStrictAboutTestSize="true"
   >
-  <testsuite name="Sabre\VObject">
-    <directory>VObject/</directory>
-  </testsuite>
+  <testsuites>
+    <testsuite name="Sabre\VObject">
+      <directory>VObject/</directory>
+    </testsuite>
+  </testsuites>
 
   <filter>
     <whitelist addUncoveredFilesFromWhitelist="true">

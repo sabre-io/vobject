@@ -1,8 +1,5 @@
 language: php
 php:
-  - 5.5
-  - 5.6
-  - 7.0
   - 7.1
   - 7.2
   - 7.3
@@ -10,17 +7,15 @@ php:
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - php: 5.5
 
 install:
-  - if [[ $TRAVIS_PHP_VERSION =~ ^7\.1|7\.2|7\.3|7\.4$ ]]; then wget https://github.com/phpstan/phpstan/releases/download/0.12.5/phpstan.phar; fi
+  - composer require --dev phpstan/phpstan:^0.12
 
 before_script:
   - composer install
 
 script:
-  - if [[ $TRAVIS_PHP_VERSION =~ ^7\.1|7\.2|7\.3|7\.4$ ]]; then php phpstan.phar analyse -c phpstan.neon lib tests; fi
+  - php ./bin/phpstan.phar analyse -c phpstan.neon lib tests
   - ./bin/phpunit --configuration tests/phpunit.xml --coverage-clover=coverage.xml
   
 after_success:
