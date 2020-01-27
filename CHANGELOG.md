@@ -1,6 +1,19 @@
 ChangeLog
 =========
 
+4.2.2 (2020-01-27)
+------------------
+
+* #6 Add FastForward Before
+* #7 Add FastForward to end
+
+4.2.1 (2019-09-10)
+------------------
+
+* #2 Fix bug in by year day
+* #3 Add daily occurrences to nextMonth and NextYear
+* #4 Enhance fast forward speed if no count value has been given
+
 4.2.0 (2019-02-19)
 ------------------
 
