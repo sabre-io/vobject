@@ -185,8 +185,10 @@ class FastForwardToEndTest extends TestCase
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
     }
 
-    // FIXME fails in <=PHP 7.1
-    public function testFastForwardToEndCountMonthly31thDay()
+    /**
+     * FIXME fails in <=PHP 7.1
+     * @requires PHP 7.2
+     */    public function testFastForwardToEndCountMonthly31thDay()
     {
         $startDate = new \DateTime('1970-01-31 00:00:00', new \DateTimeZone('America/New_York'));
         $rrule = new RRuleIterator('FREQ=MONTHLY;COUNT=10000', $startDate);
