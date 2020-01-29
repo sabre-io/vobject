@@ -105,11 +105,9 @@ class DateAndOrTimeTest extends TestCase
         $this->assertEquals('20140402T183700Z', $prop->getValue());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testSetPartsTooMany()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $vcard = new VObject\Component\VCard();
 
         $prop = $vcard->createProperty('BDAY');

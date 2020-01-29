@@ -14,7 +14,7 @@ class CliTest extends TestCase
     /** @var CliMock */
     private $cli;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->cli = new CliMock();
         $this->cli->stderr = fopen('php://memory', 'r+');

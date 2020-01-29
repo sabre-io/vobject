@@ -31,11 +31,9 @@ class DateTimeParserTest extends TestCase
         $this->assertEquals($expected, DateTimeParser::parseDuration('-PT3M'));
     }
 
-    /**
-     * @expectedException \Sabre\VObject\InvalidDataException
-     */
     public function testParseICalendarDurationFail()
     {
+        $this->expectException(InvalidDataException::class);
         DateTimeParser::parseDuration('P1X', true);
     }
 
@@ -50,19 +48,19 @@ class DateTimeParserTest extends TestCase
 
     /**
      * @depends testParseICalendarDateTime
-     * @expectedException \Sabre\VObject\InvalidDataException
      */
     public function testParseICalendarDateTimeBadFormat()
     {
+        $this->expectException(InvalidDataException::class);
         $dateTime = DateTimeParser::parseDateTime('20100316T141405 ');
     }
 
     /**
      * @depends testParseICalendarDateTime
-     * @expectedException \Sabre\VObject\InvalidDataException
      */
     public function testParseICalendarDateTimeInvalidTime()
     {
+        $this->expectException(InvalidDataException::class);
         $dateTime = DateTimeParser::parseDateTime('20100316T251405');
     }
 
@@ -143,19 +141,19 @@ class DateTimeParserTest extends TestCase
 
     /**
      * @depends testParseICalendarDate
-     * @expectedException \Sabre\VObject\InvalidDataException
      */
     public function testParseICalendarDateBadFormat()
     {
+        $this->expectException(InvalidDataException::class);
         $dateTime = DateTimeParser::parseDate('20100316T141405');
     }
 
     /**
      * @depends testParseICalendarDate
-     * @expectedException \Sabre\VObject\InvalidDataException
      */
     public function testParseICalendarDateInvalidDate()
     {
+        $this->expectException(InvalidDataException::class);
         $dateTime = DateTimeParser::parseDate('20101331');
     }
 
@@ -170,19 +168,15 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \Sabre\VObject\InvalidDataException
-     */
     public function testBadVCardDate()
     {
+        $this->expectException(InvalidDataException::class);
         DateTimeParser::parseVCardDateTime('1985---01');
     }
 
-    /**
-     * @expectedException \Sabre\VObject\InvalidDataException
-     */
     public function testBadVCardTime()
     {
+        $this->expectException(InvalidDataException::class);
         DateTimeParser::parseVCardTime('23:12:166');
     }
 

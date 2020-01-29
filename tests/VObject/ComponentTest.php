@@ -41,7 +41,7 @@ class ComponentTest extends TestCase
         $this->assertInstanceOf('Sabre\\VObject\\Component', $event);
         $this->assertEquals('VEVENT', $event->name);
 
-        $this->assertInternalType('null', $comp->vjournal);
+        $this->assertNull($comp->vjournal);
     }
 
     public function testMagicGetGroups()
@@ -174,20 +174,16 @@ class ComponentTest extends TestCase
         $this->assertTrue(isset($comp->vevent[1]));
     }
 
-    /**
-     * @expectedException \LogicException
-     */
     public function testArrayAccessSet()
     {
+        $this->expectException(\LogicException::class);
         $comp = new VCalendar();
         $comp['hey'] = 'hi there';
     }
 
-    /**
-     * @expectedException \LogicException
-     */
     public function testArrayAccessUnset()
     {
+        $this->expectException(\LogicException::class);
         $comp = new VCalendar();
         unset($comp[0]);
     }
@@ -250,20 +246,16 @@ class ComponentTest extends TestCase
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testAddArgFail()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $comp = new VCalendar();
         $comp->add($comp->createComponent('VEVENT'), 'hello');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testAddArgFail2()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $comp = new VCalendar();
         $comp->add([]);
     }
@@ -293,7 +285,7 @@ class ComponentTest extends TestCase
         $comp->add($comp->createComponent('VTODO'));
 
         $r = $comp->children();
-        $this->assertInternalType('array', $r);
+        $this->assertIsArray($r);
         $this->assertEquals(2, count($r));
     }
 
@@ -305,7 +297,7 @@ class ComponentTest extends TestCase
         $comp->add($comp->createComponent('VTODO'));
 
         $r = $comp->getComponents();
-        $this->assertInternalType('array', $r);
+        $this->assertIsArray($r);
         $this->assertEquals(1, count($r));
         $this->assertEquals('VTODO', $r[0]->name);
     }
@@ -414,11 +406,9 @@ class ComponentTest extends TestCase
         $this->assertTrue(isset($comp->prop1));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testRemoveNotFound()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $comp = new VCalendar([], false);
         $prop = $comp->createProperty('A', 'B');
         $comp->remove($prop);

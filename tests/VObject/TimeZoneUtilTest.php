@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class TimeZoneUtilTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         // clearning the tz cache
         TimeZoneUtil::$map = null;
@@ -210,11 +210,9 @@ HI;
         $this->assertEquals($ex->getName(), $tz->getName());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testTimezoneFail()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $tz = TimeZoneUtil::getTimeZone('FooBar', null, true);
     }
 

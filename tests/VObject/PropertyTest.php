@@ -71,7 +71,7 @@ class PropertyTest extends TestCase
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
 
-        $this->assertInternalType('null', $property['foo']);
+        $this->assertNull($property['foo']);
     }
 
     public function testParameterMultiple()
@@ -308,11 +308,10 @@ class PropertyTest extends TestCase
 
     /**
      * ElementList should reject this.
-     *
-     * @expectedException \LogicException
      */
     public function testArrayAccessSetInt()
     {
+        $this->expectException(\LogicException::class);
         $calendar = new VCalendar();
         $property = $calendar->createProperty('X-PROP', null);
 
@@ -322,11 +321,10 @@ class PropertyTest extends TestCase
 
     /**
      * ElementList should reject this.
-     *
-     * @expectedException \LogicException
      */
     public function testArrayAccessUnsetInt()
     {
+        $this->expectException(\LogicException::class);
         $calendar = new VCalendar();
         $property = $calendar->createProperty('X-PROP', null);
 

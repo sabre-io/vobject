@@ -4,12 +4,13 @@ namespace Sabre\VObject\Property\ICalendar;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\InvalidDataException;
 
 class DateTimeTest extends TestCase
 {
     protected $vcal;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->vcal = new VCalendar();
     }
@@ -256,11 +257,9 @@ class DateTimeTest extends TestCase
         $this->assertEquals('Europe/Amsterdam', $dt->getTimeZone()->getName());
     }
 
-    /**
-     * @expectedException \Sabre\VObject\InvalidDataException
-     */
     public function testGetDateTimeDateInvalid()
     {
+        $this->expectException(InvalidDataException::class);
         $elem = $this->vcal->createProperty('DTSTART', 'bla');
         $dt = $elem->getDateTime();
     }

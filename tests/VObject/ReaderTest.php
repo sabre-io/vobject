@@ -54,21 +54,17 @@ class ReaderTest extends TestCase
         $this->assertEquals(0, count($result->children()));
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testReadCorruptComponent()
     {
+        $this->expectException(ParseException::class);
         $data = "BEGIN:VCALENDAR\r\nEND:FOO";
 
         $result = Reader::read($data);
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testReadCorruptSubComponent()
     {
+        $this->expectException(ParseException::class);
         $data = "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nEND:FOO\r\nEND:VCALENDAR";
 
         $result = Reader::read($data);
@@ -118,11 +114,9 @@ class ReaderTest extends TestCase
         $this->assertEquals('20110529', $result->getValue());
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testReadBrokenLine()
     {
+        $this->expectException(ParseException::class);
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;propValue";
         $result = Reader::read($data);
     }
@@ -369,11 +363,10 @@ class ReaderTest extends TestCase
 
     /**
      * Reported as Issue 32.
-     *
-     * @expectedException \Sabre\VObject\ParseException
      */
     public function testReadIncompleteFile()
     {
+        $this->expectException(ParseException::class);
         $input = <<<ICS
 BEGIN:VCALENDAR
 VERSION:1.0
@@ -404,11 +397,9 @@ ICS;
         Reader::read($input);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testReadBrokenInput()
     {
+        $this->expectException(\InvalidArgumentException::class);
         Reader::read(false);
     }
 

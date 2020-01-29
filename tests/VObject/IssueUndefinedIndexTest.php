@@ -6,11 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 class IssueUndefinedIndexTest extends TestCase
 {
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testRead()
     {
+        $this->expectException(ParseException::class);
         $input = <<<VCF
 BEGIN:VCARD
 VERSION:3.0

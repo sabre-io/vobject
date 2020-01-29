@@ -294,11 +294,9 @@ OUT;
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testUnknownSourceVCardVersion()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $input = <<<IN
 BEGIN:VCARD
 VERSION:4.2
@@ -320,11 +318,9 @@ IN;
         $vcard->convert(Document::VCARD40);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testUnknownTargetVCardVersion()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $input = <<<IN
 BEGIN:VCARD
 VERSION:3.0
