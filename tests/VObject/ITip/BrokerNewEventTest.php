@@ -81,11 +81,9 @@ ICS;
         $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ITip\ITipException
-     */
     public function testBrokenEventUIDMisMatch()
     {
+        $this->expectException(ITipException::class);
         $message = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -105,11 +103,9 @@ ICS;
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ITip\ITipException
-     */
     public function testBrokenEventOrganizerMisMatch()
     {
+        $this->expectException(ITipException::class);
         $message = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -456,11 +452,9 @@ ICS;
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ITip\ITipException
-     */
     public function testMultipleUID()
     {
+        $this->expectException(ITipException::class);
         $message = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -489,11 +483,9 @@ ICS;
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ITip\SameOrganizerForAllComponentsException
-     */
     public function testChangingOrganizers()
     {
+        $this->expectException(SameOrganizerForAllComponentsException::class);
         $message = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0

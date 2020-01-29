@@ -7,11 +7,9 @@ use Sabre\VObject;
 
 class BinaryTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testMimeDir()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $vcard = new VObject\Component\VCard(['VERSION' => '3.0']);
         $vcard->add('PHOTO', ['a', 'b']);
     }

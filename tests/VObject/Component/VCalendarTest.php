@@ -5,6 +5,7 @@ namespace Sabre\VObject\Component;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
+use Sabre\VObject\InvalidDataException;
 
 class VCalendarTest extends TestCase
 {
@@ -330,11 +331,9 @@ END:VCALENDAR
         return $tests;
     }
 
-    /**
-     * @expectedException \Sabre\VObject\InvalidDataException
-     */
     public function testBrokenEventExpand()
     {
+        $this->expectException(InvalidDataException::class);
         $input = 'BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
 VERSION:2.0

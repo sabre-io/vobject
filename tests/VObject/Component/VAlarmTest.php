@@ -4,6 +4,7 @@ namespace Sabre\VObject\Component;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Reader;
 
 class VAlarmTest extends TestCase
@@ -126,11 +127,9 @@ class VAlarmTest extends TestCase
         return $tests;
     }
 
-    /**
-     * @expectedException \Sabre\VObject\InvalidDataException
-     */
     public function testInTimeRangeInvalidComponent()
     {
+        $this->expectException(InvalidDataException::class);
         $calendar = new VCalendar();
         $valarm = $calendar->createComponent('VALARM');
         $valarm->TRIGGER = '-P1D';

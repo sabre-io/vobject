@@ -24,11 +24,9 @@ class RecurTest extends TestCase
         $this->assertEquals(['FREQ' => 'MONTHLY'], $recur->getParts());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testSetValueBadVal()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $vcal = new VCalendar();
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
         $recur->setValue(new \Exception());

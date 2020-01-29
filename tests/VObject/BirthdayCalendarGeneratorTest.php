@@ -458,11 +458,9 @@ ICS;
         );
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testParseException()
     {
+        $this->expectException(ParseException::class);
         $generator = new BirthdayCalendarGenerator();
         $input = <<<EOT
 BEGIN:FOO
@@ -473,11 +471,9 @@ EOT;
         $generator->setObjects($input);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidArgumentException()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $generator = new BirthdayCalendarGenerator();
         $input = <<<ICS
 BEGIN:VCALENDAR
@@ -492,11 +488,9 @@ ICS;
         $generator->setObjects($input);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidArgumentExceptionForPartiallyInvalidArray()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $generator = new BirthdayCalendarGenerator();
         $input = [];
 

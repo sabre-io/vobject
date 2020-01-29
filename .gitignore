@@ -3,6 +3,7 @@ vendor/
 composer.lock
 tests/cov/
 tests/temp
+tests/.phpunit.result.cache
 
 #vim
 .*.swp

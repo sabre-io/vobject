@@ -4,6 +4,7 @@ namespace Sabre\VObject\Parser;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
+use Sabre\VObject\ParseException;
 
 class JsonTest extends TestCase
 {
@@ -371,11 +372,9 @@ VCF;
         $this->assertEquals('foo', $result->FN->getValue());
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testParseInvalidData()
     {
+        $this->expectException(ParseException::class);
         $json = new Json();
         $input = [
             'vlist',

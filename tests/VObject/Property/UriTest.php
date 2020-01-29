@@ -21,6 +21,6 @@ END:VEVENT
 END:VCALENDAR
 ICS;
         $output = Reader::read($input)->serialize();
-        $this->assertContains('URL;VALUE=URI:http://example.org/', $output);
+        $this->assertStringContainsString('URL;VALUE=URI:http://example.org/', $output);
     }
 }

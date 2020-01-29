@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Recur;
 
 class InfiniteLoopProblemTest extends TestCase
@@ -13,7 +14,7 @@ class InfiniteLoopProblemTest extends TestCase
     /** @var VCalendar */
     private $vcal;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->vcal = new VCalendar();
     }
@@ -76,11 +77,10 @@ class InfiniteLoopProblemTest extends TestCase
      * Something, somewhere produced an ics with an interval set to 0. Because
      * this means we increase the current day (or week, month) by 0, this also
      * results in an infinite loop.
-     *
-     * @expectedException \Sabre\VObject\InvalidDataException
      */
     public function testZeroInterval()
     {
+        $this->expectException(InvalidDataException::class);
         $ev = $this->vcal->createComponent('VEVENT');
         $ev->UID = 'uuid';
         $ev->DTSTART = '20120824T145700Z';
