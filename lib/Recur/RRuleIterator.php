@@ -962,6 +962,11 @@ class RRuleIterator implements Iterator
                     throw new InvalidDataException('Not supported: '.strtoupper($key));
             }
         }
+
+        // FREQ is mandatory
+        if (!isset($this->frequency)) {
+            throw new InvalidDataException('Unknown value for FREQ');
+        }
     }
 
     /**
