@@ -10,16 +10,6 @@ use Sabre\VObject\InvalidDataException;
 
 class RRuleIteratorTest extends TestCase
 {
-    public function testInvalidMissingFreq()
-    {
-        $this->expectException(InvalidDataException::class);
-        $this->parse(
-            'COUNT=6;BYMONTHDAY=24;BYMONTH=1',
-            '2011-04-07 00:00:00',
-            []
-        );
-    }
-
     public function testHourly()
     {
         $this->parse(
@@ -313,6 +303,16 @@ class RRuleIteratorTest extends TestCase
                 '2012-04-01 00:00:00',
                 '2012-04-24 00:00:00',
             ]
+        );
+    }
+
+    public function testInvalidByMonthDay()
+    {
+        $this->expectException(InvalidDataException::class);
+        $this->parse(
+            'FREQ=MONTHLY;COUNT=6;BYMONTHDAY=1,5,10,42',
+            '2011-04-07 00:00:00',
+            []
         );
     }
 
@@ -891,6 +891,16 @@ class RRuleIteratorTest extends TestCase
         $this->parse(
             'FREQ=SMONTHLY;INTERVAL=3;UNTIL=20111025T000000Z',
             '2011-10-07',
+            []
+        );
+    }
+
+    public function testInvalidMissingFreq()
+    {
+        $this->expectException(InvalidDataException::class);
+        $this->parse(
+            'COUNT=6;BYMONTHDAY=24;BYMONTH=1',
+            '2011-04-07 00:00:00',
             []
         );
     }

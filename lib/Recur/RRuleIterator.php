@@ -921,6 +921,15 @@ class RRuleIterator implements Iterator
 
                 case 'BYMONTHDAY':
                     $this->byMonthDay = (array) $value;
+                    foreach ($this->byMonthDay as $byMonthDay) {
+                        if (!is_numeric($byMonthDay)) {
+                            throw new InvalidDataException('BYMONTHDAY in RRULE has a not numeric value(s)!');
+                        }
+                        $byMonthDay = (int) $byMonthDay;
+                        if ($byMonthDay < -31 || 0 === $byMonthDay || $byMonthDay > 31) {
+                            throw new InvalidDataException('BYMONTHDAY in RRULE must have value(s) from 1 to 31, or -31 to -1!');
+                        }
+                    }
                     break;
 
                 case 'BYYEARDAY':
