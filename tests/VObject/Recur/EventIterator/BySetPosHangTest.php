@@ -35,6 +35,7 @@ ICS;
 
         $vcal = $vcal->expand(new DateTime('2015-01-01'), new DateTime('2016-01-01'));
 
+        $dates = [];
         foreach ($vcal->VEVENT as $event) {
             $dates[] = $event->DTSTART->getValue();
         }
