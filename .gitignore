@@ -5,13 +5,5 @@ tests/cov/
 tests/temp
 tests/.phpunit.result.cache
 
-#vim
-.*.swp
-
 # Development stuff
-testdata/
 .php_cs.cache
-.idea
-
-# OS X
-.DS_Store
