@@ -15,6 +15,9 @@ namespace Sabre\VObject;
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @method Component create(string $name, array $children = null, $defaults = true)
+ * @method Property  create($name, $value = null, array $parameters = null, $valueType = null)
  */
 abstract class Document extends Component
 {
@@ -124,9 +127,8 @@ abstract class Document extends Component
      * otherwise, we'll assume it's a property and call createProperty instead.
      *
      * @param string $name
-     * @param string $arg1,... Unlimited number of args
      *
-     * @return mixed
+     * @return Node
      */
     public function create($name)
     {

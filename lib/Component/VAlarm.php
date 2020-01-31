@@ -78,8 +78,8 @@ class VAlarm extends VObject\Component
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param \DateTime $start
+     * @param \DateTime $end
      *
      * @return bool
      */

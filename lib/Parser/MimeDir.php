@@ -35,7 +35,7 @@ class MimeDir extends Parser
     /**
      * Root component.
      *
-     * @var Component
+     * @var Document
      */
     protected $root;
 

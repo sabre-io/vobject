@@ -84,10 +84,10 @@ class FreeBusyGenerator
      * Check the setTimeRange and setObjects methods for details about the
      * arguments.
      *
-     * @param DateTimeInterface $start
-     * @param DateTimeInterface $end
-     * @param mixed             $objects
-     * @param DateTimeZone      $timeZone
+     * @param DateTimeInterface                                              $start
+     * @param DateTimeInterface                                              $end
+     * @param string[]|string|resource[]|resource|Component[]|Component|null $objects
+     * @param DateTimeZone                                                   $timeZone
      */
     public function __construct(DateTimeInterface $start = null, DateTimeInterface $end = null, $objects = null, DateTimeZone $timeZone = null)
     {
@@ -130,7 +130,7 @@ class FreeBusyGenerator
      * Component.
      * It's also possible to specify multiple objects as an array.
      *
-     * @param mixed $objects
+     * @param string[]|string|resource[]|resource|Component[]|Component $objects
      */
     public function setObjects($objects)
     {
@@ -182,7 +182,7 @@ class FreeBusyGenerator
      * Parses the input data and returns a correct VFREEBUSY object, wrapped in
      * a VCALENDAR.
      *
-     * @return Component
+     * @return VCalendar
      */
     public function getResult()
     {

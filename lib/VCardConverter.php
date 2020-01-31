@@ -241,9 +241,8 @@ class VCardConverter
      *
      * vCard 4.0 no longer supports BINARY properties.
      *
-     * @param Property\Uri $property the input property
-     * @param $parameters list of parameters that will eventually be added to
-     *                    the new property
+     * @param Parameter[] $parameters list of parameters that will eventually be added to
+     *                                the new property
      *
      * @return Property\Uri
      */
@@ -294,7 +293,7 @@ class VCardConverter
      * be valid in vCard 3.0 as well, we should convert those to BINARY if
      * possible, to improve compatibility.
      *
-     * @param Property\Uri $property the input property
+     * @param Property\Uri $newProperty the input property
      *
      * @return Property\Binary|null
      */

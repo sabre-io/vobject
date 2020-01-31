@@ -380,7 +380,7 @@ class VCard extends VObject\Document
      * If neither of those parameters are specified, the first is returned, if
      * a field with that name does not exist, null is returned.
      *
-     * @param string $fieldName
+     * @param string $propertyName
      *
      * @return VObject\Property|null
      */

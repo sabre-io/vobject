@@ -173,7 +173,7 @@ class DateTime extends Property
     /**
      * Sets the property as a DateTime object.
      *
-     * @param bool isFloating If set to true, timezones will be ignored
+     * @param bool $isFloating If set to true, timezones will be ignored
      */
     public function setDateTime(DateTimeInterface $dt, $isFloating = false)
     {
@@ -187,7 +187,7 @@ class DateTime extends Property
      * the otehr values will be adjusted for that timezone
      *
      * @param DateTimeInterface[] $dt
-     * @param bool isFloating If set to true, timezones will be ignored
+     * @param bool                $isFloating If set to true, timezones will be ignored
      */
     public function setDateTimes(array $dt, $isFloating = false)
     {

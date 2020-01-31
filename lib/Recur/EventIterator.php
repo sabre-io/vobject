@@ -88,10 +88,10 @@ class EventIterator implements \Iterator
      *
      * The $uid parameter is only required for the first method.
      *
-     * @param Component|array $input
-     * @param string|null     $uid
-     * @param DateTimeZone    $timeZone reference timezone for floating dates and
-     *                                  times
+     * @param VEvent|VEvent[]   $input
+     * @param string|null       $uid
+     * @param DateTimeZone|null $timeZone reference timezone for floating dates and
+     *                                    times
      */
     public function __construct($input, $uid = null, DateTimeZone $timeZone = null)
     {

@@ -205,7 +205,7 @@ class Component extends Node
      *
      * @param string $name
      *
-     * @return array
+     * @return Node[]
      */
     public function select($name)
     {
@@ -422,7 +422,7 @@ class Component extends Node
      *
      * @param string $name
      *
-     * @return Property
+     * @return Property|Component|null
      */
     public function __get($name)
     {
@@ -435,7 +435,6 @@ class Component extends Node
             return;
         } else {
             $firstMatch = current($matches);
-            /* @var $firstMatch Property */
             $firstMatch->setIterator(new ElementList(array_values($matches)));
 
             return $firstMatch;

@@ -56,7 +56,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
     /**
      * The root document.
      *
-     * @var Component
+     * @var Document
      */
     protected $root;
 

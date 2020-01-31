@@ -146,7 +146,7 @@ abstract class Property extends Node
      * combined.
      * If nameless parameter is added, we try to guess its name.
      *
-     * @param string            $name
+     * @param string|null       $name
      * @param string|array|null $value
      */
     public function add($name, $value = null)
@@ -402,7 +402,7 @@ abstract class Property extends Node
      *
      * @param string $name
      *
-     * @return Node
+     * @return Parameter|Property|null
      */
     public function offsetGet($name)
     {
