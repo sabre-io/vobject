@@ -86,5 +86,21 @@
         "branch-alias" : {
             "dev-master" : "4.0.x-dev"
         }
+    },
+    "scripts": {
+        "phpstan": [
+            "@php vendor/bin/phpstan analyse lib tests"
+        ],
+        "php-cs-fixer": [
+            "@php vendor/bin/php-cs-fixer fix"
+        ],
+        "phpunit": [
+            "@php vendor/bin/phpunit --configuration tests/phpunit.xml"
+        ],
+        "test": [
+            "composer phpstan",
+            "composer php-cs-fixer",
+            "composer phpunit"
+        ]
     }
 }
