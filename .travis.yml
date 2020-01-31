@@ -8,9 +8,6 @@ php:
 matrix:
   fast_finish: true
 
-install:
-  - composer require --dev phpstan/phpstan:^0.12
-
 before_script:
   - composer install
 
