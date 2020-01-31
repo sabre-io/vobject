@@ -8,13 +8,6 @@ tests/.phpunit.result.cache
 #vim
 .*.swp
 
-#binaries
-bin/phpunit
-bin/php-cs-fixer
-bin/phpstan
-bin/phpstan.phar
-bin/hoa
-
 # Development stuff
 testdata/
 .php_cs.cache
