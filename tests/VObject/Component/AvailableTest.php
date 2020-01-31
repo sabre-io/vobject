@@ -22,7 +22,7 @@ END:AVAILABLE
 END:VCALENDAR
 VCAL;
         $document = Reader::read($vcal);
-        $this->assertInstanceOf(__NAMESPACE__.'\Available', $document->AVAILABLE);
+        $this->assertInstanceOf(Available::class, $document->AVAILABLE);
     }
 
     public function testGetEffectiveStartEnd()

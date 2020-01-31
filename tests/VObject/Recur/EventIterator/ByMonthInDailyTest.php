@@ -4,6 +4,7 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
 class ByMonthInDailyTest extends TestCase
@@ -36,7 +37,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($ics);
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
+        $this->assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(new DateTime('2013-09-28'), new DateTime('2014-09-11'));
 

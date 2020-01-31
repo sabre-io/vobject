@@ -24,11 +24,11 @@ class DocumentTest extends TestCase
 
         $event = $vcal->createComponent('VEVENT');
 
-        $this->assertInstanceOf('Sabre\VObject\Component\VEvent', $event);
+        $this->assertInstanceOf(Component\VEvent::class, $event);
         $vcal->add($event);
 
         $prop = $vcal->createProperty('X-PROP', '1234256', ['X-PARAM' => '3']);
-        $this->assertInstanceOf('Sabre\VObject\Property', $prop);
+        $this->assertInstanceOf(Property::class, $prop);
 
         $event->add($prop);
 
@@ -46,16 +46,16 @@ class DocumentTest extends TestCase
         $vcal = new Component\VCalendar([], false);
 
         $event = $vcal->create('VEVENT');
-        $this->assertInstanceOf('Sabre\VObject\Component\VEvent', $event);
+        $this->assertInstanceOf(Component\VEvent::class, $event);
 
         $prop = $vcal->create('CALSCALE');
-        $this->assertInstanceOf('Sabre\VObject\Property\Text', $prop);
+        $this->assertInstanceOf(Property\Text::class, $prop);
     }
 
     public function testGetClassNameForPropertyValue()
     {
         $vcal = new Component\VCalendar([], false);
-        $this->assertEquals('Sabre\\VObject\\Property\\Text', $vcal->getClassNameForPropertyValue('TEXT'));
+        $this->assertEquals(Property\Text::class, $vcal->getClassNameForPropertyValue('TEXT'));
         $this->assertNull($vcal->getClassNameForPropertyValue('FOO'));
     }
 
@@ -64,7 +64,7 @@ class DocumentTest extends TestCase
         $vcal = new Component\VCalendar([], false);
         $event = $vcal->createComponent('VEVENT');
 
-        $this->assertInstanceOf('Sabre\VObject\Component\VEvent', $event);
+        $this->assertInstanceOf(Component\VEvent::class, $event);
         $vcal->add($event);
 
         $prop = $vcal->createProperty('X-PROP', '1234256', ['X-PARAM' => '3']);

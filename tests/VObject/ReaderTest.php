@@ -12,7 +12,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -27,7 +27,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($stream);
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -38,7 +38,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -49,7 +49,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -76,7 +76,7 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
 
         $result = $result->SUMMARY;
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('SUMMARY', $result->name);
         $this->assertEquals('propValue', $result->getValue());
     }
@@ -87,7 +87,7 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
 
         $result = $result->SUMMARY;
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('SUMMARY', $result->name);
         $this->assertEquals("Line1\nLine2\nLine3\\Not the 4th line!", $result->getValue());
     }
@@ -98,7 +98,7 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
 
         $result = $result->DTSTART;
-        $this->assertInstanceOf('Sabre\\VObject\\Property\\ICalendar\\DateTime', $result);
+        $this->assertInstanceOf(Property\ICalendar\DateTime::class, $result);
         $this->assertEquals('DTSTART', $result->name);
         $this->assertEquals('20110529', $result->getValue());
     }
@@ -109,7 +109,7 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
 
         $result = $result->DTSTART;
-        $this->assertInstanceOf('Sabre\\VObject\\Property\\ICalendar\\DateTime', $result);
+        $this->assertInstanceOf(Property\ICalendar\DateTime::class, $result);
         $this->assertEquals('DTSTART', $result->name);
         $this->assertEquals('20110529', $result->getValue());
     }
@@ -131,10 +131,10 @@ class ReaderTest extends TestCase
 
         $result = Reader::read(implode("\r\n", $data));
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result->children()[0]);
+        $this->assertInstanceOf(Property::class, $result->children()[0]);
         $this->assertEquals('PROPNAME', $result->children()[0]->name);
         $this->assertEquals('propValue', $result->children()[0]->getValue());
     }
@@ -152,13 +152,13 @@ class ReaderTest extends TestCase
 
         $result = Reader::read(implode("\r\n", $data));
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(1, count($result->children()));
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result->children()[0]);
+        $this->assertInstanceOf(Component::class, $result->children()[0]);
         $this->assertEquals('VTIMEZONE', $result->children()[0]->name);
         $this->assertEquals(1, count($result->children()[0]->children()));
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result->children()[0]->children()[0]);
+        $this->assertInstanceOf(Component::class, $result->children()[0]->children()[0]);
         $this->assertEquals('DAYLIGHT', $result->children()[0]->children()[0]->name);
     }
 
@@ -169,7 +169,7 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
@@ -184,7 +184,7 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
@@ -200,7 +200,7 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
@@ -216,7 +216,7 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
@@ -232,7 +232,7 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue:anotherrandomstring', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
@@ -247,7 +247,7 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(2, count($result->parameters()));
@@ -264,7 +264,7 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
@@ -279,7 +279,7 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
 
@@ -294,7 +294,7 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $result);
+        $this->assertInstanceOf(Property::class, $result);
         $this->assertEquals('PROPNAME', $result->name);
         $this->assertEquals('propValue', $result->getValue());
         $this->assertEquals(1, count($result->parameters()));
@@ -408,7 +408,7 @@ ICS;
         $data = chr(0xef).chr(0xbb).chr(0xbf)."BEGIN:VCALENDAR\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -425,7 +425,7 @@ XML;
 
         $result = Reader::readXML($data);
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -446,7 +446,7 @@ XML;
 
         $result = Reader::readXML($stream);
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $result);
+        $this->assertInstanceOf(Component::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }

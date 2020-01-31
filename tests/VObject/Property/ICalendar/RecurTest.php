@@ -16,7 +16,7 @@ class RecurTest extends TestCase
         $vcal = new VCalendar();
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
 
-        $this->assertInstanceOf('Sabre\VObject\Property\ICalendar\Recur', $recur);
+        $this->assertInstanceOf(Recur::class, $recur);
 
         $this->assertEquals(['FREQ' => 'DAILY'], $recur->getParts());
         $recur->setParts(['freq' => 'MONTHLY']);

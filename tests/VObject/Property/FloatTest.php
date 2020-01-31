@@ -14,7 +14,7 @@ class FloatTest extends TestCase
 
         $result = $mimeDir->parse($input);
 
-        $this->assertInstanceOf('Sabre\VObject\Property\FloatValue', $result->{'X-FLOAT'});
+        $this->assertInstanceOf(FloatValue::class, $result->{'X-FLOAT'});
 
         $this->assertEquals([
             0.234,
