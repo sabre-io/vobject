@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Recur\EventIterator;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
@@ -31,7 +32,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
+        $this->assertInstanceOf(VCalendar::class, $vcal);
 
         $it = new EventIterator($vcal, 'foo');
     }

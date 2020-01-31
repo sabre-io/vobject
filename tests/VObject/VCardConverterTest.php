@@ -491,7 +491,7 @@ VCF;
 
         $vcard = Reader::read($input);
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCard', $vcard);
+        $this->assertInstanceOf(Component\VCard::class, $vcard);
         $vcard = $vcard->convert(Document::VCARD40);
         $vcard = $vcard->serialize();
 

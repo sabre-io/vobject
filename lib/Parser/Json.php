@@ -7,6 +7,8 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Document;
 use Sabre\VObject\EofException;
 use Sabre\VObject\ParseException;
+use Sabre\VObject\Property\FlatText;
+use Sabre\VObject\Property\Text;
 
 /**
  * Json Parser.
@@ -156,8 +158,8 @@ class Json extends Parser
         // represents TEXT values. We have to normalize these here. In the
         // future we can get rid of FlatText once we're allowed to break BC
         // again.
-        if ('Sabre\VObject\Property\FlatText' === $defaultPropertyClass) {
-            $defaultPropertyClass = 'Sabre\VObject\Property\Text';
+        if (FlatText::class === $defaultPropertyClass) {
+            $defaultPropertyClass = Text::class;
         }
 
         // If the value type we received (e.g.: TEXT) was not the default value

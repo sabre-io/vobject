@@ -21,7 +21,7 @@ class ComponentTest extends TestCase
         $count = 0;
         foreach ($comp->children() as $key => $subcomponent) {
             ++$count;
-            $this->assertInstanceOf('Sabre\\VObject\\Component', $subcomponent);
+            $this->assertInstanceOf(Component::class, $subcomponent);
 
             if (2 === $count) {
                 $this->assertEquals(1, $key);
@@ -41,7 +41,7 @@ class ComponentTest extends TestCase
         $comp->add($sub);
 
         $event = $comp->vevent;
-        $this->assertInstanceOf('Sabre\\VObject\\Component', $event);
+        $this->assertInstanceOf(Component::class, $event);
         $this->assertEquals('VEVENT', $event->name);
 
         $this->assertNull($comp->vjournal);
@@ -92,7 +92,7 @@ class ComponentTest extends TestCase
         $comp = new VCalendar();
         $comp->myProp = 'myValue';
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $comp->MYPROP);
+        $this->assertInstanceOf(Property::class, $comp->MYPROP);
         $this->assertEquals('myValue', (string) $comp->MYPROP);
     }
 
@@ -103,7 +103,7 @@ class ComponentTest extends TestCase
         $comp->myProp = 'myValue';
 
         $this->assertEquals(1, count($comp->children()));
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $comp->MYPROP);
+        $this->assertInstanceOf(Property::class, $comp->MYPROP);
         $this->assertEquals('myValue', (string) $comp->MYPROP);
     }
 
@@ -112,7 +112,7 @@ class ComponentTest extends TestCase
         $comp = new VCalendar();
         $comp->ORG = ['Acme Inc', 'Section 9'];
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $comp->ORG);
+        $this->assertInstanceOf(Property::class, $comp->ORG);
         $this->assertEquals(['Acme Inc', 'Section 9'], $comp->ORG->getParts());
     }
 
@@ -216,7 +216,7 @@ class ComponentTest extends TestCase
 
         $bla = $comp->children()[0];
 
-        $this->assertInstanceOf('Sabre\\VObject\\Property', $bla);
+        $this->assertInstanceOf(Property::class, $bla);
         $this->assertEquals('MYPROP', $bla->name);
         $this->assertEquals('value', (string) $bla);
 

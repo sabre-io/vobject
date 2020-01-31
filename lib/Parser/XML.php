@@ -351,9 +351,9 @@ class XML extends Parser
         if (is_string($input)) {
             $reader = new SabreXml\Reader();
             $reader->elementMap['{'.self::XCAL_NAMESPACE.'}period']
-                = 'Sabre\VObject\Parser\XML\Element\KeyValue';
+                = XML\Element\KeyValue::class;
             $reader->elementMap['{'.self::XCAL_NAMESPACE.'}recur']
-                = 'Sabre\VObject\Parser\XML\Element\KeyValue';
+                = XML\Element\KeyValue::class;
             $reader->xml($input);
             $input = $reader->parse();
         }
