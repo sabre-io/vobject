@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+4.3.0 (2020-01-31)
+------------------
+
+* Added support for PHP 7.4, dropped support for PHP 7.0 (@phil-davis)
+* #487: Added phpstan coverage, updated testsuite for phpunit8 (@phil-davis, @JeroenVanOort)
+* #495: refactored maps to use ::class notation (@JeroenVanOort)
+
 4.2.2 (2020-01-14)
 ------------------
 
