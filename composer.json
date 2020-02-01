@@ -91,7 +91,7 @@
         "phpstan": [
             "@php vendor/bin/phpstan analyse lib tests"
         ],
-        "php-cs-fixer": [
+        "cs-fixer": [
             "@php vendor/bin/php-cs-fixer fix"
         ],
         "phpunit": [
@@ -99,7 +99,7 @@
         ],
         "test": [
             "composer phpstan",
-            "composer php-cs-fixer",
+            "composer cs-fixer",
             "composer phpunit"
         ]
     }
