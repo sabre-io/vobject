@@ -12,7 +12,7 @@ before_script:
   - composer install
 
 script:
-  - php vendor/bin/php-cs-fixer fix lib/ --dry-run --diff
+  - php vendor/bin/php-cs-fixer fix --dry-run --diff
   - php vendor/bin/phpstan analyse -c phpstan.neon lib tests
   - php vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover=coverage.xml
 
