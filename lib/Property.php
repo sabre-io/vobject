@@ -48,6 +48,13 @@ abstract class Property extends Node
     public $delimiter = ';';
 
     /**
+     * Reference to the parent object, if this is not the top object.
+     *
+     * @var Component
+     */
+    public $parent;
+
+    /**
      * Creates the generic property.
      *
      * Parameters must be specified in key=>value syntax.

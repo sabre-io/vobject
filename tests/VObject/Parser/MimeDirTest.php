@@ -29,6 +29,8 @@ VCF;
 
         $mimeDir = new MimeDir();
         $mimeDir->setCharset('ISO-8859-1');
+
+        /** @var \Sabre\VObject\Component\VCard $vcard */
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("umlaut u - \xC3\xBC", $vcard->FN->getValue());
     }
@@ -43,6 +45,8 @@ END:VCARD\n
 VCF;
 
         $mimeDir = new MimeDir();
+
+        /** @var \Sabre\VObject\Component\VCard $vcard */
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("umlaut u - \xC3\xBC", $vcard->FN->getValue());
     }
@@ -57,6 +61,8 @@ END:VCARD\n
 VCF;
 
         $mimeDir = new MimeDir();
+
+        /** @var \Sabre\VObject\Component\VCard $vcard */
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("foo-bar - \xFC", $vcard->FN->getValue());
     }
@@ -71,6 +77,8 @@ END:VCARD\n
 VCF;
 
         $mimeDir = new MimeDir();
+
+        /** @var \Sabre\VObject\Component\VCard $vcard */
         $vcard = $mimeDir->parse($vcard);
         // This basically tests that we don't touch the input string if
         // the encoding was set to UTF-8. The result is actually invalid
@@ -111,6 +119,8 @@ VCF;
 
         $mimeDir = new MimeDir();
         $mimeDir->setCharset('Windows-1252');
+
+        /** @var \Sabre\VObject\Component\VCard $vcard */
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("Euro \xE2\x82\xAC", $vcard->FN->getValue());
     }
@@ -125,6 +135,8 @@ END:VCARD\n
 VCF;
 
         $mimeDir = new MimeDir();
+
+        /** @var \Sabre\VObject\Component\VCard $vcard */
         $vcard = $mimeDir->parse($vcard);
         $this->assertEquals("Euro \xE2\x82\xAC", $vcard->FN->getValue());
     }
@@ -140,6 +152,8 @@ END:VCARD\n
 VCF;
 
         $mimeDir = new MimeDir();
+
+        /** @var \Sabre\VObject\Component\VCard $vcard */
         $vcard = $mimeDir->parse($vcard);
         // we can do a simple assertion here. As long as we don't get an exception, everything is thing
         $this->assertEquals('Euro', $vcard->FN->getValue());

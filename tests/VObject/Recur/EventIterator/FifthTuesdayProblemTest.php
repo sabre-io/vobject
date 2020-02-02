@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Recur\EventIterator;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur;
 
@@ -38,6 +39,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var VCalendar $vObject */
         $vObject = Reader::read($ics);
         $it = new Recur\EventIterator($vObject, (string) $vObject->VEVENT->UID);
 

@@ -21,6 +21,8 @@ BEGIN:AVAILABLE
 END:AVAILABLE
 END:VCALENDAR
 VCAL;
+
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
         $this->assertInstanceOf(Available::class, $document->AVAILABLE);
     }
@@ -36,6 +38,7 @@ END:AVAILABLE
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
         $tz = new DateTimeZone('UTC');
         $this->assertEquals(
@@ -58,6 +61,7 @@ END:AVAILABLE
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
         $tz = new DateTimeZone('UTC');
         $this->assertEquals(

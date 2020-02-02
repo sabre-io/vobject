@@ -213,6 +213,8 @@ VERSION:4.0
 BDAY:--0407
 END:VCARD
 VCF;
+
+        /** @var VObject\Component\VCard $vcard */
         $vcard = Reader::read($vcard);
         $prop = $vcard->BDAY;
 

@@ -43,6 +43,7 @@ abstract class BrokerTester extends TestCase
     {
         $version = \Sabre\VObject\Version::VERSION;
 
+        /** @var \Sabre\VObject\Component\VCalendar $vcal */
         $vcal = Reader::read($input);
 
         $mainComponent = new \Sabre\VObject\Component\VEvent($vcal, 'VEVENT');

@@ -22,6 +22,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var Component\VCalendar $vobj */
         $vobj = Reader::read($input);
 
         // Before this bug was fixed, getValue() would return nothing.

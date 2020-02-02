@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Recur;
 
+use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Iterator;
@@ -152,7 +153,7 @@ class RRuleIterator implements Iterator
      * The date of the current iteration. You can get this by calling
      * ->current().
      *
-     * @var DateTimeInterface
+     * @var DateTime|DateTimeImmutable
      */
     protected $currentDate;
 

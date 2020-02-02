@@ -21,6 +21,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var \Sabre\VObject\Component\VCalendar $vcal */
         $vcal = Reader::read($vcal);
         $prop = $vcal->VEVENT->ATTACH;
 

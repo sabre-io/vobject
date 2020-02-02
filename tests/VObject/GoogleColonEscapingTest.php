@@ -25,6 +25,7 @@ item7.URL:http\://www.rooftopsolutions.nl/
 END:VCARD
 VCF;
 
+        /** @var Component\VCard $vobj */
         $vobj = Reader::read($vcard);
         $this->assertEquals('http://www.rooftopsolutions.nl/', $vobj->URL->getValue());
     }

@@ -186,8 +186,8 @@ class DateTime extends Property
      * The first value will be used as a reference for the timezones, and all
      * the otehr values will be adjusted for that timezone
      *
-     * @param DateTimeInterface[] $dt
-     * @param bool                $isFloating If set to true, timezones will be ignored
+     * @param (\DateTime|\DateTimeImmutable)[] $dt
+     * @param bool                             $isFloating If set to true, timezones will be ignored
      */
     public function setDateTimes(array $dt, $isFloating = false)
     {

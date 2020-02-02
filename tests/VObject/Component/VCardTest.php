@@ -132,6 +132,7 @@ EMAIL;TYPE=work:2@example.org
 END:VCARD
 VCF;
 
+        /** @var VCard $vcard */
         $vcard = VObject\Reader::read($vcard);
         $this->assertEquals('1@example.org', $vcard->getByType('EMAIL', 'home')->getValue());
         $this->assertEquals('2@example.org', $vcard->getByType('EMAIL', 'work')->getValue());
@@ -149,6 +150,7 @@ EMAIL:2@example.org
 END:VCARD
 VCF;
 
+        /** @var VCard $vcard */
         $vcard = VObject\Reader::read($vcard);
         $this->assertEquals('1@example.org', $vcard->preferred('EMAIL')->getValue());
     }
@@ -163,6 +165,7 @@ EMAIL;TYPE=PREF:2@example.org
 END:VCARD
 VCF;
 
+        /** @var VCard $vcard */
         $vcard = VObject\Reader::read($vcard);
         $this->assertEquals('2@example.org', $vcard->preferred('EMAIL')->getValue());
     }
@@ -178,6 +181,7 @@ EMAIL;PREF=2:3@example.org
 END:VCARD
 VCF;
 
+        /** @var VCard $vcard */
         $vcard = VObject\Reader::read($vcard);
         $this->assertEquals('3@example.org', $vcard->preferred('EMAIL')->getValue());
     }
@@ -190,6 +194,7 @@ VERSION:4.0
 END:VCARD
 VCF;
 
+        /** @var VCard $vcard */
         $vcard = VObject\Reader::read($vcard);
         $this->assertNull($vcard->preferred('EMAIL'));
     }

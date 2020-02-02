@@ -41,6 +41,7 @@ KIND:ORG
 END:VCARD
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -78,6 +79,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -116,6 +118,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -155,6 +158,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -195,6 +199,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -223,6 +228,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -240,6 +246,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -268,6 +275,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -285,6 +293,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -314,6 +323,7 @@ END:VCARD
 
 IN;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard->convert(Document::VCARD40);
     }
@@ -329,6 +339,7 @@ END:VCARD
 
 IN;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard->convert(Document::VCARD21);
     }
@@ -351,6 +362,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -367,6 +379,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -396,6 +409,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -413,6 +427,7 @@ OUT;
             $input,
         ];
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -450,6 +465,7 @@ END:VCARD
 
 OUT;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -467,6 +483,7 @@ OUT;
             $input,
         ];
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -495,6 +512,7 @@ VCF;
         $vcard = $vcard->convert(Document::VCARD40);
         $vcard = $vcard->serialize();
 
+        /** @var Component\VCard $converted */
         $converted = Reader::read($vcard);
         $converted->validate();
 
@@ -536,6 +554,7 @@ TEL;TYPE=HOME:+1234
 END:VCARD
 VCF;
 
+        /** @var Component\VCard $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 

@@ -520,6 +520,10 @@ class ComponentTest extends TestCase
     }
 }
 
+/**
+ * @property Property $BAR
+ * @property Property $GIR
+ */
 class FakeComponent extends Component
 {
     public function getValidationRules()

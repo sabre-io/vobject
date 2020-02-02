@@ -16,10 +16,12 @@ class VCalendarTest extends TestCase
      */
     public function testExpand($input, $output, $timeZone = 'UTC', $start = '2011-12-01', $end = '2011-12-31')
     {
+        /** @var VCalendar $vcal */
         $vcal = VObject\Reader::read($input);
 
         $timeZone = new DateTimeZone($timeZone);
 
+        /** @var VCalendar $vcal */
         $vcal = $vcal->expand(
             new \DateTime($start),
             new \DateTime($end),
@@ -343,6 +345,8 @@ DTSTART;VALUE=DATE:20111202
 END:VEVENT
 END:VCALENDAR
 ';
+
+        /** @var VCalendar $vcal */
         $vcal = VObject\Reader::read($input);
         $vcal->expand(
             new \DateTime('2011-12-01'),
@@ -533,8 +537,10 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        /** @var VCalendar $vcal */
         $vcal = VObject\Reader::read($input);
 
+        /** @var VEvent $result */
         $result = $vcal->getBaseComponent();
         $this->assertEquals('test', $result->SUMMARY->getValue());
     }
@@ -561,6 +567,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        /** @var VCalendar $vcal */
         $vcal = VObject\Reader::read($input);
 
         $result = $vcal->getBaseComponent();
@@ -588,8 +595,10 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        /** @var VCalendar $vcal */
         $vcal = VObject\Reader::read($input);
 
+        /** @var VEvent $result */
         $result = $vcal->getBaseComponent('VEVENT');
         $this->assertEquals('test', $result->SUMMARY->getValue());
     }
@@ -608,6 +617,7 @@ END:VTODO
 END:VCALENDAR
 ';
 
+        /** @var VCalendar $vcal */
         $vcal = VObject\Reader::read($input);
 
         $result = $vcal->getBaseComponent('VEVENT');

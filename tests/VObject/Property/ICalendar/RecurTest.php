@@ -55,6 +55,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        /** @var VCalendar $vcal */
         $vcal = Reader::read($input);
         $rrule = $vcal->VEVENT->RRULE;
         $count = $rrule->getJsonValue()[0]['count'];
@@ -89,6 +90,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        /** @var VCalendar $vcal */
         $vcal = Reader::read($input);
         $rrule = $vcal->VEVENT->RRULE;
         $untilJsonString = $rrule->getJsonValue()[0]['until'];

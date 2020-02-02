@@ -392,6 +392,7 @@ HELP
     /**
      * Converts a vObject file to a new format.
      *
+     * @param Component\VCard|Component\VCalendar $vObj
      *
      * @return int
      */

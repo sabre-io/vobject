@@ -49,7 +49,7 @@ class FreeBusyGenerator
     /**
      * VCALENDAR object.
      *
-     * @var Document
+     * @var VCalendar
      */
     protected $baseObject;
 

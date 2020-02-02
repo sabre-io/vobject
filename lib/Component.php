@@ -160,7 +160,7 @@ class Component extends Node
      * Returns a flat list of all the properties and components in this
      * component.
      *
-     * @return array
+     * @return (Property|Component\VAlarm|Component\VAvailability|Component\VEvent|Component\VFreeBusy|Component\VJournal|Component\VTimeZone|Component\VTodo)[]
      */
     public function children()
     {

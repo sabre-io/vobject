@@ -65,6 +65,7 @@ Str. 1;M=C3=BCnster;;48143;Deutschland
 END:VCARD
 VCF;
 
+        /** @var VCard $result */
         $result = Reader::read($data, Reader::OPTION_FORGIVING);
         $this->assertEquals([
             '', '', 'Münster Str. 1', 'Münster', '', '48143', 'Deutschland',

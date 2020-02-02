@@ -75,6 +75,7 @@ N:A
 END:VCARD
 IN;
 
+        /** @var VCard $vcard */
         $vcard = \Sabre\VObject\Reader::read($vcard);
         $this->assertEquals(1, count($vcard->validate()));
 
