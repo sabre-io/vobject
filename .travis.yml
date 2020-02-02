@@ -8,17 +8,14 @@ php:
 matrix:
   fast_finish: true
 
-install:
-  - composer require --dev phpstan/phpstan:^0.12
-
 before_script:
   - composer install
 
 script:
-  - ./bin/php-cs-fixer fix lib/ --dry-run --diff
-  - php ./bin/phpstan.phar analyse -c phpstan.neon lib tests
-  - ./bin/phpunit --configuration tests/phpunit.xml --coverage-clover=coverage.xml
-  
+  - php vendor/bin/php-cs-fixer fix --dry-run --diff
+  - php vendor/bin/phpstan analyse -c phpstan.neon lib tests
+  - php vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover=coverage.xml
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
