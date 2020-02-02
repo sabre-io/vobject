@@ -16,6 +16,9 @@
   <filter>
     <whitelist addUncoveredFilesFromWhitelist="true">
         <directory suffix=".php">../lib/</directory>
+        <exclude>
+            <directory>../lib/PHPStan</directory>
+        </exclude>
    </whitelist>
   </filter>
 </phpunit>
