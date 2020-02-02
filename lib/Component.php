@@ -432,7 +432,7 @@ class Component extends Node
 
         $matches = $this->select($name);
         if (0 === count($matches)) {
-            return;
+            return null;
         } else {
             $firstMatch = current($matches);
             $firstMatch->setIterator(new ElementList(array_values($matches)));

@@ -360,8 +360,8 @@ class FreeBusyGenerator
     {
         foreach ($objects as $key => $object) {
             foreach ($object->getBaseComponents() as $component) {
-                switch ($component->name) {
-                    case 'VEVENT':
+                switch (get_class($component)) {
+                    case Component\VEvent::class:
 
                         $FBTYPE = 'BUSY';
                         if (isset($component->TRANSP) && ('TRANSPARENT' === strtoupper($component->TRANSP))) {
@@ -447,7 +447,7 @@ class FreeBusyGenerator
                         }
                         break;
 
-                    case 'VFREEBUSY':
+                    case Component\VFreeBusy::class:
                         foreach ($component->FREEBUSY as $freebusy) {
                             $fbType = isset($freebusy['FBTYPE']) ? strtoupper($freebusy['FBTYPE']) : 'BUSY';
 

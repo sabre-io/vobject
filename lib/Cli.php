@@ -2,8 +2,7 @@
 
 namespace Sabre\VObject;
 
-use
-    InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * This is the CLI interface for sabre-vobject.
@@ -314,15 +313,15 @@ HELP
      *
      * @return int
      */
-    protected function validate(Component $vObj)
+    protected function validate(Document $vObj)
     {
         $returnCode = 0;
 
-        switch ($vObj->name) {
-            case 'VCALENDAR':
+        switch (get_class($vObj)) {
+            case Component\VCalendar::class:
                 $this->log('iCalendar: '.(string) $vObj->VERSION);
                 break;
-            case 'VCARD':
+            case Component\VCard::class:
                 $this->log('vCard: '.(string) $vObj->VERSION);
                 break;
         }
@@ -354,15 +353,15 @@ HELP
      *
      * @return int
      */
-    protected function repair(Component $vObj)
+    protected function repair(Document $vObj)
     {
         $returnCode = 0;
 
-        switch ($vObj->name) {
-            case 'VCALENDAR':
+        switch (get_class($vObj)) {
+            case Component\VCalendar::class:
                 $this->log('iCalendar: '.(string) $vObj->VERSION);
                 break;
-            case 'VCARD':
+            case Component\VCard::class:
                 $this->log('vCard: '.(string) $vObj->VERSION);
                 break;
         }
@@ -393,11 +392,10 @@ HELP
     /**
      * Converts a vObject file to a new format.
      *
-     * @param Component $vObj
      *
      * @return int
      */
-    protected function convert($vObj)
+    protected function convert(Document $vObj)
     {
         $json = false;
         $convertVersion = null;

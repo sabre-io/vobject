@@ -246,6 +246,8 @@ abstract class Document extends Component
         if (isset(static::$valueMap[$valueParam])) {
             return static::$valueMap[$valueParam];
         }
+
+        return null;
     }
 
     /**

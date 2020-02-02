@@ -877,14 +877,14 @@ class RRuleIterator implements Iterator
             foreach ($this->byMonthDay as $monthDay) {
                 // Removing values that are out of range for this month
                 if ($monthDay > $startDate->format('t') ||
-                $monthDay < 0 - $startDate->format('t')) {
+                $monthDay < 0 - (int) $startDate->format('t')) {
                     continue;
                 }
                 if ($monthDay > 0) {
                     $byMonthDayResults[] = $monthDay;
                 } else {
                     // Negative values
-                    $byMonthDayResults[] = $startDate->format('t') + 1 + $monthDay;
+                    $byMonthDayResults[] = (int) $startDate->format('t') + 1 + $monthDay;
                 }
             }
         }

@@ -375,33 +375,42 @@ VCAL
 
     public function testRFCxxxSection3_2()
     {
+        /** @var VCalendar $busy */
+        $busy = Reader::read($this->templateAvailable([
+            'BUSYTYPE:BUSY',
+        ]));
+
         $this->assertEquals(
             'BUSY',
-            Reader::read($this->templateAvailable([
-                'BUSYTYPE:BUSY',
-            ]))
+            $busy
                 ->VAVAILABILITY
                 ->AVAILABLE
                 ->BUSYTYPE
                 ->getValue()
         );
+
+        /** @var VCalendar $unavailable */
+        $unavailable = Reader::read($this->templateAvailable([
+            'BUSYTYPE:BUSY-UNAVAILABLE',
+        ]));
 
         $this->assertEquals(
             'BUSY-UNAVAILABLE',
-            Reader::read($this->templateAvailable([
-                'BUSYTYPE:BUSY-UNAVAILABLE',
-            ]))
+            $unavailable
                 ->VAVAILABILITY
                 ->AVAILABLE
                 ->BUSYTYPE
                 ->getValue()
         );
 
+        /** @var VCalendar $tentative */
+        $tentative = Reader::read($this->templateAvailable([
+            'BUSYTYPE:BUSY-TENTATIVE',
+        ]));
+
         $this->assertEquals(
             'BUSY-TENTATIVE',
-            Reader::read($this->templateAvailable([
-                'BUSYTYPE:BUSY-TENTATIVE',
-            ]))
+            $tentative
                 ->VAVAILABILITY
                 ->AVAILABLE
                 ->BUSYTYPE

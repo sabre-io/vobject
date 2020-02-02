@@ -423,6 +423,8 @@ class VCard extends VObject\Document
                 return $field;
             }
         }
+
+        return null;
     }
 
     /**

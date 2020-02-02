@@ -315,7 +315,7 @@ class VCalendar extends VObject\Document
             } elseif ($child instanceof Component && 'VTIMEZONE' !== $child->name) {
                 // We're also stripping all VTIMEZONE objects because we're
                 // converting everything to UTC.
-                if ('VEVENT' === $child->name && (isset($child->{'RECURRENCE-ID'}) || isset($child->RRULE) || isset($child->RDATE))) {
+                if ($child instanceof VEvent && (isset($child->{'RECURRENCE-ID'}) || isset($child->RRULE) || isset($child->RDATE))) {
                     // Handle these a bit later.
                     $uid = (string) $child->UID;
                     if (!$uid) {
@@ -326,7 +326,7 @@ class VCalendar extends VObject\Document
                     } else {
                         $recurringEvents[$uid] = [clone $child];
                     }
-                } elseif ('VEVENT' === $child->name && $child->isInTimeRange($start, $end)) {
+                } elseif ($child instanceof VEvent && $child->isInTimeRange($start, $end)) {
                     $newChildren[] = $stripTimezones(clone $child);
                 }
             }
@@ -440,7 +440,7 @@ class VCalendar extends VObject\Document
             if ($child instanceof Component) {
                 ++$componentsFound;
 
-                if (!in_array($child->name, ['VEVENT', 'VTODO', 'VJOURNAL'])) {
+                if (!($child instanceof VEvent || $child instanceof VTodo || $child instanceof VJournal)) {
                     continue;
                 }
                 $componentTypes[] = $child->name;

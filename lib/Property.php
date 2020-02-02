@@ -412,7 +412,7 @@ abstract class Property extends Node
         $name = strtoupper($name);
 
         if (!isset($this->parameters[$name])) {
-            return;
+            return null;
         }
 
         return $this->parameters[$name];

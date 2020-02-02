@@ -9,6 +9,7 @@ use Sabre\VObject\Document;
 use Sabre\VObject\EofException;
 use Sabre\VObject\Node;
 use Sabre\VObject\ParseException;
+use Sabre\VObject\Property\Text;
 
 /**
  * MimeDir parser.
@@ -439,7 +440,7 @@ class MimeDir extends Parser
             $propObj->add(null, $namelessParameter);
         }
 
-        if ('QUOTED-PRINTABLE' === strtoupper($propObj['ENCODING'])) {
+        if ($propObj instanceof Text && 'QUOTED-PRINTABLE' === strtoupper($propObj['ENCODING'])) {
             $propObj->setQuotedPrintableValue($this->extractQuotedPrintableValue());
         } else {
             $charset = $this->charset;

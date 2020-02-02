@@ -57,7 +57,7 @@ class ICalendar implements SplitterInterface
             }
 
             // Get all timezones
-            if ('VTIMEZONE' === $component->name) {
+            if ($component instanceof VObject\Component\VTimeZone) {
                 $this->vtimezones[(string) $component->TZID] = $component;
                 continue;
             }

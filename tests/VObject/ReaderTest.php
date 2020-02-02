@@ -12,7 +12,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -27,7 +27,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($stream);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -38,7 +38,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -49,7 +49,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -131,7 +131,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read(implode("\r\n", $data));
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(1, count($result->children()));
         $this->assertInstanceOf(Property::class, $result->children()[0]);
@@ -152,7 +152,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read(implode("\r\n", $data));
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(1, count($result->children()));
         $this->assertInstanceOf(Component::class, $result->children()[0]);
@@ -408,7 +408,7 @@ ICS;
         $data = chr(0xef).chr(0xbb).chr(0xbf)."BEGIN:VCALENDAR\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }

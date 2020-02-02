@@ -117,12 +117,11 @@ class TimeZoneUtil
      * Alternatively, if $failIfUncertain is set to true, it will throw an
      * exception if we cannot accurately determine the timezone.
      *
-     * @param string                  $tzid
-     * @param Sabre\VObject\Component $vcalendar
+     * @param string $tzid
      *
      * @return \DateTimeZone
      */
-    public static function getTimeZone($tzid, Component $vcalendar = null, $failIfUncertain = false)
+    public static function getTimeZone($tzid, Component\VCalendar $vcalendar = null, $failIfUncertain = false)
     {
         // First we will just see if the tzid is a support timezone identifier.
         //
