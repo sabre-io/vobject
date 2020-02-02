@@ -1,7 +1,6 @@
 parameters:
-  level: 1
-  universalObjectCratesClasses:
-    - \Sabre\VObject\Component
+  level: 2
 includes:
   - vendor/phpstan/phpstan-phpunit/extension.neon
   - vendor/phpstan/phpstan-phpunit/rules.neon
+  - lib/PHPStan/extension.neon

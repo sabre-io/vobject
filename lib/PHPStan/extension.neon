@@ -1,0 +1,29 @@
+services:
+  -
+        class: Sabre\VObject\PHPStan\ComponentClassReflectionExtension
+        tags:
+          - phpstan.broker.propertiesClassReflectionExtension
+  -
+        class: Sabre\VObject\PHPStan\Component\VCalendar\CreateComponentDynamicMethodReturnTypeExtension
+        tags:
+          - phpstan.broker.dynamicMethodReturnTypeExtension
+  -
+        class: Sabre\VObject\PHPStan\Component\VCard\CreateComponentDynamicMethodReturnTypeExtension
+        tags:
+          - phpstan.broker.dynamicMethodReturnTypeExtension
+  -
+        class: Sabre\VObject\PHPStan\Component\VCalendar\CreatePropertyDynamicMethodReturnTypeExtension
+        tags:
+          - phpstan.broker.dynamicMethodReturnTypeExtension
+  -
+        class: Sabre\VObject\PHPStan\Component\VCard\CreatePropertyDynamicMethodReturnTypeExtension
+        tags:
+          - phpstan.broker.dynamicMethodReturnTypeExtension
+  -
+        class: Sabre\VObject\PHPStan\Component\AddDynamicMethodReturnTypeExtension
+        tags:
+          - phpstan.broker.dynamicMethodReturnTypeExtension
+  -
+        class: Sabre\VObject\PHPStan\Component\SelectDynamicMethodReturnTypeExtension
+        tags:
+          - phpstan.broker.dynamicMethodReturnTypeExtension
