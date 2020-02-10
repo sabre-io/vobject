@@ -5,19 +5,33 @@ php:
   - 7.3
   - 7.4
 
+env:
+  global:
+    - MEMCACHED_SERVER=127.0.0.1
+    - RUN_PHPSTAN="FALSE"
+  matrix:
+    - PREFER_LOWEST="" REPORT_COVERAGE="TRUE" WITH_COVERAGE="--coverage-clover=coverage.xml"
+    - PREFER_LOWEST="--prefer-lowest" REPORT_COVERAGE="FALSE" WITH_COVERAGE=""
+
 matrix:
+  include:
+    - name: 'PHPStan'
+      php: 7.4
+      env:
+        - RUN_PHPSTAN="TRUE"
+        - REPORT_COVERAGE="FALSE"
   fast_finish: true
 
 before_script:
-  - composer install
+  - composer update $PREFER_LOWEST
 
 script:
-  - php vendor/bin/php-cs-fixer fix --dry-run --diff
-  - php vendor/bin/phpstan analyse -c phpstan.neon lib tests
-  - php vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover=coverage.xml
+  - if [ $RUN_PHPSTAN == "FALSE" ]; then php vendor/bin/php-cs-fixer fix --dry-run --diff; fi
+  - if [ $RUN_PHPSTAN == "FALSE" ]; then php vendor/bin/phpunit --configuration tests/phpunit.xml $WITH_COVERAGE; fi
+  - if [ $RUN_PHPSTAN == "TRUE" ]; then composer phpstan; fi
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - if [ $REPORT_COVERAGE == "TRUE" ]; then bash <(curl -s https://codecov.io/bash); fi
 
 cache:
   directories:

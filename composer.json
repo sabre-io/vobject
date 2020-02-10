@@ -38,7 +38,7 @@
     },
     "require-dev" : {
         "friendsofphp/php-cs-fixer": "~2.16.1",
-        "phpunit/phpunit" : "^7 || ^8",
+        "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0",
         "phpstan/phpstan": "^0.12"
     },
     "suggest" : {
@@ -89,13 +89,13 @@
     },
     "scripts": {
         "phpstan": [
-            "@php vendor/bin/phpstan analyse lib tests"
+            "phpstan analyse lib tests"
         ],
         "cs-fixer": [
-            "@php vendor/bin/php-cs-fixer fix"
+            "php-cs-fixer fix"
         ],
         "phpunit": [
-            "@php vendor/bin/phpunit --configuration tests/phpunit.xml"
+            "phpunit --configuration tests/phpunit.xml"
         ],
         "test": [
             "composer phpstan",

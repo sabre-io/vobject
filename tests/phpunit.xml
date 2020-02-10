@@ -9,16 +9,13 @@
   >
   <testsuites>
     <testsuite name="Sabre\VObject">
-      <directory>VObject/</directory>
+      <directory>.</directory>
     </testsuite>
   </testsuites>
 
   <filter>
     <whitelist addUncoveredFilesFromWhitelist="true">
         <directory suffix=".php">../lib/</directory>
-        <exclude>
-            <file>../lib/Sabre/VObject/includes.php</file>
-        </exclude>
    </whitelist>
   </filter>
 </phpunit>
