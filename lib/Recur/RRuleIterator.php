@@ -150,8 +150,10 @@ class RRuleIterator implements Iterator
      */
     public function fastForwardBefore(DateTimeInterface $dt)
     {
+        $hasCount = isset($this->count);
+
         // We don't do any jumps if we have a count limit as we have to keep track of the number of occurrences
-        if (!isset($this->count)) {
+        if (!$hasCount) {
             $this->jumpForward($dt);
         }
 
@@ -161,7 +163,10 @@ class RRuleIterator implements Iterator
             $this->next();
         }
 
-        isset($previousDate) && $this->currentDate = $previousDate;
+        if (isset($previousDate)) {
+            $this->currentDate = $previousDate;
+            $hasCount && $this->counter--;
+        }
     }
 
     /**

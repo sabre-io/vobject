@@ -525,4 +525,21 @@ class FastForwardBeforeTest extends TestCase
         $rrule->next();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
     }
+
+    public function testFastForwardBeforeMultipleTimesBasic()
+    {
+        $startDate = new DateTime('2020-01-02 00:00:00', new DateTimeZone('zulu'));
+        $ffDate = new DateTime('2020-01-18 00:00:00', new DateTimeZone('zulu'));
+        $rrule = new RRuleIterator('FREQ=WEEKLY', $startDate);
+        $expected = new DateTime('2020-01-16 00:00:00', new DateTimeZone('zulu'));
+
+        $this->fastForward($rrule, $ffDate);
+        $this->assertEquals($expected->getTimestamp(), $rrule->current()->getTimestamp());
+
+        $this->fastForward($rrule, $ffDate);
+        $this->assertEquals($expected->getTimestamp(), $rrule->current()->getTimestamp());
+
+        $this->fastForward($rrule, $ffDate);
+        $this->assertEquals($expected->getTimestamp(), $rrule->current()->getTimestamp());
+    }
 }
