@@ -360,129 +360,124 @@ class FreeBusyGenerator
     {
         foreach ($objects as $key => $object) {
             foreach ($object->getBaseComponents() as $component) {
-                switch (get_class($component)) {
-                    case Component\VEvent::class:
-
-                        $FBTYPE = 'BUSY';
-                        if (isset($component->TRANSP) && ('TRANSPARENT' === strtoupper($component->TRANSP))) {
+                if ($component instanceof Component\VEvent) {
+                    $FBTYPE = 'BUSY';
+                    if (isset($component->TRANSP) && ('TRANSPARENT' === strtoupper($component->TRANSP))) {
+                        break;
+                    }
+                    if (isset($component->STATUS)) {
+                        $status = strtoupper($component->STATUS);
+                        if ('CANCELLED' === $status) {
                             break;
                         }
-                        if (isset($component->STATUS)) {
-                            $status = strtoupper($component->STATUS);
-                            if ('CANCELLED' === $status) {
-                                break;
-                            }
-                            if ('TENTATIVE' === $status) {
-                                $FBTYPE = 'BUSY-TENTATIVE';
-                            }
+                        if ('TENTATIVE' === $status) {
+                            $FBTYPE = 'BUSY-TENTATIVE';
+                        }
+                    }
+
+                    $times = [];
+
+                    if ($component->RRULE) {
+                        try {
+                            $iterator = new EventIterator($object, (string) $component->UID, $this->timeZone);
+                        } catch (NoInstancesException $e) {
+                            // This event is recurring, but it doesn't have a single
+                            // instance. We are skipping this event from the output
+                            // entirely.
+                            unset($this->objects[$key]);
+                            break;
                         }
 
-                        $times = [];
+                        if ($this->start) {
+                            $iterator->fastForward($this->start);
+                        }
 
-                        if ($component->RRULE) {
-                            try {
-                                $iterator = new EventIterator($object, (string) $component->UID, $this->timeZone);
-                            } catch (NoInstancesException $e) {
-                                // This event is recurring, but it doesn't have a single
-                                // instance. We are skipping this event from the output
-                                // entirely.
-                                unset($this->objects[$key]);
-                                break;
-                            }
+                        $maxRecurrences = Settings::$maxRecurrences;
 
-                            if ($this->start) {
-                                $iterator->fastForward($this->start);
-                            }
-
-                            $maxRecurrences = Settings::$maxRecurrences;
-
-                            while ($iterator->valid() && --$maxRecurrences) {
-                                $startTime = $iterator->getDTStart();
-                                if ($this->end && $startTime > $this->end) {
-                                    break;
-                                }
-                                $times[] = [
-                                    $iterator->getDTStart(),
-                                    $iterator->getDTEnd(),
-                                ];
-
-                                $iterator->next();
-                            }
-                        } else {
-                            $startTime = $component->DTSTART->getDateTime($this->timeZone);
+                        while ($iterator->valid() && --$maxRecurrences) {
+                            $startTime = $iterator->getDTStart();
                             if ($this->end && $startTime > $this->end) {
                                 break;
                             }
-                            $endTime = null;
-                            if (isset($component->DTEND)) {
-                                $endTime = $component->DTEND->getDateTime($this->timeZone);
-                            } elseif (isset($component->DURATION)) {
-                                $duration = DateTimeParser::parseDuration((string) $component->DURATION);
+                            $times[] = [
+                                $iterator->getDTStart(),
+                                $iterator->getDTEnd(),
+                            ];
+
+                            $iterator->next();
+                        }
+                    } else {
+                        $startTime = $component->DTSTART->getDateTime($this->timeZone);
+                        if ($this->end && $startTime > $this->end) {
+                            break;
+                        }
+                        $endTime = null;
+                        if (isset($component->DTEND)) {
+                            $endTime = $component->DTEND->getDateTime($this->timeZone);
+                        } elseif (isset($component->DURATION)) {
+                            $duration = DateTimeParser::parseDuration((string) $component->DURATION);
+                            $endTime = clone $startTime;
+                            $endTime = $endTime->add($duration);
+                        } elseif (!$component->DTSTART->hasTime()) {
+                            $endTime = clone $startTime;
+                            $endTime = $endTime->modify('+1 day');
+                        } else {
+                            // The event had no duration (0 seconds)
+                            break;
+                        }
+
+                        $times[] = [$startTime, $endTime];
+                    }
+
+                    foreach ($times as $time) {
+                        if ($this->end && $time[0] > $this->end) {
+                            break;
+                        }
+                        if ($this->start && $time[1] < $this->start) {
+                            break;
+                        }
+
+                        $fbData->add(
+                            $time[0]->getTimeStamp(),
+                            $time[1]->getTimeStamp(),
+                            $FBTYPE
+                        );
+                    }
+                } elseif ($component instanceof Component\VFreeBusy) {
+                    foreach ($component->FREEBUSY as $freebusy) {
+                        $fbType = isset($freebusy['FBTYPE']) ? strtoupper($freebusy['FBTYPE']) : 'BUSY';
+
+                        // Skipping intervals marked as 'free'
+                        if ('FREE' === $fbType) {
+                            continue;
+                        }
+
+                        $values = explode(',', $freebusy);
+                        foreach ($values as $value) {
+                            list($startTime, $endTime) = explode('/', $value);
+                            $startTime = DateTimeParser::parseDateTime($startTime);
+
+                            if ('P' === substr($endTime, 0, 1) || '-P' === substr($endTime, 0, 2)) {
+                                $duration = DateTimeParser::parseDuration($endTime);
                                 $endTime = clone $startTime;
                                 $endTime = $endTime->add($duration);
-                            } elseif (!$component->DTSTART->hasTime()) {
-                                $endTime = clone $startTime;
-                                $endTime = $endTime->modify('+1 day');
                             } else {
-                                // The event had no duration (0 seconds)
-                                break;
+                                $endTime = DateTimeParser::parseDateTime($endTime);
                             }
 
-                            $times[] = [$startTime, $endTime];
-                        }
-
-                        foreach ($times as $time) {
-                            if ($this->end && $time[0] > $this->end) {
-                                break;
-                            }
-                            if ($this->start && $time[1] < $this->start) {
-                                break;
-                            }
-
-                            $fbData->add(
-                                $time[0]->getTimeStamp(),
-                                $time[1]->getTimeStamp(),
-                                $FBTYPE
-                            );
-                        }
-                        break;
-
-                    case Component\VFreeBusy::class:
-                        foreach ($component->FREEBUSY as $freebusy) {
-                            $fbType = isset($freebusy['FBTYPE']) ? strtoupper($freebusy['FBTYPE']) : 'BUSY';
-
-                            // Skipping intervals marked as 'free'
-                            if ('FREE' === $fbType) {
+                            if ($this->start && $this->start > $endTime) {
                                 continue;
                             }
-
-                            $values = explode(',', $freebusy);
-                            foreach ($values as $value) {
-                                list($startTime, $endTime) = explode('/', $value);
-                                $startTime = DateTimeParser::parseDateTime($startTime);
-
-                                if ('P' === substr($endTime, 0, 1) || '-P' === substr($endTime, 0, 2)) {
-                                    $duration = DateTimeParser::parseDuration($endTime);
-                                    $endTime = clone $startTime;
-                                    $endTime = $endTime->add($duration);
-                                } else {
-                                    $endTime = DateTimeParser::parseDateTime($endTime);
-                                }
-
-                                if ($this->start && $this->start > $endTime) {
-                                    continue;
-                                }
-                                if ($this->end && $this->end < $startTime) {
-                                    continue;
-                                }
-                                $fbData->add(
-                                    $startTime->getTimeStamp(),
-                                    $endTime->getTimeStamp(),
-                                    $fbType
-                                );
+                            if ($this->end && $this->end < $startTime) {
+                                continue;
                             }
+                            $fbData->add(
+                                $startTime->getTimeStamp(),
+                                $endTime->getTimeStamp(),
+                                $fbType
+                            );
                         }
-                        break;
+                    }
                 }
             }
         }

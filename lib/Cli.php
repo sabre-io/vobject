@@ -317,13 +317,10 @@ HELP
     {
         $returnCode = 0;
 
-        switch (get_class($vObj)) {
-            case Component\VCalendar::class:
-                $this->log('iCalendar: '.(string) $vObj->VERSION);
-                break;
-            case Component\VCard::class:
-                $this->log('vCard: '.(string) $vObj->VERSION);
-                break;
+        if ($vObj instanceof Component\VCalendar) {
+            $this->log('iCalendar: '.(string) $vObj->VERSION);
+        } elseif ($vObj instanceof Component\VCard) {
+            $this->log('vCard: '.(string) $vObj->VERSION);
         }
 
         $warnings = $vObj->validate();
@@ -357,13 +354,10 @@ HELP
     {
         $returnCode = 0;
 
-        switch (get_class($vObj)) {
-            case Component\VCalendar::class:
-                $this->log('iCalendar: '.(string) $vObj->VERSION);
-                break;
-            case Component\VCard::class:
-                $this->log('vCard: '.(string) $vObj->VERSION);
-                break;
+        if ($vObj instanceof Component\VCalendar) {
+            $this->log('iCalendar: '.(string) $vObj->VERSION);
+        } elseif ($vObj instanceof Component\VCard) {
+            $this->log('vCard: '.(string) $vObj->VERSION);
         }
 
         $warnings = $vObj->validate(Node::REPAIR);
