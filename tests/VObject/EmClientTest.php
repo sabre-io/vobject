@@ -48,6 +48,7 @@ CLASS:PUBLIC
 END:VEVENT
 END:VCALENDAR';
 
+        /** @var Component\VCalendar $vObject */
         $vObject = Reader::read($str);
         $dt = $vObject->VEVENT->DTSTART->getDateTime();
         $this->assertEquals(new DateTimeImmutable('2011-10-08 19:30:00', new \DateTimeZone('America/Chicago')), $dt);

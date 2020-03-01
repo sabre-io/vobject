@@ -4,6 +4,7 @@ namespace Sabre\VObject\Property\VCard;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
+use Sabre\VObject\Component\VCard;
 
 class LanguageTagTest extends TestCase
 {
@@ -12,6 +13,7 @@ class LanguageTagTest extends TestCase
         $input = "BEGIN:VCARD\r\nVERSION:4.0\r\nLANG:nl\r\nEND:VCARD\r\n";
         $mimeDir = new VObject\Parser\MimeDir($input);
 
+        /** @var VCard $result */
         $result = $mimeDir->parse($input);
 
         $this->assertInstanceOf(LanguageTag::class, $result->LANG);
@@ -29,6 +31,7 @@ class LanguageTagTest extends TestCase
         $input = "BEGIN:VCARD\r\nVERSION:4.0\r\nLANG:nl\r\nEND:VCARD\r\n";
         $mimeDir = new VObject\Parser\MimeDir($input);
 
+        /** @var VCard $result */
         $result = $mimeDir->parse($input);
 
         $this->assertInstanceOf(LanguageTag::class, $result->LANG);

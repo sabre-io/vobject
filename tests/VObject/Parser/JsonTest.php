@@ -368,6 +368,7 @@ VCF;
         fwrite($stream, json_encode($input));
         rewind($stream);
 
+        /** @var \Sabre\VObject\Component\VCard; $result */
         $result = VObject\Reader::readJson($stream, 0);
         $this->assertEquals('foo', $result->FN->getValue());
     }

@@ -22,6 +22,8 @@ BEGIN:VAVAILABILITY
 END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
+
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
 
         $this->assertInstanceOf(VAvailability::class, $document->VAVAILABILITY);
@@ -38,6 +40,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
         $tz = new DateTimeZone('UTC');
         $this->assertEquals(
@@ -60,6 +63,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
         $tz = new DateTimeZone('UTC');
         $this->assertEquals(
@@ -80,6 +84,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
         $this->assertEquals(
             [
@@ -99,6 +104,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
         $this->assertTrue(
             $document->VAVAILABILITY->isInTimeRange(new DateTimeImmutable('2015-07-17'), new DateTimeImmutable('2015-07-18'))
@@ -116,6 +122,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
         $this->assertFalse(
             $document->VAVAILABILITY->isInTimeRange(new DateTimeImmutable('2015-07-17'), new DateTimeImmutable('2015-07-18'))
@@ -234,6 +241,8 @@ END:AVAILABLE
 END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
+
+        /** @var VCalendar $document */
         $document = Reader::read($vcal);
 
         $this->assertInstanceOf(Available::class, $document->VAVAILABILITY->AVAILABLE);
@@ -375,33 +384,42 @@ VCAL
 
     public function testRFCxxxSection3_2()
     {
+        /** @var VCalendar $busy */
+        $busy = Reader::read($this->templateAvailable([
+            'BUSYTYPE:BUSY',
+        ]));
+
         $this->assertEquals(
             'BUSY',
-            Reader::read($this->templateAvailable([
-                'BUSYTYPE:BUSY',
-            ]))
+            $busy
                 ->VAVAILABILITY
                 ->AVAILABLE
                 ->BUSYTYPE
                 ->getValue()
         );
+
+        /** @var VCalendar $unavailable */
+        $unavailable = Reader::read($this->templateAvailable([
+            'BUSYTYPE:BUSY-UNAVAILABLE',
+        ]));
 
         $this->assertEquals(
             'BUSY-UNAVAILABLE',
-            Reader::read($this->templateAvailable([
-                'BUSYTYPE:BUSY-UNAVAILABLE',
-            ]))
+            $unavailable
                 ->VAVAILABILITY
                 ->AVAILABLE
                 ->BUSYTYPE
                 ->getValue()
         );
 
+        /** @var VCalendar $tentative */
+        $tentative = Reader::read($this->templateAvailable([
+            'BUSYTYPE:BUSY-TENTATIVE',
+        ]));
+
         $this->assertEquals(
             'BUSY-TENTATIVE',
-            Reader::read($this->templateAvailable([
-                'BUSYTYPE:BUSY-TENTATIVE',
-            ]))
+            $tentative
                 ->VAVAILABILITY
                 ->AVAILABLE
                 ->BUSYTYPE

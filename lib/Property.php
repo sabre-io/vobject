@@ -17,15 +17,6 @@ use Sabre\Xml;
 abstract class Property extends Node
 {
     /**
-     * Property name.
-     *
-     * This will contain a string such as DTSTART, SUMMARY, FN.
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
      * Property group.
      *
      * This is only used in vcards
@@ -55,6 +46,13 @@ abstract class Property extends Node
      * @var string|null
      */
     public $delimiter = ';';
+
+    /**
+     * Reference to the parent object, if this is not the top object.
+     *
+     * @var Component
+     */
+    public $parent;
 
     /**
      * Creates the generic property.
@@ -155,7 +153,7 @@ abstract class Property extends Node
      * combined.
      * If nameless parameter is added, we try to guess its name.
      *
-     * @param string            $name
+     * @param string|null       $name
      * @param string|array|null $value
      */
     public function add($name, $value = null)
@@ -411,7 +409,7 @@ abstract class Property extends Node
      *
      * @param string $name
      *
-     * @return Node
+     * @return Parameter|Property|null
      */
     public function offsetGet($name)
     {
@@ -421,7 +419,7 @@ abstract class Property extends Node
         $name = strtoupper($name);
 
         if (!isset($this->parameters[$name])) {
-            return;
+            return null;
         }
 
         return $this->parameters[$name];

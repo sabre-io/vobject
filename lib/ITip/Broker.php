@@ -816,7 +816,7 @@ class Broker
         $instances = [];
         $exdate = [];
 
-        foreach ($calendar->VEVENT as $vevent) {
+        foreach ($calendar->select('VEVENT') as $vevent) {
             $rrule = [];
 
             if (is_null($uid)) {

@@ -24,6 +24,7 @@ VCF;
         $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD30);
         $vcard = $vcard->serialize();
 
+        /** @var Component\VCard $converted */
         $converted = Reader::read($vcard);
         $converted->validate();
 

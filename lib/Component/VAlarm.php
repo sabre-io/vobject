@@ -34,7 +34,7 @@ class VAlarm extends VObject\Component
 
             $parentComponent = $this->parent;
             if ('START' === $related) {
-                if ('VTODO' === $parentComponent->name) {
+                if ($parentComponent instanceof VTodo) {
                     $propName = 'DUE';
                 } else {
                     $propName = 'DTSTART';
@@ -43,9 +43,9 @@ class VAlarm extends VObject\Component
                 $effectiveTrigger = $parentComponent->$propName->getDateTime();
                 $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
             } else {
-                if ('VTODO' === $parentComponent->name) {
+                if ($parentComponent instanceof VTodo) {
                     $endProp = 'DUE';
-                } elseif ('VEVENT' === $parentComponent->name) {
+                } elseif ($parentComponent instanceof VEvent) {
                     $endProp = 'DTEND';
                 } else {
                     throw new InvalidDataException('time-range filters on VALARM components are only supported when they are a child of VTODO or VEVENT');
@@ -78,8 +78,8 @@ class VAlarm extends VObject\Component
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @param DateTime $start
-     * @param DateTime $end
+     * @param \DateTime $start
+     * @param \DateTime $end
      *
      * @return bool
      */

@@ -146,7 +146,7 @@ class RDateIterator implements Iterator
      * This method receives a string from an RRULE property, and populates this
      * class with all the values.
      *
-     * @param string|array $rrule
+     * @param string|array $rdate
      */
     protected function parseRDate($rdate)
     {

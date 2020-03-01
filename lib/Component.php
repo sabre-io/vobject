@@ -17,15 +17,6 @@ use Sabre\Xml;
 class Component extends Node
 {
     /**
-     * Component name.
-     *
-     * This will contain a string such as VEVENT, VTODO, VCALENDAR, VCARD.
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
      * A list of properties and/or sub-components.
      *
      * @var array
@@ -169,7 +160,7 @@ class Component extends Node
      * Returns a flat list of all the properties and components in this
      * component.
      *
-     * @return array
+     * @return (Property|Component\VAlarm|Component\VAvailability|Component\VEvent|Component\VFreeBusy|Component\VJournal|Component\VTimeZone|Component\VTodo)[]
      */
     public function children()
     {
@@ -214,7 +205,7 @@ class Component extends Node
      *
      * @param string $name
      *
-     * @return array
+     * @return Node[]
      */
     public function select($name)
     {
@@ -431,7 +422,7 @@ class Component extends Node
      *
      * @param string $name
      *
-     * @return Property
+     * @return Property|Component|null
      */
     public function __get($name)
     {
@@ -441,10 +432,9 @@ class Component extends Node
 
         $matches = $this->select($name);
         if (0 === count($matches)) {
-            return;
+            return null;
         } else {
             $firstMatch = current($matches);
-            /* @var $firstMatch Property */
             $firstMatch->setIterator(new ElementList(array_values($matches)));
 
             return $firstMatch;

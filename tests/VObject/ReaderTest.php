@@ -12,7 +12,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -27,7 +27,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($stream);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -38,7 +38,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -49,7 +49,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
@@ -73,6 +73,8 @@ class ReaderTest extends TestCase
     public function testReadProperty()
     {
         $data = "BEGIN:VCALENDAR\r\nSUMMARY:propValue\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->SUMMARY;
@@ -84,6 +86,8 @@ class ReaderTest extends TestCase
     public function testReadPropertyWithNewLine()
     {
         $data = "BEGIN:VCALENDAR\r\nSUMMARY:Line1\\nLine2\\NLine3\\\\Not the 4th line!\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->SUMMARY;
@@ -95,6 +99,8 @@ class ReaderTest extends TestCase
     public function testReadMappedProperty()
     {
         $data = "BEGIN:VCALENDAR\r\nDTSTART:20110529\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->DTSTART;
@@ -106,6 +112,8 @@ class ReaderTest extends TestCase
     public function testReadMappedPropertyGrouped()
     {
         $data = "BEGIN:VCALENDAR\r\nfoo.DTSTART:20110529\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->DTSTART;
@@ -131,7 +139,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read(implode("\r\n", $data));
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(1, count($result->children()));
         $this->assertInstanceOf(Property::class, $result->children()[0]);
@@ -152,7 +160,7 @@ class ReaderTest extends TestCase
 
         $result = Reader::read(implode("\r\n", $data));
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(1, count($result->children()));
         $this->assertInstanceOf(Component::class, $result->children()[0]);
@@ -165,6 +173,8 @@ class ReaderTest extends TestCase
     public function testReadPropertyParameter()
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue:propValue\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -180,6 +190,8 @@ class ReaderTest extends TestCase
     public function testReadPropertyRepeatingParameter()
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;N=1;N=2;N=3,4;N=\"5\",6;N=\"7,8\";N=9,10;N=^'11^':propValue\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -196,6 +208,8 @@ class ReaderTest extends TestCase
     public function testReadPropertyRepeatingNamelessGuessedParameter()
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;WORK;VOICE;PREF:propValue\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -212,6 +226,8 @@ class ReaderTest extends TestCase
     public function testReadPropertyNoName()
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PRODIGY:propValue\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -228,6 +244,8 @@ class ReaderTest extends TestCase
     public function testReadPropertyParameterExtraColon()
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue:propValue:anotherrandomstring\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -243,6 +261,8 @@ class ReaderTest extends TestCase
     public function testReadProperty2Parameters()
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue;PARAMNAME2=paramvalue2:propValue\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -260,6 +280,8 @@ class ReaderTest extends TestCase
     public function testReadPropertyParameterQuoted()
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=\"paramvalue\":propValue\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -275,6 +297,8 @@ class ReaderTest extends TestCase
     public function testReadPropertyParameterNewLines()
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue1^nvalue2^^nvalue3:propValue\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
 
         $result = $result->PROPNAME;
@@ -291,6 +315,8 @@ class ReaderTest extends TestCase
     public function testReadPropertyParameterQuotedColon()
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=\"param:value\":propValue\r\nEND:VCALENDAR";
+
+        /** @var Component\VCalendar $result */
         $result = Reader::read($data);
         $result = $result->PROPNAME;
 
@@ -319,6 +345,7 @@ class ReaderTest extends TestCase
 
         $this->assertEquals(true, $caught);
 
+        /** @var Component\VCalendar $result */
         $result = Reader::read(implode("\r\n", $data), Reader::OPTION_FORGIVING);
 
         $expected = implode("\r\n", [
@@ -349,6 +376,7 @@ class ReaderTest extends TestCase
 
         $this->assertEquals(true, $caught);
 
+        /** @var Component\VCalendar $result */
         $result = Reader::read(implode("\r\n", $data), Reader::OPTION_IGNORE_INVALID_LINES);
 
         $expected = implode("\r\n", [
@@ -408,7 +436,7 @@ ICS;
         $data = chr(0xef).chr(0xbb).chr(0xbf)."BEGIN:VCALENDAR\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
+        $this->assertInstanceOf(Component\VCalendar::class, $result);
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }

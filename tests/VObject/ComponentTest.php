@@ -109,7 +109,7 @@ class ComponentTest extends TestCase
 
     public function testMagicSetArray()
     {
-        $comp = new VCalendar();
+        $comp = new VCard();
         $comp->ORG = ['Acme Inc', 'Section 9'];
 
         $this->assertInstanceOf(Property::class, $comp->ORG);
@@ -155,7 +155,7 @@ class ComponentTest extends TestCase
         $comp->add($event2);
 
         $this->assertEquals(2, count($comp->children()));
-        $this->assertTrue($comp->vevent[1] instanceof Component);
+        $this->assertInstanceOf(Component\VEvent::class, $comp->vevent[1]);
         $this->assertEquals('Event 2', (string) $comp->vevent[1]->summary);
     }
 
@@ -520,6 +520,10 @@ class ComponentTest extends TestCase
     }
 }
 
+/**
+ * @property Property $BAR
+ * @property Property $GIR
+ */
 class FakeComponent extends Component
 {
     public function getValidationRules()

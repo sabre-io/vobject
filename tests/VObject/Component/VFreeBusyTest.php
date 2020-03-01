@@ -23,6 +23,7 @@ END:VFREEBUSY
 END:VCALENDAR
 BLA;
 
+        /** @var VCalendar $obj */
         $obj = VObject\Reader::read($input);
         $vfb = $obj->VFREEBUSY;
 

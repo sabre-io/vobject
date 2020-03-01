@@ -16,7 +16,7 @@ class BirthdayCalendarGenerator
     /**
      * Input objects.
      *
-     * @var array
+     * @var Component\VCard[]
      */
     protected $objects = [];
 
@@ -39,7 +39,7 @@ class BirthdayCalendarGenerator
      * Check the setTimeRange and setObjects methods for details about the
      * arguments.
      *
-     * @param mixed $objects
+     * @param string[]|string|Component\VCard[]|Component\VCard|null $objects
      */
     public function __construct($objects = null)
     {
@@ -54,7 +54,7 @@ class BirthdayCalendarGenerator
      * You must either supply a vCard as a string or as a Component/VCard object.
      * It's also possible to supply an array of strings or objects.
      *
-     * @param mixed $objects
+     * @param string[]|string|Component\VCard[]|Component\VCard $objects
      */
     public function setObjects($objects)
     {

@@ -42,6 +42,7 @@ END:VTIMEZONE
 END:VCALENDAR
 HI;
 
+        /** @var VCalendar $obj */
         $obj = Reader::read($input);
 
         $tz = new \DateTimeZone('America/Toronto');

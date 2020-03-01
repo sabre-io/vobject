@@ -2,8 +2,7 @@
 
 namespace Sabre\VObject;
 
-use
-    InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * This is the CLI interface for sabre-vobject.
@@ -314,17 +313,14 @@ HELP
      *
      * @return int
      */
-    protected function validate(Component $vObj)
+    protected function validate(Document $vObj)
     {
         $returnCode = 0;
 
-        switch ($vObj->name) {
-            case 'VCALENDAR':
-                $this->log('iCalendar: '.(string) $vObj->VERSION);
-                break;
-            case 'VCARD':
-                $this->log('vCard: '.(string) $vObj->VERSION);
-                break;
+        if ($vObj instanceof Component\VCalendar) {
+            $this->log('iCalendar: '.(string) $vObj->VERSION);
+        } elseif ($vObj instanceof Component\VCard) {
+            $this->log('vCard: '.(string) $vObj->VERSION);
         }
 
         $warnings = $vObj->validate();
@@ -354,17 +350,14 @@ HELP
      *
      * @return int
      */
-    protected function repair(Component $vObj)
+    protected function repair(Document $vObj)
     {
         $returnCode = 0;
 
-        switch ($vObj->name) {
-            case 'VCALENDAR':
-                $this->log('iCalendar: '.(string) $vObj->VERSION);
-                break;
-            case 'VCARD':
-                $this->log('vCard: '.(string) $vObj->VERSION);
-                break;
+        if ($vObj instanceof Component\VCalendar) {
+            $this->log('iCalendar: '.(string) $vObj->VERSION);
+        } elseif ($vObj instanceof Component\VCard) {
+            $this->log('vCard: '.(string) $vObj->VERSION);
         }
 
         $warnings = $vObj->validate(Node::REPAIR);
@@ -393,11 +386,11 @@ HELP
     /**
      * Converts a vObject file to a new format.
      *
-     * @param Component $vObj
+     * @param Component\VCard|Component\VCalendar $vObj
      *
      * @return int
      */
-    protected function convert($vObj)
+    protected function convert(Document $vObj)
     {
         $json = false;
         $convertVersion = null;
@@ -458,8 +451,6 @@ HELP
      * Colorizes a file.
      *
      * @param Component $vObj
-     *
-     * @return int
      */
     protected function color($vObj)
     {
