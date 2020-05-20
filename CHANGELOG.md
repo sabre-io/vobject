@@ -1,16 +1,18 @@
 ChangeLog
 =========
 
-4.2.3 (2020-05-20)
+4.3.2 (2020-05-20)
 ------------------
 
-* Add timezones data mapping.
+* #14 Add timezones data mapping.
 
-4.2.2 (2020-01-27)
+4.3.1 (2020-01-27)
 ------------------
 
 * #6 Add FastForward Before
 * #7 Add FastForward to end
+* #11 FREQ is mandatory in the RRule
+* #12 Validate BYMONTHDAY
 
 4.2.1 (2019-09-10)
 ------------------
