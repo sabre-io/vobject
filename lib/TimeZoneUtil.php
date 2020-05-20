@@ -50,12 +50,12 @@ class TimeZoneUtil
         48 => 'Asia/Kabul',
         58 => 'Asia/Yekaterinburg',
         47 => 'Asia/Karachi',
-        23 => 'Asia/Calcutta',
+        23 => 'Asia/Kolkata',
         62 => 'Asia/Kathmandu',
         46 => 'Asia/Almaty',
         71 => 'Asia/Dhaka',
         66 => 'Asia/Colombo',
-        61 => 'Asia/Rangoon',
+        61 => 'Asia/Yangon',
         22 => 'Asia/Bangkok',
         64 => 'Asia/Krasnoyarsk',
         45 => 'Asia/Shanghai',
@@ -243,7 +243,8 @@ class TimeZoneUtil
             include __DIR__.'/timezonedata/windowszones.php',
             include __DIR__.'/timezonedata/lotuszones.php',
             include __DIR__.'/timezonedata/exchangezones.php',
-            include __DIR__.'/timezonedata/php-workaround.php'
+            include __DIR__.'/timezonedata/php-workaround.php',
+            include __DIR__.'/timezonedata/extrazones.php'
         );
     }
 
