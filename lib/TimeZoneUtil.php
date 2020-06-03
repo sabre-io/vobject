@@ -136,7 +136,6 @@ class TimeZoneUtil
         // this method will return just GMT+01:00. This is wrong, because it
         // doesn't take DST into account.
         if (!empty($tzid) && '(' !== $tzid[0]) {
-
             // PHP has a bug that logs PHP warnings even it shouldn't:
             // https://bugs.php.net/bug.php?id=67881
             //
