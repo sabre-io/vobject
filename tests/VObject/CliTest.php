@@ -483,7 +483,15 @@ VCARD
         );
 
         rewind($this->cli->stdout);
-        $this->assertRegExp("/^BEGIN:VCARD\r\nVERSION:2.1\r\nUID:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\r\nEND:VCARD\r\n$/", stream_get_contents($this->cli->stdout));
+        $regularExpression = "/^BEGIN:VCARD\r\nVERSION:2.1\r\nUID:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\r\nEND:VCARD\r\n$/";
+        $data = stream_get_contents($this->cli->stdout);
+        // ToDo: when we do not need to run phpunit 7 or 8, remove this 'if' block and just use
+        //       the new assertMatchesRegularExpression that exists since phpunit 9.
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression($regularExpression, $data);
+        } else {
+            $this->assertRegExp($regularExpression, $data);
+        }
     }
 
     public function testRepairNothing()
