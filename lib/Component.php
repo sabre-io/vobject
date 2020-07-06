@@ -431,7 +431,7 @@ class Component extends Node
      *
      * @param string $name
      *
-     * @return Property
+     * @return Property|null
      */
     public function __get($name)
     {
