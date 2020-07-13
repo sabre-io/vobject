@@ -1,6 +1,14 @@
 ChangeLog
 =========
 
+4.3.1 (2020-07-13)
+------------------
+
+* #510: Fix an incomplete phpdoc type annotation (@mstilkerich)
+* #505: Refactor unit test code for phpunit9 (@phil-davis)
+* #500: Standardize CI (@phil-davis)
+* #496: CI tooling changes (@JeroenVanOort)
+
 4.3.0 (2020-01-31)
 ------------------
 
