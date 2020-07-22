@@ -195,6 +195,26 @@ class RRuleIterator implements Iterator
         $this->currentDate = $previous;
     }
 
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    public function getInterval()
+    {
+        return $this->interval;
+    }
+
+    public function getUntil()
+    {
+        return $this->until;
+    }
+
+    public function getFrequency()
+    {
+        return $this->frequency;
+    }
+
     /**
      * Return the frequency in number of days.
      *
