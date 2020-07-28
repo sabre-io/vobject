@@ -1,10 +1,13 @@
 <?php
 
-namespace Sabre\VObject;
+namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTimeImmutable;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Reader;
+use Sabre\VObject\Recur\EventIterator;
 
 class Issue50Test extends TestCase
 {
@@ -102,9 +105,9 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
+        $this->assertInstanceOf(VCalendar::class, $vcal);
 
-        $it = new Recur\EventIterator($vcal, '1aef0b27-3d92-4581-829a-11999dd36724');
+        $it = new EventIterator($vcal, '1aef0b27-3d92-4581-829a-11999dd36724');
 
         $result = [];
         foreach ($it as $instance) {

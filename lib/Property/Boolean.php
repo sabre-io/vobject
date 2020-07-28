@@ -8,7 +8,7 @@ use
 /**
  * Boolean property.
  *
- * This object represents BOOLEAN values. These are always the case-insenstive
+ * This object represents BOOLEAN values. These are always the case-insensitive
  * string TRUE or FALSE.
  *
  * Automatic conversion to PHP's true and false are done.
@@ -59,8 +59,6 @@ class Boolean extends Property
     /**
      * Hydrate data from a XML subtree, as it would appear in a xCard or xCal
      * object.
-     *
-     * @param array $value
      */
     public function setXmlValue(array $value)
     {

@@ -3,16 +3,16 @@
 namespace Sabre\VObject\Recur\EventIterator;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 
 class Issue26Test extends TestCase
 {
-    /**
-     * @expectedException \Sabre\VObject\InvalidDataException
-     */
     public function testExpand()
     {
+        $this->expectException(InvalidDataException::class);
         $input = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -26,7 +26,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
+        $this->assertInstanceOf(VCalendar::class, $vcal);
 
         $it = new EventIterator($vcal, 'bae5d57a98');
     }

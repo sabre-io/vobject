@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Recur\EventIterator;
 
 class MainTest extends TestCase
@@ -29,11 +30,11 @@ class MainTest extends TestCase
     }
 
     /**
-     * @expectedException \Sabre\VObject\InvalidDataException
      * @depends testValues
      */
     public function testInvalidFreq()
     {
+        $this->expectException(InvalidDataException::class);
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
         $ev->RRULE = 'FREQ=SMONTHLY;INTERVAL=3;UNTIL=20111025T000000Z';
@@ -47,20 +48,16 @@ class MainTest extends TestCase
         $it = new EventIterator($vcal, (string) $ev->UID);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testVCalendarNoUID()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $vcal = new VCalendar();
         $it = new EventIterator($vcal);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testVCalendarInvalidUID()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $vcal = new VCalendar();
         $it = new EventIterator($vcal, 'foo');
     }
@@ -1386,10 +1383,10 @@ class MainTest extends TestCase
 
     /**
      * @depends testValues
-     * @expectedException \InvalidArgumentException
      */
     public function testNoMasterBadUID()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $vcal = new VCalendar();
         // ev2 overrides an event, and puts it on 2pm instead.
         $ev2 = $vcal->createComponent('VEVENT');

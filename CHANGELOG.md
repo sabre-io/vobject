@@ -1,6 +1,16 @@
 ChangeLog
 =========
 
+4.3.4 (2020-07-27)
+------------------
+
+* # 16 Merge upstream changes from sabre-io/vobject:4.3.1 into protonlabs/vobject
+
+4.3.3 (2020-07-22)
+------------------
+
+* #15 Expose RRULE properties
+
 4.3.2 (2020-05-20)
 ------------------
 

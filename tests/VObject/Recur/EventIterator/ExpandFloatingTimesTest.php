@@ -5,6 +5,7 @@ namespace Sabre\VObject\Recur\EventIterator;
 use DateTime;
 use DateTimeZone;
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
 class ExpandFloatingTimesTest extends TestCase
@@ -26,7 +27,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
+        $this->assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(new DateTime('2015-01-01'), new DateTime('2015-01-31'));
         $output = <<<ICS
@@ -77,7 +78,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
+        $this->assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(
             new DateTime('2015-01-01'),

@@ -104,7 +104,6 @@ class Broker
      *
      * If the iTip message was not supported, we will always return false.
      *
-     * @param Message   $itipMessage
      * @param VCalendar $existingObject
      *
      * @return VCalendar|null
@@ -263,8 +262,6 @@ class Broker
      * This is message from an organizer, and is either a new event
      * invite, or an update to an existing one.
      *
-     *
-     * @param Message   $itipMessage
      * @param VCalendar $existingObject
      *
      * @return VCalendar|null
@@ -300,7 +297,6 @@ class Broker
      * attendee got removed from an event, or an event got cancelled
      * altogether.
      *
-     * @param Message   $itipMessage
      * @param VCalendar $existingObject
      *
      * @return VCalendar|null
@@ -326,7 +322,6 @@ class Broker
      * The message is a reply. This is for example an attendee telling
      * an organizer he accepted the invite, or declined it.
      *
-     * @param Message   $itipMessage
      * @param VCalendar $existingObject
      *
      * @return VCalendar|null
@@ -452,10 +447,6 @@ class Broker
      * We will detect which attendees got added, which got removed and create
      * specific messages for these situations.
      *
-     * @param VCalendar $calendar
-     * @param array     $eventInfo
-     * @param array     $oldEventInfo
-     *
      * @return array
      */
     protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo)
@@ -505,19 +496,20 @@ class Broker
             $message->recipient = $attendee['href'];
             $message->recipientName = $attendee['name'];
 
+            // Creating the new iCalendar body.
+            $icalMsg = new VCalendar();
+
+            foreach ($calendar->select('VTIMEZONE') as $timezone) {
+                $icalMsg->add(clone $timezone);
+            }
+
             if (!$attendee['newInstances']) {
                 // If there are no instances the attendee is a part of, it
                 // means the attendee was removed and we need to send him a
                 // CANCEL.
                 $message->method = 'CANCEL';
 
-                // Creating the new iCalendar body.
-                $icalMsg = new VCalendar();
                 $icalMsg->METHOD = $message->method;
-
-                foreach ($calendar->select('VTIMEZONE') as $timezone) {
-                    $icalMsg->add(clone $timezone);
-                }
 
                 $event = $icalMsg->add('VEVENT', [
                     'UID' => $message->uid,
@@ -545,13 +537,7 @@ class Broker
                 // The attendee gets the updated event body
                 $message->method = 'REQUEST';
 
-                // Creating the new iCalendar body.
-                $icalMsg = new VCalendar();
                 $icalMsg->METHOD = $message->method;
-
-                foreach ($calendar->select('VTIMEZONE') as $timezone) {
-                    $icalMsg->add(clone $timezone);
-                }
 
                 // We need to find out that this change is significant. If it's
                 // not, systems may opt to not send messages.
@@ -625,10 +611,7 @@ class Broker
      *
      * This function figures out if we need to send a reply to an organizer.
      *
-     * @param VCalendar $calendar
-     * @param array     $eventInfo
-     * @param array     $oldEventInfo
-     * @param string    $attendee
+     * @param string $attendee
      *
      * @return Message[]
      */
@@ -710,6 +693,10 @@ class Broker
 
         $icalMsg = new VCalendar();
         $icalMsg->METHOD = 'REPLY';
+
+        foreach ($calendar->select('VTIMEZONE') as $timezone) {
+            $icalMsg->add(clone $timezone);
+        }
 
         $hasReply = false;
 

@@ -3,6 +3,7 @@ vendor/
 composer.lock
 tests/cov/
 tests/temp
+tests/.phpunit.result.cache
 
 #vim
 .*.swp
@@ -17,6 +18,7 @@ bin/hoa
 # Development stuff
 testdata/
 .php_cs.cache
+.idea
 
 # OS X
 .DS_Store

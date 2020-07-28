@@ -294,11 +294,9 @@ OUT;
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testUnknownSourceVCardVersion()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $input = <<<IN
 BEGIN:VCARD
 VERSION:4.2
@@ -320,11 +318,9 @@ IN;
         $vcard->convert(Document::VCARD40);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testUnknownTargetVCardVersion()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $input = <<<IN
 BEGIN:VCARD
 VERSION:3.0
@@ -495,7 +491,7 @@ VCF;
 
         $vcard = Reader::read($input);
 
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCard', $vcard);
+        $this->assertInstanceOf(Component\VCard::class, $vcard);
         $vcard = $vcard->convert(Document::VCARD40);
         $vcard = $vcard->serialize();
 
@@ -517,5 +513,35 @@ END:VCARD
 VCF;
 
         $this->assertEquals($expected, str_replace("\r", '', $vcard));
+    }
+
+    public function testPhoneNumberValueTypeGetsRemoved()
+    {
+        $input = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+UID:foo
+FN:John Doe
+TEL;TYPE=HOME;VALUE=PHONE-NUMBER:+1234
+END:VCARD
+
+VCF;
+
+        $output = <<<VCF
+BEGIN:VCARD
+VERSION:4.0
+UID:foo
+FN:John Doe
+TEL;TYPE=HOME:+1234
+END:VCARD
+VCF;
+
+        $vcard = Reader::read($input);
+        $vcard = $vcard->convert(Document::VCARD40);
+
+        $this->assertVObjectEqualsVObject(
+            $output,
+            $vcard
+        );
     }
 }

@@ -26,8 +26,7 @@ class VCardConverter
      *
      * If input and output version are identical, a clone is returned.
      *
-     * @param Component\VCard $input
-     * @param int             $targetVersion
+     * @param int $targetVersion
      */
     public function convert(Component\VCard $input, $targetVersion)
     {
@@ -62,10 +61,7 @@ class VCardConverter
     /**
      * Handles conversion of a single property.
      *
-     * @param Component\VCard $input
-     * @param Component\VCard $output
-     * @param Property        $property
-     * @param int             $targetVersion
+     * @param int $targetVersion
      */
     protected function convertProperty(Component\VCard $input, Component\VCard $output, Property $property, $targetVersion)
     {
@@ -82,6 +78,9 @@ class VCardConverter
         }
         if (!$valueType) {
             $valueType = $property->getValueType();
+        }
+        if (Document::VCARD30 !== $targetVersion && 'PHONE-NUMBER' === $valueType) {
+            $valueType = null;
         }
         $newProperty = $output->createProperty(
             $property->name,
@@ -227,7 +226,7 @@ class VCardConverter
 
         // Lastly, we need to see if there's a need for a VALUE parameter.
         //
-        // We can do that by instantating a empty property with that name, and
+        // We can do that by instantiating a empty property with that name, and
         // seeing if the default valueType is identical to the current one.
         $tempProperty = $output->createProperty($newProperty->name);
         if ($tempProperty->getValueType() !== $newProperty->getValueType()) {
@@ -242,8 +241,7 @@ class VCardConverter
      *
      * vCard 4.0 no longer supports BINARY properties.
      *
-     * @param Component\VCard $output
-     * @param Property\Uri    $property the input property
+     * @param Property\Uri $property the input property
      * @param $parameters list of parameters that will eventually be added to
      *                    the new property
      *
@@ -296,8 +294,7 @@ class VCardConverter
      * be valid in vCard 3.0 as well, we should convert those to BINARY if
      * possible, to improve compatibility.
      *
-     * @param Component\VCard $output
-     * @param Property\Uri    $property the input property
+     * @param Property\Uri $property the input property
      *
      * @return Property\Binary|null
      */
@@ -344,9 +341,6 @@ class VCardConverter
 
     /**
      * Adds parameters to a new property for vCard 4.0.
-     *
-     * @param Property $newProperty
-     * @param array    $parameters
      */
     protected function convertParameters40(Property $newProperty, array $parameters)
     {
@@ -383,9 +377,6 @@ class VCardConverter
 
     /**
      * Adds parameters to a new property for vCard 3.0.
-     *
-     * @param Property $newProperty
-     * @param array    $parameters
      */
     protected function convertParameters30(Property $newProperty, array $parameters)
     {

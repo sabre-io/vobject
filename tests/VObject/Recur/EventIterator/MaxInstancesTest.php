@@ -5,15 +5,14 @@ namespace Sabre\VObject\Recur\EventIterator;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
+use Sabre\VObject\Recur\MaxInstancesExceededException;
 use Sabre\VObject\Settings;
 
 class MaxInstancesTest extends TestCase
 {
-    /**
-     * @expectedException \Sabre\VObject\Recur\MaxInstancesExceededException
-     */
     public function testExceedMaxRecurrences()
     {
+        $this->expectException(MaxInstancesExceededException::class);
         $input = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0

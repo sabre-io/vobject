@@ -11,8 +11,17 @@ use PHPUnit\Framework\TestCase;
  */
 class CliTest extends TestCase
 {
-    public function setUp()
+    /** @var CliMock */
+    private $cli;
+
+    private $sabreTempDir = __DIR__.'/../temp/';
+
+    public function setUp(): void
     {
+        if (!file_exists($this->sabreTempDir)) {
+            mkdir($this->sabreTempDir);
+        }
+
         $this->cli = new CliMock();
         $this->cli->stderr = fopen('php://memory', 'r+');
         $this->cli->stdout = fopen('php://memory', 'r+');
@@ -266,7 +275,7 @@ VCF;
 
     public function testConvertDefaultFormats()
     {
-        $outputFile = SABRE_TEMPDIR.'bar.json';
+        $outputFile = $this->sabreTempDir.'bar.json';
 
         $this->assertEquals(
             2,
@@ -279,7 +288,7 @@ VCF;
 
     public function testConvertDefaultFormats2()
     {
-        $outputFile = SABRE_TEMPDIR.'bar.ics';
+        $outputFile = $this->sabreTempDir.'bar.ics';
 
         $this->assertEquals(
             2,
@@ -474,7 +483,15 @@ VCARD
         );
 
         rewind($this->cli->stdout);
-        $this->assertRegExp("/^BEGIN:VCARD\r\nVERSION:2.1\r\nUID:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\r\nEND:VCARD\r\n$/", stream_get_contents($this->cli->stdout));
+        $regularExpression = "/^BEGIN:VCARD\r\nVERSION:2.1\r\nUID:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\r\nEND:VCARD\r\n$/";
+        $data = stream_get_contents($this->cli->stdout);
+        // ToDo: when we do not need to run phpunit 7 or 8, remove this 'if' block and just use
+        //       the new assertMatchesRegularExpression that exists since phpunit 9.
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression($regularExpression, $data);
+        } else {
+            $this->assertRegExp($regularExpression, $data);
+        }
     }
 
     public function testRepairNothing()

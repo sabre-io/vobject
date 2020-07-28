@@ -22,15 +22,13 @@ class FreeBusyGeneratorTest extends TestCase
         $this->assertEquals('PUBLISH', $result->METHOD->getValue());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidArg()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $gen = new FreeBusyGenerator(
             new \DateTime('2012-01-01'),
             new \DateTime('2012-12-31'),
-            new \StdClass()
+            new \stdClass()
         );
     }
 

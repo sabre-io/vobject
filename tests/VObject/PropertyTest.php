@@ -62,7 +62,7 @@ class PropertyTest extends TestCase
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
 
-        $this->assertInstanceOf('Sabre\\VObject\\Parameter', $property['paramname']);
+        $this->assertInstanceOf(Parameter::class, $property['paramname']);
     }
 
     public function testParameterNotExists()
@@ -71,7 +71,7 @@ class PropertyTest extends TestCase
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
 
-        $this->assertInternalType('null', $property['foo']);
+        $this->assertNull($property['foo']);
     }
 
     public function testParameterMultiple()
@@ -81,7 +81,7 @@ class PropertyTest extends TestCase
         $property['paramname'] = 'paramvalue';
         $property->add('paramname', 'paramvalue');
 
-        $this->assertInstanceOf('Sabre\\VObject\\Parameter', $property['paramname']);
+        $this->assertInstanceOf(Parameter::class, $property['paramname']);
         $this->assertEquals(2, count($property['paramname']->getParts()));
     }
 
@@ -92,7 +92,7 @@ class PropertyTest extends TestCase
         $property['paramname'] = 'paramvalue';
 
         $this->assertEquals(1, count($property->parameters()));
-        $this->assertInstanceOf('Sabre\\VObject\\Parameter', $property->parameters['PARAMNAME']);
+        $this->assertInstanceOf(Parameter::class, $property->parameters['PARAMNAME']);
         $this->assertEquals('PARAMNAME', $property->parameters['PARAMNAME']->name);
         $this->assertEquals('paramvalue', $property->parameters['PARAMNAME']->getValue());
     }
@@ -308,11 +308,10 @@ class PropertyTest extends TestCase
 
     /**
      * ElementList should reject this.
-     *
-     * @expectedException \LogicException
      */
     public function testArrayAccessSetInt()
     {
+        $this->expectException(\LogicException::class);
         $calendar = new VCalendar();
         $property = $calendar->createProperty('X-PROP', null);
 
@@ -322,11 +321,10 @@ class PropertyTest extends TestCase
 
     /**
      * ElementList should reject this.
-     *
-     * @expectedException \LogicException
      */
     public function testArrayAccessUnsetInt()
     {
+        $this->expectException(\LogicException::class);
         $calendar = new VCalendar();
         $property = $calendar->createProperty('X-PROP', null);
 

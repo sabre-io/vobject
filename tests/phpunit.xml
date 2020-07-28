@@ -6,18 +6,16 @@
   convertWarningsToExceptions="true"
   beStrictAboutTestsThatDoNotTestAnything="true"
   beStrictAboutOutputDuringTests="true"
-  beStrictAboutTestSize="true"
   >
-  <testsuite name="Sabre\VObject">
-    <directory>VObject/</directory>
-  </testsuite>
+  <testsuites>
+    <testsuite name="Sabre\VObject">
+      <directory>.</directory>
+    </testsuite>
+  </testsuites>
 
   <filter>
     <whitelist addUncoveredFilesFromWhitelist="true">
         <directory suffix=".php">../lib/</directory>
-        <exclude>
-            <file>../lib/Sabre/VObject/includes.php</file>
-        </exclude>
    </whitelist>
   </filter>
 </phpunit>

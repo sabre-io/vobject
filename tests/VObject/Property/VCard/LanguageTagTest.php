@@ -14,7 +14,7 @@ class LanguageTagTest extends TestCase
 
         $result = $mimeDir->parse($input);
 
-        $this->assertInstanceOf('Sabre\VObject\Property\VCard\LanguageTag', $result->LANG);
+        $this->assertInstanceOf(LanguageTag::class, $result->LANG);
 
         $this->assertEquals('nl', $result->LANG->getValue());
 
@@ -31,7 +31,7 @@ class LanguageTagTest extends TestCase
 
         $result = $mimeDir->parse($input);
 
-        $this->assertInstanceOf('Sabre\VObject\Property\VCard\LanguageTag', $result->LANG);
+        $this->assertInstanceOf(LanguageTag::class, $result->LANG);
         // This replicates what the vcard converter does and triggered a bug in
         // the past.
         $result->LANG->setValue(['de']);

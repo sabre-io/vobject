@@ -4,12 +4,13 @@ namespace Sabre\VObject\Splitter;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
+use Sabre\VObject\ParseException;
 
 class ICalendarTest extends TestCase
 {
     protected $version;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->version = VObject\Version::VERSION;
     }
@@ -45,11 +46,9 @@ EOT;
         $this->assertEquals([], VObject\Reader::read($return)->validate());
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testICalendarImportWrongType()
     {
+        $this->expectException(ParseException::class);
         $data = <<<EOT
 BEGIN:VCARD
 UID:foo1
@@ -84,11 +83,9 @@ EOT;
         $this->assertNull($object = $objects->getNext());
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testICalendarImportInvalidEvent()
     {
+        $this->expectException(ParseException::class);
         $data = <<<EOT
 EOT;
         $tempFile = $this->createStream($data);

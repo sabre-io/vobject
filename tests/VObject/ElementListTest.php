@@ -22,9 +22,12 @@ class ElementListTest extends TestCase
         $count = 0;
         foreach ($elemList as $key => $subcomponent) {
             ++$count;
-            $this->assertInstanceOf('Sabre\\VObject\\Component', $subcomponent);
+            $this->assertInstanceOf(Component::class, $subcomponent);
+
+            if (3 === $count) {
+                $this->assertEquals(2, $key);
+            }
         }
         $this->assertEquals(3, $count);
-        $this->assertEquals(2, $key);
     }
 }

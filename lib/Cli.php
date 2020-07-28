@@ -29,7 +29,7 @@ class Cli
     protected $showHelp = false;
 
     /**
-     * Wether to spit out 'mimedir' or 'json' format.
+     * Whether to spit out 'mimedir' or 'json' format.
      *
      * @var string
      */
@@ -289,7 +289,7 @@ class Cli
         $this->log($this->colorize('green', '  validate').' source_file              Validates a file for correctness.');
         $this->log($this->colorize('green', '  repair').' source_file [output_file]  Repairs a file.');
         $this->log($this->colorize('green', '  convert').' source_file [output_file] Converts a file.');
-        $this->log($this->colorize('green', '  color').' source_file                 Colorize a file, useful for debbugging.');
+        $this->log($this->colorize('green', '  color').' source_file                 Colorize a file, useful for debugging.');
         $this->log(
         <<<HELP
 
@@ -311,8 +311,6 @@ HELP
 
     /**
      * Validates a VObject file.
-     *
-     * @param Component $vObj
      *
      * @return int
      */
@@ -353,8 +351,6 @@ HELP
 
     /**
      * Repairs a VObject file.
-     *
-     * @param Component $vObj
      *
      * @return int
      */
@@ -516,7 +512,7 @@ HELP
          *
          * A higher score means the item will be lower in the list.
          * To avoid score collisions, each "score category" has a reasonable
-         * space to accomodate elements. The $key is added to the $score to
+         * space to accommodate elements. The $key is added to the $score to
          * preserve the original relative order of elements.
          *
          * @param int   $key
@@ -582,8 +578,6 @@ HELP
 
     /**
      * Colorizes a property.
-     *
-     * @param Property $property
      */
     protected function serializeProperty(Property $property)
     {
@@ -642,8 +636,6 @@ HELP
 
     /**
      * Parses the list of arguments.
-     *
-     * @param array $argv
      */
     protected function parseArguments(array $argv)
     {

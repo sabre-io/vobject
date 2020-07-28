@@ -4,6 +4,7 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
 class MissingOverriddenTest extends TestCase
@@ -33,7 +34,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
+        $this->assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(new DateTime('2011-01-01'), new DateTime('2015-01-01'));
 

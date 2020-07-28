@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\ParseException;
 
 /**
  * Note that most MimeDir related tests can actually be found in the ReaderTest
@@ -10,13 +11,11 @@ use PHPUnit\Framework\TestCase;
  */
 class MimeDirTest extends TestCase
 {
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testParseError()
     {
+        $this->expectException(ParseException::class);
         $mimeDir = new MimeDir();
-        $mimeDir->parse(fopen(__FILE__, 'a'));
+        $mimeDir->parse(fopen(__FILE__, 'a+'));
     }
 
     public function testDecodeLatin1()
@@ -80,20 +79,16 @@ VCF;
         $this->assertEquals("umlaut u - \xFC", $vcard->FN->getValue());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testDecodeUnsupportedCharset()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $mimeDir = new MimeDir();
         $mimeDir->setCharset('foobar');
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testDecodeUnsupportedInlineCharset()
     {
+        $this->expectException(ParseException::class);
         $vcard = <<<VCF
 BEGIN:VCARD
 VERSION:2.1

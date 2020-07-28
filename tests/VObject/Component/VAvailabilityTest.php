@@ -24,7 +24,7 @@ END:VCALENDAR
 VCAL;
         $document = Reader::read($vcal);
 
-        $this->assertInstanceOf(__NAMESPACE__.'\VAvailability', $document->VAVAILABILITY);
+        $this->assertInstanceOf(VAvailability::class, $document->VAVAILABILITY);
     }
 
     public function testGetEffectiveStartEnd()
@@ -236,7 +236,7 @@ END:VCALENDAR
 VCAL;
         $document = Reader::read($vcal);
 
-        $this->assertInstanceOf(__NAMESPACE__, $document->VAVAILABILITY->AVAILABLE);
+        $this->assertInstanceOf(Available::class, $document->VAVAILABILITY->AVAILABLE);
     }
 
     public function testRFCxxxSection3_1_availableprop_required()

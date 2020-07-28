@@ -16,7 +16,7 @@ class RecurTest extends TestCase
         $vcal = new VCalendar();
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
 
-        $this->assertInstanceOf('Sabre\VObject\Property\ICalendar\Recur', $recur);
+        $this->assertInstanceOf(Recur::class, $recur);
 
         $this->assertEquals(['FREQ' => 'DAILY'], $recur->getParts());
         $recur->setParts(['freq' => 'MONTHLY']);
@@ -24,11 +24,9 @@ class RecurTest extends TestCase
         $this->assertEquals(['FREQ' => 'MONTHLY'], $recur->getParts());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testSetValueBadVal()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $vcal = new VCalendar();
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
         $recur->setValue(new \Exception());

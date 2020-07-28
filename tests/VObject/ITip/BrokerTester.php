@@ -45,8 +45,11 @@ abstract class BrokerTester extends TestCase
 
         $vcal = Reader::read($input);
 
+        $mainComponent = new \Sabre\VObject\Component\VEvent($vcal, 'VEVENT');
         foreach ($vcal->getComponents() as $mainComponent) {
-            break;
+            if ('VEVENT' === $mainComponent->name) {
+                break;
+            }
         }
 
         $message = new Message();

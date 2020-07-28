@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Splitter;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\ParseException;
 
 class VCardTest extends TestCase
 {
@@ -33,11 +34,9 @@ EOT;
         $this->assertEquals(1, $count);
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testVCardImportWrongType()
     {
+        $this->expectException(ParseException::class);
         $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo1
@@ -100,11 +99,9 @@ EOT;
         $this->assertEquals(4, $count);
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testVCardImportVCardNoComponent()
     {
+        $this->expectException(ParseException::class);
         $data = <<<EOT
 BEGIN:VCARD
 FN:first card
@@ -117,7 +114,7 @@ EOT;
 
         $splitter = new VCard($tempFile);
 
-        $this->expectException(\Sabre\VObject\ParseException::class);
+        $this->expectException(ParseException::class);
         $this->expectExceptionMessage('Invalid MimeDir file. Unexpected component: "BEGIN:VCARD" in document type VCARD');
         while ($object = $splitter->getNext()) {
         }
@@ -161,11 +158,9 @@ EOT;
         $this->assertNull($objects->getNext());
     }
 
-    /**
-     * @expectedException \Sabre\VObject\ParseException
-     */
     public function testVCardImportCheckInvalidArgumentException()
     {
+        $this->expectException(ParseException::class);
         $data = <<<EOT
 BEGIN:FOO
 END:FOO

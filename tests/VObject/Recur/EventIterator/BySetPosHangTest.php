@@ -1,9 +1,10 @@
 <?php
 
-namespace Sabre\VObject\Recur;
+namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
 class BySetPosHangTest extends TestCase
@@ -31,10 +32,11 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($ics);
-        $this->assertInstanceOf('Sabre\\VObject\\Component\\VCalendar', $vcal);
+        $this->assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(new DateTime('2015-01-01'), new DateTime('2016-01-01'));
 
+        $dates = [];
         foreach ($vcal->VEVENT as $event) {
             $dates[] = $event->DTSTART->getValue();
         }
