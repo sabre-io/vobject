@@ -17,6 +17,12 @@ env:
 
 matrix:
   include:
+    - name: 'PHP8'
+      dist: focal
+      php: nightly
+      env:
+        - RUN_PHPCSFIXER="FALSE"
+        - REPORT_COVERAGE="FALSE"
     - name: 'PHPStan'
       php: 7.4
       env:
