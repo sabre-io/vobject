@@ -162,7 +162,7 @@ class Broker
      *
      * @return array
      */
-    public function parseEvent($calendar = null, $userHref, $oldCalendar = null)
+    public function parseEvent($calendar, $userHref, $oldCalendar = null)
     {
         if ($oldCalendar) {
             if (is_string($oldCalendar)) {
