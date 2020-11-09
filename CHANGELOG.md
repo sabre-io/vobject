@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+4.3.3 (2020-11-09)
+------------------
+
+* #519: Remove US/Pacific-New obsolete timezone (@phil-davis)
+
 4.3.2 (2020-10-03)
 ------------------
 
