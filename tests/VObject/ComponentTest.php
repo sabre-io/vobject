@@ -76,10 +76,10 @@ class ComponentTest extends TestCase
     {
         $comp = new VCard([
             'VERSION' => '3.0',
-            'item2.X-ABLabel' => "item2-Foo",
+            'item2.X-ABLabel' => 'item2-Foo',
         ]);
 
-        $comp->{'ITEM1.X-ABLabel'} = "ITEM1-Foo";
+        $comp->{'ITEM1.X-ABLabel'} = 'ITEM1-Foo';
 
         foreach (['item2', 'ITEM1'] as $group) {
             $prop = $comp->{"$group.X-ABLabel"};
