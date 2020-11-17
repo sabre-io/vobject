@@ -72,6 +72,23 @@ class ComponentTest extends TestCase
         $this->assertEquals(null, $email3[0]->group);
     }
 
+    public function testAddGroupProperties()
+    {
+        $comp = new VCard([
+            'VERSION' => '3.0',
+            'item2.X-ABLabel' => "item2-Foo",
+        ]);
+
+        $comp->{'ITEM1.X-ABLabel'} = "ITEM1-Foo";
+
+        foreach (['item2', 'ITEM1'] as $group) {
+            $prop = $comp->{"$group.X-ABLabel"};
+            $this->assertInstanceOf(Property::class, $prop);
+            $this->assertSame("$group-Foo", (string) $prop);
+            $this->assertSame($group, $prop->group);
+        }
+    }
+
     public function testMagicIsset()
     {
         $comp = new VCalendar();
