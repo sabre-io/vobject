@@ -16,7 +16,6 @@ bin/sabre-cs-fixer
 bin/hoa
 
 # Development stuff
-testdata/
 .php_cs.cache
 .idea
 
