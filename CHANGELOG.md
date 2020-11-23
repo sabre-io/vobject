@@ -1,10 +1,16 @@
 ChangeLog
 =========
 
+4.4.0 (2020-11-23)
+------------------
+
+* #18 Merge upstream changes from sabre-io/vobject:4.3.3 into protonlabs/vobject
+* #17 Throw exception when getting invalid timezone
+
 4.3.4 (2020-07-27)
 ------------------
 
-* # 16 Merge upstream changes from sabre-io/vobject:4.3.1 into protonlabs/vobject
+* #16 Merge upstream changes from sabre-io/vobject:4.3.1 into protonlabs/vobject
 
 4.3.3 (2020-07-22)
 ------------------
