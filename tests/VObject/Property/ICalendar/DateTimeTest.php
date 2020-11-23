@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\InvalidDataException;
@@ -304,12 +305,10 @@ class DateTimeTest extends TestCase
         $this->vcal->add($event);
         $this->vcal->add($timezone);
 
-        $dt = $elem->getDateTime();
-
-        $this->assertInstanceOf('DateTimeImmutable', $dt);
-        $this->assertEquals('1985-07-04 01:30:00', $dt->format('Y-m-d H:i:s'));
-        $this->assertEquals('Canada/Eastern', $dt->getTimeZone()->getName());
         date_default_timezone_set($default);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('We were unable to determine the correct PHP timezone for tzid: Moon');
+        $elem->getDateTime();
     }
 
     public function testUpdateValueParameter()
