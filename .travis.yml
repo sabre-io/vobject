@@ -19,7 +19,7 @@ matrix:
   include:
     - name: 'PHP8'
       dist: focal
-      php: nightly
+      php: 8.0
       env:
         - RUN_PHPCSFIXER="FALSE"
         - REPORT_COVERAGE="FALSE"
