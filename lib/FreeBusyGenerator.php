@@ -362,7 +362,6 @@ class FreeBusyGenerator
             foreach ($object->getBaseComponents() as $component) {
                 switch ($component->name) {
                     case 'VEVENT':
-
                         $FBTYPE = 'BUSY';
                         if (isset($component->TRANSP) && ('TRANSPARENT' === strtoupper($component->TRANSP))) {
                             break;

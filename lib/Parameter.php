@@ -95,13 +95,11 @@ class Parameter extends Node
             case 'WORK':
             case 'HOME':
             case 'PREF':
-
             // Delivery Label Type
             case 'DOM':
             case 'INTL':
             case 'POSTAL':
             case 'PARCEL':
-
             // Telephone types
             case 'VOICE':
             case 'FAX':
@@ -113,7 +111,6 @@ class Parameter extends Node
             case 'CAR':
             case 'ISDN':
             case 'VIDEO':
-
             // EMAIL types (lol)
             case 'AOL':
             case 'APPLELINK':
@@ -127,7 +124,6 @@ class Parameter extends Node
             case 'PRODIGY':
             case 'TLX':
             case 'X400':
-
             // Photo / Logo format types
             case 'GIF':
             case 'CGM':
@@ -143,12 +139,10 @@ class Parameter extends Node
             case 'MPEG2':
             case 'AVI':
             case 'QTIME':
-
             // Sound Digital Audio Type
             case 'WAVE':
             case 'PCM':
             case 'AIFF':
-
             // Key types
             case 'X509':
             case 'PGP':

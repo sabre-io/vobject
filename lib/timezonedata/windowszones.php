@@ -10,7 +10,7 @@
  * @license http://sabre.io/license/ Modified BSD License
  */
 
-return  [
+return [
   'AUS Central Standard Time' => 'Australia/Darwin',
   'AUS Eastern Standard Time' => 'Australia/Sydney',
   'Afghanistan Standard Time' => 'Asia/Kabul',

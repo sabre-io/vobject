@@ -2,8 +2,7 @@
 
 namespace Sabre\VObject;
 
-use
-    InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * This is the CLI interface for sabre-vobject.
@@ -137,17 +136,14 @@ class Cli
                             // jcard/jcal documents
                             case 'jcard':
                             case 'jcal':
-
                             // specific document versions
                             case 'vcard21':
                             case 'vcard30':
                             case 'vcard40':
                             case 'icalendar20':
-
                             // specific formats
                             case 'json':
                             case 'mimedir':
-
                             // icalendar/vcad
                             case 'icalendar':
                             case 'vcard':
@@ -183,7 +179,6 @@ class Cli
                             case 'vcard30':
                             case 'vcard40':
                             case 'icalendar20':
-
                                 $this->inputFormat = 'mimedir';
                                 break;
 

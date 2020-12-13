@@ -717,7 +717,6 @@ class RRuleIterator implements Iterator
                     break;
 
                 case 'INTERVAL':
-
                 case 'COUNT':
                     $val = (int) $value;
                     if ($val < 1) {
