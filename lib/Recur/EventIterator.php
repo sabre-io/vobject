@@ -83,7 +83,7 @@ class EventIterator implements \Iterator
      * 2. You can pass an array of VEVENTs (all UIDS should match).
      * 3. You can pass a single VEVENT component.
      *
-     * Only the second method is recomended. The other 1 and 3 will be removed
+     * Only the second method is recommended. The other 1 and 3 will be removed
      * at some point in the future.
      *
      * The $uid parameter is only required for the first method.

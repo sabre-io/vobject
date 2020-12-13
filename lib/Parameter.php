@@ -293,7 +293,7 @@ class Parameter extends Node
                 // https://tools.ietf.org/html/rfc6868
                 //
                 // But we've found that iCal (7.0, shipped with OSX 10.9)
-                // severaly trips on + characters not being quoted, so we
+                // severely trips on + characters not being quoted, so we
                 // added + as well.
                 if (!preg_match('#(?: [\n":;\^,\+] )#x', $item)) {
                     return $out.$item;

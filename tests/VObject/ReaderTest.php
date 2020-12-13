@@ -336,7 +336,7 @@ class ReaderTest extends TestCase
         $data = [
             'BEGIN:VCALENDAR',
             'DESCRIPTION:propValue',
-            "Yes, we've actually seen a file with non-idented property values on multiple lines",
+            "Yes, we've actually seen a file with non-indented property values on multiple lines",
             'END:VCALENDAR',
         ];
 

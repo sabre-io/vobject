@@ -206,7 +206,7 @@ class Cli
             }
 
             if (!in_array($positional[0], ['validate', 'repair', 'convert', 'color'])) {
-                throw new InvalidArgumentException('Uknown command: '.$positional[0]);
+                throw new InvalidArgumentException('Unknown command: '.$positional[0]);
             }
         } catch (InvalidArgumentException $e) {
             $this->showHelp();

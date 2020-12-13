@@ -265,7 +265,7 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
-    public function testMonlthyEndOfMonth()
+    public function testMonthlyEndOfMonth()
     {
         $this->parse(
             'FREQ=MONTHLY;INTERVAL=2;COUNT=12',
@@ -628,7 +628,7 @@ class RRuleIteratorTest extends TestCase
      * This bug came from a Fruux customer. This would result in a never-ending
      * request.
      */
-    public function testFastFowardTooFar()
+    public function testFastForwardTooFar()
     {
         $this->parse(
             'FREQ=WEEKLY;BYDAY=MO;UNTIL=20090704T205959Z;INTERVAL=1',
