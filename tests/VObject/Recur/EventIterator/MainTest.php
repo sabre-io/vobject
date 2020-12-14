@@ -1172,7 +1172,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testOverridenEvent()
+    public function testOverriddenEvent()
     {
         $vcal = new VCalendar();
 
@@ -1243,7 +1243,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testOverridenEvent2()
+    public function testOverriddenEvent2()
     {
         $vcal = new VCalendar();
 
@@ -1291,7 +1291,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testOverridenEventNoValuesExpected()
+    public function testOverriddenEventNoValuesExpected()
     {
         $vcal = new VCalendar();
         $ev1 = $vcal->createComponent('VEVENT');
@@ -1318,12 +1318,12 @@ class MainTest extends TestCase
         $summaries = [];
 
         // The reported problem was specifically related to the VCALENDAR
-        // expansion. In this parcitular case, we had to forward to the 28th of
+        // expansion. In this particular case, we had to forward to the 28th of
         // january.
         $it->fastForward(new DateTimeImmutable('2012-01-28 23:00:00'));
 
-        // We stop the loop when it hits the 6th of februari. Normally this
-        // iterator would hit 24, 25 (overriden from 31) and 7 feb but because
+        // We stop the loop when it hits the 6th of February. Normally this
+        // iterator would hit 24, 25 (overridden from 31) and 7 feb but because
         // we 'filter' from the 28th till the 6th, we should get 0 results.
         while ($it->valid() && $it->getDTStart() < new DateTimeImmutable('2012-02-06 23:00:00')) {
             $dates[] = $it->getDTStart();

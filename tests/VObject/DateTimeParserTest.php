@@ -408,7 +408,7 @@ class DateTimeParserTest extends TestCase
         ];
     }
 
-    public function testDateAndOrTime_DateWithYearMonthDay()
+    public function testDateAndOrTimeDateWithYearMonthDay()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '20150128',
@@ -420,7 +420,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateWithYearMonth()
+    public function testDateAndOrTimeDateWithYearMonth()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '2015-01',
@@ -431,7 +431,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateWithMonth()
+    public function testDateAndOrTimeDateWithMonth()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--01',
@@ -441,7 +441,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateWithMonthDay()
+    public function testDateAndOrTimeDateWithMonthDay()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--0128',
@@ -452,7 +452,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateWithDay()
+    public function testDateAndOrTimeDateWithDay()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28',
@@ -462,7 +462,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_TimeWithHour()
+    public function testDateAndOrTimeTimeWithHour()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '13',
@@ -472,7 +472,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_TimeWithHourMinute()
+    public function testDateAndOrTimeTimeWithHourMinute()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '1353',
@@ -483,7 +483,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_TimeWithHourSecond()
+    public function testDateAndOrTimeTimeWithHourSecond()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '135301',
@@ -495,7 +495,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_TimeWithMinute()
+    public function testDateAndOrTimeTimeWithMinute()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '-53',
@@ -505,7 +505,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_TimeWithMinuteSecond()
+    public function testDateAndOrTimeTimeWithMinuteSecond()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '-5301',
@@ -516,7 +516,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_TimeWithSecond()
+    public function testDateAndOrTimeTimeWithSecond()
     {
         $this->assertTrue(true);
 
@@ -526,7 +526,7 @@ class DateTimeParserTest extends TestCase
          */
     }
 
-    public function testDateAndOrTime_TimeWithSecondZ()
+    public function testDateAndOrTimeTimeWithSecondZ()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--01Z',
@@ -537,7 +537,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_TimeWithSecondTZ()
+    public function testDateAndOrTimeTimeWithSecondTZ()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--01+1234',
@@ -548,7 +548,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateTimeWithYearMonthDayHour()
+    public function testDateAndOrTimeDateTimeWithYearMonthDayHour()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '20150128T13',
@@ -561,7 +561,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateTimeWithMonthDayHour()
+    public function testDateAndOrTimeDateTimeWithMonthDayHour()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--0128T13',
@@ -573,7 +573,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateTimeWithDayHour()
+    public function testDateAndOrTimeDateTimeWithDayHour()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T13',
@@ -584,7 +584,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateTimeWithDayHourMinute()
+    public function testDateAndOrTimeDateTimeWithDayHourMinute()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T1353',
@@ -596,7 +596,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateTimeWithDayHourMinuteSecond()
+    public function testDateAndOrTimeDateTimeWithDayHourMinuteSecond()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T135301',
@@ -609,7 +609,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateTimeWithDayHourZ()
+    public function testDateAndOrTimeDateTimeWithDayHourZ()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T13Z',
@@ -621,7 +621,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTime_DateTimeWithDayHourTZ()
+    public function testDateAndOrTimeDateTimeWithDayHourTZ()
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T13+1234',

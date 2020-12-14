@@ -373,7 +373,7 @@ ICS;
         $result = $this->process($itip, $old, $expected);
     }
 
-    public function testReplyPartyCrashCreateExcepton()
+    public function testReplyPartyCrashCreateException()
     {
         // IN this test there's a recurring event that has an exception. The
         // exception is missing the attendee.

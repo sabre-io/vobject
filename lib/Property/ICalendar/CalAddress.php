@@ -2,8 +2,7 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use
-    Sabre\VObject\Property\Text;
+use Sabre\VObject\Property\Text;
 
 /**
  * CalAddress property.

@@ -8,7 +8,7 @@ class TimeZoneUtilTest extends TestCase
 {
     public function setUp(): void
     {
-        // clearning the tz cache
+        // clearing the tz cache
         TimeZoneUtil::$map = null;
     }
 
@@ -82,7 +82,7 @@ HI;
         $this->assertEquals($ex->getName(), $tz->getName());
     }
 
-    public function testWetherMicrosoftIsStillInsane()
+    public function testWhetherMicrosoftIsStillInsane()
     {
         $vobj = <<<HI
 BEGIN:VCALENDAR

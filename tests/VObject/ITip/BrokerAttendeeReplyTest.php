@@ -907,7 +907,7 @@ ICS;
      * Except in this case, there was already an overridden event, and the
      * overridden event was marked as cancelled by the attendee.
      *
-     * For any other attendence status, the new status would have been
+     * For any other attendance status, the new status would have been
      * declined, but for this, no message should we sent.
      */
     public function testDontCreateReplyWhenEventWasDeclined()

@@ -135,8 +135,8 @@ VCF;
         $vcard = VObject\Reader::read($vcard);
         $this->assertEquals('1@example.org', $vcard->getByType('EMAIL', 'home')->getValue());
         $this->assertEquals('2@example.org', $vcard->getByType('EMAIL', 'work')->getValue());
-        $this->assertNull($vcard->getByType('EMAIL', 'non-existant'));
-        $this->assertNull($vcard->getByType('ADR', 'non-existant'));
+        $this->assertNull($vcard->getByType('EMAIL', 'non-existent'));
+        $this->assertNull($vcard->getByType('ADR', 'non-existent'));
     }
 
     public function testPreferredNoPref()

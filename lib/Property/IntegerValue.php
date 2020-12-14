@@ -2,8 +2,7 @@
 
 namespace Sabre\VObject\Property;
 
-use
-    Sabre\VObject\Property;
+use Sabre\VObject\Property;
 
 /**
  * Integer property.

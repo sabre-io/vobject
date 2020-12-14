@@ -262,7 +262,7 @@ XML;
     /**
      * iCalendar Stream.
      */
-    public function testRFC6321Section3_2()
+    public function testRFC6321Section3Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -280,7 +280,7 @@ XML
     /**
      * All components exist.
      */
-    public function testRFC6321Section3_3()
+    public function testRFC6321Section3Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -325,7 +325,7 @@ XML
     /**
      * Properties, Special Cases, GEO.
      */
-    public function testRFC6321Section3_4_1_2()
+    public function testRFC6321Section3Part4Part1Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -351,7 +351,7 @@ XML
     /**
      * Properties, Special Cases, REQUEST-STATUS.
      */
-    public function testRFC6321Section3_4_1_3()
+    public function testRFC6321Section3Part4Part1Part3()
     {
         // Example 1 of RFC5545, Section 3.8.8.3.
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -466,7 +466,7 @@ XML
     /**
      * Values, Binary.
      */
-    public function testRFC6321Section3_6_1()
+    public function testRFC6321Section3Part6Part1()
     {
         $this->assertXMLEqualsToMimeDir(
 <<<XML
@@ -511,7 +511,7 @@ XML
     /**
      * Values, Boolean.
      */
-    public function testRFC6321Section3_6_2()
+    public function testRFC6321Section3Part6Part2()
     {
         $this->assertXMLEqualsToMimeDir(
 <<<XML
@@ -539,7 +539,7 @@ XML
     /**
      * Values, Calendar User Address.
      */
-    public function testRFC6321Section3_6_3()
+    public function testRFC6321Section3Part6Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -564,7 +564,7 @@ XML
     /**
      * Values, Date.
      */
-    public function testRFC6321Section3_6_4()
+    public function testRFC6321Section3Part6Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -589,7 +589,7 @@ XML
     /**
      * Values, Date-Time.
      */
-    public function testRFC6321Section3_6_5()
+    public function testRFC6321Section3Part6Part5()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -614,7 +614,7 @@ XML
     /**
      * Values, Duration.
      */
-    public function testRFC6321Section3_6_6()
+    public function testRFC6321Section3Part6Part6()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -639,16 +639,16 @@ XML
     /**
      * Values, Float.
      */
-    public function testRFC6321Section3_6_7()
+    public function testRFC6321Section3Part6Part7()
     {
         // GEO uses <float /> with a positive and a non-negative numbers.
-        $this->testRFC6321Section3_4_1_2();
+        $this->testRFC6321Section3Part4Part1Part2();
     }
 
     /**
      * Values, Integer.
      */
-    public function testRFC6321Section3_6_8()
+    public function testRFC6321Section3Part6Part8()
     {
         $this->assertXMLEqualsToMimeDir(
 <<<XML
@@ -692,7 +692,7 @@ XML
     /**
      * Values, Period of Time.
      */
-    public function testRFC6321Section3_6_9()
+    public function testRFC6321Section3Part6Part9()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -742,7 +742,7 @@ XML
     /**
      * Values, Recurrence Rule.
      */
-    public function testRFC6321Section3_6_10()
+    public function testRFC6321Section3Part6Part10()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -772,7 +772,7 @@ XML
     /**
      * Values, Text.
      */
-    public function testRFC6321Section3_6_11()
+    public function testRFC6321Section3Part6Part11()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -797,7 +797,7 @@ XML
     /**
      * Values, Time.
      */
-    public function testRFC6321Section3_6_12()
+    public function testRFC6321Section3Part6Part12()
     {
         $this->assertXMLEqualsToMimeDir(
 <<<XML
@@ -822,7 +822,7 @@ XML
     /**
      * Values, URI.
      */
-    public function testRFC6321Section3_6_13()
+    public function testRFC6321Section3Part6Part13()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -847,7 +847,7 @@ XML
     /**
      * Values, UTC Offset.
      */
-    public function testRFC6321Section3_6_14()
+    public function testRFC6321Section3Part6Part14()
     {
         // Example 1 of RFC5545, Section 3.3.14.
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -1259,7 +1259,7 @@ XML
     /**
      * Extensibility.
      */
-    public function testRFC6351Section5_1_NoNamespace()
+    public function testRFC6351Section5Part1NoNamespace()
     {
         $this->assertXMLEqualsToMimeDir(
 <<<XML
@@ -1777,7 +1777,7 @@ XML
     /**
      * Property: SOURCE.
      */
-    public function testRFC6350Section6_1_3()
+    public function testRFC6350Section6Part1Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -1801,7 +1801,7 @@ XML
     /**
      * Property: KIND.
      */
-    public function testRFC6350Section6_1_4()
+    public function testRFC6350Section6Part1Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -1825,7 +1825,7 @@ XML
     /**
      * Property: FN.
      */
-    public function testRFC6350Section6_2_1()
+    public function testRFC6350Section6Part2Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -1849,7 +1849,7 @@ XML
     /**
      * Property: N.
      */
-    public function testRFC6350Section6_2_2()
+    public function testRFC6350Section6Part2Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -1877,7 +1877,7 @@ XML
     /**
      * Property: NICKNAME.
      */
-    public function testRFC6350Section6_2_3()
+    public function testRFC6350Section6Part2Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -1902,7 +1902,7 @@ XML
     /**
      * Property: PHOTO.
      */
-    public function testRFC6350Section6_2_4()
+    public function testRFC6350Section6Part2Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -1923,7 +1923,7 @@ XML
         );
     }
 
-    public function testRFC6350Section6_2_5()
+    public function testRFC6350Section6Part2Part5()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -1944,7 +1944,7 @@ XML
         );
     }
 
-    public function testRFC6350Section6_2_6()
+    public function testRFC6350Section6Part2Part6()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -1968,7 +1968,7 @@ XML
     /**
      * Property: GENDER.
      */
-    public function testRFC6350Section6_2_7()
+    public function testRFC6350Section6Part2Part7()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -1993,7 +1993,7 @@ XML
     /**
      * Property: ADR.
      */
-    public function testRFC6350Section6_3_1()
+    public function testRFC6350Section6Part3Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2023,7 +2023,7 @@ XML
     /**
      * Property: TEL.
      */
-    public function testRFC6350Section6_4_1()
+    public function testRFC6350Section6Part4Part1()
     {
         /*
          * Quoting RFC:
@@ -2085,7 +2085,7 @@ XML
     /**
      * Property: EMAIL.
      */
-    public function testRFC6350Section6_4_2()
+    public function testRFC6350Section6Part4Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2114,7 +2114,7 @@ XML
     /**
      * Property: IMPP.
      */
-    public function testRFC6350Section6_4_3()
+    public function testRFC6350Section6Part4Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2143,7 +2143,7 @@ XML
     /**
      * Property: LANG.
      */
-    public function testRFC6350Section6_4_4()
+    public function testRFC6350Section6Part4Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2175,7 +2175,7 @@ XML
     /**
      * Property: TZ.
      */
-    public function testRFC6350Section6_5_1()
+    public function testRFC6350Section6Part5Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2199,7 +2199,7 @@ XML
     /**
      * Property: GEO.
      */
-    public function testRFC6350Section6_5_2()
+    public function testRFC6350Section6Part5Part2()
     {
         $this->assertXMLEqualsToMimeDir(
 <<<XML
@@ -2241,7 +2241,7 @@ XML
     /**
      * Property: TITLE.
      */
-    public function testRFC6350Section6_6_1()
+    public function testRFC6350Section6Part6Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2265,7 +2265,7 @@ XML
     /**
      * Property: ROLE.
      */
-    public function testRFC6350Section6_6_2()
+    public function testRFC6350Section6Part6Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2289,7 +2289,7 @@ XML
     /**
      * Property: LOGO.
      */
-    public function testRFC6350Section6_6_3()
+    public function testRFC6350Section6Part6Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2313,7 +2313,7 @@ XML
     /**
      * Property: ORG.
      */
-    public function testRFC6350Section6_6_4()
+    public function testRFC6350Section6Part6Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2339,7 +2339,7 @@ XML
     /**
      * Property: MEMBER.
      */
-    public function testRFC6350Section6_6_5()
+    public function testRFC6350Section6Part6Part5()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2393,7 +2393,7 @@ XML
     /**
      * Property: RELATED.
      */
-    public function testRFC6350Section6_6_6()
+    public function testRFC6350Section6Part6Part6()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2422,7 +2422,7 @@ XML
     /**
      * Property: CATEGORIES.
      */
-    public function testRFC6350Section6_7_1()
+    public function testRFC6350Section6Part7Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2449,7 +2449,7 @@ XML
     /**
      * Property: NOTE.
      */
-    public function testRFC6350Section6_7_2()
+    public function testRFC6350Section6Part7Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2473,7 +2473,7 @@ XML
     /**
      * Property: PRODID.
      */
-    public function testRFC6350Section6_7_3()
+    public function testRFC6350Section6Part7Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2494,7 +2494,7 @@ XML
         );
     }
 
-    public function testRFC6350Section6_7_4()
+    public function testRFC6350Section6Part7Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2518,7 +2518,7 @@ XML
     /**
      * Property: SOUND.
      */
-    public function testRFC6350Section6_7_5()
+    public function testRFC6350Section6Part7Part5()
     {
         $this->assertXMLEqualsToMimeDir(
 <<<XML
@@ -2560,7 +2560,7 @@ XML
     /**
      * Property: UID.
      */
-    public function testRFC6350Section6_7_6()
+    public function testRFC6350Section6Part7Part6()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2584,7 +2584,7 @@ XML
     /**
      * Property: CLIENTPIDMAP.
      */
-    public function testRFC6350Section6_7_7()
+    public function testRFC6350Section6Part7Part7()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2609,7 +2609,7 @@ XML
     /**
      * Property: URL.
      */
-    public function testRFC6350Section6_7_8()
+    public function testRFC6350Section6Part7Part8()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2633,7 +2633,7 @@ XML
     /**
      * Property: VERSION.
      */
-    public function testRFC6350Section6_7_9()
+    public function testRFC6350Section6Part7Part9()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2652,7 +2652,7 @@ XML
     /**
      * Property: KEY.
      */
-    public function testRFC6350Section6_8_1()
+    public function testRFC6350Section6Part8Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2681,7 +2681,7 @@ XML
     /**
      * Property: FBURL.
      */
-    public function testRFC6350Section6_9_1()
+    public function testRFC6350Section6Part9Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2710,7 +2710,7 @@ XML
     /**
      * Property: CALADRURI.
      */
-    public function testRFC6350Section6_9_2()
+    public function testRFC6350Section6Part9Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2734,7 +2734,7 @@ XML
     /**
      * Property: CALURI.
      */
-    public function testRFC6350Section6_9_3()
+    public function testRFC6350Section6Part9Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
@@ -2763,7 +2763,7 @@ XML
     /**
      * Property: CAPURI.
      */
-    public function testRFC6350SectionA_3()
+    public function testRFC6350SectionAPart3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
 <<<XML
