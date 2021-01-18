@@ -1002,6 +1002,10 @@ class RRuleIterator implements Iterator
         if (!isset($this->frequency)) {
             throw new InvalidDataException('Unknown value for FREQ');
         }
+
+        if (isset($this->count) && isset($this->until)) {
+            throw new InvalidDataException('Can not have both UNTIL and COUNT property at the same time');
+        }
     }
 
     /**

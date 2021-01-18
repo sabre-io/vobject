@@ -974,6 +974,18 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testUntilAndCount()
+    {
+        $this->expectException(InvalidDataException::class);
+        $this->expectExceptionMessage('Can not have both UNTIL and COUNT property at the same time');
+
+        $this->parse(
+            'FREQ=DAILY;COUNT=5;UNTIL=20201108T225959Z',
+            '2021-01-18 00:15:00',
+            []
+        );
+    }
+
     public function testIgnoredStuff()
     {
         $this->parse(
