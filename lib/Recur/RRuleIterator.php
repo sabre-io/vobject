@@ -536,7 +536,7 @@ class RRuleIterator implements Iterator
                     foreach ($this->byWeekNo as $byWeekNo) {
                         foreach ($dayOffsets as $dayOffset) {
                             $date = clone $this->currentDate;
-                            $date->setISODate($currentYear, $byWeekNo, $dayOffset);
+                            $date = $date->setISODate($currentYear, $byWeekNo, $dayOffset);
 
                             if ($date > $this->currentDate) {
                                 $checkDates[] = $date;
