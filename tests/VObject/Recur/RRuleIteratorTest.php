@@ -591,6 +591,19 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+	public function testYearlyByDayByWeekNo()
+	{
+		$this->parse(
+			'FREQ=YEARLY;COUNT=3;BYDAY=MO;BYWEEKNO=13,15,50',
+			'2021-01-01 00:00:00',
+			[
+				'2021-01-01 00:00:00',
+				'2021-03-29 00:00:00',
+				'2021-04-12 00:00:00',
+			]
+		);
+	}
+
     public function testFastForward()
     {
         // The idea is that we're fast-forwarding too far in the future, so
