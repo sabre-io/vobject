@@ -892,6 +892,13 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    /**
+     * This test can take some seconds to complete.
+     * The "large" annotation means phpunit will let it run for
+     * up to 60 seconds by default.
+     *
+     * @large
+     */
     public function testNeverEnding()
     {
         $this->parse(

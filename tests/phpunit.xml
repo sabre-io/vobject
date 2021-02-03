@@ -6,6 +6,9 @@
   convertWarningsToExceptions="true"
   beStrictAboutTestsThatDoNotTestAnything="true"
   beStrictAboutOutputDuringTests="true"
+  failOnRisky="true"
+  failOnWarning="true"
+  enforceTimeLimit="true"
   >
   <testsuites>
     <testsuite name="Sabre\VObject">

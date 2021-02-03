@@ -350,6 +350,13 @@ END:VCALENDAR
         );
     }
 
+    /**
+     * This test used to induce an infinite loop.
+     * The "medium" annotation means that phpunit will fail the
+     * test if it takes longer than a default of 10 seconds.
+     *
+     * @medium
+     */
     public function testEventExpandYearly()
     {
         $input = 'BEGIN:VCALENDAR
