@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+4.3.4 (2021-02-04)
+------------------
+
+* #529: Reassign modified date in yearly rrule (@laoneo)
+* #525: Add .gitattributes to reduce package size (@fezfez)
+
 4.3.3 (2020-11-09)
 ------------------
 
