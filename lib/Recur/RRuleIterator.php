@@ -471,7 +471,7 @@ class RRuleIterator implements Iterator
             // For some reason the "until" parameter was not being used here,
             // that's why the workaround of the 10000 year bug was needed at all
             // let's stop it before the "until" parameter date
-            if ($this->currentDate->getTimestamp() >= $this->until->getTimestamp()) {
+            if ($this->until && $this->currentDate->getTimestamp() >= $this->until->getTimestamp()) {
                 return;
             }
 
