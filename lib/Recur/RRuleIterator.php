@@ -466,7 +466,15 @@ class RRuleIterator implements Iterator
 
             // This goes to 0 because we need to start counting at the
             // beginning.
-            $currentDayOfMonth = 0;
+	    $currentDayOfMonth = 0;
+
+            // For some reason the "until" parameter was not being taken into
+	    // account, that's why the workaround of the 10000 year bug was
+	    // needed at all.
+            // Let's stop it before the "until" parameter date arrives.
+            if ($this->currentDate->getTimestamp() >= $this->until->getTimestamp()){
+                return;
+            }
 
             // To prevent running this forever (better: until we hit the max date of DateTimeImmutable) we simply
             // stop at 9999-12-31. Looks like the year 10000 problem is not solved in php ....
@@ -475,7 +483,7 @@ class RRuleIterator implements Iterator
 
                 return;
             }
-        }
+	}
 
         $this->currentDate = $this->currentDate->setDate(
             (int) $this->currentDate->format('Y'),
