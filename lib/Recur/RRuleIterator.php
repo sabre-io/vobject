@@ -977,4 +977,3 @@ class RRuleIterator implements Iterator
         return $recurrenceMonths;
     }
 }
-
