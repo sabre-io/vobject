@@ -466,13 +466,12 @@ class RRuleIterator implements Iterator
 
             // This goes to 0 because we need to start counting at the
             // beginning.
-	    $currentDayOfMonth = 0;
+            $currentDayOfMonth = 0;
 
-            // For some reason the "until" parameter was not being taken into
-	    // account, that's why the workaround of the 10000 year bug was
-	    // needed at all.
-            // Let's stop it before the "until" parameter date arrives.
-            if ($this->currentDate->getTimestamp() >= $this->until->getTimestamp()){
+            // For some reason the "until" parameter was not being used here,
+            // that's why the workaround of the 10000 year bug was needed at all
+            // let's stop it before the "until" parameter date
+            if ($this->currentDate->getTimestamp() >= $this->until->getTimestamp()) {
                 return;
             }
 
@@ -483,7 +482,7 @@ class RRuleIterator implements Iterator
 
                 return;
             }
-	}
+        }
 
         $this->currentDate = $this->currentDate->setDate(
             (int) $this->currentDate->format('Y'),
@@ -884,7 +883,7 @@ class RRuleIterator implements Iterator
             foreach ($this->byMonthDay as $monthDay) {
                 // Removing values that are out of range for this month
                 if ($monthDay > $startDate->format('t') ||
-                $monthDay < 0 - $startDate->format('t')) {
+                    $monthDay < 0 - $startDate->format('t')) {
                     continue;
                 }
                 if ($monthDay > 0) {
@@ -978,3 +977,4 @@ class RRuleIterator implements Iterator
         return $recurrenceMonths;
     }
 }
+
