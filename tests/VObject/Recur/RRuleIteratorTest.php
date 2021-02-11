@@ -348,6 +348,17 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testMonthlyByDayUntilWithImpossibleNextOccurrence()
+    {
+        $this->parse(
+            'FREQ=MONTHLY;INTERVAL=1;BYDAY=2WE;BYMONTHDAY=2;WKST=WE;UNTIL=20210317T000000Z',
+            '2021-02-10 00:00:00',
+            [
+                '2021-02-10 00:00:00',
+            ]
+        );
+    }
+
     public function testMonthlyByDayByMonthDay()
     {
         $this->parse(
