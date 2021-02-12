@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+4.3.5 (2021-02-12)
+------------------
+
+* #523: Fix setting properties with group assignment (@mstilkerich)
+* #532: Make use of until parameter in nextMonthly function (@jaircuevajunior)
+
 4.3.4 (2021-02-04)
 ------------------
 
