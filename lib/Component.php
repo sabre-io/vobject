@@ -160,9 +160,9 @@ class Component extends Node
                     return;
                 }
             }
-        }
 
-        throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
+            throw new \InvalidArgumentException('The item you passed to remove() was not a child of this component');
+        }
     }
 
     /**
