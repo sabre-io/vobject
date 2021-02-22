@@ -6,5 +6,6 @@
 return [
     'Amsterdam, Berlin, Bern, Roma, Stockholm, Wien'    => 'Europe/Berlin',
     'Canberra, Melbourne, Sydney'                       => 'Australia/Sydney',
-    'Вильнюс, Киев, Рига, София, Таллин, Хельсинки'     => 'Europe/Kiev'
+    'Вильнюс, Киев, Рига, София, Таллин, Хельсинки'     => 'Europe/Kiev',
+    'Pacific Standard Time'                             => 'America/Los_Angeles',
 ];
