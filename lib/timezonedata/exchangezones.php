@@ -48,6 +48,7 @@ return [
     'Bangkok, Hanoi, Jakarta' => 'Asia/Bangkok',
     'Krasnoyarsk' => 'Asia/Krasnoyarsk',
     'Beijing, Chongqing, Hong Kong SAR, Urumqi' => 'Asia/Shanghai',
+    'Beijing, Chongqing, Hong Kong, Urumqi' => 'Asia/Shanghai',
     'Irkutsk, Ulaan Bataar' => 'Asia/Irkutsk',
     'Kuala Lumpur, Singapore' => 'Asia/Singapore',
     'Perth, Western Australia' => 'Australia/Perth',
