@@ -160,7 +160,7 @@ class DateTime extends Property
         // Does the property have a TZID?
         $tzid = $this['TZID'];
 
-        if ($tzid) {
+        if ($tzid && $tzid->getValue()) {
             $timeZone = TimeZoneUtil::getTimeZone((string) $tzid, $this->root);
         }
 
