@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+4.4.2 (2021-07-15)
+------------------
+* #23 Add microsoft timezone map
+
 4.4.1 (2021-01-18)
 ------------------
 * #19 Validate count and until property
