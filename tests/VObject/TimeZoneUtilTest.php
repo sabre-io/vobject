@@ -354,4 +354,11 @@ HI;
         $ex = new \DateTimeZone('America/New_York');
         $this->assertEquals($ex->getName(), $tz->getName());
     }
+
+    public function testMicrosoftMap()
+    {
+        $tz = TimeZoneUtil::getTimeZone('tzone://Microsoft/Utc', null, true);
+        $ex = new \DateTimeZone('UTC');
+        $this->assertEquals($ex->getName(), $tz->getName());
+    }
 }

@@ -193,4 +193,5 @@ return [
     'UTC-11' => 'Pacific/Niue',
     'UTC+12' => 'Pacific/Auckland',
     'US Eastern Standard Time' => 'America/New_York',
+    'tzone://Microsoft/Utc' => 'UTC',
 ];
