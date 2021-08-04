@@ -229,9 +229,13 @@ class EventIterator implements \Iterator
         if (!$this->valid()) {
             return;
         }
-        $end = clone $this->currentDate;
+        if ($this->currentOverriddenEvent && $this->currentOverriddenEvent->DTEND) {
+            return $this->currentOverriddenEvent->DTEND->getDateTime($this->timeZone);
+        } else {
+            $end = clone $this->currentDate;
 
-        return $end->modify('+'.$this->eventDuration.' seconds');
+            return $end->modify('+'.$this->eventDuration.' seconds');
+        }
     }
 
     /**
