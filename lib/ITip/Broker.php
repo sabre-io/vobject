@@ -547,9 +547,13 @@ class Broker
                 // properties changed in the event, or simply if there's a
                 // difference in instances that the attendee is invited to.
 
+                $oldAttendeeInstances = array_keys($attendee['oldInstances']);
+                $newAttendeeInstances = array_keys($attendee['newInstances']);
+
                 $message->significantChange =
                     'REQUEST' === $attendee['forceSend'] ||
-                    array_keys($attendee['oldInstances']) != array_keys($attendee['newInstances']) ||
+                    count($oldAttendeeInstances) != count($newAttendeeInstances) ||
+                    count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0 ||
                     $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
 
                 foreach ($attendee['newInstances'] as $instanceId => $instanceInfo) {
