@@ -361,4 +361,42 @@ HI;
         $ex = new \DateTimeZone('UTC');
         $this->assertEquals($ex->getName(), $tz->getName());
     }
+
+    /**
+     * @dataProvider unSupportTimezoneProvider
+     */
+    public function testPHPUnSupportTimeZone(string $origin, string $expected)
+    {
+        $tz = TimeZoneUtil::getTimeZone($origin, null, true);
+        $ex = new \DateTimeZone($expected);
+        $this->assertEquals($ex->getName(), $tz->getName());
+    }
+
+    public function unSupportTimezoneProvider(): iterable
+    {
+        yield 'America/Santa_Isabel' => [
+            'origin' => 'America/Santa_Isabel',
+            'expected' => 'America/Tijuana',
+        ];
+
+        yield 'Asia/Chongqing' => [
+            'origin' => 'Asia/Chongqing',
+            'expected' => 'Asia/Shanghai',
+        ];
+
+        yield 'Asia/Harbin' => [
+            'origin' => 'Asia/Harbin',
+            'expected' => 'Asia/Shanghai',
+        ];
+
+        yield 'Asia/Kashgar' => [
+            'origin' => 'Asia/Kashgar',
+            'expected' => 'Asia/Urumqi',
+        ];
+
+        yield 'Pacific/Johnston' => [
+            'origin' => 'Pacific/Johnston',
+            'expected' => 'Pacific/Honolulu',
+        ];
+    }
 }

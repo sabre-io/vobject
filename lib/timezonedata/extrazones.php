@@ -194,4 +194,9 @@ return [
     'UTC+12' => 'Pacific/Auckland',
     'US Eastern Standard Time' => 'America/New_York',
     'tzone://Microsoft/Utc' => 'UTC',
+    'America/Santa_Isabel' => 'America/Tijuana',
+    'Asia/Chongqing' => 'Asia/Shanghai',
+    'Asia/Harbin' => 'Asia/Shanghai',
+    'Asia/Kashgar' => 'Asia/Urumqi',
+    'Pacific/Johnston' => 'Pacific/Honolulu',
 ];
