@@ -450,4 +450,28 @@ XML;
         $this->assertEquals('VCALENDAR', $result->name);
         $this->assertEquals(0, count($result->children()));
     }
+
+    public function testReadDuplicateValue()
+    {
+        $input = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Proton Technologies//ProtonCalendar Beta//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTAMP:20210903T154413Z
+DTSTART;VALUE=DATE;VALUE=DATE:20210818
+DTEND;VALUE=DATE;VALUE=DATE:20210819
+SUMMARY:test
+UID:62c73pe43p2oqci37q4g2pu580@google.com
+LOCATION:home
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $result = Reader::read($input);
+        $expected = "DTSTART;VALUE=DATE:20210818\r\n";
+        $this->assertSame($expected, $result->VEVENT->DTSTART->serialize());
+    }
 }
