@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+4.5.1 (2021-10-11)
+------------------
+* #25 Fix duplicate value
+* #26 Add php unsupport timezone
+
 4.4.2 (2021-07-15)
 ------------------
 * #23 Add microsoft timezone map
