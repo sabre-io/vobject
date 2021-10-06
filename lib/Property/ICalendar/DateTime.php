@@ -300,6 +300,7 @@ class DateTime extends Property
      * @param string $name
      * @param mixed  $value
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($name, $value)
     {
         parent::offsetSet($name, $value);
