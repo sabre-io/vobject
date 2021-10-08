@@ -453,8 +453,6 @@ HELP
      * Colorizes a file.
      *
      * @param Component $vObj
-     *
-     * @return int
      */
     protected function color($vObj)
     {

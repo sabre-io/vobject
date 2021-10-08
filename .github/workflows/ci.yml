@@ -1,19 +1,16 @@
 name: continuous-integration
-
 on:
   push:
     branches:
       - master
       - release/*
-    pull_request:
-
+  pull_request:
 jobs:
   unit-testing:
-    name: PHPUnit (PHP${{ matrix.php-versions }})
+    name: PHPUnit (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
-
     strategy:
-      fail-faset: false
+      fail-fast: false
       matrix:
         php-versions: ['7.2', '7.3', '7.4', '8.0', '8.1']
         coverage: ['pcov']
@@ -22,44 +19,45 @@ jobs:
           - php-versions: '7.1'
             coverage: 'none'
             code-analysis: 'yes'
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2
+
+      - name: Setup PHP, with Composer and Extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql, redis, opcache
           coverage: ${{ matrix.coverage }}
           tools: composer
-      
-      - name: Get composer cache directory
+
+      - name: Get Composer Cache Directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-      
-      - name: Cache composer dependencies
+
+      - name: Cache Composer Dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
+          # Use composer.json for key, if composer.lock is not committed.
+          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
-          
-      - name: Install composer dependencies
+
+      - name: Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
-      
-      - name: Code Analysis(PHP CS-Fixer)
+
+      - name: Code Analysis (PHP CS-Fixer)
         if: matrix.code-analysis == 'yes'
-        run: composer cs-fixer
-      
-      - name: Code Analysis(PHPStan)
+        run: php vendor/bin/php-cs-fixer fix --dry-run --diff
+
+      - name: Code Analysis (PHPStan)
         if: matrix.code-analysis == 'yes'
         run: composer phpstan
-      
+
       - name: Test with PHPUnit
-        run: composer phpunit --coverage-clover clover.xml
-      
+        run: composer phpunit
+
       - name: Code Coverage
-        uses: codecov/codecov-actions@v2
+        uses: codecov/codecov-action@v2
         if: matrix.coverage != 'none'
