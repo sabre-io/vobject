@@ -56,7 +56,7 @@ jobs:
         run: composer phpstan
 
       - name: Test with PHPUnit
-        run: composer phpunit
+        run: vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover clover.xml
 
       - name: Code Coverage
         uses: codecov/codecov-action@v2
