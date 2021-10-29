@@ -321,6 +321,7 @@ class Parameter extends Node
      *
      * @return array
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->value;
@@ -354,6 +355,7 @@ class Parameter extends Node
      *
      * @return ElementList
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         if (!is_null($this->iterator)) {
