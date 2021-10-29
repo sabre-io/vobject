@@ -91,4 +91,7 @@ return [
     'Hawaii' => 'Pacific/Honolulu',
     'Midway Island, Samoa' => 'Pacific/Midway',
     'Eniwetok, Kwajalein, Dateline Time' => 'Pacific/Kwajalein',
+
+    // Localized timezones
+    'Amsterdam, Berlin, Berne, Rome, Stockholm, Vienne' => 'Europe/Berlin',
 ];
