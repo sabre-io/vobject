@@ -135,7 +135,12 @@ class TimeZoneUtil
         // Since PHP 5.5.10, the first bit will be used as the timezone and
         // this method will return just GMT+01:00. This is wrong, because it
         // doesn't take DST into account.
+        $originalTzid = $tzid;
         if ('(' !== $tzid[0]) {
+            // If the timezone is prefixed with a slash we remove the slash for lookup in the maps.
+            if ('/' === $tzid[0]) {
+                $tzid = substr($tzid, 1);
+            }
             // PHP has a bug that logs PHP warnings even it shouldn't:
             // https://bugs.php.net/bug.php?id=67881
             //
@@ -162,6 +167,9 @@ class TimeZoneUtil
         if (isset(self::$map[$tzid])) {
             return new \DateTimeZone(self::$map[$tzid]);
         }
+
+        // If we removed the slash we add it back
+        $tzid = $originalTzid;
 
         // Some Microsoft products prefix the offset first, so let's strip that off
         // and see if it is our tzid map.  We don't want to check for this first just

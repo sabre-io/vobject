@@ -42,6 +42,16 @@ class TimeZoneUtilTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider getMapping
+     */
+    public function testSlashTZ($timezonename) {
+        $slashTimezone = '/' . $timezonename;
+        $expected = TimeZoneUtil::getTimeZone($timezonename)->getName();
+        $actual = TimeZoneUtil::getTimeZone($slashTimezone)->getName();
+        $this->assertEquals($expected, $actual);
+    }
+
     public function testExchangeMap()
     {
         $vobj = <<<HI
