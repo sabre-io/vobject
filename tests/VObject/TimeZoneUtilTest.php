@@ -408,5 +408,10 @@ HI;
             'origin' => 'Pacific/Johnston',
             'expected' => 'Pacific/Honolulu',
         ];
+
+        yield 'EDT' => [
+            'origin' => 'EDT',
+            'expected' => 'America/New_York',
+        ];
     }
 }
