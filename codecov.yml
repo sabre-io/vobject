@@ -1,0 +1,19 @@
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false
+
+coverage:
+  range: "70..100"
+  round: down
+  precision: 2
+  status:
+    project:
+      default:
+        # basic
+        target: 95%
+        threshold: 0%
+        # advanced settings
+        if_ci_failed: error
+        informational: false
+        only_pulls: false

@@ -1,7 +1,7 @@
 sabre/vobject
 =============
-[![Build Status](https://img.shields.io/travis/ProtonMail/vobject?style=flat-square)](https://travis-ci.org/ProtonMail/vobject)
-[![Coverage](https://img.shields.io/codecov/c/github/ProtonMail/vobject?style=flat-square)](https://codecov.io/gh/ProtonMail/vobject)
+![Build Status](https://github.com/ProtonMail/vobject/actions/workflows/tests.yml/badge.svg)
+[![codecov](https://codecov.io/gh/ProtonMail/vobject/branch/master/graph/badge.svg?token=ARcwkxCKZn)](https://codecov.io/gh/ProtonMail/vobject)
 
 
 The VObject library allows you to easily parse and manipulate [iCalendar](https://tools.ietf.org/html/rfc5545)
