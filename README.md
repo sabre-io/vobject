@@ -1,6 +1,6 @@
 sabre/vobject
 =============
-![Build Status](https://github.com/ProtonMail/vobject/actions/workflows/tests.yml/badge.svg)
+![Build Status](https://github.com/ProtonMail/vobject/actions/workflows/actions.yml/badge.svg)
 [![codecov](https://codecov.io/gh/ProtonMail/vobject/branch/master/graph/badge.svg?token=ARcwkxCKZn)](https://codecov.io/gh/ProtonMail/vobject)
 
 
