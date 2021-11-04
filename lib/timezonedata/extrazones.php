@@ -199,5 +199,5 @@ return [
     'Asia/Harbin' => 'Asia/Shanghai',
     'Asia/Kashgar' => 'Asia/Urumqi',
     'Pacific/Johnston' => 'Pacific/Honolulu',
-    'EDT' => 'America/New_York',
+    'EDT' => 'America/Manaus',
 ];
