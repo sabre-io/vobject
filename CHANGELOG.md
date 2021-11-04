@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+4.3.6 (2021-11-04)
+------------------
+
+* #544 Fix deprecated usages and return types on PHP 8.1 (@cedric-anne)
+
 4.3.5 (2021-02-12)
 ------------------
 
