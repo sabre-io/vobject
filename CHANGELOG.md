@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+4.6.1 (2021-11-04)
+------------------
+* #29 Fix timezone name prefixed with /
+* #30 Missing EDT TZID conversion
+
 4.5.1 (2021-10-11)
 ------------------
 * #25 Fix duplicate value
