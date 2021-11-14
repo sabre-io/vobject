@@ -820,7 +820,10 @@ class Broker
         $instances = [];
         $exdate = [];
 
+        $significantChangeEventProperties = [];
+
         foreach ($calendar->VEVENT as $vevent) {
+            $eventSignificantChangeHash = '';
             $rrule = [];
 
             if (is_null($uid)) {
@@ -934,19 +937,26 @@ class Broker
                 if (isset($vevent->$prop)) {
                     $propertyValues = $vevent->select($prop);
 
-                    $significantChangeHash .= $prop.':';
+                    $eventSignificantChangeHash .= $prop.':';
 
                     if ('EXDATE' === $prop) {
-                        $significantChangeHash .= implode(',', $exdate).';';
+                        $eventSignificantChangeHash .= implode(',', $exdate).';';
                     } elseif ('RRULE' === $prop) {
-                        $significantChangeHash .= implode(',', $rrule).';';
+                        $eventSignificantChangeHash .= implode(',', $rrule).';';
                     } else {
                         foreach ($propertyValues as $val) {
-                            $significantChangeHash .= $val->getValue().';';
+                            $eventSignificantChangeHash .= $val->getValue().';';
                         }
                     }
                 }
             }
+            $significantChangeEventProperties[] = $eventSignificantChangeHash;
+        }
+
+        asort($significantChangeEventProperties);
+
+        foreach ($significantChangeEventProperties as $eventSignificantChangeHash) {
+            $significantChangeHash .= $eventSignificantChangeHash;
         }
         $significantChangeHash = md5($significantChangeHash);
 
