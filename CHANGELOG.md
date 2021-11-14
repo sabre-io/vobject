@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+4.3.8 (2021-11-14)
+------------------
+
+* #538 fix EventIterator returns wrong end endTime (@floerke)
+* #541 Reordering of the attendees is not a significant change (@floerke)
+* #543 Reordering of vevent is not a significant change (@floerke)
+
 4.3.7 (2021-11-04)
 ------------------
 
