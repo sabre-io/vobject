@@ -153,6 +153,13 @@ HI;
         $this->assertEquals($ex->getName(), $tz->getName());
     }
 
+    public function testEmptyTimeZone()
+    {
+        $tz = TimeZoneUtil::getTimeZone('');
+        $ex = new \DateTimeZone('UTC');
+        $this->assertEquals($ex->getName(), $tz->getName());
+    }
+
     public function testWindowsTimeZone()
     {
         $tz = TimeZoneUtil::getTimeZone('Eastern Standard Time');
