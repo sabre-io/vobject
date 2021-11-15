@@ -3,6 +3,8 @@
 namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\TimezoneGuesser\FindFromTimezoneIdentifier;
+use Sabre\VObject\TimezoneGuesser\GuessFromLicEntry;
 
 class TimeZoneUtilTest extends TestCase
 {
@@ -357,5 +359,23 @@ HI;
         $tz = TimeZoneUtil::getTimeZone('(UTC-05:00) Eastern Time (US & Canada)');
         $ex = new \DateTimeZone('America/New_York');
         $this->assertEquals($ex->getName(), $tz->getName());
+    }
+
+    public function testAddTimezoneGuesser()
+    {
+        TimeZoneUtil::addTimezoneGuesser('lic2', new GuessFromLicEntry());
+        // If we get here then there was no exception.
+        // We are just testing that addTimezoneGuesser exists
+        // and can be called without throwing an exception.
+        $this->assertTrue(true);
+    }
+
+    public function testAddTimezoneFinder()
+    {
+        TimeZoneUtil::addTimezoneFinder('tzid2', new FindFromTimezoneIdentifier());
+        // If we get here then there was no exception.
+        // We are just testing that addTimezoneFinder exists
+        // and can be called without throwing an exception.
+        $this->assertTrue(true);
     }
 }
