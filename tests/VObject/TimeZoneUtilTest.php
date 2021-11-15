@@ -8,8 +8,7 @@ class TimeZoneUtilTest extends TestCase
 {
     public function setUp(): void
     {
-        // clearing the tz cache
-        TimeZoneUtil::$map = null;
+        TimeZoneUtil::clean();
     }
 
     /**
@@ -31,14 +30,19 @@ class TimeZoneUtilTest extends TestCase
 
     public function getMapping()
     {
-        TimeZoneUtil::loadTzMaps();
+        $map = array_merge(
+            include __DIR__.'/../../lib/timezonedata/windowszones.php',
+            include __DIR__.'/../../lib/timezonedata/lotuszones.php',
+            include __DIR__.'/../../lib/timezonedata/exchangezones.php',
+            include __DIR__.'/../../lib/timezonedata/php-workaround.php'
+        );
 
         // PHPUNit requires an array of arrays
         return array_map(
             function ($value) {
                 return [$value];
             },
-            TimeZoneUtil::$map
+            $map
         );
     }
 
@@ -147,6 +151,13 @@ HI;
         $this->assertEquals($ex->getName(), $tz->getName());
     }
 
+    public function testEmptyTimeZone()
+    {
+        $tz = TimeZoneUtil::getTimeZone('');
+        $ex = new \DateTimeZone('UTC');
+        $this->assertEquals($ex->getName(), $tz->getName());
+    }
+
     public function testWindowsTimeZone()
     {
         $tz = TimeZoneUtil::getTimeZone('Eastern Standard Time');
@@ -194,7 +205,7 @@ HI;
             function ($value) {
                 return [$value];
             },
-            TimeZoneUtil::getIdentifiersBC()
+            include __DIR__.'/../../lib/timezonedata/php-bc.php'
         );
     }
 
