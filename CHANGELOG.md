@@ -1,22 +1,27 @@
 ChangeLog
 =========
 
+4.4.0 (2021-11-15)
+------------------
+
+ #548: Allow easier extension of the timezone guessing (@heiglandreas)
+
 4.3.8 (2021-11-14)
 ------------------
 
-* #538 fix EventIterator returns wrong end endTime (@floerke)
-* #541 Reordering of the attendees is not a significant change (@floerke)
-* #543 Reordering of vevent is not a significant change (@floerke)
+* #538: fix EventIterator returns wrong end endTime (@floerke)
+* #541: Reordering of the attendees is not a significant change (@floerke)
+* #543: Reordering of vevent is not a significant change (@floerke)
 
 4.3.7 (2021-11-04)
 ------------------
 
-* #551 version bump that was missed in 4.3.6 (@phil-davis)
+* #551: version bump that was missed in 4.3.6 (@phil-davis)
 
 4.3.6 (2021-11-04)
 ------------------
 
-* #544 Fix deprecated usages and return types on PHP 8.1 (@cedric-anne)
+* #544: Fix deprecated usages and return types on PHP 8.1 (@cedric-anne)
 
 4.3.5 (2021-02-12)
 ------------------
