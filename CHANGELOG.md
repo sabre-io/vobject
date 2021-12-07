@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+4.4.1 (2021-12-07)
+------------------
+
+ #557: Fix Iterator method signatures and avoid passing null as separator for implode (PHP 8.1 support) (@come-nc)
+
 4.4.0 (2021-11-15)
 ------------------
 
