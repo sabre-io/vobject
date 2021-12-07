@@ -198,6 +198,7 @@ class EventIterator implements \Iterator
      *
      * @return DateTimeImmutable
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         if ($this->currentDate) {
@@ -285,6 +286,7 @@ class EventIterator implements \Iterator
      *
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         // The counter is always 1 ahead.
@@ -297,6 +299,7 @@ class EventIterator implements \Iterator
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         if ($this->counter > Settings::$maxRecurrences && -1 !== Settings::$maxRecurrences) {
@@ -308,7 +311,10 @@ class EventIterator implements \Iterator
 
     /**
      * Sets the iterator back to the starting point.
+     *
+     * @return void
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->recurIterator->rewind();
@@ -331,7 +337,10 @@ class EventIterator implements \Iterator
 
     /**
      * Advances the iterator with one step.
+     *
+     * @return void
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->currentOverriddenEvent = null;

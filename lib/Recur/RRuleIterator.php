@@ -38,6 +38,7 @@ class RRuleIterator implements Iterator
 
     /* Implementation of the Iterator interface {{{ */
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         if (!$this->valid()) {
@@ -52,6 +53,7 @@ class RRuleIterator implements Iterator
      *
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->counter;
@@ -64,6 +66,7 @@ class RRuleIterator implements Iterator
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         if (null === $this->currentDate) {
@@ -78,7 +81,10 @@ class RRuleIterator implements Iterator
 
     /**
      * Resets the iterator.
+     *
+     * @return void
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->currentDate = clone $this->startDate;
@@ -87,7 +93,10 @@ class RRuleIterator implements Iterator
 
     /**
      * Goes on to the next iteration.
+     *
+     * @return void
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         // Otherwise, we find the next event in the normal RRULE
