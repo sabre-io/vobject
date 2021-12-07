@@ -24,9 +24,9 @@ class DateAndOrTime extends Property
     /**
      * Field separator.
      *
-     * @var string|null
+     * @var string
      */
-    public $delimiter = null;
+    public $delimiter = '';
 
     /**
      * Returns the type of value.
