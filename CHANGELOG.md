@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+4.7.0 (2021-12-15)
+------------------
+* #34 Merge upstream changes from sabre-io/vobject:4.4.0 into protonlabs/vobject
+
 4.6.1 (2021-11-04)
 ------------------
 * #29 Fix timezone name prefixed with /
@@ -138,7 +142,7 @@ ChangeLog
 * #306: iTip REPLYs to the first instance of a recurring event was not handled
   correctly.
 * Slightly better error message during validation of `N` and `ADR` properties.
-* #312: Correctly extracing timezone in the iTip broker, even when we don't
+* #312: Correctly extracting timezone in the iTip broker, even when we don't
   have a master event. (@vkomrakov-sugar).
 * When validating a component's property that must appear once and which could
   automatically be repaired, make sure we report the change as 'repaired'.
@@ -460,7 +464,7 @@ ChangeLog
 * #114: VTIMEZONE is retained when generating new REQUEST objects.
 * #114: Support for 'MAILTO:' style email addresses (in uppercase) in the iTip
   broker. This improves evolution support.
-* #115: Using REQUEST-STATUS from REPLY messages and now propegating that into
+* #115: Using REQUEST-STATUS from REPLY messages and now propagating that into
   SCHEDULE-STATUS.
 
 
@@ -697,7 +701,7 @@ ChangeLog
 3.0.0-alpha2 (2013-05-22)
 -------------------------
 
-* Fixed: vCard URL properties were referencing a non-existant class.
+* Fixed: vCard URL properties were referencing a non-existent class.
 
 
 3.0.0-alpha1 (2013-05-21)
@@ -855,7 +859,7 @@ ChangeLog
   properties such as N, ADR, ORG and CATEGORIES.
 * Added: Splitter classes, that can split up large objects (such as exports)
   into individual objects (thanks @DominikTo and @armin-hackmann).
-* Added: VFREEBUSY component, which allows easily checking wether timeslots are
+* Added: VFREEBUSY component, which allows easily checking whether timeslots are
   available.
 * Added: The Reader class now has a 'FORGIVING' option, which allows it to parse
   properties with incorrect characters in the name (at this time, it just allows

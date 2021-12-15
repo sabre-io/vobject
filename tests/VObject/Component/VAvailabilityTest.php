@@ -122,7 +122,7 @@ VCAL;
         );
     }
 
-    public function testRFCxxxSection3_1_availabilityprop_required()
+    public function testRFCxxxSection3Part1AvailabilitypropRequired()
     {
         // UID and DTSTAMP are present.
         $this->assertIsValid(Reader::read(
@@ -177,7 +177,7 @@ VCAL
         ));
     }
 
-    public function testRFCxxxSection3_1_availabilityprop_optional_once()
+    public function testRFCxxxSection3Part1AvailabilitypropOptionalOnce()
     {
         $properties = [
             'BUSYTYPE:BUSY',
@@ -205,7 +205,7 @@ VCAL
         }
     }
 
-    public function testRFCxxxSection3_1_availabilityprop_dtend_duration()
+    public function testRFCxxxSection3Part1AvailabilitypropDtendDuration()
     {
         // Only DTEND.
         $this->assertIsValid(Reader::read($this->template([
@@ -239,7 +239,7 @@ VCAL;
         $this->assertInstanceOf(Available::class, $document->VAVAILABILITY->AVAILABLE);
     }
 
-    public function testRFCxxxSection3_1_availableprop_required()
+    public function testRFCxxxSection3Part1AvailablepropRequired()
     {
         // UID, DTSTAMP and DTSTART are present.
         $this->assertIsValid(Reader::read(
@@ -331,7 +331,7 @@ VCAL
         ));
     }
 
-    public function testRFCxxxSection3_1_available_dtend_duration()
+    public function testRFCxxxSection3Part1AvailableDtendDuration()
     {
         // Only DTEND.
         $this->assertIsValid(Reader::read($this->templateAvailable([
@@ -350,7 +350,7 @@ VCAL
         ])));
     }
 
-    public function testRFCxxxSection3_1_available_optional_once()
+    public function testRFCxxxSection3Part1AvailableOptionalOnce()
     {
         $properties = [
             'CREATED:20111005T135125Z',
@@ -373,7 +373,7 @@ VCAL
         }
     }
 
-    public function testRFCxxxSection3_2()
+    public function testRFCxxxSection3Part2()
     {
         $this->assertEquals(
             'BUSY',

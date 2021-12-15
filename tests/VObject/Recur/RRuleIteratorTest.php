@@ -278,7 +278,7 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
-    public function testMonlthyEndOfMonth()
+    public function testMonthlyEndOfMonth()
     {
         $this->parse(
             'FREQ=MONTHLY;INTERVAL=2;COUNT=12',
@@ -355,6 +355,35 @@ class RRuleIteratorTest extends TestCase
                 '2011-05-02 00:00:00',
             ],
             'monthly', 16, 2, null
+        );
+    }
+
+    public function testMonthlyByDayUntil()
+    {
+        $this->parse(
+            'FREQ=MONTHLY;INTERVAL=1;BYDAY=WE;WKST=WE;UNTIL=20210317T000000Z',
+            '2021-02-10 00:00:00',
+            [
+                '2021-02-10 00:00:00',
+                '2021-02-17 00:00:00',
+                '2021-02-24 00:00:00',
+                '2021-03-03 00:00:00',
+                '2021-03-10 00:00:00',
+                '2021-03-17 00:00:00',
+            ],
+            'monthly', null, 1, new DateTime('2021-03-17')
+        );
+    }
+
+    public function testMonthlyByDayUntilWithImpossibleNextOccurrence()
+    {
+        $this->parse(
+            'FREQ=MONTHLY;INTERVAL=1;BYDAY=2WE;BYMONTHDAY=2;WKST=WE;UNTIL=20210317T000000Z',
+            '2021-02-10 00:00:00',
+            [
+                '2021-02-10 00:00:00',
+            ],
+            'monthly', null, 1, new DateTime('2021-03-17')
         );
     }
 
@@ -689,6 +718,20 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testYearlyByDayByWeekNo()
+    {
+        $this->parse(
+            'FREQ=YEARLY;COUNT=3;BYDAY=MO;BYWEEKNO=13,15,50',
+            '2021-01-01 00:00:00',
+            [
+                '2021-01-01 00:00:00',
+                '2021-03-29 00:00:00',
+                '2021-04-12 00:00:00',
+            ],
+            'yearly', 3, 1
+        );
+    }
+
     public function testFastForward()
     {
         // The idea is that we're fast-forwarding too far in the future, so
@@ -728,7 +771,7 @@ class RRuleIteratorTest extends TestCase
      * This bug came from a Fruux customer. This would result in a never-ending
      * request.
      */
-    public function testFastFowardTooFar()
+    public function testFastForwardTooFar()
     {
         $this->parse(
             'FREQ=WEEKLY;BYDAY=MO;UNTIL=20090704T205959Z;INTERVAL=1',
@@ -1014,6 +1057,13 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    /**
+     * This test can take some seconds to complete.
+     * The "large" annotation means phpunit will let it run for
+     * up to 60 seconds by default.
+     *
+     * @large
+     */
     public function testNeverEnding()
     {
         $this->parse(

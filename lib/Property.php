@@ -276,6 +276,7 @@ abstract class Property extends Node
      *
      * @return array
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $parameters = [];
@@ -387,6 +388,7 @@ abstract class Property extends Node
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($name)
     {
         if (is_int($name)) {
@@ -413,6 +415,7 @@ abstract class Property extends Node
      *
      * @return Node
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($name)
     {
         if (is_int($name)) {
@@ -433,6 +436,7 @@ abstract class Property extends Node
      * @param string $name
      * @param mixed  $value
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($name, $value)
     {
         if (is_int($name)) {
@@ -453,6 +457,7 @@ abstract class Property extends Node
      *
      * @param string $name
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($name)
     {
         if (is_int($name)) {

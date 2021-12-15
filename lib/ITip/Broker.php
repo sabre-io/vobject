@@ -547,9 +547,13 @@ class Broker
                 // properties changed in the event, or simply if there's a
                 // difference in instances that the attendee is invited to.
 
+                $oldAttendeeInstances = array_keys($attendee['oldInstances']);
+                $newAttendeeInstances = array_keys($attendee['newInstances']);
+
                 $message->significantChange =
                     'REQUEST' === $attendee['forceSend'] ||
-                    array_keys($attendee['oldInstances']) != array_keys($attendee['newInstances']) ||
+                    count($oldAttendeeInstances) != count($newAttendeeInstances) ||
+                    count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0 ||
                     $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
 
                 foreach ($attendee['newInstances'] as $instanceId => $instanceInfo) {
@@ -816,7 +820,10 @@ class Broker
         $instances = [];
         $exdate = [];
 
+        $significantChangeEventProperties = [];
+
         foreach ($calendar->VEVENT as $vevent) {
+            $eventSignificantChangeHash = '';
             $rrule = [];
 
             if (is_null($uid)) {
@@ -930,19 +937,26 @@ class Broker
                 if (isset($vevent->$prop)) {
                     $propertyValues = $vevent->select($prop);
 
-                    $significantChangeHash .= $prop.':';
+                    $eventSignificantChangeHash .= $prop.':';
 
                     if ('EXDATE' === $prop) {
-                        $significantChangeHash .= implode(',', $exdate).';';
+                        $eventSignificantChangeHash .= implode(',', $exdate).';';
                     } elseif ('RRULE' === $prop) {
-                        $significantChangeHash .= implode(',', $rrule).';';
+                        $eventSignificantChangeHash .= implode(',', $rrule).';';
                     } else {
                         foreach ($propertyValues as $val) {
-                            $significantChangeHash .= $val->getValue().';';
+                            $eventSignificantChangeHash .= $val->getValue().';';
                         }
                     }
                 }
             }
+            $significantChangeEventProperties[] = $eventSignificantChangeHash;
+        }
+
+        asort($significantChangeEventProperties);
+
+        foreach ($significantChangeEventProperties as $eventSignificantChangeHash) {
+            $significantChangeHash .= $eventSignificantChangeHash;
         }
         $significantChangeHash = md5($significantChangeHash);
 

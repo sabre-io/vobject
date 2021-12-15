@@ -343,7 +343,7 @@ class MimeDir extends Parser
             ) (?=[;:,])
             /xi";
 
-        //echo $regex, "\n"; die();
+        //echo $regex, "\n"; exit();
         preg_match_all($regex, $line, $matches, PREG_SET_ORDER);
 
         $property = [
@@ -439,7 +439,7 @@ class MimeDir extends Parser
             $propObj->add(null, $namelessParameter);
         }
 
-        if ('QUOTED-PRINTABLE' === strtoupper($propObj['ENCODING'])) {
+        if (isset($propObj['ENCODING']) && 'QUOTED-PRINTABLE' === strtoupper($propObj['ENCODING'])) {
             $propObj->setQuotedPrintableValue($this->extractQuotedPrintableValue());
         } else {
             $charset = $this->charset;

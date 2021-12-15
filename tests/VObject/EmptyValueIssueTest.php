@@ -17,7 +17,7 @@ class EmptyValueIssueTest extends TestCase
 BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
-DESCRIPTION:This is a descpription\\nwith a linebreak and a \\; \\, and :
+DESCRIPTION:This is a description\\nwith a linebreak and a \\; \\, and :
 END:VEVENT
 END:VCALENDAR
 ICS;
@@ -25,6 +25,6 @@ ICS;
         $vobj = Reader::read($input);
 
         // Before this bug was fixed, getValue() would return nothing.
-        $this->assertEquals("This is a descpription\nwith a linebreak and a ; , and :", $vobj->VEVENT->DESCRIPTION->getValue());
+        $this->assertEquals("This is a description\nwith a linebreak and a ; , and :", $vobj->VEVENT->DESCRIPTION->getValue());
     }
 }

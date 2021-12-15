@@ -2,8 +2,7 @@
 
 namespace Sabre\VObject;
 
-use
-    InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * This is the CLI interface for sabre-vobject.
@@ -137,17 +136,14 @@ class Cli
                             // jcard/jcal documents
                             case 'jcard':
                             case 'jcal':
-
                             // specific document versions
                             case 'vcard21':
                             case 'vcard30':
                             case 'vcard40':
                             case 'icalendar20':
-
                             // specific formats
                             case 'json':
                             case 'mimedir':
-
                             // icalendar/vcad
                             case 'icalendar':
                             case 'vcard':
@@ -183,7 +179,6 @@ class Cli
                             case 'vcard30':
                             case 'vcard40':
                             case 'icalendar20':
-
                                 $this->inputFormat = 'mimedir';
                                 break;
 
@@ -211,7 +206,7 @@ class Cli
             }
 
             if (!in_array($positional[0], ['validate', 'repair', 'convert', 'color'])) {
-                throw new InvalidArgumentException('Uknown command: '.$positional[0]);
+                throw new InvalidArgumentException('Unknown command: '.$positional[0]);
             }
         } catch (InvalidArgumentException $e) {
             $this->showHelp();
@@ -458,8 +453,6 @@ HELP
      * Colorizes a file.
      *
      * @param Component $vObj
-     *
-     * @return int
      */
     protected function color($vObj)
     {

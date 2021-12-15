@@ -21,3 +21,7 @@ bin/hoa
 
 # OS X
 .DS_Store
+=======
+
+# Development stuff
+.php_cs.cache
