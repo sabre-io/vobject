@@ -33,14 +33,6 @@ class TimeZoneUtil
     /** @var TimezoneFinder[] */
     private $timezoneFinders = [];
 
-    // Keeping things for backwards compatibility
-    /**
-     * @var array|null
-     *
-     * @deprecated
-     */
-    public static $map = null;
-
     private function __construct()
     {
         $this->addGuesser('lic', new GuessFromLicEntry());
@@ -128,10 +120,29 @@ class TimeZoneUtil
         self::getInstance()->addFinder($key, $finder);
     }
 
+    /**
+     * @param string $tzid
+     * @param false  $failIfUncertain
+     *
+     * @return DateTimeZone
+     */
+    public static function getTimeZone($tzid, Component $vcalendar = null, $failIfUncertain = false)
+    {
+        return self::getInstance()->findTimeZone($tzid, $vcalendar, $failIfUncertain);
+    }
+
     public static function clean(): void
     {
         self::$instance = null;
     }
+
+    // Keeping things for backwards compatibility
+    /**
+     * @var array|null
+     *
+     * @deprecated
+     */
+    public static $map = null;
 
     /**
      * List of microsoft exchange timezone ids.
@@ -168,12 +179,12 @@ class TimeZoneUtil
         48 => 'Asia/Kabul',
         58 => 'Asia/Yekaterinburg',
         47 => 'Asia/Karachi',
-        23 => 'Asia/Kolkata',
+        23 => 'Asia/Calcutta',
         62 => 'Asia/Kathmandu',
         46 => 'Asia/Almaty',
         71 => 'Asia/Dhaka',
         66 => 'Asia/Colombo',
-        61 => 'Asia/Yangon',
+        61 => 'Asia/Rangoon',
         22 => 'Asia/Bangkok',
         64 => 'Asia/Krasnoyarsk',
         45 => 'Asia/Shanghai',
@@ -198,11 +209,11 @@ class TimeZoneUtil
         29 => 'Atlantic/Azores',
         53 => 'Atlantic/Cape_Verde',
         30 => 'America/Noronha',
-         8 => 'America/Sao_Paulo', // Best guess
+        8 => 'America/Sao_Paulo', // Best guess
         32 => 'America/Argentina/Buenos_Aires',
         60 => 'America/Godthab',
         28 => 'America/St_Johns',
-         9 => 'America/Halifax',
+        9 => 'America/Halifax',
         33 => 'America/Caracas',
         65 => 'America/Santiago',
         35 => 'America/Bogota',
@@ -222,143 +233,6 @@ class TimeZoneUtil
     ];
 
     /**
-<<<<<<< HEAD
-     * This method will try to find out the correct timezone for an iCalendar
-     * date-time value.
-     *
-     * You must pass the contents of the TZID parameter, as well as the full
-     * calendar.
-     *
-     * If the lookup fails, this method will return the default PHP timezone
-     * (as configured using date_default_timezone_set, or the date.timezone ini
-     * setting).
-     *
-     * Alternatively, if $failIfUncertain is set to true, it will throw an
-     * exception if we cannot accurately determine the timezone.
-     *
-     * @param string                  $tzid
-     * @param Sabre\VObject\Component $vcalendar
-     *
-     * @return \DateTimeZone
-     */
-    public static function getTimeZone($tzid, Component $vcalendar = null, $failIfUncertain = false)
-    {
-        // First we will just see if the tzid is a support timezone identifier.
-        //
-        // The only exception is if the timezone starts with (. This is to
-        // handle cases where certain microsoft products generate timezone
-        // identifiers that for instance look like:
-        //
-        // (GMT+01.00) Sarajevo/Warsaw/Zagreb
-        //
-        // Since PHP 5.5.10, the first bit will be used as the timezone and
-        // this method will return just GMT+01:00. This is wrong, because it
-        // doesn't take DST into account.
-        $originalTzid = $tzid;
-        if ($tzid && '(' !== $tzid[0]) {
-            // If the timezone is prefixed with a slash we remove the slash for lookup in the maps.
-            if ('/' === $tzid[0]) {
-                $tzid = substr($tzid, 1);
-            }
-            // PHP has a bug that logs PHP warnings even it shouldn't:
-            // https://bugs.php.net/bug.php?id=67881
-            //
-            // That's why we're checking if we'll be able to successfully instantiate
-            // \DateTimeZone() before doing so. Otherwise we could simply instantiate
-            // and catch the exception.
-            $tzIdentifiers = \DateTimeZone::listIdentifiers();
-
-            try {
-                if (
-                    (in_array($tzid, $tzIdentifiers)) ||
-                    (preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches)) ||
-                    (in_array($tzid, self::getIdentifiersBC()))
-                ) {
-                    return new \DateTimeZone($tzid);
-                }
-            } catch (\Exception $e) {
-            }
-        }
-
-        self::loadTzMaps();
-
-        // Next, we check if the tzid is somewhere in our tzid map.
-        if (isset(self::$map[$tzid])) {
-            return new \DateTimeZone(self::$map[$tzid]);
-        }
-
-        // If we removed the slash we add it back
-        $tzid = $originalTzid;
-
-        // Some Microsoft products prefix the offset first, so let's strip that off
-        // and see if it is our tzid map.  We don't want to check for this first just
-        // in case there are overrides in our tzid map.
-        if (preg_match('/^\((UTC|GMT)(\+|\-)[\d]{2}\:[\d]{2}\) (.*)/', $tzid, $matches)) {
-            $tzidAlternate = $matches[3];
-            if (isset(self::$map[$tzidAlternate])) {
-                return new \DateTimeZone(self::$map[$tzidAlternate]);
-            }
-        }
-
-        // Maybe the author was hyper-lazy and just included an offset. We
-        // support it, but we aren't happy about it.
-        if (preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches)) {
-            // Note that the path in the source will never be taken from PHP 5.5.10
-            // onwards. PHP 5.5.10 supports the "GMT+0100" style of format, so it
-            // already gets returned early in this function. Once we drop support
-            // for versions under PHP 5.5.10, this bit can be taken out of the
-            // source.
-            // @codeCoverageIgnoreStart
-            return new \DateTimeZone('Etc/GMT'.$matches[1].ltrim(substr($matches[2], 0, 2), '0'));
-            // @codeCoverageIgnoreEnd
-        }
-
-        if ($vcalendar) {
-            // If that didn't work, we will scan VTIMEZONE objects
-            foreach ($vcalendar->select('VTIMEZONE') as $vtimezone) {
-                if ((string) $vtimezone->TZID === $tzid) {
-                    // Some clients add 'X-LIC-LOCATION' with the olson name.
-                    if (isset($vtimezone->{'X-LIC-LOCATION'})) {
-                        $lic = (string) $vtimezone->{'X-LIC-LOCATION'};
-
-                        // Libical generators may specify strings like
-                        // "SystemV/EST5EDT". For those we must remove the
-                        // SystemV part.
-                        if ('SystemV/' === substr($lic, 0, 8)) {
-                            $lic = substr($lic, 8);
-                        }
-
-                        return self::getTimeZone($lic, null, $failIfUncertain);
-                    }
-                    // Microsoft may add a magic number, which we also have an
-                    // answer for.
-                    if (isset($vtimezone->{'X-MICROSOFT-CDO-TZID'})) {
-                        $cdoId = (int) $vtimezone->{'X-MICROSOFT-CDO-TZID'}->getValue();
-
-                        // 2 can mean both Europe/Lisbon and Europe/Sarajevo.
-                        if (2 === $cdoId && false !== strpos((string) $vtimezone->TZID, 'Sarajevo')) {
-                            return new \DateTimeZone('Europe/Sarajevo');
-                        }
-
-                        if (isset(self::$microsoftExchangeMap[$cdoId])) {
-                            return new \DateTimeZone(self::$microsoftExchangeMap[$cdoId]);
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($failIfUncertain) {
-            throw new \InvalidArgumentException('We were unable to determine the correct PHP timezone for tzid: '.$tzid);
-        }
-
-        // If we got all the way here, we default to UTC.
-        return new \DateTimeZone(date_default_timezone_get());
-    }
-
-    /**
-=======
->>>>>>> upstream/master
      * This method will load in all the tz mapping information, if it's not yet
      * done.
      *

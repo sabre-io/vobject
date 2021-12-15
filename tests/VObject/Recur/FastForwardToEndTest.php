@@ -186,9 +186,7 @@ class FastForwardToEndTest extends TestCase
     }
 
     /**
-     * FIXME fails in <=PHP 7.1.
-     *
-     * @requires PHP 7.2
+     * @requires PHP < 8.1
      */
     public function testFastForwardToEndCountMonthly31thDay()
     {
@@ -202,6 +200,22 @@ class FastForwardToEndTest extends TestCase
             ->setDate(3398, 10, 31)
             ->getTimestamp();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
+    }
+
+    /**
+     * @requires PHP >= 8.1
+     */
+    public function testFastForwardToEndCountMonthly31thDayPHP81()
+    {
+        $startDate = new \DateTime('1970-01-31 00:00:00', new \DateTimeZone('America/New_York'));
+        $rrule = new RRuleIterator('FREQ=MONTHLY;COUNT=10000', $startDate);
+
+        // We do not enforce the timing in case of a count rule as we cannot optimize it
+        $this->fastForwardToEnd($rrule, false);
+
+        $expected = (new DateTime('midnight', new DateTimeZone('America/New_York')))
+            ->setDate(3398, 7, 31);
+        $this->assertEquals($expected->getTimestamp(), $rrule->current()->getTimestamp());
     }
 
     public function testFastForwardToEndUntilMonthly31thDay()

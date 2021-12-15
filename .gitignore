@@ -5,23 +5,5 @@ tests/cov/
 tests/temp
 tests/.phpunit.result.cache
 
-#vim
-.*.swp
-
-#binaries
-bin/phpunit
-bin/phpcs
-bin/php-cs-fixer
-bin/sabre-cs-fixer
-bin/hoa
-
-# Development stuff
-.php_cs.cache
-.idea
-
-# OS X
-.DS_Store
-=======
-
 # Development stuff
 .php_cs.cache

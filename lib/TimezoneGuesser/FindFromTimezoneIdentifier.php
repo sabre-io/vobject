@@ -31,6 +31,12 @@ class FindFromTimezoneIdentifier implements TimezoneFinder
         if ('(' === $tzid[0]) {
             return null;
         }
+
+        // If the timezone is prefixed with a slash we remove the slash for lookup in the maps.
+        if ('/' === $tzid[0]) {
+            $tzid = substr($tzid, 1);
+        }
+
         // PHP has a bug that logs PHP warnings even it shouldn't:
         // https://bugs.php.net/bug.php?id=67881
         //

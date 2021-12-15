@@ -8,8 +8,6 @@ class TimeZoneUtilTest extends TestCase
 {
     public function setUp(): void
     {
-        // clearning the tz cache
-        TimeZoneUtil::$map = null;
         TimeZoneUtil::clean();
     }
 
@@ -36,7 +34,8 @@ class TimeZoneUtilTest extends TestCase
             include __DIR__.'/../../lib/timezonedata/windowszones.php',
             include __DIR__.'/../../lib/timezonedata/lotuszones.php',
             include __DIR__.'/../../lib/timezonedata/exchangezones.php',
-            include __DIR__.'/../../lib/timezonedata/php-workaround.php'
+            include __DIR__.'/../../lib/timezonedata/php-workaround.php',
+            include __DIR__.'/../../lib/timezonedata/extrazones.php'
         );
 
         // PHPUNit requires an array of arrays

@@ -37,6 +37,7 @@ class RRuleIterator implements Iterator
 
     /* Implementation of the Iterator interface {{{ */
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         if (!$this->valid()) {
@@ -51,6 +52,7 @@ class RRuleIterator implements Iterator
      *
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->counter;
@@ -63,6 +65,7 @@ class RRuleIterator implements Iterator
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         if (null === $this->currentDate) {
@@ -77,7 +80,10 @@ class RRuleIterator implements Iterator
 
     /**
      * Resets the iterator.
+     *
+     * @return void
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->currentDate = clone $this->startDate;
@@ -88,8 +94,10 @@ class RRuleIterator implements Iterator
      * Goes on to the next iteration.
      *
      * @param int $amount
+     * @return void
      */
-    public function next($amount = 1)
+    #[\ReturnTypeWillChange]
+    public function next(int $amount = 1)
     {
         // Otherwise, we find the next event in the normal RRULE
         // sequence.
@@ -640,12 +648,19 @@ class RRuleIterator implements Iterator
             // This goes to 0 because we need to start counting at the
             // beginning.
             $currentDayOfMonth = 0;
+
+            // For some reason the "until" parameter was not being used here,
+            // that's why the workaround of the 10000 year bug was needed at all
             $currentHourOfMonth = 0;
             $currentMinuteOfMonth = 0;
             $currentSecondOfMonth = 0;
 
             // For some reason the "until" parameter was not being used here,
             // that's why the workaround of the 10000 year bug was needed at all
+            // let's stop it before the "until" parameter date
+            if ($this->until && $this->currentDate->getTimestamp() >= $this->until->getTimestamp()) {
+                return;
+            }
             // let's stop it before the "until" parameter date
             if ($this->until && $this->currentDate->getTimestamp() >= $this->until->getTimestamp()) {
                 return;

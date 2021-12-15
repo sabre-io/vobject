@@ -261,32 +261,45 @@ class FastForwardTest extends TestCase
 
         // march
         $rrule->next();
-        $expected += (29 + 31) * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone('America/New_York')))
+            ->setDate(18000, 3, 31)
+            ->getTimestamp();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // may
         $rrule->next();
         $expected += (30 + 31) * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone('America/New_York')))
+            ->setDate(18000, 5, 31)
+            ->getTimestamp();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // july
         $rrule->next();
-        $expected += (30 + 31) * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone('America/New_York')))
+            ->setDate(18000, 7, 31)
+            ->getTimestamp();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // august
         $rrule->next();
-        $expected += 31 * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone('America/New_York')))
+            ->setDate(18000, 8, 31)
+            ->getTimestamp();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // october
         $rrule->next();
-        $expected += (30 + 31) * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone('America/New_York')))
+            ->setDate(18000, 10, 31)
+            ->getTimestamp();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // december
         $rrule->next();
-        $expected += (30 + 31) * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone('America/New_York')))
+            ->setDate(18000, 12, 31)
+            ->getTimestamp();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
     }
 
@@ -307,37 +320,51 @@ class FastForwardTest extends TestCase
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // tuesday
-        $expected += 8 * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone($timezone)))
+            ->setDate(8000, 1, 11)
+            ->getTimestamp();
         $rrule->next();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // wednesday
-        $expected += 8 * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone($timezone)))
+            ->setDate(8000, 1, 19)
+            ->getTimestamp();
         $rrule->next();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // thursday
-        $expected += 8 * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone($timezone)))
+            ->setDate(8000, 1, 27)
+            ->getTimestamp();
         $rrule->next();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // monday march
-        $expected += (29 + 10) * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone($timezone)))
+            ->setDate(8000, 3, 6)
+            ->getTimestamp();
         $rrule->next();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // tuesday
-        $expected += 8 * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone($timezone)))
+            ->setDate(8000, 3, 14)
+            ->getTimestamp();
         $rrule->next();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // wednesday (this month starts on wednesday so that's just the next day)
-        $expected += 1 * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone($timezone)))
+            ->setDate(8000, 3, 15)
+            ->getTimestamp();
         $rrule->next();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
 
         // thursday
-        $expected += 8 * 24 * 60 * 60;
+        $expected = (new DateTime('midnight', new DateTimeZone($timezone)))
+            ->setDate(8000, 3, 23)
+            ->getTimestamp();
         $rrule->next();
         $this->assertEquals($expected, $rrule->current()->getTimestamp());
     }

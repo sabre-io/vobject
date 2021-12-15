@@ -6,8 +6,7 @@ $config->getFinder()
     ->in(__DIR__);
 $config->setRules([
     '@PSR1' => true,
-    '@Symfony' => true,
-    'phpdoc_summary' => false
+    '@Symfony' => true
 ]);
 
 return $config;
