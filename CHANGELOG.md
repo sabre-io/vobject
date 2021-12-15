@@ -4,6 +4,7 @@ ChangeLog
 4.7.0 (2021-12-15)
 ------------------
 * #34 Merge upstream changes from sabre-io/vobject:4.4.0 into protonlabs/vobject
+* #36 Merge upstream changes from sabre-io/vobject:4.4.1 into protonlabs/vobject
 
 4.6.1 (2021-11-04)
 ------------------
