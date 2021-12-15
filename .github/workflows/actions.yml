@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.4']
+        php-versions: ['7.4', '8.0']
 
     runs-on: ${{ matrix.operating-system }}
 
