@@ -167,7 +167,11 @@ class MimeDir extends Parser
 
         while (true) {
             // Reading until we hit END:
-            $line = $this->readLine();
+            try {
+                $line = $this->readLine();
+            } catch (EofException $oEx) {
+                $line = 'END:'.$this->root->name;
+            }
             if ('END:' === strtoupper(substr($line, 0, 4))) {
                 break;
             }
