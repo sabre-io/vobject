@@ -37,7 +37,7 @@ abstract class Property extends Node
     /**
      * List of parameters.
      *
-     * @var array
+     * @var Parameter[]
      */
     public $parameters = [];
 
@@ -64,7 +64,7 @@ abstract class Property extends Node
      * @param Component         $root       The root document
      * @param string            $name
      * @param string|array|null $value
-     * @param array             $parameters List of parameters
+     * @param array             $parameters List of parameter values
      * @param string            $group      The vcard property group
      */
     public function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null)
@@ -178,7 +178,7 @@ abstract class Property extends Node
     /**
      * Returns an iterable list of children.
      *
-     * @return array
+     * @return Parameter[]
      */
     public function parameters()
     {

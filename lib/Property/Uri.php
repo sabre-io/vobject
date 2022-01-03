@@ -40,7 +40,7 @@ class Uri extends Text
     /**
      * Returns an iterable list of children.
      *
-     * @return array
+     * @return Parameter[]
      */
     public function parameters()
     {
