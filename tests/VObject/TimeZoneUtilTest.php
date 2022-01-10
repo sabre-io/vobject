@@ -177,6 +177,13 @@ HI;
         $this->assertEquals($ex->getName(), $tz->getName());
     }
 
+    public function testLowerCaseTimeZone()
+    {
+        $tz = TimeZoneUtil::getTimeZone('mountain time (us & canada)');
+        $ex = new \DateTimeZone('America/Denver');
+        $this->assertEquals($ex->getName(), $tz->getName());
+    }
+
     /**
      * @dataProvider getPHPTimeZoneIdentifiers
      */
