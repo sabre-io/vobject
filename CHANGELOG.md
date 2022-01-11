@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+4.7.1 (2022-01-10)
+------------------
+* #39 Add support for lowercase timezones
+
 4.7.0 (2021-12-15)
 ------------------
 * #34 Merge upstream changes from sabre-io/vobject:4.4.0 into protonlabs/vobject
