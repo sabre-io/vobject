@@ -43,12 +43,12 @@ class Component extends Node
      * an iCalendar object, this may be something like CALSCALE:GREGORIAN. To
      * ensure that this does not happen, set $defaults to false.
      *
-     * @param string $name     such as VCALENDAR, VEVENT
-     * @param bool   $defaults
+     * @param string|null $name     such as VCALENDAR, VEVENT
+     * @param bool        $defaults
      */
     public function __construct(Document $root, $name, array $children = [], $defaults = true)
     {
-        $this->name = strtoupper($name);
+        $this->name = isset($name) ? strtoupper($name) : "";
         $this->root = $root;
 
         if ($defaults) {
