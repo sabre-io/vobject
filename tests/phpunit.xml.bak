@@ -10,9 +10,6 @@
   failOnWarning="true"
   enforceTimeLimit="true"
   >
-  <php>
-    <ini name="error_reporting" value="E_ALL"/>
-  </php>
   <testsuites>
     <testsuite name="Sabre\VObject">
       <directory>.</directory>
