@@ -238,7 +238,7 @@ class Component extends Node
                 return array_filter(
                     $result,
                     function ($child) use ($group) {
-                        return $child instanceof Property && strtoupper($child->group) === $group;
+                        return $child instanceof Property && strtoupper((string) $child->group) === $group;
                     }
                 );
             }
