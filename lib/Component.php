@@ -28,7 +28,7 @@ class Component extends Node
     /**
      * A list of properties and/or sub-components.
      *
-     * @var array
+     * @var array<string, Component|Property>
      */
     protected $children = [];
 
@@ -238,7 +238,13 @@ class Component extends Node
                 return array_filter(
                     $result,
                     function ($child) use ($group) {
-                        return $child instanceof Property && strtoupper((string) $child->group) === $group;
+                        if ($child instanceof Property) {
+                            $cgroup = isset($child->group) ? strtoupper($child->group) : '';
+
+                            return $cgroup === $group;
+                        }
+
+                        return false;
                     }
                 );
             }
