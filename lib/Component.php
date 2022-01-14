@@ -48,7 +48,7 @@ class Component extends Node
      */
     public function __construct(Document $root, $name, array $children = [], $defaults = true)
     {
-        $this->name = isset($name) ? strtoupper($name) : "";
+        $this->name = isset($name) ? strtoupper($name) : '';
         $this->root = $root;
 
         if ($defaults) {

@@ -136,7 +136,7 @@ class Text extends Property
             }
 
             foreach ($item as &$subItem) {
-                if ($subItem != null) {
+                if (!is_null($subItem)) {
                     $subItem = strtr(
                         $subItem,
                         [
