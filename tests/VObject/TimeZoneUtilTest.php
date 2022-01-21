@@ -433,5 +433,16 @@ HI;
             'origin' => 'EDT',
             'expected' => 'America/Manaus',
         ];
+
+        if (($handle = fopen(__DIR__ . "/microsoft-timezones-confluence.csv", "r")) !== FALSE) {
+            $data = fgetcsv($handle);
+            while (($data = fgetcsv($handle)) !== FALSE) {
+                yield $data[0] => [
+                    'origin' => $data[0],
+                    'expected' => $data[2] !== '' ? $data[2] : $data[1],
+                ];
+            }
+            fclose($handle);
+        }
     }
 }

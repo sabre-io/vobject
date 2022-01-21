@@ -20,6 +20,8 @@ class FindFromTimezoneMap implements TimezoneFinder
 
     public function find(string $tzid, bool $failIfUncertain = false): ?DateTimeZone
     {
+        $tzid = str_replace(".", "", $tzid);
+
         // Next, we check if the tzid is somewhere in our tzid map.
         if ($this->hasTzInMap($tzid)) {
             return new DateTimeZone($this->getTzFromMap($tzid));
@@ -63,7 +65,7 @@ class FindFromTimezoneMap implements TimezoneFinder
                 include __DIR__.'/../timezonedata/extrazones.php'
             );
             $this->map = array_combine(
-                array_map(static fn (string $key) => mb_strtolower($key, 'UTF-8'), array_keys($map)),
+                array_map(static fn (string $key) => str_replace(".", "", mb_strtolower($key, 'UTF-8')), array_keys($map)),
                 array_values($map),
             );
         }

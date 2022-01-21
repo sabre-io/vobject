@@ -1,0 +1,548 @@
+Original timezone,Replacement,Proposed,Is manual
+"abu dhabi, muscat",Asia/Dubai,Asia/Muscat,TRUE
+acre,America/Rio_Branco,America/Rio_Branco,FALSE
+"adelaide, central australia",Australia/Adelaide,Australia/Adelaide,FALSE
+afghanistan,Asia/Kabul,Asia/Kabul,FALSE
+afghanistan standard time,Asia/Kabul,Asia/Kabul,FALSE
+africa central,Africa/Maputo,Africa/Maputo,FALSE
+africa eastern,Africa/Nairobi,Africa/Nairobi,FALSE
+africa farwestern,Africa/El_Aaiun,Africa/El_Aaiun,FALSE
+africa southern,Africa/Johannesburg,Africa/Johannesburg,FALSE
+africa western,Africa/Lagos,Africa/Lagos,FALSE
+aktyubinsk,Asia/Aqtobe,Asia/Aqtobe,FALSE
+alaska,America/Anchorage,America/Anchorage,FALSE
+alaska hawaii,America/Anchorage,America/Anchorage,FALSE
+alaskan,America/Anchorage,America/Anchorage,FALSE
+alaskan standard time,America/Anchorage,America/Anchorage,FALSE
+aleutian standard time,America/Adak,America/Adak,FALSE
+almaty,Asia/Almaty,Asia/Almaty,FALSE
+"almaty, novosibirsk, north central asia",Asia/Almaty,Asia/Almaty,FALSE
+altai standard time,Asia/Barnaul,Asia/Barnaul,FALSE
+amazon,America/Manaus,America/Manaus,FALSE
+america central,America/Chicago,America/Chicago,FALSE
+america eastern,America/New_York,America/New_York,FALSE
+america mountain,America/Denver,America/Denver,FALSE
+america pacific,America/Los_Angeles,America/Los_Angeles,FALSE
+"amsterdam, berlin, bern, rome, stockholm, vienna",Europe/Berlin,Europe/Berlin,FALSE
+anadyr,Asia/Anadyr,Asia/Anadyr,FALSE
+apia,Pacific/Apia,Pacific/Apia,FALSE
+aqtau,Asia/Aqtau,Asia/Aqtau,FALSE
+aqtobe,Asia/Aqtobe,Asia/Aqtobe,FALSE
+arab,Asia/Riyadh,Asia/Kuwait,TRUE
+arab standard time,Asia/Riyadh,Asia/Riyadh,FALSE
+"arab, kuwait, riyadh",Asia/Riyadh,Asia/Kuwait,TRUE
+arabian,Asia/Dubai,Asia/Muscat,TRUE
+arabian standard time,Asia/Dubai,Asia/Dubai,FALSE
+arabic,Asia/Baghdad,Asia/Baghdad,FALSE
+arabic standard time,Asia/Baghdad,Asia/Baghdad,FALSE
+argentina,America/Argentina/Buenos_Aires,America/Argentina/Buenos_Aires,FALSE
+argentina standard time,America/Argentina/Buenos_Aires,America/Argentina/Buenos_Aires,FALSE
+argentina western,America/Argentina/San_Luis,America/Argentina/San_Luis,FALSE
+arizona,America/Phoenix,America/Phoenix,FALSE
+armenia,Asia/Yerevan,Asia/Yerevan,FALSE
+armenian,Asia/Yerevan,Asia/Yerevan,FALSE
+armenian standard time,Asia/Yerevan,Asia/Yerevan,FALSE
+ashkhabad,Asia/Ashgabat,Asia/Ashgabat,FALSE
+"astana, dhaka",Asia/Dhaka,Asia/Dhaka,FALSE
+astrakhan standard time,Europe/Astrakhan,Europe/Astrakhan,FALSE
+"athens, istanbul, minsk",Europe/Athens,Europe/Athens,FALSE
+atlantic,America/Halifax,America/Halifax,FALSE
+atlantic standard time,America/Halifax,America/Halifax,FALSE
+atlantic time (canada),America/Halifax,America/Halifax,FALSE
+"auckland, wellington",Pacific/Auckland,Pacific/Auckland,FALSE
+aus central,Australia/Darwin,Australia/Darwin,FALSE
+aus central standard time,Australia/Darwin,Australia/Darwin,FALSE
+aus central w standard time,Australia/Eucla,Australia/Eucla,FALSE
+aus eastern,Australia/Sydney,Australia/Sydney,FALSE
+aus eastern standard time,Australia/Sydney,Australia/Sydney,FALSE
+australia central,Australia/Adelaide,Australia/Adelaide,FALSE
+australia centralwestern,Australia/Eucla,Australia/Eucla,FALSE
+australia eastern,Australia/Sydney,Australia/Sydney,FALSE
+australia western,Australia/Perth,Australia/Perth,FALSE
+azerbaijan,Asia/Baku,Asia/Baku,FALSE
+azerbaijan standard time,Asia/Baku,Asia/Baku,FALSE
+azerbijan,Asia/Baku,Asia/Baku,FALSE
+azores,Atlantic/Azores,Atlantic/Azores,FALSE
+azores standard time,Atlantic/Azores,Atlantic/Azores,FALSE
+baghdad,Asia/Baghdad,Asia/Baghdad,FALSE
+bahia standard time,America/Bahia,America/Bahia,FALSE
+baku,Asia/Baku,Asia/Baku,FALSE
+"baku, tbilisi, yerevan",Asia/Baku,Asia/Baku,FALSE
+"bangkok, hanoi, jakarta",Asia/Bangkok,Asia/Bangkok,FALSE
+bangladesh,Asia/Dhaka,Asia/Dhaka,FALSE
+bangladesh standard time,Asia/Dhaka,Asia/Dhaka,FALSE
+"beijing, chongqing, hong kong sar, urumqi",Asia/Shanghai,Asia/Shanghai,FALSE
+belarus standard time,Europe/Minsk,Europe/Minsk,FALSE
+"belgrade, pozsony, budapest, ljubljana, prague",Europe/Prague,Europe/Prague,FALSE
+bering,America/Adak,America/Adak,FALSE
+bhutan,Asia/Thimphu,Asia/Thimphu,FALSE
+"bogota, lima, quito",America/Bogota,America/Bogota,FALSE
+bolivia,America/La_Paz,America/La_Paz,FALSE
+borneo,Asia/Kuching,Asia/Kuching,FALSE
+bougainville standard time,Pacific/Bougainville,Pacific/Bougainville,FALSE
+brasilia,America/Sao_Paulo,America/Sao_Paulo,FALSE
+"brisbane, east australia",Australia/Brisbane,Australia/Brisbane,FALSE
+british,Europe/London,Europe/London,FALSE
+brunei,Asia/Brunei,Asia/Brunei,FALSE
+"brussels, copenhagen, madrid, paris",Europe/Paris,Europe/Paris,FALSE
+bucharest,Europe/Bucharest,Europe/Bucharest,FALSE
+buenos aires,America/Argentina/Buenos_Aires,America/Argentina/Buenos_Aires,FALSE
+cairo,Africa/Cairo,Africa/Cairo,FALSE
+canada central,America/Edmonton,America/Edmonton,FALSE
+canada central standard time,America/Regina,America/Regina,FALSE
+"canberra, melbourne, sydney, hobart (year 2000 only)",Australia/Sydney,Australia/Sydney,FALSE
+cape verde,Atlantic/Cape_Verde,Atlantic/Cape_Verde,FALSE
+cape verde is,Atlantic/Cape_Verde,Atlantic/Cape_Verde,FALSE
+cape verde standard time,Atlantic/Cape_Verde,Atlantic/Cape_Verde,FALSE
+"caracas, la paz",America/Caracas,America/Caracas,FALSE
+"casablanca, monrovia",Africa/Casablanca,Africa/Casablanca,FALSE
+casey,Antarctica/Casey,Antarctica/Casey,FALSE
+caucasus,Asia/Yerevan,Asia/Yerevan,FALSE
+caucasus standard time,Asia/Yerevan,Asia/Yerevan,FALSE
+cen australia,Australia/Adelaide,Australia/Adelaide,FALSE
+cen australia standard time,Australia/Adelaide,Australia/Adelaide,FALSE
+central,America/Chicago,America/Chicago,FALSE
+central america,America/Guatemala,America/Guatemala,FALSE
+central america standard time,America/Guatemala,America/Guatemala,FALSE
+central asia,Asia/Dhaka,Asia/Dhaka,FALSE
+central asia standard time,Asia/Almaty,Asia/Almaty,FALSE
+central brazilian,America/Manaus,America/Manaus,FALSE
+central brazilian standard time,America/Cuiaba,America/Cuiaba,FALSE
+central europe,Europe/Prague,Europe/Prague,FALSE
+central europe standard time,Europe/Budapest,Europe/Budapest,FALSE
+central european,Europe/Belgrade,Europe/Sarajevo,TRUE
+central european standard time,Europe/Warsaw,Europe/Warsaw,FALSE
+central pacific,Asia/Magadan,Asia/Magadan,FALSE
+central pacific standard time,Pacific/Guadalcanal,Pacific/Guadalcanal,FALSE
+central standard time,America/Chicago,America/Chicago,FALSE
+central standard time (mexico),America/Mexico_City,America/Mexico_City,FALSE
+central time (us & canada),America/Chicago,America/Chicago,FALSE
+chamorro,Pacific/Guam,Pacific/Saipan,TRUE
+chatham,Pacific/Chatham,Pacific/Chatham,FALSE
+chatham islands standard time,Pacific/Chatham,Pacific/Chatham,FALSE
+chile,America/Santiago,America/Santiago,FALSE
+china,Asia/Shanghai,Asia/Shanghai,FALSE
+china standard time,Asia/Shanghai,Asia/Shanghai,FALSE
+choibalsan,Asia/Choibalsan,Asia/Choibalsan,FALSE
+christmas,Indian/Christmas,Indian/Christmas,FALSE
+cocos,Indian/Cocos,Indian/Cocos,FALSE
+colombia,America/Bogota,America/Bogota,FALSE
+cook,Pacific/Rarotonga,Pacific/Rarotonga,FALSE
+cuba,America/Havana,America/Havana,FALSE
+cuba standard time,America/Havana,America/Havana,FALSE
+dacca,Asia/Dhaka,Asia/Dhaka,FALSE
+darwin,Australia/Darwin,Australia/Darwin,FALSE
+dateline,Pacific/Auckland,Pacific/Auckland,FALSE
+dateline standard time,Pacific/Niue,Pacific/Niue,FALSE
+davis,Antarctica/Davis,Antarctica/Davis,FALSE
+dominican,America/Santo_Domingo,America/Santo_Domingo,FALSE
+dumontdurville,Antarctica/DumontDUrville,Antarctica/DumontDUrville,FALSE
+dushanbe,Asia/Dushanbe,Asia/Dushanbe,FALSE
+dutch guiana,America/Paramaribo,America/Paramaribo,FALSE
+e africa,Africa/Nairobi,Africa/Nairobi,FALSE
+e africa standard time,Africa/Nairobi,Africa/Nairobi,FALSE
+e australia,Australia/Brisbane,Australia/Brisbane,FALSE
+e australia standard time,Australia/Brisbane,Australia/Brisbane,FALSE
+e europe,Europe/Minsk,Europe/Minsk,FALSE
+e europe standard time,Europe/Chisinau,Europe/Chisinau,FALSE
+e south america,America/Belem,America/Belem,FALSE
+e south america standard time,America/Sao_Paulo,America/Sao_Paulo,FALSE
+"east africa, nairobi",Africa/Nairobi,Africa/Nairobi,FALSE
+east timor,Asia/Dili,Asia/Dili,FALSE
+easter,Pacific/Easter,Pacific/Easter,FALSE
+easter island standard time,Pacific/Easter,Pacific/Easter,FALSE
+eastern,America/New_York,America/New_York,FALSE
+eastern standard time,America/New_York,America/New_York,FALSE
+eastern standard time (mexico),America/Cancun,America/Cancun,FALSE
+eastern time (us & canada),America/New_York,America/New_York,FALSE
+ecuador,America/Guayaquil,America/Guayaquil,FALSE
+egypt,Africa/Cairo,Africa/Cairo,FALSE
+egypt standard time,Africa/Cairo,Africa/Cairo,FALSE
+ekaterinburg,Asia/Yekaterinburg,Asia/Yekaterinburg,FALSE
+ekaterinburg standard time,Asia/Yekaterinburg,Asia/Yekaterinburg,FALSE
+"eniwetok, kwajalein, dateline time",Pacific/Kwajalein,Pacific/Kwajalein,FALSE
+europe central,Europe/Paris,Europe/Paris,FALSE
+europe eastern,Europe/Bucharest,Europe/Bucharest,FALSE
+europe further eastern,Europe/Minsk,Europe/Minsk,FALSE
+europe western,Atlantic/Canary,Atlantic/Canary,FALSE
+falkland,Atlantic/Stanley,Atlantic/Stanley,FALSE
+fiji,Pacific/Fiji,Pacific/Fiji,FALSE
+fiji islands standard time,Pacific/Fiji,Pacific/Fiji,FALSE
+"fiji islands, kamchatka, marshall is",Pacific/Fiji,Pacific/Fiji,FALSE
+fiji standard time,Pacific/Fiji,Pacific/Fiji,FALSE
+fle,Europe/Helsinki,Europe/Helsinki,FALSE
+fle standard time,Europe/Kiev,Europe/Kiev,FALSE
+french guiana,America/Cayenne,America/Cayenne,FALSE
+french southern,Indian/Kerguelen,Indian/Kerguelen,FALSE
+frunze,Asia/Bishkek,Asia/Bishkek,FALSE
+galapagos,Pacific/Galapagos,Pacific/Galapagos,FALSE
+gambier,Pacific/Gambier,Pacific/Gambier,FALSE
+georgia,Asia/Tbilisi,Asia/Tbilisi,FALSE
+georgian,Asia/Tbilisi,Asia/Tbilisi,FALSE
+georgian standard time,Asia/Tbilisi,Asia/Tbilisi,FALSE
+gilbert islands,Pacific/Tarawa,Pacific/Tarawa,FALSE
+gmt,Europe/London,Europe/London,FALSE
+gmt standard time,Europe/London,Europe/London,FALSE
+goose bay,America/Goose_Bay,America/Goose_Bay,FALSE
+greenland,America/Godthab,America/Godthab,FALSE
+greenland central,America/Scoresbysund,America/Scoresbysund,FALSE
+greenland eastern,America/Scoresbysund,America/Scoresbysund,FALSE
+greenland standard time,America/Godthab,America/Godthab,FALSE
+greenland western,America/Godthab,America/Godthab,FALSE
+greenwich,Atlantic/Reykjavik,Atlantic/Reykjavik,FALSE
+"greenwich mean time; dublin, edinburgh, london",Europe/London,Europe/London,FALSE
+"greenwich mean time: dublin, edinburgh, lisbon, london",Europe/Lisbon,Europe/Lisbon,FALSE
+greenwich standard time,Atlantic/Reykjavik,Atlantic/Reykjavik,FALSE
+gtb,Europe/Athens,Europe/Athens,FALSE
+gtb standard time,Europe/Bucharest,Europe/Bucharest,FALSE
+guam,Pacific/Guam,Pacific/Guam,FALSE
+"guam, port moresby",Pacific/Guam,Pacific/Guam,FALSE
+gulf,Asia/Dubai,Asia/Dubai,FALSE
+guyana,America/Guyana,America/Guyana,FALSE
+haiti standard time,America/Port-au-Prince,America/Port-au-Prince,FALSE
+"harare, pretoria",Africa/Maputo,Africa/Harare,TRUE
+hawaii,Pacific/Honolulu,Pacific/Honolulu,FALSE
+hawaii aleutian,Pacific/Honolulu,Pacific/Honolulu,FALSE
+hawaiian,Pacific/Honolulu,Pacific/Honolulu,FALSE
+hawaiian standard time,Pacific/Honolulu,Pacific/Honolulu,FALSE
+"helsinki, riga, tallinn",Europe/Helsinki,Europe/Helsinki,FALSE
+"hobart, tasmania",Australia/Hobart,Australia/Hobart,FALSE
+hong kong,Asia/Hong_Kong,Asia/Hong_Kong,FALSE
+hovd,Asia/Hovd,Asia/Hovd,FALSE
+india,Asia/Kolkata,Asia/Kolkata,FALSE
+india standard time,Asia/Kolkata,Asia/Kolkata,FALSE
+indian ocean,Indian/Chagos,Indian/Chagos,FALSE
+indiana (east),America/New_York,America/Indiana/Indianapolis,TRUE
+indochina,Asia/Bangkok,Asia/Bangkok,FALSE
+indonesia central,Asia/Makassar,Asia/Makassar,FALSE
+indonesia eastern,Asia/Jayapura,Asia/Jayapura,FALSE
+indonesia western,Asia/Jakarta,Asia/Jakarta,FALSE
+iran,Asia/Tehran,Asia/Tehran,FALSE
+iran standard time,Asia/Tehran,Asia/Tehran,FALSE
+irish,Europe/Dublin,Europe/Dublin,FALSE
+irkutsk,Asia/Irkutsk,Asia/Irkutsk,FALSE
+"irkutsk, ulaan bataar",Asia/Irkutsk,Asia/Irkutsk,FALSE
+"islamabad, karachi, tashkent",Asia/Karachi,Asia/Karachi,FALSE
+israel,Asia/Jerusalem,Asia/Jerusalem,FALSE
+israel standard time,Asia/Jerusalem,Asia/Jerusalem,FALSE
+"israel, jerusalem standard time",Asia/Jerusalem,Asia/Jerusalem,FALSE
+japan,Asia/Tokyo,Asia/Tokyo,FALSE
+jordan,Asia/Amman,Asia/Amman,FALSE
+jordan standard time,Asia/Amman,Asia/Amman,FALSE
+kabul,Asia/Kabul,Asia/Kabul,FALSE
+kaliningrad standard time,Europe/Kaliningrad,Europe/Kaliningrad,FALSE
+kamchatka,Asia/Kamchatka,Asia/Kamchatka,FALSE
+kamchatka standard time,Asia/Kamchatka,Asia/Kamchatka,FALSE
+karachi,Asia/Karachi,Asia/Karachi,FALSE
+"kathmandu, nepal",Asia/Kathmandu,Asia/Kathmandu,FALSE
+kazakhstan eastern,Asia/Almaty,Asia/Almaty,FALSE
+kazakhstan western,Asia/Aqtobe,Asia/Aqtobe,FALSE
+kizilorda,Asia/Qyzylorda,Asia/Qyzylorda,FALSE
+"kolkata, chennai, mumbai, new delhi, india standard time",Asia/Kolkata,Asia/Kolkata,FALSE
+korea,Asia/Seoul,Asia/Seoul,FALSE
+korea standard time,Asia/Seoul,Asia/Seoul,FALSE
+kosrae,Pacific/Kosrae,Pacific/Kosrae,FALSE
+krasnoyarsk,Asia/Krasnoyarsk,Asia/Krasnoyarsk,FALSE
+"kuala lumpur, singapore",Asia/Shanghai,Asia/Singapore,TRUE
+kuybyshev,Europe/Samara,Europe/Samara,FALSE
+kwajalein,Pacific/Kwajalein,Pacific/Kwajalein,FALSE
+kyrgystan,Asia/Bishkek,Asia/Bishkek,FALSE
+lanka,Asia/Colombo,Asia/Colombo,FALSE
+liberia,Africa/Monrovia,Africa/Monrovia,FALSE
+libya standard time,Africa/Tripoli,Africa/Tripoli,FALSE
+line islands,Pacific/Kiritimati,Pacific/Kiritimati,FALSE
+line islands standard time,Pacific/Kiritimati,Pacific/Kiritimati,FALSE
+lord howe,Australia/Lord_Howe,Australia/Lord_Howe,FALSE
+lord howe standard time,Australia/Lord_Howe,Australia/Lord_Howe,FALSE
+macau,Asia/Macau,Asia/Macau,FALSE
+macquarie,Antarctica/Macquarie,Antarctica/Macquarie,FALSE
+magadan,Asia/Magadan,Asia/Magadan,FALSE
+magadan standard time,Asia/Magadan,Asia/Magadan,FALSE
+"magadan, solomon is, new caledonia",Asia/Magadan,Asia/Magadan,FALSE
+magallanes standard time,America/Punta_Arenas,America/Punta_Arenas,FALSE
+malaya,Asia/Kuala_Lumpur,Asia/Kuala_Lumpur,FALSE
+malaysia,Asia/Kuching,Asia/Kuching,FALSE
+maldives,Indian/Maldives,Indian/Maldives,FALSE
+marquesas,Pacific/Marquesas,Pacific/Marquesas,FALSE
+marquesas standard time,Pacific/Marquesas,Pacific/Marquesas,FALSE
+marshall islands,Pacific/Majuro,Pacific/Majuro,FALSE
+mauritius,Indian/Mauritius,Indian/Mauritius,FALSE
+mauritius standard time,Indian/Mauritius,Indian/Mauritius,FALSE
+mawson,Antarctica/Mawson,Antarctica/Mawson,FALSE
+mexico,America/Mexico_City,America/Mexico_City,FALSE
+"mexico city, tegucigalpa",America/Mexico_City,America/Mexico_City,FALSE
+mexico pacific,America/Mazatlan,America/Mazatlan,FALSE
+mexico standard time,America/Mexico_City,America/Mexico_City,FALSE
+mexico standard time 2,America/Chihuahua,America/Chihuahua,FALSE
+mid-atlantic,America/Noronha,America/Noronha,FALSE
+mid-atlantic standard time,Atlantic/Cape_Verde,Atlantic/Cape_Verde,FALSE
+middle east,Asia/Beirut,Asia/Beirut,FALSE
+middle east standard time,Asia/Beirut,Asia/Beirut,FALSE
+"midway island, samoa",Pacific/Pago_Pago,Pacific/Midway,TRUE
+mongolia,Asia/Ulaanbaatar,Asia/Ulaanbaatar,FALSE
+montevideo,America/Montevideo,America/Montevideo,FALSE
+montevideo standard time,America/Montevideo,America/Montevideo,FALSE
+morocco,Africa/Casablanca,Africa/Casablanca,FALSE
+morocco standard time,Africa/Casablanca,Africa/Casablanca,FALSE
+moscow,Europe/Moscow,Europe/Moscow,FALSE
+"moscow, st petersburg, volgograd",Europe/Moscow,Europe/Moscow,FALSE
+mountain,America/Denver,America/Denver,FALSE
+mountain standard time,America/Denver,America/Denver,FALSE
+mountain standard time (mexico),America/Chihuahua,America/Chihuahua,FALSE
+mountain time (us & canada),America/Denver,America/Denver,FALSE
+myanmar,Indian/Cocos,Asia/Yangon,TRUE
+myanmar standard time,Indian/Cocos,Asia/Yangon,TRUE
+n central asia,Asia/Almaty,Asia/Almaty,FALSE
+n central asia standard time,Asia/Novosibirsk,Asia/Novosibirsk,FALSE
+namibia,Africa/Windhoek,Africa/Windhoek,FALSE
+namibia standard time,Africa/Windhoek,Africa/Windhoek,FALSE
+nauru,Pacific/Nauru,Pacific/Nauru,FALSE
+nepal,Asia/Kathmandu,Asia/Kathmandu,FALSE
+nepal standard time,Asia/Kathmandu,Asia/Kathmandu,FALSE
+new caledonia,Pacific/Noumea,Pacific/Noumea,FALSE
+new zealand,Pacific/Auckland,Pacific/Auckland,FALSE
+new zealand standard time,Pacific/Auckland,Pacific/Auckland,FALSE
+newfoundland,America/St_Johns,America/St_Johns,FALSE
+newfoundland and labrador standard time,America/St_Johns,America/St_Johns,FALSE
+newfoundland standard time,America/St_Johns,America/St_Johns,FALSE
+niue,Pacific/Niue,Pacific/Niue,FALSE
+norfolk,Pacific/Norfolk,Pacific/Norfolk,FALSE
+norfolk standard time,Pacific/Norfolk,Pacific/Norfolk,FALSE
+noronha,America/Noronha,America/Noronha,FALSE
+north asia,Asia/Krasnoyarsk,Asia/Krasnoyarsk,FALSE
+north asia east,Asia/Irkutsk,Asia/Irkutsk,FALSE
+north asia east standard time,Asia/Irkutsk,Asia/Irkutsk,FALSE
+north asia standard time,Asia/Krasnoyarsk,Asia/Krasnoyarsk,FALSE
+north korea standard time,Asia/Pyongyang,Asia/Pyongyang,FALSE
+north mariana,Pacific/Guam,Pacific/Saipan,TRUE
+novosibirsk,Asia/Novosibirsk,Asia/Novosibirsk,FALSE
+"nuku'alofa, tonga",Pacific/Tongatapu,Pacific/Tongatapu,FALSE
+omsk,Asia/Omsk,Asia/Omsk,FALSE
+omsk standard time,Asia/Omsk,Asia/Omsk,FALSE
+oral,Asia/Oral,Asia/Oral,FALSE
+"osaka, sapporo, tokyo",Asia/Tokyo,Asia/Tokyo,FALSE
+pacific,America/Los_Angeles,America/Los_Angeles,FALSE
+pacific sa,America/Santiago,America/Santiago,FALSE
+pacific sa standard time,America/Santiago,America/Santiago,FALSE
+pacific standard time,America/Los_Angeles,America/Los_Angeles,FALSE
+pacific standard time (mexico),America/Tijuana,America/Tijuana,FALSE
+pacific time (us & canada),America/Los_Angeles,America/Los_Angeles,FALSE
+pacific time (us & canada); tijuana,America/Los_Angeles,America/Los_Angeles,FALSE
+pakistan,Asia/Karachi,Asia/Karachi,FALSE
+pakistan standard time,Asia/Karachi,Asia/Karachi,FALSE
+palau,Pacific/Palau,Pacific/Palau,FALSE
+papua new guinea,Pacific/Port_Moresby,Pacific/Port_Moresby,FALSE
+paraguay,America/Asuncion,America/Asuncion,FALSE
+paraguay standard time,America/Asuncion,America/Asuncion,FALSE
+"paris, madrid, brussels, copenhagen",Europe/Paris,Europe/Paris,FALSE
+"perth, western australia",Australia/Perth,Australia/Perth,FALSE
+peru,America/Lima,America/Lima,FALSE
+philippines,Asia/Manila,Asia/Manila,FALSE
+phoenix islands,Pacific/Enderbury,Pacific/Enderbury,FALSE
+pierre miquelon,America/Miquelon,America/Miquelon,FALSE
+pitcairn,Pacific/Pitcairn,Pacific/Pitcairn,FALSE
+"prague, central europe",Europe/Prague,Europe/Prague,FALSE
+pyongyang,Asia/Pyongyang,Asia/Pyongyang,FALSE
+qyzylorda,Asia/Qyzylorda,Asia/Qyzylorda,FALSE
+qyzylorda standard time,Asia/Qyzylorda,Asia/Qyzylorda,FALSE
+rangoon,Indian/Cocos,Asia/Yangon,TRUE
+reunion,Indian/Reunion,Indian/Reunion,FALSE
+romance,Europe/Paris,Europe/Paris,FALSE
+romance standard time,Europe/Paris,Europe/Paris,FALSE
+rothera,Antarctica/Rothera,Antarctica/Rothera,FALSE
+russia time zone 10,Asia/Srednekolymsk,Asia/Srednekolymsk,FALSE
+russia time zone 11,Asia/Kamchatka,Asia/Kamchatka,FALSE
+russia time zone 3,Europe/Samara,Europe/Samara,FALSE
+russian,Europe/Moscow,Europe/Moscow,FALSE
+russian standard time,Europe/Moscow,Europe/Moscow,FALSE
+sa eastern,America/Belem,America/Belem,FALSE
+sa eastern standard time,America/Cayenne,America/Cayenne,FALSE
+sa pacific,America/Bogota,America/Bogota,FALSE
+sa pacific standard time,America/Bogota,America/Bogota,FALSE
+sa western,America/La_Paz,America/La_Paz,FALSE
+sa western standard time,America/La_Paz,America/La_Paz,FALSE
+saint pierre standard time,America/Miquelon,America/Miquelon,FALSE
+sakhalin,Asia/Sakhalin,Asia/Sakhalin,FALSE
+sakhalin standard time,Asia/Sakhalin,Asia/Sakhalin,FALSE
+samara,Europe/Samara,Europe/Samara,FALSE
+samarkand,Asia/Samarkand,Asia/Samarkand,FALSE
+samoa,Pacific/Apia,Pacific/Apia,FALSE
+samoa standard time,Pacific/Apia,Pacific/Apia,FALSE
+santiago,America/Santiago,America/Santiago,FALSE
+sao tome standard time,Africa/Sao_Tome,Africa/Sao_Tome,FALSE
+"sarajevo, skopje, sofija, vilnius, warsaw, zagreb",Europe/Belgrade,Europe/Sarajevo,TRUE
+saratov standard time,Europe/Saratov,Europe/Saratov,FALSE
+saskatchewan,America/Edmonton,America/Edmonton,FALSE
+se asia,Asia/Bangkok,Asia/Bangkok,FALSE
+se asia standard time,Asia/Bangkok,Asia/Bangkok,FALSE
+"seoul, korea standard time",Asia/Seoul,Asia/Seoul,FALSE
+seychelles,Indian/Mahe,Indian/Mahe,FALSE
+shevchenko,Asia/Aqtau,Asia/Aqtau,FALSE
+singapore,Asia/Shanghai,Asia/Singapore,TRUE
+singapore standard time,Asia/Shanghai,Asia/Singapore,TRUE
+solomon,Pacific/Guadalcanal,Pacific/Guadalcanal,FALSE
+south africa,Africa/Maputo,Africa/Harare,TRUE
+south africa standard time,Africa/Johannesburg,Africa/Johannesburg,FALSE
+south georgia,Atlantic/South_Georgia,Atlantic/South_Georgia,FALSE
+"sri jayawardenepura, sri lanka",Asia/Colombo,Asia/Colombo,FALSE
+sri lanka,Asia/Colombo,Asia/Colombo,FALSE
+sri lanka standard time,Asia/Colombo,Asia/Colombo,FALSE
+sudan standard time,Africa/Khartoum,Africa/Khartoum,FALSE
+suriname,America/Paramaribo,America/Paramaribo,FALSE
+sverdlovsk,Asia/Yekaterinburg,Asia/Yekaterinburg,FALSE
+syowa,Antarctica/Syowa,Antarctica/Syowa,FALSE
+syria standard time,Asia/Damascus,Asia/Damascus,FALSE
+tahiti,Pacific/Tahiti,Pacific/Tahiti,FALSE
+taipei,Asia/Taipei,Asia/Taipei,FALSE
+taipei standard time,Asia/Taipei,Asia/Taipei,FALSE
+tajikistan,Asia/Dushanbe,Asia/Dushanbe,FALSE
+tashkent,Asia/Tashkent,Asia/Tashkent,FALSE
+tasmania,Australia/Hobart,Australia/Hobart,FALSE
+tasmania standard time,Australia/Hobart,Australia/Hobart,FALSE
+tbilisi,Asia/Tbilisi,Asia/Tbilisi,FALSE
+tehran,Asia/Tehran,Asia/Tehran,FALSE
+tocantins standard time,America/Araguaina,America/Araguaina,FALSE
+tokelau,Pacific/Fakaofo,Pacific/Fakaofo,FALSE
+tokyo,Asia/Tokyo,Asia/Tokyo,FALSE
+tokyo standard time,Asia/Tokyo,Asia/Tokyo,FALSE
+tomsk standard time,Asia/Tomsk,Asia/Tomsk,FALSE
+tonga,Pacific/Tongatapu,Pacific/Tongatapu,FALSE
+tonga standard time,Pacific/Tongatapu,Pacific/Tongatapu,FALSE
+transbaikal standard time,Asia/Chita,Asia/Chita,FALSE
+transitional islamic state of afghanistan standard time,Asia/Kabul,Asia/Kabul,FALSE
+turkey,Europe/Istanbul,Europe/Istanbul,FALSE
+turkey standard time,Europe/Istanbul,Europe/Istanbul,FALSE
+turkmenistan,Asia/Ashgabat,Asia/Ashgabat,FALSE
+turks and caicos standard time,America/Grand_Turk,America/Grand_Turk,FALSE
+tuvalu,Asia/Kamchatka,Pacific/Funafuti,TRUE
+ulaanbaatar standard time,Asia/Ulaanbaatar,Asia/Ulaanbaatar,FALSE
+universal coordinated time,UTC,UTC,FALSE
+uralsk,Asia/Oral,Asia/Oral,FALSE
+uruguay,America/Montevideo,America/Montevideo,FALSE
+urumqi,Asia/Urumqi,Asia/Urumqi,FALSE
+us eastern,America/New_York,America/Indiana/Indianapolis,TRUE
+us eastern standard time,America/New_York,America/New_York,FALSE
+us mountain,America/Phoenix,America/Phoenix,FALSE
+us mountain standard time,America/Phoenix,America/Phoenix,FALSE
+utc-02,America/Noronha,America/Noronha,FALSE
+utc-08,Pacific/Pitcairn,Pacific/Pitcairn,FALSE
+utc-09,Pacific/Gambier,Pacific/Gambier,FALSE
+utc-11,Pacific/Niue,Pacific/Niue,FALSE
+utc+12,Pacific/Auckland,Pacific/Auckland,FALSE
+uzbekistan,Asia/Tashkent,Asia/Tashkent,FALSE
+vanuatu,Pacific/Efate,Pacific/Efate,FALSE
+venezuela,America/Caracas,America/Caracas,FALSE
+venezuela standard time,America/Caracas,America/Caracas,FALSE
+vladivostok,Asia/Vladivostok,Asia/Vladivostok,FALSE
+vladivostok standard time,Asia/Vladivostok,Asia/Vladivostok,FALSE
+volgograd,Europe/Volgograd,Europe/Volgograd,FALSE
+volgograd standard time,Europe/Volgograd,Europe/Volgograd,FALSE
+vostok,Antarctica/Vostok,Antarctica/Vostok,FALSE
+w australia,Australia/Perth,Australia/Perth,FALSE
+w australia standard time,Australia/Perth,Australia/Perth,FALSE
+w central africa,Africa/Lagos,Africa/Lagos,FALSE
+w central africa standard time,Africa/Lagos,Africa/Lagos,FALSE
+w europe,Europe/Amsterdam,Europe/Amsterdam,FALSE
+w europe standard time,Europe/Berlin,Europe/Berlin,FALSE
+w mongolia standard time,Asia/Hovd,Asia/Hovd,FALSE
+wake,Asia/Kamchatka,Pacific/Wake,TRUE
+wallis,Asia/Kamchatka,Pacific/Wallis,TRUE
+west asia,Asia/Tashkent,Asia/Tashkent,FALSE
+west asia standard time,Asia/Tashkent,Asia/Tashkent,FALSE
+west bank standard time,Asia/Hebron,Asia/Hebron,FALSE
+west central africa,Africa/Lagos,Africa/Luanda,TRUE
+west pacific,Pacific/Guam,Pacific/Guam,FALSE
+west pacific standard time,Pacific/Port_Moresby,Pacific/Port_Moresby,FALSE
+yakutsk,Asia/Yakutsk,Asia/Yakutsk,FALSE
+yakutsk standard time,Asia/Yakutsk,Asia/Yakutsk,FALSE
+yekaterinburg,Asia/Yekaterinburg,Asia/Yekaterinburg,FALSE
+yerevan,Asia/Yerevan,Asia/Yerevan,FALSE
+yukon,America/Yakutat,America/Yakutat,FALSE
+coordinated universal time-11,Pacific/Pago_Pago,,TRUE
+aleutian islands,America/Adak,,TRUE
+marquesas islands,Pacific/Marquesas,,TRUE
+coordinated universal time-09,America/Anchorage,,TRUE
+baja california,America/Tijuana,,TRUE
+coordinated universal time-08,Pacific/Pitcairn,,TRUE
+"chihuahua, la paz, mazatlan",America/Chihuahua,,TRUE
+easter island,Pacific/Easter,,TRUE
+"guadalajara, mexico city, monterrey",America/Mexico_City,,TRUE
+"bogota, lima, quito, rio branco",America/Bogota,,TRUE
+chetumal,America/Cancun,,TRUE
+haiti,America/Port-au-Prince,,TRUE
+havana,America/Havana,,TRUE
+turks and caicos,America/Grand_Turk,,TRUE
+asuncion,America/Asuncion,,TRUE
+caracas,America/Caracas,,TRUE
+cuiaba,America/Cuiaba,,TRUE
+"georgetown, la paz, manaus, san juan",America/La_Paz,,TRUE
+araguaina,America/Araguaina,,TRUE
+"cayenne, fortaleza",America/Cayenne,,TRUE
+city of buenos aires,America/Argentina/Buenos_Aires,,TRUE
+punta arenas,America/Punta_Arenas,,TRUE
+saint pierre and miquelon,America/Miquelon,,TRUE
+salvador,America/Bahia,,TRUE
+coordinated universal time-02,America/Noronha,,TRUE
+mid-atlantic - old,America/Noronha,,TRUE
+cabo verde is,Atlantic/Cape_Verde,,TRUE
+coordinated universal time,UTC,,TRUE
+"dublin, edinburgh, lisbon, london",Europe/London,,TRUE
+"monrovia, reykjavik",Atlantic/Reykjavik,,TRUE
+"belgrade, bratislava, budapest, ljubljana, prague",Europe/Budapest,,TRUE
+casablanca,Africa/Casablanca,,TRUE
+sao tome,Africa/Sao_Tome,,TRUE
+"sarajevo, skopje, warsaw, zagreb",Europe/Warsaw,,TRUE
+amman,Asia/Amman,,TRUE
+"athens, bucharest",Europe/Bucharest,,TRUE
+beirut,Asia/Beirut,,TRUE
+chisinau,Europe/Chisinau,,TRUE
+damascus,Asia/Damascus,,TRUE
+"gaza, hebron",Asia/Hebron,,TRUE
+jerusalem,Asia/Jerusalem,,TRUE
+kaliningrad,Europe/Kaliningrad,,TRUE
+khartoum,Africa/Khartoum,,TRUE
+tripoli,Africa/Tripoli,,TRUE
+windhoek,Africa/Windhoek,,TRUE
+istanbul,Europe/Istanbul,,TRUE
+"kuwait, riyadh",Asia/Riyadh,,TRUE
+minsk,Europe/Minsk,,TRUE
+"moscow, st petersburg",Europe/Moscow,,TRUE
+nairobi,Africa/Nairobi,,TRUE
+"astrakhan, ulyanovsk",Europe/Astrakhan,,TRUE
+"izhevsk, samara",Europe/Samara,,TRUE
+port louis,Indian/Mauritius,,TRUE
+saratov,Europe/Saratov,,TRUE
+"ashgabat, tashkent",Asia/Tashkent,,TRUE
+"islamabad, karachi",Asia/Karachi,,TRUE
+"chennai, kolkata, mumbai, new delhi",Asia/Kolkata,,TRUE
+sri jayawardenepura,Asia/Colombo,,TRUE
+kathmandu,Asia/Kathmandu,,TRUE
+astana,Asia/Almaty,,TRUE
+dhaka,Asia/Dhaka,,TRUE
+yangon (rangoon),Indian/Cocos,Asia/Rangoon,TRUE
+"barnaul, gorno-altaysk",Asia/Barnaul,,TRUE
+tomsk,Asia/Tomsk,,TRUE
+"beijing, chongqing, hong kong, urumqi",Asia/Shanghai,,TRUE
+perth,Australia/Perth,,TRUE
+ulaanbaatar,Asia/Ulaanbaatar,,TRUE
+eucla,Australia/Eucla,,TRUE
+chita,Asia/Chita,,TRUE
+seoul,Asia/Seoul,,TRUE
+adelaide,Australia/Adelaide,,TRUE
+brisbane,Australia/Brisbane,,TRUE
+"canberra, melbourne, sydney",Australia/Sydney,,TRUE
+hobart,Australia/Hobart,,TRUE
+lord howe island,Australia/Lord_Howe,,TRUE
+bougainville island,Pacific/Bougainville,,TRUE
+chokurdakh,Asia/Srednekolymsk,,TRUE
+norfolk island,Pacific/Norfolk,,TRUE
+"solomon is, new caledonia",Pacific/Guadalcanal,,TRUE
+"anadyr, petropavlovsk-kamchatsky",Asia/Kamchatka,,TRUE
+coordinated universal time+12,Pacific/Tarawa,,TRUE
+petropavlovsk-kamchatsky - old,Asia/Anadyr,,TRUE
+chatham islands,Pacific/Chatham,,TRUE
+coordinated universal time+13,Pacific/Enderbury,,TRUE
+nuku'alofa,Pacific/Tongatapu,,TRUE
+kiritimati island,Pacific/Kiritimati,,TRUE
+"helsinki, kyiv, riga, sofia, tallinn, vilnius",Europe/Helsinki,,TRUE
+"amsterdam, berlin, berne, rome, stockholm, vienne",Europe/Berlin,,TRUE
