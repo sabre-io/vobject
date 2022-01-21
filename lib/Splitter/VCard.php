@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Splitter;
 
 use Sabre\VObject;
+use Sabre\VObject\Component;
 use Sabre\VObject\Parser\MimeDir;
 
 /**
@@ -30,10 +31,8 @@ class VCard implements SplitterInterface
 
     /**
      * Persistent parser.
-     *
-     * @var MimeDir
      */
-    protected $parser;
+    protected MimeDir $parser;
 
     /**
      * Constructor.
@@ -43,7 +42,7 @@ class VCard implements SplitterInterface
      * @param resource $input
      * @param int      $options parser options, see the OPTIONS constants
      */
-    public function __construct($input, $options = 0)
+    public function __construct($input, int $options = 0)
     {
         $this->input = $input;
         $this->parser = new MimeDir($input, $options);
@@ -55,9 +54,9 @@ class VCard implements SplitterInterface
      *
      * When the end is reached, null will be returned.
      *
-     * @return \Sabre\VObject\Component|null
+     * @throws VObject\ParseException
      */
-    public function getNext()
+    public function getNext(): ?Component
     {
         try {
             $object = $this->parser->parse();
@@ -66,7 +65,7 @@ class VCard implements SplitterInterface
                 throw new VObject\ParseException('The supplied input contained non-VCARD data.');
             }
         } catch (VObject\EofException $e) {
-            return;
+            return null;
         }
 
         return $object;

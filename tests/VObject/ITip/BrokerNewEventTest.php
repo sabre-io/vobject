@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject\ITip;
 
+use Sabre\VObject\Version;
+
 class BrokerNewEventTest extends BrokerTester
 {
     public function testNoAttendee()
@@ -47,7 +49,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
         $expectedMessage = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -152,7 +154,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -281,7 +283,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -398,7 +400,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -447,7 +449,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
@@ -479,7 +481,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
 

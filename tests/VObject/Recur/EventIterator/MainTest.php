@@ -4,19 +4,32 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use Exception;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Property\ICalendar\DateTime;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\MaxInstancesExceededException;
+use Sabre\VObject\Recur\NoInstancesException;
 
 class MainTest extends TestCase
 {
+    /**
+     * @throws MaxInstancesExceededException
+     * @throws NoInstancesException
+     * @throws InvalidDataException
+     */
     public function testValues()
     {
         $vcal = new VCalendar();
+        /** @var VEvent $ev */
         $ev = $vcal->createComponent('VEVENT');
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=DAILY;BYHOUR=10;BYMINUTE=5;BYSECOND=16;BYWEEKNO=32;BYYEARDAY=100,200';
+        /** @var DateTime $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new DateTimeImmutable('2011-10-07'));
 
@@ -31,47 +44,66 @@ class MainTest extends TestCase
 
     /**
      * @depends testValues
+     *
+     * @throws Exception
      */
     public function testInvalidFreq()
     {
         $this->expectException(InvalidDataException::class);
         $vcal = new VCalendar();
+        /** @var VEvent $ev */
         $ev = $vcal->createComponent('VEVENT');
         $ev->RRULE = 'FREQ=SMONTHLY;INTERVAL=3;UNTIL=20111025T000000Z';
         $ev->UID = 'foo';
+        /** @var DateTime $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new DateTimeImmutable('2011-10-07', new DateTimeZone('UTC')));
 
         $ev->add($dtStart);
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        new EventIterator($vcal, (string) $ev->UID);
     }
 
+    /**
+     * @throws MaxInstancesExceededException
+     * @throws InvalidDataException
+     * @throws NoInstancesException
+     */
     public function testVCalendarNoUID()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $vcal = new VCalendar();
-        $it = new EventIterator($vcal);
+        new EventIterator($vcal);
     }
 
+    /**
+     * @throws MaxInstancesExceededException
+     * @throws NoInstancesException
+     * @throws InvalidDataException
+     */
     public function testVCalendarInvalidUID()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $vcal = new VCalendar();
-        $it = new EventIterator($vcal, 'foo');
+        new EventIterator($vcal, 'foo');
     }
 
     /**
      * @depends testValues
+     *
+     * @throws InvalidDataException
+     * @throws Exception
      */
     public function testHourly()
     {
         $vcal = new VCalendar();
+        /** @var VEvent $ev */
         $ev = $vcal->createComponent('VEVENT');
 
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=HOURLY;INTERVAL=3;UNTIL=20111025T000000Z';
+        /** @var DateTime $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new DateTimeImmutable('2011-10-07 12:00:00', new DateTimeZone('UTC')));
 
@@ -115,14 +147,21 @@ class MainTest extends TestCase
 
     /**
      * @depends testValues
+     *
+     * @throws InvalidDataException
+     * @throws MaxInstancesExceededException
+     * @throws NoInstancesException
+     * @throws Exception
      */
     public function testDaily()
     {
         $vcal = new VCalendar();
+        /** @var VEvent $ev */
         $ev = $vcal->createComponent('VEVENT');
 
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=DAILY;INTERVAL=3;UNTIL=20111025T000000Z';
+        /** @var DateTime $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new DateTimeImmutable('2011-10-07', new DateTimeZone('UTC')));
 
@@ -662,14 +701,21 @@ class MainTest extends TestCase
 
     /**
      * @depends testValues
+     *
+     * @throws InvalidDataException
+     * @throws MaxInstancesExceededException
+     * @throws NoInstancesException
+     * @throws Exception
      */
     public function testMonthlyByMonthDay()
     {
         $vcal = new VCalendar();
+        /** @var VEvent $ev */
         $ev = $vcal->createComponent('VEVENT');
 
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=MONTHLY;INTERVAL=5;COUNT=9;BYMONTHDAY=1,31,-7';
+        /** @var DateTime $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new DateTimeImmutable('2011-01-01', new DateTimeZone('UTC')));
 
@@ -867,14 +913,19 @@ class MainTest extends TestCase
 
     /**
      * @depends testValues
+     *
+     * @throws InvalidDataException
+     * @throws Exception
      */
     public function testYearly()
     {
         $vcal = new VCalendar();
+        /** @var VEvent $ev */
         $ev = $vcal->createComponent('VEVENT');
 
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=YEARLY;COUNT=10;INTERVAL=3';
+        /** @var DateTime $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new DateTimeImmutable('2011-01-01', new DateTimeZone('UTC')));
 
@@ -1118,21 +1169,30 @@ class MainTest extends TestCase
 
     /**
      * @depends testValues
+     *
+     * @throws InvalidDataException
+     * @throws MaxInstancesExceededException
+     * @throws NoInstancesException
+     * @throws Exception
      */
     public function testComplexExclusions()
     {
         $vcal = new VCalendar();
+        /** @var VEvent $ev */
         $ev = $vcal->createComponent('VEVENT');
 
         $ev->UID = 'bla';
         $ev->RRULE = 'FREQ=YEARLY;COUNT=10';
+        /** @var DateTime $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
 
         $tz = new DateTimeZone('Canada/Eastern');
         $dtStart->setDateTime(new DateTimeImmutable('2011-01-01 13:50:20', $tz));
 
+        /** @var DateTime $exDate1 */
         $exDate1 = $vcal->createProperty('EXDATE');
         $exDate1->setDateTimes([new DateTimeImmutable('2012-01-01 13:50:20', $tz), new DateTimeImmutable('2014-01-01 13:50:20', $tz)]);
+        /** @var DateTime $exDate2 */
         $exDate2 = $vcal->createProperty('EXDATE');
         $exDate2->setDateTimes([new DateTimeImmutable('2016-01-01 13:50:20', $tz)]);
 
@@ -1386,7 +1446,7 @@ class MainTest extends TestCase
      */
     public function testNoMasterBadUID()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $vcal = new VCalendar();
         // ev2 overrides an event, and puts it on 2pm instead.
         $ev2 = $vcal->createComponent('VEVENT');

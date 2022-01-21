@@ -32,15 +32,16 @@
     "homepage" : "http://sabre.io/vobject/",
     "license" : "BSD-3-Clause",
     "require" : {
-        "php"          : "^7.1 || ^8.0",
+        "php"          : "^7.4 || ^8.0",
         "ext-mbstring" : "*",
+        "ext-json"     : "*",
         "sabre/xml"    : "^2.1"
     },
     "require-dev" : {
-        "friendsofphp/php-cs-fixer": "~2.17.1",
+        "friendsofphp/php-cs-fixer": "^3.5.0",
         "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0",
         "phpunit/php-invoker" : "^2.0 || ^3.1",
-        "phpstan/phpstan": "^0.12"
+        "phpstan/phpstan": "^1.4.2"
     },
     "suggest" : {
         "hoa/bench"       : "If you would like to run the benchmark scripts"
@@ -90,7 +91,7 @@
     },
     "scripts": {
         "phpstan": [
-            "phpstan analyse lib tests"
+            "phpstan analyse lib tests --memory-limit 1G"
         ],
         "cs-fixer": [
             "php-cs-fixer fix"

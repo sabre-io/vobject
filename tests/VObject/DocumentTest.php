@@ -8,7 +8,7 @@ class DocumentTest extends TestCase
 {
     public function testGetDocumentType()
     {
-        $doc = new MockDocument();
+        $doc = new MockDocument('WHATEVER');
         $this->assertEquals(Document::UNKNOWN, $doc->getDocumentType());
     }
 
@@ -59,6 +59,9 @@ class DocumentTest extends TestCase
         $this->assertNull($vcal->getClassNameForPropertyValue('FOO'));
     }
 
+    /**
+     * @throws InvalidDataException
+     */
     public function testDestroy()
     {
         $vcal = new Component\VCalendar([], false);

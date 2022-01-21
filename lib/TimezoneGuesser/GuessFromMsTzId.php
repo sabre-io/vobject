@@ -14,7 +14,7 @@ class GuessFromMsTzId implements TimezoneGuesser
      *
      * Source: http://msdn.microsoft.com/en-us/library/aa563018(loband).aspx
      */
-    public static $microsoftExchangeMap = [
+    public static array $microsoftExchangeMap = [
         0 => 'UTC',
         31 => 'Africa/Casablanca',
 
@@ -96,7 +96,7 @@ class GuessFromMsTzId implements TimezoneGuesser
         39 => 'Pacific/Kwajalein',
     ];
 
-    public function guess(VTimeZone $vtimezone, bool $throwIfUnsure = false): ?DateTimeZone
+    public function guess(VTimeZone $vtimezone, bool $failIfUncertain = false): ?DateTimeZone
     {
         // Microsoft may add a magic number, which we also have an
         // answer for.

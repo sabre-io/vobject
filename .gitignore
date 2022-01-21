@@ -6,4 +6,4 @@ tests/temp
 tests/.phpunit.result.cache
 
 # Development stuff
-.php_cs.cache
+.php-cs-fixer.cache

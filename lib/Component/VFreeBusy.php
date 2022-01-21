@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Component;
 
+use DateInterval;
 use DateTimeInterface;
 use Sabre\VObject;
 
@@ -14,6 +15,8 @@ use Sabre\VObject;
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @property VObject\Property\ICalendar\Period FREEBUSY
  */
 class VFreeBusy extends VObject\Component
 {
@@ -21,9 +24,9 @@ class VFreeBusy extends VObject\Component
      * Checks based on the contained FREEBUSY information, if a timeslot is
      * available.
      *
-     * @return bool
+     * @throws VObject\InvalidDataException
      */
-    public function isFree(DateTimeInterface $start, DatetimeInterface $end)
+    public function isFree(DateTimeInterface $start, DatetimeInterface $end): bool
     {
         foreach ($this->select('FREEBUSY') as $freebusy) {
             // We are only interested in FBTYPE=BUSY (the default),
@@ -44,7 +47,7 @@ class VFreeBusy extends VObject\Component
 
                 $busyStart = VObject\DateTimeParser::parse($busyStart);
                 $busyEnd = VObject\DateTimeParser::parse($busyEnd);
-                if ($busyEnd instanceof \DateInterval) {
+                if ($busyEnd instanceof DateInterval) {
                     $busyEnd = $busyStart->add($busyEnd);
                 }
 
@@ -69,10 +72,8 @@ class VFreeBusy extends VObject\Component
      *   * + - Must appear at least once.
      *   * * - Can appear any number of times.
      *   * ? - May appear, but not more than once.
-     *
-     * @var array
      */
-    public function getValidationRules()
+    public function getValidationRules(): array
     {
         return [
             'UID' => 1,

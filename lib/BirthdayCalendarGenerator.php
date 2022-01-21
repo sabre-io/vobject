@@ -2,7 +2,10 @@
 
 namespace Sabre\VObject;
 
+use DateTime;
+use InvalidArgumentException;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 
 /**
  * This class generates birthday calendars.
@@ -24,7 +27,7 @@ class BirthdayCalendarGenerator
      * Default year.
      * Used for dates without a year.
      */
-    const DEFAULT_YEAR = 2000;
+    public const DEFAULT_YEAR = 2000;
 
     /**
      * Output format for the SUMMARY.
@@ -56,7 +59,7 @@ class BirthdayCalendarGenerator
      *
      * @param mixed $objects
      */
-    public function setObjects($objects)
+    public function setObjects($objects): void
     {
         if (!is_array($objects)) {
             $objects = [$objects];
@@ -67,34 +70,30 @@ class BirthdayCalendarGenerator
             if (is_string($object)) {
                 $vObj = Reader::read($object);
                 if (!$vObj instanceof Component\VCard) {
-                    throw new \InvalidArgumentException('String could not be parsed as \\Sabre\\VObject\\Component\\VCard by setObjects');
+                    throw new InvalidArgumentException('String could not be parsed as \\Sabre\\VObject\\Component\\VCard by setObjects');
                 }
 
                 $this->objects[] = $vObj;
             } elseif ($object instanceof Component\VCard) {
                 $this->objects[] = $object;
             } else {
-                throw new \InvalidArgumentException('You can only pass strings or \\Sabre\\VObject\\Component\\VCard arguments to setObjects');
+                throw new InvalidArgumentException('You can only pass strings or \\Sabre\\VObject\\Component\\VCard arguments to setObjects');
             }
         }
     }
 
     /**
      * Sets the output format for the SUMMARY.
-     *
-     * @param string $format
      */
-    public function setFormat($format)
+    public function setFormat(string $format): void
     {
         $this->format = $format;
     }
 
     /**
      * Parses the input data and returns a VCALENDAR.
-     *
-     * @return Component/VCalendar
      */
-    public function getResult()
+    public function getResult(): VCalendar
     {
         $calendar = new VCalendar();
 
@@ -142,9 +141,10 @@ class BirthdayCalendarGenerator
             }
 
             // Create event.
+            /** @var VEvent $event */
             $event = $calendar->add('VEVENT', [
                 'SUMMARY' => sprintf($this->format, $object->FN->getValue()),
-                'DTSTART' => new \DateTime($object->BDAY->getValue()),
+                'DTSTART' => new DateTime($object->BDAY->getValue()),
                 'RRULE' => 'FREQ=YEARLY',
                 'TRANSP' => 'TRANSPARENT',
             ]);

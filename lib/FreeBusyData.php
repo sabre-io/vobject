@@ -48,11 +48,11 @@ class FreeBusyData
     /**
      * Adds free or busytime to the data.
      *
-     * @param int    $start
-     * @param int    $end
-     * @param string $type  FREE, BUSY, BUSY-UNAVAILABLE or BUSY-TENTATIVE
+     * @param string $type FREE, BUSY, BUSY-UNAVAILABLE or BUSY-TENTATIVE
+     *
+     * @return void
      */
-    public function add($start, $end, $type)
+    public function add(int $start, int $end, string $type)
     {
         if ($start > $this->end || $end < $this->start) {
             // This new data is outside our timerange.
@@ -178,7 +178,7 @@ class FreeBusyData
         }
     }
 
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }
