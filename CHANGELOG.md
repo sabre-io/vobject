@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+4.7.2 (2022-01-21)
+------------------
+* #41 Add missing microsoft timezones and test with confluence file
+
 4.7.1 (2022-01-10)
 ------------------
 * #39 Add support for lowercase timezones
