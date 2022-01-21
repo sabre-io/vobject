@@ -12,11 +12,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.2', '7.3', '7.4', '8.0', '8.1']
+        php-versions: ['7.4', '8.0', '8.1']
         coverage: ['pcov']
         code-analysis: ['no']
         include:
-          - php-versions: '7.1'
+          - php-versions: '7.4'
             coverage: 'none'
             code-analysis: 'yes'
     steps:
