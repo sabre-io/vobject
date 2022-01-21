@@ -8,7 +8,7 @@ class StringUtilTest extends TestCase
 {
     public function testNonUTF8()
     {
-        $string = StringUtil::isUTF8(chr(0xbf));
+        $string = StringUtil::isUTF8(chr(0xBF));
 
         $this->assertEquals(false, $string);
     }
@@ -29,9 +29,9 @@ class StringUtilTest extends TestCase
 
     public function testConvertToUTF8nonUTF8()
     {
-        $string = StringUtil::convertToUTF8(chr(0xbf));
+        $string = StringUtil::convertToUTF8(chr(0xBF));
 
-        $this->assertEquals(utf8_encode(chr(0xbf)), $string);
+        $this->assertEquals(utf8_encode(chr(0xBF)), $string);
     }
 
     public function testConvertToUTF8IsUTF8()

@@ -2,13 +2,22 @@
 
 namespace Sabre\VObject\Parser;
 
+use function feof;
+use function fgets;
+use InvalidArgumentException;
+use function is_null;
+use LogicException;
+use function rtrim;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Document;
 use Sabre\VObject\EofException;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Node;
 use Sabre\VObject\ParseException;
+use Sabre\VObject\Property;
+use function substr;
 
 /**
  * MimeDir parser.
@@ -35,7 +44,7 @@ class MimeDir extends Parser
     /**
      * Root component.
      *
-     * @var Component
+     * @var Document|null
      */
     protected $root;
 
@@ -57,6 +66,8 @@ class MimeDir extends Parser
      * The list of character sets we support when decoding.
      *
      * This would be a const expression but for now we need to support PHP 5.5
+     *
+     * @var string[]
      */
     protected static $SUPPORTED_CHARSETS = [
         'UTF-8',
@@ -71,11 +82,10 @@ class MimeDir extends Parser
      * used.
      *
      * @param string|resource|null $input
-     * @param int                  $options
      *
-     * @return \Sabre\VObject\Document
+     * @throws ParseException
      */
-    public function parse($input = null, $options = 0)
+    public function parse($input = null, int $options = 0): ?Document
     {
         $this->root = null;
 
@@ -101,13 +111,11 @@ class MimeDir extends Parser
      * If this is the case, use setEncoding to specify that a different
      * encoding will be used. If this is set, the parser will automatically
      * convert all incoming data to UTF-8.
-     *
-     * @param string $charset
      */
-    public function setCharset($charset)
+    public function setCharset(string $charset): void
     {
         if (!in_array($charset, self::$SUPPORTED_CHARSETS)) {
-            throw new \InvalidArgumentException('Unsupported encoding. (Supported encodings: '.implode(', ', self::$SUPPORTED_CHARSETS).')');
+            throw new InvalidArgumentException('Unsupported encoding. (Supported encodings: '.implode(', ', self::$SUPPORTED_CHARSETS).')');
         }
         $this->charset = $charset;
     }
@@ -116,6 +124,8 @@ class MimeDir extends Parser
      * Sets the input buffer. Must be a string or stream.
      *
      * @param resource|string $input
+     *
+     * @return void
      */
     public function setInput($input)
     {
@@ -132,23 +142,26 @@ class MimeDir extends Parser
         } elseif (is_resource($input)) {
             $this->input = $input;
         } else {
-            throw new \InvalidArgumentException('This parser can only read from strings or streams.');
+            throw new InvalidArgumentException('This parser can only read from strings or streams.');
         }
     }
 
     /**
      * Parses an entire document.
+     *
+     * @throws EofException
+     * @throws ParseException
      */
-    protected function parseDocument()
+    protected function parseDocument(): void
     {
         $line = $this->readLine();
 
         // BOM is ZERO WIDTH NO-BREAK SPACE (U+FEFF).
         // It's 0xEF 0xBB 0xBF in UTF-8 hex.
         if (3 <= strlen($line)
-            && 0xef === ord($line[0])
-            && 0xbb === ord($line[1])
-            && 0xbf === ord($line[2])) {
+            && 0xEF === ord($line[0])
+            && 0xBB === ord($line[1])
+            && 0xBF === ord($line[2])) {
             $line = substr($line, 3);
         }
 
@@ -189,9 +202,12 @@ class MimeDir extends Parser
      *
      * @param string $line Unfolded line
      *
-     * @return Node
+     * @return Node|Property|false
+     *
+     * @throws EofException
+     * @throws ParseException
      */
-    protected function parseLine($line)
+    protected function parseLine(string $line)
     {
         // Start of a new component
         if ('BEGIN:' === strtoupper(substr($line, 0, 6))) {
@@ -265,28 +281,28 @@ class MimeDir extends Parser
      *
      * This method strips any newlines and also takes care of unfolding.
      *
-     * @throws \Sabre\VObject\EofException
-     *
      * @return string
+     *
+     *@throws EofException|ParseException
      */
-    protected function readLine()
+    protected function readLine(): ?string
     {
-        if (!\is_null($this->lineBuffer)) {
+        if (!is_null($this->lineBuffer)) {
             $rawLine = $this->lineBuffer;
             $this->lineBuffer = null;
         } else {
             do {
-                $eof = \feof($this->input);
+                $eof = feof($this->input);
 
-                $rawLine = \fgets($this->input);
+                $rawLine = fgets($this->input);
 
-                if ($eof || (\feof($this->input) && false === $rawLine)) {
+                if ($eof || (feof($this->input) && false === $rawLine)) {
                     throw new EofException('End of document reached prematurely');
                 }
                 if (false === $rawLine) {
                     throw new ParseException('Error reading from input stream');
                 }
-                $rawLine = \rtrim($rawLine, "\r\n");
+                $rawLine = rtrim($rawLine, "\r\n");
             } while ('' === $rawLine); // Skipping empty lines
             ++$this->lineIndex;
         }
@@ -296,13 +312,13 @@ class MimeDir extends Parser
 
         // Looking ahead for folded lines.
         while (true) {
-            $nextLine = \rtrim(\fgets($this->input), "\r\n");
+            $nextLine = rtrim(fgets($this->input), "\r\n");
             ++$this->lineIndex;
             if (!$nextLine) {
                 break;
             }
             if ("\t" === $nextLine[0] || ' ' === $nextLine[0]) {
-                $curLine = \substr($nextLine, 1);
+                $curLine = substr($nextLine, 1);
                 $line .= $curLine;
                 $rawLine .= "\n ".$curLine;
             } else {
@@ -317,8 +333,12 @@ class MimeDir extends Parser
 
     /**
      * Reads a property or component from a line.
+     *
+     * @return Property|false
+     *
+     * @throws ParseException|InvalidDataException
      */
-    protected function readProperty($line)
+    protected function readProperty(string $line)
     {
         if ($this->options & self::OPTION_FORGIVING) {
             $propNameToken = 'A-Z0-9\-\._\\/';
@@ -403,7 +423,7 @@ class MimeDir extends Parser
             }
 
             // @codeCoverageIgnoreStart
-            throw new \LogicException('This code should not be reachable');
+            throw new LogicException('This code should not be reachable');
             // @codeCoverageIgnoreEnd
         }
 
@@ -440,6 +460,7 @@ class MimeDir extends Parser
         }
 
         if (isset($propObj['ENCODING']) && 'QUOTED-PRINTABLE' === strtoupper($propObj['ENCODING'])) {
+            /* @var Property\Text|Property\FlatText $propObj */
             $propObj->setQuotedPrintableValue($this->extractQuotedPrintableValue());
         } else {
             $charset = $this->charset;
@@ -522,12 +543,9 @@ class MimeDir extends Parser
      * If it's a comma or a semi-colon the string will be split on those
      * characters, and always return an array.
      *
-     * @param string $input
-     * @param string $delimiter
-     *
      * @return string|string[]
      */
-    public static function unescapeValue($input, $delimiter = ';')
+    public static function unescapeValue(string $input, string $delimiter = ';')
     {
         $regex = '#  (?: (\\\\ (?: \\\\ | N | n | ; | , ) )';
         if ($delimiter) {
@@ -599,10 +617,8 @@ class MimeDir extends Parser
      *   * New-line is encoded as ^n
      *   * ^ is encoded as ^^.
      *   * " is encoded as ^'
-     *
-     * @param string $input
      */
-    private function unescapeParam($input)
+    private function unescapeParam(string $input): ?string
     {
         return
             preg_replace_callback(
@@ -632,9 +648,10 @@ class MimeDir extends Parser
      *
      * This method does not do any decoding.
      *
-     * @return string
+     * @throws EofException
+     * @throws ParseException
      */
-    private function extractQuotedPrintableValue()
+    private function extractQuotedPrintableValue(): string
     {
         // We need to parse the raw line again to get the start of the value.
         //

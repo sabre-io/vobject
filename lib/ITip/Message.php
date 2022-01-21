@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject\ITip;
 
+use Sabre\VObject\Component\VCalendar;
+
 /**
  * This class represents an iTip message.
  *
@@ -34,14 +36,14 @@ class Message
      * Contains the ITip method, which is something like REQUEST, REPLY or
      * CANCEL.
      *
-     * @var string
+     * @var string|null
      */
     public $method;
 
     /**
      * The current sequence number for the event.
      *
-     * @var int
+     * * @var int|null
      */
     public $sequence;
 
@@ -88,14 +90,14 @@ class Message
      * See:
      * http://tools.ietf.org/html/rfc6638#section-7.3
      *
-     * @var string
+     * @var string|null
      */
-    public $scheduleStatus;
+    public $scheduleStatus = null;
 
     /**
      * The iCalendar / iTip body.
      *
-     * @var \Sabre\VObject\Component\VCalendar
+     * @var VCalendar
      */
     public $message;
 

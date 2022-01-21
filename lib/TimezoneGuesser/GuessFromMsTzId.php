@@ -13,6 +13,8 @@ class GuessFromMsTzId implements TimezoneGuesser
      * List of microsoft exchange timezone ids.
      *
      * Source: http://msdn.microsoft.com/en-us/library/aa563018(loband).aspx
+     *
+     * @var array<int, string>
      */
     public static $microsoftExchangeMap = [
         0 => 'UTC',
@@ -96,7 +98,7 @@ class GuessFromMsTzId implements TimezoneGuesser
         39 => 'Pacific/Kwajalein',
     ];
 
-    public function guess(VTimeZone $vtimezone, bool $throwIfUnsure = false): ?DateTimeZone
+    public function guess(VTimeZone $vtimezone, bool $failIfUncertain = false): ?DateTimeZone
     {
         // Microsoft may add a magic number, which we also have an
         // answer for.

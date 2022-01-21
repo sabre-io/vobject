@@ -19,6 +19,11 @@ use Sabre\VObject\Recur\NoInstancesException;
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @property VEvent VEVENT
+ * @property VJournal VJOURNAL
+ * @property VObject\Property\Text ORG
+ * @property VObject\Property\FlatText METHOD
  */
 class VCalendar extends VObject\Document
 {
@@ -34,7 +39,7 @@ class VCalendar extends VObject\Document
     /**
      * This is a list of components, and which classes they should map to.
      *
-     * @var array
+     * @var array<string,string>
      */
     public static $componentMap = [
         'VCALENDAR' => self::class,
@@ -51,7 +56,7 @@ class VCalendar extends VObject\Document
     /**
      * List of value-types, and which classes they map to.
      *
-     * @var array
+     * @var array<string,string>
      */
     public static $valueMap = [
         'BINARY' => VObject\Property\Binary::class,
@@ -74,7 +79,7 @@ class VCalendar extends VObject\Document
     /**
      * List of properties, and which classes they map to.
      *
-     * @var array
+     * @var array<string,string>
      */
     public static $propertyMap = [
         // Calendar properties
@@ -154,10 +159,8 @@ class VCalendar extends VObject\Document
 
     /**
      * Returns the current document type.
-     *
-     * @return int
      */
-    public function getDocumentType()
+    public function getDocumentType(): int
     {
         return self::ICALENDAR20;
     }
@@ -169,13 +172,13 @@ class VCalendar extends VObject\Document
      *
      * VTIMEZONE components will always be excluded.
      *
-     * @param string $componentName filter by component name
+     * @param string|null $componentName filter by component name
      *
      * @return VObject\Component[]
      */
-    public function getBaseComponents($componentName = null)
+    public function getBaseComponents(string $componentName = null): array
     {
-        $isBaseComponent = function ($component) {
+        $isBaseComponent = function ($component): bool {
             if (!$component instanceof VObject\Component) {
                 return false;
             }
@@ -220,13 +223,13 @@ class VCalendar extends VObject\Document
      *
      * If there is no such component, null will be returned.
      *
-     * @param string $componentName filter by component name
+     * @param string|null $componentName filter by component name
      *
      * @return VObject\Component|null
      */
-    public function getBaseComponent($componentName = null)
+    public function getBaseComponent(string $componentName = null): ?Component
     {
-        $isBaseComponent = function ($component) {
+        $isBaseComponent = function ($component): bool {
             if (!$component instanceof VObject\Component) {
                 return false;
             }
@@ -276,12 +279,13 @@ class VCalendar extends VObject\Document
      * In addition, this method will cause timezone information to be stripped,
      * and normalized to UTC.
      *
-     * @param DateTimeZone $timeZone reference timezone for floating dates and
-     *                               times
+     * @param DateTimeZone|null $timeZone reference timezone for floating dates and
+     *                                    times
      *
-     * @return VCalendar
+     * @throws InvalidDataException
+     * @throws VObject\Recur\MaxInstancesExceededException
      */
-    public function expand(DateTimeInterface $start, DateTimeInterface $end, DateTimeZone $timeZone = null)
+    public function expand(DateTimeInterface $start, DateTimeInterface $end, DateTimeZone $timeZone = null): VCalendar
     {
         $newChildren = [];
         $recurringEvents = [];
@@ -290,7 +294,7 @@ class VCalendar extends VObject\Document
             $timeZone = new DateTimeZone('UTC');
         }
 
-        $stripTimezones = function (Component $component) use ($timeZone, &$stripTimezones) {
+        $stripTimezones = function (Component $component) use ($timeZone, &$stripTimezones): Component {
             foreach ($component->children() as $componentChild) {
                 if ($componentChild instanceof Property\ICalendar\DateTime && $componentChild->hasTime()) {
                     $dt = $componentChild->getDateTimes($timeZone);
@@ -356,10 +360,8 @@ class VCalendar extends VObject\Document
 
     /**
      * This method should return a list of default property values.
-     *
-     * @return array
      */
-    protected function getDefaults()
+    protected function getDefaults(): array
     {
         return [
             'VERSION' => '2.0',
@@ -380,10 +382,8 @@ class VCalendar extends VObject\Document
      *   * + - Must appear at least once.
      *   * * - Can appear any number of times.
      *   * ? - May appear, but not more than once.
-     *
-     * @var array
      */
-    public function getValidationRules()
+    public function getValidationRules(): array
     {
         return [
             'PRODID' => 1,
@@ -413,12 +413,8 @@ class VCalendar extends VObject\Document
      *   1 - The issue was repaired (only happens if REPAIR was turned on).
      *   2 - A warning.
      *   3 - An error.
-     *
-     * @param int $options
-     *
-     * @return array
      */
-    public function validate($options = 0)
+    public function validate(int $options = 0): array
     {
         $warnings = parent::validate($options);
 
@@ -511,10 +507,8 @@ class VCalendar extends VObject\Document
 
     /**
      * Returns all components with a specific UID value.
-     *
-     * @return array
      */
-    public function getByUID($uid)
+    public function getByUID($uid): array
     {
         return array_filter($this->getComponents(), function ($item) use ($uid) {
             if (!$itemUid = $item->select('UID')) {

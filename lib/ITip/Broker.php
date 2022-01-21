@@ -3,9 +3,14 @@
 namespace Sabre\VObject\ITip;
 
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\ParseException;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\MaxInstancesExceededException;
+use Sabre\VObject\Recur\NoInstancesException;
 
 /**
  * The ITip\Broker class is a utility class that helps with processing
@@ -104,9 +109,11 @@ class Broker
      *
      * If the iTip message was not supported, we will always return false.
      *
-     * @param VCalendar $existingObject
+     * @return VCalendar|false|void|null
      *
-     * @return VCalendar|null
+     * @throws InvalidDataException
+     * @throws MaxInstancesExceededException
+     * @throws NoInstancesException
      */
     public function processMessage(Message $itipMessage, VCalendar $existingObject = null)
     {
@@ -129,8 +136,6 @@ class Broker
                 // Unsupported iTip message
                 return;
         }
-
-        return $existingObject;
     }
 
     /**
@@ -156,13 +161,16 @@ class Broker
      * people. If the user was an attendee, we need to make sure that the
      * organizer gets the 'declined' message.
      *
-     * @param VCalendar|string $calendar
-     * @param string|array     $userHref
-     * @param VCalendar|string $oldCalendar
+     * @param VCalendar|string      $calendar
+     * @param string|array          $userHref
+     * @param VCalendar|string|null $oldCalendar
      *
-     * @return array
+     * @throws ITipException
+     * @throws InvalidDataException
+     * @throws ParseException
+     * @throws SameOrganizerForAllComponentsException
      */
-    public function parseEvent($calendar, $userHref, $oldCalendar = null)
+    public function parseEvent($calendar, $userHref, $oldCalendar = null): array
     {
         if ($oldCalendar) {
             if (is_string($oldCalendar)) {
@@ -261,20 +269,13 @@ class Broker
      *
      * This is message from an organizer, and is either a new event
      * invite, or an update to an existing one.
-     *
-     * @param VCalendar $existingObject
-     *
-     * @return VCalendar|null
      */
-    protected function processMessageRequest(Message $itipMessage, VCalendar $existingObject = null)
+    protected function processMessageRequest(Message $itipMessage, VCalendar $existingObject = null): ?VCalendar
     {
         if (!$existingObject) {
             // This is a new invite, and we're just going to copy over
             // all the components from the invite.
             $existingObject = new VCalendar();
-            foreach ($itipMessage->message->getComponents() as $component) {
-                $existingObject->add(clone $component);
-            }
         } else {
             // We need to update an existing object with all the new
             // information. We can just remove all existing components
@@ -282,9 +283,9 @@ class Broker
             foreach ($existingObject->getComponents() as $component) {
                 $existingObject->remove($component);
             }
-            foreach ($itipMessage->message->getComponents() as $component) {
-                $existingObject->add(clone $component);
-            }
+        }
+        foreach ($itipMessage->message->getComponents() as $component) {
+            $existingObject->add(clone $component);
         }
 
         return $existingObject;
@@ -296,12 +297,8 @@ class Broker
      * This is a message from an organizer, and means that either an
      * attendee got removed from an event, or an event got cancelled
      * altogether.
-     *
-     * @param VCalendar $existingObject
-     *
-     * @return VCalendar|null
      */
-    protected function processMessageCancel(Message $itipMessage, VCalendar $existingObject = null)
+    protected function processMessageCancel(Message $itipMessage, VCalendar $existingObject = null): ?VCalendar
     {
         if (!$existingObject) {
             // The event didn't exist in the first place, so we're just
@@ -322,9 +319,11 @@ class Broker
      * The message is a reply. This is for example an attendee telling
      * an organizer he accepted the invite, or declined it.
      *
-     * @param VCalendar $existingObject
+     * @return VCalendar|void
      *
-     * @return VCalendar|null
+     * @throws InvalidDataException
+     * @throws MaxInstancesExceededException
+     * @throws NoInstancesException
      */
     protected function processMessageReply(Message $itipMessage, VCalendar $existingObject = null)
     {
@@ -446,10 +445,8 @@ class Broker
      *
      * We will detect which attendees got added, which got removed and create
      * specific messages for these situations.
-     *
-     * @return array
      */
-    protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo)
+    protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo): array
     {
         // Merging attendee lists.
         $attendees = [];
@@ -511,6 +508,7 @@ class Broker
 
                 $icalMsg->METHOD = $message->method;
 
+                /** @var VEvent $event */
                 $event = $icalMsg->add('VEVENT', [
                     'UID' => $message->uid,
                     'SEQUENCE' => $message->sequence,
@@ -615,11 +613,11 @@ class Broker
      *
      * This function figures out if we need to send a reply to an organizer.
      *
-     * @param string $attendee
-     *
      * @return Message[]
+     *
+     * @throws InvalidDataException
      */
-    protected function parseEventForAttendee(VCalendar $calendar, array $eventInfo, array $oldEventInfo, $attendee)
+    protected function parseEventForAttendee(VCalendar $calendar, array $eventInfo, array $oldEventInfo, string $attendee): array
     {
         if ($this->scheduleAgentServerRules && 'CLIENT' === $eventInfo['organizerScheduleAgent']) {
             return [];
@@ -710,6 +708,7 @@ class Broker
                 continue;
             }
 
+            /** @var VEvent $event */
             $event = $icalMsg->add('VEVENT', [
                 'UID' => $message->uid,
                 'SEQUENCE' => $message->sequence,
@@ -796,11 +795,10 @@ class Broker
      * 11. significantChangeHash
      * 12. status
      *
-     * @param VCalendar $calendar
-     *
-     * @return array
+     * @throws ITipException
+     * @throws SameOrganizerForAllComponentsException
      */
-    protected function parseEventInfo(VCalendar $calendar = null)
+    protected function parseEventInfo(VCalendar $calendar = null): array
     {
         $uid = null;
         $organizer = null;
@@ -810,8 +808,6 @@ class Broker
         $timezone = null;
         $status = null;
         $organizerScheduleAgent = 'SERVER';
-
-        $significantChangeHash = '';
 
         // Now we need to collect a list of attendees, and which instances they
         // are a part of.
@@ -841,7 +837,7 @@ class Broker
             if (isset($vevent->ORGANIZER)) {
                 if (is_null($organizer)) {
                     $organizer = $vevent->ORGANIZER->getNormalizedValue();
-                    $organizerName = isset($vevent->ORGANIZER['CN']) ? $vevent->ORGANIZER['CN'] : null;
+                    $organizerName = $vevent->ORGANIZER['CN'] ?? null;
                 } else {
                     if (strtoupper($organizer) !== strtoupper($vevent->ORGANIZER->getNormalizedValue())) {
                         throw new SameOrganizerForAllComponentsException('Every instance of the event must have the same organizer.');
@@ -955,9 +951,7 @@ class Broker
 
         asort($significantChangeEventProperties);
 
-        foreach ($significantChangeEventProperties as $eventSignificantChangeHash) {
-            $significantChangeHash .= $eventSignificantChangeHash;
-        }
+        $significantChangeHash = implode('', $significantChangeEventProperties);
         $significantChangeHash = md5($significantChangeHash);
 
         return compact(

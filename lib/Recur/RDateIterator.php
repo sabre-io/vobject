@@ -5,6 +5,7 @@ namespace Sabre\VObject\Recur;
 use DateTimeInterface;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
+use Sabre\VObject\InvalidDataException;
 
 /**
  * RRuleParser.
@@ -47,11 +48,9 @@ class RDateIterator implements Iterator
 
     /**
      * Returns the current item number.
-     *
-     * @return int
      */
     #[\ReturnTypeWillChange]
-    public function key()
+    public function key(): int
     {
         return $this->counter;
     }
@@ -59,11 +58,9 @@ class RDateIterator implements Iterator
     /**
      * Returns whether the current item is a valid item for the recurrence
      * iterator.
-     *
-     * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function valid()
+    public function valid(): bool
     {
         return $this->counter <= count($this->dates);
     }
@@ -84,6 +81,8 @@ class RDateIterator implements Iterator
      * Goes on to the next iteration.
      *
      * @return void
+     *
+     * @throws InvalidDataException
      */
     #[\ReturnTypeWillChange]
     public function next()
@@ -104,10 +103,8 @@ class RDateIterator implements Iterator
 
     /**
      * Returns true if this recurring event never ends.
-     *
-     * @return bool
      */
-    public function isInfinite()
+    public function isInfinite(): bool
     {
         return false;
     }
@@ -115,8 +112,10 @@ class RDateIterator implements Iterator
     /**
      * This method allows you to quickly go to the next occurrence after the
      * specified date.
+     *
+     * @throws InvalidDataException
      */
-    public function fastForward(DateTimeInterface $dt)
+    public function fastForward(DateTimeInterface $dt): void
     {
         while ($this->valid() && $this->currentDate < $dt) {
             $this->next();
@@ -155,9 +154,9 @@ class RDateIterator implements Iterator
      * This method receives a string from an RRULE property, and populates this
      * class with all the values.
      *
-     * @param string|array $rrule
+     * @param string|array $rdate
      */
-    protected function parseRDate($rdate)
+    protected function parseRDate($rdate): void
     {
         if (is_string($rdate)) {
             $rdate = explode(',', $rdate);
@@ -169,7 +168,7 @@ class RDateIterator implements Iterator
     /**
      * Array with the RRULE dates.
      *
-     * @var array
+     * @var string[]
      */
     protected $dates = [];
 }

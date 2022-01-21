@@ -61,10 +61,8 @@ class FindFromTimezoneIdentifier implements TimezoneFinder
      * - It's not supported by some PHP versions as well as HHVM.
      * - It also returns identifiers, that are invalid values for new DateTimeZone() on some PHP versions.
      * (See timezonedata/php-bc.php and timezonedata php-workaround.php)
-     *
-     * @return array
      */
-    private function getIdentifiersBC()
+    private function getIdentifiersBC(): array
     {
         return include __DIR__.'/../timezonedata/php-bc.php';
     }

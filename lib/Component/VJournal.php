@@ -13,6 +13,8 @@ use Sabre\VObject;
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @property VObject\Property\ICalendar\DateTime DTSTART
  */
 class VJournal extends VObject\Component
 {
@@ -23,9 +25,9 @@ class VJournal extends VObject\Component
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @return bool
+     * @throws VObject\InvalidDataException
      */
-    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end)
+    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end): bool
     {
         $dtstart = isset($this->DTSTART) ? $this->DTSTART->getDateTime() : null;
         if ($dtstart) {
@@ -52,10 +54,8 @@ class VJournal extends VObject\Component
      *   * + - Must appear at least once.
      *   * * - Can appear any number of times.
      *   * ? - May appear, but not more than once.
-     *
-     * @var array
      */
-    public function getValidationRules()
+    public function getValidationRules(): array
     {
         return [
             'UID' => 1,
@@ -88,10 +88,8 @@ class VJournal extends VObject\Component
 
     /**
      * This method should return a list of default property values.
-     *
-     * @return array
      */
-    protected function getDefaults()
+    protected function getDefaults(): array
     {
         return [
             'UID' => 'sabre-vobject-'.VObject\UUIDUtil::getUUID(),

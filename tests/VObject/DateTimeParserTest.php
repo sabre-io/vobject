@@ -9,17 +9,23 @@ use PHPUnit\Framework\TestCase;
 
 class DateTimeParserTest extends TestCase
 {
+    /**
+     * @throws InvalidDataException
+     */
     public function testParseICalendarDuration()
     {
-        $this->assertEquals('+1 weeks', DateTimeParser::parseDuration('P1W', true));
-        $this->assertEquals('+5 days', DateTimeParser::parseDuration('P5D', true));
-        $this->assertEquals('+5 days 3 hours 50 minutes 12 seconds', DateTimeParser::parseDuration('P5DT3H50M12S', true));
-        $this->assertEquals('-1 weeks 50 minutes', DateTimeParser::parseDuration('-P1WT50M', true));
-        $this->assertEquals('+50 days 3 hours 2 seconds', DateTimeParser::parseDuration('+P50DT3H2S', true));
-        $this->assertEquals('+0 seconds', DateTimeParser::parseDuration('+PT0S', true));
+        $this->assertEquals('+1 weeks', DateTimeParser::parseDurationAsString('P1W'));
+        $this->assertEquals('+5 days', DateTimeParser::parseDurationAsString('P5D'));
+        $this->assertEquals('+5 days 3 hours 50 minutes 12 seconds', DateTimeParser::parseDurationAsString('P5DT3H50M12S'));
+        $this->assertEquals('-1 weeks 50 minutes', DateTimeParser::parseDurationAsString('-P1WT50M'));
+        $this->assertEquals('+50 days 3 hours 2 seconds', DateTimeParser::parseDurationAsString('+P50DT3H2S'));
+        $this->assertEquals('+0 seconds', DateTimeParser::parseDurationAsString('+PT0S'));
         $this->assertEquals(new DateInterval('PT0S'), DateTimeParser::parseDuration('PT0S'));
     }
 
+    /**
+     * @throws InvalidDataException
+     */
     public function testParseICalendarDurationDateInterval()
     {
         $expected = new DateInterval('P7D');
@@ -34,7 +40,7 @@ class DateTimeParserTest extends TestCase
     public function testParseICalendarDurationFail()
     {
         $this->expectException(InvalidDataException::class);
-        DateTimeParser::parseDuration('P1X', true);
+        DateTimeParser::parseDurationAsString('P1X');
     }
 
     public function testParseICalendarDateTime()

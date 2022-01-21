@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject\Property;
 
+use Sabre\VObject\InvalidDataException;
+
 /**
  * FlatText property.
  *
@@ -36,9 +38,9 @@ class FlatText extends Text
      *
      * Overriding this so we're not splitting on a ; delimiter.
      *
-     * @param string $val
+     * @throws InvalidDataException
      */
-    public function setQuotedPrintableValue($val)
+    public function setQuotedPrintableValue(string $val): void
     {
         $val = quoted_printable_decode($val);
         $this->setValue($val);

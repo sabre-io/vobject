@@ -40,13 +40,16 @@ class ComponentTest extends TestCase
         $sub = $comp->createComponent('VTODO');
         $comp->add($sub);
 
-        $event = $comp->vevent;
+        $event = $comp->VEVENT;
         $this->assertInstanceOf(Component::class, $event);
         $this->assertEquals('VEVENT', $event->name);
 
-        $this->assertNull($comp->vjournal);
+        $this->assertNull($comp->VJOURNAL);
     }
 
+    /**
+     * @throws InvalidDataException
+     */
     public function testMagicGetGroups()
     {
         $comp = new VCard();
@@ -60,8 +63,8 @@ class ComponentTest extends TestCase
         $sub = $comp->createProperty('EMAIL', '3@3.com');
         $comp->add($sub);
 
-        $emails = $comp->email;
-        $this->assertEquals(3, count($emails));
+        $emails = $comp->EMAIL;
+        $this->assertCount(3, $emails);
 
         $email1 = $comp->{'group1.email'};
         $this->assertEquals('EMAIL', $email1[0]->name);
@@ -119,7 +122,7 @@ class ComponentTest extends TestCase
         $comp->myProp = 'myValue';
         $comp->myProp = 'myValue';
 
-        $this->assertEquals(1, count($comp->children()));
+        $this->assertCount(1, $comp->children());
         $this->assertInstanceOf(Property::class, $comp->MYPROP);
         $this->assertEquals('myValue', (string) $comp->MYPROP);
     }
@@ -140,7 +143,7 @@ class ComponentTest extends TestCase
         // Note that 'myProp' is ignored here.
         $comp->myProp = $comp->createComponent('VEVENT');
 
-        $this->assertEquals(1, count($comp));
+        $this->assertCount(1, $comp);
 
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
     }
@@ -152,7 +155,7 @@ class ComponentTest extends TestCase
         $comp->VEVENT = $comp->createComponent('VEVENT');
         $comp->VEVENT = $comp->createComponent('VEVENT');
 
-        $this->assertEquals(1, count($comp->children()));
+        $this->assertCount(1, $comp->children());
 
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
     }
@@ -214,7 +217,7 @@ class ComponentTest extends TestCase
 
         $comp->add('myprop', 'value');
 
-        $this->assertEquals(1, count($comp->children()));
+        $this->assertCount(1, $comp->children());
 
         $bla = $comp->children()[0];
 
@@ -229,7 +232,7 @@ class ComponentTest extends TestCase
 
         $comp->add('myprop', 'value', ['param1' => 'value1']);
 
-        $this->assertEquals(1, count($comp->children()));
+        $this->assertCount(1, $comp->children());
 
         $bla = $comp->children()[0];
 
@@ -237,7 +240,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('MYPROP', $bla->name);
         $this->assertEquals('value', (string) $bla);
 
-        $this->assertEquals(1, count($bla->parameters()));
+        $this->assertCount(1, $bla->parameters());
 
         $this->assertEquals('PARAM1', $bla->parameters['PARAM1']->name);
         $this->assertEquals('value1', $bla->parameters['PARAM1']->getValue());
@@ -249,7 +252,7 @@ class ComponentTest extends TestCase
 
         $comp->add($comp->createComponent('VEVENT'));
 
-        $this->assertEquals(1, count($comp->children()));
+        $this->assertCount(1, $comp->children());
 
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
     }
@@ -261,7 +264,7 @@ class ComponentTest extends TestCase
         $comp->add($comp->createComponent('VEVENT'));
         $comp->add($comp->createComponent('VEVENT'));
 
-        $this->assertEquals(2, count($comp->children()));
+        $this->assertCount(2, $comp->children());
 
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
     }
@@ -287,7 +290,7 @@ class ComponentTest extends TestCase
 
         unset($comp->vevent);
 
-        $this->assertEquals(0, count($comp->children()));
+        $this->assertCount(0, $comp->children());
     }
 
     public function testCount()
@@ -306,9 +309,12 @@ class ComponentTest extends TestCase
 
         $r = $comp->children();
         $this->assertIsArray($r);
-        $this->assertEquals(2, count($r));
+        $this->assertCount(2, $r);
     }
 
+    /**
+     * @throws InvalidDataException
+     */
     public function testGetComponents()
     {
         $comp = new VCalendar();
@@ -318,7 +324,7 @@ class ComponentTest extends TestCase
 
         $r = $comp->getComponents();
         $this->assertIsArray($r);
-        $this->assertEquals(1, count($r));
+        $this->assertCount(1, $r);
         $this->assertEquals('VTODO', $r[0]->name);
     }
 
@@ -426,6 +432,9 @@ class ComponentTest extends TestCase
         $this->assertTrue(isset($comp->prop1));
     }
 
+    /**
+     * @throws InvalidDataException
+     */
     public function testRemoveNotFound()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -446,7 +455,7 @@ class ComponentTest extends TestCase
             $component->add($v, 'Hello.');
         }
 
-        $this->assertEquals($errorCount, count($component->validate()));
+        $this->assertCount($errorCount, $component->validate());
     }
 
     public function testValidateRepair()
@@ -469,9 +478,9 @@ class ComponentTest extends TestCase
 
         $messages = $component->validate(Component::REPAIR);
 
-        $this->assertEquals(1, count($messages));
+        $this->assertCount(1, $messages);
         $this->assertEquals(3, $messages[0]['level']);
-        $this->assertEquals(2, count($component->GIR));
+        $this->assertCount(2, $component->GIR);
     }
 
     public function testValidateRepairShouldNotDeduplicatePropertiesWhenParametersDiffer()
@@ -485,9 +494,9 @@ class ComponentTest extends TestCase
 
         $messages = $component->validate(Component::REPAIR);
 
-        $this->assertEquals(1, count($messages));
+        $this->assertCount(1, $messages);
         $this->assertEquals(3, $messages[0]['level']);
-        $this->assertEquals(2, count($component->GIR));
+        $this->assertCount(2, $component->GIR);
     }
 
     public function testValidateRepairShouldDeduplicatePropertiesWhenValuesAndParametersAreEqual()
@@ -501,9 +510,9 @@ class ComponentTest extends TestCase
 
         $messages = $component->validate(Component::REPAIR);
 
-        $this->assertEquals(1, count($messages));
+        $this->assertCount(1, $messages);
         $this->assertEquals(1, $messages[0]['level']);
-        $this->assertEquals(1, count($component->GIR));
+        $this->assertCount(1, $component->GIR);
     }
 
     public function testValidateRepairShouldDeduplicatePropertiesWhenValuesAreEqual()
@@ -517,12 +526,12 @@ class ComponentTest extends TestCase
 
         $messages = $component->validate(Component::REPAIR);
 
-        $this->assertEquals(1, count($messages));
+        $this->assertCount(1, $messages);
         $this->assertEquals(1, $messages[0]['level']);
-        $this->assertEquals(1, count($component->GIR));
+        $this->assertCount(1, $component->GIR);
     }
 
-    public function ruleData()
+    public function ruleData(): array
     {
         return [
             [[], 2],
@@ -539,7 +548,7 @@ class ComponentTest extends TestCase
 
 class FakeComponent extends Component
 {
-    public function getValidationRules()
+    public function getValidationRules(): array
     {
         return [
             'FOO' => '0',
@@ -550,7 +559,7 @@ class FakeComponent extends Component
         ];
     }
 
-    public function getDefaults()
+    public function getDefaults(): array
     {
         return [
             'BAR' => 'yow',

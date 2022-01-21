@@ -405,7 +405,7 @@ ICS;
 
     public function testReadBOM()
     {
-        $data = chr(0xef).chr(0xbb).chr(0xbf)."BEGIN:VCALENDAR\r\nEND:VCALENDAR";
+        $data = chr(0xEF).chr(0xBB).chr(0xBF)."BEGIN:VCALENDAR\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
         $this->assertInstanceOf(Component::class, $result);

@@ -7,6 +7,9 @@ use Sabre\VObject;
 
 class BooleanTest extends TestCase
 {
+    /**
+     * @throws VObject\ParseException
+     */
     public function testMimeDir()
     {
         $input = "BEGIN:VCARD\r\nX-AWESOME;VALUE=BOOLEAN:TRUE\r\nX-SUCKS;VALUE=BOOLEAN:FALSE\r\nEND:VCARD\r\n";

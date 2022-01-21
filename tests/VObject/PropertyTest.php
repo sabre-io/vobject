@@ -272,16 +272,22 @@ class PropertyTest extends TestCase
         $this->assertEquals("chars[7F()5E(^)5C(\\\\)3B(\\;)3A(:)2C(\\,)22(\")20( )1F()1E()1D()1C()1B()1A()19()18()17()16()15()14()13()12()11()10()0F()0E()0D()0C()0B()0A(\\n)09(\t)08()07()06()05()04()03()02()01()00()]end", $property->getRawMimeDirValue());
     }
 
+    /**
+     * @throws InvalidDataException
+     */
     public function testValidateBadPropertyName()
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('X_*&PROP*', 'Bla');
-        $result = $property->validate(Property::REPAIR);
+        $result = $property->validate(Node::REPAIR);
 
-        $this->assertEquals($result[0]['message'], 'The propertyname: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed');
+        $this->assertEquals('The propertyname: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed', $result[0]['message']);
         $this->assertEquals('X-PROP', $property->name);
     }
 
+    /**
+     * @throws InvalidDataException
+     */
     public function testGetValue()
     {
         $calendar = new VCalendar();
