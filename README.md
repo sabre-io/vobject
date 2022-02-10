@@ -1,8 +1,9 @@
-sabre/vobject
+protonlabs/vobject
 =============
 ![Build Status](https://github.com/ProtonMail/vobject/actions/workflows/actions.yml/badge.svg)
 [![codecov](https://codecov.io/gh/ProtonMail/vobject/branch/master/graph/badge.svg?token=ARcwkxCKZn)](https://codecov.io/gh/ProtonMail/vobject)
 
+Forked from [sabre/vobject](https://github.com/sabre-io/vobject).
 
 The VObject library allows you to easily parse and manipulate [iCalendar](https://tools.ietf.org/html/rfc5545)
 and [vCard](https://tools.ietf.org/html/rfc6350) objects using PHP.
