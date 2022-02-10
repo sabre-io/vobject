@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+4.8.0 (2022-02-10)
+------------------
+* #42 Add option to fix unfolding issues in ICS
+
 4.7.2 (2022-01-21)
 ------------------
 * #41 Add missing microsoft timezones and test with confluence file
