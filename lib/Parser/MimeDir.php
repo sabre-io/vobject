@@ -9,6 +9,7 @@ use Sabre\VObject\Document;
 use Sabre\VObject\EofException;
 use Sabre\VObject\Node;
 use Sabre\VObject\ParseException;
+use Sabre\VObject\Reader;
 
 /**
  * MimeDir parser.
@@ -200,15 +201,32 @@ class MimeDir extends Parser
             }
             $component = $this->root->createComponent(substr($line, 6), [], false);
 
+            $prevNode = null;
             while (true) {
                 // Reading until we hit END:
                 $line = $this->readLine();
                 if ('END:' === strtoupper(substr($line, 0, 4))) {
                     break;
                 }
-                $result = $this->parseLine($line);
+                try {
+                    $result = $this->parseLine($line);
+                } catch (\Exception $e) {
+                    if (isset($prevNode)
+                        && $e instanceof ParseException && str_contains($e->getMessage(), 'Invalid Mimedir file. Line starting at')
+                        && ($this->options & Reader::OPTION_FIX_UNFOLDING)
+                    ) {
+                        // Fix unfolding
+                        $component->remove($prevNode);
+                        $value = $prevNode->getValue() . ' ' . $line . PHP_EOL;
+                        $prevNode->offsetSet('VALUE', $value);
+                        $prevNode->setValue($value);
+                        $component->add($prevNode);
+                        continue;
+                    }
+                    throw $e;
+                }
                 if ($result) {
-                    $component->add($result);
+                    $prevNode = $component->add($result);
                 }
             }
 

@@ -27,6 +27,11 @@ class Reader
     const OPTION_IGNORE_INVALID_LINES = 2;
 
     /**
+     * If this option is turned on, it will fix unfolding parse error by adding empty space.
+     */
+    const OPTION_FIX_UNFOLDING = 4;
+
+    /**
      * Parses a vCard or iCalendar object, and returns the top component.
      *
      * The options argument is a bitfield. Pass any of the OPTIONS constant to
