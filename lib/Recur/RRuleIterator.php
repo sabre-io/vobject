@@ -658,6 +658,14 @@ class RRuleIterator implements Iterator
                     (int) $currentMonth,
                     (int) $currentDayOfMonth
                 );
+
+                // To prevent running this forever (better: until we hit the max date of DateTimeImmutable) we simply
+                // stop at 9999-12-31. Looks like the year 10000 problem is not solved in php ....
+                if ($this->currentDate->getTimestamp() > 253402300799) {
+                    $this->currentDate = null;
+
+                    return;
+                }
             }
 
             // If we made it here, it means we got a valid occurrence
