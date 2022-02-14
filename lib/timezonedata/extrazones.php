@@ -192,6 +192,7 @@ return [
     'UTC-09' => 'Pacific/Gambier',
     'UTC-11' => 'Pacific/Niue',
     'UTC+12' => 'Pacific/Auckland',
+    'UTC-05:00' => 'America/Lima',
     'US Eastern Standard Time' => 'America/New_York',
     'tzone://Microsoft/Utc' => 'UTC',
     'America/Santa_Isabel' => 'America/Tijuana',

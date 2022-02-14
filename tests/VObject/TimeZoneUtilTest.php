@@ -445,4 +445,22 @@ HI;
             fclose($handle);
         }
     }
+
+    /**
+     * @dataProvider offsetTimeZoneProvider
+     */
+    public function testOffsetTimeZones(string $origin, string $expected)
+    {
+        $tz = TimeZoneUtil::getTimeZone($origin, null, true);
+        $ex = new \DateTimeZone($expected);
+        $this->assertEquals($ex->getName(), $tz->getName());
+    }
+
+    public function offsetTimeZoneProvider(): iterable
+    {
+        yield 'UTC-05:00' => [
+            'origin' => 'UTC-05:00',
+            'expected' => 'America/Lima',
+        ];
+    }
 }
