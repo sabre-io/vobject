@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+4.9.0 (2022-02-15)
+------------------
+* #46 Add support UTC-05:00 timezone 
+
 4.8.0 (2022-02-10)
 ------------------
 * #42 Add option to fix unfolding issues in ICS
