@@ -331,6 +331,30 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    /** @dataProvider invalidFreqByCombinationProviders */
+    public function testInvalidFreqByCombination(string $rule)
+    {
+        $this->expectException(InvalidDataException::class);
+        $this->parse(
+            $rule,
+            '2011-01-01 00:00:00',
+            []
+        );
+    }
+
+    public function invalidFreqByCombinationProviders(): iterable
+    {
+        return [
+            ['FREQ=DAILY;BYWEEKNO=13,15,50'],
+            ['FREQ=WEEKLY;BYWEEKNO=13,15,50'],
+            ['FREQ=MONTHLY;BYWEEKNO=13,15,50'],
+            ['FREQ=DAILY;BYYEARDAY=1'],
+            ['FREQ=WEEKLY;BYYEARDAY=1'],
+            ['FREQ=MONTHLY;BYYEARDAY=1'],
+            ['FREQ=WEEKLY;BYMONTHDAY=1'],
+        ];
+    }
+
     public function testMonthlyByDay()
     {
         $this->parse(
@@ -1032,7 +1056,7 @@ class RRuleIteratorTest extends TestCase
     public function testIgnoredStuff()
     {
         $this->parse(
-            'FREQ=DAILY;BYSECOND=1;BYMINUTE=1;BYYEARDAY=1;BYWEEKNO=1;COUNT=2',
+            'FREQ=DAILY;BYSECOND=1;BYMINUTE=1;COUNT=2',
             '2014-08-02 00:15:00',
             [
                 '2014-08-02 00:15:00',

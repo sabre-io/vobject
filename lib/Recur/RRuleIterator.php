@@ -1027,6 +1027,14 @@ class RRuleIterator implements Iterator
         if (isset($this->count) && isset($this->until)) {
             throw new InvalidDataException('Can not have both UNTIL and COUNT property at the same time');
         }
+
+        if (
+            (isset($this->byWeekNo) && $this->frequency !== 'yearly') ||
+            (isset($this->byYearDay) && in_array($this->frequency, ['daily', 'weekly', 'monthly'], true)) ||
+            (isset($this->byMonthDay) && $this->frequency === 'weekly')
+        ) {
+            throw new InvalidDataException('Invalid combination of FREQ with BY rules');
+        }
     }
 
     /**

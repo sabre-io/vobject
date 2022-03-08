@@ -16,7 +16,7 @@ class MainTest extends TestCase
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
         $ev->UID = 'bla';
-        $ev->RRULE = 'FREQ=DAILY;BYHOUR=10;BYMINUTE=5;BYSECOND=16;BYWEEKNO=32;BYYEARDAY=100,200';
+        $ev->RRULE = 'FREQ=DAILY;BYHOUR=10;BYMINUTE=5;BYSECOND=16';
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new DateTimeImmutable('2011-10-07'));
 
