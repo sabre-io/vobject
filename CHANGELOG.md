@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+4.10.0 (2022-03-08)
+-------------------
+* #48 Block invalid combinations of FREQ with BY rules
+
 4.9.0 (2022-02-15)
 ------------------
 * #46 Add support UTC-05:00 timezone 
