@@ -12,7 +12,8 @@ class Issue566Test extends TestCase
     /**
      * @medium
      */
-    public function testDaily() {
+    public function testDaily()
+    {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
         $ev->UID = '1';
