@@ -92,6 +92,14 @@ class VCardTest extends TestCase
             ],
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nORG:Acme Co.\r\nFN:Acme Co.\r\nEND:VCARD\r\n",
         ];
+        // No FN, NICKNAME fallback
+        $tests[] = [
+            "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\NICKNAME:JohnDoe\r\nEND:VCARD\r\n",
+            [
+                'The FN property must appear in the VCARD component exactly 1 time',
+            ],
+            "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nNICKNAME:JohnDoe\r\nFN:JohnDoe\r\nEND:VCARD\r\n",
+        ];
         // No FN, EMAIL fallback
         $tests[] = [
             "BEGIN:VCARD\r\nVERSION:4.0\r\nUID:foo\r\nEMAIL:1@example.org\r\nEND:VCARD\r\n",
