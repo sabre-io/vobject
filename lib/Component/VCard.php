@@ -292,7 +292,7 @@ class VCard extends VObject\Document
                     $repaired = true;
                 
                 // Otherwise, the NICKNAME property may work
-                elseif (isset($this->NICKNAME)) {
+                } elseif (isset($this->NICKNAME)) {
                     $this->FN = (string) $this->NICKNAME;
                     $repaired = true;
                     
