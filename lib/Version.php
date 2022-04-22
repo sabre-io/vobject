@@ -14,5 +14,5 @@ class Version
     /**
      * Full version number.
      */
-    const VERSION = '4.10.0';
+    const VERSION = '4.11.0';
 }

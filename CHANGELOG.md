@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+4.11.0 (2022-04-22)
+-------------------
+* #50 Add lowercase timezone finder 
+
 4.10.0 (2022-03-08)
 -------------------
 * #48 Block invalid combinations of FREQ with BY rules
