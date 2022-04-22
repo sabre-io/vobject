@@ -463,4 +463,37 @@ HI;
             'expected' => 'America/Lima',
         ];
     }
+
+    /**
+     * @dataProvider letterCaseTimeZoneProvider
+     */
+    public function testDifferentLetterCaseTimeZone(string $origin, string $expected)
+    {
+        $tz = TimeZoneUtil::getTimeZone($origin, null, true);
+        $ex = new \DateTimeZone($expected);
+        $this->assertEquals($ex->getName(), $tz->getName());
+    }
+
+    public function letterCaseTimeZoneProvider(): iterable
+    {
+        yield 'case 1' => [
+            'origin' => 'Europe/paris',
+            'expected' => 'Europe/Paris',
+        ];
+
+        yield 'case 2' => [
+            'origin' => 'europe/paris',
+            'expected' => 'Europe/Paris',
+        ];
+
+        yield 'case 3' => [
+            'origin' => 'Europe/pAris',
+            'expected' => 'Europe/Paris',
+        ];
+
+        yield 'case 4' => [
+            'origin' => 'Asia/taipei',
+            'expected' => 'Asia/Taipei',
+        ];
+    }
 }

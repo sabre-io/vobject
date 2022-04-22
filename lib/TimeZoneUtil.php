@@ -9,6 +9,7 @@ use Sabre\VObject\TimezoneGuesser\FindFromTimezoneIdentifier;
 use Sabre\VObject\TimezoneGuesser\FindFromTimezoneMap;
 use Sabre\VObject\TimezoneGuesser\GuessFromLicEntry;
 use Sabre\VObject\TimezoneGuesser\GuessFromMsTzId;
+use Sabre\VObject\TimezoneGuesser\LowercaseTimezoneIdentifier;
 use Sabre\VObject\TimezoneGuesser\TimezoneFinder;
 use Sabre\VObject\TimezoneGuesser\TimezoneGuesser;
 
@@ -40,6 +41,7 @@ class TimeZoneUtil
         $this->addFinder('tzid', new FindFromTimezoneIdentifier());
         $this->addFinder('tzmap', new FindFromTimezoneMap());
         $this->addFinder('offset', new FindFromOffset());
+        $this->addFinder('lowercase', new LowercaseTimezoneIdentifier());
     }
 
     private static function getInstance(): self
