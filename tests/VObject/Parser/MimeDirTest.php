@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\ParseException;
 
 /**
@@ -164,5 +165,83 @@ EOF;
         $vcard = $mimeDir->parse($card);
         // we can do a simple assertion here. As long as we don't get an exception, everything is fine
         $this->assertEquals('20220612', $vcard->VEVENT->DTSTART->getValue());
+    }
+
+    /**
+     * @covers \Sabre\VObject\Parser\MimeDir::readProperty
+     * @dataProvider provideBrokenVCalendar
+     *
+     * @param string $vcalendar
+     *
+     * @return void
+     */
+    public function testBrokenMultilineContentDoesNotBreakImportWhenSetToIgnoreBrokenLines($vcalendar)
+    {
+        $mimeDir = new MimeDir(null, MimeDir::OPTION_IGNORE_INVALID_LINES);
+        $vcalendar = $mimeDir->parse($vcalendar);
+        $this->assertInstanceOf(VCalendar::class, $vcalendar);
+    }
+
+    /**
+     * @covers \Sabre\VObject\Parser\MimeDir::readProperty
+     * @dataProvider provideBrokenVCalendar
+     *
+     * @param string $vcalendar
+     *
+     * @return void
+     */
+    public function testBrokenMultilineContentDoesBreakImport($vcalendar)
+    {
+        $mimeDir = new MimeDir();
+        $this->expectException(ParseException::class);
+        $mimeDir->parse($vcalendar);
+    }
+
+    public function provideBrokenVCalendar()
+    {
+        return [[<<<EOF
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+CREATED:20160501T180854Z
+UID:15C11082-9FC5-4159-A888-4A4B92D0DB71
+DTEND;TZID=America/Los_Angeles:20160504T133000
+SUMMARY:Interment
+DTSTART;TZID=America/Los_Angeles:20160504T123000
+DTSTAMP:20160501T180924Z
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=CAES8gEaEglZw
+ 0Xu6epCQBFdwwyNJ49ewCKOAQoNVW5pdGVkIFN0YXRlcxICVVMaCkNhbGlmb3JuaWEiAkNBK
+ gdBbGFtZWRhMgdPYWtsYW5kOgU5NDYxMVIMUGllZG1vbnQgQXZlWgQ1MDAwYhE1MDAwIFBpZ
+ WRtb250IEF2ZWoENDIyMHIWTW91bnRhaW4gVmlldyBDZW1ldGVyeaIBCjk0NjExLTQyMjAqE
+ TUwMDAgUGllZG1vbnQgQXZlMhE1MDAwIFBpZWRtb250IEF2ZTIST2FrbGFuZCwgQ0EgIDk0N
+ jExMg1Vbml0ZWQgU3RhdGVzODlAAA==;X-APPLE-RADIUS=1001.127625592278;X-TITLE
+ =Mountain View Cemetery:5000 Piedmont Avenue
+OAKLAND, CA 94611
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR
+EOF
+        ], [
+            <<<EOF
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+CREATED:20160501T180854Z
+UID:15C11082-9FC5-4159-A888-4A4B92D0DB71
+DTEND;TZID=America/Los_Angeles:20160504T133000
+SUMMARY:Interment
+DTSTART;TZID=America/Los_Angeles:20160504T123000
+DTSTAMP:20160501T180924Z
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=CAES8gEaEglZw
+ 0Xu6epCQBFdwwyNJ49ewCKOAQoNVW5pdGVkIFN0YXRlcxICVVMaCkNhbGlmb3JuaWEiAkNBK
+ gdBbGFtZWRhMgdPYWtsYW5kOgU5NDYxMVIMUGllZG1vbnQgQXZlWgQ1MDAwYhE1MDAwIFBpZ
+ WRtb250IEF2ZWoENDIyMHIWTW91bnRhaW4gVmlldyBDZW1ldGVyeaIBCjk0NjExLTQyMjAqE
+ TUwMDAgUGllZG1vbnQgQXZlMhE1MDAwIFBpZWRtb250IEF2ZTIST2FrbGFuZCwgQ0EgIDk0N
+ jExMg1Vbml0ZWQgU3RhdGVzODlAAA==;X-APPLE-RADIUS=1001.127625592278;X-TITLE
+ =Mountain View Cemetery:5000 Piedmont Avenue
+OAKLAND, CA 94611:
+SEQUENCE:0
+END:VEVENT
+END:VCALENDAR
+EOF
+        ]];
     }
 }
