@@ -1,6 +1,14 @@
 ChangeLog
 =========
 
+4.4.2 (2022-06-24)
+------------------
+
+* #565: lowercase mailto:-addresses in getNormalizedValue() (@pk1234)
+* #568: Add NICKNAME fallback for VCards without FNs (@Evengard)
+* #573: Component/select: Before uppercasing $child->group, make sure it isn't null (@algernon)
+* #575: Fix encoding detection on PHP 8.1 (@come-nc)
+
 4.4.1 (2021-12-07)
 ------------------
 
