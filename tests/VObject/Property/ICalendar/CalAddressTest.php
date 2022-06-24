@@ -25,6 +25,8 @@ class CalAddressTest extends TestCase
         return [
             ['mailto:a@b.com', 'mailto:a@b.com'],
             ['mailto:a@b.com', 'MAILTO:a@b.com'],
+            ['mailto:a@b.com', 'mailto:A@B.COM'],
+            ['mailto:a@b.com', 'MAILTO:A@B.COM'],
             ['/foo/bar', '/foo/bar'],
         ];
     }
