@@ -54,7 +54,7 @@ class CalAddress extends Text
         }
         list($schema, $everythingElse) = explode(':', $input, 2);
         $schema = strtolower($schema);
-        if($schema === "mailto") {
+        if ('mailto' === $schema) {
             $everythingElse = strtolower($everythingElse);
         }
 
