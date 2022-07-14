@@ -162,7 +162,7 @@ EOF;
 
         $mimeDir = new MimeDir();
         $vcard = $mimeDir->parse($card);
-        // we can do a simple assertion here. As long as we don't get an exception, everything is thing
+        // we can do a simple assertion here. As long as we don't get an exception, everything is fine
         $this->assertEquals('20220612', $vcard->VEVENT->DTSTART->getValue());
     }
 }
