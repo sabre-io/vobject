@@ -145,4 +145,24 @@ VCF;
         $this->assertEquals('Euro', $vcard->FN->getValue());
         $this->assertEquals('Test2', $vcard->N->getValue());
     }
+
+    public function testParsingTwiceSameContent()
+    {
+        $card = <<<EOF
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:PRODID
+BEGIN:VEVENT
+DTSTAMP;TZID=Europe/Busingen:20220712T172312
+UID:UID
+DTSTART;VALUE=DATE;VALUE=DATE;VALUE=DATE:20220612
+END:VEVENT
+END:VCALENDAR
+EOF;
+
+        $mimeDir = new MimeDir();
+        $vcard = $mimeDir->parse($card);
+        // we can do a simple assertion here. As long as we don't get an exception, everything is fine
+        $this->assertEquals('20220612', $vcard->VEVENT->DTSTART->getValue());
+    }
 }

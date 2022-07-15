@@ -378,6 +378,9 @@ class MimeDir extends Parser
                     $property['parameters'][$lastParam] = $value;
                 } elseif (is_array($property['parameters'][$lastParam])) {
                     $property['parameters'][$lastParam][] = $value;
+                } elseif ($property['parameters'][$lastParam] === $value) {
+                    // When the current value of the parameter is the same as the
+                    // new one, then we can leave the current parameter as it is.
                 } else {
                     $property['parameters'][$lastParam] = [
                         $property['parameters'][$lastParam],
