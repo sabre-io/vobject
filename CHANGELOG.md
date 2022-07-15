@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+4.4.3 (2022-07-15)
+------------------
+
+* #577: Ignore multiple same parameter-values (@heiglandreas)
+
 4.4.2 (2022-06-24)
 ------------------
 
