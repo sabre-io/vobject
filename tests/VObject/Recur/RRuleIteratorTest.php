@@ -631,6 +631,53 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    /*
+     * Verifies that -365 back in the year is usually 1 Jan, but
+     * in leap years it is 2 Jan.
+     */
+    public function testYearlyByYearDayLargeNegative()
+    {
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;BYYEARDAY=-365',
+            '2001-01-01 14:53:11',
+            [
+                '2001-01-01 14:53:11',
+                '2002-01-01 14:53:11',
+                '2003-01-01 14:53:11',
+                '2004-01-02 14:53:11',
+                '2005-01-01 14:53:11',
+                '2006-01-01 14:53:11',
+                '2007-01-01 14:53:11',
+                '2008-01-02 14:53:11',
+            ]
+        );
+    }
+
+    /*
+     * Verifies that -366 back in the year is 1 Jan in a leap year
+     * Interestingly, it goes back to 31 Dec of the previous year
+     * when not a leap year. The spec says that -366 is valid, and
+     * makes no mention of it being valid only in a leap year, so
+     * the behavior seems reasonable.
+     */
+    public function testYearlyByYearDayMaxNegative()
+    {
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;BYYEARDAY=-366',
+            '2001-01-01 14:53:11',
+            [
+                '2001-01-01 14:53:11',
+                '2001-12-31 14:53:11',
+                '2002-12-31 14:53:11',
+                '2004-01-01 14:53:11',
+                '2004-12-31 14:53:11',
+                '2005-12-31 14:53:11',
+                '2006-12-31 14:53:11',
+                '2008-01-01 14:53:11',
+            ]
+        );
+    }
+
     public function testYearlyByYearDayInvalid390()
     {
         $this->expectException(InvalidDataException::class);
