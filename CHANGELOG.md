@@ -1,6 +1,18 @@
 ChangeLog
 =========
 
+4.5.0 (2022-08-17)
+------------------
+
+* #579: Update .gitattributes (@cedric-anne)
+* #561: PHP 8.1 deprecated support for null values in its APIs (@mstilkerich)
+* #571: Fully ignore invalid lines (@heiglandreas)
+* #564: Fix infinite loop caused by yearly with bySetPos (@liurxliu)
+* #567: Endless loop problem in RRuleIterator::nextDaily (@KristofferFM)
+* #466: Add support for MEMBER in a VCard (@sash04ek)
+* #559: Handle Vobjects without closing tag (@sash04ek)
+* #582: Fix bug in by year day (@KAYLukas)
+
 4.4.3 (2022-07-15)
 ------------------
 
