@@ -238,13 +238,7 @@ class Component extends Node
                 return array_filter(
                     $result,
                     function ($child) use ($group) {
-                        if ($child instanceof Property) {
-                            $cgroup = isset($child->group) ? strtoupper($child->group) : '';
-
-                            return $cgroup === $group;
-                        }
-
-                        return false;
+                        return $child instanceof Property && ($child->group ? strtoupper($child->group) : '') === $group;
                     }
                 );
             }
@@ -255,7 +249,7 @@ class Component extends Node
         $result = [];
         foreach ($this->children as $childGroup) {
             foreach ($childGroup as $child) {
-                if ($child instanceof Property && $child->group && strtoupper($child->group) === $group) {
+                if ($child instanceof Property && ($child->group ? strtoupper($child->group) : '') === $group) {
                     $result[] = $child;
                 }
             }

@@ -67,9 +67,17 @@ class ComponentTest extends TestCase
         $this->assertEquals('EMAIL', $email1[0]->name);
         $this->assertEquals('GROUP1', $email1[0]->group);
 
+        // this is supposed to return all EMAIL properties that do not have a group
         $email3 = $comp->{'.email'};
         $this->assertEquals('EMAIL', $email3[0]->name);
         $this->assertEquals(null, $email3[0]->group);
+
+        // this is supposed to return all properties that do not have a group
+        $nogroupProps = $comp->{'.'};
+        $this->assertGreaterThan(0, count($email3));
+        foreach ($nogroupProps as $prop) {
+            $this->assertEquals(null, $prop->group);
+        }
     }
 
     public function testAddGroupProperties()
