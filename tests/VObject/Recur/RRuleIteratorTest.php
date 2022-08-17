@@ -526,19 +526,36 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testYearlyNewYearsDay()
+    {
+        $this->parse(
+            'FREQ=YEARLY;COUNT=7;INTERVAL=2;BYYEARDAY=1',
+            '2011-01-01 03:07:00',
+            [
+                '2011-01-01 03:07:00',
+                '2013-01-01 03:07:00',
+                '2015-01-01 03:07:00',
+                '2017-01-01 03:07:00',
+                '2019-01-01 03:07:00',
+                '2021-01-01 03:07:00',
+                '2023-01-01 03:07:00',
+            ]
+        );
+    }
+
     public function testYearlyByYearDay()
     {
         $this->parse(
             'FREQ=YEARLY;COUNT=7;INTERVAL=2;BYYEARDAY=190',
-            '2011-07-10 03:07:00',
+            '2011-07-09 03:07:00',
             [
-                '2011-07-10 03:07:00',
-                '2013-07-10 03:07:00',
-                '2015-07-10 03:07:00',
-                '2017-07-10 03:07:00',
-                '2019-07-10 03:07:00',
-                '2021-07-10 03:07:00',
-                '2023-07-10 03:07:00',
+                '2011-07-09 03:07:00',
+                '2013-07-09 03:07:00',
+                '2015-07-09 03:07:00',
+                '2017-07-09 03:07:00',
+                '2019-07-09 03:07:00',
+                '2021-07-09 03:07:00',
+                '2023-07-09 03:07:00',
             ]
         );
     }
@@ -559,7 +576,7 @@ class RRuleIteratorTest extends TestCase
         $parser->next();
 
         $item = $parser->current();
-        $this->assertEquals($item->format('Y-m-d H:i:s'), '2013-07-10 03:07:00');
+        $this->assertEquals($item->format('Y-m-d H:i:s'), '2013-07-09 03:07:00');
     }
 
     public function testYearlyByYearDayMultiple()
@@ -569,13 +586,13 @@ class RRuleIteratorTest extends TestCase
             '2011-07-10 14:53:11',
             [
                 '2011-07-10 14:53:11',
-                '2011-10-29 14:53:11',
-                '2014-07-10 14:53:11',
-                '2014-10-29 14:53:11',
-                '2017-07-10 14:53:11',
-                '2017-10-29 14:53:11',
-                '2020-07-09 14:53:11',
-                '2020-10-28 14:53:11',
+                '2011-10-28 14:53:11',
+                '2014-07-09 14:53:11',
+                '2014-10-28 14:53:11',
+                '2017-07-09 14:53:11',
+                '2017-10-28 14:53:11',
+                '2020-07-08 14:53:11',
+                '2020-10-27 14:53:11',
             ]
         );
     }
@@ -587,11 +604,11 @@ class RRuleIteratorTest extends TestCase
             '2001-04-07 14:53:11',
             [
                 '2001-04-07 14:53:11',
-                '2006-04-08 14:53:11',
-                '2012-04-07 14:53:11',
-                '2017-04-08 14:53:11',
-                '2023-04-08 14:53:11',
-                '2034-04-08 14:53:11',
+                '2007-04-07 14:53:11',
+                '2018-04-07 14:53:11',
+                '2024-04-06 14:53:11',
+                '2029-04-07 14:53:11',
+                '2035-04-07 14:53:11',
             ]
         );
     }
@@ -610,6 +627,53 @@ class RRuleIteratorTest extends TestCase
                 '2003-12-27 14:53:11',
                 '2004-09-26 14:53:11',
                 '2004-12-27 14:53:11',
+            ]
+        );
+    }
+
+    /*
+     * Verifies that -365 back in the year is usually 1 Jan, but
+     * in leap years it is 2 Jan.
+     */
+    public function testYearlyByYearDayLargeNegative()
+    {
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;BYYEARDAY=-365',
+            '2001-01-01 14:53:11',
+            [
+                '2001-01-01 14:53:11',
+                '2002-01-01 14:53:11',
+                '2003-01-01 14:53:11',
+                '2004-01-02 14:53:11',
+                '2005-01-01 14:53:11',
+                '2006-01-01 14:53:11',
+                '2007-01-01 14:53:11',
+                '2008-01-02 14:53:11',
+            ]
+        );
+    }
+
+    /*
+     * Verifies that -366 back in the year is 1 Jan in a leap year
+     * Interestingly, it goes back to 31 Dec of the previous year
+     * when not a leap year. The spec says that -366 is valid, and
+     * makes no mention of it being valid only in a leap year, so
+     * the behavior seems reasonable.
+     */
+    public function testYearlyByYearDayMaxNegative()
+    {
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;BYYEARDAY=-366',
+            '2001-01-01 14:53:11',
+            [
+                '2001-01-01 14:53:11',
+                '2001-12-31 14:53:11',
+                '2002-12-31 14:53:11',
+                '2004-01-01 14:53:11',
+                '2004-12-31 14:53:11',
+                '2005-12-31 14:53:11',
+                '2006-12-31 14:53:11',
+                '2008-01-01 14:53:11',
             ]
         );
     }
