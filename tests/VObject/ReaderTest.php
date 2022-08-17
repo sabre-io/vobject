@@ -114,11 +114,16 @@ class ReaderTest extends TestCase
         $this->assertEquals('20110529', $result->getValue());
     }
 
-    public function testReadBrokenLine()
+    public function testReadMissingEnd()
     {
-        $this->expectException(ParseException::class);
-        $data = "BEGIN:VCALENDAR\r\nPROPNAME;propValue";
+        $data = "BEGIN:VCALENDAR\r\nPROPNAME:propValue";
         $result = Reader::read($data);
+        $this->assertInstanceOf(Component::class, $result);
+        $this->assertEquals('VCALENDAR', $result->name);
+        $this->assertEquals(1, count($result->children()));
+        $this->assertInstanceOf(Property::class, $result->children()[0]);
+        $this->assertEquals('PROPNAME', $result->children()[0]->name);
+        $this->assertEquals('propValue', $result->children()[0]->getValue());
     }
 
     public function testReadPropertyInComponent()
