@@ -825,6 +825,17 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testYearlyBySetPosLoop()
+    {
+        $this->parse(
+            'FREQ=YEARLY;BYMONTH=5;BYSETPOS=3;BYMONTHDAY=3',
+            '2022-03-03 15:45:00',
+            [
+            ],
+            '2022-05-01'
+        );
+    }
+
     /**
      * Something, somewhere produced an ics with an interval set to 0. Because
      * this means we increase the current day (or week, month) by 0, this also
