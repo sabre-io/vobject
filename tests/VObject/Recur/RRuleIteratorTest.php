@@ -526,7 +526,7 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
-    public function testYearlyNewYearsEve()
+    public function testYearlyNewYearsDay()
     {
         $this->parse(
             'FREQ=YEARLY;COUNT=7;INTERVAL=2;BYYEARDAY=1',
