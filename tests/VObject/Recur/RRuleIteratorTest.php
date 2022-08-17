@@ -147,6 +147,24 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    /**
+     * This test can take some seconds to complete.
+     * The "large" annotation means phpunit will let it run for
+     * up to 60 seconds by default.
+     *
+     * @large
+     */
+    public function testDailyBySetPosLoop()
+    {
+        $this->parse(
+            'FREQ=DAILY;INTERVAL=7;BYDAY=MO',
+            '2022-03-15',
+            [
+            ],
+            '2022-05-01'
+        );
+    }
+
     public function testWeekly()
     {
         $this->parse(
@@ -825,6 +843,13 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    /**
+     * This test can take some seconds to complete.
+     * The "large" annotation means phpunit will let it run for
+     * up to 60 seconds by default.
+     *
+     * @large
+     */
     public function testYearlyBySetPosLoop()
     {
         $this->parse(
