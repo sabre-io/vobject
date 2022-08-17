@@ -372,6 +372,13 @@ class MimeDir extends Parser
                 $value = $this->unescapeParam($value);
 
                 if (is_null($lastParam)) {
+                    if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
+                        // When the property can't be matched and the configuration
+                        // option is set to ignore invalid lines, we ignore this line
+                        // This can happen when servers provide faulty data as iCloud
+                        //  frequently does with X-APPLE-STRUCTURED-LOCATION
+                        continue;
+                    }
                     throw new ParseException('Invalid Mimedir file. Line starting at '.$this->startLine.' did not follow iCalendar/vCard conventions');
                 }
                 if (is_null($property['parameters'][$lastParam])) {
