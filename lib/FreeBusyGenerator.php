@@ -31,31 +31,23 @@ class FreeBusyGenerator
 {
     /**
      * Input objects.
-     *
-     * @var array
      */
-    protected $objects = [];
+    protected array $objects = [];
 
     /**
      * Start of range.
-     *
-     * @var DateTimeInterface|null
      */
-    protected $start;
+    protected ?DateTimeInterface $start;
 
     /**
      * End of range.
-     *
-     * @var DateTimeInterface|null
      */
-    protected $end;
+    protected ?DateTimeInterface $end;
 
     /**
      * VCALENDAR object.
-     *
-     * @var Document
      */
-    protected $baseObject;
+    protected ?Document $baseObject = null;
 
     /**
      * Reference timezone.
@@ -67,20 +59,16 @@ class FreeBusyGenerator
      * This is also used for all-day events.
      *
      * This defaults to UTC.
-     *
-     * @var DateTimeZone
      */
-    protected $timeZone;
+    protected DateTimeZone $timeZone;
 
     /**
      * A VAVAILABILITY document.
      *
      * If this is set, its information will be included when calculating
      * freebusy time.
-     *
-     * @var Document
      */
-    protected $vavailability;
+    protected ?Document $vavailability = null;
 
     /**
      * Creates the generator.
@@ -90,7 +78,7 @@ class FreeBusyGenerator
      *
      * @param mixed $objects
      */
-    public function __construct(DateTimeInterface $start = null, DateTimeInterface $end = null, $objects = null, DateTimeZone $timeZone = null)
+    public function __construct(?DateTimeInterface $start = null, ?DateTimeInterface $end = null, $objects = null, ?DateTimeZone $timeZone = null)
     {
         $this->setTimeRange($start, $end);
 
@@ -154,11 +142,11 @@ class FreeBusyGenerator
     /**
      * Sets the time range.
      *
-     * Any freebusy object falling outside of this time range will be ignored.
+     * Any freebusy object falling outside this time range will be ignored.
      *
      * @throws Exception
      */
-    public function setTimeRange(DateTimeInterface $start = null, DateTimeInterface $end = null): void
+    public function setTimeRange(?DateTimeInterface $start = null, ?DateTimeInterface $end = null): void
     {
         if (!$start) {
             $start = new DateTimeImmutable(Settings::$minDate);
@@ -181,16 +169,14 @@ class FreeBusyGenerator
     /**
      * Parses the input data and returns a correct VFREEBUSY object, wrapped in
      * a VCALENDAR.
-     *
-     * @return Component
      */
-    public function getResult()
+    public function getResult(): Component
     {
         $fbData = new FreeBusyData(
             $this->start->getTimeStamp(),
             $this->end->getTimeStamp()
         );
-        if ($this->vavailability) {
+        if (null !== $this->vavailability) {
             $this->calculateAvailability($fbData, $this->vavailability);
         }
 
@@ -231,7 +217,7 @@ class FreeBusyGenerator
         // Now we go over all the VAVAILABILITY components and figure if
         // there's any we don't need to consider.
         //
-        // This is can be because of one of two reasons: either the
+        // This is because of one of two reasons: either the
         // VAVAILABILITY component falls outside the time we are interested in,
         // or a different VAVAILABILITY component with a higher priority has
         // already completely covered the time-range.
@@ -241,7 +227,7 @@ class FreeBusyGenerator
         foreach ($old as $vavail) {
             list($compStart, $compEnd) = $vavail->getEffectiveStartEnd();
 
-            // We don't care about datetimes that are earlier or later than the
+            // We don't care about date-times that are earlier or later than the
             // start and end of the freebusy report, so this gets normalized
             // first.
             if (is_null($compStart) || $compStart < $this->start) {
@@ -251,7 +237,7 @@ class FreeBusyGenerator
                 $compEnd = $this->end;
             }
 
-            // If the item fell out of the timerange, we can just skip it.
+            // If the item fell out of the time range, we can just skip it.
             if ($compStart > $this->end || $compEnd < $this->start) {
                 continue;
             }
@@ -326,7 +312,7 @@ class FreeBusyGenerator
                             $recurEnd = $recurStart->add($startEndDiff);
 
                             if ($recurStart > $vavailEnd) {
-                                // We're beyond the legal timerange.
+                                // We're beyond the legal time range.
                                 break;
                             }
 
@@ -500,7 +486,7 @@ class FreeBusyGenerator
      */
     protected function generateFreeBusyCalendar(FreeBusyData $fbData): VCalendar
     {
-        if ($this->baseObject) {
+        if (null !== $this->baseObject) {
             $calendar = $this->baseObject;
         } else {
             $calendar = new VCalendar();

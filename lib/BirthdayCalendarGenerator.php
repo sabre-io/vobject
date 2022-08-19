@@ -17,10 +17,8 @@ class BirthdayCalendarGenerator
 {
     /**
      * Input objects.
-     *
-     * @var array
      */
-    protected $objects = [];
+    protected array $objects = [];
 
     /**
      * Default year.
@@ -30,10 +28,8 @@ class BirthdayCalendarGenerator
 
     /**
      * Output format for the SUMMARY.
-     *
-     * @var string
      */
-    protected $format = '%1$s\'s Birthday';
+    protected string $format = '%1$s\'s Birthday';
 
     /**
      * Creates the generator.
@@ -109,7 +105,7 @@ class BirthdayCalendarGenerator
                 continue;
             }
 
-            // We're always converting to vCard 4.0 so we can rely on the
+            // We're always converting to vCard 4.0, so we can rely on the
             // VCardConverter handling the X-APPLE-OMIT-YEAR property for us.
             $object = $object->convert(Document::VCARD40);
 

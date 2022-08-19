@@ -26,17 +26,15 @@ class Component extends Node
      * Component name.
      *
      * This will contain a string such as VEVENT, VTODO, VCALENDAR, VCARD.
-     *
-     * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * A list of properties and/or sub-components.
      *
      * @var array<string, Component|Property>
      */
-    protected $children = [];
+    protected array $children = [];
 
     /**
      * Creates a new component.
@@ -139,13 +137,11 @@ class Component extends Node
      * exact item will be removed.
      *
      * @param string|Property|Component $item
-     *
-     * @return void
      */
-    public function remove($item)
+    public function remove($item): void
     {
         if (is_string($item)) {
-            // If there's no dot in the name, it's an exact property name and
+            // If there's no dot in the name, it's an exact property name,
             // we can just wipe out all those properties.
             //
             if (false === strpos($item, '.')) {

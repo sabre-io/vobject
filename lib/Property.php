@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject;
 
-use Exception;
-
 use function preg_replace;
 
 use Sabre\Xml;
@@ -68,10 +66,8 @@ abstract class Property extends Node
      * @param string|array|null $value
      * @param array             $parameters List of parameters
      * @param string|null       $group      The vcard property group
-     *
-     * @throws InvalidDataException
      */
-    public function __construct(Component $root, ?string $name, $value = null, array $parameters = [], string $group = null)
+    public function __construct(Component $root, ?string $name, $value = null, array $parameters = [], ?string $group = null)
     {
         $this->name = $name;
         $this->group = $group;
@@ -247,8 +243,6 @@ abstract class Property extends Node
      * Sets the JSON value, as it would appear in a jCard or jCal object.
      *
      * The value must always be an array.
-     *
-     * @throws InvalidDataException
      */
     public function setJsonValue(array $value): void
     {
@@ -510,11 +504,11 @@ abstract class Property extends Node
             ];
         }
 
-        // Checking if the propertyname does not contain any invalid bytes.
+        // Checking if the property name does not contain any invalid bytes.
         if (!preg_match('/^([A-Z0-9-]+)$/', $this->name)) {
             $warnings[] = [
                 'level' => $options & self::REPAIR ? 1 : 3,
-                'message' => 'The propertyname: '.$this->name.' contains invalid characters. Only A-Z, 0-9 and - are allowed',
+                'message' => 'The property name: '.$this->name.' contains invalid characters. Only A-Z, 0-9 and - are allowed',
                 'node' => $this,
             ];
             if ($options & self::REPAIR) {

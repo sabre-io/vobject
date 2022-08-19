@@ -168,7 +168,7 @@ class VCalendar extends VObject\Document
      *
      * @return VObject\Component[]
      */
-    public function getBaseComponents(string $componentName = null): array
+    public function getBaseComponents(?string $componentName = null): array
     {
         $isBaseComponent = function ($component): bool {
             if (!$component instanceof VObject\Component) {
@@ -219,7 +219,7 @@ class VCalendar extends VObject\Document
      *
      * @return VObject\Component|null
      */
-    public function getBaseComponent(string $componentName = null): ?Component
+    public function getBaseComponent(?string $componentName = null): ?Component
     {
         $isBaseComponent = function ($component): bool {
             if (!$component instanceof VObject\Component) {
@@ -265,7 +265,7 @@ class VCalendar extends VObject\Document
      * can be used to expand the event into multiple sub-events.
      *
      * Each event will be stripped from its recurrence information, and only
-     * the instances of the event in the specified timerange will be left
+     * the instances of the event in the specified time range will be left
      * alone.
      *
      * In addition, this method will cause timezone information to be stripped,
@@ -277,7 +277,7 @@ class VCalendar extends VObject\Document
      * @throws InvalidDataException
      * @throws VObject\Recur\MaxInstancesExceededException
      */
-    public function expand(DateTimeInterface $start, DateTimeInterface $end, DateTimeZone $timeZone = null): VCalendar
+    public function expand(DateTimeInterface $start, DateTimeInterface $end, ?DateTimeZone $timeZone = null): VCalendar
     {
         $newChildren = [];
         $recurringEvents = [];

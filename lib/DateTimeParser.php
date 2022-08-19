@@ -10,7 +10,7 @@ use Exception;
 /**
  * DateTimeParser.
  *
- * This class is responsible for parsing the several different date and time
+ * This class is responsible for parsing the several date and time
  * formats iCalendar and vCards have.
  *
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
@@ -29,7 +29,7 @@ class DateTimeParser
      *
      * @throws InvalidDataException
      */
-    public static function parseDateTime(string $dt, DateTimeZone $tz = null): DateTimeImmutable
+    public static function parseDateTime(string $dt, ?DateTimeZone $tz = null): DateTimeImmutable
     {
         // Format is YYYYMMDD + "T" + hhmmss
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/', $dt, $matches);
@@ -56,7 +56,7 @@ class DateTimeParser
      *
      * @throws InvalidDataException
      */
-    public static function parseDate(string $date, DateTimeZone $tz = null): DateTimeImmutable
+    public static function parseDate(string $date, ?DateTimeZone $tz = null): DateTimeImmutable
     {
         // Format is YYYYMMDD
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])$/', $date, $matches);

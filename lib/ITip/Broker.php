@@ -18,7 +18,7 @@ use Sabre\VObject\Recur\NoInstancesException;
  *
  * iTip is defined in rfc5546, stands for iCalendar Transport-Independent
  * Interoperability Protocol, and describes the underlying mechanism for
- * using iCalendar for scheduling for for example through email (also known as
+ * using iCalendar for scheduling, for example, through email (also known as
  * IMip) and CalDAV Scheduling.
  *
  * This class helps by:
@@ -32,7 +32,7 @@ use Sabre\VObject\Recur\NoInstancesException;
  *    a received invite.
  * 4. It can also process an invite update on a local event, ensuring that any
  *    overridden properties from attendees are retained.
- * 5. It can create a accepted or declined iTip reply based on an invite.
+ * 5. It can create an accepted or declined iTip reply based on an invite.
  * 6. It can process a reply from an invite and update an events attendee
  *     status based on a reply.
  *
@@ -222,7 +222,7 @@ class Broker
             // The calendar object got deleted, we need to process this as a
             // cancellation / decline.
             if (!$oldCalendar) {
-                // No old and no new calendar, there's no thing to do.
+                // No old and no new calendar, there's nothing to do.
                 return [];
             }
 
@@ -268,7 +268,7 @@ class Broker
      * This is message from an organizer, and is either a new event
      * invite, or an update to an existing one.
      */
-    protected function processMessageRequest(Message $itipMessage, VCalendar $existingObject = null): ?VCalendar
+    protected function processMessageRequest(Message $itipMessage, ?VCalendar $existingObject = null): ?VCalendar
     {
         if (!$existingObject) {
             // This is a new invite, and we're just going to copy over
@@ -296,7 +296,7 @@ class Broker
      * attendee got removed from an event, or an event got cancelled
      * altogether.
      */
-    protected function processMessageCancel(Message $itipMessage, VCalendar $existingObject = null): ?VCalendar
+    protected function processMessageCancel(Message $itipMessage, ?VCalendar $existingObject = null): ?VCalendar
     {
         if (!$existingObject) {
             // The event didn't exist in the first place, so we're just
@@ -323,7 +323,7 @@ class Broker
      * @throws MaxInstancesExceededException
      * @throws NoInstancesException
      */
-    protected function processMessageReply(Message $itipMessage, VCalendar $existingObject = null)
+    protected function processMessageReply(Message $itipMessage, ?VCalendar $existingObject = null)
     {
         // A reply can only be processed based on an existing object.
         // If the object is not available, the reply is ignored.

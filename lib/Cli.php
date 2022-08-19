@@ -19,38 +19,28 @@ class Cli
 {
     /**
      * No output.
-     *
-     * @var bool
      */
-    protected $quiet = false;
+    protected bool $quiet = false;
 
     /**
      * Whether to spit out 'mimedir' or 'json' format.
-     *
-     * @var string
      */
-    protected $format;
+    protected ?string $format = null;
 
     /**
      * JSON pretty print.
-     *
-     * @var bool
      */
-    protected $pretty;
+    protected bool $pretty = false;
 
     /**
      * Source file.
-     *
-     * @var string
      */
-    protected $inputPath;
+    protected string $inputPath;
 
     /**
      * Destination file.
-     *
-     * @var string
      */
-    protected $outputPath;
+    protected string $outputPath;
 
     /**
      * output stream.
@@ -75,17 +65,13 @@ class Cli
 
     /**
      * Input format (one of json or mimedir).
-     *
-     * @var string
      */
-    protected $inputFormat;
+    protected ?string $inputFormat = null;
 
     /**
      * Makes the parser less strict.
-     *
-     * @var bool
      */
-    protected $forgiving = false;
+    protected bool $forgiving = false;
 
     /**
      * Main function.
@@ -138,7 +124,7 @@ class Cli
                                 // specific formats
                             case 'json':
                             case 'mimedir':
-                                // icalendar/vcad
+                                // icalendar/vcard
                             case 'icalendar':
                             case 'vcard':
                                 $this->format = $value;
@@ -149,9 +135,7 @@ class Cli
                         }
                         break;
                     case 'pretty':
-                        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
-                            $this->pretty = true;
-                        }
+                        $this->pretty = true;
                         break;
                     case 'forgiving':
                         $this->forgiving = true;
@@ -218,14 +202,14 @@ class Cli
             $this->stdout = fopen($this->outputPath, 'w');
         }
 
-        if (!$this->inputFormat) {
+        if (null === $this->inputFormat) {
             if ('.json' === substr($this->inputPath, -5)) {
                 $this->inputFormat = 'json';
             } else {
                 $this->inputFormat = 'mimedir';
             }
         }
-        if (!$this->format) {
+        if (null === $this->format) {
             if ('.json' === substr($this->outputPath, -5)) {
                 $this->format = 'json';
             } else {
@@ -269,10 +253,7 @@ class Cli
         $this->log('                vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.');
         $this->log($this->colorize('green', '  --inputformat ').'If the input format cannot be guessed from the extension, it');
         $this->log('                must be specified here.');
-        // Only PHP 5.4 and up
-        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
-            $this->log($this->colorize('green', '  --pretty      ').'json pretty-print.');
-        }
+        $this->log($this->colorize('green', '  --pretty      ').'json pretty-print.');
         $this->log('');
         $this->log('Commands:', 'yellow');
         $this->log($this->colorize('green', '  validate').' source_file              Validates a file for correctness.');
@@ -486,13 +467,8 @@ HELP
          * To avoid score collisions, each "score category" has a reasonable
          * space to accommodate elements. The $key is added to the $score to
          * preserve the original relative order of elements.
-         *
-         * @param int   $key
-         * @param array $array
-         *
-         * @return int
          */
-        $sortScore = function (int $key, array $array): ?int {
+        $sortScore = function (int $key, array $array): int {
             if ($array[$key] instanceof Component) {
                 // We want to encode VTIMEZONE first, this is a personal
                 // preference.

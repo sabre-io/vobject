@@ -57,14 +57,14 @@ class VEvent extends VObject\Component
             // recurrence instance exceeded the start of the requested
             // time-range.
             //
-            // If the starttime of the recurrence did not exceed the
+            // If the start time of the recurrence did not exceed the
             // end of the time range as well, we have a match.
             return $it->getDTStart() < $end && $it->getDTEnd() > $start;
         }
 
         $effectiveStart = $this->DTSTART->getDateTime($start->getTimezone());
         if (isset($this->DTEND)) {
-            // The DTEND property is considered non inclusive. So for a 3 day
+            // The DTEND property is considered non-inclusive. So for a 3-day
             // event in july, dtstart and dtend would have to be July 1st and
             // July 4th respectively.
             //

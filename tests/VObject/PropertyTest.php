@@ -281,7 +281,7 @@ class PropertyTest extends TestCase
         $property = $calendar->createProperty('X_*&PROP*', 'Bla');
         $result = $property->validate(Node::REPAIR);
 
-        $this->assertEquals('The propertyname: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed', $result[0]['message']);
+        $this->assertEquals('The property name: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed', $result[0]['message']);
         $this->assertEquals('X-PROP', $property->name);
     }
 

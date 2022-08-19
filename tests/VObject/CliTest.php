@@ -11,10 +11,9 @@ use PHPUnit\Framework\TestCase;
  */
 class CliTest extends TestCase
 {
-    /** @var CliMock */
-    private $cli;
+    private CliMock $cli;
 
-    private $sabreTempDir = __DIR__.'/../temp/';
+    private string $sabreTempDir = __DIR__.'/../temp/';
 
     public function setUp(): void
     {
@@ -27,7 +26,7 @@ class CliTest extends TestCase
         $this->cli->stdout = fopen('php://memory', 'r+');
     }
 
-    public function testInvalidArg()
+    public function testInvalidArg(): void
     {
         $this->assertEquals(
             1,
@@ -37,7 +36,7 @@ class CliTest extends TestCase
         $this->assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
     }
 
-    public function testQuiet()
+    public function testQuiet(): void
     {
         $this->assertEquals(
             1,
@@ -49,7 +48,7 @@ class CliTest extends TestCase
         $this->assertEquals(0, strlen(stream_get_contents($this->cli->stderr)));
     }
 
-    public function testHelp()
+    public function testHelp(): void
     {
         $this->assertEquals(
             0,
@@ -59,7 +58,7 @@ class CliTest extends TestCase
         $this->assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
     }
 
-    public function testFormat()
+    public function testFormat(): void
     {
         $this->assertEquals(
             1,
@@ -72,7 +71,7 @@ class CliTest extends TestCase
         $this->assertEquals('jcard', $this->cli->format);
     }
 
-    public function testFormatInvalid()
+    public function testFormatInvalid(): void
     {
         $this->assertEquals(
             1,
@@ -85,7 +84,7 @@ class CliTest extends TestCase
         $this->assertNull($this->cli->format);
     }
 
-    public function testInputFormatInvalid()
+    public function testInputFormatInvalid(): void
     {
         $this->assertEquals(
             1,
@@ -98,7 +97,7 @@ class CliTest extends TestCase
         $this->assertNull($this->cli->format);
     }
 
-    public function testNoInputFile()
+    public function testNoInputFile(): void
     {
         $this->assertEquals(
             1,
@@ -109,7 +108,7 @@ class CliTest extends TestCase
         $this->assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
     }
 
-    public function testTooManyArgs()
+    public function testTooManyArgs(): void
     {
         $this->assertEquals(
             1,
@@ -117,7 +116,7 @@ class CliTest extends TestCase
         );
     }
 
-    public function testUnknownCommand()
+    public function testUnknownCommand(): void
     {
         $this->assertEquals(
             1,
@@ -125,7 +124,7 @@ class CliTest extends TestCase
         );
     }
 
-    public function testConvertJson()
+    public function testConvertJson(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -152,7 +151,7 @@ ICS
         );
     }
 
-    public function testConvertJCardPretty()
+    public function testConvertJCardPretty(): void
     {
         if (version_compare(PHP_VERSION, '5.4.0') < 0) {
             $this->markTestSkipped('This test required PHP 5.4.0');
@@ -193,7 +192,7 @@ JCARD;
         );
     }
 
-    public function testConvertJCalFail()
+    public function testConvertJCalFail(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -213,7 +212,7 @@ ICS
         );
     }
 
-    public function testConvertMimeDir()
+    public function testConvertMimeDir(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -273,7 +272,7 @@ VCF;
         );
     }
 
-    public function testConvertDefaultFormats()
+    public function testConvertDefaultFormats(): void
     {
         $outputFile = $this->sabreTempDir.'bar.json';
 
@@ -286,7 +285,7 @@ VCF;
         $this->assertEquals('json', $this->cli->format);
     }
 
-    public function testConvertDefaultFormats2()
+    public function testConvertDefaultFormats2(): void
     {
         $outputFile = $this->sabreTempDir.'bar.ics';
 
@@ -299,7 +298,7 @@ VCF;
         $this->assertEquals('mimedir', $this->cli->format);
     }
 
-    public function testVCard3040()
+    public function testVCard3040(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -338,7 +337,7 @@ VCF;
         );
     }
 
-    public function testVCard4030()
+    public function testVCard4030(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -377,7 +376,7 @@ VCF;
         );
     }
 
-    public function testVCard4021()
+    public function testVCard4021(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -399,7 +398,7 @@ VCARD
         );
     }
 
-    public function testValidate()
+    public function testValidate(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -423,7 +422,7 @@ VCARD
         );
     }
 
-    public function testValidateFail()
+    public function testValidateFail(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -443,7 +442,7 @@ VCARD
         );
     }
 
-    public function testValidateFail2()
+    public function testValidateFail2(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -463,7 +462,7 @@ VCARD
         );
     }
 
-    public function testRepair()
+    public function testRepair(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -485,16 +484,10 @@ VCARD
         rewind($this->cli->stdout);
         $regularExpression = "/^BEGIN:VCARD\r\nVERSION:2.1\r\nUID:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\r\nEND:VCARD\r\n$/";
         $data = stream_get_contents($this->cli->stdout);
-        // ToDo: when we do not need to run phpunit 7 or 8, remove this 'if' block and just use
-        //       the new assertMatchesRegularExpression that exists since phpunit 9.
-        if (method_exists($this, 'assertMatchesRegularExpression')) {
-            $this->assertMatchesRegularExpression($regularExpression, $data);
-        } else {
-            $this->assertRegExp($regularExpression, $data);
-        }
+        $this->assertMatchesRegularExpression($regularExpression, $data);
     }
 
-    public function testRepairNothing()
+    public function testRepairNothing(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -532,7 +525,7 @@ VCARD
      *
      * The colorizer is not a critical component, it's mostly a debugging tool.
      */
-    public function testColorCalendar()
+    public function testColorCalendar(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -578,7 +571,7 @@ VCARD
      *
      * The colorizer is not a critical component, it's mostly a debugging tool.
      */
-    public function testColorVCard()
+    public function testColorVCard(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
@@ -616,19 +609,32 @@ VCARD
 
 class CliMock extends Cli
 {
-    public $quiet = false;
+    public bool $quiet = false;
 
-    public $format;
+    public ?string $format = null;
 
-    public $pretty;
+    public bool $pretty = false;
 
+    /**
+     * stdin.
+     *
+     * @var resource
+     */
     public $stdin;
 
+    /**
+     * output stream.
+     *
+     * @var resource
+     */
     public $stdout;
 
+    /**
+     * stderr.
+     *
+     * @var resource
+     */
     public $stderr;
 
-    public $inputFormat;
-
-    public $outputFormat;
+    public ?string $inputFormat = null;
 }

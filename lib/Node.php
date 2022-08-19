@@ -81,10 +81,8 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      *
      * It's intended to remove all circular references, so PHP can easily clean
      * it up.
-     *
-     * @return void
      */
-    public function destroy()
+    public function destroy(): void
     {
         $this->parent = null;
         $this->root = null;
@@ -200,7 +198,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * @param mixed $value
      */
     #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $iterator = $this->getIterator();
         $iterator->offsetSet($offset, $value);
@@ -221,7 +219,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * @param int $offset
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $iterator = $this->getIterator();
         $iterator->offsetUnset($offset);

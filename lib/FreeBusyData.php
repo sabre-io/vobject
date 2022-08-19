@@ -13,26 +13,20 @@ class FreeBusyData
 {
     /**
      * Start timestamp.
-     *
-     * @var int
      */
-    protected $start;
+    protected int $start;
 
     /**
      * End timestamp.
-     *
-     * @var int
      */
-    protected $end;
+    protected int $end;
 
     /**
      * A list of free-busy times.
-     *
-     * @var array
      */
-    protected $data;
+    protected array $data;
 
-    public function __construct($start, $end)
+    public function __construct(int $start, int $end)
     {
         $this->start = $start;
         $this->end = $end;
@@ -46,16 +40,14 @@ class FreeBusyData
     }
 
     /**
-     * Adds free or busytime to the data.
+     * Adds free or busy time to the data.
      *
      * @param string $type FREE, BUSY, BUSY-UNAVAILABLE or BUSY-TENTATIVE
-     *
-     * @return void
      */
-    public function add(int $start, int $end, string $type)
+    public function add(int $start, int $end, string $type): void
     {
         if ($start > $this->end || $end < $this->start) {
-            // This new data is outside our timerange.
+            // This new data is outside our time range.
             return;
         }
 

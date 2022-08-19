@@ -65,11 +65,9 @@ class VCardConverter
     /**
      * Handles conversion of a single property.
      *
-     * @return void
-     *
      * @throws InvalidDataException
      */
-    protected function convertProperty(Component\VCard $input, Component\VCard $output, Property $property, int $targetVersion)
+    protected function convertProperty(Component\VCard $input, Component\VCard $output, Property $property, int $targetVersion): void
     {
         // Skipping these, those are automatically added.
         if (in_array($property->name, ['VERSION', 'PRODID'])) {
@@ -103,9 +101,9 @@ class VCardConverter
                 // In vCard 4, the birth year may be optional. This is not the
                 // case for vCard 3. Apple has a workaround for this that
                 // allows applications that support Apple's extension still
-                // omit birthyears in vCard 3, but applications that do not
-                // support this, will just use a random birthyear. We're
-                // choosing 1604 for the birthyear, because that's what apple
+                // omit birth years in vCard 3, but applications that do not
+                // support this, will just use a random birth year. We're
+                // choosing 1604 for the birth year, because that's what apple
                 // uses.
                 $parts = DateTimeParser::parseVCardDateTime($property->getValue());
                 if (is_null($parts['year'])) {

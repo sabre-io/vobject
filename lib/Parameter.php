@@ -226,8 +226,8 @@ class Parameter extends Node
     /**
      * Checks if this parameter contains the specified value.
      *
-     * This is a case-insensitive match. It makes sense to call this for for
-     * instance the TYPE parameter, to see if it contains a keyword such as
+     * This is a case-insensitive match. It makes sense to call this for
+     * the TYPE parameter, for instance, to see if it contains a keyword such as
      * 'WORK' or 'FAX'.
      */
     public function has(string $value): bool
