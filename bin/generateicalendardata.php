@@ -18,7 +18,7 @@ The iCalendar output goes to stdout. Other messages to stderr.
 
 HI
     );
-    exit();
+    exit;
 }
 
 $events = 100;

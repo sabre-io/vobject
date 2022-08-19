@@ -217,7 +217,7 @@ class VCardConverter
                     }
                     $newProperty->name = 'ANNIVERSARY';
                     break;
-                // Apple's per-property label system.
+                    // Apple's per-property label system.
                 case 'X-ABLABEL':
                     if ('_$!<Anniversary>!$_' === $newProperty->getValue()) {
                         // We can safely remove these, as they are converted to
@@ -377,7 +377,7 @@ class VCardConverter
                         }
                     }
                     break;
-                // These no longer exist in vCard 4
+                    // These no longer exist in vCard 4
                 case 'ENCODING':
                 case 'CHARSET':
                     break;
@@ -410,11 +410,11 @@ class VCardConverter
                     }
                     break;
 
-                /*
-                 * Converting PREF=1 to TYPE=PREF.
-                 *
-                 * Any other PREF numbers we'll drop.
-                 */
+                    /*
+                     * Converting PREF=1 to TYPE=PREF.
+                     *
+                     * Any other PREF numbers we'll drop.
+                     */
                 case 'PREF':
                     if ('1' == $param->getValue()) {
                         $newProperty->add('TYPE', 'PREF');

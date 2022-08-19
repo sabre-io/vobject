@@ -207,8 +207,8 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
 
         // @codeCoverageIgnoreStart
     //
-    // This method always throws an exception, so we ignore the closing
-    // brace
+        // This method always throws an exception, so we ignore the closing
+        // brace
     }
 
     // @codeCoverageIgnoreEnd
@@ -228,8 +228,8 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
 
         // @codeCoverageIgnoreStart
     //
-    // This method always throws an exception, so we ignore the closing
-    // brace
+        // This method always throws an exception, so we ignore the closing
+        // brace
     }
 
     // @codeCoverageIgnoreEnd

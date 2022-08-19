@@ -305,18 +305,18 @@ class FreeBusyGenerator
                 foreach ($vavail->AVAILABLE as $available) {
                     list($availStart, $availEnd) = $available->getEffectiveStartEnd();
                     $fbData->add(
-                    $availStart->getTimeStamp(),
-                    $availEnd->getTimeStamp(),
-                    'FREE'
-                );
+                        $availStart->getTimeStamp(),
+                        $availEnd->getTimeStamp(),
+                        'FREE'
+                    );
 
                     if ($available->RRULE) {
                         // Our favourite thing: recurrence!!
 
                         $rruleIterator = new Recur\RRuleIterator(
-                        $available->RRULE->getValue(),
-                        $availStart
-                    );
+                            $available->RRULE->getValue(),
+                            $availStart
+                        );
                         $rruleIterator->fastForward($vavailStart);
 
                         $startEndDiff = $availStart->diff($availEnd);
@@ -337,10 +337,10 @@ class FreeBusyGenerator
                             }
 
                             $fbData->add(
-                            $recurStart->getTimeStamp(),
-                            $recurEnd->getTimeStamp(),
-                            'FREE'
-                        );
+                                $recurStart->getTimeStamp(),
+                                $recurEnd->getTimeStamp(),
+                                'FREE'
+                            );
 
                             $rruleIterator->next();
                         }

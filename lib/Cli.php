@@ -131,15 +131,15 @@ class Cli
                             // jcard/jcal documents
                             case 'jcard':
                             case 'jcal':
-                            // specific document versions
+                                // specific document versions
                             case 'vcard21':
                             case 'vcard30':
                             case 'vcard40':
                             case 'icalendar20':
-                            // specific formats
+                                // specific formats
                             case 'json':
                             case 'mimedir':
-                            // icalendar/vcad
+                                // icalendar/vcad
                             case 'icalendar':
                             case 'vcard':
                                 $this->format = $value;
@@ -166,7 +166,7 @@ class Cli
                                 $this->inputFormat = 'json';
                                 break;
 
-                            // mimedir formats
+                                // mimedir formats
                             case 'mimedir':
                             case 'icalendar':
                             case 'vcard':
@@ -281,7 +281,7 @@ class Cli
         $this->log($this->colorize('green', '  convert').' source_file [output_file] Converts a file.');
         $this->log($this->colorize('green', '  color').' source_file                 Colorize a file, useful for debugging.');
         $this->log(
-        <<<HELP
+            <<<HELP
 
 If source_file is set as '-', STDIN will be used.
 If output_file is omitted, STDOUT will be used.
@@ -659,9 +659,9 @@ HELP
             }
 
             if ('mimedir' === $this->inputFormat) {
-                $this->parser = new MimeDir($this->stdin, ($this->forgiving ? Reader::OPTION_FORGIVING : 0));
+                $this->parser = new MimeDir($this->stdin, $this->forgiving ? Reader::OPTION_FORGIVING : 0);
             } else {
-                $this->parser = new Json($this->stdin, ($this->forgiving ? Reader::OPTION_FORGIVING : 0));
+                $this->parser = new Json($this->stdin, $this->forgiving ? Reader::OPTION_FORGIVING : 0);
             }
         }
 

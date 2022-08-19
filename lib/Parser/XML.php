@@ -343,9 +343,9 @@ class XML extends Parser
      *
      * @param resource|string|array $input
      *
-     * @throws SabreXml\LibXMLException
-     *
      * @return void
+     *
+     * @throws SabreXml\LibXMLException
      */
     public function setInput($input)
     {

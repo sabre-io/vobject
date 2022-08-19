@@ -373,7 +373,7 @@ class PropertyTest extends TestCase
         $this->assertEquals('ENCODING=BASE64 is not valid for this document type.', $result[0]['message']);
         $this->assertEquals(3, $result[0]['level']);
 
-        //Validate the reparation of BASE64 formatted vCard v3
+        // Validate the reparation of BASE64 formatted vCard v3
         $result = $property->validate(Property::REPAIR);
 
         $this->assertEquals('ENCODING=BASE64 has been transformed to ENCODING=B.', $result[0]['message']);

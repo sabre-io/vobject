@@ -31,7 +31,7 @@ class RRuleIterator implements Iterator
      * we want to iterate. The value is a unix timestamp and currently
      * corresponds to the datetime 9999-12-31 11:59:59 UTC.
      */
-    const dateUpperLimit = 253402300799;
+    public const dateUpperLimit = 253402300799;
 
     /**
      * Creates the Iterator.

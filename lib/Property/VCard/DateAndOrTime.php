@@ -261,7 +261,7 @@ class DateAndOrTime extends Property
                 $value .= '---'.$r('date');
             }
 
-            // # 4.3.2
+        // # 4.3.2
         // value-time = element time {
         //     xsd:string { pattern = "(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d?)|--\d\d)"
         //                          ~ "(Z|[+\-]\d\d(\d\d)?)?" }

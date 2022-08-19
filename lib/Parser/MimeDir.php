@@ -4,10 +4,15 @@ namespace Sabre\VObject\Parser;
 
 use function feof;
 use function fgets;
+
 use InvalidArgumentException;
+
 use function is_null;
+
 use LogicException;
+
 use function rtrim;
+
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
@@ -17,6 +22,7 @@ use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Node;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Property;
+
 use function substr;
 
 /**
@@ -361,7 +367,7 @@ class MimeDir extends Parser
             ) (?=[;:,])
             /xi";
 
-        //echo $regex, "\n"; exit();
+        // echo $regex, "\n"; exit();
         preg_match_all($regex, $line, $matches, PREG_SET_ORDER);
 
         $property = [
@@ -640,9 +646,9 @@ class MimeDir extends Parser
                         case '\'':
                             return '"';
 
-                    // @codeCoverageIgnoreStart
+                            // @codeCoverageIgnoreStart
                     }
-                    // @codeCoverageIgnoreEnd
+                // @codeCoverageIgnoreEnd
                 },
                 $input
             );

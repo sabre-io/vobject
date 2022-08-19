@@ -126,7 +126,7 @@ VCAL;
     {
         // UID and DTSTAMP are present.
         $this->assertIsValid(Reader::read(
-<<<VCAL
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -140,7 +140,7 @@ VCAL
 
         // UID and DTSTAMP are missing.
         $this->assertIsNotValid(Reader::read(
-<<<VCAL
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -152,7 +152,7 @@ VCAL
 
         // DTSTAMP is missing.
         $this->assertIsNotValid(Reader::read(
-<<<VCAL
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -165,7 +165,7 @@ VCAL
 
         // UID is missing.
         $this->assertIsNotValid(Reader::read(
-<<<VCAL
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -243,7 +243,7 @@ VCAL;
     {
         // UID, DTSTAMP and DTSTART are present.
         $this->assertIsValid(Reader::read(
-<<<VCAL
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -262,7 +262,7 @@ VCAL
 
         // UID, DTSTAMP and DTSTART are missing.
         $this->assertIsNotValid(Reader::read(
-<<<VCAL
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -278,7 +278,7 @@ VCAL
 
         // UID is missing.
         $this->assertIsNotValid(Reader::read(
-<<<VCAL
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -296,7 +296,7 @@ VCAL
 
         // DTSTAMP is missing.
         $this->assertIsNotValid(Reader::read(
-<<<VCAL
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -314,7 +314,7 @@ VCAL
 
         // DTSTART is missing.
         $this->assertIsNotValid(Reader::read(
-<<<VCAL
+            <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//id
@@ -438,7 +438,7 @@ DTSTAMP:20111005T133225Z
 END:VAVAILABILITY
 END:VCALENDAR
 VCAL
-,
+            ,
             $properties
         );
     }
@@ -462,7 +462,7 @@ END:AVAILABLE
 END:VAVAILABILITY
 END:VCALENDAR
 VCAL
-,
+            ,
             $properties
         );
     }

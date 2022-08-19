@@ -42,7 +42,7 @@ class Recur extends Property
     public function setValue($value): void
     {
         // If we're getting the data from json, we'll be receiving an object
-        if ($value instanceof \StdClass) {
+        if ($value instanceof \stdClass) {
             $value = (array) $value;
         }
 

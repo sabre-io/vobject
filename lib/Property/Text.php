@@ -9,12 +9,14 @@ use function implode;
 use function is_null;
 use function ord;
 use function preg_replace;
+
 use Sabre\VObject\Component;
 use Sabre\VObject\Document;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Parser\MimeDir;
 use Sabre\VObject\Property;
 use Sabre\Xml;
+
 use function str_replace;
 use function strlen;
 use function strpos;

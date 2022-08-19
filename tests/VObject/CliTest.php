@@ -135,7 +135,7 @@ VERSION:3.0
 FN:Cowboy Henk
 END:VCARD
 ICS
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -166,7 +166,7 @@ VERSION:3.0
 FN:Cowboy Henk
 END:VCARD
 ICS
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -203,7 +203,7 @@ VERSION:3.0
 FN:Cowboy Henk
 END:VCARD
 ICS
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -248,7 +248,7 @@ ICS
     ]
 ]
 JCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -311,7 +311,7 @@ FN:Cowboy Henk
 END:VCARD
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -350,7 +350,7 @@ FN:Cowboy Henk
 END:VCARD
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -389,7 +389,7 @@ FN:Cowboy Henk
 END:VCARD
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -412,7 +412,7 @@ FN:Cowboy Henk
 END:VCARD
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
         $result = $this->cli->main(['vobject', 'validate', '-']);
@@ -433,7 +433,7 @@ VERSION:2.0
 END:VCARD
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
         // vCard 2.0 is not supported yet, so this returns a failure.
@@ -453,7 +453,7 @@ VERSION:5.0
 END:VCALENDAR
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -473,7 +473,7 @@ VERSION:5.0
 END:VCARD
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -510,7 +510,7 @@ END:VEVENT
 END:VCALENDAR
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -556,7 +556,7 @@ END:VEVENT
 END:VCALENDAR
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
@@ -597,7 +597,7 @@ group.TEL:123454768
 END:VCARD
 
 VCARD
-    );
+        );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 

@@ -3,8 +3,11 @@
 namespace Sabre\VObject;
 
 use Exception;
+
 use function preg_replace;
+
 use Sabre\Xml;
+
 use function substr;
 
 /**
@@ -546,7 +549,7 @@ abstract class Property extends Node
                         break;
                     case Document::VCARD30:
                         $allowedEncoding = ['B'];
-                        //Repair vCard30 that use BASE64 encoding
+                        // Repair vCard30 that use BASE64 encoding
                         if ($options & self::REPAIR) {
                             if ('BASE64' === strtoupper($encoding)) {
                                 $encoding = 'B';

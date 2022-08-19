@@ -148,9 +148,9 @@ class DateTime extends Property
      * property or floating time, we will use the DateTimeZone argument to
      * figure out the exact date.
      *
-     * @throws InvalidDataException
-     *
      * @return DateInterval[]|DateTimeImmutable[]
+     *
+     * @throws InvalidDataException
      */
     public function getDateTimes(DateTimeZone $timeZone = null): array
     {

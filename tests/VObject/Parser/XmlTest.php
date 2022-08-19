@@ -12,7 +12,7 @@ class XmlTest extends TestCase
     public function testRFC6321Example1()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -48,7 +48,7 @@ class XmlTest extends TestCase
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             // VERSION comes first because this is required by vCard 4.0.
             'VERSION:2.0'."\n".
@@ -265,13 +265,13 @@ XML;
     public function testRFC6321Section3Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar/>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'END:VCALENDAR'."\n"
         );
@@ -283,7 +283,7 @@ XML
     public function testRFC6321Section3Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -300,7 +300,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'BEGIN:VTIMEZONE'."\n".
             'END:VTIMEZONE'."\n".
@@ -328,7 +328,7 @@ XML
     public function testRFC6321Section3Part4Part1Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -341,7 +341,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'GEO:37.386013;-122.082932'."\n".
             'END:VCALENDAR'."\n"
@@ -355,7 +355,7 @@ XML
     {
         // Example 1 of RFC5545, Section 3.8.8.3.
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -368,7 +368,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'REQUEST-STATUS:2.0;Success'."\n".
             'END:VCALENDAR'."\n"
@@ -376,7 +376,7 @@ XML
 
         // Example 2 of RFC5545, Section 3.8.8.3.
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -390,7 +390,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'REQUEST-STATUS:3.1;Invalid property value;DTSTART:96-Apr-01'."\n".
             'END:VCALENDAR'."\n"
@@ -398,7 +398,7 @@ XML
 
         // Example 3 of RFC5545, Section 3.8.8.3.
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -412,7 +412,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'REQUEST-STATUS:2.8;Success\, repeating event ignored. Scheduled as a single'."\n".
             '  event.;RRULE:FREQ=WEEKLY\;INTERVAL=2'."\n".
@@ -421,7 +421,7 @@ XML
 
         // Example 4 of RFC5545, Section 3.8.8.3.
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -434,7 +434,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'REQUEST-STATUS:4.1;Event conflict.  Date-time is busy.'."\n".
             'END:VCALENDAR'."\n"
@@ -442,7 +442,7 @@ XML
 
         // Example 5 of RFC5545, Section 3.8.8.3.
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -456,7 +456,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'REQUEST-STATUS:3.7;Invalid calendar user;ATTENDEE:mailto:jsmith@example.com'."\n".
             'END:VCALENDAR'."\n"
@@ -469,7 +469,7 @@ XML
     public function testRFC6321Section3Part6Part1()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -481,7 +481,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'ATTACH:SGVsbG8gV29ybGQh'."\n".
             'END:VCALENDAR'."\n"
@@ -489,7 +489,7 @@ XML
 
         // In vCard 4, BINARY no longer exists and is replaced by URI.
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -501,7 +501,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'ATTACH:SGVsbG8gV29ybGQh'."\n".
             'END:VCALENDAR'."\n"
@@ -514,7 +514,7 @@ XML
     public function testRFC6321Section3Part6Part2()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -529,7 +529,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'ATTENDEE;RSVP=true:mailto:cyrus@example.com'."\n".
             'END:VCALENDAR'."\n"
@@ -542,7 +542,7 @@ XML
     public function testRFC6321Section3Part6Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -554,7 +554,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'ATTENDEE:mailto:cyrus@example.com'."\n".
             'END:VCALENDAR'."\n"
@@ -567,7 +567,7 @@ XML
     public function testRFC6321Section3Part6Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -579,7 +579,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'DTSTART;VALUE=DATE:20110517'."\n".
             'END:VCALENDAR'."\n"
@@ -592,7 +592,7 @@ XML
     public function testRFC6321Section3Part6Part5()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -604,7 +604,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'DTSTART:20110517T120000'."\n".
             'END:VCALENDAR'."\n"
@@ -617,7 +617,7 @@ XML
     public function testRFC6321Section3Part6Part6()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -629,7 +629,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'DURATION:P1D'."\n".
             'END:VCALENDAR'."\n"
@@ -651,7 +651,7 @@ XML
     public function testRFC6321Section3Part6Part8()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -663,14 +663,14 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'FOO:42'."\n".
             'END:VCALENDAR'."\n"
         );
 
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -682,7 +682,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'FOO:-42'."\n".
             'END:VCALENDAR'."\n"
@@ -695,7 +695,7 @@ XML
     public function testRFC6321Section3Part6Part9()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -710,14 +710,14 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'FREEBUSY:20110517T120000/P1H'."\n".
             'END:VCALENDAR'."\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -732,7 +732,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'FREEBUSY:20110517T120000/20120517T120000'."\n".
             'END:VCALENDAR'."\n"
@@ -745,7 +745,7 @@ XML
     public function testRFC6321Section3Part6Part10()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -762,7 +762,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'RRULE:FREQ=YEARLY;COUNT=5;BYDAY=-1SU;BYMONTH=10'."\n".
             'END:VCALENDAR'."\n"
@@ -775,7 +775,7 @@ XML
     public function testRFC6321Section3Part6Part11()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -787,7 +787,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'CALSCALE:GREGORIAN'."\n".
             'END:VCALENDAR'."\n"
@@ -800,7 +800,7 @@ XML
     public function testRFC6321Section3Part6Part12()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -812,7 +812,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'FOO:120000'."\n".
             'END:VCALENDAR'."\n"
@@ -825,7 +825,7 @@ XML
     public function testRFC6321Section3Part6Part13()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -837,7 +837,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'ATTACH:http://calendar.example.com'."\n".
             'END:VCALENDAR'."\n"
@@ -851,7 +851,7 @@ XML
     {
         // Example 1 of RFC5545, Section 3.3.14.
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -863,7 +863,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'TZOFFSETFROM:-0500'."\n".
             'END:VCALENDAR'."\n"
@@ -871,7 +871,7 @@ XML
 
         // Example 2 of RFC5545, Section 3.3.14.
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -883,7 +883,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'TZOFFSETFROM:+0100'."\n".
             'END:VCALENDAR'."\n"
@@ -896,7 +896,7 @@ XML
     public function testRFC6321Section5()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -908,14 +908,14 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'X-PROPERTY:20110512T120000Z'."\n".
             'END:VCALENDAR'."\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -932,7 +932,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'DTSTART;X-PARAM=PT30M:20110512T130000Z'."\n".
             'END:VCALENDAR'."\n"
@@ -942,7 +942,7 @@ XML
     public function testRDateWithDateTime()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -954,14 +954,14 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'RDATE:20080205T191224Z'."\n".
             'END:VCALENDAR'."\n"
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -974,7 +974,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'RDATE:20080205T191224Z,20090205T191224Z'."\n".
             'END:VCALENDAR'."\n"
@@ -984,7 +984,7 @@ XML
     public function testRDateWithDate()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -996,14 +996,14 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'RDATE:20081006'."\n".
             'END:VCALENDAR'."\n"
         );
 
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -1017,7 +1017,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'RDATE:20081006,20091006,20101006'."\n".
             'END:VCALENDAR'."\n"
@@ -1027,7 +1027,7 @@ XML
     public function testRDateWithPeriod()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -1047,14 +1047,14 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H'."\n".
             'END:VCALENDAR'."\n"
         );
 
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0">
  <vcalendar>
@@ -1078,7 +1078,7 @@ XML
  </vcalendar>
 </icalendar>
 XML
-,
+            ,
             'BEGIN:VCALENDAR'."\n".
             'RDATE;TZID=US/Eastern;VALUE=PERIOD:20060102T150000/PT2H,20080102T150000/PT1'."\n".
             ' H'."\n".
@@ -1092,7 +1092,7 @@ XML
     public function testRFC6351Basic()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1109,7 +1109,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'FN:J. Doe'."\n".
@@ -1124,7 +1124,7 @@ XML
     public function testRFC6351Example1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1150,7 +1150,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'FN:J. Doe'."\n".
@@ -1168,7 +1168,7 @@ XML
     public function testRFC6351Section5()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1184,7 +1184,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'TEL;TYPE="voice,video":tel:+1-555-555-555'."\n".
@@ -1192,7 +1192,7 @@ XML
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1208,7 +1208,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'TEL;TYPE="voice,video":tel:+1-555-555-555'."\n".
@@ -1222,7 +1222,7 @@ XML
     public function testRFC6351Section5Group()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1245,7 +1245,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'TEL:tel:+1-555-555-556'."\n".
@@ -1262,7 +1262,7 @@ XML
     public function testRFC6351Section5Part1NoNamespace()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1277,7 +1277,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'X-MY-PROP;PREF=1:value goes here'."\n".
@@ -1291,7 +1291,7 @@ XML
     public function testRFC6351ValueDateWithYearMonthDay()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1301,7 +1301,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:20150128'."\n".
@@ -1315,7 +1315,7 @@ XML
     public function testRFC6351ValueDateWithYearMonth()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1325,7 +1325,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:2015-01'."\n".
@@ -1339,7 +1339,7 @@ XML
     public function testRFC6351ValueDateWithMonth()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1349,7 +1349,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:--01'."\n".
@@ -1363,7 +1363,7 @@ XML
     public function testRFC6351ValueDateWithMonthDay()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1373,7 +1373,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:--0128'."\n".
@@ -1387,7 +1387,7 @@ XML
     public function testRFC6351ValueDateWithDay()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1397,7 +1397,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:---28'."\n".
@@ -1411,7 +1411,7 @@ XML
     public function testRFC6351ValueTimeWithHour()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1421,7 +1421,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:13'."\n".
@@ -1435,7 +1435,7 @@ XML
     public function testRFC6351ValueTimeWithHourMinute()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1445,7 +1445,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:1353'."\n".
@@ -1459,7 +1459,7 @@ XML
     public function testRFC6351ValueTimeWithHourMinuteSecond()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1469,7 +1469,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:135301'."\n".
@@ -1483,7 +1483,7 @@ XML
     public function testRFC6351ValueTimeWithMinute()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1493,7 +1493,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:-53'."\n".
@@ -1507,7 +1507,7 @@ XML
     public function testRFC6351ValueTimeWithMinuteSecond()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1517,7 +1517,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:-5301'."\n".
@@ -1564,7 +1564,7 @@ XML
     public function testRFC6351ValueTimeWithSecondZ()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1574,7 +1574,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:--01Z'."\n".
@@ -1588,7 +1588,7 @@ XML
     public function testRFC6351ValueTimeWithSecondTZ()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1598,7 +1598,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:--01+1234'."\n".
@@ -1612,7 +1612,7 @@ XML
     public function testRFC6351ValueDateTimeWithYearMonthDayHour()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1622,7 +1622,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:20150128T13'."\n".
@@ -1636,7 +1636,7 @@ XML
     public function testRFC6351ValueDateTimeWithMonthDayHour()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1646,7 +1646,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:--0128T13'."\n".
@@ -1660,7 +1660,7 @@ XML
     public function testRFC6351ValueDateTimeWithDayHour()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1670,7 +1670,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:---28T13'."\n".
@@ -1684,7 +1684,7 @@ XML
     public function testRFC6351ValueDateTimeWithDayHourMinute()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1694,7 +1694,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:---28T1353'."\n".
@@ -1708,7 +1708,7 @@ XML
     public function testRFC6351ValueDateTimeWithDayHourMinuteSecond()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1718,7 +1718,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:---28T135301'."\n".
@@ -1732,7 +1732,7 @@ XML
     public function testRFC6351ValueDateTimeWithDayHourZ()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1742,7 +1742,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:---28T13Z'."\n".
@@ -1756,7 +1756,7 @@ XML
     public function testRFC6351ValueDateTimeWithDayHourTZ()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1766,7 +1766,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:---28T13+1234'."\n".
@@ -1780,7 +1780,7 @@ XML
     public function testRFC6350Section6Part1Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1790,7 +1790,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'SOURCE:ldap://ldap.example.com/cn=Babs%20Jensen\,%20o=Babsco\,%20c=US'."\n".
@@ -1804,7 +1804,7 @@ XML
     public function testRFC6350Section6Part1Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1814,7 +1814,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'KIND:individual'."\n".
@@ -1828,7 +1828,7 @@ XML
     public function testRFC6350Section6Part2Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1838,7 +1838,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'FN:Mr. John Q. Public\, Esq.'."\n".
@@ -1852,7 +1852,7 @@ XML
     public function testRFC6350Section6Part2Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1866,7 +1866,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'N:Stevenson;John;Philip\,Paul;Dr.;Jr.\,M.D.\,A.C.P.'."\n".
@@ -1880,7 +1880,7 @@ XML
     public function testRFC6350Section6Part2Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1891,7 +1891,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'NICKNAME:Jim,Jimmie'."\n".
@@ -1905,7 +1905,7 @@ XML
     public function testRFC6350Section6Part2Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1915,7 +1915,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'PHOTO:http://www.example.com/pub/photos/jqpublic.gif'."\n".
@@ -1926,7 +1926,7 @@ XML
     public function testRFC6350Section6Part2Part5()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1936,7 +1936,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'BDAY:19531015T231000Z'."\n".
@@ -1947,7 +1947,7 @@ XML
     public function testRFC6350Section6Part2Part6()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1957,7 +1957,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'ANNIVERSARY:19960415'."\n".
@@ -1971,7 +1971,7 @@ XML
     public function testRFC6350Section6Part2Part7()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -1982,7 +1982,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'GENDER:Jim;Jimmie'."\n".
@@ -1996,7 +1996,7 @@ XML
     public function testRFC6350Section6Part3Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2012,7 +2012,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'ADR:;;123 Main Street;Any Town;CA;91921-1234;U.S.A.'."\n".
@@ -2036,7 +2036,7 @@ XML
          * Then, we test xCard/TEXT to vCard/TEXT to xCard/TEXT.
          */
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2051,7 +2051,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'TEL;TYPE=home:tel:+33-01-23-45-67'."\n".
@@ -2059,7 +2059,7 @@ XML
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2074,7 +2074,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'TEL;TYPE=home:tel:+33-01-23-45-67'."\n".
@@ -2088,7 +2088,7 @@ XML
     public function testRFC6350Section6Part4Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2103,7 +2103,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'EMAIL;TYPE=work:jqpublic@xyz.example.com'."\n".
@@ -2117,7 +2117,7 @@ XML
     public function testRFC6350Section6Part4Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2132,7 +2132,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'IMPP;PREF=1:xmpp:alice@example.com'."\n".
@@ -2146,7 +2146,7 @@ XML
     public function testRFC6350Section6Part4Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2164,7 +2164,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'LANG;TYPE=work;PREF=2:en'."\n".
@@ -2178,7 +2178,7 @@ XML
     public function testRFC6350Section6Part5Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2188,7 +2188,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'TZ:Raleigh/North America'."\n".
@@ -2202,7 +2202,7 @@ XML
     public function testRFC6350Section6Part5Part2()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2212,7 +2212,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'GEO:geo:37.386013\,-122.082932'."\n".
@@ -2220,7 +2220,7 @@ XML
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2230,7 +2230,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'GEO:geo:37.386013\,-122.082932'."\n".
@@ -2244,7 +2244,7 @@ XML
     public function testRFC6350Section6Part6Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2254,7 +2254,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'TITLE:Research Scientist'."\n".
@@ -2268,7 +2268,7 @@ XML
     public function testRFC6350Section6Part6Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2278,7 +2278,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'ROLE:Project Leader'."\n".
@@ -2292,7 +2292,7 @@ XML
     public function testRFC6350Section6Part6Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2302,7 +2302,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'LOGO:http://www.example.com/pub/logos/abccorp.jpg'."\n".
@@ -2316,7 +2316,7 @@ XML
     public function testRFC6350Section6Part6Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2328,7 +2328,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'ORG:ABC\, Inc.;North American Division;Marketing'."\n".
@@ -2342,7 +2342,7 @@ XML
     public function testRFC6350Section6Part6Part5()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2352,7 +2352,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'MEMBER:urn:uuid:03a0e51f-d1aa-4385-8a53-e29025acd8af'."\n".
@@ -2360,7 +2360,7 @@ XML
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2379,7 +2379,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'MEMBER:mailto:subscriber1@example.com'."\n".
@@ -2396,7 +2396,7 @@ XML
     public function testRFC6350Section6Part6Part6()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2411,7 +2411,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'RELATED;TYPE=friend:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6'."\n".
@@ -2425,7 +2425,7 @@ XML
     public function testRFC6350Section6Part7Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2438,7 +2438,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'CATEGORIES:INTERNET,IETF,INDUSTRY,INFORMATION TECHNOLOGY'."\n".
@@ -2452,7 +2452,7 @@ XML
     public function testRFC6350Section6Part7Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2462,7 +2462,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'NOTE:Foo\, bar'."\n".
@@ -2476,7 +2476,7 @@ XML
     public function testRFC6350Section6Part7Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2486,7 +2486,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'PRODID:-//ONLINE DIRECTORY//NONSGML Version 1//EN'."\n".
@@ -2497,7 +2497,7 @@ XML
     public function testRFC6350Section6Part7Part4()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2507,7 +2507,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'REV:19951031T222710Z'."\n".
@@ -2521,7 +2521,7 @@ XML
     public function testRFC6350Section6Part7Part5()
     {
         $this->assertXMLEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2531,7 +2531,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com'."\n".
@@ -2539,7 +2539,7 @@ XML
         );
 
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2549,7 +2549,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'SOUND:CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com'."\n".
@@ -2563,7 +2563,7 @@ XML
     public function testRFC6350Section6Part7Part6()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2573,7 +2573,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'UID:urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6'."\n".
@@ -2587,7 +2587,7 @@ XML
     public function testRFC6350Section6Part7Part7()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2598,7 +2598,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'CLIENTPIDMAP:1;urn:uuid:3df403f4-5924-4bb7-b077-3c711d9eb34b'."\n".
@@ -2612,7 +2612,7 @@ XML
     public function testRFC6350Section6Part7Part8()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2622,7 +2622,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'URL:http://example.org/restaurant.french/~chezchic.html'."\n".
@@ -2636,13 +2636,13 @@ XML
     public function testRFC6350Section6Part7Part9()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard/>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'END:VCARD'."\n"
@@ -2655,7 +2655,7 @@ XML
     public function testRFC6350Section6Part8Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2670,7 +2670,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'KEY;MEDIATYPE=application/pgp-keys:ftp://example.com/keys/jdoe'."\n".
@@ -2684,7 +2684,7 @@ XML
     public function testRFC6350Section6Part9Part1()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2699,7 +2699,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'FBURL;PREF=1:http://www.example.com/busy/janedoe'."\n".
@@ -2713,7 +2713,7 @@ XML
     public function testRFC6350Section6Part9Part2()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2723,7 +2723,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'CALADRURI:http://example.com/calendar/jdoe'."\n".
@@ -2737,7 +2737,7 @@ XML
     public function testRFC6350Section6Part9Part3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2752,7 +2752,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'CALURI;PREF=1:http://cal.example.com/calA'."\n".
@@ -2766,7 +2766,7 @@ XML
     public function testRFC6350SectionAPart3()
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
-<<<XML
+            <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
@@ -2776,7 +2776,7 @@ XML
  </vcard>
 </vcards>
 XML
-,
+            ,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
             'CAPURI:http://cap.example.com/capA'."\n".

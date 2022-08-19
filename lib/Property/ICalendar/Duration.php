@@ -61,9 +61,9 @@ class Duration extends Property
      *
      * If the property has more than one value, only the first is returned.
      *
-     * @throws InvalidDataException
-     *
      * @return DateInterval|string
+     *
+     * @throws InvalidDataException
      */
     public function getDateInterval()
     {

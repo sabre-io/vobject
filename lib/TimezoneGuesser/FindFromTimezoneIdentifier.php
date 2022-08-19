@@ -41,9 +41,9 @@ class FindFromTimezoneIdentifier implements TimezoneFinder
 
         try {
             if (
-                (in_array($tzid, $tzIdentifiers)) ||
-                (preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches)) ||
-                (in_array($tzid, $this->getIdentifiersBC()))
+                in_array($tzid, $tzIdentifiers) ||
+                preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches) ||
+                in_array($tzid, $this->getIdentifiersBC())
             ) {
                 return new DateTimeZone($tzid);
             }
