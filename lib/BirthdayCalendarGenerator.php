@@ -5,7 +5,6 @@ namespace Sabre\VObject;
 use DateTime;
 use InvalidArgumentException;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Component\VEvent;
 
 /**
  * This class generates birthday calendars.
@@ -141,7 +140,6 @@ class BirthdayCalendarGenerator
             }
 
             // Create event.
-            /** @var VEvent $event */
             $event = $calendar->add('VEVENT', [
                 'SUMMARY' => sprintf($this->format, $object->FN->getValue()),
                 'DTSTART' => new DateTime($object->BDAY->getValue()),
