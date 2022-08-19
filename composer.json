@@ -35,13 +35,13 @@
         "php"          : "^7.4 || ^8.0",
         "ext-mbstring" : "*",
         "ext-json"     : "*",
-        "sabre/xml"    : "^2.1"
+        "sabre/xml"    : "^3.0"
     },
     "require-dev" : {
-        "friendsofphp/php-cs-fixer": "^3.5.0",
-        "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0",
+        "friendsofphp/php-cs-fixer": "^3.10.0",
+        "phpunit/phpunit" : "^9.0",
         "phpunit/php-invoker" : "^2.0 || ^3.1",
-        "phpstan/phpstan": "^1.4.2"
+        "phpstan/phpstan": "^1.8"
     },
     "suggest" : {
         "hoa/bench"       : "If you would like to run the benchmark scripts"
