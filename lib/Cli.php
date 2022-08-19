@@ -4,7 +4,6 @@ namespace Sabre\VObject;
 
 use Exception;
 use InvalidArgumentException;
-use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Parser\Json;
 use Sabre\VObject\Parser\MimeDir;
 use Sabre\VObject\Parser\Parser;
@@ -421,7 +420,6 @@ HELP
             throw new Exception('You cannot convert a '.strtolower($vObj->name).' to '.$this->format);
         }
         if ($convertVersion) {
-            /** @var VCard $vObj */
             $vObj = $vObj->convert($convertVersion);
         }
         if ($json) {
