@@ -796,7 +796,7 @@ class Broker
      * @throws ITipException
      * @throws SameOrganizerForAllComponentsException
      */
-    protected function parseEventInfo(VCalendar $calendar = null): array
+    protected function parseEventInfo(VCalendar $calendar): array
     {
         $uid = null;
         $organizer = null;
