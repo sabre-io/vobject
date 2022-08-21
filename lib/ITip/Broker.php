@@ -317,18 +317,16 @@ class Broker
      * The message is a reply. This is for example an attendee telling
      * an organizer he accepted the invite, or declined it.
      *
-     * @return VCalendar|void
-     *
      * @throws InvalidDataException
      * @throws MaxInstancesExceededException
      * @throws NoInstancesException
      */
-    protected function processMessageReply(Message $itipMessage, ?VCalendar $existingObject = null)
+    protected function processMessageReply(Message $itipMessage, ?VCalendar $existingObject = null): ?VCalendar
     {
         // A reply can only be processed based on an existing object.
         // If the object is not available, the reply is ignored.
         if (!$existingObject) {
-            return;
+            return null;
         }
         $instances = [];
         $requestStatus = '2.0';
@@ -383,7 +381,7 @@ class Broker
 
         if (!$masterObject) {
             // No master object, we can't add new instances.
-            return;
+            return null;
         }
         // If we got replies to instances that did not exist in the
         // original list, it means that new exceptions must be created.
