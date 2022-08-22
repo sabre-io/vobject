@@ -12,7 +12,7 @@ use Exception;
  */
 class FindFromTimezoneIdentifier implements TimezoneFinder
 {
-    public function find(string $tzid, bool $failIfUncertain = false): ?DateTimeZone
+    public function find(string $tzid, ?bool $failIfUncertain = false): ?DateTimeZone
     {
         // First we will just see if the tzid is a support timezone identifier.
         //
