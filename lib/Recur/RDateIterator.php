@@ -37,10 +37,10 @@ class RDateIterator implements Iterator
     /* Implementation of the Iterator interface {{{ */
 
     #[\ReturnTypeWillChange]
-    public function current()
+    public function current(): ?DateTimeInterface
     {
         if (!$this->valid()) {
-            return;
+            return null;
         }
 
         return clone $this->currentDate;
@@ -67,11 +67,9 @@ class RDateIterator implements Iterator
 
     /**
      * Resets the iterator.
-     *
-     * @return void
      */
     #[\ReturnTypeWillChange]
-    public function rewind()
+    public function rewind(): void
     {
         $this->currentDate = clone $this->startDate;
         $this->counter = 0;
@@ -80,12 +78,10 @@ class RDateIterator implements Iterator
     /**
      * Goes on to the next iteration.
      *
-     * @return void
-     *
      * @throws InvalidDataException
      */
     #[\ReturnTypeWillChange]
-    public function next()
+    public function next(): void
     {
         ++$this->counter;
         if (!$this->valid()) {

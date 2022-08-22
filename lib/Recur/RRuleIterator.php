@@ -50,10 +50,10 @@ class RRuleIterator implements Iterator
     /* Implementation of the Iterator interface {{{ */
 
     #[\ReturnTypeWillChange]
-    public function current()
+    public function current(): ?DateTimeInterface
     {
         if (!$this->valid()) {
-            return;
+            return null;
         }
 
         return clone $this->currentDate;
@@ -61,11 +61,9 @@ class RRuleIterator implements Iterator
 
     /**
      * Returns the current item number.
-     *
-     * @return int
      */
     #[\ReturnTypeWillChange]
-    public function key()
+    public function key(): int
     {
         return $this->counter;
     }
@@ -74,11 +72,9 @@ class RRuleIterator implements Iterator
      * Returns whether the current item is a valid item for the recurrence
      * iterator. This will return false if we've gone beyond the UNTIL or COUNT
      * statements.
-     *
-     * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function valid()
+    public function valid(): bool
     {
         if (null === $this->currentDate) {
             return false;
@@ -92,11 +88,9 @@ class RRuleIterator implements Iterator
 
     /**
      * Resets the iterator.
-     *
-     * @return void
      */
     #[\ReturnTypeWillChange]
-    public function rewind()
+    public function rewind(): void
     {
         $this->currentDate = clone $this->startDate;
         $this->counter = 0;
@@ -104,11 +98,9 @@ class RRuleIterator implements Iterator
 
     /**
      * Goes on to the next iteration.
-     *
-     * @return void
      */
     #[\ReturnTypeWillChange]
-    public function next()
+    public function next(): void
     {
         // Otherwise, we find the next event in the normal RRULE
         // sequence.
@@ -438,7 +430,7 @@ class RRuleIterator implements Iterator
             $occurrences = $this->getMonthlyOccurrences();
 
             foreach ($occurrences as $occurrence) {
-                // The first occurrence thats higher than the current
+                // The first occurrence that's higher than the current
                 // day of the month wins.
                 if ($occurrence > $currentDayOfMonth) {
                     break 2;
@@ -461,7 +453,7 @@ class RRuleIterator implements Iterator
             $currentDayOfMonth = 0;
 
             // For some reason the "until" parameter was not being used here,
-            // that's why the workaround of the 10000 year bug was needed at all
+            // that's why the workaround of the 10000-year bug was needed at all
             // let's stop it before the "until" parameter date
             if ($this->until && $this->currentDate->getTimestamp() >= $this->until->getTimestamp()) {
                 return;
@@ -805,10 +797,8 @@ class RRuleIterator implements Iterator
 
     /**
      * Mappings between the day number and english day name.
-     *
-     * @var array
      */
-    protected $dayNames = [
+    protected array $dayNames = [
         0 => 'Sunday',
         1 => 'Monday',
         2 => 'Tuesday',
@@ -824,11 +814,9 @@ class RRuleIterator implements Iterator
      *
      * The returned list is an array of integers with the day of month (1-31).
      *
-     * @return array
-     *
      * @throws Exception
      */
-    protected function getMonthlyOccurrences()
+    protected function getMonthlyOccurrences(): array
     {
         $startDate = clone $this->currentDate;
 
@@ -877,7 +865,7 @@ class RRuleIterator implements Iterator
                     }
                 } else {
                     // There was no counter (first, second, last wednesdays), so we
-                    // just need to add the all to the list).
+                    // just need to add the all to the list.
                     $byDayResults = array_merge($byDayResults, $dayHits);
                 }
             }
@@ -936,10 +924,8 @@ class RRuleIterator implements Iterator
 
     /**
      * Simple mapping from iCalendar day names to day numbers.
-     *
-     * @var array
      */
-    protected $dayMap = [
+    protected array $dayMap = [
         'SU' => 0,
         'MO' => 1,
         'TU' => 2,

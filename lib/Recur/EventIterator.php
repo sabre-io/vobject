@@ -94,7 +94,7 @@ class EventIterator implements Iterator
      * @throws NoInstancesException
      * @throws InvalidDataException
      */
-    public function __construct($input, string $uid = null, DateTimeZone $timeZone = null)
+    public function __construct($input, ?string $uid = null, DateTimeZone $timeZone = null)
     {
         if (is_null($timeZone)) {
             $timeZone = new DateTimeZone('UTC');
@@ -319,12 +319,10 @@ class EventIterator implements Iterator
     /**
      * Sets the iterator back to the starting point.
      *
-     * @return void
-     *
      * @throws InvalidDataException
      */
     #[\ReturnTypeWillChange]
-    public function rewind()
+    public function rewind(): void
     {
         $this->recurIterator->rewind();
         // re-creating overridden event index.
@@ -348,12 +346,10 @@ class EventIterator implements Iterator
     /**
      * Advances the iterator with one step.
      *
-     * @return void
-     *
      * @throws InvalidDataException
      */
     #[\ReturnTypeWillChange]
-    public function next()
+    public function next(): void
     {
         $this->currentOverriddenEvent = null;
         ++$this->counter;
