@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class UUIDUtilTest extends TestCase
 {
-    public function testValidateUUID()
+    public function testValidateUUID(): void
     {
         $this->assertTrue(
             UUIDUtil::validateUUID('11111111-2222-3333-4444-555555555555')
@@ -25,7 +25,7 @@ class UUIDUtilTest extends TestCase
     /**
      * @depends testValidateUUID
      */
-    public function testGetUUID()
+    public function testGetUUID(): void
     {
         $this->assertTrue(
             UUIDUtil::validateUUID(

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class EmClientTest extends TestCase
 {
-    public function testParseTz()
+    public function testParseTz(): void
     {
         $str = 'BEGIN:VCALENDAR
 X-WR-CALNAME:Blackhawks Schedule 2011-12

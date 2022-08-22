@@ -10,12 +10,12 @@ class VJournalTest extends TestCase
     /**
      * @dataProvider timeRangeTestData
      */
-    public function testInTimeRange(VJournal $vtodo, $start, $end, $outcome)
+    public function testInTimeRange(VJournal $vtodo, \DateTime $start, \DateTime $end, bool $outcome): void
     {
         $this->assertEquals($outcome, $vtodo->isInTimeRange($start, $end));
     }
 
-    public function testValidate()
+    public function testValidate(): void
     {
         $input = <<<HI
 BEGIN:VCALENDAR
@@ -39,7 +39,7 @@ HI;
         $this->assertEquals([], $messages);
     }
 
-    public function testValidateBroken()
+    public function testValidateBroken(): void
     {
         $input = <<<HI
 BEGIN:VCALENDAR
@@ -68,7 +68,7 @@ HI;
         );
     }
 
-    public function timeRangeTestData()
+    public function timeRangeTestData(): array
     {
         $calendar = new VCalendar();
 

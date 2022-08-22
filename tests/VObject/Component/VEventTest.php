@@ -9,12 +9,12 @@ class VEventTest extends TestCase
     /**
      * @dataProvider timeRangeTestData
      */
-    public function testInTimeRange(VEvent $vevent, $start, $end, $outcome)
+    public function testInTimeRange(VEvent $vevent, \DateTime $start, \DateTime $end, bool $outcome): void
     {
         $this->assertEquals($outcome, $vevent->isInTimeRange($start, $end));
     }
 
-    public function timeRangeTestData()
+    public function timeRangeTestData(): array
     {
         $tests = [];
 
@@ -42,7 +42,7 @@ class VEventTest extends TestCase
         $tests[] = [$vevent4, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
         // Event with no end date should be treated as lasting the entire day.
         $tests[] = [$vevent4, new \DateTime('2011-12-25 16:00:00'), new \DateTime('2011-12-25 17:00:00'), true];
-        // DTEND is non inclusive so all day events should not be returned on the next day.
+        // DTEND is non-inclusive so all day events should not be returned on the next day.
         $tests[] = [$vevent4, new \DateTime('2011-12-26 00:00:00'), new \DateTime('2011-12-26 17:00:00'), false];
         // The timezone of time range in question also needs to be considered.
         $tests[] = [$vevent4, new \DateTime('2011-12-26 00:00:00', new \DateTimeZone('Europe/Berlin')), new \DateTime('2011-12-26 17:00:00', new \DateTimeZone('Europe/Berlin')), false];

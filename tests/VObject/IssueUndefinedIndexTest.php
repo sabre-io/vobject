@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class IssueUndefinedIndexTest extends TestCase
 {
-    public function testRead()
+    public function testRead(): void
     {
         $this->expectException(ParseException::class);
         $input = <<<VCF
@@ -22,6 +22,6 @@ UID:foo
 END:VCARD
 VCF;
 
-        $vcard = Reader::read($input, Reader::OPTION_FORGIVING);
+        Reader::read($input, Reader::OPTION_FORGIVING);
     }
 }

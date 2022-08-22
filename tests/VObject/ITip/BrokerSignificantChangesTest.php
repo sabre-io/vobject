@@ -7,7 +7,7 @@ class BrokerSignificantChangesTest extends BrokerTester
     /**
      * Check significant changes detection (no change).
      */
-    public function testSignificantChangesNoChange()
+    public function testSignificantChangesNoChange(): void
     {
         $old = <<<ICS
 BEGIN:VCALENDAR
@@ -41,7 +41,7 @@ ICS;
     /**
      * Check significant changes detection (no change).
      */
-    public function testSignificantChangesRRuleNoChange()
+    public function testSignificantChangesRRuleNoChange(): void
     {
         $old = <<<ICS
 BEGIN:VCALENDAR
@@ -75,7 +75,7 @@ ICS;
     /**
      * Check significant changes detection (no change).
      */
-    public function testSignificantChangesRRuleOrderNoChange()
+    public function testSignificantChangesRRuleOrderNoChange(): void
     {
         $old = <<<ICS
 BEGIN:VCALENDAR
@@ -111,7 +111,7 @@ ICS;
      * Reordering of the attendees should not be a significant change (#540)
      * https://github.com/sabre-io/vobject/issues/540.
      */
-    public function testSignificantChangesAttendeesOrderNoChange()
+    public function testSignificantChangesAttendeesOrderNoChange(): void
     {
         $old = <<<ICS
 BEGIN:VCALENDAR
@@ -154,7 +154,7 @@ ICS;
      * not be a significant change
      * https://github.com/sabre-io/vobject/issues/542.
      */
-    public function testSignificantChangesVeventOrderNoChange()
+    public function testSignificantChangesVeventOrderNoChange(): void
     {
         $vevent1 = <<<ICS
 BEGIN:VEVENT

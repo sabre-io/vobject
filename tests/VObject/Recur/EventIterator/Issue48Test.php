@@ -11,7 +11,7 @@ use Sabre\VObject\Recur\EventIterator;
 
 class Issue48Test extends TestCase
 {
-    public function testExpand()
+    public function testExpand(): void
     {
         $input = <<<ICS
 BEGIN:VCALENDAR

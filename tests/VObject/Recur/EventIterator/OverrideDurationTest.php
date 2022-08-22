@@ -10,7 +10,7 @@ class OverrideDurationTest extends TestCase
 {
     use \Sabre\VObject\PHPUnitAssertions;
 
-    public function testOverrideDuration()
+    public function testOverrideDuration(): void
     {
         $ics = <<<ICS
 BEGIN:VCALENDAR
@@ -34,19 +34,19 @@ ICS;
         $vCalendar = Reader::read($ics);
         $eventIterator = new EventIterator($vCalendar->getComponents());
 
-        $this->assertEquals($eventIterator->current()->format('Y-m-d H:i:s'), '2021-05-17 09:00:00', 'recur event start time');
-        $this->assertEquals($eventIterator->getDtEnd()->format('Y-m-d H:i:s'), '2021-05-17 10:00:00', 'recur event end time');
+        $this->assertEquals('2021-05-17 09:00:00', $eventIterator->current()->format('Y-m-d H:i:s'), 'recur event start time');
+        $this->assertEquals('2021-05-17 10:00:00', $eventIterator->getDtEnd()->format('Y-m-d H:i:s'), 'recur event end time');
 
         $eventIterator->next();
-        $this->assertEquals($eventIterator->current()->format('Y-m-d H:i:s'), '2021-05-18 09:00:00', 'recur event start time');
-        $this->assertEquals($eventIterator->getDtEnd()->format('Y-m-d H:i:s'), '2021-05-18 10:00:00', 'recur event end time');
+        $this->assertEquals('2021-05-18 09:00:00', $eventIterator->current()->format('Y-m-d H:i:s'), 'recur event start time');
+        $this->assertEquals('2021-05-18 10:00:00', $eventIterator->getDtEnd()->format('Y-m-d H:i:s'), 'recur event end time');
 
         $eventIterator->next();
-        $this->assertEquals($eventIterator->current()->format('Y-m-d H:i:s'), '2021-05-19 09:00:00', 'overridden event start time');
-        $this->assertEquals($eventIterator->getDtEnd()->format('Y-m-d H:i:s'), '2021-05-19 12:00:00', 'overridden event end time');
+        $this->assertEquals('2021-05-19 09:00:00', $eventIterator->current()->format('Y-m-d H:i:s'), 'overridden event start time');
+        $this->assertEquals('2021-05-19 12:00:00', $eventIterator->getDtEnd()->format('Y-m-d H:i:s'), 'overridden event end time');
 
         $eventIterator->next();
-        $this->assertEquals($eventIterator->current()->format('Y-m-d H:i:s'), '2021-05-20 09:00:00', 'recur event start time');
-        $this->assertEquals($eventIterator->getDtEnd()->format('Y-m-d H:i:s'), '2021-05-20 10:00:00', 'recur event end time');
+        $this->assertEquals('2021-05-20 09:00:00', $eventIterator->current()->format('Y-m-d H:i:s'), 'recur event start time');
+        $this->assertEquals('2021-05-20 10:00:00', $eventIterator->getDtEnd()->format('Y-m-d H:i:s'), 'recur event end time');
     }
 }

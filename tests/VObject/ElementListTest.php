@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElementListTest extends TestCase
 {
-    public function testIterate()
+    public function testIterate(): void
     {
         $cal = new Component\VCalendar();
         $sub = $cal->createComponent('VEVENT');

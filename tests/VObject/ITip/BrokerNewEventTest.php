@@ -6,7 +6,7 @@ use Sabre\VObject\Version;
 
 class BrokerNewEventTest extends BrokerTester
 {
-    public function testNoAttendee()
+    public function testNoAttendee(): void
     {
         $message = <<<ICS
 BEGIN:VCALENDAR
@@ -18,10 +18,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->parse(null, $message, []);
+        $this->parse(null, $message, []);
     }
 
-    public function testVTODO()
+    public function testVTODO(): void
     {
         $message = <<<ICS
 BEGIN:VCALENDAR
@@ -31,10 +31,10 @@ END:VTODO
 END:VCALENDAR
 ICS;
 
-        $result = $this->parse(null, $message, []);
+        $this->parse(null, $message, []);
     }
 
-    public function testSimpleInvite()
+    public function testSimpleInvite(): void
     {
         $message = <<<ICS
 BEGIN:VCALENDAR
@@ -83,7 +83,7 @@ ICS;
         $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testBrokenEventUIDMisMatch()
+    public function testBrokenEventUIDMisMatch(): void
     {
         $this->expectException(ITipException::class);
         $message = <<<ICS
@@ -105,7 +105,7 @@ ICS;
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
 
-    public function testBrokenEventOrganizerMisMatch()
+    public function testBrokenEventOrganizerMisMatch(): void
     {
         $this->expectException(ITipException::class);
         $message = <<<ICS
@@ -127,7 +127,7 @@ ICS;
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
 
-    public function testRecurrenceInvite()
+    public function testRecurrenceInvite(): void
     {
         $message = <<<ICS
 BEGIN:VCALENDAR
@@ -255,7 +255,7 @@ ICS
         $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testRecurrenceInvite2()
+    public function testRecurrenceInvite2(): void
     {
         // This method tests a nearly identical path, but in this case the
         // master event does not have an EXDATE.
@@ -383,7 +383,7 @@ ICS
         $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testRecurrenceInvite3()
+    public function testRecurrenceInvite3(): void
     {
         // This method tests a complex rrule
         $message = <<<ICS
@@ -434,7 +434,7 @@ ICS
         $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testScheduleAgentClient()
+    public function testScheduleAgentClient(): void
     {
         $message = <<<ICS
 BEGIN:VCALENDAR
@@ -449,12 +449,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = Version::VERSION;
-
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
 
-    public function testMultipleUID()
+    public function testMultipleUID(): void
     {
         $this->expectException(ITipException::class);
         $message = <<<ICS
@@ -481,11 +479,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = Version::VERSION;
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
 
-    public function testChangingOrganizers()
+    public function testChangingOrganizers(): void
     {
         $this->expectException(SameOrganizerForAllComponentsException::class);
         $message = <<<ICS
@@ -515,7 +512,7 @@ ICS;
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
 
-    public function testCaseInsensitiveOrganizers()
+    public function testCaseInsensitiveOrganizers(): void
     {
         $message = <<<ICS
 BEGIN:VCALENDAR
@@ -562,7 +559,7 @@ ICS;
         ], 'mailto:strunk@example.org');
     }
 
-    public function testNoOrganizerHasAttendee()
+    public function testNoOrganizerHasAttendee(): void
     {
         $message = <<<ICS
 BEGIN:VCALENDAR

@@ -23,12 +23,12 @@ abstract class BrokerTester extends TestCase
 {
     use PHPUnitAssertions;
 
-    public function parse($oldMessage, $newMessage, $expected = [], $currentUser = 'mailto:one@example.org')
+    public function parse($oldMessage, $newMessage, array $expected = [], string $currentUser = 'mailto:one@example.org'): void
     {
         $broker = new Broker();
         $result = $broker->parseEvent($newMessage, $currentUser, $oldMessage);
 
-        $this->assertEquals(count($expected), count($result));
+        $this->assertSameSize($expected, $result);
 
         foreach ($expected as $index => $ex) {
             $message = $result[$index];
@@ -52,7 +52,7 @@ abstract class BrokerTester extends TestCase
      * @throws NoInstancesException
      * @throws InvalidDataException
      */
-    public function process($input, $existingObject = null, $expected = false)
+    public function process($input, $existingObject = null, $expected = false): void
     {
         $version = Version::VERSION;
 

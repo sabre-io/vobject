@@ -14,7 +14,7 @@ class FifthTuesdayProblemTest extends TestCase
      *
      * @medium
      */
-    public function testGetDTEnd()
+    public function testGetDTEnd(): void
     {
         $ics = <<<ICS
 BEGIN:VCALENDAR

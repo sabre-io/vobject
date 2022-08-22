@@ -10,7 +10,7 @@ class VCardTest extends TestCase
     /**
      * @dataProvider validateData
      */
-    public function testValidate($input, $expectedWarnings, $expectedRepairedOutput)
+    public function testValidate(string $input, array $expectedWarnings, string $expectedRepairedOutput): void
     {
         $vcard = VObject\Reader::read($input);
 
@@ -31,7 +31,7 @@ class VCardTest extends TestCase
         );
     }
 
-    public function validateData()
+    public function validateData(): array
     {
         $tests = [];
 
@@ -112,7 +112,7 @@ class VCardTest extends TestCase
         return $tests;
     }
 
-    public function testGetDocumentType()
+    public function testGetDocumentType(): void
     {
         $vcard = new VCard([], false);
         $vcard->VERSION = '2.1';
@@ -130,7 +130,7 @@ class VCardTest extends TestCase
         $this->assertEquals(VCard::UNKNOWN, $vcard->getDocumentType());
     }
 
-    public function testGetByType()
+    public function testGetByType(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -147,7 +147,7 @@ VCF;
         $this->assertNull($vcard->getByType('ADR', 'non-existent'));
     }
 
-    public function testPreferredNoPref()
+    public function testPreferredNoPref(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -161,7 +161,7 @@ VCF;
         $this->assertEquals('1@example.org', $vcard->preferred('EMAIL')->getValue());
     }
 
-    public function testPreferredWithPref()
+    public function testPreferredWithPref(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -175,7 +175,7 @@ VCF;
         $this->assertEquals('2@example.org', $vcard->preferred('EMAIL')->getValue());
     }
 
-    public function testPreferredWith40Pref()
+    public function testPreferredWith40Pref(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -190,7 +190,7 @@ VCF;
         $this->assertEquals('3@example.org', $vcard->preferred('EMAIL')->getValue());
     }
 
-    public function testPreferredNotFound()
+    public function testPreferredNotFound(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -202,7 +202,7 @@ VCF;
         $this->assertNull($vcard->preferred('EMAIL'));
     }
 
-    public function testNoUIDCardDAV()
+    public function testNoUIDCardDAV(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -218,7 +218,7 @@ VCF;
         );
     }
 
-    public function testNoUIDNoCardDAV()
+    public function testNoUIDNoCardDAV(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -234,7 +234,7 @@ VCF;
         );
     }
 
-    public function testNoUIDNoCardDAVRepair()
+    public function testNoUIDNoCardDAVRepair(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -250,7 +250,7 @@ VCF;
         );
     }
 
-    public function testVCard21CardDAV()
+    public function testVCard21CardDAV(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -267,7 +267,7 @@ VCF;
         );
     }
 
-    public function testVCard21NoCardDAV()
+    public function testVCard21NoCardDAV(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD
@@ -283,7 +283,7 @@ VCF;
         );
     }
 
-    public function assertValidate($vcf, $options, $expectedLevel, $expectedMessage = null)
+    public function assertValidate($vcf, $options, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $vcal = VObject\Reader::read($vcf);
         $result = $vcal->validate($options);
@@ -291,7 +291,7 @@ VCF;
         $this->assertValidateResult($result, $expectedLevel, $expectedMessage);
     }
 
-    public function assertValidateResult($input, $expectedLevel, $expectedMessage = null)
+    public function assertValidateResult($input, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $messages = [];
         foreach ($input as $warning) {
@@ -299,9 +299,9 @@ VCF;
         }
 
         if (0 === $expectedLevel) {
-            $this->assertEquals(0, count($input), 'No validation messages were expected. We got: '.implode(', ', $messages));
+            $this->assertCount(0, $input, 'No validation messages were expected. We got: '.implode(', ', $messages));
         } else {
-            $this->assertEquals(1, count($input), 'We expected exactly 1 validation message, We got: '.implode(', ', $messages));
+            $this->assertCount(1, $input, 'We expected exactly 1 validation message, We got: '.implode(', ', $messages));
 
             $this->assertEquals($expectedMessage, $input[0]['message']);
             $this->assertEquals($expectedLevel, $input[0]['level']);

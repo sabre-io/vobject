@@ -13,7 +13,7 @@ use Sabre\VObject\Reader;
  */
 class AvailableTest extends TestCase
 {
-    public function testAvailableComponent()
+    public function testAvailableComponent(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR
@@ -25,7 +25,7 @@ VCAL;
         $this->assertInstanceOf(Available::class, $document->AVAILABLE);
     }
 
-    public function testGetEffectiveStartEnd()
+    public function testGetEffectiveStartEnd(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR
@@ -47,7 +47,7 @@ VCAL;
         );
     }
 
-    public function testGetEffectiveStartEndDuration()
+    public function testGetEffectiveStartEndDuration(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR

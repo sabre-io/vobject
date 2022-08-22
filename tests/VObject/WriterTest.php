@@ -6,26 +6,26 @@ use PHPUnit\Framework\TestCase;
 
 class WriterTest extends TestCase
 {
-    public function getComponent()
+    public function getComponent(): ?Document
     {
         $data = "BEGIN:VCALENDAR\r\nEND:VCALENDAR";
 
         return Reader::read($data);
     }
 
-    public function testWriteToMimeDir()
+    public function testWriteToMimeDir(): void
     {
         $result = Writer::write($this->getComponent());
         $this->assertEquals("BEGIN:VCALENDAR\r\nEND:VCALENDAR\r\n", $result);
     }
 
-    public function testWriteToJson()
+    public function testWriteToJson(): void
     {
         $result = Writer::writeJson($this->getComponent());
         $this->assertEquals('["vcalendar",[],[]]', $result);
     }
 
-    public function testWriteToXml()
+    public function testWriteToXml(): void
     {
         $result = Writer::writeXml($this->getComponent());
         $this->assertEquals(

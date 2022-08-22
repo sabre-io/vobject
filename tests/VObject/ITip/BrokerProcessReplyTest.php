@@ -4,7 +4,7 @@ namespace Sabre\VObject\ITip;
 
 class BrokerProcessReplyTest extends BrokerTester
 {
-    public function testReplyNoOriginal()
+    public function testReplyNoOriginal(): void
     {
         $itip = <<<ICS
 BEGIN:VCALENDAR
@@ -22,10 +22,10 @@ ICS;
         $old = null;
         $expected = null;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
-    public function testReplyAccept()
+    public function testReplyAccept(): void
     {
         $itip = <<<ICS
 BEGIN:VCALENDAR
@@ -64,10 +64,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
-    public function testReplyWithTz()
+    public function testReplyWithTz(): void
     {
         $itip = <<<ICS
 BEGIN:VCALENDAR
@@ -163,10 +163,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
-    public function testReplyRequestStatus()
+    public function testReplyRequestStatus(): void
     {
         $itip = <<<ICS
 BEGIN:VCALENDAR
@@ -207,10 +207,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
-    public function testReplyPartyCrasher()
+    public function testReplyPartyCrasher(): void
     {
         $itip = <<<ICS
 BEGIN:VCALENDAR
@@ -250,10 +250,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
-    public function testReplyNewException()
+    public function testReplyNewException(): void
     {
         // This is a reply to 1 instance of a recurring event. This should
         // automatically create an exception.
@@ -310,10 +310,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
-    public function testReplyNewExceptionTz()
+    public function testReplyNewExceptionTz(): void
     {
         // This is a reply to 1 instance of a recurring event. This should
         // automatically create an exception.
@@ -370,10 +370,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
-    public function testReplyPartyCrashCreateException()
+    public function testReplyPartyCrashCreateException(): void
     {
         // IN this test there's a recurring event that has an exception. The
         // exception is missing the attendee.
@@ -431,10 +431,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
-    public function testReplyNewExceptionNoMasterEvent()
+    public function testReplyNewExceptionNoMasterEvent(): void
     {
         /**
          * This iTip message would normally create a new exception, but the
@@ -473,13 +473,13 @@ END:VCALENDAR
 ICS;
 
         $expected = null;
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
     /**
      * @depends testReplyAccept
      */
-    public function testReplyAcceptUpdateRSVP()
+    public function testReplyAcceptUpdateRSVP(): void
     {
         $itip = <<<ICS
 BEGIN:VCALENDAR
@@ -518,10 +518,10 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 
-    public function testReplyNewExceptionFirstOccurence()
+    public function testReplyNewExceptionFirstOccurrence(): void
     {
         // This is a reply to 1 instance of a recurring event. This should
         // automatically create an exception.
@@ -578,6 +578,6 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $result = $this->process($itip, $old, $expected);
+        $this->process($itip, $old, $expected);
     }
 }

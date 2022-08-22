@@ -8,7 +8,7 @@ use Sabre\VObject\Component\VCard;
 
 class ComponentTest extends TestCase
 {
-    public function testIterate()
+    public function testIterate(): void
     {
         $comp = new VCalendar([], false);
 
@@ -30,7 +30,7 @@ class ComponentTest extends TestCase
         $this->assertEquals(2, $count);
     }
 
-    public function testMagicGet()
+    public function testMagicGet(): void
     {
         $comp = new VCalendar([], false);
 
@@ -50,7 +50,7 @@ class ComponentTest extends TestCase
     /**
      * @throws InvalidDataException
      */
-    public function testMagicGetGroups()
+    public function testMagicGetGroups(): void
     {
         $comp = new VCard();
 
@@ -90,7 +90,7 @@ class ComponentTest extends TestCase
         }
     }
 
-    public function testAddGroupProperties()
+    public function testAddGroupProperties(): void
     {
         $comp = new VCard([
             'VERSION' => '3.0',
@@ -107,7 +107,7 @@ class ComponentTest extends TestCase
         }
     }
 
-    public function testMagicIsset()
+    public function testMagicIsset(): void
     {
         $comp = new VCalendar();
 
@@ -122,7 +122,7 @@ class ComponentTest extends TestCase
         $this->assertFalse(isset($comp->vjournal));
     }
 
-    public function testMagicSetScalar()
+    public function testMagicSetScalar(): void
     {
         $comp = new VCalendar();
         $comp->myProp = 'myValue';
@@ -131,7 +131,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('myValue', (string) $comp->MYPROP);
     }
 
-    public function testMagicSetScalarTwice()
+    public function testMagicSetScalarTwice(): void
     {
         $comp = new VCalendar([], false);
         $comp->myProp = 'myValue';
@@ -142,7 +142,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('myValue', (string) $comp->MYPROP);
     }
 
-    public function testMagicSetArray()
+    public function testMagicSetArray(): void
     {
         $comp = new VCalendar();
         $comp->ORG = ['Acme Inc', 'Section 9'];
@@ -151,7 +151,7 @@ class ComponentTest extends TestCase
         $this->assertEquals(['Acme Inc', 'Section 9'], $comp->ORG->getParts());
     }
 
-    public function testMagicSetComponent()
+    public function testMagicSetComponent(): void
     {
         $comp = new VCalendar();
 
@@ -163,7 +163,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
     }
 
-    public function testMagicSetTwice()
+    public function testMagicSetTwice(): void
     {
         $comp = new VCalendar([], false);
 
@@ -175,7 +175,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
     }
 
-    public function testArrayAccessGet()
+    public function testArrayAccessGet(): void
     {
         $comp = new VCalendar([], false);
 
@@ -189,12 +189,12 @@ class ComponentTest extends TestCase
 
         $comp->add($event2);
 
-        $this->assertEquals(2, count($comp->children()));
+        $this->assertCount(2, $comp->children());
         $this->assertTrue($comp->vevent[1] instanceof Component);
         $this->assertEquals('Event 2', (string) $comp->vevent[1]->summary);
     }
 
-    public function testArrayAccessExists()
+    public function testArrayAccessExists(): void
     {
         $comp = new VCalendar();
 
@@ -212,21 +212,21 @@ class ComponentTest extends TestCase
         $this->assertTrue(isset($comp->vevent[1]));
     }
 
-    public function testArrayAccessSet()
+    public function testArrayAccessSet(): void
     {
         $this->expectException(\LogicException::class);
         $comp = new VCalendar();
         $comp['hey'] = 'hi there';
     }
 
-    public function testArrayAccessUnset()
+    public function testArrayAccessUnset(): void
     {
         $this->expectException(\LogicException::class);
         $comp = new VCalendar();
         unset($comp[0]);
     }
 
-    public function testAddScalar()
+    public function testAddScalar(): void
     {
         $comp = new VCalendar([], false);
 
@@ -241,7 +241,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('value', (string) $bla);
     }
 
-    public function testAddScalarParams()
+    public function testAddScalarParams(): void
     {
         $comp = new VCalendar([], false);
 
@@ -261,7 +261,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('value1', $bla->parameters['PARAM1']->getValue());
     }
 
-    public function testAddComponent()
+    public function testAddComponent(): void
     {
         $comp = new VCalendar([], false);
 
@@ -272,7 +272,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
     }
 
-    public function testAddComponentTwice()
+    public function testAddComponentTwice(): void
     {
         $comp = new VCalendar([], false);
 
@@ -284,21 +284,21 @@ class ComponentTest extends TestCase
         $this->assertEquals('VEVENT', $comp->VEVENT->name);
     }
 
-    public function testAddArgFail()
+    public function testAddArgFail(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $comp = new VCalendar();
         $comp->add($comp->createComponent('VEVENT'), 'hello');
     }
 
-    public function testAddArgFail2()
+    public function testAddArgFail2(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $comp = new VCalendar();
         $comp->add([]);
     }
 
-    public function testMagicUnset()
+    public function testMagicUnset(): void
     {
         $comp = new VCalendar([], false);
         $comp->add($comp->createComponent('VEVENT'));
@@ -308,13 +308,13 @@ class ComponentTest extends TestCase
         $this->assertCount(0, $comp->children());
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $comp = new VCalendar();
         $this->assertEquals(1, $comp->count());
     }
 
-    public function testChildren()
+    public function testChildren(): void
     {
         $comp = new VCalendar([], false);
 
@@ -330,7 +330,7 @@ class ComponentTest extends TestCase
     /**
      * @throws InvalidDataException
      */
-    public function testGetComponents()
+    public function testGetComponents(): void
     {
         $comp = new VCalendar();
 
@@ -343,13 +343,13 @@ class ComponentTest extends TestCase
         $this->assertEquals('VTODO', $r[0]->name);
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $comp = new VCalendar([], false);
         $this->assertEquals("BEGIN:VCALENDAR\r\nEND:VCALENDAR\r\n", $comp->serialize());
     }
 
-    public function testSerializeChildren()
+    public function testSerializeChildren(): void
     {
         $comp = new VCalendar([], false);
         $event = $comp->add($comp->createComponent('VEVENT'));
@@ -362,7 +362,7 @@ class ComponentTest extends TestCase
         $this->assertEquals("BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nEND:VEVENT\r\nBEGIN:VTODO\r\nEND:VTODO\r\nEND:VCALENDAR\r\n", $str);
     }
 
-    public function testSerializeOrderCompAndProp()
+    public function testSerializeOrderCompAndProp(): void
     {
         $comp = new VCalendar([], false);
         $comp->add($event = $comp->createComponent('VEVENT'));
@@ -376,7 +376,7 @@ class ComponentTest extends TestCase
         $this->assertEquals("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPROP1:BLABLA\r\nBEGIN:VTIMEZONE\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n", $str);
     }
 
-    public function testAnotherSerializeOrderProp()
+    public function testAnotherSerializeOrderProp(): void
     {
         $prop4s = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
@@ -402,7 +402,7 @@ class ComponentTest extends TestCase
         $this->assertEquals("BEGIN:VCARD\r\nVERSION:2.0\r\nSOMEPROP:FOO\r\nANOTHERPROP:FOO\r\nTHIRDPROP:FOO\r\nPROP4:FOO 1\r\nPROP4:FOO 2\r\nPROP4:FOO 3\r\nPROP4:FOO 4\r\nPROP4:FOO 5\r\nPROP4:FOO 6\r\nPROP4:FOO 7\r\nPROP4:FOO 8\r\nPROP4:FOO 9\r\nPROP4:FOO 10\r\nPROPNUMBERFIVE:FOO\r\nPROPNUMBERSIX:FOO\r\nPROPNUMBERSEVEN:FOO\r\nPROPNUMBEREIGHT:FOO\r\nPROPNUMBERNINE:FOO\r\nPROPNUMBERTEN:FOO\r\nUID:FOO\r\nEND:VCARD\r\n", $str);
     }
 
-    public function testInstantiateWithChildren()
+    public function testInstantiateWithChildren(): void
     {
         $comp = new VCard([
             'ORG' => ['Acme Inc.', 'Section 9'],
@@ -413,7 +413,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('Finn The Human', $comp->FN->getValue());
     }
 
-    public function testInstantiateSubComponent()
+    public function testInstantiateSubComponent(): void
     {
         $comp = new VCalendar();
         $event = $comp->createComponent('VEVENT', [
@@ -424,7 +424,7 @@ class ComponentTest extends TestCase
         $this->assertEquals('12345', $comp->VEVENT->UID->getValue());
     }
 
-    public function testRemoveByName()
+    public function testRemoveByName(): void
     {
         $comp = new VCalendar([], false);
         $comp->add('prop1', 'val1');
@@ -436,7 +436,7 @@ class ComponentTest extends TestCase
         $this->assertTrue(isset($comp->prop1));
     }
 
-    public function testRemoveByObj()
+    public function testRemoveByObj(): void
     {
         $comp = new VCalendar([], false);
         $comp->add('prop1', 'val1');
@@ -450,7 +450,7 @@ class ComponentTest extends TestCase
     /**
      * @throws InvalidDataException
      */
-    public function testRemoveNotFound()
+    public function testRemoveNotFound(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $comp = new VCalendar([], false);
@@ -461,11 +461,11 @@ class ComponentTest extends TestCase
     /**
      * @dataProvider ruleData
      */
-    public function testValidateRules($componentList, $errorCount)
+    public function testValidateRules(array $componentList, int $errorCount): void
     {
         $vcard = new Component\VCard();
 
-        $component = new FakeComponent($vcard, 'Hi', [], $defaults = false);
+        $component = new FakeComponent($vcard, 'Hi', [], false);
         foreach ($componentList as $v) {
             $component->add($v, 'Hello.');
         }
@@ -473,16 +473,16 @@ class ComponentTest extends TestCase
         $this->assertCount($errorCount, $component->validate());
     }
 
-    public function testValidateRepair()
+    public function testValidateRepair(): void
     {
         $vcard = new Component\VCard();
 
-        $component = new FakeComponent($vcard, 'Hi', [], $defaults = false);
+        $component = new FakeComponent($vcard, 'Hi', [], false);
         $component->validate(Component::REPAIR);
         $this->assertEquals('yow', $component->BAR->getValue());
     }
 
-    public function testValidateRepairShouldNotDeduplicatePropertiesWhenValuesDiffer()
+    public function testValidateRepairShouldNotDeduplicatePropertiesWhenValuesDiffer(): void
     {
         $vcard = new Component\VCard();
 
@@ -498,7 +498,7 @@ class ComponentTest extends TestCase
         $this->assertCount(2, $component->GIR);
     }
 
-    public function testValidateRepairShouldNotDeduplicatePropertiesWhenParametersDiffer()
+    public function testValidateRepairShouldNotDeduplicatePropertiesWhenParametersDiffer(): void
     {
         $vcard = new Component\VCard();
 
@@ -514,7 +514,7 @@ class ComponentTest extends TestCase
         $this->assertCount(2, $component->GIR);
     }
 
-    public function testValidateRepairShouldDeduplicatePropertiesWhenValuesAndParametersAreEqual()
+    public function testValidateRepairShouldDeduplicatePropertiesWhenValuesAndParametersAreEqual(): void
     {
         $vcard = new Component\VCard();
 
@@ -530,7 +530,7 @@ class ComponentTest extends TestCase
         $this->assertCount(1, $component->GIR);
     }
 
-    public function testValidateRepairShouldDeduplicatePropertiesWhenValuesAreEqual()
+    public function testValidateRepairShouldDeduplicatePropertiesWhenValuesAreEqual(): void
     {
         $vcard = new Component\VCard();
 

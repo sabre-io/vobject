@@ -4,7 +4,7 @@ namespace Sabre\VObject\ITip;
 
 class BrokerAttendeeReplyTest extends BrokerTester
 {
-    public function testAccepted()
+    public function testAccepted(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -68,7 +68,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testAcceptedWithTz()
+    public function testAcceptedWithTz(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -186,7 +186,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testRecurringReply()
+    public function testRecurringReply(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -332,7 +332,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testRecurringAllDay()
+    public function testRecurringAllDay(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -471,7 +471,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testNoChange()
+    public function testNoChange(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -503,7 +503,7 @@ ICS;
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testNoChangeForceSend()
+    public function testNoChangeForceSend(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -562,7 +562,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testNoRelevantAttendee()
+    public function testNoRelevantAttendee(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -602,7 +602,7 @@ ICS;
      * This should automatically generate a DECLINED message for that
      * specific instance.
      */
-    public function testCreateReplyByException()
+    public function testCreateReplyByException(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -671,7 +671,7 @@ ICS
      *
      * @depends testCreateReplyByException
      */
-    public function testCreateReplyByExceptionTz()
+    public function testCreateReplyByExceptionTz(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -737,7 +737,7 @@ ICS
     /**
      * @depends testCreateReplyByException
      */
-    public function testCreateReplyByExceptionAllDay()
+    public function testCreateReplyByExceptionAllDay(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -803,7 +803,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testDeclined()
+    public function testDeclined(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -864,7 +864,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testDeclinedCancelledEvent()
+    public function testDeclinedCancelledEvent(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -894,8 +894,6 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
-
         $expected = [];
 
         $this->parse($oldMessage, $newMessage, $expected);
@@ -910,7 +908,7 @@ ICS;
      * For any other attendance status, the new status would have been
      * declined, but for this, no message should we sent.
      */
-    public function testDontCreateReplyWhenEventWasDeclined()
+    public function testDontCreateReplyWhenEventWasDeclined(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -955,7 +953,7 @@ ICS;
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testScheduleAgentOnOrganizer()
+    public function testScheduleAgentOnOrganizer(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -983,13 +981,11 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
-
         $expected = [];
         $this->parse($oldMessage, $newMessage, $expected);
     }
 
-    public function testAcceptedAllDay()
+    public function testAcceptedAllDay(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -1057,7 +1053,7 @@ ICS
      * This is possible in cases an organizer created a recurring event, and
      * invited an attendee for one instance of the event.
      */
-    public function testReplyNoMasterEvent()
+    public function testReplyNoMasterEvent(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -1088,8 +1084,6 @@ SUMMARY:Daily sprint
 END:VEVENT
 END:VCALENDAR
 ICS;
-
-        $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [
             [
@@ -1129,7 +1123,7 @@ ICS
      *
      * @depends testAccepted
      */
-    public function testPartyCrasher()
+    public function testPartyCrasher(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR

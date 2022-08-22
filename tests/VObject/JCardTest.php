@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class JCardTest extends TestCase
 {
-    public function testToJCard()
+    public function testToJCard(): void
     {
         $card = new Component\VCard([
             'VERSION' => '4.0',

@@ -22,7 +22,7 @@ class MainTest extends TestCase
      * @throws NoInstancesException
      * @throws InvalidDataException
      */
-    public function testValues()
+    public function testValues(): void
     {
         $vcal = new VCalendar();
         /** @var VEvent $ev */
@@ -47,7 +47,7 @@ class MainTest extends TestCase
      *
      * @throws Exception
      */
-    public function testInvalidFreq()
+    public function testInvalidFreq(): void
     {
         $this->expectException(InvalidDataException::class);
         $vcal = new VCalendar();
@@ -70,7 +70,7 @@ class MainTest extends TestCase
      * @throws InvalidDataException
      * @throws NoInstancesException
      */
-    public function testVCalendarNoUID()
+    public function testVCalendarNoUID(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $vcal = new VCalendar();
@@ -82,7 +82,7 @@ class MainTest extends TestCase
      * @throws NoInstancesException
      * @throws InvalidDataException
      */
-    public function testVCalendarInvalidUID()
+    public function testVCalendarInvalidUID(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $vcal = new VCalendar();
@@ -95,7 +95,7 @@ class MainTest extends TestCase
      * @throws InvalidDataException
      * @throws Exception
      */
-    public function testHourly()
+    public function testHourly(): void
     {
         $vcal = new VCalendar();
         /** @var VEvent $ev */
@@ -153,7 +153,7 @@ class MainTest extends TestCase
      * @throws NoInstancesException
      * @throws Exception
      */
-    public function testDaily()
+    public function testDaily(): void
     {
         $vcal = new VCalendar();
         /** @var VEvent $ev */
@@ -202,7 +202,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testNoRRULE()
+    public function testNoRRULE(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -242,7 +242,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testDailyByDayByHour()
+    public function testDailyByDayByHour(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -294,7 +294,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testDailyByHour()
+    public function testDailyByHour(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -346,7 +346,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testDailyByDay()
+    public function testDailyByDay(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -398,7 +398,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testWeekly()
+    public function testWeekly(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -448,7 +448,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testWeeklyByDayByHour()
+    public function testWeeklyByDayByHour(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -503,7 +503,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testWeeklyByDaySpecificHour()
+    public function testWeeklyByDaySpecificHour(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -555,7 +555,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testWeeklyByDay()
+    public function testWeeklyByDay(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -607,7 +607,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testMonthly()
+    public function testMonthly(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -651,7 +651,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testMonthlyEndOfMonth()
+    public function testMonthlyEndOfMonth(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -707,7 +707,7 @@ class MainTest extends TestCase
      * @throws NoInstancesException
      * @throws Exception
      */
-    public function testMonthlyByMonthDay()
+    public function testMonthlyByMonthDay(): void
     {
         $vcal = new VCalendar();
         /** @var VEvent $ev */
@@ -761,7 +761,7 @@ class MainTest extends TestCase
      * @depends testValues
      * @medium
      */
-    public function testMonthlyByDay()
+    public function testMonthlyByDay(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -816,7 +816,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testMonthlyByDayByMonthDay()
+    public function testMonthlyByDayByMonthDay(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -865,7 +865,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testMonthlyByDayBySetPos()
+    public function testMonthlyByDayBySetPos(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -917,7 +917,7 @@ class MainTest extends TestCase
      * @throws InvalidDataException
      * @throws Exception
      */
-    public function testYearly()
+    public function testYearly(): void
     {
         $vcal = new VCalendar();
         /** @var VEvent $ev */
@@ -968,7 +968,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testYearlyLeapYear()
+    public function testYearlyLeapYear(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -1010,7 +1010,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testYearlyByMonth()
+    public function testYearlyByMonth(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -1057,7 +1057,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testYearlyByMonthByDay()
+    public function testYearlyByMonthByDay(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -1104,7 +1104,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testFastForward()
+    public function testFastForward(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -1142,7 +1142,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testFastForwardAllDayEventThatStopAtTheStartTime()
+    public function testFastForwardAllDayEventThatStopAtTheStartTime(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -1175,7 +1175,7 @@ class MainTest extends TestCase
      * @throws NoInstancesException
      * @throws Exception
      */
-    public function testComplexExclusions()
+    public function testComplexExclusions(): void
     {
         $vcal = new VCalendar();
         /** @var VEvent $ev */
@@ -1232,7 +1232,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testOverriddenEvent()
+    public function testOverriddenEvent(): void
     {
         $vcal = new VCalendar();
 
@@ -1303,7 +1303,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testOverriddenEvent2()
+    public function testOverriddenEvent2(): void
     {
         $vcal = new VCalendar();
 
@@ -1351,7 +1351,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testOverriddenEventNoValuesExpected()
+    public function testOverriddenEventNoValuesExpected(): void
     {
         $vcal = new VCalendar();
         $ev1 = $vcal->createComponent('VEVENT');
@@ -1398,7 +1398,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testRDATE()
+    public function testRDATE(): void
     {
         $vcal = new VCalendar();
         $ev = $vcal->createComponent('VEVENT');
@@ -1444,7 +1444,7 @@ class MainTest extends TestCase
     /**
      * @depends testValues
      */
-    public function testNoMasterBadUID()
+    public function testNoMasterBadUID(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $vcal = new VCalendar();
@@ -1466,6 +1466,6 @@ class MainTest extends TestCase
 
         $vcal->add($ev3);
 
-        $it = new EventIterator($vcal, 'broken');
+        new EventIterator($vcal, 'broken');
     }
 }

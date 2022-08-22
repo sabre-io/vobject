@@ -8,7 +8,7 @@ use Sabre\VObject\ParseException;
 
 class JsonTest extends TestCase
 {
-    public function testRoundTripJCard()
+    public function testRoundTripJCard(): void
     {
         $input = [
             'vcard',
@@ -197,7 +197,7 @@ VCF;
         );
     }
 
-    public function testRoundTripJCal()
+    public function testRoundTripJCal(): void
     {
         $input = [
             'vcalendar',
@@ -353,7 +353,7 @@ VCF;
         );
     }
 
-    public function testParseStreamArg()
+    public function testParseStreamArg(): void
     {
         $input = [
             'vcard',
@@ -372,7 +372,7 @@ VCF;
         $this->assertEquals('foo', $result->FN->getValue());
     }
 
-    public function testParseInvalidData()
+    public function testParseInvalidData(): void
     {
         $this->expectException(ParseException::class);
         $json = new Json();

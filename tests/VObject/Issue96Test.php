@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class Issue96Test extends TestCase
 {
-    public function testRead()
+    public function testRead(): void
     {
         $input = <<<VCF
 BEGIN:VCARD

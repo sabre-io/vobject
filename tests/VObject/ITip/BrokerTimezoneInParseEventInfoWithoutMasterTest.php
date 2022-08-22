@@ -7,7 +7,7 @@ use Sabre\VObject\Reader;
 
 class BrokerTimezoneInParseEventInfoWithoutMasterTest extends TestCase
 {
-    public function testTimezoneInParseEventInfoWithoutMaster()
+    public function testTimezoneInParseEventInfoWithoutMaster(): void
     {
         $calendar = <<<ICS
 BEGIN:VCALENDAR
@@ -73,6 +73,6 @@ ICS;
         $reflectionMethod->setAccessible(true);
         $data = $reflectionMethod->invoke($broker, $calendar);
         $this->assertInstanceOf('DateTimeZone', $data['timezone']);
-        $this->assertEquals($data['timezone']->getName(), 'Europe/Minsk');
+        $this->assertEquals('Europe/Minsk', $data['timezone']->getName());
     }
 }

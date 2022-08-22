@@ -11,7 +11,7 @@ class RecurTest extends TestCase
 {
     use \Sabre\VObject\PHPUnitAssertions;
 
-    public function testParts()
+    public function testParts(): void
     {
         $vcal = new VCalendar();
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
@@ -24,7 +24,7 @@ class RecurTest extends TestCase
         $this->assertEquals(['FREQ' => 'MONTHLY'], $recur->getParts());
     }
 
-    public function testSetValueBadVal()
+    public function testSetValueBadVal(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $vcal = new VCalendar();
@@ -32,15 +32,15 @@ class RecurTest extends TestCase
         $recur->setValue(new \Exception());
     }
 
-    public function testSetValueWithCount()
+    public function testSetValueWithCount(): void
     {
         $vcal = new VCalendar();
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
         $recur->setValue(['COUNT' => 3]);
-        $this->assertEquals($recur->getParts()['COUNT'], 3);
+        $this->assertEquals(3, $recur->getParts()['COUNT']);
     }
 
-    public function testGetJSONWithCount()
+    public function testGetJSONWithCount(): void
     {
         $input = 'BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -62,7 +62,7 @@ END:VCALENDAR
         $this->assertEquals(3, $count);
     }
 
-    public function testSetSubParts()
+    public function testSetSubParts(): void
     {
         $vcal = new VCalendar();
         $recur = $vcal->add('RRULE', ['FREQ' => 'DAILY', 'BYDAY' => 'mo,tu', 'BYMONTH' => [0, 1]]);
@@ -74,7 +74,7 @@ END:VCALENDAR
         ], $recur->getParts());
     }
 
-    public function testGetJSONWithUntil()
+    public function testGetJSONWithUntil(): void
     {
         $input = 'BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -95,7 +95,7 @@ END:VCALENDAR
         $this->assertEquals('2016-03-05T23:00:00Z', $untilJsonString);
     }
 
-    public function testValidateStripEmpties()
+    public function testValidateStripEmpties(): void
     {
         $input = 'BEGIN:VCALENDAR
 VERSION:2.0
@@ -114,13 +114,13 @@ END:VCALENDAR
 ';
 
         $vcal = Reader::read($input);
-        $this->assertEquals(
+        $this->assertCount(
             1,
-            count($vcal->validate())
+            $vcal->validate()
         );
-        $this->assertEquals(
+        $this->assertCount(
             1,
-            count($vcal->validate($vcal::REPAIR))
+            $vcal->validate($vcal::REPAIR)
         );
 
         $expected = 'BEGIN:VCALENDAR
@@ -145,7 +145,7 @@ END:VCALENDAR
         );
     }
 
-    public function testValidateStripNoFreq()
+    public function testValidateStripNoFreq(): void
     {
         $input = 'BEGIN:VCALENDAR
 VERSION:2.0
@@ -164,13 +164,13 @@ END:VCALENDAR
 ';
 
         $vcal = Reader::read($input);
-        $this->assertEquals(
+        $this->assertCount(
             1,
-            count($vcal->validate())
+            $vcal->validate()
         );
-        $this->assertEquals(
+        $this->assertCount(
             1,
-            count($vcal->validate($vcal::REPAIR))
+            $vcal->validate($vcal::REPAIR)
         );
 
         $expected = 'BEGIN:VCALENDAR
@@ -194,7 +194,7 @@ END:VCALENDAR
         );
     }
 
-    public function testValidateInvalidByMonthRruleWithRepair()
+    public function testValidateInvalidByMonthRruleWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=0');
@@ -206,7 +206,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24', $property->getValue());
     }
 
-    public function testValidateInvalidByMonthRruleWithoutRepair()
+    public function testValidateInvalidByMonthRruleWithoutRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=0');
@@ -218,7 +218,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=0', $property->getValue());
     }
 
-    public function testValidateInvalidByMonthRruleWithRepair2()
+    public function testValidateInvalidByMonthRruleWithRepair2(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=bla');
@@ -230,7 +230,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24', $property->getValue());
     }
 
-    public function testValidateInvalidByMonthRruleWithoutRepair2()
+    public function testValidateInvalidByMonthRruleWithoutRepair2(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=bla');
@@ -243,7 +243,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=BLA', $property->getValue());
     }
 
-    public function testValidateInvalidByMonthRruleValue14WithRepair()
+    public function testValidateInvalidByMonthRruleValue14WithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=14');
@@ -255,7 +255,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24', $property->getValue());
     }
 
-    public function testValidateInvalidByMonthRruleMultipleWithRepair()
+    public function testValidateInvalidByMonthRruleMultipleWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=0,1,2,3,4,14');
@@ -269,7 +269,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=1,2,3,4', $property->getValue());
     }
 
-    public function testValidateOneOfManyInvalidByMonthRruleWithRepair()
+    public function testValidateOneOfManyInvalidByMonthRruleWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=bla,3,foo');
@@ -283,7 +283,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=3', $property->getValue());
     }
 
-    public function testValidateValidByMonthRrule()
+    public function testValidateValidByMonthRrule(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYMONTHDAY=24;BYMONTH=2,3');
@@ -293,7 +293,7 @@ END:VCALENDAR
     /**
      * test for issue #336.
      */
-    public function testValidateRruleBySecondZero()
+    public function testValidateRruleBySecondZero(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=DAILY;BYHOUR=10;BYMINUTE=30;BYSECOND=0;UNTIL=20150616T153000Z');
@@ -304,7 +304,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=DAILY;BYHOUR=10;BYMINUTE=30;BYSECOND=0;UNTIL=20150616T153000Z', $property->getValue());
     }
 
-    public function testValidateValidByWeekNoWithRepair()
+    public function testValidateValidByWeekNoWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=11');
@@ -314,7 +314,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYWEEKNO=11', $property->getValue());
     }
 
-    public function testValidateInvalidByWeekNoWithRepair()
+    public function testValidateInvalidByWeekNoWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=55;BYDAY=WE');
@@ -326,7 +326,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYDAY=WE', $property->getValue());
     }
 
-    public function testValidateMultipleInvalidByWeekNoWithRepair()
+    public function testValidateMultipleInvalidByWeekNoWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=55,2,-80;BYDAY=WE');
@@ -340,7 +340,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYWEEKNO=2;BYDAY=WE', $property->getValue());
     }
 
-    public function testValidateAllInvalidByWeekNoWithRepair()
+    public function testValidateAllInvalidByWeekNoWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=55,-80;BYDAY=WE');
@@ -354,7 +354,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYDAY=WE', $property->getValue());
     }
 
-    public function testValidateInvalidByWeekNoWithoutRepair()
+    public function testValidateInvalidByWeekNoWithoutRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYWEEKNO=55;BYDAY=WE');
@@ -366,7 +366,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYWEEKNO=55;BYDAY=WE', $property->getValue());
     }
 
-    public function testValidateValidByYearDayWithRepair()
+    public function testValidateValidByYearDayWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=119');
@@ -376,7 +376,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYYEARDAY=119', $property->getValue());
     }
 
-    public function testValidateInvalidByYearDayWithRepair()
+    public function testValidateInvalidByYearDayWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=367;BYDAY=WE');
@@ -388,7 +388,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYDAY=WE', $property->getValue());
     }
 
-    public function testValidateMultipleInvalidByYearDayWithRepair()
+    public function testValidateMultipleInvalidByYearDayWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=380,2,-390;BYDAY=WE');
@@ -402,7 +402,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYYEARDAY=2;BYDAY=WE', $property->getValue());
     }
 
-    public function testValidateAllInvalidByYearDayWithRepair()
+    public function testValidateAllInvalidByYearDayWithRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=455,-480;BYDAY=WE');
@@ -416,7 +416,7 @@ END:VCALENDAR
         $this->assertEquals('FREQ=YEARLY;COUNT=6;BYDAY=WE', $property->getValue());
     }
 
-    public function testValidateInvalidByYearDayWithoutRepair()
+    public function testValidateInvalidByYearDayWithoutRepair(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('RRULE', 'FREQ=YEARLY;COUNT=6;BYYEARDAY=380;BYDAY=WE');

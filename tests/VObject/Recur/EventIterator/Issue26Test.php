@@ -10,7 +10,7 @@ use Sabre\VObject\Recur\EventIterator;
 
 class Issue26Test extends TestCase
 {
-    public function testExpand()
+    public function testExpand(): void
     {
         $this->expectException(InvalidDataException::class);
         $input = <<<ICS
@@ -28,6 +28,6 @@ ICS;
         $vcal = Reader::read($input);
         $this->assertInstanceOf(VCalendar::class, $vcal);
 
-        $it = new EventIterator($vcal, 'bae5d57a98');
+        new EventIterator($vcal, 'bae5d57a98');
     }
 }

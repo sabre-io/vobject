@@ -14,7 +14,7 @@ use Sabre\VObject\Reader;
  */
 class VAvailabilityTest extends TestCase
 {
-    public function testVAvailabilityComponent()
+    public function testVAvailabilityComponent(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR
@@ -27,7 +27,7 @@ VCAL;
         $this->assertInstanceOf(VAvailability::class, $document->VAVAILABILITY);
     }
 
-    public function testGetEffectiveStartEnd()
+    public function testGetEffectiveStartEnd(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR
@@ -49,7 +49,7 @@ VCAL;
         );
     }
 
-    public function testGetEffectiveStartDuration()
+    public function testGetEffectiveStartDuration(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR
@@ -71,7 +71,7 @@ VCAL;
         );
     }
 
-    public function testGetEffectiveStartEndUnbound()
+    public function testGetEffectiveStartEndUnbound(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR
@@ -90,7 +90,7 @@ VCAL;
         );
     }
 
-    public function testIsInTimeRangeUnbound()
+    public function testIsInTimeRangeUnbound(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR
@@ -105,7 +105,7 @@ VCAL;
         );
     }
 
-    public function testIsInTimeRangeOutside()
+    public function testIsInTimeRangeOutside(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR
@@ -122,7 +122,7 @@ VCAL;
         );
     }
 
-    public function testRFCxxxSection3Part1AvailabilitypropRequired()
+    public function testRFCxxxSection3Part1AvailabilityPropRequired(): void
     {
         // UID and DTSTAMP are present.
         $this->assertIsValid(Reader::read(
@@ -177,7 +177,7 @@ VCAL
         ));
     }
 
-    public function testRFCxxxSection3Part1AvailabilitypropOptionalOnce()
+    public function testRFCxxxSection3Part1AvailabilityPropOptionalOnce(): void
     {
         $properties = [
             'BUSYTYPE:BUSY',
@@ -205,7 +205,7 @@ VCAL
         }
     }
 
-    public function testRFCxxxSection3Part1AvailabilitypropDtendDuration()
+    public function testRFCxxxSection3Part1AvailabilityPropDtendDuration(): void
     {
         // Only DTEND.
         $this->assertIsValid(Reader::read($this->template([
@@ -224,7 +224,7 @@ VCAL
         ])));
     }
 
-    public function testAvailableSubComponent()
+    public function testAvailableSubComponent(): void
     {
         $vcal = <<<VCAL
 BEGIN:VCALENDAR
@@ -239,7 +239,7 @@ VCAL;
         $this->assertInstanceOf(Available::class, $document->VAVAILABILITY->AVAILABLE);
     }
 
-    public function testRFCxxxSection3Part1AvailablepropRequired()
+    public function testRFCxxxSection3Part1AvailablePropRequired(): void
     {
         // UID, DTSTAMP and DTSTART are present.
         $this->assertIsValid(Reader::read(
@@ -331,7 +331,7 @@ VCAL
         ));
     }
 
-    public function testRFCxxxSection3Part1AvailableDtendDuration()
+    public function testRFCxxxSection3Part1AvailableDtendDuration(): void
     {
         // Only DTEND.
         $this->assertIsValid(Reader::read($this->templateAvailable([
@@ -350,7 +350,7 @@ VCAL
         ])));
     }
 
-    public function testRFCxxxSection3Part1AvailableOptionalOnce()
+    public function testRFCxxxSection3Part1AvailableOptionalOnce(): void
     {
         $properties = [
             'CREATED:20111005T135125Z',
@@ -373,7 +373,7 @@ VCAL
         }
     }
 
-    public function testRFCxxxSection3Part2()
+    public function testRFCxxxSection3Part2(): void
     {
         $this->assertEquals(
             'BUSY',
@@ -409,7 +409,7 @@ VCAL
         );
     }
 
-    protected function assertIsValid(VObject\Document $document)
+    protected function assertIsValid(VObject\Document $document): void
     {
         $validationResult = $document->validate();
         if ($validationResult) {
@@ -419,7 +419,7 @@ VCAL
         $this->assertEmpty($document->validate());
     }
 
-    protected function assertIsNotValid(VObject\Document $document)
+    protected function assertIsNotValid(VObject\Document $document): void
     {
         $this->assertNotEmpty($document->validate());
     }

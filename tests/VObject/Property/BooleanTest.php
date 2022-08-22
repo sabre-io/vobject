@@ -10,7 +10,7 @@ class BooleanTest extends TestCase
     /**
      * @throws VObject\ParseException
      */
-    public function testMimeDir()
+    public function testMimeDir(): void
     {
         $input = "BEGIN:VCARD\r\nX-AWESOME;VALUE=BOOLEAN:TRUE\r\nX-SUCKS;VALUE=BOOLEAN:FALSE\r\nEND:VCARD\r\n";
 

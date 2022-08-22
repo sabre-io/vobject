@@ -10,12 +10,12 @@ class VTodoTest extends TestCase
     /**
      * @dataProvider timeRangeTestData
      */
-    public function testInTimeRange(VTodo $vtodo, $start, $end, $outcome)
+    public function testInTimeRange(VTodo $vtodo, \DateTime $start, \DateTime $end, bool $outcome): void
     {
         $this->assertEquals($outcome, $vtodo->isInTimeRange($start, $end));
     }
 
-    public function timeRangeTestData()
+    public function timeRangeTestData(): array
     {
         $tests = [];
 
@@ -64,7 +64,7 @@ class VTodoTest extends TestCase
         return $tests;
     }
 
-    public function testValidate()
+    public function testValidate(): void
     {
         $input = <<<HI
 BEGIN:VCALENDAR
@@ -88,7 +88,7 @@ HI;
         $this->assertEquals([], $messages);
     }
 
-    public function testValidateInvalid()
+    public function testValidateInvalid(): void
     {
         $input = <<<HI
 BEGIN:VCALENDAR
@@ -113,7 +113,7 @@ HI;
         ], $messages);
     }
 
-    public function testValidateDUEDTSTARTMisMatch()
+    public function testValidateDUEDTSTARTMisMatch(): void
     {
         $input = <<<HI
 BEGIN:VCALENDAR
@@ -141,7 +141,7 @@ HI;
         ], $messages);
     }
 
-    public function testValidateDUEbeforeDTSTART()
+    public function testValidateDUEbeforeDTSTART(): void
     {
         $input = <<<HI
 BEGIN:VCALENDAR

@@ -7,7 +7,7 @@ use Sabre\VObject;
 
 class PhoneNumberTest extends TestCase
 {
-    public function testParser()
+    public function testParser(): void
     {
         $input = "BEGIN:VCARD\r\nVERSION:3.0\r\nTEL;TYPE=HOME;VALUE=PHONE-NUMBER:+1234\r\nEND:VCARD\r\n";
 

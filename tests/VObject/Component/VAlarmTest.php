@@ -12,12 +12,12 @@ class VAlarmTest extends TestCase
     /**
      * @dataProvider timeRangeTestData
      */
-    public function testInTimeRange(VAlarm $valarm, $start, $end, $outcome)
+    public function testInTimeRange(VAlarm $valarm, DateTime $start, DateTime $end, bool $outcome): void
     {
         $this->assertEquals($outcome, $valarm->isInTimeRange($start, $end));
     }
 
-    public function timeRangeTestData()
+    public function timeRangeTestData(): array
     {
         $tests = [];
 
@@ -127,7 +127,7 @@ class VAlarmTest extends TestCase
         return $tests;
     }
 
-    public function testInTimeRangeInvalidComponent()
+    public function testInTimeRangeInvalidComponent(): void
     {
         $this->expectException(InvalidDataException::class);
         $calendar = new VCalendar();
@@ -144,7 +144,7 @@ class VAlarmTest extends TestCase
     /**
      * This bug was found and reported on the mailing list.
      */
-    public function testInTimeRangeBuggy()
+    public function testInTimeRangeBuggy(): void
     {
         $input = <<<BLA
 BEGIN:VCALENDAR

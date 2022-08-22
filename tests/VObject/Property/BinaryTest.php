@@ -7,7 +7,7 @@ use Sabre\VObject;
 
 class BinaryTest extends TestCase
 {
-    public function testMimeDir()
+    public function testMimeDir(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $vcard = new VObject\Component\VCard(['VERSION' => '3.0']);

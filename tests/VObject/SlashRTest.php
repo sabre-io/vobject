@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class SlashRTest extends TestCase
 {
-    public function testEncode()
+    public function testEncode(): void
     {
         $vcal = new Component\VCalendar();
         $prop = $vcal->add('test', "abc\r\ndef");

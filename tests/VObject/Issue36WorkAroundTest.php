@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class Issue36WorkAroundTest extends TestCase
 {
-    public function testWorkaround()
+    public function testWorkaround(): void
     {
         // See https://github.com/fruux/sabre-vobject/issues/36
         $event = <<<ICS

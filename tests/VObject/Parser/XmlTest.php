@@ -9,7 +9,7 @@ class XmlTest extends TestCase
 {
     use VObject\PHPUnitAssertions;
 
-    public function testRFC6321Example1()
+    public function testRFC6321Example1(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -64,7 +64,7 @@ XML
         );
     }
 
-    public function testRFC6321Example2()
+    public function testRFC6321Example2(): void
     {
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -262,7 +262,7 @@ XML;
     /**
      * iCalendar Stream.
      */
-    public function testRFC6321Section3Part2()
+    public function testRFC6321Section3Part2(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -280,7 +280,7 @@ XML
     /**
      * All components exist.
      */
-    public function testRFC6321Section3Part3()
+    public function testRFC6321Section3Part3(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -325,7 +325,7 @@ XML
     /**
      * Properties, Special Cases, GEO.
      */
-    public function testRFC6321Section3Part4Part1Part2()
+    public function testRFC6321Section3Part4Part1Part2(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -351,7 +351,7 @@ XML
     /**
      * Properties, Special Cases, REQUEST-STATUS.
      */
-    public function testRFC6321Section3Part4Part1Part3()
+    public function testRFC6321Section3Part4Part1Part3(): void
     {
         // Example 1 of RFC5545, Section 3.8.8.3.
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -466,7 +466,7 @@ XML
     /**
      * Values, Binary.
      */
-    public function testRFC6321Section3Part6Part1()
+    public function testRFC6321Section3Part6Part1(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -511,7 +511,7 @@ XML
     /**
      * Values, Boolean.
      */
-    public function testRFC6321Section3Part6Part2()
+    public function testRFC6321Section3Part6Part2(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -539,7 +539,7 @@ XML
     /**
      * Values, Calendar User Address.
      */
-    public function testRFC6321Section3Part6Part3()
+    public function testRFC6321Section3Part6Part3(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -564,7 +564,7 @@ XML
     /**
      * Values, Date.
      */
-    public function testRFC6321Section3Part6Part4()
+    public function testRFC6321Section3Part6Part4(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -589,7 +589,7 @@ XML
     /**
      * Values, Date-Time.
      */
-    public function testRFC6321Section3Part6Part5()
+    public function testRFC6321Section3Part6Part5(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -614,7 +614,7 @@ XML
     /**
      * Values, Duration.
      */
-    public function testRFC6321Section3Part6Part6()
+    public function testRFC6321Section3Part6Part6(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -639,7 +639,7 @@ XML
     /**
      * Values, Float.
      */
-    public function testRFC6321Section3Part6Part7()
+    public function testRFC6321Section3Part6Part7(): void
     {
         // GEO uses <float /> with a positive and a non-negative numbers.
         $this->testRFC6321Section3Part4Part1Part2();
@@ -648,7 +648,7 @@ XML
     /**
      * Values, Integer.
      */
-    public function testRFC6321Section3Part6Part8()
+    public function testRFC6321Section3Part6Part8(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -692,7 +692,7 @@ XML
     /**
      * Values, Period of Time.
      */
-    public function testRFC6321Section3Part6Part9()
+    public function testRFC6321Section3Part6Part9(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -742,7 +742,7 @@ XML
     /**
      * Values, Recurrence Rule.
      */
-    public function testRFC6321Section3Part6Part10()
+    public function testRFC6321Section3Part6Part10(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -772,7 +772,7 @@ XML
     /**
      * Values, Text.
      */
-    public function testRFC6321Section3Part6Part11()
+    public function testRFC6321Section3Part6Part11(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -797,7 +797,7 @@ XML
     /**
      * Values, Time.
      */
-    public function testRFC6321Section3Part6Part12()
+    public function testRFC6321Section3Part6Part12(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -822,7 +822,7 @@ XML
     /**
      * Values, URI.
      */
-    public function testRFC6321Section3Part6Part13()
+    public function testRFC6321Section3Part6Part13(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -847,7 +847,7 @@ XML
     /**
      * Values, UTC Offset.
      */
-    public function testRFC6321Section3Part6Part14()
+    public function testRFC6321Section3Part6Part14(): void
     {
         // Example 1 of RFC5545, Section 3.3.14.
         $this->assertXMLReflexivelyEqualsToMimeDir(
@@ -893,7 +893,7 @@ XML
     /**
      * Handling Unrecognized Properties or Parameters.
      */
-    public function testRFC6321Section5()
+    public function testRFC6321Section5(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -939,7 +939,7 @@ XML
         );
     }
 
-    public function testRDateWithDateTime()
+    public function testRDateWithDateTime(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -981,7 +981,7 @@ XML
         );
     }
 
-    public function testRDateWithDate()
+    public function testRDateWithDate(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -1024,7 +1024,7 @@ XML
         );
     }
 
-    public function testRDateWithPeriod()
+    public function testRDateWithPeriod(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1089,7 +1089,7 @@ XML
     /**
      * Basic example.
      */
-    public function testRFC6351Basic()
+    public function testRFC6351Basic(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1121,7 +1121,7 @@ XML
     /**
      * Example 1.
      */
-    public function testRFC6351Example1()
+    public function testRFC6351Example1(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1165,7 +1165,7 @@ XML
     /**
      * Design Considerations.
      */
-    public function testRFC6351Section5()
+    public function testRFC6351Section5(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -1219,7 +1219,7 @@ XML
     /**
      * Design Considerations.
      */
-    public function testRFC6351Section5Group()
+    public function testRFC6351Section5Group(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1259,7 +1259,7 @@ XML
     /**
      * Extensibility.
      */
-    public function testRFC6351Section5Part1NoNamespace()
+    public function testRFC6351Section5Part1NoNamespace(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -1288,7 +1288,7 @@ XML
     /**
      * Section 4.3.1 of Relax NG Schema: value-date.
      */
-    public function testRFC6351ValueDateWithYearMonthDay()
+    public function testRFC6351ValueDateWithYearMonthDay(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1312,7 +1312,7 @@ XML
     /**
      * Section 4.3.1 of Relax NG Schema: value-date.
      */
-    public function testRFC6351ValueDateWithYearMonth()
+    public function testRFC6351ValueDateWithYearMonth(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1336,7 +1336,7 @@ XML
     /**
      * Section 4.3.1 of Relax NG Schema: value-date.
      */
-    public function testRFC6351ValueDateWithMonth()
+    public function testRFC6351ValueDateWithMonth(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1360,7 +1360,7 @@ XML
     /**
      * Section 4.3.1 of Relax NG Schema: value-date.
      */
-    public function testRFC6351ValueDateWithMonthDay()
+    public function testRFC6351ValueDateWithMonthDay(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1384,7 +1384,7 @@ XML
     /**
      * Section 4.3.1 of Relax NG Schema: value-date.
      */
-    public function testRFC6351ValueDateWithDay()
+    public function testRFC6351ValueDateWithDay(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1408,7 +1408,7 @@ XML
     /**
      * Section 4.3.2 of Relax NG Schema: value-time.
      */
-    public function testRFC6351ValueTimeWithHour()
+    public function testRFC6351ValueTimeWithHour(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1432,7 +1432,7 @@ XML
     /**
      * Section 4.3.2 of Relax NG Schema: value-time.
      */
-    public function testRFC6351ValueTimeWithHourMinute()
+    public function testRFC6351ValueTimeWithHourMinute(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1456,7 +1456,7 @@ XML
     /**
      * Section 4.3.2 of Relax NG Schema: value-time.
      */
-    public function testRFC6351ValueTimeWithHourMinuteSecond()
+    public function testRFC6351ValueTimeWithHourMinuteSecond(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1480,7 +1480,7 @@ XML
     /**
      * Section 4.3.2 of Relax NG Schema: value-time.
      */
-    public function testRFC6351ValueTimeWithMinute()
+    public function testRFC6351ValueTimeWithMinute(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1504,7 +1504,7 @@ XML
     /**
      * Section 4.3.2 of Relax NG Schema: value-time.
      */
-    public function testRFC6351ValueTimeWithMinuteSecond()
+    public function testRFC6351ValueTimeWithMinuteSecond(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1528,7 +1528,7 @@ XML
     /**
      * Section 4.3.2 of Relax NG Schema: value-time.
      */
-    public function testRFC6351ValueTimeWithSecond()
+    public function testRFC6351ValueTimeWithSecond(): void
     {
         $this->assertTrue(true);
 
@@ -1561,7 +1561,7 @@ XML
     /**
      * Section 4.3.2 of Relax NG Schema: value-time.
      */
-    public function testRFC6351ValueTimeWithSecondZ()
+    public function testRFC6351ValueTimeWithSecondZ(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1585,7 +1585,7 @@ XML
     /**
      * Section 4.3.2 of Relax NG Schema: value-time.
      */
-    public function testRFC6351ValueTimeWithSecondTZ()
+    public function testRFC6351ValueTimeWithSecondTZ(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1609,7 +1609,7 @@ XML
     /**
      * Section 4.3.3 of Relax NG Schema: value-date-time.
      */
-    public function testRFC6351ValueDateTimeWithYearMonthDayHour()
+    public function testRFC6351ValueDateTimeWithYearMonthDayHour(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1633,7 +1633,7 @@ XML
     /**
      * Section 4.3.3 of Relax NG Schema: value-date-time.
      */
-    public function testRFC6351ValueDateTimeWithMonthDayHour()
+    public function testRFC6351ValueDateTimeWithMonthDayHour(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1657,7 +1657,7 @@ XML
     /**
      * Section 4.3.3 of Relax NG Schema: value-date-time.
      */
-    public function testRFC6351ValueDateTimeWithDayHour()
+    public function testRFC6351ValueDateTimeWithDayHour(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1681,7 +1681,7 @@ XML
     /**
      * Section 4.3.3 of Relax NG Schema: value-date-time.
      */
-    public function testRFC6351ValueDateTimeWithDayHourMinute()
+    public function testRFC6351ValueDateTimeWithDayHourMinute(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1705,7 +1705,7 @@ XML
     /**
      * Section 4.3.3 of Relax NG Schema: value-date-time.
      */
-    public function testRFC6351ValueDateTimeWithDayHourMinuteSecond()
+    public function testRFC6351ValueDateTimeWithDayHourMinuteSecond(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1729,7 +1729,7 @@ XML
     /**
      * Section 4.3.3 of Relax NG Schema: value-date-time.
      */
-    public function testRFC6351ValueDateTimeWithDayHourZ()
+    public function testRFC6351ValueDateTimeWithDayHourZ(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1753,7 +1753,7 @@ XML
     /**
      * Section 4.3.3 of Relax NG Schema: value-date-time.
      */
-    public function testRFC6351ValueDateTimeWithDayHourTZ()
+    public function testRFC6351ValueDateTimeWithDayHourTZ(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1777,7 +1777,7 @@ XML
     /**
      * Property: SOURCE.
      */
-    public function testRFC6350Section6Part1Part3()
+    public function testRFC6350Section6Part1Part3(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1801,7 +1801,7 @@ XML
     /**
      * Property: KIND.
      */
-    public function testRFC6350Section6Part1Part4()
+    public function testRFC6350Section6Part1Part4(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1825,7 +1825,7 @@ XML
     /**
      * Property: FN.
      */
-    public function testRFC6350Section6Part2Part1()
+    public function testRFC6350Section6Part2Part1(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1849,7 +1849,7 @@ XML
     /**
      * Property: N.
      */
-    public function testRFC6350Section6Part2Part2()
+    public function testRFC6350Section6Part2Part2(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1877,7 +1877,7 @@ XML
     /**
      * Property: NICKNAME.
      */
-    public function testRFC6350Section6Part2Part3()
+    public function testRFC6350Section6Part2Part3(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1902,7 +1902,7 @@ XML
     /**
      * Property: PHOTO.
      */
-    public function testRFC6350Section6Part2Part4()
+    public function testRFC6350Section6Part2Part4(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1923,7 +1923,7 @@ XML
         );
     }
 
-    public function testRFC6350Section6Part2Part5()
+    public function testRFC6350Section6Part2Part5(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1944,7 +1944,7 @@ XML
         );
     }
 
-    public function testRFC6350Section6Part2Part6()
+    public function testRFC6350Section6Part2Part6(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1968,7 +1968,7 @@ XML
     /**
      * Property: GENDER.
      */
-    public function testRFC6350Section6Part2Part7()
+    public function testRFC6350Section6Part2Part7(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -1993,7 +1993,7 @@ XML
     /**
      * Property: ADR.
      */
-    public function testRFC6350Section6Part3Part1()
+    public function testRFC6350Section6Part3Part1(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2023,7 +2023,7 @@ XML
     /**
      * Property: TEL.
      */
-    public function testRFC6350Section6Part4Part1()
+    public function testRFC6350Section6Part4Part1(): void
     {
         /*
          * Quoting RFC:
@@ -2085,7 +2085,7 @@ XML
     /**
      * Property: EMAIL.
      */
-    public function testRFC6350Section6Part4Part2()
+    public function testRFC6350Section6Part4Part2(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2114,7 +2114,7 @@ XML
     /**
      * Property: IMPP.
      */
-    public function testRFC6350Section6Part4Part3()
+    public function testRFC6350Section6Part4Part3(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2143,7 +2143,7 @@ XML
     /**
      * Property: LANG.
      */
-    public function testRFC6350Section6Part4Part4()
+    public function testRFC6350Section6Part4Part4(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2175,7 +2175,7 @@ XML
     /**
      * Property: TZ.
      */
-    public function testRFC6350Section6Part5Part1()
+    public function testRFC6350Section6Part5Part1(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2199,7 +2199,7 @@ XML
     /**
      * Property: GEO.
      */
-    public function testRFC6350Section6Part5Part2()
+    public function testRFC6350Section6Part5Part2(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -2241,7 +2241,7 @@ XML
     /**
      * Property: TITLE.
      */
-    public function testRFC6350Section6Part6Part1()
+    public function testRFC6350Section6Part6Part1(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2265,7 +2265,7 @@ XML
     /**
      * Property: ROLE.
      */
-    public function testRFC6350Section6Part6Part2()
+    public function testRFC6350Section6Part6Part2(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2289,7 +2289,7 @@ XML
     /**
      * Property: LOGO.
      */
-    public function testRFC6350Section6Part6Part3()
+    public function testRFC6350Section6Part6Part3(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2313,7 +2313,7 @@ XML
     /**
      * Property: ORG.
      */
-    public function testRFC6350Section6Part6Part4()
+    public function testRFC6350Section6Part6Part4(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2339,7 +2339,7 @@ XML
     /**
      * Property: MEMBER.
      */
-    public function testRFC6350Section6Part6Part5()
+    public function testRFC6350Section6Part6Part5(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2393,7 +2393,7 @@ XML
     /**
      * Property: RELATED.
      */
-    public function testRFC6350Section6Part6Part6()
+    public function testRFC6350Section6Part6Part6(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2422,7 +2422,7 @@ XML
     /**
      * Property: CATEGORIES.
      */
-    public function testRFC6350Section6Part7Part1()
+    public function testRFC6350Section6Part7Part1(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2449,7 +2449,7 @@ XML
     /**
      * Property: NOTE.
      */
-    public function testRFC6350Section6Part7Part2()
+    public function testRFC6350Section6Part7Part2(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2473,7 +2473,7 @@ XML
     /**
      * Property: PRODID.
      */
-    public function testRFC6350Section6Part7Part3()
+    public function testRFC6350Section6Part7Part3(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2494,7 +2494,7 @@ XML
         );
     }
 
-    public function testRFC6350Section6Part7Part4()
+    public function testRFC6350Section6Part7Part4(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2518,7 +2518,7 @@ XML
     /**
      * Property: SOUND.
      */
-    public function testRFC6350Section6Part7Part5()
+    public function testRFC6350Section6Part7Part5(): void
     {
         $this->assertXMLEqualsToMimeDir(
             <<<XML
@@ -2560,7 +2560,7 @@ XML
     /**
      * Property: UID.
      */
-    public function testRFC6350Section6Part7Part6()
+    public function testRFC6350Section6Part7Part6(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2584,7 +2584,7 @@ XML
     /**
      * Property: CLIENTPIDMAP.
      */
-    public function testRFC6350Section6Part7Part7()
+    public function testRFC6350Section6Part7Part7(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2609,7 +2609,7 @@ XML
     /**
      * Property: URL.
      */
-    public function testRFC6350Section6Part7Part8()
+    public function testRFC6350Section6Part7Part8(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2633,7 +2633,7 @@ XML
     /**
      * Property: VERSION.
      */
-    public function testRFC6350Section6Part7Part9()
+    public function testRFC6350Section6Part7Part9(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2652,7 +2652,7 @@ XML
     /**
      * Property: KEY.
      */
-    public function testRFC6350Section6Part8Part1()
+    public function testRFC6350Section6Part8Part1(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2681,7 +2681,7 @@ XML
     /**
      * Property: FBURL.
      */
-    public function testRFC6350Section6Part9Part1()
+    public function testRFC6350Section6Part9Part1(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2710,7 +2710,7 @@ XML
     /**
      * Property: CALADRURI.
      */
-    public function testRFC6350Section6Part9Part2()
+    public function testRFC6350Section6Part9Part2(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2734,7 +2734,7 @@ XML
     /**
      * Property: CALURI.
      */
-    public function testRFC6350Section6Part9Part3()
+    public function testRFC6350Section6Part9Part3(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2763,7 +2763,7 @@ XML
     /**
      * Property: CAPURI.
      */
-    public function testRFC6350SectionAPart3()
+    public function testRFC6350SectionAPart3(): void
     {
         $this->assertXMLReflexivelyEqualsToMimeDir(
             <<<XML
@@ -2788,7 +2788,7 @@ XML
      * Check this equality:
      *     XML -> object model -> MIME Dir.
      */
-    protected function assertXMLEqualsToMimeDir($xml, $mimedir)
+    protected function assertXMLEqualsToMimeDir(string $xml, string $mimedir): void
     {
         $component = VObject\Reader::readXML($xml);
         $this->assertVObjectEqualsVObject($mimedir, $component);
@@ -2798,7 +2798,7 @@ XML
      * Check this (reflexive) equality:
      *     XML -> object model -> MIME Dir -> object model -> XML.
      */
-    protected function assertXMLReflexivelyEqualsToMimeDir($xml, $mimedir)
+    protected function assertXMLReflexivelyEqualsToMimeDir(string $xml, string $mimedir): void
     {
         $this->assertXMLEqualsToMimeDir($xml, $mimedir);
 
