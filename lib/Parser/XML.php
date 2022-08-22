@@ -343,11 +343,9 @@ class XML extends Parser
      *
      * @param resource|string|array $input
      *
-     * @return void
-     *
      * @throws SabreXml\LibXMLException
      */
-    public function setInput($input)
+    public function setInput($input): void
     {
         if (is_resource($input)) {
             $input = stream_get_contents($input);

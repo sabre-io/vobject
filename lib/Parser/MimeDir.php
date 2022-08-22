@@ -13,7 +13,6 @@ use LogicException;
 
 use function rtrim;
 
-use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Document;
@@ -53,7 +52,7 @@ class MimeDir extends Parser
     protected ?Document $root;
 
     /**
-     * By default all input will be assumed to be UTF-8.
+     * By default, all input will be assumed to be UTF-8.
      *
      * However, both iCalendar and vCard might be encoded using different
      * character sets. The character set is usually set in the mime-type.
@@ -103,7 +102,7 @@ class MimeDir extends Parser
     }
 
     /**
-     * By default all input will be assumed to be UTF-8.
+     * By default, all input will be assumed to be UTF-8.
      *
      * However, both iCalendar and vCard might be encoded using different
      * character sets. The character set is usually set in the mime-type.
@@ -255,30 +254,24 @@ class MimeDir extends Parser
      * the next line.
      *
      * If that was not the case, we store it here.
-     *
-     * @var string|null
      */
-    protected $lineBuffer;
+    protected ?string $lineBuffer = null;
 
     /**
      * The real current line number.
      */
-    protected $lineIndex = 0;
+    protected int $lineIndex = 0;
 
     /**
      * In the case of unfolded lines, this property holds the line number for
      * the start of the line.
-     *
-     * @var int
      */
-    protected $startLine = 0;
+    protected int $startLine = 0;
 
     /**
      * Contains a 'raw' representation of the current line.
-     *
-     * @var string
      */
-    protected $rawLine;
+    protected string $rawLine;
 
     /**
      * Reads a single line from the buffer.
@@ -514,9 +507,9 @@ class MimeDir extends Parser
      *
      * vCard 3.0 says:
      *   * (rfc2425) Backslashes, newlines (\n or \N) and comma's must be
-     *     escaped, all time time.
-     *   * Comma's are used for delimiters in multiple values
-     *   * (rfc2426) Adds to to this that the semi-colon MUST also be escaped,
+     *     escaped, all the time.
+     *   * Commas are used for delimiters in multiple values
+     *   * (rfc2426) Adds to this that the semi-colon MUST also be escaped,
      *     as in some properties semi-colon is used for separators.
      *   * Properties using semi-colons: N, ADR, GEO, ORG
      *   * Both ADR and N's individual parts may be broken up further with a
@@ -549,7 +542,7 @@ class MimeDir extends Parser
      *     insignificant.
      *   * Semi-colons are described as the delimiter for 'structured values'.
      *     They are specifically used in Semi-colons are used as a delimiter in
-     *     REQUEST-STATUS, RRULE, GEO and EXRULE. EXRULE is deprecated however.
+     *     REQUEST-STATUS, RRULE, GEO and EXRULE. EXRULE is deprecated, however.
      *
      * Now for the parameters
      *
