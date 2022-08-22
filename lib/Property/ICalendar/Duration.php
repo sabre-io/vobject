@@ -61,11 +61,9 @@ class Duration extends Property
      *
      * If the property has more than one value, only the first is returned.
      *
-     * @return DateInterval|string
-     *
      * @throws InvalidDataException
      */
-    public function getDateInterval()
+    public function getDateInterval(): DateInterval
     {
         $parts = $this->getParts();
         $value = $parts[0];
