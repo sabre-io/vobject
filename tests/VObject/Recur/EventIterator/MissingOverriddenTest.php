@@ -11,7 +11,7 @@ class MissingOverriddenTest extends TestCase
 {
     use \Sabre\VObject\PHPUnitAssertions;
 
-    public function testExpand()
+    public function testExpand(): void
     {
         $input = <<<ICS
 BEGIN:VCALENDAR

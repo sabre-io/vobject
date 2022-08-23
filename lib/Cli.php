@@ -2,7 +2,11 @@
 
 namespace Sabre\VObject;
 
+use Exception;
 use InvalidArgumentException;
+use Sabre\VObject\Parser\Json;
+use Sabre\VObject\Parser\MimeDir;
+use Sabre\VObject\Parser\Parser;
 
 /**
  * This is the CLI interface for sabre-vobject.
@@ -15,45 +19,28 @@ class Cli
 {
     /**
      * No output.
-     *
-     * @var bool
      */
-    protected $quiet = false;
-
-    /**
-     * Help display.
-     *
-     * @var bool
-     */
-    protected $showHelp = false;
+    protected bool $quiet = false;
 
     /**
      * Whether to spit out 'mimedir' or 'json' format.
-     *
-     * @var string
      */
-    protected $format;
+    protected ?string $format = null;
 
     /**
      * JSON pretty print.
-     *
-     * @var bool
      */
-    protected $pretty;
+    protected bool $pretty = false;
 
     /**
      * Source file.
-     *
-     * @var string
      */
-    protected $inputPath;
+    protected string $inputPath;
 
     /**
      * Destination file.
-     *
-     * @var string
      */
-    protected $outputPath;
+    protected string $outputPath;
 
     /**
      * output stream.
@@ -78,24 +65,18 @@ class Cli
 
     /**
      * Input format (one of json or mimedir).
-     *
-     * @var string
      */
-    protected $inputFormat;
+    protected ?string $inputFormat = null;
 
     /**
      * Makes the parser less strict.
-     *
-     * @var bool
      */
-    protected $forgiving = false;
+    protected bool $forgiving = false;
 
     /**
      * Main function.
-     *
-     * @return int
      */
-    public function main(array $argv)
+    public function main(array $argv): int
     {
         // @codeCoverageIgnoreStart
         // We cannot easily test this, so we'll skip it. Pretty basic anyway.
@@ -130,21 +111,20 @@ class Cli
                         $this->showHelp();
 
                         return 0;
-                        break;
                     case 'format':
                         switch ($value) {
                             // jcard/jcal documents
                             case 'jcard':
                             case 'jcal':
-                            // specific document versions
+                                // specific document versions
                             case 'vcard21':
                             case 'vcard30':
                             case 'vcard40':
                             case 'icalendar20':
-                            // specific formats
+                                // specific formats
                             case 'json':
                             case 'mimedir':
-                            // icalendar/vcad
+                                // icalendar/vcard
                             case 'icalendar':
                             case 'vcard':
                                 $this->format = $value;
@@ -155,9 +135,7 @@ class Cli
                         }
                         break;
                     case 'pretty':
-                        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
-                            $this->pretty = true;
-                        }
+                        $this->pretty = true;
                         break;
                     case 'forgiving':
                         $this->forgiving = true;
@@ -171,7 +149,7 @@ class Cli
                                 $this->inputFormat = 'json';
                                 break;
 
-                            // mimedir formats
+                                // mimedir formats
                             case 'mimedir':
                             case 'icalendar':
                             case 'vcard':
@@ -218,20 +196,20 @@ class Cli
         $command = $positional[0];
 
         $this->inputPath = $positional[1];
-        $this->outputPath = isset($positional[2]) ? $positional[2] : '-';
+        $this->outputPath = $positional[2] ?? '-';
 
         if ('-' !== $this->outputPath) {
             $this->stdout = fopen($this->outputPath, 'w');
         }
 
-        if (!$this->inputFormat) {
+        if (null === $this->inputFormat) {
             if ('.json' === substr($this->inputPath, -5)) {
                 $this->inputFormat = 'json';
             } else {
                 $this->inputFormat = 'mimedir';
             }
         }
-        if (!$this->format) {
+        if (null === $this->format) {
             if ('.json' === substr($this->outputPath, -5)) {
                 $this->format = 'json';
             } else {
@@ -250,7 +228,7 @@ class Cli
             }
         } catch (EofException $e) {
             // end of file
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->log('Error: '.$e->getMessage(), 'red');
 
             return 2;
@@ -262,7 +240,7 @@ class Cli
     /**
      * Shows the help message.
      */
-    protected function showHelp()
+    protected function showHelp(): void
     {
         $this->log('Usage:', 'yellow');
         $this->log('  vobject [options] command [arguments]');
@@ -275,10 +253,7 @@ class Cli
         $this->log('                vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.');
         $this->log($this->colorize('green', '  --inputformat ').'If the input format cannot be guessed from the extension, it');
         $this->log('                must be specified here.');
-        // Only PHP 5.4 and up
-        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
-            $this->log($this->colorize('green', '  --pretty      ').'json pretty-print.');
-        }
+        $this->log($this->colorize('green', '  --pretty      ').'json pretty-print.');
         $this->log('');
         $this->log('Commands:', 'yellow');
         $this->log($this->colorize('green', '  validate').' source_file              Validates a file for correctness.');
@@ -286,7 +261,7 @@ class Cli
         $this->log($this->colorize('green', '  convert').' source_file [output_file] Converts a file.');
         $this->log($this->colorize('green', '  color').' source_file                 Colorize a file, useful for debugging.');
         $this->log(
-        <<<HELP
+            <<<HELP
 
 If source_file is set as '-', STDIN will be used.
 If output_file is omitted, STDOUT will be used.
@@ -306,10 +281,8 @@ HELP
 
     /**
      * Validates a VObject file.
-     *
-     * @return int
      */
-    protected function validate(Component $vObj)
+    protected function validate(Component $vObj): int
     {
         $returnCode = 0;
 
@@ -346,10 +319,8 @@ HELP
 
     /**
      * Repairs a VObject file.
-     *
-     * @return int
      */
-    protected function repair(Component $vObj)
+    protected function repair(Component $vObj): int
     {
         $returnCode = 0;
 
@@ -387,12 +358,8 @@ HELP
 
     /**
      * Converts a vObject file to a new format.
-     *
-     * @param Component $vObj
-     *
-     * @return int
      */
-    protected function convert($vObj)
+    protected function convert(Component $vObj): int
     {
         $json = false;
         $convertVersion = null;
@@ -431,7 +398,7 @@ HELP
         }
 
         if ($forceInput && $vObj->name !== $forceInput) {
-            throw new \Exception('You cannot convert a '.strtolower($vObj->name).' to '.$this->format);
+            throw new Exception('You cannot convert a '.strtolower($vObj->name).' to '.$this->format);
         }
         if ($convertVersion) {
             $vObj = $vObj->convert($convertVersion);
@@ -451,22 +418,18 @@ HELP
 
     /**
      * Colorizes a file.
-     *
-     * @param Component $vObj
      */
-    protected function color($vObj)
+    protected function color(Component $vObj): int
     {
         $this->serializeComponent($vObj);
+
+        return 0;
     }
 
     /**
      * Returns an ansi color string for a color name.
-     *
-     * @param string $color
-     *
-     * @return string
      */
-    protected function colorize($color, $str, $resetTo = 'default')
+    protected function colorize(string $color, string $str, string $resetTo = 'default'): string
     {
         $colors = [
             'cyan' => '1;36',
@@ -483,16 +446,13 @@ HELP
 
     /**
      * Writes out a string in specific color.
-     *
-     * @param string $color
-     * @param string $str
      */
-    protected function cWrite($color, $str)
+    protected function cWrite(string $color, string $str): void
     {
         fwrite($this->stdout, $this->colorize($color, $str));
     }
 
-    protected function serializeComponent(Component $vObj)
+    protected function serializeComponent(Component $vObj): void
     {
         $this->cWrite('cyan', 'BEGIN');
         $this->cWrite('red', ':');
@@ -507,48 +467,40 @@ HELP
          * To avoid score collisions, each "score category" has a reasonable
          * space to accommodate elements. The $key is added to the $score to
          * preserve the original relative order of elements.
-         *
-         * @param int   $key
-         * @param array $array
-         *
-         * @return int
          */
-        $sortScore = function ($key, $array) {
+        $sortScore = function (int $key, array $array): int {
             if ($array[$key] instanceof Component) {
                 // We want to encode VTIMEZONE first, this is a personal
                 // preference.
                 if ('VTIMEZONE' === $array[$key]->name) {
                     $score = 300000000;
-
-                    return $score + $key;
                 } else {
                     $score = 400000000;
-
-                    return $score + $key;
                 }
-            } else {
-                // Properties get encoded first
-                // VCARD version 4.0 wants the VERSION property to appear first
-                if ($array[$key] instanceof Property) {
-                    if ('VERSION' === $array[$key]->name) {
-                        $score = 100000000;
 
-                        return $score + $key;
-                    } else {
-                        // All other properties
-                        $score = 200000000;
-
-                        return $score + $key;
-                    }
-                }
+                return $score + $key;
             }
+            // Properties get encoded first
+            // VCARD version 4.0 wants the VERSION property to appear first
+            if ($array[$key] instanceof Property) {
+                if ('VERSION' === $array[$key]->name) {
+                    $score = 100000000;
+                } else {
+                    // All other properties
+                    $score = 200000000;
+                }
+
+                return $score + $key;
+            }
+
+            return 0;
         };
 
         $children = $vObj->children();
         $tmp = $children;
         uksort(
             $children,
-            function ($a, $b) use ($sortScore, $tmp) {
+            function ($a, $b) use ($sortScore, $tmp): int {
                 $sA = $sortScore($a, $tmp);
                 $sB = $sortScore($b, $tmp);
 
@@ -572,7 +524,7 @@ HELP
     /**
      * Colorizes a property.
      */
-    protected function serializeProperty(Property $property)
+    protected function serializeProperty(Property $property): void
     {
         if ($property->group) {
             $this->cWrite('default', $property->group);
@@ -630,7 +582,7 @@ HELP
     /**
      * Parses the list of arguments.
      */
-    protected function parseArguments(array $argv)
+    protected function parseArguments(array $argv): array
     {
         $positional = [];
         $options = [];
@@ -664,14 +616,16 @@ HELP
         return [$options, $positional];
     }
 
-    protected $parser;
+    protected ?Parser $parser = null;
 
     /**
      * Reads the input file.
      *
-     * @return Component
+     * @throws EofException
+     * @throws ParseException
+     * @throws InvalidDataException
      */
-    protected function readInput()
+    protected function readInput(): ?Document
     {
         if (!$this->parser) {
             if ('-' !== $this->inputPath) {
@@ -679,9 +633,9 @@ HELP
             }
 
             if ('mimedir' === $this->inputFormat) {
-                $this->parser = new Parser\MimeDir($this->stdin, ($this->forgiving ? Reader::OPTION_FORGIVING : 0));
+                $this->parser = new MimeDir($this->stdin, $this->forgiving ? Reader::OPTION_FORGIVING : 0);
             } else {
-                $this->parser = new Parser\Json($this->stdin, ($this->forgiving ? Reader::OPTION_FORGIVING : 0));
+                $this->parser = new Json($this->stdin, $this->forgiving ? Reader::OPTION_FORGIVING : 0);
             }
         }
 
@@ -690,10 +644,8 @@ HELP
 
     /**
      * Sends a message to STDERR.
-     *
-     * @param string $msg
      */
-    protected function log($msg, $color = 'default')
+    protected function log(string $msg, string $color = 'default'): void
     {
         if (!$this->quiet) {
             if ('default' !== $color) {

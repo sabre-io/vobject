@@ -7,7 +7,7 @@ use Sabre\VObject\Reader;
 
 class UriTest extends TestCase
 {
-    public function testAlwaysEncodeUriVCalendar()
+    public function testAlwaysEncodeUriVCalendar(): void
     {
         // Apple iCal has issues with URL properties that don't have
         // VALUE=URI specified. We added a workaround to vobject that

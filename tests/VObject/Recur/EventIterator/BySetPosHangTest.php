@@ -15,7 +15,7 @@ class BySetPosHangTest extends TestCase
      *
      * See: https://github.com/fruux/sabre-vobject/issues/212
      */
-    public function testExpand()
+    public function testExpand(): void
     {
         $ics = <<<ICS
 BEGIN:VCALENDAR

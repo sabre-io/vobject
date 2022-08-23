@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  */
 class VCard21Test extends TestCase
 {
-    public function testPropertyWithNoName()
+    public function testPropertyWithNoName(): void
     {
         $input = <<<VCF
 BEGIN:VCARD\r
@@ -25,7 +25,7 @@ VCF;
         $this->assertEquals($input, $output);
     }
 
-    public function testPropertyPadValueCount()
+    public function testPropertyPadValueCount(): void
     {
         $input = <<<VCF
 BEGIN:VCARD

@@ -2,9 +2,11 @@
 
 namespace Sabre\VObject\ITip;
 
+use Sabre\VObject\Version;
+
 class BrokerUpdateEventTest extends BrokerTester
 {
-    public function testInviteChange()
+    public function testInviteChange(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -40,7 +42,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -136,7 +138,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testInviteChangeFromNonSchedulingToSchedulingObject()
+    public function testInviteChangeFromNonSchedulingToSchedulingObject(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -164,7 +166,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -198,7 +200,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testInviteChangeFromSchedulingToNonSchedulingObject()
+    public function testInviteChangeFromSchedulingToNonSchedulingObject(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -226,7 +228,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -256,7 +258,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testNoAttendees()
+    public function testNoAttendees(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -282,13 +284,11 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
-
         $expected = [];
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testRemoveInstance()
+    public function testRemoveInstance(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -321,7 +321,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -363,7 +363,7 @@ ICS
      *
      * This should ensure that the message is significant for every attendee,
      */
-    public function testInviteChangeSignificantChange()
+    public function testInviteChangeSignificantChange(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -399,7 +399,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -494,7 +494,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testInviteNoChange()
+    public function testInviteNoChange(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -526,7 +526,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -562,7 +562,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testInviteNoChangeForceSend()
+    public function testInviteNoChangeForceSend(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -594,7 +594,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -630,7 +630,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testInviteRemoveAttendees()
+    public function testInviteRemoveAttendees(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -662,7 +662,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -723,10 +723,10 @@ ICS
             ],
         ];
 
-        $result = $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testInviteChangeExdateOrder()
+    public function testInviteChangeExdateOrder(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -774,7 +774,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [

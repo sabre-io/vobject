@@ -9,18 +9,24 @@ use PHPUnit\Framework\TestCase;
 
 class DateTimeParserTest extends TestCase
 {
-    public function testParseICalendarDuration()
+    /**
+     * @throws InvalidDataException
+     */
+    public function testParseICalendarDuration(): void
     {
-        $this->assertEquals('+1 weeks', DateTimeParser::parseDuration('P1W', true));
-        $this->assertEquals('+5 days', DateTimeParser::parseDuration('P5D', true));
-        $this->assertEquals('+5 days 3 hours 50 minutes 12 seconds', DateTimeParser::parseDuration('P5DT3H50M12S', true));
-        $this->assertEquals('-1 weeks 50 minutes', DateTimeParser::parseDuration('-P1WT50M', true));
-        $this->assertEquals('+50 days 3 hours 2 seconds', DateTimeParser::parseDuration('+P50DT3H2S', true));
-        $this->assertEquals('+0 seconds', DateTimeParser::parseDuration('+PT0S', true));
+        $this->assertEquals('+1 weeks', DateTimeParser::parseDurationAsString('P1W'));
+        $this->assertEquals('+5 days', DateTimeParser::parseDurationAsString('P5D'));
+        $this->assertEquals('+5 days 3 hours 50 minutes 12 seconds', DateTimeParser::parseDurationAsString('P5DT3H50M12S'));
+        $this->assertEquals('-1 weeks 50 minutes', DateTimeParser::parseDurationAsString('-P1WT50M'));
+        $this->assertEquals('+50 days 3 hours 2 seconds', DateTimeParser::parseDurationAsString('+P50DT3H2S'));
+        $this->assertEquals('+0 seconds', DateTimeParser::parseDurationAsString('+PT0S'));
         $this->assertEquals(new DateInterval('PT0S'), DateTimeParser::parseDuration('PT0S'));
     }
 
-    public function testParseICalendarDurationDateInterval()
+    /**
+     * @throws InvalidDataException
+     */
+    public function testParseICalendarDurationDateInterval(): void
     {
         $expected = new DateInterval('P7D');
         $this->assertEquals($expected, DateTimeParser::parseDuration('P1W'));
@@ -31,13 +37,13 @@ class DateTimeParserTest extends TestCase
         $this->assertEquals($expected, DateTimeParser::parseDuration('-PT3M'));
     }
 
-    public function testParseICalendarDurationFail()
+    public function testParseICalendarDurationFail(): void
     {
         $this->expectException(InvalidDataException::class);
-        DateTimeParser::parseDuration('P1X', true);
+        DateTimeParser::parseDurationAsString('P1X');
     }
 
-    public function testParseICalendarDateTime()
+    public function testParseICalendarDateTime(): void
     {
         $dateTime = DateTimeParser::parseDateTime('20100316T141405');
 
@@ -49,25 +55,25 @@ class DateTimeParserTest extends TestCase
     /**
      * @depends testParseICalendarDateTime
      */
-    public function testParseICalendarDateTimeBadFormat()
+    public function testParseICalendarDateTimeBadFormat(): void
     {
         $this->expectException(InvalidDataException::class);
-        $dateTime = DateTimeParser::parseDateTime('20100316T141405 ');
+        DateTimeParser::parseDateTime('20100316T141405 ');
     }
 
     /**
      * @depends testParseICalendarDateTime
      */
-    public function testParseICalendarDateTimeInvalidTime()
+    public function testParseICalendarDateTimeInvalidTime(): void
     {
         $this->expectException(InvalidDataException::class);
-        $dateTime = DateTimeParser::parseDateTime('20100316T251405');
+        DateTimeParser::parseDateTime('20100316T251405');
     }
 
     /**
      * @depends testParseICalendarDateTime
      */
-    public function testParseICalendarDateTimeUTC()
+    public function testParseICalendarDateTimeUTC(): void
     {
         $dateTime = DateTimeParser::parseDateTime('20100316T141405Z');
 
@@ -78,7 +84,7 @@ class DateTimeParserTest extends TestCase
     /**
      * @depends testParseICalendarDateTime
      */
-    public function testParseICalendarDateTimeUTC2()
+    public function testParseICalendarDateTimeUTC2(): void
     {
         $dateTime = DateTimeParser::parseDateTime('20101211T160000Z');
 
@@ -89,7 +95,7 @@ class DateTimeParserTest extends TestCase
     /**
      * @depends testParseICalendarDateTime
      */
-    public function testParseICalendarDateTimeCustomTimeZone()
+    public function testParseICalendarDateTimeCustomTimeZone(): void
     {
         $dateTime = DateTimeParser::parseDateTime('20100316T141405', new DateTimeZone('Europe/Amsterdam'));
 
@@ -97,7 +103,7 @@ class DateTimeParserTest extends TestCase
         $this->assertEquals($compare, $dateTime);
     }
 
-    public function testParseICalendarDate()
+    public function testParseICalendarDate(): void
     {
         $dateTime = DateTimeParser::parseDate('20100316');
 
@@ -112,7 +118,7 @@ class DateTimeParserTest extends TestCase
     /**
      * TCheck if a date with year > 4000 will not throw an exception. iOS seems to use 45001231 in yearly recurring events.
      */
-    public function testParseICalendarDateGreaterThan4000()
+    public function testParseICalendarDateGreaterThan4000(): void
     {
         $dateTime = DateTimeParser::parseDate('45001231');
 
@@ -127,7 +133,7 @@ class DateTimeParserTest extends TestCase
     /**
      * Check if a datetime with year > 4000 will not throw an exception. iOS seems to use 45001231T235959 in yearly recurring events.
      */
-    public function testParseICalendarDateTimeGreaterThan4000()
+    public function testParseICalendarDateTimeGreaterThan4000(): void
     {
         $dateTime = DateTimeParser::parseDateTime('45001231T235959');
 
@@ -142,25 +148,25 @@ class DateTimeParserTest extends TestCase
     /**
      * @depends testParseICalendarDate
      */
-    public function testParseICalendarDateBadFormat()
+    public function testParseICalendarDateBadFormat(): void
     {
         $this->expectException(InvalidDataException::class);
-        $dateTime = DateTimeParser::parseDate('20100316T141405');
+        DateTimeParser::parseDate('20100316T141405');
     }
 
     /**
      * @depends testParseICalendarDate
      */
-    public function testParseICalendarDateInvalidDate()
+    public function testParseICalendarDateInvalidDate(): void
     {
         $this->expectException(InvalidDataException::class);
-        $dateTime = DateTimeParser::parseDate('20101331');
+        DateTimeParser::parseDate('20101331');
     }
 
     /**
      * @dataProvider vcardDates
      */
-    public function testVCardDate($input, $output)
+    public function testVCardDate(string $input, array $output): void
     {
         $this->assertEquals(
             $output,
@@ -168,19 +174,19 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testBadVCardDate()
+    public function testBadVCardDate(): void
     {
         $this->expectException(InvalidDataException::class);
         DateTimeParser::parseVCardDateTime('1985---01');
     }
 
-    public function testBadVCardTime()
+    public function testBadVCardTime(): void
     {
         $this->expectException(InvalidDataException::class);
         DateTimeParser::parseVCardTime('23:12:166');
     }
 
-    public function vcardDates()
+    public function vcardDates(): array
     {
         return [
             [
@@ -408,7 +414,7 @@ class DateTimeParserTest extends TestCase
         ];
     }
 
-    public function testDateAndOrTimeDateWithYearMonthDay()
+    public function testDateAndOrTimeDateWithYearMonthDay(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '20150128',
@@ -420,7 +426,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateWithYearMonth()
+    public function testDateAndOrTimeDateWithYearMonth(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '2015-01',
@@ -431,7 +437,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateWithMonth()
+    public function testDateAndOrTimeDateWithMonth(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--01',
@@ -441,7 +447,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateWithMonthDay()
+    public function testDateAndOrTimeDateWithMonthDay(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--0128',
@@ -452,7 +458,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateWithDay()
+    public function testDateAndOrTimeDateWithDay(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28',
@@ -462,7 +468,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeTimeWithHour()
+    public function testDateAndOrTimeTimeWithHour(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '13',
@@ -472,7 +478,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeTimeWithHourMinute()
+    public function testDateAndOrTimeTimeWithHourMinute(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '1353',
@@ -483,7 +489,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeTimeWithHourSecond()
+    public function testDateAndOrTimeTimeWithHourSecond(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '135301',
@@ -495,7 +501,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeTimeWithMinute()
+    public function testDateAndOrTimeTimeWithMinute(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '-53',
@@ -505,7 +511,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeTimeWithMinuteSecond()
+    public function testDateAndOrTimeTimeWithMinuteSecond(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '-5301',
@@ -516,7 +522,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeTimeWithSecond()
+    public function testDateAndOrTimeTimeWithSecond(): void
     {
         $this->assertTrue(true);
 
@@ -526,7 +532,7 @@ class DateTimeParserTest extends TestCase
          */
     }
 
-    public function testDateAndOrTimeTimeWithSecondZ()
+    public function testDateAndOrTimeTimeWithSecondZ(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--01Z',
@@ -537,7 +543,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeTimeWithSecondTZ()
+    public function testDateAndOrTimeTimeWithSecondTZ(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--01+1234',
@@ -548,7 +554,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateTimeWithYearMonthDayHour()
+    public function testDateAndOrTimeDateTimeWithYearMonthDayHour(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '20150128T13',
@@ -561,7 +567,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateTimeWithMonthDayHour()
+    public function testDateAndOrTimeDateTimeWithMonthDayHour(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '--0128T13',
@@ -573,7 +579,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateTimeWithDayHour()
+    public function testDateAndOrTimeDateTimeWithDayHour(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T13',
@@ -584,7 +590,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateTimeWithDayHourMinute()
+    public function testDateAndOrTimeDateTimeWithDayHourMinute(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T1353',
@@ -596,7 +602,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateTimeWithDayHourMinuteSecond()
+    public function testDateAndOrTimeDateTimeWithDayHourMinuteSecond(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T135301',
@@ -609,7 +615,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateTimeWithDayHourZ()
+    public function testDateAndOrTimeDateTimeWithDayHourZ(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T13Z',
@@ -621,7 +627,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    public function testDateAndOrTimeDateTimeWithDayHourTZ()
+    public function testDateAndOrTimeDateTimeWithDayHourTZ(): void
     {
         $this->assertDateAndOrTimeEqualsTo(
             '---28T13+1234',
@@ -633,7 +639,7 @@ class DateTimeParserTest extends TestCase
         );
     }
 
-    protected function assertDateAndOrTimeEqualsTo($date, $parts)
+    protected function assertDateAndOrTimeEqualsTo(string $date, array $parts): void
     {
         $this->assertSame(
             DateTimeParser::parseVCardDateAndOrTime($date),

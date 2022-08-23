@@ -14,7 +14,7 @@ use Sabre\VObject\Reader;
  */
 class HandleRDateExpandTest extends TestCase
 {
-    public function testExpand()
+    public function testExpand(): void
     {
         $input = <<<ICS
 BEGIN:VCALENDAR
@@ -43,7 +43,7 @@ ICS;
 
         $result = iterator_to_array($vcal->VEVENT);
 
-        $this->assertEquals(5, count($result));
+        $this->assertCount(5, $result);
 
         $utc = new DateTimeZone('UTC');
         $expected = [

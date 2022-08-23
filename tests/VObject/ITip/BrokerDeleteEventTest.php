@@ -4,7 +4,7 @@ namespace Sabre\VObject\ITip;
 
 class BrokerDeleteEventTest extends BrokerTester
 {
-    public function testOrganizerDeleteWithDtend()
+    public function testOrganizerDeleteWithDtend(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -87,7 +87,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testOrganizerDeleteWithDuration()
+    public function testOrganizerDeleteWithDuration(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -170,7 +170,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
 
-    public function testAttendeeDeleteWithDtend()
+    public function testAttendeeDeleteWithDtend(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -225,7 +225,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
     }
 
-    public function testAttendeeReplyWithDuration()
+    public function testAttendeeReplyWithDuration(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -280,7 +280,7 @@ ICS
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
     }
 
-    public function testAttendeeDeleteCancelledEvent()
+    public function testAttendeeDeleteCancelledEvent(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR
@@ -305,12 +305,12 @@ ICS;
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
     }
 
-    public function testNoCalendar()
+    public function testNoCalendar(): void
     {
         $this->parse(null, null, [], 'mailto:one@example.org');
     }
 
-    public function testVTodo()
+    public function testVTodo(): void
     {
         $oldMessage = <<<ICS
 BEGIN:VCALENDAR

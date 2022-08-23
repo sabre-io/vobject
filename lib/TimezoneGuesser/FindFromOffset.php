@@ -11,7 +11,7 @@ use DateTimeZone;
  */
 class FindFromOffset implements TimezoneFinder
 {
-    public function find(string $tzid, bool $failIfUncertain = false): ?DateTimeZone
+    public function find(string $tzid, ?bool $failIfUncertain = false): ?DateTimeZone
     {
         // Maybe the author was hyper-lazy and just included an offset. We
         // support it, but we aren't happy about it.

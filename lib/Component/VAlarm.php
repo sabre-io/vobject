@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Component;
 
+use DatePeriod;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Sabre\VObject;
@@ -15,6 +16,12 @@ use Sabre\VObject\InvalidDataException;
  * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
+ *
+ * @property VObject\Property\ICalendar\DateTime DTSTART
+ * @property VObject\Property\ICalendar\DateTime DTEND
+ * @property VObject\Property\ICalendar\Duration DURATION
+ * @property VObject\Property\ICalendar\Duration|VObject\Property\ICalendar\DateTime TRIGGER
+ * @property VObject\Property\IntegerValue REPEAT
  */
 class VAlarm extends VObject\Component
 {
@@ -23,15 +30,16 @@ class VAlarm extends VObject\Component
      *
      * This ignores repeated alarm, only the first trigger is returned.
      *
-     * @return DateTimeImmutable
+     * @throws InvalidDataException
      */
-    public function getEffectiveTriggerTime()
+    public function getEffectiveTriggerTime(): DateTimeImmutable
     {
         $trigger = $this->TRIGGER;
-        if (!isset($trigger['VALUE']) || 'DURATION' === strtoupper($trigger['VALUE'])) {
+        if (!isset($trigger['VALUE']) || ($trigger['VALUE'] && 'DURATION' === strtoupper($trigger['VALUE']))) {
             $triggerDuration = VObject\DateTimeParser::parseDuration($this->TRIGGER);
             $related = (isset($trigger['RELATED']) && 'END' == strtoupper($trigger['RELATED'])) ? 'END' : 'START';
 
+            /** @var VEvent|VTodo $parentComponent */
             $parentComponent = $this->parent;
             if ('START' === $related) {
                 if ('VTODO' === $parentComponent->name) {
@@ -41,7 +49,6 @@ class VAlarm extends VObject\Component
                 }
 
                 $effectiveTrigger = $parentComponent->$propName->getDateTime();
-                $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
             } else {
                 if ('VTODO' === $parentComponent->name) {
                     $endProp = 'DUE';
@@ -53,17 +60,15 @@ class VAlarm extends VObject\Component
 
                 if (isset($parentComponent->$endProp)) {
                     $effectiveTrigger = $parentComponent->$endProp->getDateTime();
-                    $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
                 } elseif (isset($parentComponent->DURATION)) {
                     $effectiveTrigger = $parentComponent->DTSTART->getDateTime();
                     $duration = VObject\DateTimeParser::parseDuration($parentComponent->DURATION);
                     $effectiveTrigger = $effectiveTrigger->add($duration);
-                    $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
                 } else {
                     $effectiveTrigger = $parentComponent->DTSTART->getDateTime();
-                    $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
                 }
             }
+            $effectiveTrigger = $effectiveTrigger->add($triggerDuration);
         } else {
             $effectiveTrigger = $trigger->getDateTime();
         }
@@ -78,12 +83,9 @@ class VAlarm extends VObject\Component
      * The rules used to determine if an event falls within the specified
      * time-range is based on the CalDAV specification.
      *
-     * @param DateTime $start
-     * @param DateTime $end
-     *
-     * @return bool
+     * @throws InvalidDataException
      */
-    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end)
+    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end): bool
     {
         $effectiveTrigger = $this->getEffectiveTriggerTime();
 
@@ -94,7 +96,7 @@ class VAlarm extends VObject\Component
                 $repeat = 1;
             }
 
-            $period = new \DatePeriod($effectiveTrigger, $duration, (int) $repeat);
+            $period = new DatePeriod($effectiveTrigger, $duration, (int) $repeat);
 
             foreach ($period as $occurrence) {
                 if ($start <= $occurrence && $end > $occurrence) {
@@ -120,10 +122,8 @@ class VAlarm extends VObject\Component
      *   * + - Must appear at least once.
      *   * * - Can appear any number of times.
      *   * ? - May appear, but not more than once.
-     *
-     * @var array
      */
-    public function getValidationRules()
+    public function getValidationRules(): array
     {
         return [
             'ACTION' => 1,

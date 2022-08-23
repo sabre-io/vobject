@@ -16,7 +16,7 @@ class SameDateForRecurringEventsTest extends TestCase
     /**
      * Checking is all events iterated by EventIterator.
      */
-    public function testAllEventsArePresentInIterator()
+    public function testAllEventsArePresentInIterator(): void
     {
         $ics = <<<ICS
 BEGIN:VCALENDAR

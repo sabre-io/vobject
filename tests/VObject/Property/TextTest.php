@@ -7,7 +7,7 @@ use Sabre\VObject\Component\VCard;
 
 class TextTest extends TestCase
 {
-    public function assertVCard21Serialization($propValue, $expected)
+    public function assertVCard21Serialization($propValue, string $expected): void
     {
         $doc = new VCard([
             'VERSION' => '2.1',
@@ -24,7 +24,7 @@ class TextTest extends TestCase
         $this->assertEquals("BEGIN:VCARD\r\nVERSION:2.1\r\n$expected\r\nEND:VCARD\r\n", $output);
     }
 
-    public function testSerializeVCard21()
+    public function testSerializeVCard21(): void
     {
         $this->assertVCard21Serialization(
             'f;oo',
@@ -32,7 +32,7 @@ class TextTest extends TestCase
         );
     }
 
-    public function testSerializeVCard21Array()
+    public function testSerializeVCard21Array(): void
     {
         $this->assertVCard21Serialization(
             ['f;oo', 'bar'],
@@ -40,7 +40,7 @@ class TextTest extends TestCase
         );
     }
 
-    public function testSerializeVCard21Fold()
+    public function testSerializeVCard21Fold(): void
     {
         $this->assertVCard21Serialization(
             str_repeat('x', 80),
@@ -48,7 +48,7 @@ class TextTest extends TestCase
         );
     }
 
-    public function testSerializeQuotedPrintable()
+    public function testSerializeQuotedPrintable(): void
     {
         $this->assertVCard21Serialization(
             "foo\r\nbar",
@@ -56,7 +56,7 @@ class TextTest extends TestCase
         );
     }
 
-    public function testSerializeQuotedPrintableFold()
+    public function testSerializeQuotedPrintableFold(): void
     {
         $this->assertVCard21Serialization(
             "foo\r\nbarxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -64,7 +64,7 @@ class TextTest extends TestCase
         );
     }
 
-    public function testValidateMinimumPropValue()
+    public function testValidateMinimumPropValue(): void
     {
         $vcard = <<<IN
 BEGIN:VCARD
@@ -76,12 +76,12 @@ END:VCARD
 IN;
 
         $vcard = \Sabre\VObject\Reader::read($vcard);
-        $this->assertEquals(1, count($vcard->validate()));
+        $this->assertCount(1, $vcard->validate());
 
-        $this->assertEquals(1, count($vcard->N->getParts()));
+        $this->assertCount(1, $vcard->N->getParts());
 
         $vcard->validate(\Sabre\VObject\Node::REPAIR);
 
-        $this->assertEquals(5, count($vcard->N->getParts()));
+        $this->assertCount(5, $vcard->N->getParts());
     }
 }

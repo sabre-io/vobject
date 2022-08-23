@@ -8,7 +8,7 @@ class BirthdayCalendarGeneratorTest extends TestCase
 {
     use PHPUnitAssertions;
 
-    public function testVcardStringWithValidBirthday()
+    public function testVcardStringWithValidBirthday(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
@@ -45,7 +45,7 @@ ICS;
         );
     }
 
-    public function testArrayOfVcardStringsWithValidBirthdays()
+    public function testArrayOfVcardStringsWithValidBirthdays(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = [];
@@ -103,7 +103,7 @@ ICS;
         );
     }
 
-    public function testArrayOfVcardStringsWithValidBirthdaysViaConstructor()
+    public function testArrayOfVcardStringsWithValidBirthdaysViaConstructor(): void
     {
         $input = [];
 
@@ -162,7 +162,7 @@ ICS;
         );
     }
 
-    public function testVcardObjectWithValidBirthday()
+    public function testVcardObjectWithValidBirthday(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
@@ -201,7 +201,7 @@ ICS;
         );
     }
 
-    public function testArrayOfVcardObjectsWithValidBirthdays()
+    public function testArrayOfVcardObjectsWithValidBirthdays(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = [];
@@ -263,7 +263,7 @@ ICS;
         );
     }
 
-    public function testVcardStringWithValidBirthdayWithXAppleOmitYear()
+    public function testVcardStringWithValidBirthdayWithXAppleOmitYear(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
@@ -300,7 +300,7 @@ ICS;
         );
     }
 
-    public function testVcardStringWithValidBirthdayWithoutYear()
+    public function testVcardStringWithValidBirthdayWithoutYear(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
@@ -337,7 +337,7 @@ ICS;
         );
     }
 
-    public function testVcardStringWithInvalidBirthday()
+    public function testVcardStringWithInvalidBirthday(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
@@ -365,7 +365,7 @@ ICS;
         );
     }
 
-    public function testVcardStringWithNoBirthday()
+    public function testVcardStringWithNoBirthday(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
@@ -392,7 +392,7 @@ ICS;
         );
     }
 
-    public function testVcardStringWithValidBirthdayLocalized()
+    public function testVcardStringWithValidBirthdayLocalized(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
@@ -430,7 +430,7 @@ ICS;
         );
     }
 
-    public function testVcardStringWithEmptyBirthdayProperty()
+    public function testVcardStringWithEmptyBirthdayProperty(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF
@@ -458,7 +458,7 @@ ICS;
         );
     }
 
-    public function testParseException()
+    public function testParseException(): void
     {
         $this->expectException(ParseException::class);
         $generator = new BirthdayCalendarGenerator();
@@ -471,7 +471,7 @@ EOT;
         $generator->setObjects($input);
     }
 
-    public function testInvalidArgumentException()
+    public function testInvalidArgumentException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $generator = new BirthdayCalendarGenerator();
@@ -488,7 +488,7 @@ ICS;
         $generator->setObjects($input);
     }
 
-    public function testInvalidArgumentExceptionForPartiallyInvalidArray()
+    public function testInvalidArgumentExceptionForPartiallyInvalidArray(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $generator = new BirthdayCalendarGenerator();
@@ -513,7 +513,7 @@ VCF;
         $generator->setObjects($input);
     }
 
-    public function testBrokenVcardWithoutFN()
+    public function testBrokenVcardWithoutFN(): void
     {
         $generator = new BirthdayCalendarGenerator();
         $input = <<<VCF

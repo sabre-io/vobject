@@ -12,7 +12,7 @@ class ByMonthInDailyTest extends TestCase
     /**
      * This tests the expansion of dates with DAILY frequency in RRULE with BYMONTH restrictions.
      */
-    public function testExpand()
+    public function testExpand(): void
     {
         $ics = <<<ICS
 BEGIN:VCALENDAR

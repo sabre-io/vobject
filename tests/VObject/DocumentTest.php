@@ -6,19 +6,19 @@ use PHPUnit\Framework\TestCase;
 
 class DocumentTest extends TestCase
 {
-    public function testGetDocumentType()
+    public function testGetDocumentType(): void
     {
-        $doc = new MockDocument();
+        $doc = new MockDocument('WHATEVER');
         $this->assertEquals(Document::UNKNOWN, $doc->getDocumentType());
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $doc = new MockDocument('VLIST');
         $this->assertEquals('VLIST', $doc->name);
     }
 
-    public function testCreateComponent()
+    public function testCreateComponent(): void
     {
         $vcal = new Component\VCalendar([], false);
 
@@ -41,7 +41,7 @@ class DocumentTest extends TestCase
         $this->assertEquals("BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nX-PROP;X-PARAM=3:1234256\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n", $out);
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $vcal = new Component\VCalendar([], false);
 
@@ -52,14 +52,17 @@ class DocumentTest extends TestCase
         $this->assertInstanceOf(Property\Text::class, $prop);
     }
 
-    public function testGetClassNameForPropertyValue()
+    public function testGetClassNameForPropertyValue(): void
     {
         $vcal = new Component\VCalendar([], false);
         $this->assertEquals(Property\Text::class, $vcal->getClassNameForPropertyValue('TEXT'));
         $this->assertNull($vcal->getClassNameForPropertyValue('FOO'));
     }
 
-    public function testDestroy()
+    /**
+     * @throws InvalidDataException
+     */
+    public function testDestroy(): void
     {
         $vcal = new Component\VCalendar([], false);
         $event = $vcal->createComponent('VEVENT');

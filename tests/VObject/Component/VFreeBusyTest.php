@@ -8,7 +8,7 @@ use Sabre\VObject\Reader;
 
 class VFreeBusyTest extends TestCase
 {
-    public function testIsFree()
+    public function testIsFree(): void
     {
         $input = <<<BLA
 BEGIN:VCALENDAR
@@ -38,7 +38,7 @@ BLA;
         $this->assertTrue($vfb->isFree(new \DateTime('2012-09-12 11:00:00', $tz), new \DateTime('2012-09-12 12:00:00', $tz)));
     }
 
-    public function testValidate()
+    public function testValidate(): void
     {
         $input = <<<HI
 BEGIN:VCALENDAR

@@ -5,7 +5,11 @@ namespace Sabre\VObject;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use Exception;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VFreeBusy;
+use Sabre\VObject\Property\ICalendar\DateTime;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
 
@@ -27,31 +31,23 @@ class FreeBusyGenerator
 {
     /**
      * Input objects.
-     *
-     * @var array
      */
-    protected $objects = [];
+    protected array $objects = [];
 
     /**
      * Start of range.
-     *
-     * @var DateTimeInterface|null
      */
-    protected $start;
+    protected ?DateTimeInterface $start;
 
     /**
      * End of range.
-     *
-     * @var DateTimeInterface|null
      */
-    protected $end;
+    protected ?DateTimeInterface $end;
 
     /**
      * VCALENDAR object.
-     *
-     * @var Document
      */
-    protected $baseObject;
+    protected ?Document $baseObject = null;
 
     /**
      * Reference timezone.
@@ -63,20 +59,16 @@ class FreeBusyGenerator
      * This is also used for all-day events.
      *
      * This defaults to UTC.
-     *
-     * @var DateTimeZone
      */
-    protected $timeZone;
+    protected DateTimeZone $timeZone;
 
     /**
      * A VAVAILABILITY document.
      *
      * If this is set, its information will be included when calculating
      * freebusy time.
-     *
-     * @var Document
      */
-    protected $vavailability;
+    protected ?Document $vavailability = null;
 
     /**
      * Creates the generator.
@@ -84,12 +76,9 @@ class FreeBusyGenerator
      * Check the setTimeRange and setObjects methods for details about the
      * arguments.
      *
-     * @param DateTimeInterface $start
-     * @param DateTimeInterface $end
-     * @param mixed             $objects
-     * @param DateTimeZone      $timeZone
+     * @param mixed $objects
      */
-    public function __construct(DateTimeInterface $start = null, DateTimeInterface $end = null, $objects = null, DateTimeZone $timeZone = null)
+    public function __construct(?DateTimeInterface $start = null, ?DateTimeInterface $end = null, $objects = null, ?DateTimeZone $timeZone = null)
     {
         $this->setTimeRange($start, $end);
 
@@ -110,7 +99,7 @@ class FreeBusyGenerator
      *
      * The VFREEBUSY object will be automatically added though.
      */
-    public function setBaseObject(Document $vcalendar)
+    public function setBaseObject(Document $vcalendar): void
     {
         $this->baseObject = $vcalendar;
     }
@@ -118,7 +107,7 @@ class FreeBusyGenerator
     /**
      * Sets a VAVAILABILITY document.
      */
-    public function setVAvailability(Document $vcalendar)
+    public function setVAvailability(Document $vcalendar): void
     {
         $this->vavailability = $vcalendar;
     }
@@ -132,7 +121,7 @@ class FreeBusyGenerator
      *
      * @param mixed $objects
      */
-    public function setObjects($objects)
+    public function setObjects($objects): void
     {
         if (!is_array($objects)) {
             $objects = [$objects];
@@ -153,12 +142,11 @@ class FreeBusyGenerator
     /**
      * Sets the time range.
      *
-     * Any freebusy object falling outside of this time range will be ignored.
+     * Any freebusy object falling outside this time range will be ignored.
      *
-     * @param DateTimeInterface $start
-     * @param DateTimeInterface $end
+     * @throws Exception
      */
-    public function setTimeRange(DateTimeInterface $start = null, DateTimeInterface $end = null)
+    public function setTimeRange(?DateTimeInterface $start = null, ?DateTimeInterface $end = null): void
     {
         if (!$start) {
             $start = new DateTimeImmutable(Settings::$minDate);
@@ -173,7 +161,7 @@ class FreeBusyGenerator
     /**
      * Sets the reference timezone for floating times.
      */
-    public function setTimeZone(DateTimeZone $timeZone)
+    public function setTimeZone(DateTimeZone $timeZone): void
     {
         $this->timeZone = $timeZone;
     }
@@ -181,16 +169,14 @@ class FreeBusyGenerator
     /**
      * Parses the input data and returns a correct VFREEBUSY object, wrapped in
      * a VCALENDAR.
-     *
-     * @return Component
      */
-    public function getResult()
+    public function getResult(): Component
     {
         $fbData = new FreeBusyData(
             $this->start->getTimeStamp(),
             $this->end->getTimeStamp()
         );
-        if ($this->vavailability) {
+        if (null !== $this->vavailability) {
             $this->calculateAvailability($fbData, $this->vavailability);
         }
 
@@ -203,7 +189,7 @@ class FreeBusyGenerator
      * This method takes a VAVAILABILITY component and figures out all the
      * available times.
      */
-    protected function calculateAvailability(FreeBusyData $fbData, VCalendar $vavailability)
+    protected function calculateAvailability(FreeBusyData $fbData, VCalendar $vavailability): void
     {
         $vavailComps = iterator_to_array($vavailability->VAVAILABILITY);
         usort(
@@ -231,7 +217,7 @@ class FreeBusyGenerator
         // Now we go over all the VAVAILABILITY components and figure if
         // there's any we don't need to consider.
         //
-        // This is can be because of one of two reasons: either the
+        // This is because of one of two reasons: either the
         // VAVAILABILITY component falls outside the time we are interested in,
         // or a different VAVAILABILITY component with a higher priority has
         // already completely covered the time-range.
@@ -241,7 +227,7 @@ class FreeBusyGenerator
         foreach ($old as $vavail) {
             list($compStart, $compEnd) = $vavail->getEffectiveStartEnd();
 
-            // We don't care about datetimes that are earlier or later than the
+            // We don't care about date-times that are earlier or later than the
             // start and end of the freebusy report, so this gets normalized
             // first.
             if (is_null($compStart) || $compStart < $this->start) {
@@ -251,7 +237,7 @@ class FreeBusyGenerator
                 $compEnd = $this->end;
             }
 
-            // If the item fell out of the timerange, we can just skip it.
+            // If the item fell out of the time range, we can just skip it.
             if ($compStart > $this->end || $compEnd < $this->start) {
                 continue;
             }
@@ -305,18 +291,18 @@ class FreeBusyGenerator
                 foreach ($vavail->AVAILABLE as $available) {
                     list($availStart, $availEnd) = $available->getEffectiveStartEnd();
                     $fbData->add(
-                    $availStart->getTimeStamp(),
-                    $availEnd->getTimeStamp(),
-                    'FREE'
-                );
+                        $availStart->getTimeStamp(),
+                        $availEnd->getTimeStamp(),
+                        'FREE'
+                    );
 
                     if ($available->RRULE) {
                         // Our favourite thing: recurrence!!
 
                         $rruleIterator = new Recur\RRuleIterator(
-                        $available->RRULE->getValue(),
-                        $availStart
-                    );
+                            $available->RRULE->getValue(),
+                            $availStart
+                        );
                         $rruleIterator->fastForward($vavailStart);
 
                         $startEndDiff = $availStart->diff($availEnd);
@@ -326,7 +312,7 @@ class FreeBusyGenerator
                             $recurEnd = $recurStart->add($startEndDiff);
 
                             if ($recurStart > $vavailEnd) {
-                                // We're beyond the legal timerange.
+                                // We're beyond the legal time range.
                                 break;
                             }
 
@@ -337,10 +323,10 @@ class FreeBusyGenerator
                             }
 
                             $fbData->add(
-                            $recurStart->getTimeStamp(),
-                            $recurEnd->getTimeStamp(),
-                            'FREE'
-                        );
+                                $recurStart->getTimeStamp(),
+                                $recurEnd->getTimeStamp(),
+                                'FREE'
+                            );
 
                             $rruleIterator->next();
                         }
@@ -355,13 +341,16 @@ class FreeBusyGenerator
      * times on fbData.
      *
      * @param VCalendar[] $objects
+     *
+     * @throws InvalidDataException|Recur\MaxInstancesExceededException
      */
-    protected function calculateBusy(FreeBusyData $fbData, array $objects)
+    protected function calculateBusy(FreeBusyData $fbData, array $objects): void
     {
         foreach ($objects as $key => $object) {
             foreach ($object->getBaseComponents() as $component) {
                 switch ($component->name) {
                     case 'VEVENT':
+                        /** @var VEvent $component */
                         $FBTYPE = 'BUSY';
                         if (isset($component->TRANSP) && ('TRANSPARENT' === strtoupper($component->TRANSP))) {
                             break;
@@ -447,6 +436,7 @@ class FreeBusyGenerator
                         break;
 
                     case 'VFREEBUSY':
+                        /** @var VFreeBusy $component */
                         foreach ($component->FREEBUSY as $freebusy) {
                             $fbType = isset($freebusy['FBTYPE']) ? strtoupper($freebusy['FBTYPE']) : 'BUSY';
 
@@ -491,11 +481,12 @@ class FreeBusyGenerator
      * This method takes a FreeBusyData object and generates the VCALENDAR
      * object associated with it.
      *
-     * @return VCalendar
+     * @throws InvalidDataException
+     * @throws Exception
      */
-    protected function generateFreeBusyCalendar(FreeBusyData $fbData)
+    protected function generateFreeBusyCalendar(FreeBusyData $fbData): VCalendar
     {
-        if ($this->baseObject) {
+        if (null !== $this->baseObject) {
             $calendar = $this->baseObject;
         } else {
             $calendar = new VCalendar();
@@ -505,17 +496,20 @@ class FreeBusyGenerator
         $calendar->add($vfreebusy);
 
         if ($this->start) {
+            /** @var DateTime $dtstart */
             $dtstart = $calendar->createProperty('DTSTART');
             $dtstart->setDateTime($this->start);
             $vfreebusy->add($dtstart);
         }
         if ($this->end) {
+            /** @var DateTime $dtend */
             $dtend = $calendar->createProperty('DTEND');
             $dtend->setDateTime($this->end);
             $vfreebusy->add($dtend);
         }
 
         $tz = new \DateTimeZone('UTC');
+        /** @var DateTime $dtstamp */
         $dtstamp = $calendar->createProperty('DTSTAMP');
         $dtstamp->setDateTime(new DateTimeImmutable('now', $tz));
         $vfreebusy->add($dtstamp);
@@ -528,8 +522,8 @@ class FreeBusyGenerator
                 continue;
             }
 
-            $busyTime[0] = new \DateTimeImmutable('@'.$busyTime['start'], $tz);
-            $busyTime[1] = new \DateTimeImmutable('@'.$busyTime['end'], $tz);
+            $busyTime[0] = new DateTimeImmutable('@'.$busyTime['start'], $tz);
+            $busyTime[1] = new DateTimeImmutable('@'.$busyTime['end'], $tz);
 
             $prop = $calendar->createProperty(
                 'FREEBUSY',

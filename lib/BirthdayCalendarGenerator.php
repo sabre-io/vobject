@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject;
 
+use DateTime;
+use InvalidArgumentException;
 use Sabre\VObject\Component\VCalendar;
 
 /**
@@ -15,23 +17,19 @@ class BirthdayCalendarGenerator
 {
     /**
      * Input objects.
-     *
-     * @var array
      */
-    protected $objects = [];
+    protected array $objects = [];
 
     /**
      * Default year.
      * Used for dates without a year.
      */
-    const DEFAULT_YEAR = 2000;
+    public const DEFAULT_YEAR = 2000;
 
     /**
      * Output format for the SUMMARY.
-     *
-     * @var string
      */
-    protected $format = '%1$s\'s Birthday';
+    protected string $format = '%1$s\'s Birthday';
 
     /**
      * Creates the generator.
@@ -56,7 +54,7 @@ class BirthdayCalendarGenerator
      *
      * @param mixed $objects
      */
-    public function setObjects($objects)
+    public function setObjects($objects): void
     {
         if (!is_array($objects)) {
             $objects = [$objects];
@@ -67,34 +65,30 @@ class BirthdayCalendarGenerator
             if (is_string($object)) {
                 $vObj = Reader::read($object);
                 if (!$vObj instanceof Component\VCard) {
-                    throw new \InvalidArgumentException('String could not be parsed as \\Sabre\\VObject\\Component\\VCard by setObjects');
+                    throw new InvalidArgumentException('String could not be parsed as \\Sabre\\VObject\\Component\\VCard by setObjects');
                 }
 
                 $this->objects[] = $vObj;
             } elseif ($object instanceof Component\VCard) {
                 $this->objects[] = $object;
             } else {
-                throw new \InvalidArgumentException('You can only pass strings or \\Sabre\\VObject\\Component\\VCard arguments to setObjects');
+                throw new InvalidArgumentException('You can only pass strings or \\Sabre\\VObject\\Component\\VCard arguments to setObjects');
             }
         }
     }
 
     /**
      * Sets the output format for the SUMMARY.
-     *
-     * @param string $format
      */
-    public function setFormat($format)
+    public function setFormat(string $format): void
     {
         $this->format = $format;
     }
 
     /**
      * Parses the input data and returns a VCALENDAR.
-     *
-     * @return Component/VCalendar
      */
-    public function getResult()
+    public function getResult(): VCalendar
     {
         $calendar = new VCalendar();
 
@@ -111,7 +105,7 @@ class BirthdayCalendarGenerator
                 continue;
             }
 
-            // We're always converting to vCard 4.0 so we can rely on the
+            // We're always converting to vCard 4.0, so we can rely on the
             // VCardConverter handling the X-APPLE-OMIT-YEAR property for us.
             $object = $object->convert(Document::VCARD40);
 
@@ -144,7 +138,7 @@ class BirthdayCalendarGenerator
             // Create event.
             $event = $calendar->add('VEVENT', [
                 'SUMMARY' => sprintf($this->format, $object->FN->getValue()),
-                'DTSTART' => new \DateTime($object->BDAY->getValue()),
+                'DTSTART' => new DateTime($object->BDAY->getValue()),
                 'RRULE' => 'FREQ=YEARLY',
                 'TRANSP' => 'TRANSPARENT',
             ]);

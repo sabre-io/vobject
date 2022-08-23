@@ -14,12 +14,12 @@ class GuessFromMsTzId implements TimezoneGuesser
      *
      * Source: http://msdn.microsoft.com/en-us/library/aa563018(loband).aspx
      */
-    public static $microsoftExchangeMap = [
+    public static array $microsoftExchangeMap = [
         0 => 'UTC',
         31 => 'Africa/Casablanca',
 
         // Insanely, id #2 is used for both Europe/Lisbon, and Europe/Sarajevo.
-        // I'm not even kidding.. We handle this special case in the
+        // I'm not even kidding. We handle this special case in the
         // getTimeZone method.
         2 => 'Europe/Lisbon',
         1 => 'Europe/London',
@@ -96,7 +96,7 @@ class GuessFromMsTzId implements TimezoneGuesser
         39 => 'Pacific/Kwajalein',
     ];
 
-    public function guess(VTimeZone $vtimezone, bool $throwIfUnsure = false): ?DateTimeZone
+    public function guess(VTimeZone $vtimezone, ?bool $failIfUncertain = false): ?DateTimeZone
     {
         // Microsoft may add a magic number, which we also have an
         // answer for.

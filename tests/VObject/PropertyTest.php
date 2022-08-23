@@ -8,7 +8,7 @@ use Sabre\VObject\Component\VCard;
 
 class PropertyTest extends TestCase
 {
-    public function testToString()
+    public function testToString(): void
     {
         $cal = new VCalendar();
 
@@ -19,7 +19,7 @@ class PropertyTest extends TestCase
         $this->assertEquals('propvalue', $property->getValue());
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $cal = new VCalendar();
 
@@ -34,7 +34,7 @@ class PropertyTest extends TestCase
         $this->assertEquals('value2', $property['param2']->getValue());
     }
 
-    public function testSetValue()
+    public function testSetValue(): void
     {
         $cal = new VCalendar();
 
@@ -45,7 +45,7 @@ class PropertyTest extends TestCase
         $this->assertEquals('value2', $property->__toString());
     }
 
-    public function testParameterExists()
+    public function testParameterExists(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
@@ -56,7 +56,7 @@ class PropertyTest extends TestCase
         $this->assertFalse(isset($property['foo']));
     }
 
-    public function testParameterGet()
+    public function testParameterGet(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
@@ -65,7 +65,7 @@ class PropertyTest extends TestCase
         $this->assertInstanceOf(Parameter::class, $property['paramname']);
     }
 
-    public function testParameterNotExists()
+    public function testParameterNotExists(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
@@ -74,7 +74,7 @@ class PropertyTest extends TestCase
         $this->assertNull($property['foo']);
     }
 
-    public function testParameterMultiple()
+    public function testParameterMultiple(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
@@ -82,32 +82,32 @@ class PropertyTest extends TestCase
         $property->add('paramname', 'paramvalue');
 
         $this->assertInstanceOf(Parameter::class, $property['paramname']);
-        $this->assertEquals(2, count($property['paramname']->getParts()));
+        $this->assertCount(2, $property['paramname']->getParts());
     }
 
-    public function testSetParameterAsString()
+    public function testSetParameterAsString(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
 
-        $this->assertEquals(1, count($property->parameters()));
+        $this->assertCount(1, $property->parameters());
         $this->assertInstanceOf(Parameter::class, $property->parameters['PARAMNAME']);
         $this->assertEquals('PARAMNAME', $property->parameters['PARAMNAME']->name);
         $this->assertEquals('paramvalue', $property->parameters['PARAMNAME']->getValue());
     }
 
-    public function testUnsetParameter()
+    public function testUnsetParameter(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
 
         unset($property['PARAMNAME']);
-        $this->assertEquals(0, count($property->parameters()));
+        $this->assertCount(0, $property->parameters());
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
@@ -115,7 +115,7 @@ class PropertyTest extends TestCase
         $this->assertEquals("PROPNAME:propvalue\r\n", $property->serialize());
     }
 
-    public function testSerializeParam()
+    public function testSerializeParam(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue', [
@@ -126,7 +126,7 @@ class PropertyTest extends TestCase
         $this->assertEquals("PROPNAME;PARAMNAME=paramvalue;PARAMNAME2=paramvalue2:propvalue\r\n", $property->serialize());
     }
 
-    public function testSerializeNewLine()
+    public function testSerializeNewLine(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('SUMMARY', "line1\nline2");
@@ -134,7 +134,7 @@ class PropertyTest extends TestCase
         $this->assertEquals("SUMMARY:line1\\nline2\r\n", $property->serialize());
     }
 
-    public function testSerializeLongLine()
+    public function testSerializeLongLine(): void
     {
         $cal = new VCalendar();
         $value = str_repeat('!', 200);
@@ -145,7 +145,7 @@ class PropertyTest extends TestCase
         $this->assertEquals($expected, $property->serialize());
     }
 
-    public function testSerializeUTF8LineFold()
+    public function testSerializeUTF8LineFold(): void
     {
         $cal = new VCalendar();
         $value = str_repeat('!', 65)."\xc3\xa4bla".str_repeat('!', 142)."\xc3\xa4foo"; // inserted umlaut-a
@@ -159,7 +159,7 @@ class PropertyTest extends TestCase
         $this->assertEquals($expected, $property->serialize());
     }
 
-    public function testGetIterator()
+    public function testGetIterator(): void
     {
         $cal = new VCalendar();
         $it = new ElementList([]);
@@ -168,41 +168,41 @@ class PropertyTest extends TestCase
         $this->assertEquals($it, $property->getIterator());
     }
 
-    public function testGetIteratorDefault()
+    public function testGetIteratorDefault(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
         $it = $property->getIterator();
         $this->assertTrue($it instanceof ElementList);
-        $this->assertEquals(1, count($it));
+        $this->assertCount(1, $it);
     }
 
-    public function testAddScalar()
+    public function testAddScalar(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('EMAIL');
 
         $property->add('myparam', 'value');
 
-        $this->assertEquals(1, count($property->parameters()));
+        $this->assertCount(1, $property->parameters());
 
         $this->assertTrue($property->parameters['MYPARAM'] instanceof Parameter);
         $this->assertEquals('MYPARAM', $property->parameters['MYPARAM']->name);
         $this->assertEquals('value', $property->parameters['MYPARAM']->getValue());
     }
 
-    public function testAddParameter()
+    public function testAddParameter(): void
     {
         $cal = new VCalendar();
         $prop = $cal->createProperty('EMAIL');
 
         $prop->add('MYPARAM', 'value');
 
-        $this->assertEquals(1, count($prop->parameters()));
+        $this->assertCount(1, $prop->parameters());
         $this->assertEquals('MYPARAM', $prop['myparam']->name);
     }
 
-    public function testAddParameterTwice()
+    public function testAddParameterTwice(): void
     {
         $cal = new VCalendar();
         $prop = $cal->createProperty('EMAIL');
@@ -210,13 +210,13 @@ class PropertyTest extends TestCase
         $prop->add('MYPARAM', 'value1');
         $prop->add('MYPARAM', 'value2');
 
-        $this->assertEquals(1, count($prop->parameters));
-        $this->assertEquals(2, count($prop->parameters['MYPARAM']->getParts()));
+        $this->assertCount(1, $prop->parameters);
+        $this->assertCount(2, $prop->parameters['MYPARAM']->getParts());
 
         $this->assertEquals('MYPARAM', $prop['MYPARAM']->name);
     }
 
-    public function testClone()
+    public function testClone(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('EMAIL', 'value');
@@ -228,7 +228,7 @@ class PropertyTest extends TestCase
         $this->assertEquals('BAR', (string) $property2['FOO']);
     }
 
-    public function testCreateParams()
+    public function testCreateParams(): void
     {
         $cal = new VCalendar();
         $property = $cal->createProperty('X-PROP', 'value', [
@@ -236,11 +236,11 @@ class PropertyTest extends TestCase
             'param2' => ['value2', 'value3'],
         ]);
 
-        $this->assertEquals(1, count($property['PARAM1']->getParts()));
-        $this->assertEquals(2, count($property['PARAM2']->getParts()));
+        $this->assertCount(1, $property['PARAM1']->getParts());
+        $this->assertCount(2, $property['PARAM2']->getParts());
     }
 
-    public function testValidateNonUTF8()
+    public function testValidateNonUTF8(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('X-PROP', "Bla\x00");
@@ -250,7 +250,7 @@ class PropertyTest extends TestCase
         $this->assertEquals('Bla', $property->getValue());
     }
 
-    public function testValidateControlChars()
+    public function testValidateControlChars(): void
     {
         $s = 'chars[';
         foreach ([
@@ -272,17 +272,23 @@ class PropertyTest extends TestCase
         $this->assertEquals("chars[7F()5E(^)5C(\\\\)3B(\\;)3A(:)2C(\\,)22(\")20( )1F()1E()1D()1C()1B()1A()19()18()17()16()15()14()13()12()11()10()0F()0E()0D()0C()0B()0A(\\n)09(\t)08()07()06()05()04()03()02()01()00()]end", $property->getRawMimeDirValue());
     }
 
-    public function testValidateBadPropertyName()
+    /**
+     * @throws InvalidDataException
+     */
+    public function testValidateBadPropertyName(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('X_*&PROP*', 'Bla');
-        $result = $property->validate(Property::REPAIR);
+        $result = $property->validate(Node::REPAIR);
 
-        $this->assertEquals($result[0]['message'], 'The propertyname: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed');
+        $this->assertEquals('The property name: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed', $result[0]['message']);
         $this->assertEquals('X-PROP', $property->name);
     }
 
-    public function testGetValue()
+    /**
+     * @throws InvalidDataException
+     */
+    public function testGetValue(): void
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('SUMMARY', null);
@@ -309,7 +315,7 @@ class PropertyTest extends TestCase
     /**
      * ElementList should reject this.
      */
-    public function testArrayAccessSetInt()
+    public function testArrayAccessSetInt(): void
     {
         $this->expectException(\LogicException::class);
         $calendar = new VCalendar();
@@ -322,7 +328,7 @@ class PropertyTest extends TestCase
     /**
      * ElementList should reject this.
      */
-    public function testArrayAccessUnsetInt()
+    public function testArrayAccessUnsetInt(): void
     {
         $this->expectException(\LogicException::class);
         $calendar = new VCalendar();
@@ -332,7 +338,7 @@ class PropertyTest extends TestCase
         unset($calendar->{'X-PROP'}[0]);
     }
 
-    public function testValidateBadEncoding()
+    public function testValidateBadEncoding(): void
     {
         $document = new VCalendar();
         $property = $document->add('X-FOO', 'value');
@@ -344,7 +350,7 @@ class PropertyTest extends TestCase
         $this->assertEquals(3, $result[0]['level']);
     }
 
-    public function testValidateBadEncodingVCard4()
+    public function testValidateBadEncodingVCard4(): void
     {
         $document = new VCard(['VERSION' => '4.0']);
         $property = $document->add('X-FOO', 'value');
@@ -356,7 +362,7 @@ class PropertyTest extends TestCase
         $this->assertEquals(3, $result[0]['level']);
     }
 
-    public function testValidateBadEncodingVCard3()
+    public function testValidateBadEncodingVCard3(): void
     {
         $document = new VCard(['VERSION' => '3.0']);
         $property = $document->add('X-FOO', 'value');
@@ -367,14 +373,14 @@ class PropertyTest extends TestCase
         $this->assertEquals('ENCODING=BASE64 is not valid for this document type.', $result[0]['message']);
         $this->assertEquals(3, $result[0]['level']);
 
-        //Validate the reparation of BASE64 formatted vCard v3
+        // Validate the reparation of BASE64 formatted vCard v3
         $result = $property->validate(Property::REPAIR);
 
         $this->assertEquals('ENCODING=BASE64 has been transformed to ENCODING=B.', $result[0]['message']);
         $this->assertEquals(1, $result[0]['level']);
     }
 
-    public function testValidateBadEncodingVCard21()
+    public function testValidateBadEncodingVCard21(): void
     {
         $document = new VCard(['VERSION' => '2.1']);
         $property = $document->add('X-FOO', 'value');

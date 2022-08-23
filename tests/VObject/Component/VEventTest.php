@@ -9,12 +9,12 @@ class VEventTest extends TestCase
     /**
      * @dataProvider timeRangeTestData
      */
-    public function testInTimeRange(VEvent $vevent, $start, $end, $outcome)
+    public function testInTimeRange(VEvent $vevent, \DateTime $start, \DateTime $end, bool $outcome): void
     {
         $this->assertEquals($outcome, $vevent->isInTimeRange($start, $end));
     }
 
-    public function timeRangeTestData()
+    public function timeRangeTestData(): array
     {
         $tests = [];
 
@@ -42,9 +42,9 @@ class VEventTest extends TestCase
         $tests[] = [$vevent4, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
         // Event with no end date should be treated as lasting the entire day.
         $tests[] = [$vevent4, new \DateTime('2011-12-25 16:00:00'), new \DateTime('2011-12-25 17:00:00'), true];
-        // DTEND is non inclusive so all day events should not be returned on the next day.
+        // DTEND is non-inclusive so all day events should not be returned on the next day.
         $tests[] = [$vevent4, new \DateTime('2011-12-26 00:00:00'), new \DateTime('2011-12-26 17:00:00'), false];
-        // The timezone of timerange in question also needs to be considered.
+        // The timezone of time range in question also needs to be considered.
         $tests[] = [$vevent4, new \DateTime('2011-12-26 00:00:00', new \DateTimeZone('Europe/Berlin')), new \DateTime('2011-12-26 17:00:00', new \DateTimeZone('Europe/Berlin')), false];
 
         $vevent5 = clone $vevent;
@@ -70,7 +70,7 @@ class VEventTest extends TestCase
         $vevent7->DTSTART['VALUE'] = 'DATE';
         $vevent7->RRULE = 'FREQ=MONTHLY';
         $tests[] = [$vevent7, new \DateTime('2012-02-01 15:00:00'), new \DateTime('2012-02-02'), true];
-        // The timezone of timerange in question should also be considered.
+        // The timezone of time range in question should also be considered.
         $tests[] = [$vevent7, new \DateTime('2012-02-02 00:00:00', new \DateTimeZone('Europe/Berlin')), new \DateTime('2012-02-03 00:00:00', new \DateTimeZone('Europe/Berlin')), false];
 
         // Added this test to check recurring events that have no instances.

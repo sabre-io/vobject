@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class EmptyValueIssueTest extends TestCase
 {
-    public function testDecodeValue()
+    public function testDecodeValue(): void
     {
         $input = <<<ICS
 BEGIN:VCALENDAR

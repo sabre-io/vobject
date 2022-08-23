@@ -11,8 +11,7 @@ use Sabre\VObject\Recur;
 
 class InfiniteLoopProblemTest extends TestCase
 {
-    /** @var VCalendar */
-    private $vcal;
+    private VCalendar $vcal;
 
     public function setUp(): void
     {
@@ -23,7 +22,7 @@ class InfiniteLoopProblemTest extends TestCase
      * This bug came from a Fruux customer. This would result in a never-ending
      * request.
      */
-    public function testFastForwardTooFar()
+    public function testFastForwardTooFar(): void
     {
         $ev = $this->vcal->createComponent('VEVENT');
         $ev->UID = 'foobar';
@@ -36,7 +35,7 @@ class InfiniteLoopProblemTest extends TestCase
     /**
      * Different bug, also likely an infinite loop.
      */
-    public function testYearlyByMonthLoop()
+    public function testYearlyByMonthLoop(): void
     {
         $ev = $this->vcal->createComponent('VEVENT');
         $ev->UID = 'uuid';
@@ -78,7 +77,7 @@ class InfiniteLoopProblemTest extends TestCase
      * this means we increase the current day (or week, month) by 0, this also
      * results in an infinite loop.
      */
-    public function testZeroInterval()
+    public function testZeroInterval(): void
     {
         $this->expectException(InvalidDataException::class);
         $ev = $this->vcal->createComponent('VEVENT');

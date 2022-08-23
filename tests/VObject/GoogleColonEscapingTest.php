@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 class GoogleColonEscapingTest extends TestCase
 {
-    public function testDecode()
+    public function testDecode(): void
     {
         $vcard = <<<VCF
 BEGIN:VCARD

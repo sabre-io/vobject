@@ -2,14 +2,16 @@
 
 namespace Sabre\VObject\ITip;
 
+use Sabre\VObject\Version;
+
 class EvolutionTest extends BrokerTester
 {
     /**
-     * Evolution does things as usual a little bit differently.
+     * Evolution does things as usual a little differently.
      *
      * We're adding a separate test just for it.
      */
-    public function testNewEvolutionEvent()
+    public function testNewEvolutionEvent(): void
     {
         $ics = <<<ICS
 BEGIN:VCALENDAR
@@ -865,7 +867,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
         $expectedICS = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -1741,7 +1743,7 @@ ICS;
      * again mangled by iCal. This triggered a few bugs related to email
      * address scheme casing.
      */
-    public function testAttendeeModify()
+    public function testAttendeeModify(): void
     {
         $old = <<<ICS
 BEGIN:VCALENDAR

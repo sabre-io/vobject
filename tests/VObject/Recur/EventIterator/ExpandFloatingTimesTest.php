@@ -12,7 +12,7 @@ class ExpandFloatingTimesTest extends TestCase
 {
     use \Sabre\VObject\PHPUnitAssertions;
 
-    public function testExpand()
+    public function testExpand(): void
     {
         $input = <<<ICS
 BEGIN:VCALENDAR
@@ -63,7 +63,7 @@ ICS;
         $this->assertVObjectEqualsVObject($output, $vcal);
     }
 
-    public function testExpandWithReferenceTimezone()
+    public function testExpandWithReferenceTimezone(): void
     {
         $input = <<<ICS
 BEGIN:VCALENDAR

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class EmptyParameterTest extends TestCase
 {
-    public function testRead()
+    public function testRead(): void
     {
         $input = <<<VCF
 BEGIN:VCARD
@@ -46,7 +46,7 @@ VCF;
         $this->assertEquals($expected, str_replace("\r", '', $vcard));
     }
 
-    public function testVCard21Parameter()
+    public function testVCard21Parameter(): void
     {
         $vcard = new Component\VCard([], false);
         $vcard->VERSION = '2.1';

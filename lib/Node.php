@@ -19,7 +19,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * If REPAIR is set, the validator will attempt to repair any broken data
      * (if possible).
      */
-    const REPAIR = 1;
+    public const REPAIR = 1;
 
     /**
      * If this option is set, the validator will operate on the vcards on the
@@ -28,7 +28,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * This means for example that the UID is required, whereas it is not for
      * regular vcards.
      */
-    const PROFILE_CARDDAV = 2;
+    public const PROFILE_CARDDAV = 2;
 
     /**
      * If this option is set, the validator will operate on iCalendar objects
@@ -37,41 +37,33 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * This means for example that calendars can only contain objects with
      * identical component types and UIDs.
      */
-    const PROFILE_CALDAV = 4;
+    public const PROFILE_CALDAV = 4;
 
     /**
      * Reference to the parent object, if this is not the top object.
-     *
-     * @var Node
      */
-    public $parent;
+    public ?Node $parent;
 
     /**
      * Iterator override.
-     *
-     * @var ElementList
      */
-    protected $iterator = null;
+    protected ?ElementList $iterator = null;
 
     /**
      * The root document.
-     *
-     * @var Component
      */
-    protected $root;
+    protected ?Component $root;
 
     /**
      * Serializes the node into a mimedir format.
-     *
-     * @return string
      */
-    abstract public function serialize();
+    abstract public function serialize(): string;
 
     /**
      * This method returns an array, with the representation as it should be
      * encoded in JSON. This is used to create jCard or jCal documents.
      *
-     * @return array
+     * @return array|string
      */
     #[\ReturnTypeWillChange]
     abstract public function jsonSerialize();
@@ -82,7 +74,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      *
      * @param Xml\Writer $writer XML writer
      */
-    abstract public function xmlSerialize(Xml\Writer $writer);
+    abstract public function xmlSerialize(Xml\Writer $writer): void;
 
     /**
      * Call this method on a document if you're done using it.
@@ -90,7 +82,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * It's intended to remove all circular references, so PHP can easily clean
      * it up.
      */
-    public function destroy()
+    public function destroy(): void
     {
         $this->parent = null;
         $this->root = null;
@@ -104,7 +96,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * @return ElementList
      */
     #[\ReturnTypeWillChange]
-    public function getIterator()
+    public function getIterator(): ?ElementList
     {
         if (!is_null($this->iterator)) {
             return $this->iterator;
@@ -118,7 +110,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      *
      * Note that this is not actually part of the iterator interface
      */
-    public function setIterator(ElementList $iterator)
+    public function setIterator(ElementList $iterator): void
     {
         $this->iterator = $iterator;
     }
@@ -140,12 +132,8 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      *   1 - The issue was repaired (only happens if REPAIR was turned on)
      *   2 - An inconsequential issue
      *   3 - A severe issue.
-     *
-     * @param int $options
-     *
-     * @return array
      */
-    public function validate($options = 0)
+    public function validate(int $options = 0): array
     {
         return [];
     }
@@ -156,11 +144,9 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
 
     /**
      * Returns the number of elements.
-     *
-     * @return int
      */
     #[\ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         $it = $this->getIterator();
 
@@ -177,11 +163,9 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
-     *
-     * @return bool
      */
     #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         $iterator = $this->getIterator();
 
@@ -214,15 +198,15 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * @param mixed $value
      */
     #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $iterator = $this->getIterator();
         $iterator->offsetSet($offset, $value);
 
         // @codeCoverageIgnoreStart
     //
-    // This method always throws an exception, so we ignore the closing
-    // brace
+        // This method always throws an exception, so we ignore the closing
+        // brace
     }
 
     // @codeCoverageIgnoreEnd
@@ -235,15 +219,15 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * @param int $offset
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $iterator = $this->getIterator();
         $iterator->offsetUnset($offset);
 
         // @codeCoverageIgnoreStart
     //
-    // This method always throws an exception, so we ignore the closing
-    // brace
+        // This method always throws an exception, so we ignore the closing
+        // brace
     }
 
     // @codeCoverageIgnoreEnd

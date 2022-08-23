@@ -11,7 +11,7 @@ class AttachParseTest extends TestCase
     /**
      * See issue #128 for more info.
      */
-    public function testParseAttach()
+    public function testParseAttach(): void
     {
         $vcal = <<<ICS
 BEGIN:VCALENDAR

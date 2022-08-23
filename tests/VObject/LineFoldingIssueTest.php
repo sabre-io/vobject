@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class LineFoldingIssueTest extends TestCase
 {
-    public function testRead()
+    public function testRead(): void
     {
         $event = <<<ICS
 BEGIN:VCALENDAR\r

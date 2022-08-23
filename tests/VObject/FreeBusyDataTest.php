@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class FreeBusyDataTest extends TestCase
 {
-    public function testGetData()
+    public function testGetData(): void
     {
         $fb = new FreeBusyData(100, 200);
 
@@ -25,7 +25,7 @@ class FreeBusyDataTest extends TestCase
     /**
      * @depends testGetData
      */
-    public function testAddBeginning()
+    public function testAddBeginning(): void
     {
         $fb = new FreeBusyData(100, 200);
 
@@ -71,7 +71,7 @@ class FreeBusyDataTest extends TestCase
     /**
      * @depends testAddBeginning
      */
-    public function testAddEnd()
+    public function testAddEnd(): void
     {
         $fb = new FreeBusyData(100, 200);
 
@@ -98,7 +98,7 @@ class FreeBusyDataTest extends TestCase
     /**
      * @depends testAddEnd
      */
-    public function testAddMiddle()
+    public function testAddMiddle(): void
     {
         $fb = new FreeBusyData(100, 200);
 
@@ -130,7 +130,7 @@ class FreeBusyDataTest extends TestCase
     /**
      * @depends testAddMiddle
      */
-    public function testAddMultiple()
+    public function testAddMultiple(): void
     {
         $fb = new FreeBusyData(100, 200);
 
@@ -172,7 +172,7 @@ class FreeBusyDataTest extends TestCase
     /**
      * @depends testAddMultiple
      */
-    public function testAddMultipleOverlap()
+    public function testAddMultipleOverlap(): void
     {
         $fb = new FreeBusyData(100, 200);
 
@@ -247,7 +247,7 @@ class FreeBusyDataTest extends TestCase
     /**
      * @depends testAddMultipleOverlap
      */
-    public function testAddMultipleOverlapAndMerge()
+    public function testAddMultipleOverlapAndMerge(): void
     {
         $fb = new FreeBusyData(100, 200);
 

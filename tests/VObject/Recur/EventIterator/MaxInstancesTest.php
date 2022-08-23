@@ -10,7 +10,7 @@ use Sabre\VObject\Settings;
 
 class MaxInstancesTest extends TestCase
 {
-    public function testExceedMaxRecurrences()
+    public function testExceedMaxRecurrences(): void
     {
         $this->expectException(MaxInstancesExceededException::class);
         $input = <<<ICS

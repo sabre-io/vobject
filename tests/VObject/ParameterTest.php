@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterTest extends TestCase
 {
-    public function testSetup()
+    public function testSetup(): void
     {
         $cal = new Component\VCalendar();
 
@@ -15,7 +15,7 @@ class ParameterTest extends TestCase
         $this->assertEquals('value', $param->getValue());
     }
 
-    public function testSetupNameLess()
+    public function testSetupNameLess(): void
     {
         $card = new Component\VCard();
 
@@ -25,7 +25,7 @@ class ParameterTest extends TestCase
         $this->assertTrue($param->noName);
     }
 
-    public function testModify()
+    public function testModify(): void
     {
         $cal = new Component\VCalendar();
 
@@ -44,7 +44,7 @@ class ParameterTest extends TestCase
         $this->assertEquals([4, 5], $param->getParts());
     }
 
-    public function testCastToString()
+    public function testCastToString(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'value');
@@ -52,7 +52,7 @@ class ParameterTest extends TestCase
         $this->assertEquals('value', (string) $param);
     }
 
-    public function testCastNullToString()
+    public function testCastNullToString(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', null);
@@ -60,21 +60,21 @@ class ParameterTest extends TestCase
         $this->assertEquals('', (string) $param);
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'value');
         $this->assertEquals('NAME=value', $param->serialize());
     }
 
-    public function testSerializeEmpty()
+    public function testSerializeEmpty(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', null);
         $this->assertEquals('NAME=', $param->serialize());
     }
 
-    public function testSerializeComplex()
+    public function testSerializeComplex(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', ['val1', 'val2;', 'val3^', "val4\n", 'val5"']);
@@ -87,14 +87,14 @@ class ParameterTest extends TestCase
      *
      * So we specifically added support for that.
      */
-    public function testSerializePlusSign()
+    public function testSerializePlusSign(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'EMAIL', 'user+something@example.org');
         $this->assertEquals('EMAIL="user+something@example.org"', $param->serialize());
     }
 
-    public function testIterate()
+    public function testIterate(): void
     {
         $cal = new Component\VCalendar();
 
@@ -108,14 +108,14 @@ class ParameterTest extends TestCase
         $this->assertEquals([1, 2, 3, 4], $result);
     }
 
-    public function testSerializeColon()
+    public function testSerializeColon(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'va:lue');
         $this->assertEquals('NAME="va:lue"', $param->serialize());
     }
 
-    public function testSerializeSemiColon()
+    public function testSerializeSemiColon(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'va;lue');

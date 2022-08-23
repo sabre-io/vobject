@@ -7,7 +7,7 @@ use Sabre\VObject;
 
 class LanguageTagTest extends TestCase
 {
-    public function testMimeDir()
+    public function testMimeDir(): void
     {
         $input = "BEGIN:VCARD\r\nVERSION:4.0\r\nLANG:nl\r\nEND:VCARD\r\n";
         $mimeDir = new VObject\Parser\MimeDir($input);
@@ -24,7 +24,7 @@ class LanguageTagTest extends TestCase
         );
     }
 
-    public function testChangeAndSerialize()
+    public function testChangeAndSerialize(): void
     {
         $input = "BEGIN:VCARD\r\nVERSION:4.0\r\nLANG:nl\r\nEND:VCARD\r\n";
         $mimeDir = new VObject\Parser\MimeDir($input);

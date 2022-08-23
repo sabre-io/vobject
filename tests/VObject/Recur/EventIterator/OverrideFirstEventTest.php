@@ -10,7 +10,7 @@ class OverrideFirstEventTest extends TestCase
 {
     use \Sabre\VObject\PHPUnitAssertions;
 
-    public function testOverrideFirstEvent()
+    public function testOverrideFirstEvent(): void
     {
         $input = <<<ICS
 BEGIN:VCALENDAR
@@ -75,7 +75,7 @@ ICS;
         );
     }
 
-    public function testRemoveFirstEvent()
+    public function testRemoveFirstEvent(): void
     {
         $input = <<<ICS
 BEGIN:VCALENDAR

@@ -13,7 +13,7 @@ use Sabre\VObject\TimeZoneUtil;
  */
 class GuessFromLicEntry implements TimezoneGuesser
 {
-    public function guess(VTimeZone $vtimezone, bool $failIfUncertain = false): ?DateTimeZone
+    public function guess(VTimeZone $vtimezone, ?bool $failIfUncertain = false): ?DateTimeZone
     {
         if (!isset($vtimezone->{'X-LIC-LOCATION'})) {
             return null;
