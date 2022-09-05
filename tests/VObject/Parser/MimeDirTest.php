@@ -169,6 +169,7 @@ EOF;
 
     /**
      * @covers \Sabre\VObject\Parser\MimeDir::readProperty
+     *
      * @dataProvider provideBrokenVCalendar
      */
     public function testBrokenMultilineContentDoesNotBreakImportWhenSetToIgnoreBrokenLines(string $vcalendar): void
@@ -180,6 +181,7 @@ EOF;
 
     /**
      * @covers \Sabre\VObject\Parser\MimeDir::readProperty
+     *
      * @dataProvider provideBrokenVCalendar
      *
      * @param string $vcalendar
