@@ -759,6 +759,7 @@ class MainTest extends TestCase
      * after 1 second. Would be good to optimize later.
      *
      * @depends testValues
+     *
      * @medium
      */
     public function testMonthlyByDay(): void
