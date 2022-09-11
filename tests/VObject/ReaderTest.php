@@ -405,7 +405,7 @@ ICS;
     public function testReadBrokenInput(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        Reader::read(false);
+        Reader::read(false); /* @phpstan-ignore-line */
     }
 
     public function testReadBOM(): void

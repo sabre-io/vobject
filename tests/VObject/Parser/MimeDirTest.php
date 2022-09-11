@@ -4,6 +4,7 @@ namespace Sabre\VObject\Parser;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ParseException;
 
 /**
@@ -163,8 +164,10 @@ EOF;
 
         $mimeDir = new MimeDir();
         $vcard = $mimeDir->parse($card);
+        /** @var VEvent<int, mixed> $event */
+        $event = $vcard->VEVENT;
         // we can do a simple assertion here. As long as we don't get an exception, everything is fine
-        self::assertEquals('20220612', $vcard->VEVENT->DTSTART->getValue());
+        self::assertEquals('20220612', $event->DTSTART->getValue());
     }
 
     /**
@@ -193,6 +196,9 @@ EOF;
         $mimeDir->parse($vcalendar);
     }
 
+    /**
+     * @return string[][]
+     */
     public function provideBrokenVCalendar(): array
     {
         return [[<<<EOF

@@ -115,6 +115,8 @@ abstract class Property extends Node
 
     /**
      * Sets a multi-valued property.
+     *
+     * @param array<int|string, mixed> $parts
      */
     public function setParts(array $parts): void
     {

@@ -28,8 +28,6 @@ class DateTime extends Property
     /**
      * In case this is a multi-value property. This string will be used as a
      * delimiter.
-     *
-     * @var string|null
      */
     public string $delimiter = ',';
 
@@ -37,6 +35,8 @@ class DateTime extends Property
      * Sets a multi-valued property.
      *
      * You may also specify DateTime objects here.
+     *
+     * @param array<int, mixed> $parts
      *
      * @throws InvalidDataException
      */

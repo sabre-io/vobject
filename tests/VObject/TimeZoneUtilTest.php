@@ -28,6 +28,9 @@ class TimeZoneUtilTest extends TestCase
         }
     }
 
+    /**
+     * @return array<int, array<int, string>>
+     */
     public function getMapping(): array
     {
         $map = array_merge(
@@ -198,6 +201,9 @@ HI;
         self::assertEquals($ex->getName(), $tz->getName());
     }
 
+    /**
+     * @return array<int, array<int, string>>
+     */
     public function getPHPTimeZoneIdentifiers(): array
     {
         // PHPUNit requires an array of arrays
@@ -209,9 +215,12 @@ HI;
         );
     }
 
+    /**
+     * @return array<int, array<int, string>>
+     */
     public function getPHPTimeZoneBCIdentifiers(): array
     {
-        // PHPUNit requires an array of arrays
+        // PHPUnit requires an array of arrays
         return array_map(
             function ($value) {
                 return [$value];

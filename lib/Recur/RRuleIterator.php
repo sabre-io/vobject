@@ -33,7 +33,7 @@ class RRuleIterator implements \Iterator
     /**
      * Creates the Iterator.
      *
-     * @param string|array $rrule
+     * @param string|array<string, mixed> $rrule
      *
      * @throws InvalidDataException
      */
@@ -675,7 +675,7 @@ class RRuleIterator implements \Iterator
      * This method receives a string from an RRULE property, and populates this
      * class with all the values.
      *
-     * @param string|array $rrule
+     * @param string|array<string, mixed> $rrule
      *
      * @throws InvalidDataException
      */

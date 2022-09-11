@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 class WriterTest extends TestCase
 {
+    /**
+     * @return Document<int, mixed>|null
+     */
     public function getComponent(): ?Document
     {
         $data = "BEGIN:VCALENDAR\r\nEND:VCALENDAR";

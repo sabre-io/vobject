@@ -24,6 +24,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = Reader::read($input);
         self::assertInstanceOf(VCalendar::class, $vcal);
 
@@ -75,6 +76,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = Reader::read($input);
         self::assertInstanceOf(VCalendar::class, $vcal);
 

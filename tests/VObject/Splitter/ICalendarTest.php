@@ -15,6 +15,9 @@ class ICalendarTest extends TestCase
         $this->version = VObject\Version::VERSION;
     }
 
+    /**
+     * @return false|resource
+     */
     public function createStream(string $data)
     {
         $stream = fopen('php://memory', 'r+');

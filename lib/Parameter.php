@@ -160,7 +160,7 @@ class Parameter extends Node
      *
      * This may be either a single, or multiple strings in an array.
      *
-     * @param string|array $value
+     * @param int|string|array $value
      */
     public function setValue($value): void
     {
@@ -212,7 +212,7 @@ class Parameter extends Node
      * If the argument is specified as an array, all items will be added to the
      * parameter value list.
      *
-     * @param string|array $part
+     * @param int|string|array $part
      */
     public function addValue($part): void
     {
