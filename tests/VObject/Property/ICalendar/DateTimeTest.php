@@ -4,11 +4,16 @@ namespace Sabre\VObject\Property\ICalendar;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\InvalidDataException;
 
 class DateTimeTest extends TestCase
 {
-    protected $vcal;
+    /**
+     * @var VCalendar<int, mixed>
+     */
+    protected VCalendar $vcal;
 
     public function setUp(): void
     {
@@ -21,6 +26,9 @@ class DateTimeTest extends TestCase
         $dt = new \DateTime('1985-07-04 01:30:00', $tz);
         $dt->setTimeZone($tz);
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setDateTime($dt);
 
@@ -37,6 +45,9 @@ class DateTimeTest extends TestCase
         $dt = new \DateTime('1985-07-04 01:30:00', $tz);
         $dt->setTimeZone($tz);
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setDateTime($dt, true);
 
@@ -52,6 +63,9 @@ class DateTimeTest extends TestCase
         $dt = new \DateTime('1985-07-04 01:30:00', $tz);
         $dt->setTimeZone($tz);
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setDateTime($dt);
 
@@ -66,6 +80,9 @@ class DateTimeTest extends TestCase
         // When initialized from a Unix timestamp, the timezone is set to "+00:00".
         $dt = new \DateTime('@489288600');
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setDateTime($dt);
 
@@ -81,6 +98,9 @@ class DateTimeTest extends TestCase
         $dt = new \DateTime('1985-07-04 01:30:00', $tz);
         $dt->setTimeZone($tz);
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setDateTime($dt);
 
@@ -96,6 +116,9 @@ class DateTimeTest extends TestCase
         $dt = new \DateTime('1985-07-04 01:30:00', $tz);
         $dt->setTimeZone($tz);
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem['VALUE'] = 'DATE';
         $elem->setDateTime($dt);
@@ -113,6 +136,9 @@ class DateTimeTest extends TestCase
         $dt = new \DateTime('1985-07-04 01:30:00', $tz);
         $dt->setTimeZone($tz);
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setValue($dt);
 
@@ -131,6 +157,9 @@ class DateTimeTest extends TestCase
         $dt1->setTimeZone($tz);
         $dt2->setTimeZone($tz);
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setValue([$dt1, $dt2]);
 
@@ -149,6 +178,9 @@ class DateTimeTest extends TestCase
         $dt1->setTimeZone($tz);
         $dt2->setTimeZone($tz);
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setParts([$dt1, $dt2]);
 
@@ -164,6 +196,9 @@ class DateTimeTest extends TestCase
         $dt1 = '19850704T013000Z';
         $dt2 = '19850704T023000Z';
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setParts([$dt1, $dt2]);
 
@@ -177,8 +212,11 @@ class DateTimeTest extends TestCase
     {
         $tz = new \DateTimeZone('Europe/Amsterdam');
         $dt = new \DateTimeImmutable('1985-07-04 01:30:00', $tz);
-        $dt->setTimeZone($tz);
+        $dt->setTimeZone($tz); /* @phpstan-ignore-line */
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setDateTime($dt);
 
@@ -187,6 +225,9 @@ class DateTimeTest extends TestCase
 
     public function testGetDateTimeDateNULL(): void
     {
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART');
         $dt = $elem->getDateTime();
 
@@ -195,6 +236,9 @@ class DateTimeTest extends TestCase
 
     public function testGetDateTimeDateDATE(): void
     {
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART', '19850704');
         $dt = $elem->getDateTime();
 
@@ -204,6 +248,9 @@ class DateTimeTest extends TestCase
 
     public function testGetDateTimeDateDATEReferenceTimeZone(): void
     {
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART', '19850704');
 
         $tz = new \DateTimeZone('America/Toronto');
@@ -216,6 +263,9 @@ class DateTimeTest extends TestCase
 
     public function testGetDateTimeDateFloating(): void
     {
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART', '19850704T013000');
         $dt = $elem->getDateTime();
 
@@ -225,6 +275,9 @@ class DateTimeTest extends TestCase
 
     public function testGetDateTimeDateFloatingReferenceTimeZone(): void
     {
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART', '19850704T013000');
 
         $tz = new \DateTimeZone('America/Toronto');
@@ -237,6 +290,9 @@ class DateTimeTest extends TestCase
 
     public function testGetDateTimeDateUTC(): void
     {
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART', '19850704T013000Z');
         $dt = $elem->getDateTime();
 
@@ -247,6 +303,9 @@ class DateTimeTest extends TestCase
 
     public function testGetDateTimeDateLOCALTZ(): void
     {
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART', '19850704T013000');
         $elem['TZID'] = 'Europe/Amsterdam';
 
@@ -260,18 +319,27 @@ class DateTimeTest extends TestCase
     public function testGetDateTimeDateInvalid(): void
     {
         $this->expectException(InvalidDataException::class);
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART', 'bla');
         $elem->getDateTime();
     }
 
     public function testGetDateTimeWeirdTZ(): void
     {
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART', '19850704T013000');
         $elem['TZID'] = '/freeassociation.sourceforge.net/Tzfile/Europe/Amsterdam';
 
         $event = $this->vcal->createComponent('VEVENT');
         $event->add($elem);
 
+        /**
+         * @var VTimeZone<int, mixed> $timezone
+         */
         $timezone = $this->vcal->createComponent('VTIMEZONE');
         $timezone->TZID = '/freeassociation.sourceforge.net/Tzfile/Europe/Amsterdam';
         $timezone->{'X-LIC-LOCATION'} = 'Europe/Amsterdam';
@@ -291,12 +359,18 @@ class DateTimeTest extends TestCase
         $default = date_default_timezone_get();
         date_default_timezone_set('Canada/Eastern');
 
+        /**
+         * @var DateTime<string, mixed> $elem
+         */
         $elem = $this->vcal->createProperty('DTSTART', '19850704T013000');
         $elem['TZID'] = 'Moon';
 
         $event = $this->vcal->createComponent('VEVENT');
         $event->add($elem);
 
+        /**
+         * @var VTimeZone<int, mixed> $timezone
+         */
         $timezone = $this->vcal->createComponent('VTIMEZONE');
         $timezone->TZID = 'Moon';
         $timezone->{'X-LIC-LOCATION'} = 'Moon';
@@ -334,6 +408,7 @@ class DateTimeTest extends TestCase
     public function testCreateDatePropertyThroughAdd(): void
     {
         $vcal = new VCalendar();
+        /** @var VEvent<int, mixed> $vevent */
         $vevent = $vcal->add('VEVENT');
 
         $dtstart = $vevent->add(

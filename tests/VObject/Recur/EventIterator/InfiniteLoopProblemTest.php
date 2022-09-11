@@ -4,11 +4,13 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Recur;
 
 class InfiniteLoopProblemTest extends TestCase
 {
+    /** @var VCalendar<int, mixed> */
     private VCalendar $vcal;
 
     public function setUp(): void
@@ -22,6 +24,7 @@ class InfiniteLoopProblemTest extends TestCase
      */
     public function testFastForwardTooFar(): void
     {
+        /** @var VEvent<int, mixed> $ev */
         $ev = $this->vcal->createComponent('VEVENT');
         $ev->UID = 'foobar';
         $ev->DTSTART = '20090420T180000Z';
@@ -35,13 +38,12 @@ class InfiniteLoopProblemTest extends TestCase
      */
     public function testYearlyByMonthLoop(): void
     {
+        /** @var VEvent<int, mixed> $ev */
         $ev = $this->vcal->createComponent('VEVENT');
         $ev->UID = 'uuid';
-        $ev->DTSTART = '20120101T154500';
-        $ev->DTSTART['TZID'] = 'Europe/Berlin';
+        $ev->DTSTART = new \DateTime('2012-01-01 15:45:00', new \DateTimeZone('Europe/Berlin'));
         $ev->RRULE = 'FREQ=YEARLY;INTERVAL=1;UNTIL=20120203T225959Z;BYMONTH=2;BYSETPOS=1;BYDAY=SU,MO,TU,WE,TH,FR,SA';
-        $ev->DTEND = '20120101T164500';
-        $ev->DTEND['TZID'] = 'Europe/Berlin';
+        $ev->DTEND = new \DateTime('2012-01-01 16:45:00', new \DateTimeZone('Europe/Berlin'));
 
         // This recurrence rule by itself is a yearly rule that should happen
         // every february.
@@ -78,6 +80,7 @@ class InfiniteLoopProblemTest extends TestCase
     public function testZeroInterval(): void
     {
         $this->expectException(InvalidDataException::class);
+        /** @var VEvent<int, mixed> $ev */
         $ev = $this->vcal->createComponent('VEVENT');
         $ev->UID = 'uuid';
         $ev->DTSTART = '20120824T145700Z';

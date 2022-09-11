@@ -7,6 +7,11 @@ use Sabre\VObject\ParseException;
 
 class VCardTest extends TestCase
 {
+    /**
+     * @param string $data
+     *
+     * @return false|resource
+     */
     public function createStream($data)
     {
         $stream = fopen('php://memory', 'r+');

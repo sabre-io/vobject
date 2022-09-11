@@ -3,6 +3,7 @@
 namespace Sabre\VObject\ITip;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
@@ -23,6 +24,16 @@ abstract class BrokerTester extends TestCase
 {
     use PHPUnitAssertions;
 
+    /**
+     * @param VCalendar<int, mixed>|string|null           $oldMessage
+     * @param VCalendar<int, mixed>|string|null           $newMessage
+     * @param array<int, array<string, bool|string|null>> $expected
+     *
+     * @throws ITipException
+     * @throws InvalidDataException
+     * @throws ParseException
+     * @throws SameOrganizerForAllComponentsException
+     */
     public function parse($oldMessage, $newMessage, array $expected = [], string $currentUser = 'mailto:one@example.org'): void
     {
         $broker = new Broker();
@@ -52,10 +63,11 @@ abstract class BrokerTester extends TestCase
      * @throws NoInstancesException
      * @throws InvalidDataException
      */
-    public function process($input, $existingObject = null, $expected = false): void
+    public function process(string $input, ?string $old = null, ?string $expected = null): void
     {
         $version = Version::VERSION;
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = Reader::read($input);
 
         $mainComponent = new VEvent($vcal, 'VEVENT');
@@ -70,7 +82,7 @@ abstract class BrokerTester extends TestCase
         $message->method = isset($vcal->METHOD) ? $vcal->METHOD->getValue() : null;
         $message->component = $mainComponent->name;
         $message->uid = $mainComponent->UID->getValue();
-        $message->sequence = isset($vcal->VEVENT[0]) ? (string) $vcal->VEVENT[0]->SEQUENCE : null;
+        $message->sequence = isset($vcal->VEVENT[0]) ? $vcal->VEVENT[0]->SEQUENCE->getValue() : null;
 
         if ('REPLY' === $message->method) {
             $message->sender = $mainComponent->ATTENDEE->getValue();
@@ -81,13 +93,16 @@ abstract class BrokerTester extends TestCase
 
         $broker = new Broker();
 
-        if (is_string($existingObject)) {
+        if (is_string($old)) {
             $existingObject = str_replace(
                 '%foo%',
                 "VERSION:2.0\nPRODID:-//Sabre//Sabre VObject $version//EN\nCALSCALE:GREGORIAN",
-                $existingObject
+                $old
             );
-            $existingObject = Reader::read($existingObject);
+            /** @var VCalendar<int, mixed> $existingObject */
+            $existingObject = Reader::read($old);
+        } else {
+            $existingObject = $old;
         }
 
         $result = $broker->processMessage($message, $existingObject);

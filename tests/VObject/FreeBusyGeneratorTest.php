@@ -17,6 +17,7 @@ class FreeBusyGeneratorTest extends TestCase
         $gen->setObjects([]);
         $gen->setBaseObject($obj);
 
+        /** @var Component\VCalendar<int, mixed> $result */
         $result = $gen->getResult();
 
         self::assertEquals('PUBLISH', $result->METHOD->getValue());
@@ -42,7 +43,7 @@ class FreeBusyGeneratorTest extends TestCase
      * It only generates the freebusy report for the following time-range:
      * 2011-01-01 11:00:00 until 2011-01-03 11:11:11
      *
-     * @param array|string $input
+     * @param array<int, mixed>|string|resource|Document<int, mixed> $input
      *
      * @throws ParseException
      */

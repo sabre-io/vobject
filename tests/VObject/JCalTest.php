@@ -3,6 +3,7 @@
 namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VEvent;
 
 class JCalTest extends TestCase
 {
@@ -10,6 +11,7 @@ class JCalTest extends TestCase
     {
         $cal = new Component\VCalendar();
 
+        /** @var VEvent<int, mixed> $event */
         $event = $cal->add('VEVENT', [
             'UID' => 'foo',
             'DTSTART' => new \DateTime('2013-05-26 18:10:00Z'),

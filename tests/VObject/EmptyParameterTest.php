@@ -3,6 +3,7 @@
 namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCard;
 
 class EmptyParameterTest extends TestCase
 {
@@ -18,6 +19,7 @@ UID:foo
 END:VCARD
 VCF;
 
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
 
         self::assertInstanceOf(Component\VCard::class, $vcard);
@@ -51,6 +53,7 @@ VCF;
         $vcard = new Component\VCard([], false);
         $vcard->VERSION = '2.1';
         $vcard->PHOTO = 'random_stuff';
+        /* @phpstan-ignore-next-line 'Cannot call method add() on string' */
         $vcard->PHOTO->add(null, 'BASE64');
         $vcard->UID = 'foo-bar';
 
