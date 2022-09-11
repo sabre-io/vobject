@@ -1,4 +1,5 @@
 parameters:
-  level: 1
+  level: 6
+  phpVersion: 70430 # PHP 7.4.30
   universalObjectCratesClasses:
     - \Sabre\VObject\Component
