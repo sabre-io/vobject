@@ -42,13 +42,18 @@ END:VTIMEZONE
 END:VCALENDAR
 HI;
 
+        /** @var VCalendar<int, mixed> $obj */
         $obj = Reader::read($input);
 
-        $tz = new \DateTimeZone('America/Toronto');
+        $expectedTz = new \DateTimeZone('America/Toronto');
+        /**
+         * @var VTimeZone<int, mixed> $tzObject
+         */
+        $tzObject = $obj->VTIMEZONE;
 
         self::assertEquals(
-            $tz,
-            $obj->VTIMEZONE->getTimeZone()
+            $expectedTz,
+            $tzObject->getTimeZone()
         );
     }
 }

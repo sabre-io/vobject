@@ -24,6 +24,9 @@ END:VCALENDAR
 BLA;
 
         $obj = VObject\Reader::read($input);
+        /**
+         * @var VFreeBusy<int, mixed> $vfb
+         */
         $vfb = $obj->VFREEBUSY;
 
         $tz = new \DateTimeZone('UTC');

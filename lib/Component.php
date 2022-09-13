@@ -532,6 +532,8 @@ class Component extends Node
      *   1 - The issue was repaired (only happens if REPAIR was turned on).
      *   2 - A warning.
      *   3 - An error.
+     *
+     * @return array<int, array<string, mixed>>
      */
     public function validate(int $options = 0): array
     {

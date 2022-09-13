@@ -30,7 +30,9 @@ class DateTimeParserTest extends TestCase
         self::assertEquals($expected, DateTimeParser::parse('P1W'));
 
         $expected = new \DateInterval('PT3M');
-        $expected->invert = true;
+        // https://www.php.net/manual/en/class.dateinterval.php#dateinterval.props.invert
+        // invert is 1 if the interval represents a negative time period and 0 otherwise.
+        $expected->invert = 1;
         self::assertEquals($expected, DateTimeParser::parseDuration('-PT3M'));
     }
 
@@ -167,6 +169,8 @@ class DateTimeParserTest extends TestCase
     }
 
     /**
+     * @param array<int, array<int, array<string, int|string|null>|string>> $output
+     *
      * @dataProvider vcardDates
      */
     public function testVCardDate(string $input, array $output): void
@@ -189,6 +193,9 @@ class DateTimeParserTest extends TestCase
         DateTimeParser::parseVCardTime('23:12:166');
     }
 
+    /**
+     * @return array<int, array<int, array<string, int|string|null>|string>>
+     */
     public function vcardDates(): array
     {
         return [
@@ -642,6 +649,11 @@ class DateTimeParserTest extends TestCase
         );
     }
 
+    /**
+     * @param array<string, string> $parts
+     *
+     * @throws InvalidDataException
+     */
     protected function assertDateAndOrTimeEqualsTo(string $date, array $parts): void
     {
         self::assertSame(
