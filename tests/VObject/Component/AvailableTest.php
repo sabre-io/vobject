@@ -34,14 +34,19 @@ END:AVAILABLE
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar<int, mixed> $document */
         $document = Reader::read($vcal);
         $tz = new \DateTimeZone('UTC');
+        /**
+         * @var Available<int, mixed> $available
+         */
+        $available = $document->AVAILABLE;
         self::assertEquals(
             [
                 new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
                 new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
             ],
-            $document->AVAILABLE->getEffectiveStartEnd()
+            $available->getEffectiveStartEnd()
         );
     }
 
@@ -56,14 +61,19 @@ END:AVAILABLE
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar<int, mixed> $document */
         $document = Reader::read($vcal);
         $tz = new \DateTimeZone('UTC');
+        /**
+         * @var Available<int, mixed> $available
+         */
+        $available = $document->AVAILABLE;
         self::assertEquals(
             [
                 new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
                 new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
             ],
-            $document->AVAILABLE->getEffectiveStartEnd()
+            $available->getEffectiveStartEnd()
         );
     }
 }

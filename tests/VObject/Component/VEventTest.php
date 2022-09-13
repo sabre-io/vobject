@@ -7,6 +7,8 @@ use PHPUnit\Framework\TestCase;
 class VEventTest extends TestCase
 {
     /**
+     * @param VEvent<int, mixed> $vevent
+     *
      * @dataProvider timeRangeTestData
      */
     public function testInTimeRange(VEvent $vevent, \DateTime $start, \DateTime $end, bool $outcome): void
@@ -14,12 +16,16 @@ class VEventTest extends TestCase
         self::assertEquals($outcome, $vevent->isInTimeRange($start, $end));
     }
 
+    /**
+     * @return array<int, array<int, mixed>>
+     */
     public function timeRangeTestData(): array
     {
         $tests = [];
 
         $calendar = new VCalendar();
 
+        /** @var VEvent<int, mixed> $vevent */
         $vevent = $calendar->createComponent('VEVENT');
         $vevent->DTSTART = '20111223T120000Z';
         $tests[] = [$vevent, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
@@ -37,6 +43,7 @@ class VEventTest extends TestCase
 
         $vevent4 = clone $vevent;
         $vevent4->DTSTART = '20111225';
+        /* @phpstan-ignore-next-line Cannot assign offset 'VALUE' to string. Magic is here. */
         $vevent4->DTSTART['VALUE'] = 'DATE';
         $tests[] = [$vevent4, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vevent4, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
@@ -56,8 +63,10 @@ class VEventTest extends TestCase
 
         $vevent6 = clone $vevent;
         $vevent6->DTSTART = '20111225';
+        /* @phpstan-ignore-next-line Cannot assign offset 'VALUE' to string. Magic is here. */
         $vevent6->DTSTART['VALUE'] = 'DATE';
         $vevent6->DTEND = '20111225';
+        /* @phpstan-ignore-next-line Cannot assign offset 'VALUE' to string. Magic is here. */
         $vevent6->DTEND['VALUE'] = 'DATE';
 
         $tests[] = [$vevent6, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
@@ -67,6 +76,7 @@ class VEventTest extends TestCase
         // get checked for the entire day.
         $vevent7 = clone $vevent;
         $vevent7->DTSTART = '20120101';
+        /* @phpstan-ignore-next-line Cannot assign offset 'VALUE' to string. Magic is here. */
         $vevent7->DTSTART['VALUE'] = 'DATE';
         $vevent7->RRULE = 'FREQ=MONTHLY';
         $tests[] = [$vevent7, new \DateTime('2012-02-01 15:00:00'), new \DateTime('2012-02-02'), true];

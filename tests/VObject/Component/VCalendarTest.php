@@ -15,6 +15,7 @@ class VCalendarTest extends TestCase
      */
     public function testExpand(string $input, string $output, string $timeZone = 'UTC', string $start = '2011-12-01', string $end = '2011-12-31'): void
     {
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = VObject\Reader::read($input);
 
         $timeZone = new \DateTimeZone($timeZone);
@@ -31,6 +32,9 @@ class VCalendarTest extends TestCase
         self::assertVObjectEqualsVObject($output, $vcal->serialize());
     }
 
+    /**
+     * @return array<int, array<int, string>>
+     */
     public function expandData(): array
     {
         $tests = [];
@@ -342,6 +346,7 @@ DTSTART;VALUE=DATE:20111202
 END:VEVENT
 END:VCALENDAR
 ';
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = VObject\Reader::read($input);
         $vcal->expand(
             new \DateTime('2011-12-01'),
@@ -367,6 +372,7 @@ RRULE:FREQ=YEARLY;COUNT=7;WKST=MO;BYDAY=MO;BYWEEKNO=13,15,50
 END:VEVENT
 END:VCALENDAR
 ';
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = VObject\Reader::read($input);
         $events = $vcal->expand(
             new \DateTime('2021-01-01'),
@@ -559,8 +565,10 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = VObject\Reader::read($input);
 
+        /** @var VEvent<int, mixed> $result */
         $result = $vcal->getBaseComponent();
         self::assertEquals('test', $result->SUMMARY->getValue());
     }
@@ -587,6 +595,7 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = VObject\Reader::read($input);
 
         $result = $vcal->getBaseComponent();
@@ -614,8 +623,10 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = VObject\Reader::read($input);
 
+        /** @var VEvent<int, mixed> $result */
         $result = $vcal->getBaseComponent('VEVENT');
         self::assertEquals('test', $result->SUMMARY->getValue());
     }
@@ -634,8 +645,10 @@ END:VTODO
 END:VCALENDAR
 ';
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = VObject\Reader::read($input);
 
+        /** @var VEvent<int, mixed> $result */
         $result = $vcal->getBaseComponent('VEVENT');
         self::assertNull($result);
     }
@@ -756,7 +769,7 @@ ICS;
         );
     }
 
-    public function assertValidate($ics, $options, $expectedLevel, string $expectedMessage = null): void
+    public function assertValidate(string $ics, int $options, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $vcal = VObject\Reader::read($ics);
         $result = $vcal->validate($options);
@@ -764,7 +777,10 @@ ICS;
         self::assertValidateResult($result, $expectedLevel, $expectedMessage);
     }
 
-    public function assertValidateResult($input, $expectedLevel, string $expectedMessage = null): void
+    /**
+     * @param array<int, array<string, mixed>> $input
+     */
+    public function assertValidateResult(array $input, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $messages = [];
         foreach ($input as $warning) {

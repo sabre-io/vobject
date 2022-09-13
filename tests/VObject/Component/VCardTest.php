@@ -8,6 +8,8 @@ use Sabre\VObject;
 class VCardTest extends TestCase
 {
     /**
+     * @param array<int, string> $expectedWarnings
+     *
      * @dataProvider validateData
      */
     public function testValidate(string $input, array $expectedWarnings, string $expectedRepairedOutput): void
@@ -31,6 +33,9 @@ class VCardTest extends TestCase
         );
     }
 
+    /**
+     * @return array<int, array<int, mixed>>
+     */
     public function validateData(): array
     {
         $tests = [];
@@ -132,7 +137,7 @@ class VCardTest extends TestCase
 
     public function testGetByType(): void
     {
-        $vcard = <<<VCF
+        $vcardText = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
 EMAIL;TYPE=home:1@example.org
@@ -140,16 +145,25 @@ EMAIL;TYPE=work:2@example.org
 END:VCARD
 VCF;
 
-        $vcard = VObject\Reader::read($vcard);
-        self::assertEquals('1@example.org', $vcard->getByType('EMAIL', 'home')->getValue());
-        self::assertEquals('2@example.org', $vcard->getByType('EMAIL', 'work')->getValue());
+        /** @var VCard<int, mixed> $vcard */
+        $vcard = VObject\Reader::read($vcardText);
+        /**
+         * @var VObject\Property<int, mixed> $homeEmail
+         */
+        $homeEmail = $vcard->getByType('EMAIL', 'home');
+        /**
+         * @var VObject\Property<int, mixed> $workEmail
+         */
+        $workEmail = $vcard->getByType('EMAIL', 'work');
+        self::assertEquals('1@example.org', $homeEmail->getValue());
+        self::assertEquals('2@example.org', $workEmail->getValue());
         self::assertNull($vcard->getByType('EMAIL', 'non-existent'));
         self::assertNull($vcard->getByType('ADR', 'non-existent'));
     }
 
     public function testPreferredNoPref(): void
     {
-        $vcard = <<<VCF
+        $vcardText = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
 EMAIL:1@example.org
@@ -157,13 +171,14 @@ EMAIL:2@example.org
 END:VCARD
 VCF;
 
-        $vcard = VObject\Reader::read($vcard);
+        /** @var VCard<int, mixed> $vcard */
+        $vcard = VObject\Reader::read($vcardText);
         self::assertEquals('1@example.org', $vcard->preferred('EMAIL')->getValue());
     }
 
     public function testPreferredWithPref(): void
     {
-        $vcard = <<<VCF
+        $vcardText = <<<VCF
 BEGIN:VCARD
 VERSION:3.0
 EMAIL:1@example.org
@@ -171,13 +186,14 @@ EMAIL;TYPE=PREF:2@example.org
 END:VCARD
 VCF;
 
-        $vcard = VObject\Reader::read($vcard);
+        /** @var VCard<int, mixed> $vcard */
+        $vcard = VObject\Reader::read($vcardText);
         self::assertEquals('2@example.org', $vcard->preferred('EMAIL')->getValue());
     }
 
     public function testPreferredWith40Pref(): void
     {
-        $vcard = <<<VCF
+        $vcardText = <<<VCF
 BEGIN:VCARD
 VERSION:4.0
 EMAIL:1@example.org
@@ -186,19 +202,21 @@ EMAIL;PREF=2:3@example.org
 END:VCARD
 VCF;
 
-        $vcard = VObject\Reader::read($vcard);
+        /** @var VCard<int, mixed> $vcard */
+        $vcard = VObject\Reader::read($vcardText);
         self::assertEquals('3@example.org', $vcard->preferred('EMAIL')->getValue());
     }
 
     public function testPreferredNotFound(): void
     {
-        $vcard = <<<VCF
+        $vcardText = <<<VCF
 BEGIN:VCARD
 VERSION:4.0
 END:VCARD
 VCF;
 
-        $vcard = VObject\Reader::read($vcard);
+        /** @var VCard<int, mixed> $vcard */
+        $vcard = VObject\Reader::read($vcardText);
         self::assertNull($vcard->preferred('EMAIL'));
     }
 
@@ -269,7 +287,7 @@ VCF;
 
     public function testVCard21NoCardDAV(): void
     {
-        $vcard = <<<VCF
+        $vcardText = <<<VCF
 BEGIN:VCARD
 VERSION:2.1
 FN:John Doe
@@ -277,13 +295,13 @@ UID:foo
 END:VCARD
 VCF;
         self::assertValidate(
-            $vcard,
+            $vcardText,
             0,
             0
         );
     }
 
-    public function assertValidate($vcf, $options, int $expectedLevel, string $expectedMessage = null): void
+    public function assertValidate(string $vcf, int $options, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $vcal = VObject\Reader::read($vcf);
         $result = $vcal->validate($options);
@@ -291,7 +309,10 @@ VCF;
         self::assertValidateResult($result, $expectedLevel, $expectedMessage);
     }
 
-    public function assertValidateResult($input, int $expectedLevel, string $expectedMessage = null): void
+    /**
+     * @param array<int, array<string, mixed>> $input
+     */
+    public function assertValidateResult(array $input, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $messages = [];
         foreach ($input as $warning) {
