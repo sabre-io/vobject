@@ -8,6 +8,7 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\PHPUnitAssertions;
+use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\MaxInstancesExceededException;
 use Sabre\VObject\Recur\NoInstancesException;
@@ -85,10 +86,17 @@ abstract class BrokerTester extends TestCase
         $message->sequence = isset($vcal->VEVENT[0]) ? $vcal->VEVENT[0]->SEQUENCE->getValue() : null;
 
         if ('REPLY' === $message->method) {
-            $message->sender = $mainComponent->ATTENDEE->getValue();
-            $message->senderName = isset($mainComponent->ATTENDEE['CN']) ? $mainComponent->ATTENDEE['CN']->getValue() : null;
-            $message->recipient = $mainComponent->ORGANIZER->getValue();
-            $message->recipientName = isset($mainComponent->ORGANIZER['CN']) ? $mainComponent->ORGANIZER['CN'] : null;
+            /**
+             * @var Property<int, mixed> $attendee
+             */
+            $attendee = $mainComponent->ATTENDEE;
+            $message->sender = $attendee->getValue();
+            /* @phpstan-ignore-next-line Offset 'CN' in isset() does not exist. Call to an undefined method getValue(). */
+            $message->senderName = isset($attendee['CN']) ? $attendee['CN']->getValue() : null;
+            $organizer = $mainComponent->ORGANIZER;
+            $message->recipient = $organizer->getValue();
+            /* @phpstan-ignore-next-line Offset 'CN' in isset() does not exist. */
+            $message->recipientName = isset($organizer['CN']) ? $organizer['CN'] : null;
         }
 
         $broker = new Broker();
