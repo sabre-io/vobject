@@ -372,7 +372,7 @@ class PropertyTest extends TestCase
     {
         $document = new VCalendar();
         $property = $document->add('X-FOO', 'value');
-        $property['ENCODING'] = 'invalid'; /* @phpstan-ignore-line */
+        $property['ENCODING'] = 'invalid';
 
         $result = $property->validate();
 
@@ -384,7 +384,7 @@ class PropertyTest extends TestCase
     {
         $document = new VCard(['VERSION' => '4.0']);
         $property = $document->add('X-FOO', 'value');
-        $property['ENCODING'] = 'BASE64'; /* @phpstan-ignore-line */
+        $property['ENCODING'] = 'BASE64';
 
         $result = $property->validate();
 
@@ -396,7 +396,7 @@ class PropertyTest extends TestCase
     {
         $document = new VCard(['VERSION' => '3.0']);
         $property = $document->add('X-FOO', 'value');
-        $property['ENCODING'] = 'BASE64'; /* @phpstan-ignore-line */
+        $property['ENCODING'] = 'BASE64';
 
         $result = $property->validate();
 
@@ -414,7 +414,7 @@ class PropertyTest extends TestCase
     {
         $document = new VCard(['VERSION' => '2.1']);
         $property = $document->add('X-FOO', 'value');
-        $property['ENCODING'] = 'B'; /* @phpstan-ignore-line */
+        $property['ENCODING'] = 'B';
         $result = $property->validate();
 
         self::assertEquals('ENCODING=B is not valid for this document type.', $result[0]['message']);
