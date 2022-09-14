@@ -15,17 +15,17 @@ use Sabre\VObject\Recur\NoInstancesException;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\ICalendar\DateTime DTSTART
- * @property VObject\Property\ICalendar\DateTime DTEND
- * @property VObject\Property\ICalendar\DateTime DTSTAMP
- * @property VObject\Property\ICalendar\Duration DURATION
- * @property VObject\Property\ICalendar\Recur RRULE
- * @property VObject\Property\ICalendar\DateTime[] EXDATE
- * @property VObject\Property\ICalendar\DateTime RDATE
- * @property VObject\Property\ICalendar\Recur EXRULE
- * @property VObject\Property\ICalendar\DateTime RECURRENCE-ID
- * @property VObject\Property\FlatText TRANSP
- * @property VObject\Property\FlatText STATUS
+ * @property VObject\Property\ICalendar\DateTime $DTSTART
+ * @property VObject\Property\ICalendar\DateTime $DTEND
+ * @property VObject\Property\ICalendar\DateTime $DTSTAMP
+ * @property VObject\Property\ICalendar\Duration $DURATION
+ * @property VObject\Property\ICalendar\Recur $RRULE
+ * @property VObject\Property\ICalendar\DateTime[] $EXDATE
+ * @property VObject\Property\ICalendar\DateTime $RDATE
+ * @property VObject\Property\ICalendar\Recur $EXRULE
+ * @property VObject\Property\ICalendar\DateTime $RECURRENCE-ID
+ * @property VObject\Property\FlatText $TRANSP
+ * @property VObject\Property\FlatText $STATUS
  */
 class VEvent extends VObject\Component
 {
@@ -61,18 +61,26 @@ class VEvent extends VObject\Component
             return $it->getDTStart() < $end && $it->getDTEnd() > $start;
         }
 
-        $effectiveStart = $this->DTSTART->getDateTime($start->getTimezone());
+        /**
+         * @var \Sabre\VObject\Property\ICalendar\DateTime<int, DateTimeInterface> $dateTimeStart
+         */
+        $dateTimeStart = $this->DTSTART;
+        $effectiveStart = $dateTimeStart->getDateTime($start->getTimezone());
         if (isset($this->DTEND)) {
+            /**
+             * @var \Sabre\VObject\Property\ICalendar\DateTime<int, DateTimeInterface> $dateTimeEnd
+             */
+            $dateTimeEnd = $this->DTEND;
             // The DTEND property is considered non-inclusive. So for a 3-day
             // event in july, dtstart and dtend would have to be July 1st and
             // July 4th respectively.
             //
             // See:
             // http://tools.ietf.org/html/rfc5545#page-54
-            $effectiveEnd = $this->DTEND->getDateTime($end->getTimezone());
+            $effectiveEnd = $dateTimeEnd->getDateTime($end->getTimezone());
         } elseif (isset($this->DURATION)) {
             $effectiveEnd = $effectiveStart->add(VObject\DateTimeParser::parseDuration($this->DURATION));
-        } elseif (!$this->DTSTART->hasTime()) {
+        } elseif (!$dateTimeStart->hasTime()) {
             $effectiveEnd = $effectiveStart->modify('+1 day');
         } else {
             $effectiveEnd = $effectiveStart;
@@ -85,6 +93,8 @@ class VEvent extends VObject\Component
 
     /**
      * This method should return a list of default property values.
+     *
+     * @return array<string, string>
      */
     protected function getDefaults(): array
     {
@@ -106,6 +116,8 @@ class VEvent extends VObject\Component
      *   * + - Must appear at least once.
      *   * * - Can appear any number of times.
      *   * ? - May appear, but not more than once.
+     *
+     * @return array<string, string|int>
      */
     public function getValidationRules(): array
     {
