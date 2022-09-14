@@ -15,17 +15,18 @@ use Sabre\VObject\Recur\NoInstancesException;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\ICalendar\DateTime $DTSTART
- * @property VObject\Property\ICalendar\DateTime $DTEND
- * @property VObject\Property\ICalendar\DateTime $DTSTAMP
- * @property VObject\Property\ICalendar\Duration $DURATION
- * @property VObject\Property\ICalendar\Recur $RRULE
+ * @property VObject\Property\ICalendar\DateTime   $DTSTART
+ * @property VObject\Property\ICalendar\DateTime   $DTEND
+ * @property VObject\Property\ICalendar\DateTime   $DTSTAMP
+ * @property VObject\Property\ICalendar\Duration   $DURATION
+ * @property VObject\Property\ICalendar\Recur      $RRULE
  * @property VObject\Property\ICalendar\DateTime[] $EXDATE
- * @property VObject\Property\ICalendar\DateTime $RDATE
- * @property VObject\Property\ICalendar\Recur $EXRULE
- * @property VObject\Property\ICalendar\DateTime $RECURRENCE-ID
- * @property VObject\Property\FlatText $TRANSP
- * @property VObject\Property\FlatText $STATUS
+ * @property VObject\Property\ICalendar\DateTime   $RDATE
+ * @property VObject\Property\ICalendar\Recur      $EXRULE
+ * @property VObject\Property\ICalendar\DateTime   $RECURRENCE-ID
+ * @property VObject\Property\ICalendar\CalAddress $ATTENDEE
+ * @property VObject\Property\FlatText             $TRANSP
+ * @property VObject\Property\FlatText             $STATUS
  */
 class VEvent extends VObject\Component
 {
