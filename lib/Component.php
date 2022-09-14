@@ -20,16 +20,11 @@ use Sabre\Xml;
 class Component extends Node
 {
     /**
-     * Component name.
-     *
-     * This will contain a string such as VEVENT, VTODO, VCALENDAR, VCARD.
-     */
-    public string $name;
-
-    /**
      * A list of properties and/or sub-components.
      *
-     * @var array<string, Component<int, mixed>|Property<int, mixed>>
+     * ToDo: maybe be more specific array<string, Component<int, mixed>|Property<int, mixed>>
+     *
+     * @var array<string, array<int, mixed>>
      */
     protected array $children = [];
 

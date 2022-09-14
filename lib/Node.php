@@ -55,6 +55,15 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
     protected ?Component $root;
 
     /**
+     * Name of the item (a Component or Parameter or Property).
+     *
+     * This will contain a component name such as VEVENT, VTODO, VCALENDAR, VCARD.
+     * Or a parameter name (vCard 2.1 allows parameters to be encoded without a name)
+     * Or a property name such as DTSTART, SUMMARY, FN.
+     */
+    public ?string $name;
+
+    /**
      * Serializes the node into a mimedir format.
      */
     abstract public function serialize(): string;
