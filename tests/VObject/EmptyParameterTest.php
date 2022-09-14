@@ -24,11 +24,12 @@ VCF;
 
         self::assertInstanceOf(Component\VCard::class, $vcard);
         $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD30);
-        $vcard = $vcard->serialize();
+        $serializedVcard = $vcard->serialize();
 
-        $converted = Reader::read($vcard);
+        $converted = Reader::read($serializedVcard);
         $converted->validate();
 
+        /* @phpstan-ignore-next-line Offset 'X-INTERN' in isset() does not exist. */
         self::assertTrue(isset($converted->EMAIL['X-INTERN']));
 
         $version = Version::VERSION;
@@ -45,7 +46,7 @@ END:VCARD
 
 VCF;
 
-        self::assertEquals($expected, str_replace("\r", '', $vcard));
+        self::assertEquals($expected, str_replace("\r", '', $serializedVcard));
     }
 
     public function testVCard21Parameter(): void
