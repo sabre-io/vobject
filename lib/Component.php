@@ -2,7 +2,7 @@
 
 namespace Sabre\VObject;
 
-use Sabre\VObject;
+use Sabre\VObject\Property\FlatText;
 use Sabre\Xml;
 
 /**
@@ -15,7 +15,7 @@ use Sabre\Xml;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\FlatText UID
+ * @property FlatText $UID
  */
 class Component extends Node
 {
@@ -29,7 +29,7 @@ class Component extends Node
     /**
      * A list of properties and/or sub-components.
      *
-     * @var array<string, Component|Property>
+     * @var array<string, Component<int, mixed>|Property<int, mixed>>
      */
     protected array $children = [];
 
@@ -44,7 +44,9 @@ class Component extends Node
      * an iCalendar object, this may be something like CALSCALE:GREGORIAN. To
      * ensure that this does not happen, set $defaults to false.
      *
-     * @param string|null $name such as VCALENDAR, VEVENT
+     * @param Document<int, mixed>     $root
+     * @param string|null              $name     such as VCALENDAR, VEVENT
+     * @param array<int|string, mixed> $children
      */
     public function __construct(Document $root, ?string $name, array $children = [], bool $defaults = true)
     {
@@ -54,7 +56,7 @@ class Component extends Node
         if ($defaults) {
             // This is a terribly convoluted way to do this, but this ensures
             // that the order of properties as they are specified in both
-            // defaults and the childrens list, are inserted in the object in a
+            // defaults and the children's list, are inserted in the object in a
             // natural way.
             $list = $this->getDefaults();
             $nodes = [];
@@ -97,6 +99,8 @@ class Component extends Node
      * add($name, $value, array $parameters = []) // Adds a new property
      * add($name, array $children = []) // Adds a new component
      * by name.
+     *
+     * @return Node<int, mixed>
      */
     public function add(): Node
     {
@@ -114,7 +118,7 @@ class Component extends Node
             throw new \InvalidArgumentException('The first argument must either be a \\Sabre\\VObject\\Node or a string');
         }
 
-        /** @var Component|Property|Parameter $newNode */
+        /** @var Component<int, mixed>|Property<int, mixed>|Parameter $newNode */
         $name = $newNode->name;
         if (isset($this->children[$name])) {
             $this->children[$name][] = $newNode;
@@ -133,7 +137,7 @@ class Component extends Node
      * pass an instance of a property or component, in which case only that
      * exact item will be removed.
      *
-     * @param string|Property|Component $item
+     * @param string|Property<int, mixed>|Component<int, mixed> $item
      */
     public function remove($item): void
     {
@@ -167,6 +171,8 @@ class Component extends Node
     /**
      * Returns a flat list of all the properties and components in this
      * component.
+     *
+     * @return array<int, Component<int, mixed>|Property<int, mixed>>
      */
     public function children(): array
     {
@@ -181,6 +187,8 @@ class Component extends Node
     /**
      * This method only returns a list of sub-components. Properties are
      * ignored.
+     *
+     * @return array<int, Component<int, mixed>>
      */
     public function getComponents(): array
     {
@@ -206,6 +214,10 @@ class Component extends Node
      * search for a property in a specific group, you can select on the entire
      * string ("HOME.EMAIL"). If you want to search on a specific property that
      * has not been assigned a group, specify ".EMAIL".
+     *
+     * ToDo: something like (array<int, mixed> & Component)|(array<int, mixed> & Property)
+     *
+     * @return array<int, mixed>
      */
     public function select(string $name): array
     {
@@ -271,7 +283,7 @@ class Component extends Node
          *
          * @return int
          */
-        $sortScore = function (int $key, array $array): ?int {
+        $sortScore = function (int $key, array $array): int {
             if ($array[$key] instanceof Component) {
                 // We want to encode VTIMEZONE first, this is a personal
                 // preference.
@@ -322,6 +334,8 @@ class Component extends Node
     /**
      * This method returns an array, with the representation as it should be
      * encoded in JSON. This is used to create jCard or jCal documents.
+     *
+     * @return array{0: string, 1: array<int, mixed>, 2: array<int, mixed>}
      */
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
@@ -394,6 +408,8 @@ class Component extends Node
 
     /**
      * This method should return a list of default property values.
+     *
+     * @return array<string, string>
      */
     protected function getDefaults(): array
     {
@@ -412,7 +428,7 @@ class Component extends Node
      *
      * $event = $calendar->VEVENT;
      *
-     * @return Property|Component
+     * @return Property<int, mixed>|Component<int, mixed>
      */
     public function __get(string $name): ?Node
     {
@@ -507,6 +523,8 @@ class Component extends Node
      *
      * See the VEVENT implementation for getValidationRules for a more complex
      * example.
+     *
+     * @return array<string, string|int>
      */
     public function getValidationRules(): array
     {
@@ -533,7 +551,7 @@ class Component extends Node
      *   2 - A warning.
      *   3 - An error.
      *
-     * @return array<int, array<string, mixed>>
+     * @return array<int, array{level: int, message: string, node: object}>
      */
     public function validate(int $options = 0): array
     {
