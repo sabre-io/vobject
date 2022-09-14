@@ -580,7 +580,7 @@ class Component extends Node
                     }
                     break;
                 case '+':
-                    if (!isset($propertyCounters[$propName]) || $propertyCounters[$propName] < 1) {
+                    if (!isset($propertyCounters[$propName])) {
                         $messages[] = [
                             'level' => 3,
                             'message' => $propName.' MUST appear at least once in a '.$this->name.' component',
