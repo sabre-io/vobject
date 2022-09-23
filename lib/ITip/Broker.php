@@ -78,6 +78,7 @@ class Broker
         'RDATE',
         'EXDATE',
         'STATUS',
+        'COMMENT'
     ];
 
     /**
@@ -305,6 +306,7 @@ class Broker
             foreach ($existingObject->VEVENT as $vevent) {
                 $vevent->STATUS = 'CANCELLED';
                 $vevent->SEQUENCE = $itipMessage->sequence;
+                // this should also allow for COMMENTs
             }
         }
 
@@ -332,6 +334,7 @@ class Broker
         $requestStatus = '2.0';
 
         // Finding all the instances the attendee replied to.
+        $comments = null;
         foreach ($itipMessage->message->VEVENT as $vevent) {
             $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getValue() : 'master';
             $attendee = $vevent->ATTENDEE;
@@ -339,6 +342,9 @@ class Broker
             if (isset($vevent->{'REQUEST-STATUS'})) {
                 $requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
                 list($requestStatus) = explode(';', $requestStatus);
+            }
+            if(!empty($vevent->{'COMMENT'})) {
+                $comments = $vevent->{'COMMENT'};
             }
         }
 
@@ -376,6 +382,12 @@ class Broker
                     }
                 }
                 unset($instances[$recurId]);
+            }
+            if($comments !== null) {
+                // as this is 0+, we need a loopdiloop
+                foreach ($comments as $comment) {
+                    $vevent->add('COMMENT', $comment);
+                }
             }
         }
 
@@ -513,6 +525,11 @@ class Broker
                 if (isset($calendar->VEVENT->SUMMARY)) {
                     $event->add('SUMMARY', $calendar->VEVENT->SUMMARY->getValue());
                 }
+                if($eventInfo['comments'] !== null) {
+                    foreach ($eventInfo['comments'] as $comment) {
+                        $event->add('COMMENT', $comment);
+                    }
+                }
                 $event->add(clone $calendar->VEVENT->DTSTART);
                 if (isset($calendar->VEVENT->DTEND)) {
                     $event->add(clone $calendar->VEVENT->DTEND);
@@ -593,6 +610,11 @@ class Broker
                     }
 
                     $currentEvent->DTSTAMP = gmdate('Ymd\\THis\\Z');
+                    if($eventInfo['comments'] !== null) {
+                        foreach ($eventInfo['comments'] as $comment) {
+                            $currentEvent->add('COMMENT', $comment);
+                        }
+                    }
                     $icalMsg->add($currentEvent);
                 }
             }
@@ -710,6 +732,11 @@ class Broker
                 'SEQUENCE' => $message->sequence,
             ]);
             $summary = isset($calendar->VEVENT->SUMMARY) ? $calendar->VEVENT->SUMMARY->getValue() : '';
+            if($eventInfo['comments'] !== null) {
+                foreach ($eventInfo['comments'] as $comment) {
+                    $event->add('COMMENT', $comment);
+                }
+            }
             // Adding properties from the correct source instance
             if (isset($eventInfo['instances'][$instance['id']])) {
                 $instanceObj = $eventInfo['instances'][$instance['id']];
@@ -790,6 +817,7 @@ class Broker
      *                based on.
      * 11. significantChangeHash
      * 12. status
+     * 13. comments
      *
      * @throws ITipException
      * @throws SameOrganizerForAllComponentsException
@@ -804,6 +832,7 @@ class Broker
         $timezone = null;
         $status = null;
         $organizerScheduleAgent = 'SERVER';
+        $comments = null;
 
         // Now we need to collect a list of attendees, and which instances they
         // are a part of.
@@ -924,6 +953,11 @@ class Broker
                 }
                 $instances[$recurId] = $vevent;
             }
+            if(isset($vevent->{'COMMENT'})) {
+                foreach($vevent->{'COMMENT'} as $comment) {
+                    $comments[] = $comment;
+                }
+            }
 
             foreach ($this->significantChangeProperties as $prop) {
                 if (isset($vevent->$prop)) {
@@ -962,7 +996,8 @@ class Broker
             'exdate',
             'timezone',
             'significantChangeHash',
-            'status'
+            'status',
+            'comments'
         );
     }
 }
