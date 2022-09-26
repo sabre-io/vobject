@@ -57,7 +57,7 @@ class IntegerValue extends Property
     }
 
     /**
-     * Hydrate data from a XML subtree, as it would appear in a xCard or xCal
+     * Hydrate data from an XML subtree, as it would appear in a xCard or xCal
      * object.
      */
     public function setXmlValue(array $value): void

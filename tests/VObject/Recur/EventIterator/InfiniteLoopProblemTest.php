@@ -89,6 +89,6 @@ class InfiniteLoopProblemTest extends TestCase
         $it = new Recur\EventIterator($this->vcal, 'uuid');
         $it->fastForward(new DateTimeImmutable('2013-01-01 23:00:00', new DateTimeZone('UTC')));
 
-        // if we got this far.. it means we are no longer infinitely looping
+        // if we got this far it means we are no longer infinitely looping
     }
 }

@@ -168,7 +168,7 @@ abstract class Document extends Component
      * Parameter objects.
      *
      * @param mixed       $value
-     * @param string|null $valueType Force a specific valuetype, such as URI or TEXT
+     * @param string|null $valueType Force a specific valueType, such as URI or TEXT
      *
      * @throws InvalidDataException
      */

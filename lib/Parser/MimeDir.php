@@ -499,7 +499,7 @@ class MimeDir extends Parser
      * vCard 2.1 says:
      *   * Semi-colons must be escaped in some property values, specifically
      *     ADR, ORG and N.
-     *   * Semi-colons must be escaped in parameter values, because semi-colons
+     *   * Semi-colons must be escaped in parameter values, because semicolons
      *     are also use to separate values.
      *   * No mention of escaping backslashes with another backslash.
      *   * newlines are not escaped either, instead QUOTED-PRINTABLE is used to
@@ -509,8 +509,8 @@ class MimeDir extends Parser
      *   * (rfc2425) Backslashes, newlines (\n or \N) and comma's must be
      *     escaped, all the time.
      *   * Commas are used for delimiters in multiple values
-     *   * (rfc2426) Adds to this that the semi-colon MUST also be escaped,
-     *     as in some properties semi-colon is used for separators.
+     *   * (rfc2426) Adds to this that the semicolon MUST also be escaped,
+     *     as in some properties semicolon is used for separators.
      *   * Properties using semi-colons: N, ADR, GEO, ORG
      *   * Both ADR and N's individual parts may be broken up further with a
      *     comma.
@@ -518,12 +518,12 @@ class MimeDir extends Parser
      *
      * vCard 4.0 (rfc6350) says:
      *   * Commas must be escaped.
-     *   * Semi-colons may be escaped, an unescaped semi-colon _may_ be a
+     *   * Semi-colons may be escaped, an unescaped semicolon _may_ be a
      *     delimiter, depending on the property.
      *   * Backslashes must be escaped
      *   * Newlines must be escaped as either \N or \n.
      *   * Some compound properties may contain multiple parts themselves, so a
-     *     comma within a semi-colon delimited property may also be unescaped
+     *     comma within a semicolon delimited property may also be unescaped
      *     to denote multiple parts _within_ the compound property.
      *   * Text-properties using semi-colons: N, ADR, ORG, CLIENTPIDMAP.
      *   * Text-properties using commas: NICKNAME, RELATED, CATEGORIES, PID.
@@ -532,7 +532,7 @@ class MimeDir extends Parser
      * example for GEO in Section 6.5.2 seems to violate this.
      *
      * iCalendar 2.0 (rfc5545) says:
-     *   * Commas or semi-colons may be used as delimiters, depending on the
+     *   * Commas or semicolons may be used as delimiters, depending on the
      *     property.
      *   * Commas, semi-colons, backslashes, newline (\N or \n) are always
      *     escaped, unless they are delimiters.
@@ -547,7 +547,7 @@ class MimeDir extends Parser
      * Now for the parameters
      *
      * If delimiter is not set (empty string) this method will just return a string.
-     * If it's a comma or a semi-colon the string will be split on those
+     * If it's a comma or a semicolon the string will be split on those
      * characters, and always return an array.
      *
      * @return string|string[]
@@ -602,11 +602,11 @@ class MimeDir extends Parser
      *   * Does not mention a mechanism for this. In addition, double quotes
      *     are never used to wrap values.
      *   * This means that parameters can simply not contain colons or
-     *     semi-colons.
+     *     semicolons.
      *
      * vCard 3.0 (rfc2425, rfc2426):
      *   * Parameters _may_ be surrounded by double quotes.
-     *   * If this is not the case, semi-colon, colon and comma may simply not
+     *   * If this is not the case, semicolon, colon and comma may simply not
      *     occur (the comma used for multiple parameter values though).
      *   * If it is surrounded by double-quotes, it may simply not contain
      *     double-quotes.
@@ -678,7 +678,7 @@ class MimeDir extends Parser
         // like unfolding, but we keep the newline.
         $value = str_replace("\n ", "\n", $value);
 
-        // Microsoft products don't always correctly fold lines, they may be
+        // Microsoft's products don't always correctly fold lines, they may be
         // missing a whitespace. So if 'forgiving' is turned on, we will take
         // those as well.
         if ($this->options & self::OPTION_FORGIVING) {
