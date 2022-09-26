@@ -35,7 +35,7 @@ class FindFromTimezoneIdentifier implements TimezoneFinder
         // https://bugs.php.net/bug.php?id=67881
         //
         // That's why we're checking if we'll be able to successfully instantiate
-        // \DateTimeZone() before doing so. Otherwise we could simply instantiate
+        // \DateTimeZone() before doing so. Otherwise, we could simply instantiate
         // and catch the exception.
         $tzIdentifiers = DateTimeZone::listIdentifiers();
 

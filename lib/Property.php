@@ -285,7 +285,7 @@ abstract class Property extends Node
     }
 
     /**
-     * Hydrate data from a XML subtree, as it would appear in a xCard or xCal
+     * Hydrate data from an XML subtree, as it would appear in a xCard or xCal
      * object.
      *
      * @throws InvalidDataException
@@ -353,7 +353,7 @@ abstract class Property extends Node
      *
      * If the property only had a single value, you will get just that. In the
      * case the property had multiple values, the contents will be escaped and
-     * combined with ,.
+     * combined with comma.
      */
     public function __toString(): string
     {

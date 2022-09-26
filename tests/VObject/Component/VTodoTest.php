@@ -113,7 +113,7 @@ HI;
         ], $messages);
     }
 
-    public function testValidateDUEDTSTARTMisMatch(): void
+    public function testValidateDueDateTimeStartMisMatch(): void
     {
         $input = <<<HI
 BEGIN:VCALENDAR
@@ -141,7 +141,7 @@ HI;
         ], $messages);
     }
 
-    public function testValidateDUEbeforeDTSTART(): void
+    public function testValidateDueBeforeDateTimeStart(): void
     {
         $input = <<<HI
 BEGIN:VCALENDAR

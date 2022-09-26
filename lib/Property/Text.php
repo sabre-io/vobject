@@ -84,7 +84,7 @@ class Text extends Property
         // 1. multivalue properties.
         // 2. structured value properties
         //
-        // The former is always separated by a comma, the latter by semi-colon.
+        // The former is always separated by a comma, the latter by semicolon.
         if (in_array($name, $this->structuredValues)) {
             $this->delimiter = ';';
         }

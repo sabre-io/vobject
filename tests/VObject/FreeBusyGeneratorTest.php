@@ -212,11 +212,11 @@ ICS;
     }
 
     /**
-     * Testing an event that falls outside of the report time-range.
+     * Testing an event that falls outside the report time-range.
      */
     public function testOutsideTimeRange(): void
     {
-        // outside of time-range, hidden
+        // outside time-range, hidden
         $blob = <<<ICS
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -234,11 +234,11 @@ ICS;
     }
 
     /**
-     * Testing an event that falls outside of the report time-range.
+     * Testing an event that falls outside the report time-range.
      */
     public function testOutsideTimeRange2(): void
     {
-        // outside of time-range, hidden
+        // outside time-range, hidden
         $blob = <<<ICS
 BEGIN:VCALENDAR
 BEGIN:VEVENT
@@ -447,7 +447,7 @@ ICS;
 
     public function testAllDay2(): void
     {
-        // All-day event, slightly outside of the VFREEBUSY range.
+        // All-day event, slightly outside the VFREEBUSY range.
         $blob = <<<ICS
 BEGIN:VCALENDAR
 BEGIN:VEVENT

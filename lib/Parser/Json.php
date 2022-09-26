@@ -80,7 +80,7 @@ class Json extends Parser
             }
         }
 
-        // Resetting the input so we can throw an feof exception the next time.
+        // Resetting the input so that we can throw an feof exception the next time.
         $this->input = null;
 
         return $this->root;
