@@ -478,10 +478,8 @@ class MimeDir extends Parser
             switch (strtolower($charset)) {
                 case 'utf-8':
                     break;
-                case 'iso-8859-1':
-                    $property['value'] = utf8_encode($property['value']);
-                    break;
                 case 'windows-1252':
+                case 'iso-8859-1':
                     $property['value'] = mb_convert_encoding($property['value'], 'UTF-8', $charset);
                     break;
                 default:
