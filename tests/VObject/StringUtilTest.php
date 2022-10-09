@@ -29,9 +29,10 @@ class StringUtilTest extends TestCase
 
     public function testConvertToUTF8nonUTF8()
     {
-        $string = StringUtil::convertToUTF8(chr(0xbf));
+        // 0xBF is an ASCII upside-down question mark
+        $string = StringUtil::convertToUTF8(chr(0xBF));
 
-        $this->assertEquals(utf8_encode(chr(0xbf)), $string);
+        $this->assertEquals(mb_convert_encoding(chr(0xBF), 'UTF-8', 'ISO-8859-1'), $string);
     }
 
     public function testConvertToUTF8IsUTF8()
