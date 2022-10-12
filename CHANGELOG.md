@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+4.5.1 (2022-10-09)
+------------------
+
+* #597: Remove utf8_encode to easily support PHP 8.2 (@phil-davis)
+
 4.5.0 (2022-08-17)
 ------------------
 
