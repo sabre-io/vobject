@@ -336,7 +336,7 @@ class VCardConverter
         unset($value);
 
         $newProperty['ENCODING'] = 'b';
-        switch ($mimeType) {
+        switch (strtolower($mimeType)) {
             case 'image/jpeg':
                 $newProperty['TYPE'] = 'JPEG';
                 break;
