@@ -409,7 +409,14 @@ OUT;
             $vcard
         );
 
-        $input = $output;
+        $input = <<<IN
+BEGIN:VCARD
+VERSION:3.0
+X-ADDRESSBOOKSERVER-KIND:INDIVIDUAL
+END:VCARD
+
+IN;
+
         $output = <<<OUT
 BEGIN:VCARD
 VERSION:4.0
