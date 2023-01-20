@@ -181,6 +181,17 @@ HI;
      */
     public function testTimeZoneBCIdentifiers($tzid)
     {
+        /*
+         * A regression was introduced in PHP 8.1.14 and 8.2.1
+         * Timezone ids containing a "+" like "GMT+10" do not work.
+         * See https://github.com/php/php-src/issues/10218
+         * The regression should be fixed in the next patch releases of PHP
+         * that should be released in Feb 2023.
+         */
+        $versionOfPHP = \phpversion();
+        if ((('8.1.14' == $versionOfPHP) || ('8.2.1' == $versionOfPHP)) && \str_contains($tzid, '+')) {
+            $this->markTestSkipped("Timezone ids containing '+' do not work on PHP $versionOfPHP");
+        }
         $tz = TimeZoneUtil::getTimeZone($tzid);
         $ex = new \DateTimeZone($tzid);
 
