@@ -2,9 +2,6 @@
 
 namespace Sabre\VObject;
 
-use ArrayIterator;
-use LogicException;
-
 /**
  * VObject ElementList.
  *
@@ -15,7 +12,7 @@ use LogicException;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class ElementList extends ArrayIterator
+class ElementList extends \ArrayIterator
 {
     /* {{{ ArrayAccess Interface */
 
@@ -28,7 +25,7 @@ class ElementList extends ArrayIterator
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
     {
-        throw new LogicException('You can not add new objects to an ElementList');
+        throw new \LogicException('You can not add new objects to an ElementList');
     }
 
     /**
@@ -41,7 +38,7 @@ class ElementList extends ArrayIterator
     #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
-        throw new LogicException('You can not remove objects from an ElementList');
+        throw new \LogicException('You can not remove objects from an ElementList');
     }
 
     /* }}} */

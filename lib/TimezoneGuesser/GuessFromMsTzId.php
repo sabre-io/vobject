@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sabre\VObject\TimezoneGuesser;
 
-use DateTimeZone;
 use Sabre\VObject\Component\VTimeZone;
 
 class GuessFromMsTzId implements TimezoneGuesser
@@ -96,7 +95,7 @@ class GuessFromMsTzId implements TimezoneGuesser
         39 => 'Pacific/Kwajalein',
     ];
 
-    public function guess(VTimeZone $vtimezone, ?bool $failIfUncertain = false): ?DateTimeZone
+    public function guess(VTimeZone $vtimezone, ?bool $failIfUncertain = false): ?\DateTimeZone
     {
         // Microsoft may add a magic number, which we also have an
         // answer for.
@@ -107,11 +106,11 @@ class GuessFromMsTzId implements TimezoneGuesser
 
         // 2 can mean both Europe/Lisbon and Europe/Sarajevo.
         if (2 === $cdoId && false !== strpos((string) $vtimezone->TZID, 'Sarajevo')) {
-            return new DateTimeZone('Europe/Sarajevo');
+            return new \DateTimeZone('Europe/Sarajevo');
         }
 
         if (isset(self::$microsoftExchangeMap[$cdoId])) {
-            return new DateTimeZone(self::$microsoftExchangeMap[$cdoId]);
+            return new \DateTimeZone(self::$microsoftExchangeMap[$cdoId]);
         }
 
         return null;

@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject;
 
-use DateTimeZone;
-use InvalidArgumentException;
 use Sabre\VObject\TimezoneGuesser\FindFromOffset;
 use Sabre\VObject\TimezoneGuesser\FindFromTimezoneIdentifier;
 use Sabre\VObject\TimezoneGuesser\FindFromTimezoneMap;
@@ -74,11 +72,11 @@ class TimeZoneUtil
      * Alternatively, if $failIfUncertain is set to true, it will throw an
      * exception if we cannot accurately determine the timezone.
      */
-    private function findTimeZone(string $tzid, ?Component $vcalendar = null, bool $failIfUncertain = false): DateTimeZone
+    private function findTimeZone(string $tzid, ?Component $vcalendar = null, bool $failIfUncertain = false): \DateTimeZone
     {
         foreach ($this->timezoneFinders as $timezoneFinder) {
             $timezone = $timezoneFinder->find($tzid, $failIfUncertain);
-            if (!$timezone instanceof DateTimeZone) {
+            if (!$timezone instanceof \DateTimeZone) {
                 continue;
             }
 
@@ -91,7 +89,7 @@ class TimeZoneUtil
                 if ((string) $vtimezone->TZID === $tzid) {
                     foreach ($this->timezoneGuessers as $timezoneGuesser) {
                         $timezone = $timezoneGuesser->guess($vtimezone, $failIfUncertain);
-                        if (!$timezone instanceof DateTimeZone) {
+                        if (!$timezone instanceof \DateTimeZone) {
                             continue;
                         }
 
@@ -102,11 +100,11 @@ class TimeZoneUtil
         }
 
         if ($failIfUncertain) {
-            throw new InvalidArgumentException('We were unable to determine the correct PHP timezone for tzid: '.$tzid);
+            throw new \InvalidArgumentException('We were unable to determine the correct PHP timezone for tzid: '.$tzid);
         }
 
         // If we got all the way here, we default to whatever has been set as the PHP default timezone.
-        return new DateTimeZone(date_default_timezone_get());
+        return new \DateTimeZone(date_default_timezone_get());
     }
 
     public static function addTimezoneGuesser(string $key, TimezoneGuesser $guesser): void
@@ -119,7 +117,7 @@ class TimeZoneUtil
         self::getInstance()->addFinder($key, $finder);
     }
 
-    public static function getTimeZone(string $tzid, ?Component $vcalendar = null, bool $failIfUncertain = false): DateTimeZone
+    public static function getTimeZone(string $tzid, ?Component $vcalendar = null, bool $failIfUncertain = false): \DateTimeZone
     {
         return self::getInstance()->findTimeZone($tzid, $vcalendar, $failIfUncertain);
     }

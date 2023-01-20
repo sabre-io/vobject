@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use DateTime;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Reader;
@@ -12,7 +11,7 @@ class VAlarmTest extends TestCase
     /**
      * @dataProvider timeRangeTestData
      */
-    public function testInTimeRange(VAlarm $valarm, DateTime $start, DateTime $end, bool $outcome): void
+    public function testInTimeRange(VAlarm $valarm, \DateTime $start, \DateTime $end, bool $outcome): void
     {
         $this->assertEquals($outcome, $valarm->isInTimeRange($start, $end));
     }
@@ -29,8 +28,8 @@ class VAlarmTest extends TestCase
             $calendar->createProperty('TRIGGER', '20120312T130000Z', ['VALUE' => 'DATE-TIME'])
         );
 
-        $tests[] = [$valarm1, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true];
-        $tests[] = [$valarm1, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false];
+        $tests[] = [$valarm1, new \DateTime('2012-03-01 01:00:00'), new \DateTime('2012-04-01 01:00:00'), true];
+        $tests[] = [$valarm1, new \DateTime('2012-03-01 01:00:00'), new \DateTime('2012-03-10 01:00:00'), false];
 
         // Relation to start time of event
         $valarm2 = $calendar->createComponent('VALARM');
@@ -42,8 +41,8 @@ class VAlarmTest extends TestCase
         $vevent2->DTSTART = '20120313T130000Z';
         $vevent2->add($valarm2);
 
-        $tests[] = [$valarm2, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true];
-        $tests[] = [$valarm2, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false];
+        $tests[] = [$valarm2, new \DateTime('2012-03-01 01:00:00'), new \DateTime('2012-04-01 01:00:00'), true];
+        $tests[] = [$valarm2, new \DateTime('2012-03-01 01:00:00'), new \DateTime('2012-03-10 01:00:00'), false];
 
         // Relation to end time of event
         $valarm3 = $calendar->createComponent('VALARM');
@@ -54,8 +53,8 @@ class VAlarmTest extends TestCase
         $vevent3->DTEND = '20120401T130000Z';
         $vevent3->add($valarm3);
 
-        $tests[] = [$valarm3, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), false];
-        $tests[] = [$valarm3, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), true];
+        $tests[] = [$valarm3, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), false];
+        $tests[] = [$valarm3, new \DateTime('2012-03-25 01:00:00'), new \DateTime('2012-04-05 01:00:00'), true];
 
         // Relation to end time of todo
         $valarm4 = $calendar->createComponent('VALARM');
@@ -68,8 +67,8 @@ class VAlarmTest extends TestCase
         $vtodo4->DUE = '20120401T130000Z';
         $vtodo4->add($valarm4);
 
-        $tests[] = [$valarm4, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), false];
-        $tests[] = [$valarm4, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), true];
+        $tests[] = [$valarm4, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), false];
+        $tests[] = [$valarm4, new \DateTime('2012-03-25 01:00:00'), new \DateTime('2012-04-05 01:00:00'), true];
 
         // Relation to start time of event + repeat
         $valarm5 = $calendar->createComponent('VALARM');
@@ -82,7 +81,7 @@ class VAlarmTest extends TestCase
         $vevent5->DTSTART = '20120301T130000Z';
         $vevent5->add($valarm5);
 
-        $tests[] = [$valarm5, new DateTime('2012-03-09 01:00:00'), new DateTime('2012-03-10 01:00:00'), true];
+        $tests[] = [$valarm5, new \DateTime('2012-03-09 01:00:00'), new \DateTime('2012-03-10 01:00:00'), true];
 
         // Relation to start time of event + duration, but no repeat
         $valarm6 = $calendar->createComponent('VALARM');
@@ -94,8 +93,8 @@ class VAlarmTest extends TestCase
         $vevent6->DTSTART = '20120313T130000Z';
         $vevent6->add($valarm6);
 
-        $tests[] = [$valarm6, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-04-01 01:00:00'), true];
-        $tests[] = [$valarm6, new DateTime('2012-03-01 01:00:00'), new DateTime('2012-03-10 01:00:00'), false];
+        $tests[] = [$valarm6, new \DateTime('2012-03-01 01:00:00'), new \DateTime('2012-04-01 01:00:00'), true];
+        $tests[] = [$valarm6, new \DateTime('2012-03-01 01:00:00'), new \DateTime('2012-03-10 01:00:00'), false];
 
         // Relation to end time of event (DURATION instead of DTEND)
         $valarm7 = $calendar->createComponent('VALARM');
@@ -108,8 +107,8 @@ class VAlarmTest extends TestCase
         $vevent7->DURATION = 'P30D';
         $vevent7->add($valarm7);
 
-        $tests[] = [$valarm7, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), false];
-        $tests[] = [$valarm7, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), true];
+        $tests[] = [$valarm7, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), false];
+        $tests[] = [$valarm7, new \DateTime('2012-03-25 01:00:00'), new \DateTime('2012-04-05 01:00:00'), true];
 
         // Relation to end time of event (No DTEND or DURATION)
         $valarm7 = $calendar->createComponent('VALARM');
@@ -121,8 +120,8 @@ class VAlarmTest extends TestCase
         $vevent7->DTSTART = '20120301T130000Z';
         $vevent7->add($valarm7);
 
-        $tests[] = [$valarm7, new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'), true];
-        $tests[] = [$valarm7, new DateTime('2012-03-25 01:00:00'), new DateTime('2012-04-05 01:00:00'), false];
+        $tests[] = [$valarm7, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), true];
+        $tests[] = [$valarm7, new \DateTime('2012-03-25 01:00:00'), new \DateTime('2012-04-05 01:00:00'), false];
 
         return $tests;
     }
@@ -138,7 +137,7 @@ class VAlarmTest extends TestCase
         $vjournal = $calendar->createComponent('VJOURNAL');
         $vjournal->add($valarm);
 
-        $valarm->isInTimeRange(new DateTime('2012-02-25 01:00:00'), new DateTime('2012-03-05 01:00:00'));
+        $valarm->isInTimeRange(new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'));
     }
 
     /**

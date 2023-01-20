@@ -4,8 +4,6 @@ namespace Sabre\VObject\Recur;
 
 use DateTime;
 use DateTimeImmutable;
-use DateTimeInterface;
-use Exception;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -24,7 +22,7 @@ use Sabre\VObject\Property;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class RRuleIterator implements Iterator
+class RRuleIterator implements \Iterator
 {
     /**
      * Constant denoting the upper limit on how long into the future
@@ -40,7 +38,7 @@ class RRuleIterator implements Iterator
      *
      * @throws InvalidDataException
      */
-    public function __construct($rrule, DateTimeInterface $start)
+    public function __construct($rrule, \DateTimeInterface $start)
     {
         $this->startDate = $start;
         $this->parseRRule($rrule);
@@ -50,7 +48,7 @@ class RRuleIterator implements Iterator
     /* Implementation of the Iterator interface {{{ */
 
     #[\ReturnTypeWillChange]
-    public function current(): ?DateTimeInterface
+    public function current(): ?\DateTimeInterface
     {
         if (!$this->valid()) {
             return null;
@@ -142,7 +140,7 @@ class RRuleIterator implements Iterator
      * This method allows you to quickly go to the next occurrence after the
      * specified date.
      */
-    public function fastForward(DateTimeInterface $dt): void
+    public function fastForward(\DateTimeInterface $dt): void
     {
         while ($this->valid() && $this->currentDate < $dt) {
             $this->next();
@@ -154,13 +152,13 @@ class RRuleIterator implements Iterator
      *
      * All calculations are based on this initial date.
      */
-    protected DateTimeInterface $startDate;
+    protected \DateTimeInterface $startDate;
 
     /**
      * The date of the current iteration. You can get this by calling
      * ->current().
      */
-    protected ?DateTimeInterface $currentDate;
+    protected ?\DateTimeInterface $currentDate;
 
     /**
      * Frequency is one of: secondly, minutely, hourly, daily, weekly, monthly,
@@ -184,7 +182,7 @@ class RRuleIterator implements Iterator
     /**
      * The last instance of this recurrence, inclusively.
      */
-    protected ?DateTimeInterface $until = null;
+    protected ?\DateTimeInterface $until = null;
 
     /**
      * Which seconds to recur.
@@ -401,7 +399,7 @@ class RRuleIterator implements Iterator
     /**
      * Does the processing for advancing the iterator for monthly frequency.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function nextMonthly(): void
     {
@@ -444,7 +442,7 @@ class RRuleIterator implements Iterator
             // This line does not currently work in hhvm. Temporary workaround
             // follows:
             // $this->currentDate->modify('first day of this month');
-            $this->currentDate = new DateTimeImmutable($this->currentDate->format('Y-m-1 H:i:s'), $this->currentDate->getTimezone());
+            $this->currentDate = new \DateTimeImmutable($this->currentDate->format('Y-m-1 H:i:s'), $this->currentDate->getTimezone());
             // end of workaround
             $this->currentDate = $this->currentDate->modify('+ '.$this->interval.' months');
 
@@ -814,7 +812,7 @@ class RRuleIterator implements Iterator
      *
      * The returned list is an array of integers with the day of month (1-31).
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function getMonthlyOccurrences(): array
     {
@@ -833,7 +831,7 @@ class RRuleIterator implements Iterator
                 $dayHits = [];
 
                 // workaround for missing 'first day of the month' support in hhvm
-                $checkDate = new DateTime($startDate->format('Y-m-1'));
+                $checkDate = new \DateTime($startDate->format('Y-m-1'));
                 // workaround modify always advancing the date even if the current day is a $dayName in hhvm
                 if ($checkDate->format('l') !== $dayName) {
                     $checkDate = $checkDate->modify($dayName);

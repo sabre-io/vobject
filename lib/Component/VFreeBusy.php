@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use DateInterval;
-use DateTimeInterface;
 use Sabre\VObject;
 
 /**
@@ -26,7 +24,7 @@ class VFreeBusy extends VObject\Component
      *
      * @throws VObject\InvalidDataException
      */
-    public function isFree(DateTimeInterface $start, DatetimeInterface $end): bool
+    public function isFree(\DateTimeInterface $start, \DatetimeInterface $end): bool
     {
         foreach ($this->select('FREEBUSY') as $freebusy) {
             // We are only interested in FBTYPE=BUSY (the default),
@@ -47,7 +45,7 @@ class VFreeBusy extends VObject\Component
 
                 $busyStart = VObject\DateTimeParser::parse($busyStart);
                 $busyEnd = VObject\DateTimeParser::parse($busyEnd);
-                if ($busyEnd instanceof DateInterval) {
+                if ($busyEnd instanceof \DateInterval) {
                     $busyEnd = $busyStart->add($busyEnd);
                 }
 

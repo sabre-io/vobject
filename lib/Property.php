@@ -2,11 +2,7 @@
 
 namespace Sabre\VObject;
 
-use function preg_replace;
-
 use Sabre\Xml;
-
-use function substr;
 
 /**
  * Property.
@@ -215,7 +211,7 @@ abstract class Property extends Node
 
         $str .= ':'.$this->getRawMimeDirValue();
 
-        $str = preg_replace(
+        $str = \preg_replace(
             '/(
                 (?:^.)?         # 1 additional byte in first line because of missing single space (see next line)
                 .{1,74}         # max 75 bytes per line (1 byte is used for a single space added after every CRLF)
@@ -226,7 +222,7 @@ abstract class Property extends Node
         );
 
         // remove single space after last CRLF
-        return substr($str, 0, -1);
+        return \substr($str, 0, -1);
     }
 
     /**
@@ -517,7 +513,7 @@ abstract class Property extends Node
                     str_replace('_', '-', $this->name)
                 );
                 // Removing every other invalid character
-                $this->name = preg_replace('/([^A-Z0-9-])/u', '', $this->name);
+                $this->name = \preg_replace('/([^A-Z0-9-])/u', '', $this->name);
             }
         }
 

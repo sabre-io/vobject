@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTimeInterface;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -20,14 +19,14 @@ use Sabre\VObject\InvalidDataException;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class RDateIterator implements Iterator
+class RDateIterator implements \Iterator
 {
     /**
      * Creates the Iterator.
      *
      * @param string|array $rrule
      */
-    public function __construct($rrule, DateTimeInterface $start)
+    public function __construct($rrule, \DateTimeInterface $start)
     {
         $this->startDate = $start;
         $this->parseRDate($rrule);
@@ -37,7 +36,7 @@ class RDateIterator implements Iterator
     /* Implementation of the Iterator interface {{{ */
 
     #[\ReturnTypeWillChange]
-    public function current(): ?DateTimeInterface
+    public function current(): ?\DateTimeInterface
     {
         if (!$this->valid()) {
             return null;
@@ -111,7 +110,7 @@ class RDateIterator implements Iterator
      *
      * @throws InvalidDataException
      */
-    public function fastForward(DateTimeInterface $dt): void
+    public function fastForward(\DateTimeInterface $dt): void
     {
         while ($this->valid() && $this->currentDate < $dt) {
             $this->next();
@@ -123,13 +122,13 @@ class RDateIterator implements Iterator
      *
      * All calculations are based on this initial date.
      */
-    protected DateTimeInterface $startDate;
+    protected \DateTimeInterface $startDate;
 
     /**
      * The date of the current iteration. You can get this by calling
      * ->current().
      */
-    protected DateTimeInterface $currentDate;
+    protected \DateTimeInterface $currentDate;
 
     /**
      * The current item in the list.

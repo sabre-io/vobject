@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use ArrayAccess;
 use Sabre\VObject;
 use Sabre\Xml;
 
@@ -397,7 +396,7 @@ class VCard extends VObject\Document
      * This function will return null if the property does not exist. If there are
      * multiple properties with the same TYPE value, only one will be returned.
      *
-     * @return ArrayAccess|array|null
+     * @return \ArrayAccess|array|null
      */
     public function getByType(string $propertyName, string $type)
     {

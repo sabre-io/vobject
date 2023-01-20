@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use InvalidArgumentException;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Node;
 use Sabre\VObject\Property;
@@ -69,7 +68,7 @@ class Recur extends Property
         } elseif (is_string($value)) {
             $this->value = self::stringToArray($value);
         } else {
-            throw new InvalidArgumentException('You must either pass a string, or a key=>value array');
+            throw new \InvalidArgumentException('You must either pass a string, or a key=>value array');
         }
     }
 

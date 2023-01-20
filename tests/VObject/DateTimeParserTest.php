@@ -2,9 +2,6 @@
 
 namespace Sabre\VObject;
 
-use DateInterval;
-use DateTimeImmutable;
-use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 
 class DateTimeParserTest extends TestCase
@@ -20,7 +17,7 @@ class DateTimeParserTest extends TestCase
         $this->assertEquals('-1 weeks 50 minutes', DateTimeParser::parseDurationAsString('-P1WT50M'));
         $this->assertEquals('+50 days 3 hours 2 seconds', DateTimeParser::parseDurationAsString('+P50DT3H2S'));
         $this->assertEquals('+0 seconds', DateTimeParser::parseDurationAsString('+PT0S'));
-        $this->assertEquals(new DateInterval('PT0S'), DateTimeParser::parseDuration('PT0S'));
+        $this->assertEquals(new \DateInterval('PT0S'), DateTimeParser::parseDuration('PT0S'));
     }
 
     /**
@@ -28,11 +25,11 @@ class DateTimeParserTest extends TestCase
      */
     public function testParseICalendarDurationDateInterval(): void
     {
-        $expected = new DateInterval('P7D');
+        $expected = new \DateInterval('P7D');
         $this->assertEquals($expected, DateTimeParser::parseDuration('P1W'));
         $this->assertEquals($expected, DateTimeParser::parse('P1W'));
 
-        $expected = new DateInterval('PT3M');
+        $expected = new \DateInterval('PT3M');
         $expected->invert = true;
         $this->assertEquals($expected, DateTimeParser::parseDuration('-PT3M'));
     }
@@ -47,7 +44,7 @@ class DateTimeParserTest extends TestCase
     {
         $dateTime = DateTimeParser::parseDateTime('20100316T141405');
 
-        $compare = new DateTimeImmutable('2010-03-16 14:14:05', new DateTimeZone('UTC'));
+        $compare = new \DateTimeImmutable('2010-03-16 14:14:05', new \DateTimeZone('UTC'));
 
         $this->assertEquals($compare, $dateTime);
     }
@@ -77,7 +74,7 @@ class DateTimeParserTest extends TestCase
     {
         $dateTime = DateTimeParser::parseDateTime('20100316T141405Z');
 
-        $compare = new DateTimeImmutable('2010-03-16 14:14:05', new DateTimeZone('UTC'));
+        $compare = new \DateTimeImmutable('2010-03-16 14:14:05', new \DateTimeZone('UTC'));
         $this->assertEquals($compare, $dateTime);
     }
 
@@ -88,7 +85,7 @@ class DateTimeParserTest extends TestCase
     {
         $dateTime = DateTimeParser::parseDateTime('20101211T160000Z');
 
-        $compare = new DateTimeImmutable('2010-12-11 16:00:00', new DateTimeZone('UTC'));
+        $compare = new \DateTimeImmutable('2010-12-11 16:00:00', new \DateTimeZone('UTC'));
         $this->assertEquals($compare, $dateTime);
     }
 
@@ -97,9 +94,9 @@ class DateTimeParserTest extends TestCase
      */
     public function testParseICalendarDateTimeCustomTimeZone(): void
     {
-        $dateTime = DateTimeParser::parseDateTime('20100316T141405', new DateTimeZone('Europe/Amsterdam'));
+        $dateTime = DateTimeParser::parseDateTime('20100316T141405', new \DateTimeZone('Europe/Amsterdam'));
 
-        $compare = new DateTimeImmutable('2010-03-16 14:14:05', new DateTimeZone('Europe/Amsterdam'));
+        $compare = new \DateTimeImmutable('2010-03-16 14:14:05', new \DateTimeZone('Europe/Amsterdam'));
         $this->assertEquals($compare, $dateTime);
     }
 
@@ -107,7 +104,7 @@ class DateTimeParserTest extends TestCase
     {
         $dateTime = DateTimeParser::parseDate('20100316');
 
-        $expected = new DateTimeImmutable('2010-03-16 00:00:00', new DateTimeZone('UTC'));
+        $expected = new \DateTimeImmutable('2010-03-16 00:00:00', new \DateTimeZone('UTC'));
 
         $this->assertEquals($expected, $dateTime);
 
@@ -122,7 +119,7 @@ class DateTimeParserTest extends TestCase
     {
         $dateTime = DateTimeParser::parseDate('45001231');
 
-        $expected = new DateTimeImmutable('4500-12-31 00:00:00', new DateTimeZone('UTC'));
+        $expected = new \DateTimeImmutable('4500-12-31 00:00:00', new \DateTimeZone('UTC'));
 
         $this->assertEquals($expected, $dateTime);
 
@@ -137,7 +134,7 @@ class DateTimeParserTest extends TestCase
     {
         $dateTime = DateTimeParser::parseDateTime('45001231T235959');
 
-        $expected = new DateTimeImmutable('4500-12-31 23:59:59', new DateTimeZone('UTC'));
+        $expected = new \DateTimeImmutable('4500-12-31 23:59:59', new \DateTimeZone('UTC'));
 
         $this->assertEquals($expected, $dateTime);
 

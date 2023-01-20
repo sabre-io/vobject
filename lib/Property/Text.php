@@ -2,26 +2,12 @@
 
 namespace Sabre\VObject\Property;
 
-use function array_pad;
-use function bin2hex;
-use function count;
-use function implode;
-use function is_null;
-use function ord;
-use function preg_replace;
-
 use Sabre\VObject\Component;
 use Sabre\VObject\Document;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Parser\MimeDir;
 use Sabre\VObject\Property;
 use Sabre\Xml;
-
-use function str_replace;
-use function strlen;
-use function strpos;
-use function strtoupper;
-use function substr;
 
 /**
  * Text property.
@@ -131,7 +117,7 @@ class Text extends Property
         $val = $this->getParts();
 
         if (isset($this->minimumPropertyValues[$this->name])) {
-            $val = array_pad($val, $this->minimumPropertyValues[$this->name], '');
+            $val = \array_pad($val, $this->minimumPropertyValues[$this->name], '');
         }
 
         foreach ($val as &$item) {
@@ -140,7 +126,7 @@ class Text extends Property
             }
 
             foreach ($item as &$subItem) {
-                if (!is_null($subItem)) {
+                if (!\is_null($subItem)) {
                     $subItem = strtr(
                         $subItem,
                         [
@@ -153,10 +139,10 @@ class Text extends Property
                     );
                 }
             }
-            $item = implode(',', $item);
+            $item = \implode(',', $item);
         }
 
-        return implode($this->delimiter, $val);
+        return \implode($this->delimiter, $val);
     }
 
     /**
@@ -200,16 +186,16 @@ class Text extends Property
         $val = $this->getParts();
 
         if (isset($this->minimumPropertyValues[$this->name])) {
-            $val = array_pad($val, $this->minimumPropertyValues[$this->name], '');
+            $val = \array_pad($val, $this->minimumPropertyValues[$this->name], '');
         }
 
         // Imploding multiple parts into a single value, and splitting the
         // values with ;.
-        if (count($val) > 1) {
+        if (\count($val) > 1) {
             foreach ($val as $k => $v) {
-                $val[$k] = str_replace(';', '\;', $v);
+                $val[$k] = \str_replace(';', '\;', $v);
             }
-            $val = implode(';', $val);
+            $val = \implode(';', $val);
         } else {
             $val = $val[0];
         }
@@ -227,7 +213,7 @@ class Text extends Property
 
         // If the resulting value contains a \n, we must encode it as
         // quoted-printable.
-        if (false !== strpos($val, "\n")) {
+        if (false !== \strpos($val, "\n")) {
             $str .= ';ENCODING=QUOTED-PRINTABLE:';
             $lastLine = $str;
             $out = '';
@@ -236,21 +222,21 @@ class Text extends Property
             // encode newlines for us. Specifically, the \r\n sequence must in
             // vcards be encoded as =0D=OA and we must insert soft-newlines
             // every 75 bytes.
-            for ($ii = 0; $ii < strlen($val); ++$ii) {
-                $ord = ord($val[$ii]);
+            for ($ii = 0; $ii < \strlen($val); ++$ii) {
+                $ord = \ord($val[$ii]);
                 // These characters are encoded as themselves.
                 if ($ord >= 32 && $ord <= 126) {
                     $lastLine .= $val[$ii];
                 } else {
-                    $lastLine .= '='.strtoupper(bin2hex($val[$ii]));
+                    $lastLine .= '='.\strtoupper(\bin2hex($val[$ii]));
                 }
-                if (strlen($lastLine) >= 75) {
+                if (\strlen($lastLine) >= 75) {
                     // Soft line break
                     $out .= $lastLine."=\r\n ";
                     $lastLine = null;
                 }
             }
-            if (!is_null($lastLine)) {
+            if (!\is_null($lastLine)) {
                 $out .= $lastLine."\r\n";
             }
 
@@ -258,7 +244,7 @@ class Text extends Property
         } else {
             $str .= ':'.$val;
 
-            $str = preg_replace(
+            $str = \preg_replace(
                 '/(
                     (?:^.)?         # 1 additional byte in first line because of missing single space (see next line)
                     .{1,74}         # max 75 bytes per line (1 byte is used for a single space added after every CRLF)
@@ -269,7 +255,7 @@ class Text extends Property
             );
 
             // remove single space after last CRLF
-            return substr($str, 0, -1);
+            return \substr($str, 0, -1);
         }
     }
 
@@ -366,14 +352,14 @@ class Text extends Property
         if (isset($this->minimumPropertyValues[$this->name])) {
             $minimum = $this->minimumPropertyValues[$this->name];
             $parts = $this->getParts();
-            if (count($parts) < $minimum) {
+            if (\count($parts) < $minimum) {
                 $warnings[] = [
                     'level' => $options & self::REPAIR ? 1 : 3,
-                    'message' => 'The '.$this->name.' property must have at least '.$minimum.' values. It only has '.count($parts),
+                    'message' => 'The '.$this->name.' property must have at least '.$minimum.' values. It only has '.\count($parts),
                     'node' => $this,
                 ];
                 if ($options & self::REPAIR) {
-                    $parts = array_pad($parts, $minimum, '');
+                    $parts = \array_pad($parts, $minimum, '');
                     $this->setParts($parts);
                 }
             }

@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject;
 
-use DateTime;
-use InvalidArgumentException;
 use Sabre\VObject\Component\VCalendar;
 
 /**
@@ -65,14 +63,14 @@ class BirthdayCalendarGenerator
             if (is_string($object)) {
                 $vObj = Reader::read($object);
                 if (!$vObj instanceof Component\VCard) {
-                    throw new InvalidArgumentException('String could not be parsed as \\Sabre\\VObject\\Component\\VCard by setObjects');
+                    throw new \InvalidArgumentException('String could not be parsed as \\Sabre\\VObject\\Component\\VCard by setObjects');
                 }
 
                 $this->objects[] = $vObj;
             } elseif ($object instanceof Component\VCard) {
                 $this->objects[] = $object;
             } else {
-                throw new InvalidArgumentException('You can only pass strings or \\Sabre\\VObject\\Component\\VCard arguments to setObjects');
+                throw new \InvalidArgumentException('You can only pass strings or \\Sabre\\VObject\\Component\\VCard arguments to setObjects');
             }
         }
     }
@@ -138,7 +136,7 @@ class BirthdayCalendarGenerator
             // Create event.
             $event = $calendar->add('VEVENT', [
                 'SUMMARY' => sprintf($this->format, $object->FN->getValue()),
-                'DTSTART' => new DateTime($object->BDAY->getValue()),
+                'DTSTART' => new \DateTime($object->BDAY->getValue()),
                 'RRULE' => 'FREQ=YEARLY',
                 'TRANSP' => 'TRANSPARENT',
             ]);

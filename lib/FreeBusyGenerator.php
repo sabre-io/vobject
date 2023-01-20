@@ -2,10 +2,6 @@
 
 namespace Sabre\VObject;
 
-use DateTimeImmutable;
-use DateTimeInterface;
-use DateTimeZone;
-use Exception;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VFreeBusy;
@@ -37,12 +33,12 @@ class FreeBusyGenerator
     /**
      * Start of range.
      */
-    protected ?DateTimeInterface $start;
+    protected ?\DateTimeInterface $start;
 
     /**
      * End of range.
      */
-    protected ?DateTimeInterface $end;
+    protected ?\DateTimeInterface $end;
 
     /**
      * VCALENDAR object.
@@ -60,7 +56,7 @@ class FreeBusyGenerator
      *
      * This defaults to UTC.
      */
-    protected DateTimeZone $timeZone;
+    protected \DateTimeZone $timeZone;
 
     /**
      * A VAVAILABILITY document.
@@ -78,7 +74,7 @@ class FreeBusyGenerator
      *
      * @param mixed $objects
      */
-    public function __construct(?DateTimeInterface $start = null, ?DateTimeInterface $end = null, $objects = null, ?DateTimeZone $timeZone = null)
+    public function __construct(?\DateTimeInterface $start = null, ?\DateTimeInterface $end = null, $objects = null, ?\DateTimeZone $timeZone = null)
     {
         $this->setTimeRange($start, $end);
 
@@ -86,7 +82,7 @@ class FreeBusyGenerator
             $this->setObjects($objects);
         }
         if (is_null($timeZone)) {
-            $timeZone = new DateTimeZone('UTC');
+            $timeZone = new \DateTimeZone('UTC');
         }
         $this->setTimeZone($timeZone);
     }
@@ -144,15 +140,15 @@ class FreeBusyGenerator
      *
      * Any freebusy object falling outside this time range will be ignored.
      *
-     * @throws Exception
+     * @throws \Exception
      */
-    public function setTimeRange(?DateTimeInterface $start = null, ?DateTimeInterface $end = null): void
+    public function setTimeRange(?\DateTimeInterface $start = null, ?\DateTimeInterface $end = null): void
     {
         if (!$start) {
-            $start = new DateTimeImmutable(Settings::$minDate);
+            $start = new \DateTimeImmutable(Settings::$minDate);
         }
         if (!$end) {
-            $end = new DateTimeImmutable(Settings::$maxDate);
+            $end = new \DateTimeImmutable(Settings::$maxDate);
         }
         $this->start = $start;
         $this->end = $end;
@@ -161,7 +157,7 @@ class FreeBusyGenerator
     /**
      * Sets the reference timezone for floating times.
      */
-    public function setTimeZone(DateTimeZone $timeZone): void
+    public function setTimeZone(\DateTimeZone $timeZone): void
     {
         $this->timeZone = $timeZone;
     }
@@ -482,7 +478,7 @@ class FreeBusyGenerator
      * object associated with it.
      *
      * @throws InvalidDataException
-     * @throws Exception
+     * @throws \Exception
      */
     protected function generateFreeBusyCalendar(FreeBusyData $fbData): VCalendar
     {
@@ -511,7 +507,7 @@ class FreeBusyGenerator
         $tz = new \DateTimeZone('UTC');
         /** @var DateTime $dtstamp */
         $dtstamp = $calendar->createProperty('DTSTAMP');
-        $dtstamp->setDateTime(new DateTimeImmutable('now', $tz));
+        $dtstamp->setDateTime(new \DateTimeImmutable('now', $tz));
         $vfreebusy->add($dtstamp);
 
         foreach ($fbData->getData() as $busyTime) {
@@ -522,8 +518,8 @@ class FreeBusyGenerator
                 continue;
             }
 
-            $busyTime[0] = new DateTimeImmutable('@'.$busyTime['start'], $tz);
-            $busyTime[1] = new DateTimeImmutable('@'.$busyTime['end'], $tz);
+            $busyTime[0] = new \DateTimeImmutable('@'.$busyTime['start'], $tz);
+            $busyTime[1] = new \DateTimeImmutable('@'.$busyTime['end'], $tz);
 
             $prop = $calendar->createProperty(
                 'FREEBUSY',

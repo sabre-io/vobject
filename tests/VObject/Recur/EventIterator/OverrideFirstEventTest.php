@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Recur\EventIterator;
 
-use DateTime;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
@@ -31,7 +30,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $vcal = $vcal->expand(new DateTime('2014-08-01'), new DateTime('2014-09-01'));
+        $vcal = $vcal->expand(new \DateTime('2014-08-01'), new \DateTime('2014-09-01'));
 
         $expected = <<<ICS
 BEGIN:VCALENDAR
@@ -91,7 +90,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $vcal = $vcal->expand(new DateTime('2014-08-01'), new DateTime('2014-08-19'));
+        $vcal = $vcal->expand(new \DateTime('2014-08-01'), new \DateTime('2014-08-19'));
 
         $expected = <<<ICS
 BEGIN:VCALENDAR

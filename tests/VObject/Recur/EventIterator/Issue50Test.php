@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject\Recur\EventIterator;
 
-use DateTimeImmutable;
-use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
@@ -114,14 +112,14 @@ ICS;
             $result[] = $instance;
         }
 
-        $tz = new DateTimeZone('Europe/Brussels');
+        $tz = new \DateTimeZone('Europe/Brussels');
 
         $this->assertEquals([
-            new DateTimeImmutable('2013-07-15 09:00:00', $tz),
-            new DateTimeImmutable('2013-07-16 07:00:00', $tz),
-            new DateTimeImmutable('2013-07-17 07:00:00', $tz),
-            new DateTimeImmutable('2013-07-18 09:00:00', $tz),
-            new DateTimeImmutable('2013-07-19 07:00:00', $tz),
+            new \DateTimeImmutable('2013-07-15 09:00:00', $tz),
+            new \DateTimeImmutable('2013-07-16 07:00:00', $tz),
+            new \DateTimeImmutable('2013-07-17 07:00:00', $tz),
+            new \DateTimeImmutable('2013-07-18 09:00:00', $tz),
+            new \DateTimeImmutable('2013-07-19 07:00:00', $tz),
         ], $result);
     }
 }

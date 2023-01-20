@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject;
 
-use Exception;
-use InvalidArgumentException;
 use Sabre\VObject\Parser\Json;
 use Sabre\VObject\Parser\MimeDir;
 use Sabre\VObject\Parser\Parser;
@@ -131,7 +129,7 @@ class Cli
                                 break;
 
                             default:
-                                throw new InvalidArgumentException('Unknown format: '.$value);
+                                throw new \InvalidArgumentException('Unknown format: '.$value);
                         }
                         break;
                     case 'pretty':
@@ -161,11 +159,11 @@ class Cli
                                 break;
 
                             default:
-                                throw new InvalidArgumentException('Unknown format: '.$value);
+                                throw new \InvalidArgumentException('Unknown format: '.$value);
                         }
                         break;
                     default:
-                        throw new InvalidArgumentException('Unknown option: '.$name);
+                        throw new \InvalidArgumentException('Unknown option: '.$name);
                 }
             }
 
@@ -176,17 +174,17 @@ class Cli
             }
 
             if (1 === count($positional)) {
-                throw new InvalidArgumentException('Inputfile is a required argument');
+                throw new \InvalidArgumentException('Inputfile is a required argument');
             }
 
             if (count($positional) > 3) {
-                throw new InvalidArgumentException('Too many arguments');
+                throw new \InvalidArgumentException('Too many arguments');
             }
 
             if (!in_array($positional[0], ['validate', 'repair', 'convert', 'color'])) {
-                throw new InvalidArgumentException('Unknown command: '.$positional[0]);
+                throw new \InvalidArgumentException('Unknown command: '.$positional[0]);
             }
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $this->showHelp();
             $this->log('Error: '.$e->getMessage(), 'red');
 
@@ -228,7 +226,7 @@ class Cli
             }
         } catch (EofException $e) {
             // end of file
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->log('Error: '.$e->getMessage(), 'red');
 
             return 2;
@@ -398,7 +396,7 @@ HELP
         }
 
         if ($forceInput && $vObj->name !== $forceInput) {
-            throw new Exception('You cannot convert a '.strtolower($vObj->name).' to '.$this->format);
+            throw new \Exception('You cannot convert a '.strtolower($vObj->name).' to '.$this->format);
         }
         if ($convertVersion) {
             $vObj = $vObj->convert($convertVersion);

@@ -2,9 +2,6 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
-use DateInterval;
-use DateTimeImmutable;
-use DateTimeInterface;
 use DateTimeZone;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -45,7 +42,7 @@ class DateTime extends Property
      */
     public function setParts(array $parts): void
     {
-        if (isset($parts[0]) && $parts[0] instanceof DateTimeInterface) {
+        if (isset($parts[0]) && $parts[0] instanceof \DateTimeInterface) {
             $this->setDateTimes($parts);
         } else {
             parent::setParts($parts);
@@ -59,15 +56,15 @@ class DateTime extends Property
      *
      * Instead of strings, you may also use DateTime here.
      *
-     * @param string|array|DateTimeInterface $value
+     * @param string|array|\DateTimeInterface $value
      *
      * @throws InvalidDataException
      */
     public function setValue($value): void
     {
-        if (is_array($value) && isset($value[0]) && $value[0] instanceof DateTimeInterface) {
+        if (is_array($value) && isset($value[0]) && $value[0] instanceof \DateTimeInterface) {
             $this->setDateTimes($value);
-        } elseif ($value instanceof DateTimeInterface) {
+        } elseif ($value instanceof \DateTimeInterface) {
             $this->setDateTimes([$value]);
         } else {
             parent::setValue($value);
@@ -131,7 +128,7 @@ class DateTime extends Property
      *
      * @throws InvalidDataException
      */
-    public function getDateTime(?DateTimeZone $timeZone = null): ?DateTimeImmutable
+    public function getDateTime(?\DateTimeZone $timeZone = null): ?\DateTimeImmutable
     {
         $dt = $this->getDateTimes($timeZone);
         if (!$dt) {
@@ -148,11 +145,11 @@ class DateTime extends Property
      * property or floating time, we will use the DateTimeZone argument to
      * figure out the exact date.
      *
-     * @return DateInterval[]|DateTimeImmutable[]
+     * @return \DateInterval[]|\DateTimeImmutable[]
      *
      * @throws InvalidDataException
      */
-    public function getDateTimes(?DateTimeZone $timeZone = null): array
+    public function getDateTimes(?\DateTimeZone $timeZone = null): array
     {
         // Does the property have a TZID?
         /** @var Property\FlatText $tzid */
@@ -177,7 +174,7 @@ class DateTime extends Property
      *
      * @throws InvalidDataException
      */
-    public function setDateTime(DateTimeInterface $dt, $isFloating = false): void
+    public function setDateTime(\DateTimeInterface $dt, $isFloating = false): void
     {
         $this->setDateTimes([$dt], $isFloating);
     }
@@ -188,7 +185,7 @@ class DateTime extends Property
      * The first value will be used as a reference for the timezones, and all
      * the other values will be adjusted for that timezone
      *
-     * @param DateTimeInterface[] $dt
+     * @param \DateTimeInterface[] $dt
      * @param bool isFloating If set to true, timezones will be ignored
      *
      * @throws InvalidDataException
@@ -263,7 +260,7 @@ class DateTime extends Property
         $isUtc = !$isFloating && in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
 
         return array_map(
-            function (DateTimeInterface $dt) use ($hasTime, $isUtc) {
+            function (\DateTimeInterface $dt) use ($hasTime, $isUtc) {
                 if ($hasTime) {
                     return $dt->format('Y-m-d\\TH:i:s').($isUtc ? 'Z' : '');
                 } else {

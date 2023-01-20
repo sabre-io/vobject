@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use DateTimeInterface;
 use Sabre\VObject;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
@@ -40,7 +39,7 @@ class VEvent extends VObject\Component
      * @throws VObject\InvalidDataException
      * @throws VObject\Recur\MaxInstancesExceededException
      */
-    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end): bool
+    public function isInTimeRange(\DateTimeInterface $start, \DateTimeInterface $end): bool
     {
         if ($this->RRULE) {
             try {
