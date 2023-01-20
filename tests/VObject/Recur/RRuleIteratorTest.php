@@ -2,9 +2,6 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTime;
-use DateTimeImmutable;
-use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\InvalidDataException;
 
@@ -570,7 +567,7 @@ class RRuleIteratorTest extends TestCase
         $rule = 'FREQ=YEARLY;COUNT=7;INTERVAL=2;BYYEARDAY=190';
         $tz = 'UTC';
 
-        $dt = new DateTimeImmutable($start, new DateTimeZone($tz));
+        $dt = new \DateTimeImmutable($start, new \DateTimeZone($tz));
         $parser = new RRuleIterator($rule, $dt);
 
         $parser->next();
@@ -1052,10 +1049,10 @@ class RRuleIteratorTest extends TestCase
 
     public function testIteratorFunctions(): void
     {
-        $parser = new RRuleIterator('FREQ=DAILY', new DateTime('2014-08-02 00:00:13'));
+        $parser = new RRuleIterator('FREQ=DAILY', new \DateTime('2014-08-02 00:00:13'));
         $parser->next();
         $this->assertEquals(
-            new DateTime('2014-08-03 00:00:13'),
+            new \DateTime('2014-08-03 00:00:13'),
             $parser->current()
         );
         $this->assertEquals(
@@ -1066,7 +1063,7 @@ class RRuleIteratorTest extends TestCase
         $parser->rewind();
 
         $this->assertEquals(
-            new DateTime('2014-08-02 00:00:13'),
+            new \DateTime('2014-08-02 00:00:13'),
             $parser->current()
         );
         $this->assertEquals(
@@ -1077,11 +1074,11 @@ class RRuleIteratorTest extends TestCase
 
     public function parse($rule, string $start, array $expected, string $fastForward = null, string $tz = 'UTC', bool $runTillTheEnd = false): void
     {
-        $dt = new DateTime($start, new DateTimeZone($tz));
+        $dt = new \DateTime($start, new \DateTimeZone($tz));
         $parser = new RRuleIterator($rule, $dt);
 
         if ($fastForward) {
-            $parser->fastForward(new DateTime($fastForward));
+            $parser->fastForward(new \DateTime($fastForward));
         }
 
         $result = [];

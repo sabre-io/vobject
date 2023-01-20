@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use DateTimeInterface;
 use Sabre\VObject;
 
 /**
@@ -27,7 +26,7 @@ class VJournal extends VObject\Component
      *
      * @throws VObject\InvalidDataException
      */
-    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end): bool
+    public function isInTimeRange(\DateTimeInterface $start, \DateTimeInterface $end): bool
     {
         $dtstart = isset($this->DTSTART) ? $this->DTSTART->getDateTime() : null;
         if ($dtstart) {

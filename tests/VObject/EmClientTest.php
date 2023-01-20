@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject;
 
-use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class EmClientTest extends TestCase
@@ -50,6 +49,6 @@ END:VCALENDAR';
 
         $vObject = Reader::read($str);
         $dt = $vObject->VEVENT->DTSTART->getDateTime();
-        $this->assertEquals(new DateTimeImmutable('2011-10-08 19:30:00', new \DateTimeZone('America/Chicago')), $dt);
+        $this->assertEquals(new \DateTimeImmutable('2011-10-08 19:30:00', new \DateTimeZone('America/Chicago')), $dt);
     }
 }

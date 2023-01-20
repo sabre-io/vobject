@@ -12,7 +12,7 @@ use Exception;
  */
 class FindFromTimezoneIdentifier implements TimezoneFinder
 {
-    public function find(string $tzid, ?bool $failIfUncertain = false): ?DateTimeZone
+    public function find(string $tzid, ?bool $failIfUncertain = false): ?\DateTimeZone
     {
         // First we will just see if the tzid is a support timezone identifier.
         //
@@ -37,7 +37,7 @@ class FindFromTimezoneIdentifier implements TimezoneFinder
         // That's why we're checking if we'll be able to successfully instantiate
         // \DateTimeZone() before doing so. Otherwise, we could simply instantiate
         // and catch the exception.
-        $tzIdentifiers = DateTimeZone::listIdentifiers();
+        $tzIdentifiers = \DateTimeZone::listIdentifiers();
 
         try {
             if (
@@ -45,9 +45,9 @@ class FindFromTimezoneIdentifier implements TimezoneFinder
                 preg_match('/^GMT(\+|-)([0-9]{4})$/', $tzid, $matches) ||
                 in_array($tzid, $this->getIdentifiersBC())
             ) {
-                return new DateTimeZone($tzid);
+                return new \DateTimeZone($tzid);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         return null;

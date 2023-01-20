@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Property;
 
-use InvalidArgumentException;
 use Sabre\VObject\Property;
 
 /**
@@ -40,7 +39,7 @@ class Binary extends Property
             if (1 === count($value)) {
                 $this->value = $value[0];
             } else {
-                throw new InvalidArgumentException('The argument must either be a string or an array with only one child');
+                throw new \InvalidArgumentException('The argument must either be a string or an array with only one child');
             }
         } else {
             $this->value = $value;

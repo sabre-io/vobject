@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject;
 
-use InvalidArgumentException;
 use Sabre\VObject\Property\Binary;
 use Sabre\VObject\Property\Uri;
 
@@ -40,10 +39,10 @@ class VCardConverter
         }
 
         if (!in_array($inputVersion, [Document::VCARD21, Document::VCARD30, Document::VCARD40])) {
-            throw new InvalidArgumentException('Only vCard 2.1, 3.0 and 4.0 are supported for the input data');
+            throw new \InvalidArgumentException('Only vCard 2.1, 3.0 and 4.0 are supported for the input data');
         }
         if (!in_array($targetVersion, [Document::VCARD30, Document::VCARD40])) {
-            throw new InvalidArgumentException('You can only use vCard 3.0 or 4.0 for the target version');
+            throw new \InvalidArgumentException('You can only use vCard 3.0 or 4.0 for the target version');
         }
 
         $newVersion = Document::VCARD40 === $targetVersion ? '4.0' : '3.0';

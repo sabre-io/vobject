@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use DateTimeImmutable;
-use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 use Sabre\VObject\Reader;
@@ -39,11 +37,11 @@ END:VCALENDAR
 VCAL;
 
         $document = Reader::read($vcal);
-        $tz = new DateTimeZone('UTC');
+        $tz = new \DateTimeZone('UTC');
         $this->assertEquals(
             [
-                new DateTimeImmutable('2015-07-17 16:22:00', $tz),
-                new DateTimeImmutable('2015-07-17 17:22:00', $tz),
+                new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
+                new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
             ],
             $document->VAVAILABILITY->getEffectiveStartEnd()
         );
@@ -61,11 +59,11 @@ END:VCALENDAR
 VCAL;
 
         $document = Reader::read($vcal);
-        $tz = new DateTimeZone('UTC');
+        $tz = new \DateTimeZone('UTC');
         $this->assertEquals(
             [
-                new DateTimeImmutable('2015-07-17 16:22:00', $tz),
-                new DateTimeImmutable('2015-07-17 17:22:00', $tz),
+                new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
+                new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
             ],
             $document->VAVAILABILITY->getEffectiveStartEnd()
         );
@@ -101,7 +99,7 @@ VCAL;
 
         $document = Reader::read($vcal);
         $this->assertTrue(
-            $document->VAVAILABILITY->isInTimeRange(new DateTimeImmutable('2015-07-17'), new DateTimeImmutable('2015-07-18'))
+            $document->VAVAILABILITY->isInTimeRange(new \DateTimeImmutable('2015-07-17'), new \DateTimeImmutable('2015-07-18'))
         );
     }
 
@@ -118,7 +116,7 @@ VCAL;
 
         $document = Reader::read($vcal);
         $this->assertFalse(
-            $document->VAVAILABILITY->isInTimeRange(new DateTimeImmutable('2015-07-17'), new DateTimeImmutable('2015-07-18'))
+            $document->VAVAILABILITY->isInTimeRange(new \DateTimeImmutable('2015-07-17'), new \DateTimeImmutable('2015-07-18'))
         );
     }
 

@@ -2,9 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use DatePeriod;
-use DateTimeImmutable;
-use DateTimeInterface;
 use Sabre\VObject;
 use Sabre\VObject\InvalidDataException;
 
@@ -32,7 +29,7 @@ class VAlarm extends VObject\Component
      *
      * @throws InvalidDataException
      */
-    public function getEffectiveTriggerTime(): DateTimeImmutable
+    public function getEffectiveTriggerTime(): \DateTimeImmutable
     {
         $trigger = $this->TRIGGER;
         if (!isset($trigger['VALUE']) || ($trigger['VALUE'] && 'DURATION' === strtoupper($trigger['VALUE']))) {
@@ -85,7 +82,7 @@ class VAlarm extends VObject\Component
      *
      * @throws InvalidDataException
      */
-    public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end): bool
+    public function isInTimeRange(\DateTimeInterface $start, \DateTimeInterface $end): bool
     {
         $effectiveTrigger = $this->getEffectiveTriggerTime();
 
@@ -96,7 +93,7 @@ class VAlarm extends VObject\Component
                 $repeat = 1;
             }
 
-            $period = new DatePeriod($effectiveTrigger, $duration, (int) $repeat);
+            $period = new \DatePeriod($effectiveTrigger, $duration, (int) $repeat);
 
             foreach ($period as $occurrence) {
                 if ($start <= $occurrence && $end > $occurrence) {

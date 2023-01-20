@@ -63,7 +63,7 @@ class Duration extends Property
      *
      * @throws InvalidDataException
      */
-    public function getDateInterval(): DateInterval
+    public function getDateInterval(): \DateInterval
     {
         $parts = $this->getParts();
         $value = $parts[0];

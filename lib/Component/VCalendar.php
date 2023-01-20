@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use DateTimeInterface;
-use DateTimeZone;
 use Sabre\VObject;
 use Sabre\VObject\Component;
 use Sabre\VObject\InvalidDataException;
@@ -271,19 +269,19 @@ class VCalendar extends VObject\Document
      * In addition, this method will cause timezone information to be stripped,
      * and normalized to UTC.
      *
-     * @param DateTimeZone|null $timeZone reference timezone for floating dates and
-     *                                    times
+     * @param \DateTimeZone|null $timeZone reference timezone for floating dates and
+     *                                     times
      *
      * @throws InvalidDataException
      * @throws VObject\Recur\MaxInstancesExceededException
      */
-    public function expand(DateTimeInterface $start, DateTimeInterface $end, ?DateTimeZone $timeZone = null): VCalendar
+    public function expand(\DateTimeInterface $start, \DateTimeInterface $end, ?\DateTimeZone $timeZone = null): VCalendar
     {
         $newChildren = [];
         $recurringEvents = [];
 
         if (!$timeZone) {
-            $timeZone = new DateTimeZone('UTC');
+            $timeZone = new \DateTimeZone('UTC');
         }
 
         $stripTimezones = function (Component $component) use ($timeZone, &$stripTimezones): Component {
@@ -293,7 +291,7 @@ class VCalendar extends VObject\Document
                     // We only need to update the first timezone, because
                     // setDateTimes will match all other timezones to the
                     // first.
-                    $dt[0] = $dt[0]->setTimeZone(new DateTimeZone('UTC'));
+                    $dt[0] = $dt[0]->setTimeZone(new \DateTimeZone('UTC'));
                     $componentChild->setDateTimes($dt);
                 } elseif ($componentChild instanceof Component) {
                     $stripTimezones($componentChild);

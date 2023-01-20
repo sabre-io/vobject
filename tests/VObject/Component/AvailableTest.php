@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use DateTimeImmutable;
-use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
 
@@ -37,11 +35,11 @@ END:VCALENDAR
 VCAL;
 
         $document = Reader::read($vcal);
-        $tz = new DateTimeZone('UTC');
+        $tz = new \DateTimeZone('UTC');
         $this->assertEquals(
             [
-                new DateTimeImmutable('2015-07-17 16:22:00', $tz),
-                new DateTimeImmutable('2015-07-17 17:22:00', $tz),
+                new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
+                new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
             ],
             $document->AVAILABLE->getEffectiveStartEnd()
         );
@@ -59,11 +57,11 @@ END:VCALENDAR
 VCAL;
 
         $document = Reader::read($vcal);
-        $tz = new DateTimeZone('UTC');
+        $tz = new \DateTimeZone('UTC');
         $this->assertEquals(
             [
-                new DateTimeImmutable('2015-07-17 16:22:00', $tz),
-                new DateTimeImmutable('2015-07-17 17:22:00', $tz),
+                new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
+                new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
             ],
             $document->AVAILABLE->getEffectiveStartEnd()
         );

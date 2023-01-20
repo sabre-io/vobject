@@ -25,7 +25,7 @@ class VTimeZone extends VObject\Component
      * If we can't accurately determine the timezone, this method will return
      * UTC.
      */
-    public function getTimeZone(): DateTimeZone
+    public function getTimeZone(): \DateTimeZone
     {
         return VObject\TimeZoneUtil::getTimeZone((string) $this->TZID, $this->root);
     }

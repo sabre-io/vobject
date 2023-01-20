@@ -3,9 +3,7 @@
 namespace Sabre\VObject\Property\VCard;
 
 use DateTime;
-use DateTimeImmutable;
 use DateTimeInterface;
-use InvalidArgumentException;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property;
@@ -46,9 +44,9 @@ class DateAndOrTime extends Property
     public function setParts(array $parts): void
     {
         if (count($parts) > 1) {
-            throw new InvalidArgumentException('Only one value allowed');
+            throw new \InvalidArgumentException('Only one value allowed');
         }
-        if (isset($parts[0]) && $parts[0] instanceof DateTimeInterface) {
+        if (isset($parts[0]) && $parts[0] instanceof \DateTimeInterface) {
             $this->setDateTime($parts[0]);
         } else {
             parent::setParts($parts);
@@ -62,11 +60,11 @@ class DateAndOrTime extends Property
      *
      * Instead of strings, you may also use DateTimeInterface here.
      *
-     * @param string|array|DateTimeInterface $value
+     * @param string|array|\DateTimeInterface $value
      */
     public function setValue($value): void
     {
-        if ($value instanceof DateTimeInterface) {
+        if ($value instanceof \DateTimeInterface) {
             $this->setDateTime($value);
         } else {
             parent::setValue($value);
@@ -76,7 +74,7 @@ class DateAndOrTime extends Property
     /**
      * Sets the property as a DateTime object.
      */
-    public function setDateTime(DateTimeInterface $dt): void
+    public function setDateTime(\DateTimeInterface $dt): void
     {
         $tz = $dt->getTimeZone();
         $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
@@ -107,9 +105,9 @@ class DateAndOrTime extends Property
      *
      * @throws InvalidDataException
      */
-    public function getDateTime(): DateTimeImmutable
+    public function getDateTime(): \DateTimeImmutable
     {
-        $now = new DateTime();
+        $now = new \DateTime();
 
         $tzFormat = 0 === $now->getTimezone()->getOffset($now) ? '\\Z' : 'O';
         $nowParts = DateTimeParser::parseVCardDateTime($now->format('Ymd\\This'.$tzFormat));
@@ -125,7 +123,7 @@ class DateAndOrTime extends Property
             }
         }
 
-        return new DateTimeImmutable("$dateParts[year]-$dateParts[month]-$dateParts[date] $dateParts[hour]:$dateParts[minute]:$dateParts[second] $dateParts[timezone]");
+        return new \DateTimeImmutable("$dateParts[year]-$dateParts[month]-$dateParts[date] $dateParts[hour]:$dateParts[minute]:$dateParts[second] $dateParts[timezone]");
     }
 
     /**

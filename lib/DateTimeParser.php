@@ -4,8 +4,6 @@ namespace Sabre\VObject;
 
 use DateInterval;
 use DateTimeImmutable;
-use DateTimeZone;
-use Exception;
 
 /**
  * DateTimeParser.
@@ -29,7 +27,7 @@ class DateTimeParser
      *
      * @throws InvalidDataException
      */
-    public static function parseDateTime(string $dt, ?DateTimeZone $tz = null): DateTimeImmutable
+    public static function parseDateTime(string $dt, ?\DateTimeZone $tz = null): \DateTimeImmutable
     {
         // Format is YYYYMMDD + "T" + hhmmss
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/', $dt, $matches);
@@ -39,12 +37,12 @@ class DateTimeParser
         }
 
         if ('Z' === $matches[7] || is_null($tz)) {
-            $tz = new DateTimeZone('UTC');
+            $tz = new \DateTimeZone('UTC');
         }
 
         try {
-            $date = new DateTimeImmutable($matches[1].'-'.$matches[2].'-'.$matches[3].' '.$matches[4].':'.$matches[5].':'.$matches[6], $tz);
-        } catch (Exception $e) {
+            $date = new \DateTimeImmutable($matches[1].'-'.$matches[2].'-'.$matches[3].' '.$matches[4].':'.$matches[5].':'.$matches[6], $tz);
+        } catch (\Exception $e) {
             throw new InvalidDataException('The supplied iCalendar datetime value is incorrect: '.$dt);
         }
 
@@ -56,7 +54,7 @@ class DateTimeParser
      *
      * @throws InvalidDataException
      */
-    public static function parseDate(string $date, ?DateTimeZone $tz = null): DateTimeImmutable
+    public static function parseDate(string $date, ?\DateTimeZone $tz = null): \DateTimeImmutable
     {
         // Format is YYYYMMDD
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])$/', $date, $matches);
@@ -66,12 +64,12 @@ class DateTimeParser
         }
 
         if (is_null($tz)) {
-            $tz = new DateTimeZone('UTC');
+            $tz = new \DateTimeZone('UTC');
         }
 
         try {
-            $date = new DateTimeImmutable($matches[1].'-'.$matches[2].'-'.$matches[3], $tz);
-        } catch (Exception $e) {
+            $date = new \DateTimeImmutable($matches[1].'-'.$matches[2].'-'.$matches[3], $tz);
+        } catch (\Exception $e) {
             throw new InvalidDataException('The supplied iCalendar date value is incorrect: '.$date);
         }
 
@@ -84,9 +82,9 @@ class DateTimeParser
      * This method will return a DateTimeInterval object
      *
      * @throws InvalidDataException
-     * @throws Exception
+     * @throws \Exception
      */
-    public static function parseDuration(string $duration): DateInterval
+    public static function parseDuration(string $duration): \DateInterval
     {
         $result = preg_match('/^(?<plusminus>\+|-)?P((?<week>\d+)W)?((?<day>\d+)D)?(T((?<hour>\d+)H)?((?<minute>\d+)M)?((?<second>\d+)S)?)?$/', $duration, $matches);
         if (!$result) {
@@ -144,7 +142,7 @@ class DateTimeParser
             $duration = 'PT0S';
         }
 
-        $iv = new DateInterval($duration);
+        $iv = new \DateInterval($duration);
 
         if ($invert) {
             $iv->invert = true;
@@ -195,9 +193,9 @@ class DateTimeParser
     /**
      * Parses either a Date or DateTime, or Duration value.
      *
-     * @param DateTimeZone|string $referenceTz
+     * @param \DateTimeZone|string $referenceTz
      *
-     * @return DateInterval|DateTimeImmutable
+     * @return \DateInterval|\DateTimeImmutable
      *
      * @throws InvalidDataException
      */

@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Component;
 
-use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 use Sabre\VObject\InvalidDataException;
@@ -18,7 +17,7 @@ class VCalendarTest extends TestCase
     {
         $vcal = VObject\Reader::read($input);
 
-        $timeZone = new DateTimeZone($timeZone);
+        $timeZone = new \DateTimeZone($timeZone);
 
         $vcal = $vcal->expand(
             new \DateTime($start),
