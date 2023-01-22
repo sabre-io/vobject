@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+4.5.3 (2023-01-22)
+------------------
+
+* #607: Apply 'Support sabre/xml v4' and needed code changes to 4.5 branch (@phil-davis)
+
 4.5.2 (2023-01-20)
 ------------------
 
