@@ -14,11 +14,11 @@ use Sabre\VObject\InvalidDataException;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\ICalendar\DateTime $DTSTART
- * @property VObject\Property\ICalendar\DateTime $DTEND
- * @property VObject\Property\ICalendar\Duration $DURATION
+ * @property VObject\Property\ICalendar\DateTime                                     $DTSTART
+ * @property VObject\Property\ICalendar\DateTime                                     $DTEND
+ * @property VObject\Property\ICalendar\Duration                                     $DURATION
  * @property VObject\Property\ICalendar\Duration|VObject\Property\ICalendar\DateTime $TRIGGER
- * @property VObject\Property\IntegerValue $REPEAT
+ * @property VObject\Property\IntegerValue                                           $REPEAT
  */
 class VAlarm extends VObject\Component
 {

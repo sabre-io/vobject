@@ -17,10 +17,10 @@ use Sabre\VObject;
  * @property VObject\Property\ICalendar\DateTime $DTEND
  * @property VObject\Property\ICalendar\DateTime $DTSTAMP
  * @property VObject\Property\ICalendar\Duration $DURATION
- * @property VObject\Property\ICalendar\Recur $RRULE
+ * @property VObject\Property\ICalendar\Recur    $RRULE
  * @property VObject\Property\ICalendar\DateTime $EXDATE
  * @property VObject\Property\ICalendar\DateTime $RDATE
- * @property VObject\Property\ICalendar\Recur $EXRULE
+ * @property VObject\Property\ICalendar\Recur    $EXRULE
  * @property VObject\Property\ICalendar\DateTime $RECURRENCE-ID
  * @property VObject\Property\ICalendar\DateTime $DUE
  * @property VObject\Property\ICalendar\DateTime $COMPLETED

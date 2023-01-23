@@ -16,7 +16,7 @@ use Sabre\Xml;
  * @license http://sabre.io/license/ Modified BSD License
  *
  * @property VObject\Property\FlatText $FN
- * @property VObject\Property\Text $ORG
+ * @property VObject\Property\Text     $ORG
  * @property VObject\Property\FlatText $EMAIL
  */
 class VCard extends VObject\Document
