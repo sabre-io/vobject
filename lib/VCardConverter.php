@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject;
 
+use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Binary;
 use Sabre\VObject\Property\Uri;
 
@@ -28,6 +29,10 @@ class VCardConverter
      * moment though.
      *
      * If input and output version are identical, a clone is returned.
+     *
+     * @param VCard<int, mixed> $input
+     *
+     * @return VCard<int, mixed>
      *
      * @throws InvalidDataException
      */
@@ -64,6 +69,10 @@ class VCardConverter
     /**
      * Handles conversion of a single property.
      *
+     * @param VCard<int, mixed>      $input
+     * @param VCard<int, mixed>      $output
+     * @param Property<mixed, mixed> $property
+     *
      * @throws InvalidDataException
      */
     protected function convertProperty(Component\VCard $input, Component\VCard $output, Property $property, int $targetVersion): void
@@ -94,8 +103,11 @@ class VCardConverter
 
         if (Document::VCARD30 === $targetVersion) {
             if ($property instanceof Property\Uri && in_array($property->name, ['PHOTO', 'LOGO', 'SOUND'])) {
-                /** @var Property\Uri $newProperty */
-                $newProperty = $this->convertUriToBinary($output, $newProperty);
+                /* We need to tell phpstan that newProperty (as well as property) is instanceof Property\Uri */
+                /** @var Property\Uri<string, mixed> $uriProperty */
+                $uriProperty = $newProperty;
+                /** @var Property\Uri<string, mixed> $newProperty */
+                $newProperty = $this->convertUriToBinary($output, $uriProperty);
             } elseif ($property instanceof Property\VCard\DateAndOrTime) {
                 // In vCard 4, the birth year may be optional. This is not the
                 // case for vCard 3. Apple has a workaround for this that
@@ -154,12 +166,16 @@ class VCardConverter
             }
 
             if ($property instanceof Property\Binary) {
-                /** @var Property\Binary $newProperty */
-                $newProperty = $this->convertBinaryToUri($output, $newProperty, $parameters);
+                /* We need to tell phpstan that newProperty (as well as property) is instanceof Property\Uri */
+                /** @var Property\Binary<string, mixed> $binaryProperty */
+                $binaryProperty = $newProperty;
+                /** @var Property\Binary<string, mixed> $newProperty */
+                $newProperty = $this->convertBinaryToUri($output, $binaryProperty, $parameters);
             } elseif ($property instanceof Property\VCard\DateAndOrTime && isset($parameters['X-APPLE-OMIT-YEAR'])) {
                 // If a property such as BDAY contained 'X-APPLE-OMIT-YEAR',
                 // then we're stripping the year from the vcard 4 value.
                 $parts = DateTimeParser::parseVCardDateTime($property->getValue());
+                /* @phpstan-ignore-next-line 'Call to an undefined method Sabre\VObject\Node::getValue().' */
                 if ($parts['year'] === $property['X-APPLE-OMIT-YEAR']->getValue()) {
                     $newValue = '--'.$parts['month'].'-'.$parts['date'];
                     $newProperty->setValue($newValue);
@@ -251,15 +267,19 @@ class VCardConverter
      *
      * vCard 4.0 no longer supports BINARY properties.
      *
-     * @param array $parameters list of parameters that will eventually be added to
-     *                          the new property
+     * @param Component\VCard<mixed, mixed> $output
+     * @param Property\Binary<mixed, mixed> $newProperty
+     * @param array<mixed, mixed>           $parameters  list of parameters that will eventually be added to
+     *                                                   the new property
+     *
+     * @return Uri<mixed, mixed>
      *
      * @throws InvalidDataException
      */
     protected function convertBinaryToUri(Component\VCard $output, Property\Binary $newProperty, array &$parameters): Uri
     {
         $value = $newProperty->getValue();
-        /** @var Uri $newProperty */
+        /** @var Uri<mixed, mixed> $newProperty */
         $newProperty = $output->createProperty(
             $newProperty->name,
             null, // no value
@@ -304,7 +324,10 @@ class VCardConverter
      * be valid in vCard 3.0 as well, we should convert those to BINARY if
      * possible, to improve compatibility.
      *
-     * @return Property\Binary|Property\Uri|null
+     * @param Component\VCard<mixed, mixed> $output
+     * @param Property\Uri<mixed, mixed>    $newProperty
+     *
+     * @return Property\Binary<mixed, mixed>|Property\Uri<mixed, mixed>
      *
      * @throws InvalidDataException
      */
@@ -317,7 +340,7 @@ class VCardConverter
             return $newProperty;
         }
 
-        /** @var Binary $newProperty */
+        /** @var Binary<mixed, mixed> $newProperty */
         $newProperty = $output->createProperty(
             $newProperty->name,
             null, // no value
@@ -352,6 +375,9 @@ class VCardConverter
 
     /**
      * Adds parameters to a new property for vCard 4.0.
+     *
+     * @param Property<mixed, mixed> $newProperty
+     * @param array<mixed, mixed>    $parameters
      */
     protected function convertParameters40(Property $newProperty, array $parameters): void
     {
@@ -388,6 +414,9 @@ class VCardConverter
 
     /**
      * Adds parameters to a new property for vCard 3.0.
+     *
+     * @param Property<mixed, mixed> $newProperty
+     * @param array<mixed, mixed>    $parameters
      */
     protected function convertParameters30(Property $newProperty, array $parameters): void
     {
