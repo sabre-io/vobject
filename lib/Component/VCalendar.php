@@ -18,9 +18,9 @@ use Sabre\VObject\Recur\NoInstancesException;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VEvent $VEVENT
- * @property VJournal $VJOURNAL
- * @property VObject\Property\Text $ORG
+ * @property VEvent                    $VEVENT
+ * @property VJournal                  $VJOURNAL
+ * @property VObject\Property\Text     $ORG
  * @property VObject\Property\FlatText $METHOD
  */
 class VCalendar extends VObject\Document
