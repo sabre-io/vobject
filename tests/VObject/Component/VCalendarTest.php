@@ -5,6 +5,7 @@ namespace Sabre\VObject\Component;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
 use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Property\FlatText;
 
 class VCalendarTest extends TestCase
 {
@@ -385,7 +386,10 @@ END:VCALENDAR
     public function testGetDocumentType(): void
     {
         $vcard = new VCalendar();
-        $vcard->VERSION = '2.0';
+        /** @var FlatText<mixed, mixed> $property */
+        $property = $vcard->createProperty('VERSION');
+        $property->setValue('2.0');
+        $vcard->VERSION = $property;
         self::assertEquals(VCalendar::ICALENDAR20, $vcard->getDocumentType());
     }
 

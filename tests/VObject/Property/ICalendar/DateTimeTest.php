@@ -7,6 +7,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Property\FlatText;
 
 class DateTimeTest extends TestCase
 {
@@ -341,7 +342,10 @@ class DateTimeTest extends TestCase
          * @var VTimeZone<int, mixed> $timezone
          */
         $timezone = $this->vcal->createComponent('VTIMEZONE');
-        $timezone->TZID = '/freeassociation.sourceforge.net/Tzfile/Europe/Amsterdam';
+        /** @var FlatText<mixed, mixed> $property */
+        $property = $this->vcal->createProperty('TZID');
+        $property->setValue('/freeassociation.sourceforge.net/Tzfile/Europe/Amsterdam');
+        $timezone->TZID = $property;
         $timezone->{'X-LIC-LOCATION'} = 'Europe/Amsterdam';
 
         $this->vcal->add($event);
@@ -372,7 +376,10 @@ class DateTimeTest extends TestCase
          * @var VTimeZone<int, mixed> $timezone
          */
         $timezone = $this->vcal->createComponent('VTIMEZONE');
-        $timezone->TZID = 'Moon';
+        /** @var FlatText<mixed, mixed> $property */
+        $property = $this->vcal->createProperty('TZID');
+        $property->setValue('Moon');
+        $timezone->TZID = $property;
         $timezone->{'X-LIC-LOCATION'} = 'Moon';
 
         $this->vcal->add($event);

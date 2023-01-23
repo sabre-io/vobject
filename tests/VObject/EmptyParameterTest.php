@@ -4,6 +4,7 @@ namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCard;
+use Sabre\VObject\Property\FlatText;
 
 class EmptyParameterTest extends TestCase
 {
@@ -52,11 +53,14 @@ VCF;
     public function testVCard21Parameter(): void
     {
         $vcard = new Component\VCard([], false);
-        $vcard->VERSION = '2.1';
+        /** @var FlatText<mixed, mixed> $property */
+        $property = $vcard->createProperty('VERSION');
+        $property->setValue('2.1');
+        $vcard->VERSION = $property;
         $vcard->PHOTO = 'random_stuff';
         /* @phpstan-ignore-next-line 'Cannot call method add() on string' */
         $vcard->PHOTO->add(null, 'BASE64');
-        $vcard->UID = 'foo-bar';
+        $vcard->UID = TestHelper::createUid($vcard, 'foo-bar');
 
         $result = $vcard->serialize();
         $expected = [
