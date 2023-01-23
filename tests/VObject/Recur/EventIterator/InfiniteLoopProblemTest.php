@@ -7,6 +7,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Recur;
+use Sabre\VObject\TestHelper;
 
 class InfiniteLoopProblemTest extends TestCase
 {
@@ -26,9 +27,9 @@ class InfiniteLoopProblemTest extends TestCase
     {
         /** @var VEvent<int, mixed> $ev */
         $ev = $this->vcal->createComponent('VEVENT');
-        $ev->UID = 'foobar';
-        $ev->DTSTART = '20090420T180000Z';
-        $ev->RRULE = 'FREQ=WEEKLY;BYDAY=MO;UNTIL=20090704T205959Z;INTERVAL=1';
+        $ev->UID = TestHelper::createUid($this->vcal, 'foobar');
+        $ev->DTSTART = TestHelper::createDtStart($this->vcal, '20090420T180000Z');
+        $ev->RRULE = TestHelper::createRRule($this->vcal, 'FREQ=WEEKLY;BYDAY=MO;UNTIL=20090704T205959Z;INTERVAL=1');
 
         self::assertFalse($ev->isInTimeRange(new \DateTimeImmutable('2012-01-01 12:00:00'), new \DateTimeImmutable('3000-01-01 00:00:00')));
     }
@@ -40,10 +41,10 @@ class InfiniteLoopProblemTest extends TestCase
     {
         /** @var VEvent<int, mixed> $ev */
         $ev = $this->vcal->createComponent('VEVENT');
-        $ev->UID = 'uuid';
-        $ev->DTSTART = new \DateTime('2012-01-01 15:45:00', new \DateTimeZone('Europe/Berlin'));
-        $ev->RRULE = 'FREQ=YEARLY;INTERVAL=1;UNTIL=20120203T225959Z;BYMONTH=2;BYSETPOS=1;BYDAY=SU,MO,TU,WE,TH,FR,SA';
-        $ev->DTEND = new \DateTime('2012-01-01 16:45:00', new \DateTimeZone('Europe/Berlin'));
+        $ev->UID = TestHelper::createUid($this->vcal, 'uuid');
+        $ev->DTSTART = TestHelper::createDtStart($this->vcal, '2012-01-01 15:45:00', 'Europe/Berlin');
+        $ev->RRULE = TestHelper::createRRule($this->vcal, 'FREQ=YEARLY;INTERVAL=1;UNTIL=20120203T225959Z;BYMONTH=2;BYSETPOS=1;BYDAY=SU,MO,TU,WE,TH,FR,SA');
+        $ev->DTEND = TestHelper::createDtEnd($this->vcal, '2012-01-01 16:45:00', 'Europe/Berlin');
 
         // This recurrence rule by itself is a yearly rule that should happen
         // every february.
@@ -82,9 +83,9 @@ class InfiniteLoopProblemTest extends TestCase
         $this->expectException(InvalidDataException::class);
         /** @var VEvent<int, mixed> $ev */
         $ev = $this->vcal->createComponent('VEVENT');
-        $ev->UID = 'uuid';
-        $ev->DTSTART = '20120824T145700Z';
-        $ev->RRULE = 'FREQ=YEARLY;INTERVAL=0';
+        $ev->UID = TestHelper::createUid($this->vcal, 'uuid');
+        $ev->DTSTART = TestHelper::createDtStart($this->vcal, '20120824T145700Z');
+        $ev->RRULE = TestHelper::createRRule($this->vcal, 'FREQ=YEARLY;INTERVAL=0');
         $this->vcal->add($ev);
 
         $it = new Recur\EventIterator($this->vcal, 'uuid');

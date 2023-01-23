@@ -6,12 +6,11 @@ use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
-use Sabre\VObject\Property\FlatText;
 use Sabre\VObject\Property\ICalendar\DateTime;
-use Sabre\VObject\Property\ICalendar\Recur;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\MaxInstancesExceededException;
 use Sabre\VObject\Recur\NoInstancesException;
+use Sabre\VObject\TestHelper;
 
 class MainTest extends TestCase
 {
@@ -25,8 +24,8 @@ class MainTest extends TestCase
         $vcal = new VCalendar();
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=DAILY;BYHOUR=10;BYMINUTE=5;BYSECOND=16;BYWEEKNO=32;BYYEARDAY=100,200');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=DAILY;BYHOUR=10;BYMINUTE=5;BYSECOND=16;BYWEEKNO=32;BYYEARDAY=100,200');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07'));
@@ -51,8 +50,8 @@ class MainTest extends TestCase
         $vcal = new VCalendar();
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=SMONTHLY;INTERVAL=3;UNTIL=20111025T000000Z');
-        $ev->UID = $this->createUid($vcal, 'foo');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=SMONTHLY;INTERVAL=3;UNTIL=20111025T000000Z');
+        $ev->UID = TestHelper::createUid($vcal, 'foo');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07', new \DateTimeZone('UTC')));
@@ -99,8 +98,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=HOURLY;INTERVAL=3;UNTIL=20111025T000000Z');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=HOURLY;INTERVAL=3;UNTIL=20111025T000000Z');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07 12:00:00', new \DateTimeZone('UTC')));
@@ -157,8 +156,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=DAILY;INTERVAL=3;UNTIL=20111025T000000Z');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=DAILY;INTERVAL=3;UNTIL=20111025T000000Z');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07', new \DateTimeZone('UTC')));
@@ -206,7 +205,7 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07', new \DateTimeZone('UTC')));
@@ -248,8 +247,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=DAILY;BYDAY=SA,SU;BYHOUR=6,7');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=DAILY;BYDAY=SA,SU;BYHOUR=6,7');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-08 06:00:00', new \DateTimeZone('UTC')));
@@ -302,8 +301,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=DAILY;INTERVAL=2;BYHOUR=10,11,12,13,14,15');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=DAILY;INTERVAL=2;BYHOUR=10,11,12,13,14,15');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2012-10-11 12:00:00', new \DateTimeZone('UTC')));
@@ -356,8 +355,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=DAILY;INTERVAL=2;BYDAY=TU,WE,FR');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=DAILY;INTERVAL=2;BYDAY=TU,WE,FR');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07', new \DateTimeZone('UTC')));
@@ -410,8 +409,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=WEEKLY;INTERVAL=2;COUNT=10');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=WEEKLY;INTERVAL=2;COUNT=10');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07', new \DateTimeZone('UTC')));
@@ -462,8 +461,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=WEEKLY;INTERVAL=2;BYDAY=TU,WE,FR;WKST=MO;BYHOUR=8,9,10');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=WEEKLY;INTERVAL=2;BYDAY=TU,WE,FR;WKST=MO;BYHOUR=8,9,10');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07 08:00:00', new \DateTimeZone('UTC')));
@@ -519,8 +518,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=WEEKLY;INTERVAL=2;BYDAY=TU,WE,FR;WKST=SU');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=WEEKLY;INTERVAL=2;BYDAY=TU,WE,FR;WKST=SU');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07 18:00:00', new \DateTimeZone('UTC')));
@@ -573,8 +572,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=WEEKLY;INTERVAL=2;BYDAY=TU,WE,FR;WKST=SU');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=WEEKLY;INTERVAL=2;BYDAY=TU,WE,FR;WKST=SU');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-10-07', new \DateTimeZone('UTC')));
@@ -627,8 +626,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=MONTHLY;INTERVAL=3;COUNT=5');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=MONTHLY;INTERVAL=3;COUNT=5');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-12-05', new \DateTimeZone('UTC')));
@@ -673,8 +672,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=MONTHLY;INTERVAL=2;COUNT=12');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=MONTHLY;INTERVAL=2;COUNT=12');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-12-31', new \DateTimeZone('UTC')));
@@ -731,8 +730,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=MONTHLY;INTERVAL=5;COUNT=9;BYMONTHDAY=1,31,-7');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=MONTHLY;INTERVAL=5;COUNT=9;BYMONTHDAY=1,31,-7');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-01-01', new \DateTimeZone('UTC')));
@@ -786,8 +785,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=MONTHLY;INTERVAL=2;COUNT=16;BYDAY=MO,-2TU,+1WE,3TH');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=MONTHLY;INTERVAL=2;COUNT=16;BYDAY=MO,-2TU,+1WE,3TH');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-01-03', new \DateTimeZone('UTC')));
@@ -843,8 +842,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=MONTHLY;COUNT=10;BYDAY=MO;BYMONTHDAY=1');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=MONTHLY;COUNT=10;BYDAY=MO;BYMONTHDAY=1');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-08-01', new \DateTimeZone('UTC')));
@@ -894,8 +893,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=MONTHLY;COUNT=10;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=1,-1');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=MONTHLY;COUNT=10;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=1,-1');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-01-03', new \DateTimeZone('UTC')));
@@ -948,8 +947,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=YEARLY;COUNT=10;INTERVAL=3');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=YEARLY;COUNT=10;INTERVAL=3');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-01-01', new \DateTimeZone('UTC')));
@@ -999,8 +998,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=YEARLY;COUNT=3');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=YEARLY;COUNT=3');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2012-02-29', new \DateTimeZone('UTC')));
@@ -1043,8 +1042,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=YEARLY;COUNT=8;INTERVAL=4;BYMONTH=4,10');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=YEARLY;COUNT=8;INTERVAL=4;BYMONTH=4,10');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-04-07', new \DateTimeZone('UTC')));
@@ -1092,8 +1091,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=YEARLY;COUNT=8;INTERVAL=5;BYMONTH=4,10;BYDAY=1MO,-1SU');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=YEARLY;COUNT=8;INTERVAL=5;BYMONTH=4,10;BYDAY=1MO,-1SU');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-04-04', new \DateTimeZone('UTC')));
@@ -1141,8 +1140,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=YEARLY;COUNT=8;INTERVAL=5;BYMONTH=4,10;BYDAY=1MO,-1SU');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=YEARLY;COUNT=8;INTERVAL=5;BYMONTH=4,10;BYDAY=1MO,-1SU');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-04-04', new \DateTimeZone('UTC')));
@@ -1181,8 +1180,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=DAILY');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=DAILY');
 
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
@@ -1217,8 +1216,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RRULE = $this->createRRule($vcal, 'FREQ=YEARLY;COUNT=10');
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RRULE = TestHelper::createRRule($vcal, 'FREQ=YEARLY;COUNT=10');
         /** @var DateTime<int, mixed> $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
 
@@ -1274,9 +1273,9 @@ class MainTest extends TestCase
 
         /** @var VEvent<int, mixed> $ev1 */
         $ev1 = $vcal->createComponent('VEVENT');
-        $ev1->UID = $this->createUid($vcal, 'overridden');
-        $ev1->RRULE = $this->createRRule($vcal, 'FREQ=DAILY;COUNT=10');
-        $ev1->DTSTART = $this->createDtStart($vcal, '20120107T120000Z');
+        $ev1->UID = TestHelper::createUid($vcal, 'overridden');
+        $ev1->RRULE = TestHelper::createRRule($vcal, 'FREQ=DAILY;COUNT=10');
+        $ev1->DTSTART = TestHelper::createDtStart($vcal, '20120107T120000Z');
         $ev1->SUMMARY = 'baseEvent';
 
         $vcal->add($ev1);
@@ -1284,9 +1283,9 @@ class MainTest extends TestCase
         // ev2 overrides an event, and puts it on 2pm instead.
         /** @var VEvent<int, mixed> $ev2 */
         $ev2 = $vcal->createComponent('VEVENT');
-        $ev2->UID = $this->createUid($vcal, 'overridden');
+        $ev2->UID = TestHelper::createUid($vcal, 'overridden');
         $ev2->{'RECURRENCE-ID'} = '20120110T120000Z';
-        $ev2->DTSTART = $this->createDtStart($vcal, '20120110T140000Z');
+        $ev2->DTSTART = TestHelper::createDtStart($vcal, '20120110T140000Z');
         $ev2->SUMMARY = 'Event 2';
 
         $vcal->add($ev2);
@@ -1294,9 +1293,9 @@ class MainTest extends TestCase
         // ev3 overrides an event, and puts it 2 days and 2 hours later
         /** @var VEvent<int, mixed> $ev3 */
         $ev3 = $vcal->createComponent('VEVENT');
-        $ev3->UID = $this->createUid($vcal, 'overridden');
+        $ev3->UID = TestHelper::createUid($vcal, 'overridden');
         $ev3->{'RECURRENCE-ID'} = '20120113T120000Z';
-        $ev3->DTSTART = $this->createDtStart($vcal, '20120115T140000Z');
+        $ev3->DTSTART = TestHelper::createDtStart($vcal, '20120115T140000Z');
         $ev3->SUMMARY = 'Event 3';
 
         $vcal->add($ev3);
@@ -1348,9 +1347,9 @@ class MainTest extends TestCase
 
         /** @var VEvent<int, mixed> $ev1 */
         $ev1 = $vcal->createComponent('VEVENT');
-        $ev1->UID = $this->createUid($vcal, 'overridden');
-        $ev1->RRULE = $this->createRRule($vcal, 'FREQ=WEEKLY;COUNT=3');
-        $ev1->DTSTART = $this->createDtStart($vcal, '20120112T120000Z');
+        $ev1->UID = TestHelper::createUid($vcal, 'overridden');
+        $ev1->RRULE = TestHelper::createRRule($vcal, 'FREQ=WEEKLY;COUNT=3');
+        $ev1->DTSTART = TestHelper::createDtStart($vcal, '20120112T120000Z');
         $ev1->SUMMARY = 'baseEvent';
 
         $vcal->add($ev1);
@@ -1358,9 +1357,9 @@ class MainTest extends TestCase
         // ev2 overrides an event, and puts it 6 days earlier instead.
         /** @var VEvent<int, mixed> $ev2 */
         $ev2 = $vcal->createComponent('VEVENT');
-        $ev2->UID = $this->createUid($vcal, 'overridden');
+        $ev2->UID = TestHelper::createUid($vcal, 'overridden');
         $ev2->{'RECURRENCE-ID'} = '20120119T120000Z';
-        $ev2->DTSTART = $this->createDtStart($vcal, '20120113T120000Z');
+        $ev2->DTSTART = TestHelper::createDtStart($vcal, '20120113T120000Z');
         $ev2->SUMMARY = 'Override!';
 
         $vcal->add($ev2);
@@ -1398,9 +1397,9 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev1 */
         $ev1 = $vcal->createComponent('VEVENT');
 
-        $ev1->UID = $this->createUid($vcal, 'overridden');
-        $ev1->RRULE = $this->createRRule($vcal, 'FREQ=WEEKLY;COUNT=3');
-        $ev1->DTSTART = $this->createDtStart($vcal, '20120124T120000Z');
+        $ev1->UID = TestHelper::createUid($vcal, 'overridden');
+        $ev1->RRULE = TestHelper::createRRule($vcal, 'FREQ=WEEKLY;COUNT=3');
+        $ev1->DTSTART = TestHelper::createDtStart($vcal, '20120124T120000Z');
         $ev1->SUMMARY = 'baseEvent';
 
         $vcal->add($ev1);
@@ -1408,9 +1407,9 @@ class MainTest extends TestCase
         // ev2 overrides an event, and puts it 6 days earlier instead.
         /** @var VEvent<int, mixed> $ev2 */
         $ev2 = $vcal->createComponent('VEVENT');
-        $ev2->UID = $this->createUid($vcal, 'overridden');
+        $ev2->UID = TestHelper::createUid($vcal, 'overridden');
         $ev2->{'RECURRENCE-ID'} = '20120131T120000Z';
-        $ev2->DTSTART = $this->createDtStart($vcal, '20120125T120000Z');
+        $ev2->DTSTART = TestHelper::createDtStart($vcal, '20120125T120000Z');
         $ev2->SUMMARY = 'Override!';
 
         $vcal->add($ev2);
@@ -1447,8 +1446,8 @@ class MainTest extends TestCase
         /** @var VEvent<int, mixed> $ev */
         $ev = $vcal->createComponent('VEVENT');
 
-        $ev->UID = $this->createUid($vcal, 'bla');
-        $ev->RDATE = $this->createRDate(
+        $ev->UID = TestHelper::createUid($vcal, 'bla');
+        $ev->RDATE = TestHelper::createRDate(
             $vcal,
             [
                 new \DateTimeImmutable('2014-08-07', new \DateTimeZone('UTC')),
@@ -1499,9 +1498,9 @@ class MainTest extends TestCase
         // ev2 overrides an event, and puts it on 2pm instead.
         /** @var VEvent<int, mixed> $ev2 */
         $ev2 = $vcal->createComponent('VEVENT');
-        $ev2->UID = $this->createUid($vcal, 'overridden');
+        $ev2->UID = TestHelper::createUid($vcal, 'overridden');
         $ev2->{'RECURRENCE-ID'} = '20120110T120000Z';
-        $ev2->DTSTART = $this->createDtStart($vcal, '20120110T140000Z');
+        $ev2->DTSTART = TestHelper::createDtStart($vcal, '20120110T140000Z');
         $ev2->SUMMARY = 'Event 2';
 
         $vcal->add($ev2);
@@ -1509,70 +1508,14 @@ class MainTest extends TestCase
         // ev3 overrides an event, and puts it 2 days and 2 hours later
         /** @var VEvent<int, mixed> $ev3 */
         $ev3 = $vcal->createComponent('VEVENT');
-        $ev3->UID = $this->createUid($vcal, 'overridden');
+        $ev3->UID = TestHelper::createUid($vcal, 'overridden');
         $ev3->{'RECURRENCE-ID'} = '20120113T120000Z';
-        $ev3->DTSTART = $this->createDtStart($vcal, '20120115T140000Z');
+        $ev3->DTSTART = TestHelper::createDtStart($vcal, '20120115T140000Z');
+        $ev3->DTSTART = TestHelper::createDtStart($vcal, '20120115T140000Z');
         $ev3->SUMMARY = 'Event 3';
 
         $vcal->add($ev3);
 
         new EventIterator($vcal, 'broken');
-    }
-
-    /**
-     * @param VCalendar<mixed, mixed> $vcal
-     * @param string $dateTime
-     * @return DateTime<mixed, mixed>
-     * @throws InvalidDataException
-     * @throws \Exception
-     */
-    public function createDtStart(VCalendar $vcal, string $dateTime): DateTime
-    {
-        /** @var DateTime<mixed, mixed> $property */
-        $property = $vcal->createProperty('DTSTART');
-        $property->setDateTime(new \DateTimeImmutable($dateTime));
-        return $property;
-    }
-
-    /**
-     * @param VCalendar<mixed, mixed> $vcal
-     * @param string $uidString
-     * @return FlatText<mixed, mixed>
-     * @throws InvalidDataException
-     */
-    public function createUid(VCalendar $vcal, string $uidString): FlatText
-    {
-        /** @var FlatText<mixed, mixed> $property */
-        $property = $vcal->createProperty('UID');
-        $property->setValue($uidString);
-        return $property;
-    }
-
-    /**
-     * @param VCalendar<mixed, mixed> $vcal
-     * @param array<int, \DateTimeImmutable> $dateTimes
-     * @return DateTime<mixed, mixed>
-     * @throws InvalidDataException
-     */
-    public function createRDate(VCalendar $vcal, array $dateTimes): DateTime
-    {
-        /** @var DateTime<mixed, mixed> $property */
-        $property = $vcal->createProperty('RDATE');
-        $property->setValue($dateTimes);
-        return $property;
-    }
-
-    /**
-     * @param VCalendar<mixed, mixed> $vcal
-     * @param string $rule
-     * @return Recur<mixed, mixed>
-     * @throws InvalidDataException
-     */
-    public function createRRule(VCalendar $vcal, string $rule): Recur
-    {
-        /** @var Recur<mixed, mixed> $property */
-        $property = $vcal->createProperty('RRULE');
-        $property->setValue($rule);
-        return $property;
     }
 }

@@ -3,6 +3,7 @@
 namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Property\FlatText;
 
 class FreeBusyGeneratorTest extends TestCase
 {
@@ -11,7 +12,10 @@ class FreeBusyGeneratorTest extends TestCase
     public function testGeneratorBaseObject(): void
     {
         $obj = new Component\VCalendar();
-        $obj->METHOD = 'PUBLISH';
+        /** @var FlatText<mixed, mixed> $property */
+        $property = $obj->createProperty('METHOD');
+        $property->setValue('PUBLISH');
+        $obj->METHOD = $property;
 
         $gen = new FreeBusyGenerator();
         $gen->setObjects([]);

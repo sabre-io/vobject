@@ -4,6 +4,7 @@ namespace Sabre\VObject\Component;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject;
+use Sabre\VObject\Property\FlatText;
 
 class VCardTest extends TestCase
 {
@@ -120,15 +121,24 @@ class VCardTest extends TestCase
     public function testGetDocumentType(): void
     {
         $vcard = new VCard([], false);
-        $vcard->VERSION = '2.1';
+        /** @var FlatText<mixed, mixed> $property2 */
+        $property2 = $vcard->createProperty('VERSION');
+        $property2->setValue('2.1');
+        $vcard->VERSION = $property2;
         self::assertEquals(VCard::VCARD21, $vcard->getDocumentType());
 
         $vcard = new VCard([], false);
-        $vcard->VERSION = '3.0';
+        /** @var FlatText<mixed, mixed> $property3 */
+        $property3 = $vcard->createProperty('VERSION');
+        $property3->setValue('3.0');
+        $vcard->VERSION = $property3;
         self::assertEquals(VCard::VCARD30, $vcard->getDocumentType());
 
         $vcard = new VCard([], false);
-        $vcard->VERSION = '4.0';
+        /** @var FlatText<mixed, mixed> $property4 */
+        $property4 = $vcard->createProperty('VERSION');
+        $property4->setValue('4.0');
+        $vcard->VERSION = $property4;
         self::assertEquals(VCard::VCARD40, $vcard->getDocumentType());
 
         $vcard = new VCard([], false);
