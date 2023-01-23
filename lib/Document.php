@@ -18,7 +18,7 @@ use Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\FlatText VERSION
+ * @property VObject\Property\FlatText $VERSION
  */
 abstract class Document extends Component
 {
