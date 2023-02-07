@@ -626,7 +626,7 @@ class MimeDir extends Parser
 
                             // @codeCoverageIgnoreStart
                     }
-                // @codeCoverageIgnoreEnd
+                    // @codeCoverageIgnoreEnd
                 },
                 $input
             );
