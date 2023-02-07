@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject;
 
-use ReturnTypeWillChange;
 use Sabre\VObject;
 use Sabre\Xml;
 
@@ -324,7 +323,7 @@ class Component extends Node
      * This method returns an array, with the representation as it should be
      * encoded in JSON. This is used to create jCard or jCal documents.
      */
-    #[ReturnTypeWillChange]
+    #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
         $components = [];
