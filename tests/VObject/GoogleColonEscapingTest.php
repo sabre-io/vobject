@@ -26,6 +26,6 @@ END:VCARD
 VCF;
 
         $vobj = Reader::read($vcard);
-        $this->assertEquals('http://www.rooftopsolutions.nl/', $vobj->URL->getValue());
+        self::assertEquals('http://www.rooftopsolutions.nl/', $vobj->URL->getValue());
     }
 }

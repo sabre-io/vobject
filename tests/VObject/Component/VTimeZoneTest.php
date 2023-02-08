@@ -27,7 +27,7 @@ HI;
             $messages[] = $warning['message'];
         }
 
-        $this->assertEquals([], $messages);
+        self::assertEquals([], $messages);
     }
 
     public function testGetTimeZone(): void
@@ -46,7 +46,7 @@ HI;
 
         $tz = new \DateTimeZone('America/Toronto');
 
-        $this->assertEquals(
+        self::assertEquals(
             $tz,
             $obj->VTIMEZONE->getTimeZone()
         );

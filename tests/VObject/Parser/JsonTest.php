@@ -189,9 +189,9 @@ TZ;VALUE=UTC-OFFSET:-0500
 END:VCARD
 
 VCF;
-        $this->assertEquals($expected, str_replace("\r", '', $result));
+        self::assertEquals($expected, str_replace("\r", '', $result));
 
-        $this->assertEquals(
+        self::assertEquals(
             $input,
             $vobj->jsonSerialize()
         );
@@ -345,9 +345,9 @@ END:VEVENT
 END:VCALENDAR
 
 VCF;
-        $this->assertEquals($expected, str_replace("\r", '', $result));
+        self::assertEquals($expected, str_replace("\r", '', $result));
 
-        $this->assertEquals(
+        self::assertEquals(
             $input,
             $vobj->jsonSerialize()
         );
@@ -369,7 +369,7 @@ VCF;
         rewind($stream);
 
         $result = VObject\Reader::readJson($stream, 0);
-        $this->assertEquals('foo', $result->FN->getValue());
+        self::assertEquals('foo', $result->FN->getValue());
     }
 
     public function testParseInvalidData(): void

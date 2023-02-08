@@ -15,10 +15,10 @@ class QuotedPrintableTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCARD', $result->name);
-        $this->assertCount(1, $result->children());
-        $this->assertEquals('Aachen', $this->getPropertyValue($result->LABEL));
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCARD', $result->name);
+        self::assertCount(1, $result->children());
+        self::assertEquals('Aachen', $this->getPropertyValue($result->LABEL));
     }
 
     public function testReadQuotedPrintableNewlineSoft(): void
@@ -26,10 +26,10 @@ class QuotedPrintableTest extends TestCase
         $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aa=\r\n ch=\r\n en\r\nEND:VCARD";
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCARD', $result->name);
-        $this->assertCount(1, $result->children());
-        $this->assertEquals('Aachen', $this->getPropertyValue($result->LABEL));
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCARD', $result->name);
+        self::assertCount(1, $result->children());
+        self::assertEquals('Aachen', $this->getPropertyValue($result->LABEL));
     }
 
     public function testReadQuotedPrintableNewlineHard(): void
@@ -37,10 +37,10 @@ class QuotedPrintableTest extends TestCase
         $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\n Germany\r\nEND:VCARD";
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCARD', $result->name);
-        $this->assertCount(1, $result->children());
-        $this->assertEquals("Aachen\r\nGermany", $this->getPropertyValue($result->LABEL));
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCARD', $result->name);
+        self::assertCount(1, $result->children());
+        self::assertEquals("Aachen\r\nGermany", $this->getPropertyValue($result->LABEL));
     }
 
     public function testReadQuotedPrintableCompatibilityMS(): void
@@ -48,10 +48,10 @@ class QuotedPrintableTest extends TestCase
         $data = "BEGIN:VCARD\r\nLABEL;ENCODING=QUOTED-PRINTABLE:Aachen=0D=0A=\r\nDeutschland:okay\r\nEND:VCARD";
         $result = Reader::read($data, Reader::OPTION_FORGIVING);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCARD', $result->name);
-        $this->assertCount(1, $result->children());
-        $this->assertEquals("Aachen\r\nDeutschland:okay", $this->getPropertyValue($result->LABEL));
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCARD', $result->name);
+        self::assertCount(1, $result->children());
+        self::assertEquals("Aachen\r\nDeutschland:okay", $this->getPropertyValue($result->LABEL));
     }
 
     public function testReadQuotesPrintableCompoundValues(): void
@@ -67,7 +67,7 @@ END:VCARD
 VCF;
 
         $result = Reader::read($data, Reader::OPTION_FORGIVING);
-        $this->assertEquals([
+        self::assertEquals([
             '', '', 'Münster Str. 1', 'Münster', '', '48143', 'Deutschland',
         ], $result->ADR->getParts());
     }

@@ -12,9 +12,9 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(0, $result->children());
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(0, $result->children());
     }
 
     public function testReadStream(): void
@@ -27,9 +27,9 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($stream);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(0, $result->children());
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(0, $result->children());
     }
 
     public function testReadComponentUnixNewLine(): void
@@ -38,9 +38,9 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(0, $result->children());
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(0, $result->children());
     }
 
     public function testReadComponentLineFold(): void
@@ -49,9 +49,9 @@ class ReaderTest extends TestCase
 
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(0, $result->children());
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(0, $result->children());
     }
 
     public function testReadCorruptComponent(): void
@@ -76,9 +76,9 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
 
         $result = $result->SUMMARY;
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('SUMMARY', $result->name);
-        $this->assertEquals('propValue', $result->getValue());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('SUMMARY', $result->name);
+        self::assertEquals('propValue', $result->getValue());
     }
 
     public function testReadPropertyWithNewLine(): void
@@ -87,9 +87,9 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
 
         $result = $result->SUMMARY;
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('SUMMARY', $result->name);
-        $this->assertEquals("Line1\nLine2\nLine3\\Not the 4th line!", $result->getValue());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('SUMMARY', $result->name);
+        self::assertEquals("Line1\nLine2\nLine3\\Not the 4th line!", $result->getValue());
     }
 
     public function testReadMappedProperty(): void
@@ -98,9 +98,9 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
 
         $result = $result->DTSTART;
-        $this->assertInstanceOf(Property\ICalendar\DateTime::class, $result);
-        $this->assertEquals('DTSTART', $result->name);
-        $this->assertEquals('20110529', $result->getValue());
+        self::assertInstanceOf(Property\ICalendar\DateTime::class, $result);
+        self::assertEquals('DTSTART', $result->name);
+        self::assertEquals('20110529', $result->getValue());
     }
 
     public function testReadMappedPropertyGrouped(): void
@@ -109,21 +109,21 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
 
         $result = $result->DTSTART;
-        $this->assertInstanceOf(Property\ICalendar\DateTime::class, $result);
-        $this->assertEquals('DTSTART', $result->name);
-        $this->assertEquals('20110529', $result->getValue());
+        self::assertInstanceOf(Property\ICalendar\DateTime::class, $result);
+        self::assertEquals('DTSTART', $result->name);
+        self::assertEquals('20110529', $result->getValue());
     }
 
     public function testReadMissingEnd(): void
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME:propValue";
         $result = Reader::read($data);
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(1, $result->children());
-        $this->assertInstanceOf(Property::class, $result->children()[0]);
-        $this->assertEquals('PROPNAME', $result->children()[0]->name);
-        $this->assertEquals('propValue', $result->children()[0]->getValue());
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(1, $result->children());
+        self::assertInstanceOf(Property::class, $result->children()[0]);
+        self::assertEquals('PROPNAME', $result->children()[0]->name);
+        self::assertEquals('propValue', $result->children()[0]->getValue());
     }
 
     public function testReadPropertyInComponent(): void
@@ -136,12 +136,12 @@ class ReaderTest extends TestCase
 
         $result = Reader::read(implode("\r\n", $data));
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(1, $result->children());
-        $this->assertInstanceOf(Property::class, $result->children()[0]);
-        $this->assertEquals('PROPNAME', $result->children()[0]->name);
-        $this->assertEquals('propValue', $result->children()[0]->getValue());
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(1, $result->children());
+        self::assertInstanceOf(Property::class, $result->children()[0]);
+        self::assertEquals('PROPNAME', $result->children()[0]->name);
+        self::assertEquals('propValue', $result->children()[0]->getValue());
     }
 
     public function testReadNestedComponent(): void
@@ -157,14 +157,14 @@ class ReaderTest extends TestCase
 
         $result = Reader::read(implode("\r\n", $data));
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(1, $result->children());
-        $this->assertInstanceOf(Component::class, $result->children()[0]);
-        $this->assertEquals('VTIMEZONE', $result->children()[0]->name);
-        $this->assertCount(1, $result->children()[0]->children());
-        $this->assertInstanceOf(Component::class, $result->children()[0]->children()[0]);
-        $this->assertEquals('DAYLIGHT', $result->children()[0]->children()[0]->name);
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(1, $result->children());
+        self::assertInstanceOf(Component::class, $result->children()[0]);
+        self::assertEquals('VTIMEZONE', $result->children()[0]->name);
+        self::assertCount(1, $result->children()[0]->children());
+        self::assertInstanceOf(Component::class, $result->children()[0]->children()[0]);
+        self::assertEquals('DAYLIGHT', $result->children()[0]->children()[0]->name);
     }
 
     public function testReadPropertyParameter(): void
@@ -174,12 +174,12 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('PROPNAME', $result->name);
-        $this->assertEquals('propValue', $result->getValue());
-        $this->assertCount(1, $result->parameters());
-        $this->assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
-        $this->assertEquals('paramvalue', $result->parameters['PARAMNAME']->getValue());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('PROPNAME', $result->name);
+        self::assertEquals('propValue', $result->getValue());
+        self::assertCount(1, $result->parameters());
+        self::assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
+        self::assertEquals('paramvalue', $result->parameters['PARAMNAME']->getValue());
     }
 
     public function testReadPropertyRepeatingParameter(): void
@@ -189,13 +189,13 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('PROPNAME', $result->name);
-        $this->assertEquals('propValue', $result->getValue());
-        $this->assertCount(1, $result->parameters());
-        $this->assertEquals('N', $result->parameters['N']->name);
-        $this->assertEquals('1,2,3,4,5,6,7,8,9,10,"11"', $result->parameters['N']->getValue());
-        $this->assertEquals([1, 2, 3, 4, 5, 6, '7,8', 9, 10, '"11"'], $result->parameters['N']->getParts());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('PROPNAME', $result->name);
+        self::assertEquals('propValue', $result->getValue());
+        self::assertCount(1, $result->parameters());
+        self::assertEquals('N', $result->parameters['N']->name);
+        self::assertEquals('1,2,3,4,5,6,7,8,9,10,"11"', $result->parameters['N']->getValue());
+        self::assertEquals([1, 2, 3, 4, 5, 6, '7,8', 9, 10, '"11"'], $result->parameters['N']->getParts());
     }
 
     public function testReadPropertyRepeatingNamelessGuessedParameter(): void
@@ -205,13 +205,13 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('PROPNAME', $result->name);
-        $this->assertEquals('propValue', $result->getValue());
-        $this->assertCount(1, $result->parameters());
-        $this->assertEquals('TYPE', $result->parameters['TYPE']->name);
-        $this->assertEquals('WORK,VOICE,PREF', $result->parameters['TYPE']->getValue());
-        $this->assertEquals(['WORK', 'VOICE', 'PREF'], $result->parameters['TYPE']->getParts());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('PROPNAME', $result->name);
+        self::assertEquals('propValue', $result->getValue());
+        self::assertCount(1, $result->parameters());
+        self::assertEquals('TYPE', $result->parameters['TYPE']->name);
+        self::assertEquals('WORK,VOICE,PREF', $result->parameters['TYPE']->getValue());
+        self::assertEquals(['WORK', 'VOICE', 'PREF'], $result->parameters['TYPE']->getParts());
     }
 
     public function testReadPropertyNoName(): void
@@ -221,13 +221,13 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('PROPNAME', $result->name);
-        $this->assertEquals('propValue', $result->getValue());
-        $this->assertCount(1, $result->parameters());
-        $this->assertEquals('TYPE', $result->parameters['TYPE']->name);
-        $this->assertTrue($result->parameters['TYPE']->noName);
-        $this->assertEquals('PRODIGY', $result->parameters['TYPE']);
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('PROPNAME', $result->name);
+        self::assertEquals('propValue', $result->getValue());
+        self::assertCount(1, $result->parameters());
+        self::assertEquals('TYPE', $result->parameters['TYPE']->name);
+        self::assertTrue($result->parameters['TYPE']->noName);
+        self::assertEquals('PRODIGY', $result->parameters['TYPE']);
     }
 
     public function testReadPropertyParameterExtraColon(): void
@@ -237,12 +237,12 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('PROPNAME', $result->name);
-        $this->assertEquals('propValue:anotherrandomstring', $result->getValue());
-        $this->assertCount(1, $result->parameters());
-        $this->assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
-        $this->assertEquals('paramvalue', $result->parameters['PARAMNAME']->getValue());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('PROPNAME', $result->name);
+        self::assertEquals('propValue:anotherrandomstring', $result->getValue());
+        self::assertCount(1, $result->parameters());
+        self::assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
+        self::assertEquals('paramvalue', $result->parameters['PARAMNAME']->getValue());
     }
 
     public function testReadProperty2Parameters(): void
@@ -252,14 +252,14 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('PROPNAME', $result->name);
-        $this->assertEquals('propValue', $result->getValue());
-        $this->assertCount(2, $result->parameters());
-        $this->assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
-        $this->assertEquals('paramvalue', $result->parameters['PARAMNAME']->getValue());
-        $this->assertEquals('PARAMNAME2', $result->parameters['PARAMNAME2']->name);
-        $this->assertEquals('paramvalue2', $result->parameters['PARAMNAME2']->getValue());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('PROPNAME', $result->name);
+        self::assertEquals('propValue', $result->getValue());
+        self::assertCount(2, $result->parameters());
+        self::assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
+        self::assertEquals('paramvalue', $result->parameters['PARAMNAME']->getValue());
+        self::assertEquals('PARAMNAME2', $result->parameters['PARAMNAME2']->name);
+        self::assertEquals('paramvalue2', $result->parameters['PARAMNAME2']->getValue());
     }
 
     public function testReadPropertyParameterQuoted(): void
@@ -269,12 +269,12 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('PROPNAME', $result->name);
-        $this->assertEquals('propValue', $result->getValue());
-        $this->assertCount(1, $result->parameters());
-        $this->assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
-        $this->assertEquals('paramvalue', $result->parameters['PARAMNAME']->getValue());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('PROPNAME', $result->name);
+        self::assertEquals('propValue', $result->getValue());
+        self::assertCount(1, $result->parameters());
+        self::assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
+        self::assertEquals('paramvalue', $result->parameters['PARAMNAME']->getValue());
     }
 
     public function testReadPropertyParameterNewLines(): void
@@ -284,13 +284,13 @@ class ReaderTest extends TestCase
 
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('PROPNAME', $result->name);
-        $this->assertEquals('propValue', $result->getValue());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('PROPNAME', $result->name);
+        self::assertEquals('propValue', $result->getValue());
 
-        $this->assertCount(1, $result->parameters());
-        $this->assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
-        $this->assertEquals("paramvalue1\nvalue2^nvalue3", $result->parameters['PARAMNAME']->getValue());
+        self::assertCount(1, $result->parameters());
+        self::assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
+        self::assertEquals("paramvalue1\nvalue2^nvalue3", $result->parameters['PARAMNAME']->getValue());
     }
 
     public function testReadPropertyParameterQuotedColon(): void
@@ -299,12 +299,12 @@ class ReaderTest extends TestCase
         $result = Reader::read($data);
         $result = $result->PROPNAME;
 
-        $this->assertInstanceOf(Property::class, $result);
-        $this->assertEquals('PROPNAME', $result->name);
-        $this->assertEquals('propValue', $result->getValue());
-        $this->assertCount(1, $result->parameters());
-        $this->assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
-        $this->assertEquals('param:value', $result->parameters['PARAMNAME']->getValue());
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('PROPNAME', $result->name);
+        self::assertEquals('propValue', $result->getValue());
+        self::assertCount(1, $result->parameters());
+        self::assertEquals('PARAMNAME', $result->parameters['PARAMNAME']->name);
+        self::assertEquals('param:value', $result->parameters['PARAMNAME']->getValue());
     }
 
     public function testReadForgiving(): void
@@ -322,7 +322,7 @@ class ReaderTest extends TestCase
             $caught = true;
         }
 
-        $this->assertEquals(true, $caught);
+        self::assertEquals(true, $caught);
 
         $result = Reader::read(implode("\r\n", $data), Reader::OPTION_FORGIVING);
 
@@ -333,7 +333,7 @@ class ReaderTest extends TestCase
             '',
         ]);
 
-        $this->assertEquals($expected, $result->serialize());
+        self::assertEquals($expected, $result->serialize());
     }
 
     public function testReadWithInvalidLine(): void
@@ -352,7 +352,7 @@ class ReaderTest extends TestCase
             $caught = true;
         }
 
-        $this->assertEquals(true, $caught);
+        self::assertEquals(true, $caught);
 
         $result = Reader::read(implode("\r\n", $data), Reader::OPTION_IGNORE_INVALID_LINES);
 
@@ -363,7 +363,7 @@ class ReaderTest extends TestCase
             '',
         ]);
 
-        $this->assertEquals($expected, $result->serialize());
+        self::assertEquals($expected, $result->serialize());
     }
 
     /**
@@ -413,9 +413,9 @@ ICS;
         $data = chr(0xEF).chr(0xBB).chr(0xBF)."BEGIN:VCALENDAR\r\nEND:VCALENDAR";
         $result = Reader::read($data);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(0, $result->children());
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(0, $result->children());
     }
 
     public function testReadXMLComponent(): void
@@ -430,9 +430,9 @@ XML;
 
         $result = Reader::readXML($data);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(0, $result->children());
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(0, $result->children());
     }
 
     public function testReadXMLStream(): void
@@ -451,8 +451,8 @@ XML;
 
         $result = Reader::readXML($stream);
 
-        $this->assertInstanceOf(Component::class, $result);
-        $this->assertEquals('VCALENDAR', $result->name);
-        $this->assertCount(0, $result->children());
+        self::assertInstanceOf(Component::class, $result);
+        self::assertEquals('VCALENDAR', $result->name);
+        self::assertCount(0, $result->children());
     }
 }

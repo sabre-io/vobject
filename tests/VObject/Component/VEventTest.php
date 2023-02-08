@@ -11,7 +11,7 @@ class VEventTest extends TestCase
      */
     public function testInTimeRange(VEvent $vevent, \DateTime $start, \DateTime $end, bool $outcome): void
     {
-        $this->assertEquals($outcome, $vevent->isInTimeRange($start, $end));
+        self::assertEquals($outcome, $vevent->isInTimeRange($start, $end));
     }
 
     public function timeRangeTestData(): array

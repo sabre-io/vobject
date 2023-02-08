@@ -11,8 +11,8 @@ class ParameterTest extends TestCase
         $cal = new Component\VCalendar();
 
         $param = new Parameter($cal, 'name', 'value');
-        $this->assertEquals('NAME', $param->name);
-        $this->assertEquals('value', $param->getValue());
+        self::assertEquals('NAME', $param->name);
+        self::assertEquals('value', $param->getValue());
     }
 
     public function testSetupNameLess(): void
@@ -20,9 +20,9 @@ class ParameterTest extends TestCase
         $card = new Component\VCard();
 
         $param = new Parameter($card, null, 'URL');
-        $this->assertEquals('VALUE', $param->name);
-        $this->assertEquals('URL', $param->getValue());
-        $this->assertTrue($param->noName);
+        self::assertEquals('VALUE', $param->name);
+        self::assertEquals('URL', $param->getValue());
+        self::assertTrue($param->noName);
     }
 
     public function testModify(): void
@@ -31,54 +31,54 @@ class ParameterTest extends TestCase
 
         $param = new Parameter($cal, 'name', null);
         $param->addValue(1);
-        $this->assertEquals([1], $param->getParts());
+        self::assertEquals([1], $param->getParts());
 
         $param->setParts([1, 2]);
-        $this->assertEquals([1, 2], $param->getParts());
+        self::assertEquals([1, 2], $param->getParts());
 
         $param->addValue(3);
-        $this->assertEquals([1, 2, 3], $param->getParts());
+        self::assertEquals([1, 2, 3], $param->getParts());
 
         $param->setValue(4);
         $param->addValue(5);
-        $this->assertEquals([4, 5], $param->getParts());
+        self::assertEquals([4, 5], $param->getParts());
     }
 
     public function testCastToString(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'value');
-        $this->assertEquals('value', $param->__toString());
-        $this->assertEquals('value', (string) $param);
+        self::assertEquals('value', $param->__toString());
+        self::assertEquals('value', (string) $param);
     }
 
     public function testCastNullToString(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', null);
-        $this->assertEquals('', $param->__toString());
-        $this->assertEquals('', (string) $param);
+        self::assertEquals('', $param->__toString());
+        self::assertEquals('', (string) $param);
     }
 
     public function testSerialize(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'value');
-        $this->assertEquals('NAME=value', $param->serialize());
+        self::assertEquals('NAME=value', $param->serialize());
     }
 
     public function testSerializeEmpty(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', null);
-        $this->assertEquals('NAME=', $param->serialize());
+        self::assertEquals('NAME=', $param->serialize());
     }
 
     public function testSerializeComplex(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', ['val1', 'val2;', 'val3^', "val4\n", 'val5"']);
-        $this->assertEquals('NAME=val1,"val2;","val3^^","val4^n","val5^\'"', $param->serialize());
+        self::assertEquals('NAME=val1,"val2;","val3^^","val4^n","val5^\'"', $param->serialize());
     }
 
     /**
@@ -91,7 +91,7 @@ class ParameterTest extends TestCase
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'EMAIL', 'user+something@example.org');
-        $this->assertEquals('EMAIL="user+something@example.org"', $param->serialize());
+        self::assertEquals('EMAIL="user+something@example.org"', $param->serialize());
     }
 
     public function testIterate(): void
@@ -105,20 +105,20 @@ class ParameterTest extends TestCase
             $result[] = $value;
         }
 
-        $this->assertEquals([1, 2, 3, 4], $result);
+        self::assertEquals([1, 2, 3, 4], $result);
     }
 
     public function testSerializeColon(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'va:lue');
-        $this->assertEquals('NAME="va:lue"', $param->serialize());
+        self::assertEquals('NAME="va:lue"', $param->serialize());
     }
 
     public function testSerializeSemiColon(): void
     {
         $cal = new Component\VCalendar();
         $param = new Parameter($cal, 'name', 'va;lue');
-        $this->assertEquals('NAME="va;lue"', $param->serialize());
+        self::assertEquals('NAME="va;lue"', $param->serialize());
     }
 }

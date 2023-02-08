@@ -22,7 +22,7 @@ END:VCALENDAR
 VCAL;
         $document = Reader::read($vcal);
 
-        $this->assertInstanceOf(VAvailability::class, $document->VAVAILABILITY);
+        self::assertInstanceOf(VAvailability::class, $document->VAVAILABILITY);
     }
 
     public function testGetEffectiveStartEnd(): void
@@ -38,7 +38,7 @@ VCAL;
 
         $document = Reader::read($vcal);
         $tz = new \DateTimeZone('UTC');
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
                 new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
@@ -60,7 +60,7 @@ VCAL;
 
         $document = Reader::read($vcal);
         $tz = new \DateTimeZone('UTC');
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
                 new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
@@ -79,7 +79,7 @@ END:VCALENDAR
 VCAL;
 
         $document = Reader::read($vcal);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 null,
                 null,
@@ -98,7 +98,7 @@ END:VCALENDAR
 VCAL;
 
         $document = Reader::read($vcal);
-        $this->assertTrue(
+        self::assertTrue(
             $document->VAVAILABILITY->isInTimeRange(new \DateTimeImmutable('2015-07-17'), new \DateTimeImmutable('2015-07-18'))
         );
     }
@@ -115,7 +115,7 @@ END:VCALENDAR
 VCAL;
 
         $document = Reader::read($vcal);
-        $this->assertFalse(
+        self::assertFalse(
             $document->VAVAILABILITY->isInTimeRange(new \DateTimeImmutable('2015-07-17'), new \DateTimeImmutable('2015-07-18'))
         );
     }
@@ -123,7 +123,7 @@ VCAL;
     public function testRFCxxxSection3Part1AvailabilityPropRequired(): void
     {
         // UID and DTSTAMP are present.
-        $this->assertIsValid(Reader::read(
+        self::assertIsValid(Reader::read(
             <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -137,7 +137,7 @@ VCAL
         ));
 
         // UID and DTSTAMP are missing.
-        $this->assertIsNotValid(Reader::read(
+        self::assertIsNotValid(Reader::read(
             <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -149,7 +149,7 @@ VCAL
         ));
 
         // DTSTAMP is missing.
-        $this->assertIsNotValid(Reader::read(
+        self::assertIsNotValid(Reader::read(
             <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -162,7 +162,7 @@ VCAL
         ));
 
         // UID is missing.
-        $this->assertIsNotValid(Reader::read(
+        self::assertIsNotValid(Reader::read(
             <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -192,11 +192,11 @@ VCAL
         ];
 
         // They are all present, only once.
-        $this->assertIsValid(Reader::read($this->template($properties)));
+        self::assertIsValid(Reader::read($this->template($properties)));
 
         // We duplicate each one to see if it fails.
         foreach ($properties as $property) {
-            $this->assertIsNotValid(Reader::read($this->template([
+            self::assertIsNotValid(Reader::read($this->template([
                 $property,
                 $property,
             ])));
@@ -206,17 +206,17 @@ VCAL
     public function testRFCxxxSection3Part1AvailabilityPropDtendDuration(): void
     {
         // Only DTEND.
-        $this->assertIsValid(Reader::read($this->template([
+        self::assertIsValid(Reader::read($this->template([
             'DTEND:21111005T133225Z',
         ])));
 
         // Only DURATION.
-        $this->assertIsValid(Reader::read($this->template([
+        self::assertIsValid(Reader::read($this->template([
             'DURATION:PT1H',
         ])));
 
         // Both (not allowed).
-        $this->assertIsNotValid(Reader::read($this->template([
+        self::assertIsNotValid(Reader::read($this->template([
             'DTEND:21111005T133225Z',
             'DURATION:PT1H',
         ])));
@@ -234,13 +234,13 @@ END:VCALENDAR
 VCAL;
         $document = Reader::read($vcal);
 
-        $this->assertInstanceOf(Available::class, $document->VAVAILABILITY->AVAILABLE);
+        self::assertInstanceOf(Available::class, $document->VAVAILABILITY->AVAILABLE);
     }
 
     public function testRFCxxxSection3Part1AvailablePropRequired(): void
     {
         // UID, DTSTAMP and DTSTART are present.
-        $this->assertIsValid(Reader::read(
+        self::assertIsValid(Reader::read(
             <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -259,7 +259,7 @@ VCAL
         ));
 
         // UID, DTSTAMP and DTSTART are missing.
-        $this->assertIsNotValid(Reader::read(
+        self::assertIsNotValid(Reader::read(
             <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -275,7 +275,7 @@ VCAL
         ));
 
         // UID is missing.
-        $this->assertIsNotValid(Reader::read(
+        self::assertIsNotValid(Reader::read(
             <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -293,7 +293,7 @@ VCAL
         ));
 
         // DTSTAMP is missing.
-        $this->assertIsNotValid(Reader::read(
+        self::assertIsNotValid(Reader::read(
             <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -311,7 +311,7 @@ VCAL
         ));
 
         // DTSTART is missing.
-        $this->assertIsNotValid(Reader::read(
+        self::assertIsNotValid(Reader::read(
             <<<VCAL
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -332,17 +332,17 @@ VCAL
     public function testRFCxxxSection3Part1AvailableDtendDuration(): void
     {
         // Only DTEND.
-        $this->assertIsValid(Reader::read($this->templateAvailable([
+        self::assertIsValid(Reader::read($this->templateAvailable([
             'DTEND:21111005T133225Z',
         ])));
 
         // Only DURATION.
-        $this->assertIsValid(Reader::read($this->templateAvailable([
+        self::assertIsValid(Reader::read($this->templateAvailable([
             'DURATION:PT1H',
         ])));
 
         // Both (not allowed).
-        $this->assertIsNotValid(Reader::read($this->templateAvailable([
+        self::assertIsNotValid(Reader::read($this->templateAvailable([
             'DTEND:21111005T133225Z',
             'DURATION:PT1H',
         ])));
@@ -360,11 +360,11 @@ VCAL
         ];
 
         // They are all present, only once.
-        $this->assertIsValid(Reader::read($this->templateAvailable($properties)));
+        self::assertIsValid(Reader::read($this->templateAvailable($properties)));
 
         // We duplicate each one to see if it fails.
         foreach ($properties as $property) {
-            $this->assertIsNotValid(Reader::read($this->templateAvailable([
+            self::assertIsNotValid(Reader::read($this->templateAvailable([
                 $property,
                 $property,
             ])));
@@ -373,7 +373,7 @@ VCAL
 
     public function testRFCxxxSection3Part2(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             'BUSY',
             Reader::read($this->templateAvailable([
                 'BUSYTYPE:BUSY',
@@ -384,7 +384,7 @@ VCAL
                 ->getValue()
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             'BUSY-UNAVAILABLE',
             Reader::read($this->templateAvailable([
                 'BUSYTYPE:BUSY-UNAVAILABLE',
@@ -395,7 +395,7 @@ VCAL
                 ->getValue()
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             'BUSY-TENTATIVE',
             Reader::read($this->templateAvailable([
                 'BUSYTYPE:BUSY-TENTATIVE',
@@ -414,12 +414,12 @@ VCAL
             $messages = array_map(function ($item) { return $item['message']; }, $validationResult);
             $this->fail('Failed to assert that the supplied document is a valid document. Validation messages: '.implode(', ', $messages));
         }
-        $this->assertEmpty($document->validate());
+        self::assertEmpty($document->validate());
     }
 
     protected function assertIsNotValid(VObject\Document $document): void
     {
-        $this->assertNotEmpty($document->validate());
+        self::assertNotEmpty($document->validate());
     }
 
     protected function template(array $properties)

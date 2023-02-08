@@ -14,6 +14,6 @@ class SlashRTest extends TestCase
     {
         $vcal = new Component\VCalendar();
         $prop = $vcal->add('test', "abc\r\ndef");
-        $this->assertEquals("TEST:abc\\ndef\r\n", $prop->serialize());
+        self::assertEquals("TEST:abc\\ndef\r\n", $prop->serialize());
     }
 }

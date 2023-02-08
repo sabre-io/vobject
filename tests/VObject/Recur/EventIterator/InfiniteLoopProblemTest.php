@@ -27,7 +27,7 @@ class InfiniteLoopProblemTest extends TestCase
         $ev->DTSTART = '20090420T180000Z';
         $ev->RRULE = 'FREQ=WEEKLY;BYDAY=MO;UNTIL=20090704T205959Z;INTERVAL=1';
 
-        $this->assertFalse($ev->isInTimeRange(new \DateTimeImmutable('2012-01-01 12:00:00'), new \DateTimeImmutable('3000-01-01 00:00:00')));
+        self::assertFalse($ev->isInTimeRange(new \DateTimeImmutable('2012-01-01 12:00:00'), new \DateTimeImmutable('3000-01-01 00:00:00')));
     }
 
     /**
@@ -64,7 +64,7 @@ class InfiniteLoopProblemTest extends TestCase
             $it->next();
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             [new \DateTimeImmutable('2012-02-01 15:45:00', new \DateTimeZone('Europe/Berlin'))],
             $collect
         );

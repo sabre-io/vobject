@@ -31,7 +31,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($ics);
-        $this->assertInstanceOf(VCalendar::class, $vcal);
+        self::assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(new \DateTime('2015-01-01'), new \DateTime('2016-01-01'));
 
@@ -56,6 +56,6 @@ ICS;
             '20151224T160000Z',
         ];
 
-        $this->assertEquals($expectedDates, $dates);
+        self::assertEquals($expectedDates, $dates);
     }
 }

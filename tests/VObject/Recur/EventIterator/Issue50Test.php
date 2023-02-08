@@ -103,7 +103,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf(VCalendar::class, $vcal);
+        self::assertInstanceOf(VCalendar::class, $vcal);
 
         $it = new EventIterator($vcal, '1aef0b27-3d92-4581-829a-11999dd36724');
 
@@ -114,7 +114,7 @@ ICS;
 
         $tz = new \DateTimeZone('Europe/Brussels');
 
-        $this->assertEquals([
+        self::assertEquals([
             new \DateTimeImmutable('2013-07-15 09:00:00', $tz),
             new \DateTimeImmutable('2013-07-16 07:00:00', $tz),
             new \DateTimeImmutable('2013-07-17 07:00:00', $tz),

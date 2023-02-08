@@ -18,7 +18,7 @@ END:VCARD
 VCF;
 
         $vcard = Reader::read($input, Reader::OPTION_FORGIVING);
-        $this->assertInstanceOf(Component\VCard::class, $vcard);
-        $this->assertEquals('http://www.example.org', $vcard->URL->getValue());
+        self::assertInstanceOf(Component\VCard::class, $vcard);
+        self::assertEquals('http://www.example.org', $vcard->URL->getValue());
     }
 }

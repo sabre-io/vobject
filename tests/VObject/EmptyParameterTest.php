@@ -20,14 +20,14 @@ VCF;
 
         $vcard = Reader::read($input);
 
-        $this->assertInstanceOf(Component\VCard::class, $vcard);
+        self::assertInstanceOf(Component\VCard::class, $vcard);
         $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD30);
         $vcard = $vcard->serialize();
 
         $converted = Reader::read($vcard);
         $converted->validate();
 
-        $this->assertTrue(isset($converted->EMAIL['X-INTERN']));
+        self::assertTrue(isset($converted->EMAIL['X-INTERN']));
 
         $version = Version::VERSION;
 
@@ -43,7 +43,7 @@ END:VCARD
 
 VCF;
 
-        $this->assertEquals($expected, str_replace("\r", '', $vcard));
+        self::assertEquals($expected, str_replace("\r", '', $vcard));
     }
 
     public function testVCard21Parameter(): void
@@ -64,6 +64,6 @@ VCF;
             '',
         ];
 
-        $this->assertEquals(implode("\r\n", $expected), $result);
+        self::assertEquals(implode("\r\n", $expected), $result);
     }
 }

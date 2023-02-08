@@ -19,7 +19,7 @@ class FreeBusyGeneratorTest extends TestCase
 
         $result = $gen->getResult();
 
-        $this->assertEquals('PUBLISH', $result->METHOD->getValue());
+        self::assertEquals('PUBLISH', $result->METHOD->getValue());
     }
 
     public function testInvalidArg(): void
@@ -78,7 +78,7 @@ END:VFREEBUSY
 END:VCALENDAR
 ICS;
 
-        $this->assertVObjectEqualsVObject($expected, $output);
+        self::assertVObjectEqualsVObject($expected, $output);
     }
 
     public function testSimple(): void
@@ -93,7 +93,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T120000Z/20110101T130000Z',
             $blob
         );
@@ -114,7 +114,7 @@ ICS;
         fwrite($h, $blob);
         rewind($h);
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T120000Z/20110101T130000Z',
             $h
         );
@@ -136,7 +136,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T130000Z/20110101T140000Z',
             $blob
         );
@@ -159,7 +159,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             '',
             $blob
         );
@@ -182,7 +182,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             '',
             $blob
         );
@@ -205,7 +205,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T180000Z/20110101T190000Z',
             $blob
         );
@@ -227,7 +227,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             '',
             $blob
         );
@@ -249,7 +249,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             '',
             $blob
         );
@@ -271,7 +271,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T190000Z/20110101T200000Z',
             $blob
         );
@@ -292,7 +292,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110102T000000Z/20110103T000000Z',
             $blob
         );
@@ -313,7 +313,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             '',
             $blob
         );
@@ -335,7 +335,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T210000Z/20110101T220000Z',
             Reader::read($blob)
         );
@@ -359,7 +359,7 @@ END:VFREEBUSY
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             "FREEBUSY:20110103T010000Z/20110103T020000Z\n".
             'FREEBUSY:20110103T030000Z/20110103T060000Z',
             $blob
@@ -380,7 +380,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T220000Z/20110101T230000Z',
             $blob
         );
@@ -400,7 +400,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T230000Z/20110102T000000Z',
             $blob
         );
@@ -419,7 +419,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T120000Z/20110101T130000Z',
             $blob
         );
@@ -438,7 +438,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T170000Z/20110101T180000Z',
             $blob,
             new \DateTimeZone('America/Toronto')
@@ -457,7 +457,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T110000Z/20110102T000000Z',
             $blob
         );
@@ -475,7 +475,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T110000Z/20110102T050000Z',
             $blob,
             new \DateTimeZone('America/Toronto')
@@ -497,7 +497,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             '',
             $blob
         );
@@ -532,7 +532,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T110000Z/20110101T120000Z\n".
             "FREEBUSY:20110101T120000Z/20110101T130000Z\n".
             'FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T130000Z/20110103T110000Z',
@@ -571,7 +571,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T120000Z/20110101T130000Z',
             $blob,
             null,
@@ -610,7 +610,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T110000Z/20110101T120000Z\n".
             "FREEBUSY:20110101T120000Z/20110101T130000Z\n".
             "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T130000Z/20110103T090000Z\n",
@@ -658,7 +658,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             'FREEBUSY:20110101T110000Z/20110103T110000Z',
             $blob,
             null,
@@ -706,7 +706,7 @@ END:VAVAILABILITY
 END:VCALENDAR
 ICS;
 
-        $this->assertFreeBusyReport(
+        self::assertFreeBusyReport(
             "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T110000Z/20110101T120000Z\n".
             "FREEBUSY:20110101T120000Z/20110101T130000Z\n".
             "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T130000Z/20110103T090000Z\n",

@@ -27,6 +27,6 @@ class Issue40Test extends TestCase
             '',
         ]);
 
-        $this->assertEquals($expected, $card->serialize());
+        self::assertEquals($expected, $card->serialize());
     }
 }

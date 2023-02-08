@@ -39,7 +39,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -97,7 +97,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -156,7 +156,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -195,7 +195,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -257,7 +257,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -294,7 +294,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -331,7 +331,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -359,7 +359,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -386,7 +386,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -424,7 +424,7 @@ ICS;
         $generator->setFormat('%1$s\'s Geburtstag');
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -452,7 +452,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );
@@ -534,7 +534,7 @@ ICS;
         $generator->setObjects($input);
         $output = $generator->getResult();
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $output
         );

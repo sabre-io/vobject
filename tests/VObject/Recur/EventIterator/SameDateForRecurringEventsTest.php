@@ -51,6 +51,6 @@ ICS;
         $vCalendar = Reader::read($ics);
         $eventIterator = new EventIterator($vCalendar->getComponents());
 
-        $this->assertEquals(4, iterator_count($eventIterator), 'in ICS 4 events');
+        self::assertEquals(4, iterator_count($eventIterator), 'in ICS 4 events');
     }
 }

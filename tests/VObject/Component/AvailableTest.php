@@ -20,7 +20,7 @@ END:AVAILABLE
 END:VCALENDAR
 VCAL;
         $document = Reader::read($vcal);
-        $this->assertInstanceOf(Available::class, $document->AVAILABLE);
+        self::assertInstanceOf(Available::class, $document->AVAILABLE);
     }
 
     public function testGetEffectiveStartEnd(): void
@@ -36,7 +36,7 @@ VCAL;
 
         $document = Reader::read($vcal);
         $tz = new \DateTimeZone('UTC');
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
                 new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
@@ -58,7 +58,7 @@ VCAL;
 
         $document = Reader::read($vcal);
         $tz = new \DateTimeZone('UTC');
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
                 new \DateTimeImmutable('2015-07-17 17:22:00', $tz),

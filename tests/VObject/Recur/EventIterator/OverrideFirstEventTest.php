@@ -68,7 +68,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $vcal
         );
@@ -110,7 +110,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $vcal
         );

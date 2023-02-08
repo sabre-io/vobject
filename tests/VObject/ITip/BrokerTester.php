@@ -28,19 +28,19 @@ abstract class BrokerTester extends TestCase
         $broker = new Broker();
         $result = $broker->parseEvent($newMessage, $currentUser, $oldMessage);
 
-        $this->assertSameSize($expected, $result);
+        self::assertSameSize($expected, $result);
 
         foreach ($expected as $index => $ex) {
             $message = $result[$index];
 
             foreach ($ex as $key => $val) {
                 if ('message' === $key) {
-                    $this->assertVObjectEqualsVObject(
+                    self::assertVObjectEqualsVObject(
                         $val,
                         $message->message->serialize()
                     );
                 } else {
-                    $this->assertEquals($val, $message->$key);
+                    self::assertEquals($val, $message->$key);
                 }
             }
         }
@@ -93,12 +93,12 @@ abstract class BrokerTester extends TestCase
         $result = $broker->processMessage($message, $existingObject);
 
         if (is_null($expected)) {
-            $this->assertTrue(!$result);
+            self::assertTrue(!$result);
 
             return;
         }
 
-        $this->assertVObjectEqualsVObject(
+        self::assertVObjectEqualsVObject(
             $expected,
             $result
         );

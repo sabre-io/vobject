@@ -13,7 +13,7 @@ class VAlarmTest extends TestCase
      */
     public function testInTimeRange(VAlarm $valarm, \DateTime $start, \DateTime $end, bool $outcome): void
     {
-        $this->assertEquals($outcome, $valarm->isInTimeRange($start, $end));
+        self::assertEquals($outcome, $valarm->isInTimeRange($start, $end));
     }
 
     public function timeRangeTestData(): array
@@ -165,6 +165,6 @@ BLA;
 
         $vobj = Reader::read($input);
 
-        $this->assertTrue($vobj->VTODO->VALARM->isInTimeRange(new \DateTime('2012-10-01 00:00:00'), new \DateTime('2012-11-01 00:00:00')));
+        self::assertTrue($vobj->VTODO->VALARM->isInTimeRange(new \DateTime('2012-10-01 00:00:00'), new \DateTime('2012-11-01 00:00:00')));
     }
 }

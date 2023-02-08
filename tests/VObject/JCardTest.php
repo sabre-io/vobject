@@ -189,6 +189,6 @@ class JCardTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $card->jsonSerialize());
+        self::assertEquals($expected, $card->jsonSerialize());
     }
 }

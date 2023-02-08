@@ -28,89 +28,89 @@ class CliTest extends TestCase
 
     public function testInvalidArg(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $this->cli->main(['vobject', '--hi'])
         );
         rewind($this->cli->stderr);
-        $this->assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
+        self::assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
     }
 
     public function testQuiet(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $this->cli->main(['vobject', '-q'])
         );
-        $this->assertTrue($this->cli->quiet);
+        self::assertTrue($this->cli->quiet);
 
         rewind($this->cli->stderr);
-        $this->assertEquals(0, strlen(stream_get_contents($this->cli->stderr)));
+        self::assertEquals(0, strlen(stream_get_contents($this->cli->stderr)));
     }
 
     public function testHelp(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $this->cli->main(['vobject', '-h'])
         );
         rewind($this->cli->stderr);
-        $this->assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
+        self::assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
     }
 
     public function testFormat(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $this->cli->main(['vobject', '--format=jcard'])
         );
 
         rewind($this->cli->stderr);
-        $this->assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
+        self::assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
 
-        $this->assertEquals('jcard', $this->cli->format);
+        self::assertEquals('jcard', $this->cli->format);
     }
 
     public function testFormatInvalid(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $this->cli->main(['vobject', '--format=foo'])
         );
 
         rewind($this->cli->stderr);
-        $this->assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
+        self::assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
 
-        $this->assertNull($this->cli->format);
+        self::assertNull($this->cli->format);
     }
 
     public function testInputFormatInvalid(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $this->cli->main(['vobject', '--inputformat=foo'])
         );
 
         rewind($this->cli->stderr);
-        $this->assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
+        self::assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
 
-        $this->assertNull($this->cli->format);
+        self::assertNull($this->cli->format);
     }
 
     public function testNoInputFile(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $this->cli->main(['vobject', 'color'])
         );
 
         rewind($this->cli->stderr);
-        $this->assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
+        self::assertTrue(strlen(stream_get_contents($this->cli->stderr)) > 100);
     }
 
     public function testTooManyArgs(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $this->cli->main(['vobject', 'color', 'a', 'b', 'c'])
         );
@@ -118,7 +118,7 @@ class CliTest extends TestCase
 
     public function testUnknownCommand(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $this->cli->main(['vobject', 'foo', '-'])
         );
@@ -138,14 +138,14 @@ ICS
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $this->cli->main(['vobject', 'convert', '--format=json', '-'])
         );
 
         rewind($this->cli->stdout);
         $version = Version::VERSION;
-        $this->assertEquals(
+        self::assertEquals(
             '["vcard",[["version",{},"text","4.0"],["prodid",{},"text","-\/\/Sabre\/\/Sabre VObject '.$version.'\/\/EN"],["fn",{},"text","Cowboy Henk"]]]',
             stream_get_contents($this->cli->stdout)
         );
@@ -169,7 +169,7 @@ ICS
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $this->cli->main(['vobject', 'convert', '--format=jcard', '--pretty', '-'])
         );
@@ -186,7 +186,7 @@ ICS
             "versi
 JCARD;
 
-        $this->assertStringStartsWith(
+        self::assertStringStartsWith(
             $expected,
             stream_get_contents($this->cli->stdout)
         );
@@ -206,7 +206,7 @@ ICS
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        $this->assertEquals(
+        self::assertEquals(
             2,
             $this->cli->main(['vobject', 'convert', '--format=jcal', '--inputformat=mimedir', '-'])
         );
@@ -251,7 +251,7 @@ JCARD
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $this->cli->main(['vobject', 'convert', '--format=mimedir', '--inputformat=json', '--pretty', '-'])
         );
@@ -266,7 +266,7 @@ END:VCARD
 
 VCF;
 
-        $this->assertEquals(
+        self::assertEquals(
             strtr($expected, ["\n" => "\r\n"]),
             stream_get_contents($this->cli->stdout)
         );
@@ -276,26 +276,26 @@ VCF;
     {
         $outputFile = $this->sabreTempDir.'bar.json';
 
-        $this->assertEquals(
+        self::assertEquals(
             2,
             $this->cli->main(['vobject', 'convert', 'foo.json', $outputFile])
         );
 
-        $this->assertEquals('json', $this->cli->inputFormat);
-        $this->assertEquals('json', $this->cli->format);
+        self::assertEquals('json', $this->cli->inputFormat);
+        self::assertEquals('json', $this->cli->format);
     }
 
     public function testConvertDefaultFormats2(): void
     {
         $outputFile = $this->sabreTempDir.'bar.ics';
 
-        $this->assertEquals(
+        self::assertEquals(
             2,
             $this->cli->main(['vobject', 'convert', 'foo.ics', $outputFile])
         );
 
-        $this->assertEquals('mimedir', $this->cli->inputFormat);
-        $this->assertEquals('mimedir', $this->cli->format);
+        self::assertEquals('mimedir', $this->cli->inputFormat);
+        self::assertEquals('mimedir', $this->cli->format);
     }
 
     public function testVCard3040(): void
@@ -314,7 +314,7 @@ VCARD
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $this->cli->main(['vobject', 'convert', '--format=vcard40', '--pretty', '-'])
         );
@@ -331,7 +331,7 @@ END:VCARD
 
 VCF;
 
-        $this->assertEquals(
+        self::assertEquals(
             strtr($expected, ["\n" => "\r\n"]),
             stream_get_contents($this->cli->stdout)
         );
@@ -353,7 +353,7 @@ VCARD
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $this->cli->main(['vobject', 'convert', '--format=vcard30', '--pretty', '-'])
         );
@@ -370,7 +370,7 @@ END:VCARD
 
 VCF;
 
-        $this->assertEquals(
+        self::assertEquals(
             strtr($expected, ["\n" => "\r\n"]),
             stream_get_contents($this->cli->stdout)
         );
@@ -392,7 +392,7 @@ VCARD
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        $this->assertEquals(
+        self::assertEquals(
             2,
             $this->cli->main(['vobject', 'convert', '--format=vcard21', '--pretty', '-'])
         );
@@ -416,7 +416,7 @@ VCARD
         $this->cli->stdin = $inputStream;
         $result = $this->cli->main(['vobject', 'validate', '-']);
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $result
         );
@@ -436,7 +436,7 @@ VCARD
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
         // vCard 2.0 is not supported yet, so this returns a failure.
-        $this->assertEquals(
+        self::assertEquals(
             2,
             $this->cli->main(['vobject', 'validate', '-'])
         );
@@ -456,7 +456,7 @@ VCARD
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        $this->assertEquals(
+        self::assertEquals(
             2,
             $this->cli->main(['vobject', 'validate', '-'])
         );
@@ -476,7 +476,7 @@ VCARD
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
 
-        $this->assertEquals(
+        self::assertEquals(
             2,
             $this->cli->main(['vobject', 'repair', '-'])
         );
@@ -484,7 +484,7 @@ VCARD
         rewind($this->cli->stdout);
         $regularExpression = "/^BEGIN:VCARD\r\nVERSION:2.1\r\nUID:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\r\nEND:VCARD\r\n$/";
         $data = stream_get_contents($this->cli->stdout);
-        $this->assertMatchesRegularExpression($regularExpression, $data);
+        self::assertMatchesRegularExpression($regularExpression, $data);
     }
 
     public function testRepairNothing(): void
@@ -512,7 +512,7 @@ VCARD
         rewind($this->cli->stderr);
         $error = stream_get_contents($this->cli->stderr);
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $result,
             "This should have been error free. stderr output:\n".$error
@@ -558,7 +558,7 @@ VCARD
         rewind($this->cli->stderr);
         $error = stream_get_contents($this->cli->stderr);
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $result,
             "This should have been error free. stderr output:\n".$error
@@ -599,7 +599,7 @@ VCARD
         rewind($this->cli->stderr);
         $error = stream_get_contents($this->cli->stderr);
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $result,
             "This should have been error free. stderr output:\n".$error

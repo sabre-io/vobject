@@ -21,12 +21,12 @@ class TextTest extends TestCase
 
         $output = $doc->serialize();
 
-        $this->assertEquals("BEGIN:VCARD\r\nVERSION:2.1\r\n$expected\r\nEND:VCARD\r\n", $output);
+        self::assertEquals("BEGIN:VCARD\r\nVERSION:2.1\r\n$expected\r\nEND:VCARD\r\n", $output);
     }
 
     public function testSerializeVCard21(): void
     {
-        $this->assertVCard21Serialization(
+        self::assertVCard21Serialization(
             'f;oo',
             'PROP;P1=V1:f;oo'
         );
@@ -34,7 +34,7 @@ class TextTest extends TestCase
 
     public function testSerializeVCard21Array(): void
     {
-        $this->assertVCard21Serialization(
+        self::assertVCard21Serialization(
             ['f;oo', 'bar'],
             'PROP;P1=V1:f\;oo;bar'
         );
@@ -42,7 +42,7 @@ class TextTest extends TestCase
 
     public function testSerializeVCard21Fold(): void
     {
-        $this->assertVCard21Serialization(
+        self::assertVCard21Serialization(
             str_repeat('x', 80),
             'PROP;P1=V1:'.str_repeat('x', 64)."\r\n ".str_repeat('x', 16)
         );
@@ -50,7 +50,7 @@ class TextTest extends TestCase
 
     public function testSerializeQuotedPrintable(): void
     {
-        $this->assertVCard21Serialization(
+        self::assertVCard21Serialization(
             "foo\r\nbar",
             'PROP;P1=V1;ENCODING=QUOTED-PRINTABLE:foo=0D=0Abar'
         );
@@ -58,7 +58,7 @@ class TextTest extends TestCase
 
     public function testSerializeQuotedPrintableFold(): void
     {
-        $this->assertVCard21Serialization(
+        self::assertVCard21Serialization(
             "foo\r\nbarxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
             "PROP;P1=V1;ENCODING=QUOTED-PRINTABLE:foo=0D=0Abarxxxxxxxxxxxxxxxxxxxxxxxxxx=\r\n xxx"
         );
@@ -76,12 +76,12 @@ END:VCARD
 IN;
 
         $vcard = \Sabre\VObject\Reader::read($vcard);
-        $this->assertCount(1, $vcard->validate());
+        self::assertCount(1, $vcard->validate());
 
-        $this->assertCount(1, $vcard->N->getParts());
+        self::assertCount(1, $vcard->N->getParts());
 
         $vcard->validate(\Sabre\VObject\Node::REPAIR);
 
-        $this->assertCount(5, $vcard->N->getParts());
+        self::assertCount(5, $vcard->N->getParts());
     }
 }

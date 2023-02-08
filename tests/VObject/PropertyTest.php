@@ -13,10 +13,10 @@ class PropertyTest extends TestCase
         $cal = new VCalendar();
 
         $property = $cal->createProperty('propname', 'propvalue');
-        $this->assertEquals('PROPNAME', $property->name);
-        $this->assertEquals('propvalue', $property->__toString());
-        $this->assertEquals('propvalue', (string) $property);
-        $this->assertEquals('propvalue', $property->getValue());
+        self::assertEquals('PROPNAME', $property->name);
+        self::assertEquals('propvalue', $property->__toString());
+        self::assertEquals('propvalue', (string) $property);
+        self::assertEquals('propvalue', $property->getValue());
     }
 
     public function testCreate(): void
@@ -30,8 +30,8 @@ class PropertyTest extends TestCase
 
         $property = $cal->createProperty('propname', 'propvalue', $params);
 
-        $this->assertEquals('value1', $property['param1']->getValue());
-        $this->assertEquals('value2', $property['param2']->getValue());
+        self::assertEquals('value1', $property['param1']->getValue());
+        self::assertEquals('value2', $property['param2']->getValue());
     }
 
     public function testSetValue(): void
@@ -41,8 +41,8 @@ class PropertyTest extends TestCase
         $property = $cal->createProperty('propname', 'propvalue');
         $property->setValue('value2');
 
-        $this->assertEquals('PROPNAME', $property->name);
-        $this->assertEquals('value2', $property->__toString());
+        self::assertEquals('PROPNAME', $property->name);
+        self::assertEquals('value2', $property->__toString());
     }
 
     public function testParameterExists(): void
@@ -51,9 +51,9 @@ class PropertyTest extends TestCase
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
 
-        $this->assertTrue(isset($property['PARAMNAME']));
-        $this->assertTrue(isset($property['paramname']));
-        $this->assertFalse(isset($property['foo']));
+        self::assertTrue(isset($property['PARAMNAME']));
+        self::assertTrue(isset($property['paramname']));
+        self::assertFalse(isset($property['foo']));
     }
 
     public function testParameterGet(): void
@@ -62,7 +62,7 @@ class PropertyTest extends TestCase
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
 
-        $this->assertInstanceOf(Parameter::class, $property['paramname']);
+        self::assertInstanceOf(Parameter::class, $property['paramname']);
     }
 
     public function testParameterNotExists(): void
@@ -71,7 +71,7 @@ class PropertyTest extends TestCase
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
 
-        $this->assertNull($property['foo']);
+        self::assertNull($property['foo']);
     }
 
     public function testParameterMultiple(): void
@@ -81,8 +81,8 @@ class PropertyTest extends TestCase
         $property['paramname'] = 'paramvalue';
         $property->add('paramname', 'paramvalue');
 
-        $this->assertInstanceOf(Parameter::class, $property['paramname']);
-        $this->assertCount(2, $property['paramname']->getParts());
+        self::assertInstanceOf(Parameter::class, $property['paramname']);
+        self::assertCount(2, $property['paramname']->getParts());
     }
 
     public function testSetParameterAsString(): void
@@ -91,10 +91,10 @@ class PropertyTest extends TestCase
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
 
-        $this->assertCount(1, $property->parameters());
-        $this->assertInstanceOf(Parameter::class, $property->parameters['PARAMNAME']);
-        $this->assertEquals('PARAMNAME', $property->parameters['PARAMNAME']->name);
-        $this->assertEquals('paramvalue', $property->parameters['PARAMNAME']->getValue());
+        self::assertCount(1, $property->parameters());
+        self::assertInstanceOf(Parameter::class, $property->parameters['PARAMNAME']);
+        self::assertEquals('PARAMNAME', $property->parameters['PARAMNAME']->name);
+        self::assertEquals('paramvalue', $property->parameters['PARAMNAME']->getValue());
     }
 
     public function testUnsetParameter(): void
@@ -104,7 +104,7 @@ class PropertyTest extends TestCase
         $property['paramname'] = 'paramvalue';
 
         unset($property['PARAMNAME']);
-        $this->assertCount(0, $property->parameters());
+        self::assertCount(0, $property->parameters());
     }
 
     public function testSerialize(): void
@@ -112,7 +112,7 @@ class PropertyTest extends TestCase
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
 
-        $this->assertEquals("PROPNAME:propvalue\r\n", $property->serialize());
+        self::assertEquals("PROPNAME:propvalue\r\n", $property->serialize());
     }
 
     public function testSerializeParam(): void
@@ -123,7 +123,7 @@ class PropertyTest extends TestCase
             'paramname2' => 'paramvalue2',
         ]);
 
-        $this->assertEquals("PROPNAME;PARAMNAME=paramvalue;PARAMNAME2=paramvalue2:propvalue\r\n", $property->serialize());
+        self::assertEquals("PROPNAME;PARAMNAME=paramvalue;PARAMNAME2=paramvalue2:propvalue\r\n", $property->serialize());
     }
 
     public function testSerializeNewLine(): void
@@ -131,7 +131,7 @@ class PropertyTest extends TestCase
         $cal = new VCalendar();
         $property = $cal->createProperty('SUMMARY', "line1\nline2");
 
-        $this->assertEquals("SUMMARY:line1\\nline2\r\n", $property->serialize());
+        self::assertEquals("SUMMARY:line1\\nline2\r\n", $property->serialize());
     }
 
     public function testSerializeLongLine(): void
@@ -142,7 +142,7 @@ class PropertyTest extends TestCase
 
         $expected = 'PROPNAME:'.str_repeat('!', 66)."\r\n ".str_repeat('!', 74)."\r\n ".str_repeat('!', 60)."\r\n";
 
-        $this->assertEquals($expected, $property->serialize());
+        self::assertEquals($expected, $property->serialize());
     }
 
     public function testSerializeUTF8LineFold(): void
@@ -156,7 +156,7 @@ class PropertyTest extends TestCase
         //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (" "         + 73x"!" = 74 bytes)
         //  äfoo
         $expected = 'PROPNAME:'.str_repeat('!', 65)."\r\n \xc3\xa4bla".str_repeat('!', 69)."\r\n ".str_repeat('!', 73)."\r\n \xc3\xa4foo\r\n";
-        $this->assertEquals($expected, $property->serialize());
+        self::assertEquals($expected, $property->serialize());
     }
 
     public function testGetIterator(): void
@@ -165,7 +165,7 @@ class PropertyTest extends TestCase
         $it = new ElementList([]);
         $property = $cal->createProperty('propname', 'propvalue');
         $property->setIterator($it);
-        $this->assertEquals($it, $property->getIterator());
+        self::assertEquals($it, $property->getIterator());
     }
 
     public function testGetIteratorDefault(): void
@@ -173,8 +173,8 @@ class PropertyTest extends TestCase
         $cal = new VCalendar();
         $property = $cal->createProperty('propname', 'propvalue');
         $it = $property->getIterator();
-        $this->assertTrue($it instanceof ElementList);
-        $this->assertCount(1, $it);
+        self::assertTrue($it instanceof ElementList);
+        self::assertCount(1, $it);
     }
 
     public function testAddScalar(): void
@@ -184,11 +184,11 @@ class PropertyTest extends TestCase
 
         $property->add('myparam', 'value');
 
-        $this->assertCount(1, $property->parameters());
+        self::assertCount(1, $property->parameters());
 
-        $this->assertTrue($property->parameters['MYPARAM'] instanceof Parameter);
-        $this->assertEquals('MYPARAM', $property->parameters['MYPARAM']->name);
-        $this->assertEquals('value', $property->parameters['MYPARAM']->getValue());
+        self::assertTrue($property->parameters['MYPARAM'] instanceof Parameter);
+        self::assertEquals('MYPARAM', $property->parameters['MYPARAM']->name);
+        self::assertEquals('value', $property->parameters['MYPARAM']->getValue());
     }
 
     public function testAddParameter(): void
@@ -198,8 +198,8 @@ class PropertyTest extends TestCase
 
         $prop->add('MYPARAM', 'value');
 
-        $this->assertCount(1, $prop->parameters());
-        $this->assertEquals('MYPARAM', $prop['myparam']->name);
+        self::assertCount(1, $prop->parameters());
+        self::assertEquals('MYPARAM', $prop['myparam']->name);
     }
 
     public function testAddParameterTwice(): void
@@ -210,10 +210,10 @@ class PropertyTest extends TestCase
         $prop->add('MYPARAM', 'value1');
         $prop->add('MYPARAM', 'value2');
 
-        $this->assertCount(1, $prop->parameters);
-        $this->assertCount(2, $prop->parameters['MYPARAM']->getParts());
+        self::assertCount(1, $prop->parameters);
+        self::assertCount(2, $prop->parameters['MYPARAM']->getParts());
 
-        $this->assertEquals('MYPARAM', $prop['MYPARAM']->name);
+        self::assertEquals('MYPARAM', $prop['MYPARAM']->name);
     }
 
     public function testClone(): void
@@ -225,7 +225,7 @@ class PropertyTest extends TestCase
         $property2 = clone $property;
 
         $property['FOO'] = 'BAZ';
-        $this->assertEquals('BAR', (string) $property2['FOO']);
+        self::assertEquals('BAR', (string) $property2['FOO']);
     }
 
     public function testCreateParams(): void
@@ -236,8 +236,8 @@ class PropertyTest extends TestCase
             'param2' => ['value2', 'value3'],
         ]);
 
-        $this->assertCount(1, $property['PARAM1']->getParts());
-        $this->assertCount(2, $property['PARAM2']->getParts());
+        self::assertCount(1, $property['PARAM1']->getParts());
+        self::assertCount(2, $property['PARAM2']->getParts());
     }
 
     public function testValidateNonUTF8(): void
@@ -246,8 +246,8 @@ class PropertyTest extends TestCase
         $property = $calendar->createProperty('X-PROP', "Bla\x00");
         $result = $property->validate(Property::REPAIR);
 
-        $this->assertEquals('Property contained a control character (0x00)', $result[0]['message']);
-        $this->assertEquals('Bla', $property->getValue());
+        self::assertEquals('Property contained a control character (0x00)', $result[0]['message']);
+        self::assertEquals('Bla', $property->getValue());
     }
 
     public function testValidateControlChars(): void
@@ -268,8 +268,8 @@ class PropertyTest extends TestCase
         $property = $calendar->createProperty('X-PROP', $s);
         $result = $property->validate(Property::REPAIR);
 
-        $this->assertEquals('Property contained a control character (0x7f)', $result[0]['message']);
-        $this->assertEquals("chars[7F()5E(^)5C(\\\\)3B(\\;)3A(:)2C(\\,)22(\")20( )1F()1E()1D()1C()1B()1A()19()18()17()16()15()14()13()12()11()10()0F()0E()0D()0C()0B()0A(\\n)09(\t)08()07()06()05()04()03()02()01()00()]end", $property->getRawMimeDirValue());
+        self::assertEquals('Property contained a control character (0x7f)', $result[0]['message']);
+        self::assertEquals("chars[7F()5E(^)5C(\\\\)3B(\\;)3A(:)2C(\\,)22(\")20( )1F()1E()1D()1C()1B()1A()19()18()17()16()15()14()13()12()11()10()0F()0E()0D()0C()0B()0A(\\n)09(\t)08()07()06()05()04()03()02()01()00()]end", $property->getRawMimeDirValue());
     }
 
     /**
@@ -281,8 +281,8 @@ class PropertyTest extends TestCase
         $property = $calendar->createProperty('X_*&PROP*', 'Bla');
         $result = $property->validate(Node::REPAIR);
 
-        $this->assertEquals('The property name: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed', $result[0]['message']);
-        $this->assertEquals('X-PROP', $property->name);
+        self::assertEquals('The property name: X_*&PROP* contains invalid characters. Only A-Z, 0-9 and - are allowed', $result[0]['message']);
+        self::assertEquals('X-PROP', $property->name);
     }
 
     /**
@@ -292,24 +292,24 @@ class PropertyTest extends TestCase
     {
         $calendar = new VCalendar();
         $property = $calendar->createProperty('SUMMARY', null);
-        $this->assertEquals([], $property->getParts());
-        $this->assertNull($property->getValue());
+        self::assertEquals([], $property->getParts());
+        self::assertNull($property->getValue());
 
         $property->setValue([]);
-        $this->assertEquals([], $property->getParts());
-        $this->assertNull($property->getValue());
+        self::assertEquals([], $property->getParts());
+        self::assertNull($property->getValue());
 
         $property->setValue([1]);
-        $this->assertEquals([1], $property->getParts());
-        $this->assertEquals(1, $property->getValue());
+        self::assertEquals([1], $property->getParts());
+        self::assertEquals(1, $property->getValue());
 
         $property->setValue([1, 2]);
-        $this->assertEquals([1, 2], $property->getParts());
-        $this->assertEquals('1,2', $property->getValue());
+        self::assertEquals([1, 2], $property->getParts());
+        self::assertEquals('1,2', $property->getValue());
 
         $property->setValue('str');
-        $this->assertEquals(['str'], $property->getParts());
-        $this->assertEquals('str', $property->getValue());
+        self::assertEquals(['str'], $property->getParts());
+        self::assertEquals('str', $property->getValue());
     }
 
     /**
@@ -346,8 +346,8 @@ class PropertyTest extends TestCase
 
         $result = $property->validate();
 
-        $this->assertEquals('ENCODING=INVALID is not valid for this document type.', $result[0]['message']);
-        $this->assertEquals(3, $result[0]['level']);
+        self::assertEquals('ENCODING=INVALID is not valid for this document type.', $result[0]['message']);
+        self::assertEquals(3, $result[0]['level']);
     }
 
     public function testValidateBadEncodingVCard4(): void
@@ -358,8 +358,8 @@ class PropertyTest extends TestCase
 
         $result = $property->validate();
 
-        $this->assertEquals('ENCODING parameter is not valid in vCard 4.', $result[0]['message']);
-        $this->assertEquals(3, $result[0]['level']);
+        self::assertEquals('ENCODING parameter is not valid in vCard 4.', $result[0]['message']);
+        self::assertEquals(3, $result[0]['level']);
     }
 
     public function testValidateBadEncodingVCard3(): void
@@ -370,14 +370,14 @@ class PropertyTest extends TestCase
 
         $result = $property->validate();
 
-        $this->assertEquals('ENCODING=BASE64 is not valid for this document type.', $result[0]['message']);
-        $this->assertEquals(3, $result[0]['level']);
+        self::assertEquals('ENCODING=BASE64 is not valid for this document type.', $result[0]['message']);
+        self::assertEquals(3, $result[0]['level']);
 
         // Validate the reparation of BASE64 formatted vCard v3
         $result = $property->validate(Property::REPAIR);
 
-        $this->assertEquals('ENCODING=BASE64 has been transformed to ENCODING=B.', $result[0]['message']);
-        $this->assertEquals(1, $result[0]['level']);
+        self::assertEquals('ENCODING=BASE64 has been transformed to ENCODING=B.', $result[0]['message']);
+        self::assertEquals(1, $result[0]['level']);
     }
 
     public function testValidateBadEncodingVCard21(): void
@@ -388,7 +388,7 @@ class PropertyTest extends TestCase
 
         $result = $property->validate();
 
-        $this->assertEquals('ENCODING=B is not valid for this document type.', $result[0]['message']);
-        $this->assertEquals(3, $result[0]['level']);
+        self::assertEquals('ENCODING=B is not valid for this document type.', $result[0]['message']);
+        self::assertEquals(3, $result[0]['level']);
     }
 }

@@ -573,7 +573,7 @@ class RRuleIteratorTest extends TestCase
         $parser->next();
 
         $item = $parser->current();
-        $this->assertEquals('2013-07-09 03:07:00', $item->format('Y-m-d H:i:s'));
+        self::assertEquals('2013-07-09 03:07:00', $item->format('Y-m-d H:i:s'));
     }
 
     public function testYearlyByYearDayMultiple(): void
@@ -1051,22 +1051,22 @@ class RRuleIteratorTest extends TestCase
     {
         $parser = new RRuleIterator('FREQ=DAILY', new \DateTime('2014-08-02 00:00:13'));
         $parser->next();
-        $this->assertEquals(
+        self::assertEquals(
             new \DateTime('2014-08-03 00:00:13'),
             $parser->current()
         );
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $parser->key()
         );
 
         $parser->rewind();
 
-        $this->assertEquals(
+        self::assertEquals(
             new \DateTime('2014-08-02 00:00:13'),
             $parser->current()
         );
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $parser->key()
         );
@@ -1092,7 +1092,7 @@ class RRuleIteratorTest extends TestCase
             $parser->next();
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             $result
         );
