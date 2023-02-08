@@ -648,7 +648,7 @@ class DateTimeParserTest extends TestCase
      *
      * @throws InvalidDataException
      */
-    protected function assertDateAndOrTimeEqualsTo(string $date, array $parts): void
+    protected static function assertDateAndOrTimeEqualsTo(string $date, array $parts): void
     {
         self::assertSame(
             DateTimeParser::parseVCardDateAndOrTime($date),

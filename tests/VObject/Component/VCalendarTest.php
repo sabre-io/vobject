@@ -773,7 +773,7 @@ ICS;
         );
     }
 
-    public function assertValidate(string $ics, int $options, int $expectedLevel, ?string $expectedMessage = null): void
+    public static function assertValidate(string $ics, int $options, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $vcal = VObject\Reader::read($ics);
         $result = $vcal->validate($options);
@@ -784,7 +784,7 @@ ICS;
     /**
      * @param array<int, array<string, mixed>> $input
      */
-    public function assertValidateResult(array $input, int $expectedLevel, ?string $expectedMessage = null): void
+    public static function assertValidateResult(array $input, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $messages = [];
         foreach ($input as $warning) {

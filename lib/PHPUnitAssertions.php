@@ -31,7 +31,7 @@ trait PHPUnitAssertions
      * @param resource|string|Component $expected
      * @param resource|string|Component $actual
      */
-    public function assertVObjectEqualsVObject($expected, $actual, string $message = ''): void
+    public static function assertVObjectEqualsVObject($expected, $actual, string $message = ''): void
     {
         $getObj = function ($input) {
             if (is_resource($input)) {
@@ -65,7 +65,7 @@ trait PHPUnitAssertions
             );
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             $actual,
             $message

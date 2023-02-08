@@ -125,14 +125,14 @@ class VCardTest extends TestCase
         $property2 = $vcard->createProperty('VERSION');
         $property2->setValue('2.1');
         $vcard->VERSION = $property2;
-        $this->assertEquals(VCard::VCARD21, $vcard->getDocumentType());
+        self::assertEquals(VCard::VCARD21, $vcard->getDocumentType());
 
         $vcard = new VCard([], false);
         /** @var FlatText<mixed, mixed> $property3 */
         $property3 = $vcard->createProperty('VERSION');
         $property3->setValue('3.0');
         $vcard->VERSION = $property3;
-        $this->assertEquals(VCard::VCARD30, $vcard->getDocumentType());
+        self::assertEquals(VCard::VCARD30, $vcard->getDocumentType());
 
         $vcard = new VCard([], false);
         /** @var FlatText<mixed, mixed> $property4 */
@@ -311,7 +311,7 @@ VCF;
         );
     }
 
-    public function assertValidate(string $vcf, int $options, int $expectedLevel, ?string $expectedMessage = null): void
+    public static function assertValidate(string $vcf, int $options, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $vcal = VObject\Reader::read($vcf);
         $result = $vcal->validate($options);
@@ -322,7 +322,7 @@ VCF;
     /**
      * @param array<int, array<string, mixed>> $input
      */
-    public function assertValidateResult(array $input, int $expectedLevel, ?string $expectedMessage = null): void
+    public static function assertValidateResult(array $input, int $expectedLevel, ?string $expectedMessage = null): void
     {
         $messages = [];
         foreach ($input as $warning) {

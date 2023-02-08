@@ -452,12 +452,12 @@ VCAL
     /**
      * @param VObject\Document<int, mixed> $document
      */
-    protected function assertIsValid(VObject\Document $document): void
+    protected static function assertIsValid(VObject\Document $document): void
     {
         $validationResult = $document->validate();
         if ($validationResult) {
             $messages = array_map(function ($item) { return $item['message']; }, $validationResult);
-            $this->fail('Failed to assert that the supplied document is a valid document. Validation messages: '.implode(', ', $messages));
+            self::fail('Failed to assert that the supplied document is a valid document. Validation messages: '.implode(', ', $messages));
         }
         self::assertEmpty($document->validate());
     }
@@ -465,7 +465,7 @@ VCAL
     /**
      * @param VObject\Document<int, mixed> $document
      */
-    protected function assertIsNotValid(VObject\Document $document): void
+    protected static function assertIsNotValid(VObject\Document $document): void
     {
         self::assertNotEmpty($document->validate());
     }

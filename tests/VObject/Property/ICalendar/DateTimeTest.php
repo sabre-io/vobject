@@ -126,7 +126,7 @@ class DateTimeTest extends TestCase
 
         self::assertEquals('19850704', (string) $elem);
         self::assertNull($elem['TZID']);
-        self::assertEquals('DATE',  $elem['VALUE']);
+        self::assertEquals('DATE', $elem['VALUE']);
 
         self::assertFalse($elem->hasTime());
     }

@@ -198,7 +198,7 @@ class PropertyTest extends TestCase
 
         self::assertCount(1, $property->parameters());
 
-        self::assertTrue($property->parameters['MYPARAM'] instanceof Parameter);
+        self::assertInstanceOf(Parameter::class, $property->parameters['MYPARAM']);
         self::assertEquals('MYPARAM', $property->parameters['MYPARAM']->name);
         self::assertEquals('value', $property->parameters['MYPARAM']->getValue());
     }
