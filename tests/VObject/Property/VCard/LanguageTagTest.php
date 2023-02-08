@@ -14,11 +14,11 @@ class LanguageTagTest extends TestCase
 
         $result = $mimeDir->parse($input);
 
-        $this->assertInstanceOf(LanguageTag::class, $result->LANG);
+        self::assertInstanceOf(LanguageTag::class, $result->LANG);
 
-        $this->assertEquals('nl', $result->LANG->getValue());
+        self::assertEquals('nl', $result->LANG->getValue());
 
-        $this->assertEquals(
+        self::assertEquals(
             $input,
             $result->serialize()
         );
@@ -31,15 +31,15 @@ class LanguageTagTest extends TestCase
 
         $result = $mimeDir->parse($input);
 
-        $this->assertInstanceOf(LanguageTag::class, $result->LANG);
+        self::assertInstanceOf(LanguageTag::class, $result->LANG);
         // This replicates what the vcard converter does and triggered a bug in
         // the past.
         $result->LANG->setValue(['de']);
 
-        $this->assertEquals('de', $result->LANG->getValue());
+        self::assertEquals('de', $result->LANG->getValue());
 
         $expected = "BEGIN:VCARD\r\nVERSION:4.0\r\nLANG:de\r\nEND:VCARD\r\n";
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             $result->serialize()
         );

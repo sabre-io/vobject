@@ -22,7 +22,7 @@ VCF;
         $vobj = Reader::read($input);
         $output = $vobj->serialize();
 
-        $this->assertEquals($input, $output);
+        self::assertEquals($input, $output);
     }
 
     public function testPropertyPadValueCount(): void
@@ -46,6 +46,6 @@ END:VCARD\r
 
 VCF;
 
-        $this->assertEquals($expected, $output);
+        self::assertEquals($expected, $output);
     }
 }

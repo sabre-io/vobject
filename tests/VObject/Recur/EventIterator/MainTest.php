@@ -35,7 +35,7 @@ class MainTest extends TestCase
 
         $it = new EventIterator($vcal, (string) $ev->UID);
 
-        $this->assertTrue($it->isInfinite());
+        self::assertTrue($it->isInfinite());
     }
 
     /**
@@ -122,7 +122,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-07 12:00:00', $tz),
                 new \DateTimeImmutable('2011-10-07 15:00:00', $tz),
@@ -181,7 +181,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-07', $tz),
                 new \DateTimeImmutable('2011-10-10', $tz),
@@ -227,7 +227,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-07', $tz),
             ],
@@ -268,7 +268,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-08 06:00:00', $tz),
                 new \DateTimeImmutable('2011-10-08 07:00:00', $tz),
@@ -320,7 +320,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2012-10-11 12:00:00', $tz),
                 new \DateTimeImmutable('2012-10-11 13:00:00', $tz),
@@ -372,7 +372,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-07', $tz),
                 new \DateTimeImmutable('2011-10-11', $tz),
@@ -424,7 +424,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-07', $tz),
                 new \DateTimeImmutable('2011-10-21', $tz),
@@ -474,7 +474,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-07 08:00:00', $tz),
                 new \DateTimeImmutable('2011-10-07 09:00:00', $tz),
@@ -529,7 +529,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-07 18:00:00', $tz),
                 new \DateTimeImmutable('2011-10-18 18:00:00', $tz),
@@ -581,7 +581,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-07', $tz),
                 new \DateTimeImmutable('2011-10-18', $tz),
@@ -632,7 +632,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-12-05', $tz),
                 new \DateTimeImmutable('2012-03-05', $tz),
@@ -676,7 +676,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-12-31', $tz),
                 new \DateTimeImmutable('2012-08-31', $tz),
@@ -734,7 +734,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-01-01', $tz),
                 new \DateTimeImmutable('2011-01-25', $tz),
@@ -787,7 +787,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-01-03', $tz),
                 new \DateTimeImmutable('2011-01-05', $tz),
@@ -842,7 +842,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-08-01', $tz),
                 new \DateTimeImmutable('2012-10-01', $tz),
@@ -891,7 +891,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-01-03', $tz),
                 new \DateTimeImmutable('2011-01-31', $tz),
@@ -945,7 +945,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-01-01', $tz),
                 new \DateTimeImmutable('2014-01-01', $tz),
@@ -994,7 +994,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2012-02-29', $tz),
                 new \DateTimeImmutable('2016-02-29', $tz),
@@ -1036,7 +1036,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-04-07', $tz),
                 new \DateTimeImmutable('2011-10-07', $tz),
@@ -1083,7 +1083,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-04-04', $tz),
                 new \DateTimeImmutable('2011-04-24', $tz),
@@ -1133,7 +1133,7 @@ class MainTest extends TestCase
             $it->next();
         }
 
-        $this->assertEquals([], $result);
+        self::assertEquals([], $result);
     }
 
     /**
@@ -1161,7 +1161,7 @@ class MainTest extends TestCase
 
         $it->fastForward(new \DateTimeImmutable('2011-04-05T000000', new \DateTimeZone('UTC')));
 
-        $this->assertEquals(new \DateTimeImmutable('2011-04-06'), $it->getDTStart());
+        self::assertEquals(new \DateTimeImmutable('2011-04-06'), $it->getDTStart());
     }
 
     /**
@@ -1212,7 +1212,7 @@ class MainTest extends TestCase
             }
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-01-01 13:50:20', $tz),
                 new \DateTimeImmutable('2013-01-01 13:50:20', $tz),
@@ -1270,7 +1270,7 @@ class MainTest extends TestCase
         }
 
         $tz = new \DateTimeZone('UTC');
-        $this->assertEquals([
+        self::assertEquals([
             new \DateTimeImmutable('2012-01-07 12:00:00', $tz),
             new \DateTimeImmutable('2012-01-08 12:00:00', $tz),
             new \DateTimeImmutable('2012-01-09 12:00:00', $tz),
@@ -1283,7 +1283,7 @@ class MainTest extends TestCase
             new \DateTimeImmutable('2012-01-16 12:00:00', $tz),
         ], $dates);
 
-        $this->assertEquals([
+        self::assertEquals([
             'baseEvent',
             'baseEvent',
             'baseEvent',
@@ -1332,13 +1332,13 @@ class MainTest extends TestCase
         }
 
         $tz = new \DateTimeZone('UTC');
-        $this->assertEquals([
+        self::assertEquals([
             new \DateTimeImmutable('2012-01-12 12:00:00', $tz),
             new \DateTimeImmutable('2012-01-13 12:00:00', $tz),
             new \DateTimeImmutable('2012-01-26 12:00:00', $tz),
         ], $dates);
 
-        $this->assertEquals([
+        self::assertEquals([
             'baseEvent',
             'Override!',
             'baseEvent',
@@ -1388,8 +1388,8 @@ class MainTest extends TestCase
             $it->next();
         }
 
-        $this->assertEquals([], $dates);
-        $this->assertEquals([], $summaries);
+        self::assertEquals([], $dates);
+        self::assertEquals([], $summaries);
     }
 
     /**
@@ -1428,7 +1428,7 @@ class MainTest extends TestCase
 
         $tz = new \DateTimeZone('UTC');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new \DateTimeImmutable('2011-10-07', $tz),
                 new \DateTimeImmutable('2014-08-07', $tz),

@@ -14,6 +14,6 @@ class Issue64Test extends TestCase
 
         $converted = Reader::read($vcard);
 
-        $this->assertInstanceOf(Component\VCard::class, $converted);
+        self::assertInstanceOf(Component\VCard::class, $converted);
     }
 }

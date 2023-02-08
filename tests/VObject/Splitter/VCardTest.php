@@ -31,7 +31,7 @@ EOT;
         while ($objects->getNext()) {
             ++$count;
         }
-        $this->assertEquals(1, $count);
+        self::assertEquals(1, $count);
     }
 
     public function testVCardImportWrongType(): void
@@ -96,7 +96,7 @@ EOT;
         while ($splitter->getNext()) {
             ++$count;
         }
-        $this->assertEquals(4, $count);
+        self::assertEquals(4, $count);
     }
 
     public function testVCardImportVCardNoComponent(): void
@@ -140,7 +140,7 @@ EOT;
         while ($splitter->getNext()) {
             ++$count;
         }
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function testVCardImportEndOfData(): void
@@ -155,7 +155,7 @@ EOT;
         $objects = new VCard($tempFile);
         $objects->getNext();
 
-        $this->assertNull($objects->getNext());
+        self::assertNull($objects->getNext());
     }
 
     public function testVCardImportCheckInvalidArgumentException(): void
@@ -190,7 +190,7 @@ EOT;
         while ($objects->getNext()) {
             ++$count;
         }
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function testImportMultipleSeparatedWithNewLines(): void
@@ -214,7 +214,7 @@ EOT;
         while ($objects->getNext()) {
             ++$count;
         }
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function testVCardImportVCardWithoutUID(): void
@@ -232,6 +232,6 @@ EOT;
             ++$count;
         }
 
-        $this->assertEquals(1, $count);
+        self::assertEquals(1, $count);
     }
 }

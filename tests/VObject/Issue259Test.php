@@ -17,7 +17,7 @@ class Issue259Test extends TestCase
         $event = reset($eventAsArray);
         $rruleAsArray = $event->select('RRULE');
         $rrule = reset($rruleAsArray);
-        $this->assertNotNull($rrule);
-        $this->assertEquals('FREQ=MONTHLY;UNTIL=20160101T220000Z', $rrule->getValue());
+        self::assertNotNull($rrule);
+        self::assertEquals('FREQ=MONTHLY;UNTIL=20160101T220000Z', $rrule->getValue());
     }
 }

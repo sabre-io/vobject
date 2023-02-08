@@ -43,7 +43,7 @@ EOT;
         while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->assertEquals([], VObject\Reader::read($return)->validate());
+        self::assertEquals([], VObject\Reader::read($return)->validate());
     }
 
     public function testICalendarImportWrongType(): void
@@ -80,7 +80,7 @@ EOT;
         while ($object = $objects->getNext()) {
             $return .= $object->serialize();
         }
-        $this->assertNull($objects->getNext());
+        self::assertNull($objects->getNext());
     }
 
     public function testICalendarImportInvalidEvent(): void
@@ -136,10 +136,10 @@ EOT;
 
             $return .= $object->serialize();
             $expected = str_replace("\n", "\r\n", $expected);
-            $this->assertEquals($expected, $object->serialize());
+            self::assertEquals($expected, $object->serialize());
             ++$i;
         }
-        $this->assertEquals([], VObject\Reader::read($return)->validate());
+        self::assertEquals([], VObject\Reader::read($return)->validate());
     }
 
     public function testICalendarImportEventWithoutUID(): void
@@ -174,7 +174,7 @@ EOT;
             );
             $this->fail('Validation errors: '.implode("\n", $messages));
         } else {
-            $this->assertEquals([], $messages);
+            self::assertEquals([], $messages);
         }
     }
 
@@ -269,12 +269,12 @@ END:VCALENDAR
 EOT;
             $expected = str_replace("\n", "\r\n", $expected);
 
-            $this->assertEquals($expected, $object->serialize());
+            self::assertEquals($expected, $object->serialize());
             $return .= $object->serialize();
             ++$i;
         }
 
-        $this->assertEquals([], VObject\Reader::read($return)->validate());
+        self::assertEquals([], VObject\Reader::read($return)->validate());
     }
 
     public function testICalendarImportWithOutVTIMEZONES(): void
@@ -315,6 +315,6 @@ EOT;
         }
 
         $messages = VObject\Reader::read($return)->validate();
-        $this->assertEquals([], $messages);
+        self::assertEquals([], $messages);
     }
 }

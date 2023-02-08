@@ -17,6 +17,6 @@ END:VCALENDAR\r
 
 ICS;
         $obj = Reader::read($event);
-        $this->assertEquals($event, $obj->serialize());
+        self::assertEquals($event, $obj->serialize());
     }
 }

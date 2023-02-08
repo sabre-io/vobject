@@ -14,7 +14,7 @@ class CalAddressTest extends TestCase
         $vobj = new \Sabre\VObject\Component\VCalendar();
         $property = $vobj->add('ATTENDEE', $input);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             $property->getNormalizedValue()
         );

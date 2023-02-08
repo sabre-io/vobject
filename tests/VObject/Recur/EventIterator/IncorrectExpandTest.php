@@ -34,7 +34,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf(VCalendar::class, $vcal);
+        self::assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(new \DateTime('2011-01-01'), new \DateTime('2014-01-01'));
 
@@ -56,6 +56,6 @@ END:VEVENT
 END:VCALENDAR
 
 ICS;
-        $this->assertVObjectEqualsVObject($output, $vcal);
+        self::assertVObjectEqualsVObject($output, $vcal);
     }
 }

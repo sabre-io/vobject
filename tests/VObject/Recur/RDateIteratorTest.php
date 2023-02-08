@@ -17,12 +17,12 @@ class RDateIteratorTest extends TestCase
             new \DateTimeImmutable('2014-10-01 00:00:00', $utc),
         ];
 
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             iterator_to_array($it)
         );
 
-        $this->assertFalse($it->isInfinite());
+        self::assertFalse($it->isInfinite());
     }
 
     public function testTimezone(): void
@@ -36,12 +36,12 @@ class RDateIteratorTest extends TestCase
             new \DateTimeImmutable('2014-10-01 00:00:00', $tz),
         ];
 
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             iterator_to_array($it)
         );
 
-        $this->assertFalse($it->isInfinite());
+        self::assertFalse($it->isInfinite());
     }
 
     public function testFastForward(): void
@@ -62,11 +62,11 @@ class RDateIteratorTest extends TestCase
             new \DateTimeImmutable('2014-10-01 00:00:00', $utc),
         ];
 
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             $result
         );
 
-        $this->assertFalse($it->isInfinite());
+        self::assertFalse($it->isInfinite());
     }
 }

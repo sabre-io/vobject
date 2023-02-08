@@ -144,6 +144,6 @@ class JCalTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $cal->jsonSerialize());
+        self::assertEquals($expected, $cal->jsonSerialize());
     }
 }

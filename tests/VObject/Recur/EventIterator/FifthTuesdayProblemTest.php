@@ -48,6 +48,6 @@ ICS;
         // If we got here, it means we were successful. The bug that was in the
         // system before would fail on the 5th tuesday of the month, if the 5th
         // tuesday did not exist.
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 }

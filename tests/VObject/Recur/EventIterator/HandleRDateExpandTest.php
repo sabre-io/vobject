@@ -34,13 +34,13 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf(VCalendar::class, $vcal);
+        self::assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(new \DateTime('2015-01-01'), new \DateTime('2015-12-01'));
 
         $result = iterator_to_array($vcal->VEVENT);
 
-        $this->assertCount(5, $result);
+        self::assertCount(5, $result);
 
         $utc = new \DateTimeZone('UTC');
         $expected = [
@@ -52,6 +52,6 @@ ICS;
         ];
 
         $result = array_map(function ($ev) {return $ev->DTSTART->getDateTime(); }, $result);
-        $this->assertEquals($expected, $result);
+        self::assertEquals($expected, $result);
     }
 }

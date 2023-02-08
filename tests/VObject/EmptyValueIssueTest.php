@@ -25,6 +25,6 @@ ICS;
         $vobj = Reader::read($input);
 
         // Before this bug was fixed, getValue() would return nothing.
-        $this->assertEquals("This is a description\nwith a linebreak and a ; , and :", $vobj->VEVENT->DESCRIPTION->getValue());
+        self::assertEquals("This is a description\nwith a linebreak and a ; , and :", $vobj->VEVENT->DESCRIPTION->getValue());
     }
 }

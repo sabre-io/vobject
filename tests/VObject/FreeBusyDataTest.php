@@ -10,7 +10,7 @@ class FreeBusyDataTest extends TestCase
     {
         $fb = new FreeBusyData(100, 200);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,
@@ -32,7 +32,7 @@ class FreeBusyDataTest extends TestCase
         // Overwriting the first half
         $fb->add(100, 150, 'BUSY');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,
@@ -51,7 +51,7 @@ class FreeBusyDataTest extends TestCase
         // Overwriting the first half again
         $fb->add(100, 150, 'BUSY-TENTATIVE');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,
@@ -78,7 +78,7 @@ class FreeBusyDataTest extends TestCase
         // Overwriting the first half
         $fb->add(150, 200, 'BUSY');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,
@@ -105,7 +105,7 @@ class FreeBusyDataTest extends TestCase
         // Overwriting the first half
         $fb->add(150, 160, 'BUSY');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,
@@ -137,7 +137,7 @@ class FreeBusyDataTest extends TestCase
         $fb->add(110, 120, 'BUSY');
         $fb->add(130, 140, 'BUSY');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,
@@ -179,7 +179,7 @@ class FreeBusyDataTest extends TestCase
         $fb->add(110, 120, 'BUSY');
         $fb->add(130, 140, 'BUSY');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,
@@ -212,7 +212,7 @@ class FreeBusyDataTest extends TestCase
 
         $fb->add(115, 135, 'BUSY-TENTATIVE');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,
@@ -254,7 +254,7 @@ class FreeBusyDataTest extends TestCase
         $fb->add(110, 120, 'BUSY');
         $fb->add(130, 140, 'BUSY');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,
@@ -287,7 +287,7 @@ class FreeBusyDataTest extends TestCase
 
         $fb->add(115, 135, 'BUSY');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'start' => 100,

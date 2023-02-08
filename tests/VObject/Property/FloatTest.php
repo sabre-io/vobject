@@ -14,14 +14,14 @@ class FloatTest extends TestCase
 
         $result = $mimeDir->parse($input);
 
-        $this->assertInstanceOf(FloatValue::class, $result->{'X-FLOAT'});
+        self::assertInstanceOf(FloatValue::class, $result->{'X-FLOAT'});
 
-        $this->assertEquals([
+        self::assertEquals([
             0.234,
             1.245,
         ], $result->{'X-FLOAT'}->getParts());
 
-        $this->assertEquals(
+        self::assertEquals(
             $input,
             $result->serialize()
         );

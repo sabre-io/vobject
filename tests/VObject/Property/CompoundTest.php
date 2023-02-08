@@ -19,10 +19,10 @@ class CompoundTest extends TestCase
         $elem = $vcard->createProperty('ORG');
         $elem->setParts($arr);
 
-        $this->assertEquals('ABC\, Inc.;North American Division;Marketing\;Sales', $elem->getValue());
-        $this->assertCount(3, $elem->getParts());
+        self::assertEquals('ABC\, Inc.;North American Division;Marketing\;Sales', $elem->getValue());
+        self::assertCount(3, $elem->getParts());
         $parts = $elem->getParts();
-        $this->assertEquals('Marketing;Sales', $parts[2]);
+        self::assertEquals('Marketing;Sales', $parts[2]);
     }
 
     public function testGetParts(): void
@@ -33,9 +33,9 @@ class CompoundTest extends TestCase
         $elem = $vcard->createProperty('ORG');
         $elem->setRawMimeDirValue($str);
 
-        $this->assertCount(3, $elem->getParts());
+        self::assertCount(3, $elem->getParts());
         $parts = $elem->getParts();
-        $this->assertEquals('Marketing;Sales', $parts[2]);
+        self::assertEquals('Marketing;Sales', $parts[2]);
     }
 
     public function testGetPartsNull(): void
@@ -43,6 +43,6 @@ class CompoundTest extends TestCase
         $vcard = new VCard();
         $elem = $vcard->createProperty('ORG', null);
 
-        $this->assertCount(0, $elem->getParts());
+        self::assertCount(0, $elem->getParts());
     }
 }

@@ -15,10 +15,10 @@ class BooleanTest extends TestCase
         $input = "BEGIN:VCARD\r\nX-AWESOME;VALUE=BOOLEAN:TRUE\r\nX-SUCKS;VALUE=BOOLEAN:FALSE\r\nEND:VCARD\r\n";
 
         $vcard = VObject\Reader::read($input);
-        $this->assertTrue($vcard->{'X-AWESOME'}->getValue());
-        $this->assertFalse($vcard->{'X-SUCKS'}->getValue());
+        self::assertTrue($vcard->{'X-AWESOME'}->getValue());
+        self::assertFalse($vcard->{'X-SUCKS'}->getValue());
 
-        $this->assertEquals('BOOLEAN', $vcard->{'X-AWESOME'}->getValueType());
-        $this->assertEquals($input, $vcard->serialize());
+        self::assertEquals('BOOLEAN', $vcard->{'X-AWESOME'}->getValueType());
+        self::assertEquals($input, $vcard->serialize());
     }
 }

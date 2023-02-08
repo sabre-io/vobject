@@ -12,7 +12,7 @@ class DurationTest extends TestCase
         $vcal = new VCalendar();
         $event = $vcal->add('VEVENT', ['DURATION' => ['PT1H']]);
 
-        $this->assertEquals(
+        self::assertEquals(
             new \DateInterval('PT1H'),
             $event->{'DURATION'}->getDateInterval()
         );

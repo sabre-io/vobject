@@ -32,7 +32,7 @@ END:VCALENDAR
 ICS;
 
         $vcal = Reader::read($input);
-        $this->assertInstanceOf(VCalendar::class, $vcal);
+        self::assertInstanceOf(VCalendar::class, $vcal);
 
         new EventIterator($vcal, 'foo');
     }

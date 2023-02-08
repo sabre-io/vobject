@@ -8,16 +8,16 @@ class UUIDUtilTest extends TestCase
 {
     public function testValidateUUID(): void
     {
-        $this->assertTrue(
+        self::assertTrue(
             UUIDUtil::validateUUID('11111111-2222-3333-4444-555555555555')
         );
-        $this->assertFalse(
+        self::assertFalse(
             UUIDUtil::validateUUID(' 11111111-2222-3333-4444-555555555555')
         );
-        $this->assertTrue(
+        self::assertTrue(
             UUIDUtil::validateUUID('ffffffff-2222-3333-4444-555555555555')
         );
-        $this->assertFalse(
+        self::assertFalse(
             UUIDUtil::validateUUID('fffffffg-2222-3333-4444-555555555555')
         );
     }
@@ -27,7 +27,7 @@ class UUIDUtilTest extends TestCase
      */
     public function testGetUUID(): void
     {
-        $this->assertTrue(
+        self::assertTrue(
             UUIDUtil::validateUUID(
                 UUIDUtil::getUUID()
             )
