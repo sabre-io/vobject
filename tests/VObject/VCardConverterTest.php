@@ -37,9 +37,9 @@ FN:Steve
 TEL;PREF=1;TYPE=HOME:+1 555 666 777
 ITEM1.TEL:+1 444 555 666
 ITEM1.X-ABLABEL:CustomLabel
-PHOTO;TYPE=HOME:data:image/jpeg;base64,Zm9v
-PHOTO:data:image/gif;base64,Zm9v
-PHOTO;X-PARAM=FOO:data:image/png;base64,Zm9v
+PHOTO;TYPE=HOME:data:image/jpeg;base64\\,Zm9v
+PHOTO:data:image/gif;base64\\,Zm9v
+PHOTO;X-PARAM=FOO:data:image/png;base64\\,Zm9v
 PHOTO:http://example.org/foo.png
 KIND:ORG
 END:VCARD
@@ -65,9 +65,9 @@ BEGIN:VCARD
 VERSION:4.0
 FN:Steve
 TEL;PREF=1;TYPE=HOME:+1 555 666 777
-PHOTO:data:image/jpeg;base64,Zm9v
-PHOTO:data:image/gif;base64,Zm9v
-PHOTO;X-PARAM=FOO:data:image/png;base64,Zm9v
+PHOTO:data:image/jpeg;base64\\,Zm9v
+PHOTO:data:image/gif;base64\\,Zm9v
+PHOTO;X-PARAM=FOO:data:image/png;base64\\,Zm9v
 PHOTO:http://example.org/foo.png
 END:VCARD
 
@@ -78,9 +78,9 @@ BEGIN:VCARD
 VERSION:4.0
 FN:Steve
 TEL;PREF=1;TYPE=HOME:+1 555 666 777
-PHOTO:data:image/jpeg;base64,Zm9v
-PHOTO:data:image/gif;base64,Zm9v
-PHOTO;X-PARAM=FOO:data:image/png;base64,Zm9v
+PHOTO:data:image/jpeg;base64\\,Zm9v
+PHOTO:data:image/gif;base64\\,Zm9v
+PHOTO;X-PARAM=FOO:data:image/png;base64\\,Zm9v
 PHOTO:http://example.org/foo.png
 END:VCARD
 
@@ -192,9 +192,9 @@ VERSION:4.0
 PRODID:foo
 FN:Steve
 TEL;PREF=1;TYPE=HOME:+1 555 666 777
-PHOTO:data:image/jpeg;base64,Zm9v
-PHOTO:data:image/gif,foo
-PHOTO;X-PARAM=FOO:data:image/png;base64,Zm9v
+PHOTO:data:image/JPEG\\;base64\\,Zm9v
+PHOTO:data:image/gif\\,foo
+PHOTO;X-PARAM=FOO:data:image/png;base64\\,Zm9v
 PHOTO:http://example.org/foo.png
 KIND:ORG
 END:VCARD
@@ -408,7 +408,14 @@ OUT;
             $vcard
         );
 
-        $input = $output;
+        $input = <<<IN
+BEGIN:VCARD
+VERSION:3.0
+X-ADDRESSBOOKSERVER-KIND:INDIVIDUAL
+END:VCARD
+
+IN;
+
         $output = <<<OUT
 BEGIN:VCARD
 VERSION:4.0

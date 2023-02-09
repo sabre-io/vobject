@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Property;
 
 use Sabre\VObject\Parameter;
+use Sabre\VObject\Parser\MimeDir;
 use Sabre\VObject\Property;
 
 /**
@@ -62,32 +63,41 @@ class Uri extends Text
      */
     public function setRawMimeDirValue(string $val): void
     {
-        // Normally we don't need to do any type of unescaping for these
-        // properties, however, we've noticed that Google Contacts
+        // For VCard4, we need to unescape comma, backslash and semicolon (and newline). (RFC6350, 3.4)
+        //
+        // However, we've noticed that Google Contacts
         // specifically escapes the colon (:) with a backslash. While I have
         // no clue why they thought that was a good idea, I'm unescaping it
         // anyway.
         //
         // Good thing backslashes are not allowed in urls. Makes it easy to
         // assume that a backslash is always intended as an escape character.
-        if ('URL' === $this->name) {
-            $regex = '#  (?: (\\\\ (?: \\\\ | : ) ) ) #x';
-            $matches = preg_split($regex, $val, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-            $newVal = '';
-            foreach ($matches as $match) {
-                switch ($match) {
-                    case '\:':
-                        $newVal .= ':';
-                        break;
-                    default:
-                        $newVal .= $match;
-                        break;
-                }
+        $escapeColon = ('URL' === $this->name) ? '| : ' : '';
+
+        $regex = '#  (?: (\\\\ (?: \\\\ ' . $escapeColon . '| N | n | ; | , ) ) ) #x';
+        $matches = preg_split($regex, $val, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $newVal = '';
+        foreach ($matches as $match) {
+            switch ($match) {
+                case '\\\\':
+                    $newVal .= '\\';
+                    break;
+                case '\;':
+                    $newVal .= ';';
+                    break;
+                case '\,':
+                    $newVal .= ',';
+                    break;
+                case '\:':
+                    $newVal .= ':';
+                    break;
+                default:
+                    $newVal .= $match;
+                    break;
             }
-            $this->value = $newVal;
-        } else {
-            $this->value = strtr($val, ['\,' => ',']);
         }
+
+        $this->value = $newVal;
     }
 
     /**

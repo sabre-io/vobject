@@ -179,6 +179,10 @@ class VCardConverter
                     if ('GROUP' === strtoupper($property->getValue())) {
                         $newProperty = $output->createProperty('KIND', 'GROUP');
                     }
+                    if ('INDIVIDUAL' === strtoupper($property->getValue())) {
+                        // Individual is implicit, so we skip it.
+                        return;
+                    }
                     break;
                 case 'X-ADDRESSBOOKSERVER-MEMBER':
                     $newProperty = $output->createProperty('MEMBER', $property->getValue());
@@ -335,7 +339,7 @@ class VCardConverter
         unset($value);
 
         $newProperty['ENCODING'] = 'b';
-        switch ($mimeType) {
+        switch (strtolower($mimeType)) {
             case 'image/jpeg':
                 $newProperty['TYPE'] = 'JPEG';
                 break;
