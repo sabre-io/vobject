@@ -569,6 +569,9 @@ class Component extends Node
                     if (!isset($propertyCounters[$propName]) || 1 !== $propertyCounters[$propName]) {
                         $repaired = false;
                         if ($options & self::REPAIR && isset($defaults[$propName])) {
+                            if (isset($propertyCounters[$propName]) && 1 < $propertyCounters[$propName]) {
+                                $this->remove($propName);
+                            }
                             $this->add($propName, $defaults[$propName]);
                             $repaired = true;
                         }

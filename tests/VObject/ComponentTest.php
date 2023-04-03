@@ -482,6 +482,22 @@ class ComponentTest extends TestCase
         self::assertEquals('yow', $component->BAR->getValue());
     }
 
+    public function testValidateRepairShouldNotDeduplicatePropertiesWhenPropertiesMustAppearExactlyOnce(): void
+    {
+        $vcard = new Component\VCard();
+
+        $component = new FakeComponent($vcard, 'Hi', []);
+        $component->add('BAZ', 'BAZ');
+        $component->add('BAR', 'BAR');
+        $component->add('BAR', 'BAR');
+
+        $messages = $component->validate(Component::REPAIR);
+
+        self::assertCount(1, $messages);
+        self::assertCount(1, $component->BAR);
+        self::assertEquals('yow', $component->BAR->getValue());
+    }
+
     public function testValidateRepairShouldNotDeduplicatePropertiesWhenValuesDiffer(): void
     {
         $vcard = new Component\VCard();
