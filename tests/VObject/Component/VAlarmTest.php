@@ -123,6 +123,19 @@ class VAlarmTest extends TestCase
         $tests[] = [$valarm7, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), true];
         $tests[] = [$valarm7, new \DateTime('2012-03-25 01:00:00'), new \DateTime('2012-04-05 01:00:00'), false];
 
+        // Relation to start time of todo
+        $valarm8 = $calendar->createComponent('VALARM');
+        $valarm8->TRIGGER = '-P1D';
+        $valarm8->TRIGGER['VALUE'] = 'DURATION';
+
+        $vtodo8 = $calendar->createComponent('VTODO');
+        $vtodo8->DTSTART = '20120301T130000Z';
+        $vtodo8->DUE = '20120401T130000Z';
+        $vtodo8->add($valarm8);
+
+        $tests[] = [$valarm8, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), true];
+        $tests[] = [$valarm8, new \DateTime('2012-03-25 01:00:00'), new \DateTime('2012-04-05 01:00:00'), false];
+
         return $tests;
     }
 
@@ -151,7 +164,7 @@ BEGIN:VTODO
 DTSTAMP:20121003T064931Z
 UID:b848cb9a7bb16e464a06c222ca1f8102@examle.com
 STATUS:NEEDS-ACTION
-DUE:20121005T000000Z
+DTSTART:20121005T000000Z
 SUMMARY:Task 1
 CATEGORIES:AlarmCategory
 BEGIN:VALARM
