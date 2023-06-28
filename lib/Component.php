@@ -450,8 +450,6 @@ class Component extends Node
      *
      * If the item already exists, it will be removed. If you want to add
      * a new item with the same name, always use the add() method.
-     *
-     * @param mixed $value
      */
     public function __set(string $name, $value): void
     {

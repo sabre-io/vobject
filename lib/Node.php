@@ -178,8 +178,6 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
-     *
-     * @return mixed
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
@@ -194,8 +192,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      *
      * This method just forwards the request to the inner iterator
      *
-     * @param int   $offset
-     * @param mixed $value
+     * @param int $offset
      */
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
@@ -204,7 +201,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
         $iterator->offsetSet($offset, $value);
 
         // @codeCoverageIgnoreStart
-    //
+        //
         // This method always throws an exception, so we ignore the closing
         // brace
     }
@@ -225,7 +222,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
         $iterator->offsetUnset($offset);
 
         // @codeCoverageIgnoreStart
-    //
+        //
         // This method always throws an exception, so we ignore the closing
         // brace
     }

@@ -3,7 +3,6 @@
 namespace Sabre\VObject\Property;
 
 use Sabre\VObject\Parameter;
-use Sabre\VObject\Property;
 
 /**
  * URI property.

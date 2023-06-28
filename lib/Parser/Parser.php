@@ -40,8 +40,7 @@ abstract class Parser
      *
      * Optionally, it's possible to parse the input stream here.
      *
-     * @param mixed $input
-     * @param int   $options any parser options (OPTION constants)
+     * @param int $options any parser options (OPTION constants)
      */
     public function __construct($input = null, int $options = 0)
     {

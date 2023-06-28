@@ -283,7 +283,7 @@ VCF;
         );
     }
 
-    public function assertValidate($vcf, $options, int $expectedLevel, ?string $expectedMessage = null): void
+    public function assertValidate($vcf, $options, int $expectedLevel, string $expectedMessage = null): void
     {
         $vcal = VObject\Reader::read($vcf);
         $result = $vcal->validate($options);
@@ -291,7 +291,7 @@ VCF;
         self::assertValidateResult($result, $expectedLevel, $expectedMessage);
     }
 
-    public function assertValidateResult($input, int $expectedLevel, ?string $expectedMessage = null): void
+    public function assertValidateResult($input, int $expectedLevel, string $expectedMessage = null): void
     {
         $messages = [];
         foreach ($input as $warning) {

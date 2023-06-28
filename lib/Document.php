@@ -116,8 +116,6 @@ abstract class Document extends Component
      *
      * If it's a known component, we will automatically call createComponent.
      * otherwise, we'll assume it's a property and call createProperty instead.
-     *
-     * @return mixed
      */
     public function create(string $name)
     {
@@ -142,7 +140,7 @@ abstract class Document extends Component
      * an iCalendar object, this may be something like CALSCALE:GREGORIAN. To
      * ensure that this does not happen, set $defaults to false.
      */
-    public function createComponent(string $name, ?array $children = null, bool $defaults = true): Component
+    public function createComponent(string $name, array $children = null, bool $defaults = true): Component
     {
         $name = strtoupper($name);
         $class = Component::class;
@@ -167,12 +165,11 @@ abstract class Document extends Component
      * parameters will automatically be created, or you can just pass a list of
      * Parameter objects.
      *
-     * @param mixed       $value
      * @param string|null $valueType Force a specific valueType, such as URI or TEXT
      *
      * @throws InvalidDataException
      */
-    public function createProperty(string $name, $value = null, ?array $parameters = null, ?string $valueType = null): Property
+    public function createProperty(string $name, $value = null, array $parameters = null, string $valueType = null): Property
     {
         // If there's a . in the name, it means it's prefixed by a group name.
         if (false !== ($i = strpos($name, '.'))) {

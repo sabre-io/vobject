@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Recur;
 
-use Iterator;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
@@ -90,7 +89,7 @@ class EventIterator implements \Iterator
      * @throws NoInstancesException
      * @throws InvalidDataException
      */
-    public function __construct($input, ?string $uid = null, \DateTimeZone $timeZone = null)
+    public function __construct($input, string $uid = null, \DateTimeZone $timeZone = null)
     {
         if (is_null($timeZone)) {
             $timeZone = new \DateTimeZone('UTC');

@@ -19,8 +19,7 @@ class ElementList extends \ArrayIterator
     /**
      * Sets an item through ArrayAccess.
      *
-     * @param int   $offset
-     * @param mixed $value
+     * @param int $offset
      */
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void

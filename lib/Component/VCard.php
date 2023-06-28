@@ -272,17 +272,17 @@ class VCard extends VObject\Document
                     }
                     $repaired = true;
 
-                // Otherwise, the ORG property may work
+                    // Otherwise, the ORG property may work
                 } elseif (isset($this->ORG)) {
                     $this->FN = (string) $this->ORG;
                     $repaired = true;
 
-                // Otherwise, the NICKNAME property may work
+                    // Otherwise, the NICKNAME property may work
                 } elseif (isset($this->NICKNAME)) {
                     $this->FN = (string) $this->NICKNAME;
                     $repaired = true;
 
-                // Otherwise, the EMAIL property may work
+                    // Otherwise, the EMAIL property may work
                 } elseif (isset($this->EMAIL)) {
                     $this->FN = (string) $this->EMAIL;
                     $repaired = true;

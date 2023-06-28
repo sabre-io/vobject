@@ -267,7 +267,7 @@ class MimeDir extends Parser
      *
      * @return string
      *
-     *@throws EofException|ParseException
+     * @throws EofException|ParseException
      */
     protected function readLine(): ?string
     {

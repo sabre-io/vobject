@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject\Recur;
 
-use Exception;
-
 /**
  * This exception gets thrown when a recurrence iterator produces 0 instances.
  *
