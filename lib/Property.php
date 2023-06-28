@@ -42,8 +42,6 @@ abstract class Property extends Node
 
     /**
      * Current value.
-     *
-     * @var mixed
      */
     protected $value;
 
@@ -63,7 +61,7 @@ abstract class Property extends Node
      * @param array             $parameters List of parameters
      * @param string|null       $group      The vcard property group
      */
-    public function __construct(Component $root, ?string $name, $value = null, array $parameters = [], ?string $group = null)
+    public function __construct(Component $root, ?string $name, $value = null, array $parameters = [], string $group = null)
     {
         $this->name = $name;
         $this->group = $group;
@@ -360,8 +358,6 @@ abstract class Property extends Node
 
     /**
      * Checks if an array element exists.
-     *
-     * @param mixed $offset
      */
     #[\ReturnTypeWillChange]
     public function offsetExists($offset): bool
@@ -407,7 +403,6 @@ abstract class Property extends Node
      * Creates a new parameter.
      *
      * @param string|int $offset
-     * @param mixed      $value
      */
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void

@@ -108,10 +108,10 @@ class DateTime extends Property
     public function isFloating(): bool
     {
         return
-            !$this->hasTime() ||
-            (
-                !isset($this['TZID']) &&
-                false === strpos($this->getValue(), 'Z')
+            !$this->hasTime()
+            || (
+                !isset($this['TZID'])
+                && false === strpos($this->getValue(), 'Z')
             );
     }
 
@@ -128,7 +128,7 @@ class DateTime extends Property
      *
      * @throws InvalidDataException
      */
-    public function getDateTime(?\DateTimeZone $timeZone = null): ?\DateTimeImmutable
+    public function getDateTime(\DateTimeZone $timeZone = null): ?\DateTimeImmutable
     {
         $dt = $this->getDateTimes($timeZone);
         if (!$dt) {
@@ -149,7 +149,7 @@ class DateTime extends Property
      *
      * @throws InvalidDataException
      */
-    public function getDateTimes(?\DateTimeZone $timeZone = null): array
+    public function getDateTimes(\DateTimeZone $timeZone = null): array
     {
         // Does the property have a TZID?
         /** @var Property\FlatText $tzid */
@@ -299,7 +299,6 @@ class DateTime extends Property
      * VALUE from DATE-TIME to DATE or vice-versa.
      *
      * @param string|int $offset
-     * @param mixed      $value
      *
      * @throws InvalidDataException
      */

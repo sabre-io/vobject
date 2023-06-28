@@ -71,10 +71,8 @@ class FreeBusyGenerator
      *
      * Check the setTimeRange and setObjects methods for details about the
      * arguments.
-     *
-     * @param mixed $objects
      */
-    public function __construct(?\DateTimeInterface $start = null, ?\DateTimeInterface $end = null, $objects = null, ?\DateTimeZone $timeZone = null)
+    public function __construct(\DateTimeInterface $start = null, \DateTimeInterface $end = null, $objects = null, \DateTimeZone $timeZone = null)
     {
         $this->setTimeRange($start, $end);
 
@@ -114,8 +112,6 @@ class FreeBusyGenerator
      * You must either specify a vcalendar object as a string, or as the parse
      * Component.
      * It's also possible to specify multiple objects as an array.
-     *
-     * @param mixed $objects
      */
     public function setObjects($objects): void
     {
@@ -142,7 +138,7 @@ class FreeBusyGenerator
      *
      * @throws \Exception
      */
-    public function setTimeRange(?\DateTimeInterface $start = null, ?\DateTimeInterface $end = null): void
+    public function setTimeRange(\DateTimeInterface $start = null, \DateTimeInterface $end = null): void
     {
         if (!$start) {
             $start = new \DateTimeImmutable(Settings::$minDate);
@@ -243,8 +239,8 @@ class FreeBusyGenerator
             foreach ($new as $higherVavail) {
                 list($higherStart, $higherEnd) = $higherVavail->getEffectiveStartEnd();
                 if (
-                    (is_null($higherStart) || $higherStart < $compStart) &&
-                    (is_null($higherEnd) || $higherEnd > $compEnd)
+                    (is_null($higherStart) || $higherStart < $compStart)
+                    && (is_null($higherEnd) || $higherEnd > $compEnd)
                 ) {
                     // Component is fully covered by a higher priority
                     // component. We can skip this component.

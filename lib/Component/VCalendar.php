@@ -166,7 +166,7 @@ class VCalendar extends VObject\Document
      *
      * @return VObject\Component[]
      */
-    public function getBaseComponents(?string $componentName = null): array
+    public function getBaseComponents(string $componentName = null): array
     {
         $isBaseComponent = function ($component): bool {
             if (!$component instanceof VObject\Component) {
@@ -217,7 +217,7 @@ class VCalendar extends VObject\Document
      *
      * @return VObject\Component|null
      */
-    public function getBaseComponent(?string $componentName = null): ?Component
+    public function getBaseComponent(string $componentName = null): ?Component
     {
         $isBaseComponent = function ($component): bool {
             if (!$component instanceof VObject\Component) {
@@ -275,7 +275,7 @@ class VCalendar extends VObject\Document
      * @throws InvalidDataException
      * @throws VObject\Recur\MaxInstancesExceededException
      */
-    public function expand(\DateTimeInterface $start, \DateTimeInterface $end, ?\DateTimeZone $timeZone = null): VCalendar
+    public function expand(\DateTimeInterface $start, \DateTimeInterface $end, \DateTimeZone $timeZone = null): VCalendar
     {
         $newChildren = [];
         $recurringEvents = [];

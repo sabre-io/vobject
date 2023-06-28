@@ -268,7 +268,7 @@ class Broker
      * This is message from an organizer, and is either a new event
      * invite, or an update to an existing one.
      */
-    protected function processMessageRequest(Message $itipMessage, ?VCalendar $existingObject = null): ?VCalendar
+    protected function processMessageRequest(Message $itipMessage, VCalendar $existingObject = null): ?VCalendar
     {
         if (!$existingObject) {
             // This is a new invite, and we're just going to copy over
@@ -296,7 +296,7 @@ class Broker
      * attendee got removed from an event, or an event got cancelled
      * altogether.
      */
-    protected function processMessageCancel(Message $itipMessage, ?VCalendar $existingObject = null): ?VCalendar
+    protected function processMessageCancel(Message $itipMessage, VCalendar $existingObject = null): ?VCalendar
     {
         if (!$existingObject) {
             // The event didn't exist in the first place, so we're just
@@ -321,7 +321,7 @@ class Broker
      * @throws MaxInstancesExceededException
      * @throws NoInstancesException
      */
-    protected function processMessageReply(Message $itipMessage, ?VCalendar $existingObject = null): ?VCalendar
+    protected function processMessageReply(Message $itipMessage, VCalendar $existingObject = null): ?VCalendar
     {
         // A reply can only be processed based on an existing object.
         // If the object is not available, the reply is ignored.
@@ -545,10 +545,10 @@ class Broker
                 $newAttendeeInstances = array_keys($attendee['newInstances']);
 
                 $message->significantChange =
-                    'REQUEST' === $attendee['forceSend'] ||
-                    count($oldAttendeeInstances) != count($newAttendeeInstances) ||
-                    count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0 ||
-                    $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
+                    'REQUEST' === $attendee['forceSend']
+                    || count($oldAttendeeInstances) != count($newAttendeeInstances)
+                    || count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0
+                    || $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
 
                 foreach ($attendee['newInstances'] as $instanceId => $instanceInfo) {
                     $currentEvent = clone $eventInfo['instances'][$instanceId];
@@ -886,9 +886,9 @@ class Broker
             }
             if (isset($vevent->ATTENDEE)) {
                 foreach ($vevent->ATTENDEE as $attendee) {
-                    if ($this->scheduleAgentServerRules &&
-                        isset($attendee['SCHEDULE-AGENT']) &&
-                        'CLIENT' === strtoupper($attendee['SCHEDULE-AGENT']->getValue())
+                    if ($this->scheduleAgentServerRules
+                        && isset($attendee['SCHEDULE-AGENT'])
+                        && 'CLIENT' === strtoupper($attendee['SCHEDULE-AGENT']->getValue())
                     ) {
                         continue;
                     }

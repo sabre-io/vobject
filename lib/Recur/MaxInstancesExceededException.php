@@ -2,8 +2,6 @@
 
 namespace Sabre\VObject\Recur;
 
-use Exception;
-
 /**
  * This exception will get thrown when a recurrence rule generated more than
  * the maximum number of instances.

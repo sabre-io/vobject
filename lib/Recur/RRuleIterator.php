@@ -2,7 +2,6 @@
 
 namespace Sabre\VObject\Recur;
 
-use DateTime;
 use DateTimeImmutable;
 use Iterator;
 use Sabre\VObject\DateTimeParser;
@@ -338,9 +337,9 @@ class RRuleIterator implements \Iterator
                 return;
             }
         } while (
-            ($this->byDay && !in_array($currentDay, $recurrenceDays)) ||
-            ($this->byHour && !in_array($currentHour, $recurrenceHours)) ||
-            ($this->byMonth && !in_array($currentMonth, $recurrenceMonths))
+            ($this->byDay && !in_array($currentDay, $recurrenceDays))
+            || ($this->byHour && !in_array($currentHour, $recurrenceHours))
+            || ($this->byMonth && !in_array($currentMonth, $recurrenceMonths))
         );
     }
 
@@ -873,8 +872,8 @@ class RRuleIterator implements \Iterator
         if ($this->byMonthDay) {
             foreach ($this->byMonthDay as $monthDay) {
                 // Removing values that are out of range for this month
-                if ($monthDay > $startDate->format('t') ||
-                    $monthDay < 0 - $startDate->format('t')) {
+                if ($monthDay > $startDate->format('t')
+                    || $monthDay < 0 - $startDate->format('t')) {
                     continue;
                 }
                 if ($monthDay > 0) {
