@@ -409,6 +409,7 @@ abstract class Property extends Node
     {
         if (is_int($offset)) {
             parent::offsetSet($offset, $value);
+
             // @codeCoverageIgnoreStart
             // This will never be reached, because an exception is always
             // thrown.
@@ -430,6 +431,7 @@ abstract class Property extends Node
     {
         if (is_int($offset)) {
             parent::offsetUnset($offset);
+
             // @codeCoverageIgnoreStart
             // This will never be reached, because an exception is always
             // thrown.
