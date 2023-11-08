@@ -64,7 +64,7 @@ abstract class BrokerTester extends TestCase
      * @throws NoInstancesException
      * @throws InvalidDataException
      */
-    public function process(string $input, ?string $old = null, ?string $expected = null): void
+    public function process(string $input, string $old = null, string $expected = null): void
     {
         $version = Version::VERSION;
 

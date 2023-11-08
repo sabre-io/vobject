@@ -311,7 +311,7 @@ VCF;
         );
     }
 
-    public static function assertValidate(string $vcf, int $options, int $expectedLevel, ?string $expectedMessage = null): void
+    public static function assertValidate(string $vcf, int $options, int $expectedLevel, string $expectedMessage = null): void
     {
         $vcal = VObject\Reader::read($vcf);
         $result = $vcal->validate($options);
@@ -322,7 +322,7 @@ VCF;
     /**
      * @param array<int, array<string, mixed>> $input
      */
-    public static function assertValidateResult(array $input, int $expectedLevel, ?string $expectedMessage = null): void
+    public static function assertValidateResult(array $input, int $expectedLevel, string $expectedMessage = null): void
     {
         $messages = [];
         foreach ($input as $warning) {

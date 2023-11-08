@@ -19,7 +19,7 @@ class TestHelper
      * @throws InvalidDataException
      * @throws \Exception
      */
-    public static function createDateCreated(VCalendar $vcal, string $dateTime, ?string $timezone = null): DateTime
+    public static function createDateCreated(VCalendar $vcal, string $dateTime, string $timezone = null): DateTime
     {
         return self::createDt($vcal, 'CREATED', $dateTime, $timezone);
     }
@@ -32,7 +32,7 @@ class TestHelper
      * @throws InvalidDataException
      * @throws \Exception
      */
-    public static function createDateCompleted(VCalendar $vcal, string $dateTime, ?string $timezone = null): DateTime
+    public static function createDateCompleted(VCalendar $vcal, string $dateTime, string $timezone = null): DateTime
     {
         return self::createDt($vcal, 'COMPLETED', $dateTime, $timezone);
     }
@@ -45,7 +45,7 @@ class TestHelper
      * @throws InvalidDataException
      * @throws \Exception
      */
-    public static function createDateDue(VCalendar $vcal, string $dateTime, ?string $timezone = null): DateTime
+    public static function createDateDue(VCalendar $vcal, string $dateTime, string $timezone = null): DateTime
     {
         return self::createDt($vcal, 'DUE', $dateTime, $timezone);
     }
@@ -58,7 +58,7 @@ class TestHelper
      * @throws InvalidDataException
      * @throws \Exception
      */
-    public static function createDtStart(VCalendar $vcal, string $dateTime, ?string $timezone = null): DateTime
+    public static function createDtStart(VCalendar $vcal, string $dateTime, string $timezone = null): DateTime
     {
         return self::createDt($vcal, 'DTSTART', $dateTime, $timezone);
     }
@@ -71,7 +71,7 @@ class TestHelper
      * @throws InvalidDataException
      * @throws \Exception
      */
-    public static function createDtEnd(VCalendar $vcal, string $dateTime, ?string $timezone = null): DateTime
+    public static function createDtEnd(VCalendar $vcal, string $dateTime, string $timezone = null): DateTime
     {
         return self::createDt($vcal, 'DTEND', $dateTime, $timezone);
     }
@@ -84,7 +84,7 @@ class TestHelper
      * @throws InvalidDataException
      * @throws \Exception
      */
-    public static function createDt(VCalendar $vcal, string $propertyName, string $dateTime, ?string $timezone = null): DateTime
+    public static function createDt(VCalendar $vcal, string $propertyName, string $dateTime, string $timezone = null): DateTime
     {
         /** @var DateTime<mixed, mixed> $property */
         $property = $vcal->createProperty($propertyName);
