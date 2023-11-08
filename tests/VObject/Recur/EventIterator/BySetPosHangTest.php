@@ -4,6 +4,7 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Reader;
 
 class BySetPosHangTest extends TestCase
@@ -37,7 +38,10 @@ ICS;
         $vcal = $vcal->expand(new \DateTime('2015-01-01'), new \DateTime('2016-01-01'));
 
         $dates = [];
-        foreach ($vcal->VEVENT as $event) {
+        /** @var array<int, VEvent> $events */
+        $events = iterator_to_array($vcal->VEVENT);
+
+        foreach ($events as $event) {
             $dates[] = $event->DTSTART->getValue();
         }
 
