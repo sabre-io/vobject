@@ -41,7 +41,7 @@ trait PHPUnitAssertions
                 $input = Reader::read($input);
             }
             if (!$input instanceof Component) {
-                $this->fail('Input must be a string, stream or VObject component');
+                self::fail('Input must be a string, stream or VObject component');
             }
             unset($input->PRODID);
             if ($input instanceof Component\VCalendar && 'GREGORIAN' === (string) $input->CALSCALE) {
