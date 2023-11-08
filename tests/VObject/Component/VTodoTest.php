@@ -4,10 +4,13 @@ namespace Sabre\VObject\Component;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Reader;
+use Sabre\VObject\TestHelper;
 
 class VTodoTest extends TestCase
 {
     /**
+     * @param VTodo<int, mixed> $vtodo
+     *
      * @dataProvider timeRangeTestData
      */
     public function testInTimeRange(VTodo $vtodo, \DateTime $start, \DateTime $end, bool $outcome): void
@@ -15,45 +18,63 @@ class VTodoTest extends TestCase
         self::assertEquals($outcome, $vtodo->isInTimeRange($start, $end));
     }
 
+    /**
+     * @return array<int, array<int, mixed>>
+     */
     public function timeRangeTestData(): array
     {
         $tests = [];
 
         $calendar = new VCalendar();
 
+        /**
+         * @var VTodo<int, mixed> $vtodo
+         */
         $vtodo = $calendar->createComponent('VTODO');
-        $vtodo->DTSTART = '20111223T120000Z';
+        $vtodo->DTSTART = TestHelper::createDtStart($calendar, '20111223T120000Z');
         $tests[] = [$vtodo, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vtodo, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 
         $vtodo2 = clone $vtodo;
-        $vtodo2->DURATION = 'P1D';
+        $vtodo2->DURATION = TestHelper::createDuration($calendar, 'P1D');
         $tests[] = [$vtodo2, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vtodo2, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 
         $vtodo3 = clone $vtodo;
-        $vtodo3->DUE = '20111225';
+        $vtodo3->DUE = TestHelper::createDateCreated($calendar, '20111225');
         $tests[] = [$vtodo3, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vtodo3, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 
+        /**
+         * @var VTodo<int, mixed> $vtodo4
+         */
         $vtodo4 = $calendar->createComponent('VTODO');
-        $vtodo4->DUE = '20111225';
+        $vtodo4->DUE = TestHelper::createDateCreated($calendar, '20111225');
         $tests[] = [$vtodo4, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vtodo4, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 
+        /**
+         * @var VTodo<int, mixed> $vtodo5
+         */
         $vtodo5 = $calendar->createComponent('VTODO');
-        $vtodo5->COMPLETED = '20111225';
+        $vtodo5->COMPLETED = TestHelper::createDateCompleted($calendar, '20111225');
         $tests[] = [$vtodo5, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vtodo5, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 
+        /**
+         * @var VTodo<int, mixed> $vtodo6
+         */
         $vtodo6 = $calendar->createComponent('VTODO');
-        $vtodo6->CREATED = '20111225';
+        $vtodo6->CREATED = TestHelper::createDateCreated($calendar, '20111225');
         $tests[] = [$vtodo6, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vtodo6, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 
+        /**
+         * @var VTodo<int, mixed> $vtodo7
+         */
         $vtodo7 = $calendar->createComponent('VTODO');
-        $vtodo7->CREATED = '20111225';
-        $vtodo7->COMPLETED = '20111226';
+        $vtodo7->CREATED = TestHelper::createDateCreated($calendar, '20111225');
+        $vtodo7->COMPLETED = TestHelper::createDateCompleted($calendar, '20111226');
         $tests[] = [$vtodo7, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vtodo7, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 

@@ -13,18 +13,18 @@ use Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\ICalendar\DateTime DTSTART
- * @property VObject\Property\ICalendar\DateTime DTEND
- * @property VObject\Property\ICalendar\DateTime DTSTAMP
- * @property VObject\Property\ICalendar\Duration DURATION
- * @property VObject\Property\ICalendar\Recur RRULE
- * @property VObject\Property\ICalendar\DateTime EXDATE
- * @property VObject\Property\ICalendar\DateTime RDATE
- * @property VObject\Property\ICalendar\Recur EXRULE
- * @property VObject\Property\ICalendar\DateTime {'RECURRENCE-ID'}
- * @property VObject\Property\ICalendar\DateTime DUE
- * @property VObject\Property\ICalendar\DateTime COMPLETED
- * @property VObject\Property\ICalendar\DateTime CREATED
+ * @property VObject\Property\ICalendar\DateTime $DTSTART
+ * @property VObject\Property\ICalendar\DateTime $DTEND
+ * @property VObject\Property\ICalendar\DateTime $DTSTAMP
+ * @property VObject\Property\ICalendar\Duration $DURATION
+ * @property VObject\Property\ICalendar\Recur    $RRULE
+ * @property VObject\Property\ICalendar\DateTime $EXDATE
+ * @property VObject\Property\ICalendar\DateTime $RDATE
+ * @property VObject\Property\ICalendar\Recur    $EXRULE
+ * @property VObject\Property\ICalendar\DateTime $RECURRENCE-ID
+ * @property VObject\Property\ICalendar\DateTime $DUE
+ * @property VObject\Property\ICalendar\DateTime $COMPLETED
+ * @property VObject\Property\ICalendar\DateTime $CREATED
  */
 class VTodo extends VObject\Component
 {

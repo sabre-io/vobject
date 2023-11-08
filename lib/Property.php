@@ -22,13 +22,6 @@ abstract class Property extends Node
     public ?Component $root;
 
     /**
-     * Property name.
-     *
-     * This will contain a string such as DTSTART, SUMMARY, FN.
-     */
-    public ?string $name;
-
-    /**
      * Property group.
      *
      * This is only used in vcards
@@ -115,6 +108,8 @@ abstract class Property extends Node
 
     /**
      * Sets a multi-valued property.
+     *
+     * @param array<int|string, mixed> $parts
      */
     public function setParts(array $parts): void
     {

@@ -3,6 +3,9 @@
 namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Property\ICalendar\DateTime;
 
 class EmClientTest extends TestCase
 {
@@ -47,8 +50,14 @@ CLASS:PUBLIC
 END:VEVENT
 END:VCALENDAR';
 
+        /** @var VCalendar<int, mixed> $vObject */
         $vObject = Reader::read($str);
-        $dt = $vObject->VEVENT->DTSTART->getDateTime();
+
+        /** @var VEvent<int, mixed> $event */
+        $event = $vObject->VEVENT;
+        /** @var DateTime<int, mixed> $dateTime */
+        $dateTime = $event->DTSTART;
+        $dt = $dateTime->getDateTime();
         self::assertEquals(new \DateTimeImmutable('2011-10-08 19:30:00', new \DateTimeZone('America/Chicago')), $dt);
     }
 }

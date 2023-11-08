@@ -36,14 +36,19 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar<int, mixed> $document */
         $document = Reader::read($vcal);
         $tz = new \DateTimeZone('UTC');
+        /**
+         * @var VAvailability<int, mixed> $availability
+         */
+        $availability = $document->VAVAILABILITY;
         self::assertEquals(
             [
                 new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
                 new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
             ],
-            $document->VAVAILABILITY->getEffectiveStartEnd()
+            $availability->getEffectiveStartEnd()
         );
     }
 
@@ -58,14 +63,19 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar<int, mixed> $document */
         $document = Reader::read($vcal);
         $tz = new \DateTimeZone('UTC');
+        /**
+         * @var VAvailability<int, mixed> $availability
+         */
+        $availability = $document->VAVAILABILITY;
         self::assertEquals(
             [
                 new \DateTimeImmutable('2015-07-17 16:22:00', $tz),
                 new \DateTimeImmutable('2015-07-17 17:22:00', $tz),
             ],
-            $document->VAVAILABILITY->getEffectiveStartEnd()
+            $availability->getEffectiveStartEnd()
         );
     }
 
@@ -78,13 +88,18 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar<int, mixed> $document */
         $document = Reader::read($vcal);
+        /**
+         * @var VAvailability<int, mixed> $availability
+         */
+        $availability = $document->VAVAILABILITY;
         self::assertEquals(
             [
                 null,
                 null,
             ],
-            $document->VAVAILABILITY->getEffectiveStartEnd()
+            $availability->getEffectiveStartEnd()
         );
     }
 
@@ -97,9 +112,14 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar<int, mixed> $document */
         $document = Reader::read($vcal);
+        /**
+         * @var VAvailability<int, mixed> $availability
+         */
+        $availability = $document->VAVAILABILITY;
         self::assertTrue(
-            $document->VAVAILABILITY->isInTimeRange(new \DateTimeImmutable('2015-07-17'), new \DateTimeImmutable('2015-07-18'))
+            $availability->isInTimeRange(new \DateTimeImmutable('2015-07-17'), new \DateTimeImmutable('2015-07-18'))
         );
     }
 
@@ -114,9 +134,14 @@ END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
 
+        /** @var VCalendar<int, mixed> $document */
         $document = Reader::read($vcal);
+        /**
+         * @var VAvailability<int, mixed> $availability
+         */
+        $availability = $document->VAVAILABILITY;
         self::assertFalse(
-            $document->VAVAILABILITY->isInTimeRange(new \DateTimeImmutable('2015-07-17'), new \DateTimeImmutable('2015-07-18'))
+            $availability->isInTimeRange(new \DateTimeImmutable('2015-07-17'), new \DateTimeImmutable('2015-07-18'))
         );
     }
 
@@ -232,9 +257,14 @@ END:AVAILABLE
 END:VAVAILABILITY
 END:VCALENDAR
 VCAL;
+        /** @var VCalendar<int, mixed> $document */
         $document = Reader::read($vcal);
+        /**
+         * @var VAvailability<int, mixed> $availability
+         */
+        $availability = $document->VAVAILABILITY;
 
-        self::assertInstanceOf(Available::class, $document->VAVAILABILITY->AVAILABLE);
+        self::assertInstanceOf(Available::class, $availability->AVAILABLE);
     }
 
     public function testRFCxxxSection3Part1AvailablePropRequired(): void
@@ -373,56 +403,77 @@ VCAL
 
     public function testRFCxxxSection3Part2(): void
     {
+        /** @var VCalendar<int, mixed> $document */
+        $document = Reader::read($this->templateAvailable(['BUSYTYPE:BUSY']));
+        /**
+         * @var VAvailability<int, mixed> $availability
+         */
+        $availability = $document->VAVAILABILITY;
+        /**
+         * @var Available<int, mixed> $available
+         */
+        $available = $availability->AVAILABLE;
         self::assertEquals(
             'BUSY',
-            Reader::read($this->templateAvailable([
-                'BUSYTYPE:BUSY',
-            ]))
-                ->VAVAILABILITY
-                ->AVAILABLE
-                ->BUSYTYPE
-                ->getValue()
+            $available->BUSYTYPE->getValue()
         );
 
+        /** @var VCalendar<int, mixed> $document */
+        $document = Reader::read($this->templateAvailable(['BUSYTYPE:BUSY-UNAVAILABLE']));
+        /**
+         * @var VAvailability<int, mixed> $availability
+         */
+        $availability = $document->VAVAILABILITY;
+        /**
+         * @var Available<int, mixed> $available
+         */
+        $available = $availability->AVAILABLE;
         self::assertEquals(
             'BUSY-UNAVAILABLE',
-            Reader::read($this->templateAvailable([
-                'BUSYTYPE:BUSY-UNAVAILABLE',
-            ]))
-                ->VAVAILABILITY
-                ->AVAILABLE
-                ->BUSYTYPE
-                ->getValue()
+            $available->BUSYTYPE->getValue()
         );
 
+        /** @var VCalendar<int, mixed> $document */
+        $document = Reader::read($this->templateAvailable(['BUSYTYPE:BUSY-TENTATIVE']));
+        /**
+         * @var VAvailability<int, mixed> $availability
+         */
+        $availability = $document->VAVAILABILITY;
+        /**
+         * @var Available<int, mixed> $available
+         */
+        $available = $availability->AVAILABLE;
         self::assertEquals(
             'BUSY-TENTATIVE',
-            Reader::read($this->templateAvailable([
-                'BUSYTYPE:BUSY-TENTATIVE',
-            ]))
-                ->VAVAILABILITY
-                ->AVAILABLE
-                ->BUSYTYPE
-                ->getValue()
+            $available->BUSYTYPE->getValue()
         );
     }
 
-    protected function assertIsValid(VObject\Document $document): void
+    /**
+     * @param VObject\Document<int, mixed> $document
+     */
+    protected static function assertIsValid(VObject\Document $document): void
     {
         $validationResult = $document->validate();
         if ($validationResult) {
             $messages = array_map(function ($item) { return $item['message']; }, $validationResult);
-            $this->fail('Failed to assert that the supplied document is a valid document. Validation messages: '.implode(', ', $messages));
+            self::fail('Failed to assert that the supplied document is a valid document. Validation messages: '.implode(', ', $messages));
         }
         self::assertEmpty($document->validate());
     }
 
-    protected function assertIsNotValid(VObject\Document $document): void
+    /**
+     * @param VObject\Document<int, mixed> $document
+     */
+    protected static function assertIsNotValid(VObject\Document $document): void
     {
         self::assertNotEmpty($document->validate());
     }
 
-    protected function template(array $properties)
+    /**
+     * @param array<int, string> $properties
+     */
+    protected function template(array $properties): string
     {
         return $this->_template(
             <<<VCAL
@@ -441,7 +492,10 @@ VCAL
         );
     }
 
-    protected function templateAvailable(array $properties)
+    /**
+     * @param array<int, string> $properties
+     */
+    protected function templateAvailable(array $properties): string
     {
         return $this->_template(
             <<<VCAL
@@ -465,7 +519,10 @@ VCAL
         );
     }
 
-    protected function _template($template, array $properties)
+    /**
+     * @param array<int, string> $properties
+     */
+    protected function _template(string $template, array $properties): string
     {
         return str_replace('…', implode("\r\n", $properties), $template);
     }

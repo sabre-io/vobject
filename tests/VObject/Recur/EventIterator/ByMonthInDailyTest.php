@@ -4,6 +4,7 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Reader;
 
 class ByMonthInDailyTest extends TestCase
@@ -35,13 +36,16 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = Reader::read($ics);
         self::assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(new \DateTime('2013-09-28'), new \DateTime('2014-09-11'));
 
         $dates = [];
-        foreach ($vcal->VEVENT as $event) {
+        /** @var array<int, VEvent> $events */
+        $events = iterator_to_array($vcal->VEVENT);
+        foreach ($events as $event) {
             $dates[] = $event->DTSTART->getValue();
         }
 

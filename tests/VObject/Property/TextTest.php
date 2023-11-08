@@ -7,6 +7,9 @@ use Sabre\VObject\Component\VCard;
 
 class TextTest extends TestCase
 {
+    /**
+     * @param string|array<int, string> $propValue
+     */
     public function assertVCard21Serialization($propValue, string $expected): void
     {
         $doc = new VCard([

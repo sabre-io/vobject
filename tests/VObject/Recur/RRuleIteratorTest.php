@@ -1072,6 +1072,12 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    /**
+     * @param string|array<string, mixed> $rule
+     * @param array<int, string>          $expected
+     *
+     * @throws InvalidDataException
+     */
     public function parse($rule, string $start, array $expected, string $fastForward = null, string $tz = 'UTC', bool $runTillTheEnd = false): void
     {
         $dt = new \DateTime($start, new \DateTimeZone($tz));

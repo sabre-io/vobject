@@ -4,6 +4,7 @@ namespace Sabre\VObject\Recur\EventIterator;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Reader;
 
 /**
@@ -33,11 +34,13 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = Reader::read($input);
         self::assertInstanceOf(VCalendar::class, $vcal);
 
         $vcal = $vcal->expand(new \DateTime('2015-01-01'), new \DateTime('2015-12-01'));
 
+        /** @var array<int, VEvent> $result */
         $result = iterator_to_array($vcal->VEVENT);
 
         self::assertCount(5, $result);

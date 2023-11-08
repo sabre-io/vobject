@@ -4,7 +4,9 @@ namespace Sabre\VObject\Property\ICalendar;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Node;
+use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 
 class RecurTest extends TestCase
@@ -14,6 +16,9 @@ class RecurTest extends TestCase
     public function testParts(): void
     {
         $vcal = new VCalendar();
+        /**
+         * @var Property<string, mixed> $recur
+         */
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
 
         self::assertInstanceOf(Recur::class, $recur);
@@ -28,6 +33,9 @@ class RecurTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $vcal = new VCalendar();
+        /**
+         * @var Property<int, mixed> $recur
+         */
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
         $recur->setValue(new \Exception());
     }
@@ -35,6 +43,9 @@ class RecurTest extends TestCase
     public function testSetValueWithCount(): void
     {
         $vcal = new VCalendar();
+        /**
+         * @var Property<int, mixed> $recur
+         */
         $recur = $vcal->add('RRULE', 'FREQ=Daily');
         $recur->setValue(['COUNT' => 3]);
         self::assertEquals(3, $recur->getParts()['COUNT']);
@@ -56,7 +67,9 @@ END:VCALENDAR
 ';
 
         $vcal = Reader::read($input);
-        $rrule = $vcal->VEVENT->RRULE;
+        /** @var VEvent<int, mixed> $ev */
+        $ev = $vcal->VEVENT;
+        $rrule = $ev->RRULE;
         $count = $rrule->getJsonValue()[0]['count'];
         self::assertTrue(is_int($count));
         self::assertEquals(3, $count);
@@ -65,6 +78,9 @@ END:VCALENDAR
     public function testSetSubParts(): void
     {
         $vcal = new VCalendar();
+        /**
+         * @var Property<int, mixed> $recur
+         */
         $recur = $vcal->add('RRULE', ['FREQ' => 'DAILY', 'BYDAY' => 'mo,tu', 'BYMONTH' => [0, 1]]);
 
         self::assertEquals([
@@ -89,8 +105,11 @@ END:VEVENT
 END:VCALENDAR
 ';
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = Reader::read($input);
-        $rrule = $vcal->VEVENT->RRULE;
+        /** @var VEvent<int, mixed> $ev */
+        $ev = $vcal->VEVENT;
+        $rrule = $ev->RRULE;
         $untilJsonString = $rrule->getJsonValue()[0]['until'];
         self::assertEquals('2016-03-05T23:00:00Z', $untilJsonString);
     }

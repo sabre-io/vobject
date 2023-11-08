@@ -5,6 +5,8 @@ namespace Sabre\VObject;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Property\Text;
 
 class ComponentTest extends TestCase
 {
@@ -145,10 +147,18 @@ class ComponentTest extends TestCase
     public function testMagicSetArray(): void
     {
         $comp = new VCalendar();
-        $comp->ORG = ['Acme Inc', 'Section 9'];
+        /** @var Text<mixed, mixed> $property */
+        $property = $comp->createProperty('ORG');
+        $property->setValue(['Acme Inc', 'Section 9']);
+        $comp->ORG = $property;
 
-        self::assertInstanceOf(Property::class, $comp->ORG);
-        self::assertEquals(['Acme Inc', 'Section 9'], $comp->ORG->getParts());
+        /**
+         * @var Property<int, mixed> $org
+         */
+        $org = $comp->ORG;
+
+        self::assertInstanceOf(Property::class, $org);
+        self::assertEquals(['Acme Inc', 'Section 9'], $org->getParts());
     }
 
     public function testMagicSetComponent(): void
@@ -167,8 +177,12 @@ class ComponentTest extends TestCase
     {
         $comp = new VCalendar([], false);
 
-        $comp->VEVENT = $comp->createComponent('VEVENT');
-        $comp->VEVENT = $comp->createComponent('VEVENT');
+        /** @var VEvent<mixed, mixed> $component1 */
+        $component1 = $comp->createComponent('VEVENT');
+        $comp->VEVENT = $component1;
+        /** @var VEvent<mixed, mixed> $component2 */
+        $component2 = $comp->createComponent('VEVENT');
+        $comp->VEVENT = $component2;
 
         self::assertCount(1, $comp->children());
 
@@ -179,6 +193,7 @@ class ComponentTest extends TestCase
     {
         $comp = new VCalendar([], false);
 
+        /** @var VEvent<int, mixed> $event */
         $event = $comp->createComponent('VEVENT');
         $event->summary = 'Event 1';
 
@@ -190,7 +205,8 @@ class ComponentTest extends TestCase
         $comp->add($event2);
 
         self::assertCount(2, $comp->children());
-        self::assertTrue($comp->vevent[1] instanceof Component);
+        self::assertInstanceOf(Component::class, $comp->vevent[1]);
+        /* @phpstan-ignore-next-line Access to an undefined property Sabre\VObject\Component::$summary. */
         self::assertEquals('Event 2', (string) $comp->vevent[1]->summary);
     }
 
@@ -198,6 +214,7 @@ class ComponentTest extends TestCase
     {
         $comp = new VCalendar();
 
+        /** @var VEvent<int, mixed> $event */
         $event = $comp->createComponent('VEVENT');
         $event->summary = 'Event 1';
 
@@ -216,6 +233,7 @@ class ComponentTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $comp = new VCalendar();
+        /* @phpstan-ignore-next-line */
         $comp['hey'] = 'hi there';
     }
 
@@ -420,8 +438,10 @@ class ComponentTest extends TestCase
             $comp->createProperty('UID', '12345'),
         ]);
         $comp->add($event);
+        /** @var VEvent<int, mixed> $event1 */
+        $event1 = $comp->VEVENT;
 
-        self::assertEquals('12345', $comp->VEVENT->UID->getValue());
+        self::assertEquals('12345', $event1->UID->getValue());
     }
 
     public function testRemoveByName(): void
@@ -440,6 +460,9 @@ class ComponentTest extends TestCase
     {
         $comp = new VCalendar([], false);
         $comp->add('prop1', 'val1');
+        /**
+         * @var Property<int, mixed> $prop
+         */
         $prop = $comp->add('prop2', 'val2');
 
         $comp->remove($prop);
@@ -459,6 +482,8 @@ class ComponentTest extends TestCase
     }
 
     /**
+     * @param array<int, array<int, int|array<int, string>>> $componentList
+     *
      * @dataProvider ruleData
      */
     public function testValidateRules(array $componentList, int $errorCount): void
@@ -504,8 +529,12 @@ class ComponentTest extends TestCase
 
         $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
         $component->add('BAZ', 'BAZ');
-        $component->add('GIR', 'VALUE')->add('PARAM', '1');
-        $component->add('GIR', 'VALUE')->add('PARAM', '2'); // Same value but different parameters
+        /** @var Component<int, mixed> $girComponent1 */
+        $girComponent1 = $component->add('GIR', 'VALUE');
+        $girComponent1->add('PARAM', '1');
+        /** @var Component<int, mixed> $girComponent2 */
+        $girComponent2 = $component->add('GIR', 'VALUE');
+        $girComponent2->add('PARAM', '2'); // Same value but different parameters
 
         $messages = $component->validate(Component::REPAIR);
 
@@ -520,8 +549,12 @@ class ComponentTest extends TestCase
 
         $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
         $component->add('BAZ', 'BAZ');
-        $component->add('GIR', 'VALUE')->add('PARAM', 'P');
-        $component->add('GIR', 'VALUE')->add('PARAM', 'P');
+        /** @var Component<int, mixed> $girComponent1 */
+        $girComponent1 = $component->add('GIR', 'VALUE');
+        $girComponent1->add('PARAM', 'P');
+        /** @var Component<int, mixed> $girComponent2 */
+        $girComponent2 = $component->add('GIR', 'VALUE');
+        $girComponent2->add('PARAM', 'P');
 
         $messages = $component->validate(Component::REPAIR);
 
@@ -546,6 +579,9 @@ class ComponentTest extends TestCase
         self::assertCount(1, $component->GIR);
     }
 
+    /**
+     * @return array<int, array<int, int|array<int, string>>>
+     */
     public function ruleData(): array
     {
         return [
@@ -563,6 +599,9 @@ class ComponentTest extends TestCase
 
 class FakeComponent extends Component
 {
+    /**
+     * @return string[]
+     */
     public function getValidationRules(): array
     {
         return [
@@ -574,6 +613,9 @@ class FakeComponent extends Component
         ];
     }
 
+    /**
+     * @return string[]
+     */
     public function getDefaults(): array
     {
         return [

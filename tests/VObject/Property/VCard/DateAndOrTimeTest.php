@@ -3,7 +3,7 @@
 namespace Sabre\VObject\Property\VCard;
 
 use PHPUnit\Framework\TestCase;
-use Sabre\VObject;
+use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
 class DateAndOrTimeTest extends TestCase
@@ -13,12 +13,15 @@ class DateAndOrTimeTest extends TestCase
      */
     public function testGetJsonValue(string $input, string $output): void
     {
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
         $prop = $vcard->createProperty('BDAY', $input);
 
         self::assertEquals([$output], $prop->getJsonValue());
     }
 
+    /**
+     * @return string[][]
+     */
     public function dates(): array
     {
         return [
@@ -83,7 +86,7 @@ class DateAndOrTimeTest extends TestCase
 
     public function testSetParts(): void
     {
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
 
         $prop = $vcard->createProperty('BDAY');
         $prop->setParts([
@@ -95,7 +98,7 @@ class DateAndOrTimeTest extends TestCase
 
     public function testSetPartsDateTimeImmutable(): void
     {
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
 
         $prop = $vcard->createProperty('BDAY');
         $prop->setParts([
@@ -108,7 +111,7 @@ class DateAndOrTimeTest extends TestCase
     public function testSetPartsTooMany(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
 
         $prop = $vcard->createProperty('BDAY');
         $prop->setParts([
@@ -119,7 +122,7 @@ class DateAndOrTimeTest extends TestCase
 
     public function testSetPartsString(): void
     {
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
 
         $prop = $vcard->createProperty('BDAY');
         $prop->setParts([
@@ -131,8 +134,11 @@ class DateAndOrTimeTest extends TestCase
 
     public function testSetValueDateTime(): void
     {
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
 
+        /**
+         * @var DateAndOrTime<string, mixed> $prop
+         */
         $prop = $vcard->createProperty('BDAY');
         $prop->setValue(
             new \DateTime('2014-04-02 18:37:00')
@@ -143,8 +149,11 @@ class DateAndOrTimeTest extends TestCase
 
     public function testSetValueDateTimeImmutable(): void
     {
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
 
+        /**
+         * @var DateAndOrTime<string, mixed> $prop
+         */
         $prop = $vcard->createProperty('BDAY');
         $prop->setValue(
             new \DateTimeImmutable('2014-04-02 18:37:00')
@@ -155,8 +164,11 @@ class DateAndOrTimeTest extends TestCase
 
     public function testSetDateTimeOffset(): void
     {
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
 
+        /**
+         * @var DateAndOrTime<string, mixed> $prop
+         */
         $prop = $vcard->createProperty('BDAY');
         $prop->setValue(
             new \DateTime('2014-04-02 18:37:00', new \DateTimeZone('America/Toronto'))
@@ -169,7 +181,10 @@ class DateAndOrTimeTest extends TestCase
     {
         $datetime = new \DateTime('2014-04-02 18:37:00', new \DateTimeZone('America/Toronto'));
 
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
+        /**
+         * @var DateAndOrTime<string, mixed> $prop
+         */
         $prop = $vcard->createProperty('BDAY', $datetime);
 
         $dt = $prop->getDateTime();
@@ -180,7 +195,7 @@ class DateAndOrTimeTest extends TestCase
     {
         $datetime = new \DateTime('2014-04-02');
 
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
         $prop = $vcard->createProperty('BDAY', $datetime, null, 'DATE');
 
         self::assertEquals('DATE', $prop->getValueType());
@@ -191,7 +206,10 @@ class DateAndOrTimeTest extends TestCase
     {
         $datetime = '--0407';
 
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
+        /**
+         * @var DateAndOrTime<string, mixed> $prop
+         */
         $prop = $vcard->add('BDAY', $datetime);
 
         $dt = $prop->getDateTime();
@@ -207,13 +225,17 @@ class DateAndOrTimeTest extends TestCase
 
     public function testGetDateIncompleteFromVCard(): void
     {
-        $vcard = <<<VCF
+        $input = <<<VCF
 BEGIN:VCARD
 VERSION:4.0
 BDAY:--0407
 END:VCARD
 VCF;
-        $vcard = Reader::read($vcard);
+        /** @var VCard<int, mixed> $vcard */
+        $vcard = Reader::read($input);
+        /**
+         * @var DateAndOrTime<string, mixed> $prop
+         */
         $prop = $vcard->BDAY;
 
         $dt = $prop->getDateTime();
@@ -231,7 +253,7 @@ VCF;
     {
         $datetime = '--0407';
 
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
         $prop = $vcard->add('BDAY', $datetime);
 
         self::assertEquals([], $prop->validate());
@@ -241,7 +263,7 @@ VCF;
     {
         $datetime = '123';
 
-        $vcard = new VObject\Component\VCard();
+        $vcard = new VCard();
         $prop = $vcard->add('BDAY', $datetime);
 
         self::assertEquals([[

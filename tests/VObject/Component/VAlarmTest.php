@@ -4,11 +4,15 @@ namespace Sabre\VObject\Component;
 
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Property\IntegerValue;
 use Sabre\VObject\Reader;
+use Sabre\VObject\TestHelper;
 
 class VAlarmTest extends TestCase
 {
     /**
+     * @param VAlarm<int, mixed> $valarm
+     *
      * @dataProvider timeRangeTestData
      */
     public function testInTimeRange(VAlarm $valarm, \DateTime $start, \DateTime $end, bool $outcome): void
@@ -16,6 +20,9 @@ class VAlarmTest extends TestCase
         self::assertEquals($outcome, $valarm->isInTimeRange($start, $end));
     }
 
+    /**
+     * @return array<int, array<int, mixed>>
+     */
     public function timeRangeTestData(): array
     {
         $tests = [];
@@ -37,8 +44,9 @@ class VAlarmTest extends TestCase
             $calendar->createProperty('TRIGGER', '-P1D', ['VALUE' => 'DURATION'])
         );
 
+        /** @var VEvent<int, mixed> $vevent2 */
         $vevent2 = $calendar->createComponent('VEVENT');
-        $vevent2->DTSTART = '20120313T130000Z';
+        $vevent2->DTSTART = TestHelper::createDtStart($calendar, '20120313T130000Z');
         $vevent2->add($valarm2);
 
         $tests[] = [$valarm2, new \DateTime('2012-03-01 01:00:00'), new \DateTime('2012-04-01 01:00:00'), true];
@@ -48,76 +56,90 @@ class VAlarmTest extends TestCase
         $valarm3 = $calendar->createComponent('VALARM');
         $valarm3->add($calendar->createProperty('TRIGGER', '-P1D', ['VALUE' => 'DURATION', 'RELATED' => 'END']));
 
+        /** @var VEvent<int, mixed> $vevent3 */
         $vevent3 = $calendar->createComponent('VEVENT');
-        $vevent3->DTSTART = '20120301T130000Z';
-        $vevent3->DTEND = '20120401T130000Z';
+        $vevent3->DTSTART = TestHelper::createDtStart($calendar, '20120301T130000Z');
+        $vevent3->DTEND = TestHelper::createDtEnd($calendar, '20120401T130000Z');
         $vevent3->add($valarm3);
 
         $tests[] = [$valarm3, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), false];
         $tests[] = [$valarm3, new \DateTime('2012-03-25 01:00:00'), new \DateTime('2012-04-05 01:00:00'), true];
 
         // Relation to end time of todo
+        /** @var VAlarm<int, mixed> $valarm4 */
         $valarm4 = $calendar->createComponent('VALARM');
-        $valarm4->TRIGGER = '-P1D';
+        $valarm4->TRIGGER = TestHelper::createTrigger($calendar, '-P1D');
         $valarm4->TRIGGER['VALUE'] = 'DURATION';
         $valarm4->TRIGGER['RELATED'] = 'END';
 
+        /** @var VTodo<int, mixed> $vtodo4 */
         $vtodo4 = $calendar->createComponent('VTODO');
-        $vtodo4->DTSTART = '20120301T130000Z';
-        $vtodo4->DUE = '20120401T130000Z';
+        $vtodo4->DTSTART = TestHelper::createDtStart($calendar, '20120301T130000Z');
+        $vtodo4->DUE = TestHelper::createDateDue($calendar, '20120401T130000Z');
         $vtodo4->add($valarm4);
 
         $tests[] = [$valarm4, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), false];
         $tests[] = [$valarm4, new \DateTime('2012-03-25 01:00:00'), new \DateTime('2012-04-05 01:00:00'), true];
 
         // Relation to start time of event + repeat
+        /** @var VAlarm<int, mixed> $valarm5 */
         $valarm5 = $calendar->createComponent('VALARM');
-        $valarm5->TRIGGER = '-P1D';
+        $valarm5->TRIGGER = TestHelper::createTrigger($calendar, '-P1D');
         $valarm5->TRIGGER['VALUE'] = 'DURATION';
-        $valarm5->REPEAT = 10;
-        $valarm5->DURATION = 'P1D';
+        /** @var IntegerValue<mixed, mixed> $property */
+        $property = $calendar->createProperty('REPEAT');
+        $property->setValue([10]);
+        $valarm5->REPEAT = $property;
+        $valarm5->DURATION = TestHelper::createDuration($calendar, 'P1D');
 
+        /** @var VEvent<int, mixed> $vevent5 */
         $vevent5 = $calendar->createComponent('VEVENT');
-        $vevent5->DTSTART = '20120301T130000Z';
+        $vevent5->DTSTART = TestHelper::createDtStart($calendar, '20120301T130000Z');
         $vevent5->add($valarm5);
 
         $tests[] = [$valarm5, new \DateTime('2012-03-09 01:00:00'), new \DateTime('2012-03-10 01:00:00'), true];
 
         // Relation to start time of event + duration, but no repeat
+        /** @var VAlarm<int, mixed> $valarm6 */
         $valarm6 = $calendar->createComponent('VALARM');
-        $valarm6->TRIGGER = '-P1D';
+        $valarm6->TRIGGER = TestHelper::createTrigger($calendar, '-P1D');
         $valarm6->TRIGGER['VALUE'] = 'DURATION';
-        $valarm6->DURATION = 'P1D';
+        $valarm6->DURATION = TestHelper::createDuration($calendar, 'P1D');
 
+        /** @var VEvent<int, mixed> $vevent6 */
         $vevent6 = $calendar->createComponent('VEVENT');
-        $vevent6->DTSTART = '20120313T130000Z';
+        $vevent6->DTSTART = TestHelper::createDtStart($calendar, '20120313T130000Z');
         $vevent6->add($valarm6);
 
         $tests[] = [$valarm6, new \DateTime('2012-03-01 01:00:00'), new \DateTime('2012-04-01 01:00:00'), true];
         $tests[] = [$valarm6, new \DateTime('2012-03-01 01:00:00'), new \DateTime('2012-03-10 01:00:00'), false];
 
         // Relation to end time of event (DURATION instead of DTEND)
+        /** @var VAlarm<int, mixed> $valarm7 */
         $valarm7 = $calendar->createComponent('VALARM');
-        $valarm7->TRIGGER = '-P1D';
+        $valarm7->TRIGGER = TestHelper::createTrigger($calendar, '-P1D');
         $valarm7->TRIGGER['VALUE'] = 'DURATION';
         $valarm7->TRIGGER['RELATED'] = 'END';
 
+        /** @var VEvent<int, mixed> $vevent7 */
         $vevent7 = $calendar->createComponent('VEVENT');
-        $vevent7->DTSTART = '20120301T130000Z';
-        $vevent7->DURATION = 'P30D';
+        $vevent7->DTSTART = TestHelper::createDtStart($calendar, '20120301T130000Z');
+        $vevent7->DURATION = TestHelper::createDuration($calendar, 'P30D');
         $vevent7->add($valarm7);
 
         $tests[] = [$valarm7, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), false];
         $tests[] = [$valarm7, new \DateTime('2012-03-25 01:00:00'), new \DateTime('2012-04-05 01:00:00'), true];
 
         // Relation to end time of event (No DTEND or DURATION)
+        /** @var VAlarm<int, mixed> $valarm7 */
         $valarm7 = $calendar->createComponent('VALARM');
-        $valarm7->TRIGGER = '-P1D';
+        $valarm7->TRIGGER = TestHelper::createTrigger($calendar, '-P1D');
         $valarm7->TRIGGER['VALUE'] = 'DURATION';
         $valarm7->TRIGGER['RELATED'] = 'END';
 
+        /** @var VEvent<int, mixed> $vevent7 */
         $vevent7 = $calendar->createComponent('VEVENT');
-        $vevent7->DTSTART = '20120301T130000Z';
+        $vevent7->DTSTART = TestHelper::createDtStart($calendar, '20120301T130000Z');
         $vevent7->add($valarm7);
 
         $tests[] = [$valarm7, new \DateTime('2012-02-25 01:00:00'), new \DateTime('2012-03-05 01:00:00'), true];
@@ -130,8 +152,9 @@ class VAlarmTest extends TestCase
     {
         $this->expectException(InvalidDataException::class);
         $calendar = new VCalendar();
+        /** @var VAlarm<int, mixed> $valarm */
         $valarm = $calendar->createComponent('VALARM');
-        $valarm->TRIGGER = '-P1D';
+        $valarm->TRIGGER = TestHelper::createTrigger($calendar, '-P1D');
         $valarm->TRIGGER['RELATED'] = 'END';
 
         $vjournal = $calendar->createComponent('VJOURNAL');
@@ -163,8 +186,13 @@ END:VTODO
 END:VCALENDAR
 BLA;
 
+        /** @var VCalendar<int, mixed> $vobj */
         $vobj = Reader::read($input);
+        /** @var VTodo<int, mixed> $vTodo */
+        $vTodo = $vobj->VTODO;
+        /** @var VAlarm<int, mixed> $vAlarm */
+        $vAlarm = $vTodo->VALARM;
 
-        self::assertTrue($vobj->VTODO->VALARM->isInTimeRange(new \DateTime('2012-10-01 00:00:00'), new \DateTime('2012-11-01 00:00:00')));
+        self::assertTrue($vAlarm->isInTimeRange(new \DateTime('2012-10-01 00:00:00'), new \DateTime('2012-11-01 00:00:00')));
     }
 }
