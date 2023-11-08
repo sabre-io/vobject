@@ -25,11 +25,13 @@ class ICalendar implements SplitterInterface
     /**
      * Timezones.
      */
+    /** @var array<string, Component\VTimeZone> */
     protected array $vtimezones = [];
 
     /**
      * iCalendar objects.
      */
+    /** @var array<string, Component> */
     protected array $objects = [];
 
     /**
