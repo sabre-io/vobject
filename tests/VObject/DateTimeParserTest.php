@@ -31,6 +31,12 @@ class DateTimeParserTest extends TestCase
         $this->assertEquals($expected, DateTimeParser::parseDuration('-PT3M'));
     }
 
+    public function testParseDurationZero()
+    {
+        $expected = new \DateInterval('PT0S');
+        self::assertEquals($expected, DateTimeParser::parseDuration('P'));
+    }
+
     public function testParseICalendarDurationFail()
     {
         $this->expectException(InvalidDataException::class);
