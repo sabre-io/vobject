@@ -265,8 +265,6 @@ class MimeDir extends Parser
      *
      * This method strips any newlines and also takes care of unfolding.
      *
-     * @return string
-     *
      * @throws EofException|ParseException
      */
     protected function readLine(): ?string

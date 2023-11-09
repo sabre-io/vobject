@@ -191,8 +191,6 @@ class EventIterator implements \Iterator
 
     /**
      * Returns the date for the current position of the iterator.
-     *
-     * @return \DateTimeImmutable
      */
     #[\ReturnTypeWillChange]
     public function current(): ?\DateTimeImmutable
@@ -207,8 +205,6 @@ class EventIterator implements \Iterator
     /**
      * This method returns the start date for the current iteration of the
      * event.
-     *
-     * @return \DateTimeImmutable
      */
     public function getDtStart(): ?\DateTimeImmutable
     {
@@ -222,8 +218,6 @@ class EventIterator implements \Iterator
     /**
      * This method returns the end date for the current iteration of the
      * event.
-     *
-     * @return \DateTimeImmutable
      *
      * @throws MaxInstancesExceededException|InvalidDataException
      */

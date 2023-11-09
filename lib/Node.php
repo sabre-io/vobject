@@ -92,8 +92,6 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
 
     /**
      * Returns the iterator for this object.
-     *
-     * @return ElementList
      */
     #[\ReturnTypeWillChange]
     public function getIterator(): ?ElementList
