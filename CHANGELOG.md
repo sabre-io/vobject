@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+4.5.4 (2023-11-09)
+------------------
+
+* #619: fixed issue: Undefined index: plusminus (@sash04ek)
+* #622: Create Issue467Test.php for 619 (@sash04ek)
+* #623: docs: fix type definition for oldCalendar (@kesselb)
+
 4.5.3 (2023-01-22)
 ------------------
 
