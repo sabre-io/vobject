@@ -3,6 +3,8 @@
 namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCard;
+use Sabre\VObject\Property\FlatText;
 
 class EmptyParameterTest extends TestCase
 {
@@ -18,15 +20,17 @@ UID:foo
 END:VCARD
 VCF;
 
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
 
         self::assertInstanceOf(Component\VCard::class, $vcard);
         $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD30);
-        $vcard = $vcard->serialize();
+        $serializedVcard = $vcard->serialize();
 
-        $converted = Reader::read($vcard);
+        $converted = Reader::read($serializedVcard);
         $converted->validate();
 
+        /* @phpstan-ignore-next-line Offset 'X-INTERN' in isset() does not exist. */
         self::assertTrue(isset($converted->EMAIL['X-INTERN']));
 
         $version = Version::VERSION;
@@ -43,16 +47,20 @@ END:VCARD
 
 VCF;
 
-        self::assertEquals($expected, str_replace("\r", '', $vcard));
+        self::assertEquals($expected, str_replace("\r", '', $serializedVcard));
     }
 
     public function testVCard21Parameter(): void
     {
         $vcard = new Component\VCard([], false);
-        $vcard->VERSION = '2.1';
+        /** @var FlatText<mixed, mixed> $property */
+        $property = $vcard->createProperty('VERSION');
+        $property->setValue('2.1');
+        $vcard->VERSION = $property;
         $vcard->PHOTO = 'random_stuff';
+        /* @phpstan-ignore-next-line 'Cannot call method add() on string' */
         $vcard->PHOTO->add(null, 'BASE64');
-        $vcard->UID = 'foo-bar';
+        $vcard->UID = TestHelper::createUid($vcard, 'foo-bar');
 
         $result = $vcard->serialize();
         $expected = [

@@ -45,7 +45,7 @@ KIND:ORG
 END:VCARD
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -86,7 +86,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -128,7 +128,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -171,7 +171,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -215,7 +215,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -251,7 +251,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -271,7 +271,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -284,7 +284,7 @@ OUT;
     /**
      * @throws InvalidDataException
      */
-    public function testBDAYConversion()
+    public function testBDAYConversion(): void
     {
         $input = <<<IN
 BEGIN:VCARD
@@ -303,7 +303,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -321,7 +321,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -354,7 +354,7 @@ END:VCARD
 
 IN;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard->convert(Document::VCARD40);
     }
@@ -362,7 +362,7 @@ IN;
     /**
      * @throws InvalidDataException
      */
-    public function testUnknownTargetVCardVersion()
+    public function testUnknownTargetVCardVersion(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $input = <<<IN
@@ -373,7 +373,7 @@ END:VCARD
 
 IN;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard->convert(Document::VCARD21);
     }
@@ -399,7 +399,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -416,7 +416,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -449,7 +449,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -467,7 +467,7 @@ OUT;
             $input,
         ];
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -508,7 +508,7 @@ END:VCARD
 
 OUT;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD30);
 
@@ -526,7 +526,7 @@ OUT;
             $input,
         ];
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 
@@ -552,6 +552,7 @@ END:VCARD
 
 VCF;
 
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
 
         self::assertInstanceOf(Component\VCard::class, $vcard);
@@ -559,7 +560,7 @@ VCF;
         $vcard = $vcard->convert(Document::VCARD40);
         $vcard = $vcard->serialize();
 
-        /** @var VCard $converted */
+        /** @var VCard<int, mixed> $converted */
         $converted = Reader::read($vcard);
         $converted->validate();
 
@@ -604,7 +605,7 @@ TEL;TYPE=HOME:+1234
 END:VCARD
 VCF;
 
-        /** @var VCard $vcard */
+        /** @var VCard<int, mixed> $vcard */
         $vcard = Reader::read($input);
         $vcard = $vcard->convert(Document::VCARD40);
 

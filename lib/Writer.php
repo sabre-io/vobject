@@ -18,6 +18,8 @@ class Writer
 {
     /**
      * Serializes a vCard or iCalendar object.
+     *
+     * @param Component<int, mixed> $component
      */
     public static function write(Component $component): string
     {
@@ -26,6 +28,8 @@ class Writer
 
     /**
      * Serializes a jCal or jCard object.
+     *
+     * @param Component<int, mixed> $component
      */
     public static function writeJson(Component $component, int $options = 0): string
     {
@@ -34,6 +38,8 @@ class Writer
 
     /**
      * Serializes a xCal or xCard object.
+     *
+     * @param Component<int, mixed> $component
      */
     public static function writeXml(Component $component): string
     {

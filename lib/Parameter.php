@@ -19,11 +19,6 @@ use Sabre\Xml;
 class Parameter extends Node
 {
     /**
-     * Parameter name.
-     */
-    public string $name;
-
-    /**
      * vCard 2.1 allows parameters to be encoded without a name.
      *
      * We can deduce the parameter name based on its value.
@@ -160,7 +155,7 @@ class Parameter extends Node
      *
      * This may be either a single, or multiple strings in an array.
      *
-     * @param string|array $value
+     * @param int|string|array $value
      */
     public function setValue($value): void
     {
@@ -212,7 +207,7 @@ class Parameter extends Node
      * If the argument is specified as an array, all items will be added to the
      * parameter value list.
      *
-     * @param string|array $part
+     * @param int|string|array $part
      */
     public function addValue($part): void
     {

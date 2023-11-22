@@ -13,7 +13,7 @@ use Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\ICalendar\DateTime DTSTART
+ * @property VObject\Property\ICalendar\DateTime $DTSTART
  */
 class VJournal extends VObject\Component
 {

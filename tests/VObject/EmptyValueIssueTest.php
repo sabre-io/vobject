@@ -3,6 +3,8 @@
 namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 
 /**
  * This test is written for Issue 68:.
@@ -22,9 +24,12 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var VCalendar<int, mixed> $vobj */
         $vobj = Reader::read($input);
+        /** @var VEvent<int, mixed> $event */
+        $event = $vobj->VEVENT;
 
         // Before this bug was fixed, getValue() would return nothing.
-        self::assertEquals("This is a description\nwith a linebreak and a ; , and :", $vobj->VEVENT->DESCRIPTION->getValue());
+        self::assertEquals("This is a description\nwith a linebreak and a ; , and :", $event->DESCRIPTION->getValue());
     }
 }

@@ -29,9 +29,17 @@ class PropertyTest extends TestCase
         ];
 
         $property = $cal->createProperty('propname', 'propvalue', $params);
+        /**
+         * @var Parameter $param1
+         */
+        $param1 = $property['param1'];
+        /**
+         * @var Parameter $param2
+         */
+        $param2 = $property['param2'];
 
-        self::assertEquals('value1', $property['param1']->getValue());
-        self::assertEquals('value2', $property['param2']->getValue());
+        self::assertEquals('value1', $param1->getValue());
+        self::assertEquals('value2', $param2->getValue());
     }
 
     public function testSetValue(): void
@@ -80,9 +88,13 @@ class PropertyTest extends TestCase
         $property = $cal->createProperty('propname', 'propvalue');
         $property['paramname'] = 'paramvalue';
         $property->add('paramname', 'paramvalue');
+        /**
+         * @var Parameter $param
+         */
+        $param = $property['paramname'];
 
-        self::assertInstanceOf(Parameter::class, $property['paramname']);
-        self::assertCount(2, $property['paramname']->getParts());
+        self::assertInstanceOf(Parameter::class, $param);
+        self::assertCount(2, $param->getParts());
     }
 
     public function testSetParameterAsString(): void
@@ -197,9 +209,13 @@ class PropertyTest extends TestCase
         $prop = $cal->createProperty('EMAIL');
 
         $prop->add('MYPARAM', 'value');
+        /**
+         * @var Parameter $param
+         */
+        $param = $prop['myparam'];
 
         self::assertCount(1, $prop->parameters());
-        self::assertEquals('MYPARAM', $prop['myparam']->name);
+        self::assertEquals('MYPARAM', $param->name);
     }
 
     public function testAddParameterTwice(): void
@@ -212,8 +228,12 @@ class PropertyTest extends TestCase
 
         self::assertCount(1, $prop->parameters);
         self::assertCount(2, $prop->parameters['MYPARAM']->getParts());
+        /**
+         * @var Parameter $param
+         */
+        $param = $prop->parameters['MYPARAM'];
 
-        self::assertEquals('MYPARAM', $prop['MYPARAM']->name);
+        self::assertEquals('MYPARAM', $param->name);
     }
 
     public function testClone(): void
@@ -236,8 +256,18 @@ class PropertyTest extends TestCase
             'param2' => ['value2', 'value3'],
         ]);
 
-        self::assertCount(1, $property['PARAM1']->getParts());
-        self::assertCount(2, $property['PARAM2']->getParts());
+        /**
+         * @var Parameter $param1
+         */
+        $param1 = $property['PARAM1'];
+
+        /**
+         * @var Parameter $param2
+         */
+        $param2 = $property['PARAM2'];
+
+        self::assertCount(1, $param1->getParts());
+        self::assertCount(2, $param2->getParts());
     }
 
     public function testValidateNonUTF8(): void
@@ -385,7 +415,6 @@ class PropertyTest extends TestCase
         $document = new VCard(['VERSION' => '2.1']);
         $property = $document->add('X-FOO', 'value');
         $property['ENCODING'] = 'B';
-
         $result = $property->validate();
 
         self::assertEquals('ENCODING=B is not valid for this document type.', $result[0]['message']);

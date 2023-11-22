@@ -14,7 +14,7 @@ use Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\ICalendar\Period FREEBUSY
+ * @property VObject\Property\ICalendar\Period $FREEBUSY
  */
 class VFreeBusy extends VObject\Component
 {

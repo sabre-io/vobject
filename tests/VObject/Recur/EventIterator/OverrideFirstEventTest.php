@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Recur\EventIterator;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
 class OverrideFirstEventTest extends TestCase
@@ -29,6 +30,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = Reader::read($input);
         $vcal = $vcal->expand(new \DateTime('2014-08-01'), new \DateTime('2014-09-01'));
 
@@ -89,6 +91,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
+        /** @var VCalendar<int, mixed> $vcal */
         $vcal = Reader::read($input);
         $vcal = $vcal->expand(new \DateTime('2014-08-01'), new \DateTime('2014-08-19'));
 

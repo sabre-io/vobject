@@ -14,9 +14,9 @@ use Sabre\VObject;
  * @author Ivan Enderlin
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\ICalendar\DateTime DTSTART
- * @property VObject\Property\ICalendar\DateTime DTEND
- * @property VObject\Property\ICalendar\Duration DURATION
+ * @property VObject\Property\ICalendar\DateTime $DTSTART
+ * @property VObject\Property\ICalendar\DateTime $DTEND
+ * @property VObject\Property\ICalendar\Duration $DURATION
  */
 class Available extends VObject\Component
 {

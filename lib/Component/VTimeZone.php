@@ -15,7 +15,7 @@ use Sabre\VObject;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  *
- * @property VObject\Property\FlatText TZID
+ * @property VObject\Property\FlatText $TZID
  */
 class VTimeZone extends VObject\Component
 {

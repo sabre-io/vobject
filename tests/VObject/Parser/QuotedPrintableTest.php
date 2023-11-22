@@ -72,8 +72,13 @@ VCF;
         ], $result->ADR->getParts());
     }
 
-    private function getPropertyValue(Property $property): string
+    /**
+     * @param Property<int, mixed>|null $property
+     */
+    private function getPropertyValue(?Property $property): string
     {
+        $this->assertNotNull($property, __METHOD__.' called with property set to null');
+
         return (string) $property;
 
         /*

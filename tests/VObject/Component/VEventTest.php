@@ -3,10 +3,13 @@
 namespace Sabre\VObject\Component;
 
 use PHPUnit\Framework\TestCase;
+use Sabre\VObject\TestHelper;
 
 class VEventTest extends TestCase
 {
     /**
+     * @param VEvent<int, mixed> $vevent
+     *
      * @dataProvider timeRangeTestData
      */
     public function testInTimeRange(VEvent $vevent, \DateTime $start, \DateTime $end, bool $outcome): void
@@ -14,29 +17,33 @@ class VEventTest extends TestCase
         self::assertEquals($outcome, $vevent->isInTimeRange($start, $end));
     }
 
+    /**
+     * @return array<int, array<int, mixed>>
+     */
     public function timeRangeTestData(): array
     {
         $tests = [];
 
         $calendar = new VCalendar();
 
+        /** @var VEvent<int, mixed> $vevent */
         $vevent = $calendar->createComponent('VEVENT');
-        $vevent->DTSTART = '20111223T120000Z';
+        $vevent->DTSTART = TestHelper::createDtStart($calendar, '20111223T120000Z');
         $tests[] = [$vevent, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vevent, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 
         $vevent2 = clone $vevent;
-        $vevent2->DTEND = '20111225T120000Z';
+        $vevent2->DTEND = TestHelper::createDtEnd($calendar, '20111225T120000Z');
         $tests[] = [$vevent2, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vevent2, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 
         $vevent3 = clone $vevent;
-        $vevent3->DURATION = 'P1D';
+        $vevent3->DURATION = TestHelper::createDuration($calendar, 'P1D');
         $tests[] = [$vevent3, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vevent3, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
 
         $vevent4 = clone $vevent;
-        $vevent4->DTSTART = '20111225';
+        $vevent4->DTSTART = TestHelper::createDtStart($calendar, '20111225');
         $vevent4->DTSTART['VALUE'] = 'DATE';
         $tests[] = [$vevent4, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vevent4, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
@@ -48,16 +55,16 @@ class VEventTest extends TestCase
         $tests[] = [$vevent4, new \DateTime('2011-12-26 00:00:00', new \DateTimeZone('Europe/Berlin')), new \DateTime('2011-12-26 17:00:00', new \DateTimeZone('Europe/Berlin')), false];
 
         $vevent5 = clone $vevent;
-        $vevent5->DURATION = 'P1D';
-        $vevent5->RRULE = 'FREQ=YEARLY';
+        $vevent5->DURATION = TestHelper::createDuration($calendar, 'P1D');
+        $vevent5->RRULE = TestHelper::createRRule($calendar, 'FREQ=YEARLY');
         $tests[] = [$vevent5, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
         $tests[] = [$vevent5, new \DateTime('2011-01-01'), new \DateTime('2011-11-01'), false];
         $tests[] = [$vevent5, new \DateTime('2013-12-01'), new \DateTime('2013-12-31'), true];
 
         $vevent6 = clone $vevent;
-        $vevent6->DTSTART = '20111225';
+        $vevent6->DTSTART = TestHelper::createDtStart($calendar, '20111225');
         $vevent6->DTSTART['VALUE'] = 'DATE';
-        $vevent6->DTEND = '20111225';
+        $vevent6->DTEND = TestHelper::createDtEnd($calendar, '20111225');
         $vevent6->DTEND['VALUE'] = 'DATE';
 
         $tests[] = [$vevent6, new \DateTime('2011-01-01'), new \DateTime('2012-01-01'), true];
@@ -66,27 +73,27 @@ class VEventTest extends TestCase
         // Added this test to ensure that recurrence rules with no DTEND also
         // get checked for the entire day.
         $vevent7 = clone $vevent;
-        $vevent7->DTSTART = '20120101';
+        $vevent7->DTSTART = TestHelper::createDtStart($calendar, '20120101');
         $vevent7->DTSTART['VALUE'] = 'DATE';
-        $vevent7->RRULE = 'FREQ=MONTHLY';
+        $vevent7->RRULE = TestHelper::createRRule($calendar, 'FREQ=MONTHLY');
         $tests[] = [$vevent7, new \DateTime('2012-02-01 15:00:00'), new \DateTime('2012-02-02'), true];
         // The timezone of time range in question should also be considered.
         $tests[] = [$vevent7, new \DateTime('2012-02-02 00:00:00', new \DateTimeZone('Europe/Berlin')), new \DateTime('2012-02-03 00:00:00', new \DateTimeZone('Europe/Berlin')), false];
 
         // Added this test to check recurring events that have no instances.
         $vevent8 = clone $vevent;
-        $vevent8->DTSTART = '20130329T140000';
-        $vevent8->DTEND = '20130329T153000';
-        $vevent8->RRULE = ['FREQ' => 'WEEKLY', 'BYDAY' => ['FR'], 'UNTIL' => '20130412T115959Z'];
+        $vevent8->DTSTART = TestHelper::createDtStart($calendar, '20130329T140000');
+        $vevent8->DTEND = TestHelper::createDtEnd($calendar, '20130329T153000');
+        $vevent8->RRULE = TestHelper::createRRule($calendar, ['FREQ' => 'WEEKLY', 'BYDAY' => ['FR'], 'UNTIL' => '20130412T115959Z']);
         $vevent8->add('EXDATE', '20130405T140000');
         $vevent8->add('EXDATE', '20130329T140000');
         $tests[] = [$vevent8, new \DateTime('2013-03-01'), new \DateTime('2013-04-01'), false];
 
         // Added this test to check recurring all day event that repeat every day
         $vevent9 = clone $vevent;
-        $vevent9->DTSTART = '20161027';
-        $vevent9->DTEND = '20161028';
-        $vevent9->RRULE = 'FREQ=DAILY';
+        $vevent9->DTSTART = TestHelper::createDtStart($calendar, '20161027');
+        $vevent9->DTEND = TestHelper::createDtEnd($calendar, '20161028');
+        $vevent9->RRULE = TestHelper::createRRule($calendar, 'FREQ=DAILY');
         $tests[] = [$vevent9, new \DateTime('2016-10-31'), new \DateTime('2016-12-12'), true];
 
         return $tests;
