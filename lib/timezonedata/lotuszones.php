@@ -34,13 +34,13 @@ return [
     'Newfoundland' => 'America/St_Johns',
     'Argentina' => 'America/Argentina/Buenos_Aires',
     'E. South America' => 'America/Belem',
-    'Greenland' => 'America/Godthab',
+    'Greenland' => 'America/Nuuk',
     'Montevideo' => 'America/Montevideo',
     'SA Eastern' => 'America/Belem',
     // 'Mid-Atlantic'           => 'Etc/GMT-2', // conflict with windows timezones.
     'Azores' => 'Atlantic/Azores',
     'Cape Verde' => 'Atlantic/Cape_Verde',
-    'Greenwich' => 'Atlantic/Reykjavik', // No I'm serious. Greenwich is not GMT.
+    'Greenwich' => 'Atlantic/Reykjavik', // No I'm serious.. Greenwich is not GMT.
     'Morocco' => 'Africa/Casablanca',
     'Central Europe' => 'Europe/Prague',
     'Central European' => 'Europe/Sarajevo',
