@@ -190,7 +190,7 @@ abstract class Document extends Component
 
         if (is_null($class)) {
             // If a VALUE parameter is supplied, we should use that.
-            if (isset($parameters['VALUE'])) {
+            if (isset($parameters['VALUE']) && is_string($parameters['VALUE'])) {
                 $class = $this->getClassNameForPropertyValue($parameters['VALUE']);
                 if (is_null($class)) {
                     throw new InvalidDataException('Unsupported VALUE parameter for '.$name.' property. You supplied "'.$parameters['VALUE'].'"');
