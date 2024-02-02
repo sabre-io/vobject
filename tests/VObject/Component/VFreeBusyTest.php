@@ -3,7 +3,6 @@
 namespace Sabre\VObject\Component;
 
 use PHPUnit\Framework\TestCase;
-use Sabre\VObject;
 use Sabre\VObject\Reader;
 
 class VFreeBusyTest extends TestCase
@@ -23,7 +22,7 @@ END:VFREEBUSY
 END:VCALENDAR
 BLA;
 
-        $obj = VObject\Reader::read($input);
+        $obj = Reader::read($input);
         $vfb = $obj->VFREEBUSY;
 
         $tz = new \DateTimeZone('UTC');

@@ -24,9 +24,9 @@ $vcal = Sabre\VObject\Reader::read(fopen($inputFile, 'r'));
 $bench->parse->stop();
 
 $repeat = 100;
-$start = new \DateTime('2000-01-01');
-$end = new \DateTime('2020-01-01');
-$timeZone = new \DateTimeZone('America/Toronto');
+$start = new DateTime('2000-01-01');
+$end = new DateTime('2020-01-01');
+$timeZone = new DateTimeZone('America/Toronto');
 
 $bench->fb->start();
 
