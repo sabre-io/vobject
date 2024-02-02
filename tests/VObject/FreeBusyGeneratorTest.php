@@ -46,7 +46,7 @@ class FreeBusyGeneratorTest extends TestCase
      *
      * @throws ParseException
      */
-    public function assertFreeBusyReport(string $expected, $input, \DateTimeZone $timeZone = null, string $vavailability = null): void
+    public function assertFreeBusyReport(string $expected, $input, ?\DateTimeZone $timeZone = null, ?string $vavailability = null): void
     {
         $gen = new FreeBusyGenerator(
             new \DateTime('20110101T110000Z', new \DateTimeZone('UTC')),

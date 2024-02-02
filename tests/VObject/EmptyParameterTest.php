@@ -21,7 +21,7 @@ VCF;
         $vcard = Reader::read($input);
 
         self::assertInstanceOf(Component\VCard::class, $vcard);
-        $vcard = $vcard->convert(\Sabre\VObject\Document::VCARD30);
+        $vcard = $vcard->convert(Document::VCARD30);
         $vcard = $vcard->serialize();
 
         $converted = Reader::read($vcard);

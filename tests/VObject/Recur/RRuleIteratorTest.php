@@ -1072,7 +1072,7 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
-    public function parse($rule, string $start, array $expected, string $fastForward = null, string $tz = 'UTC', bool $runTillTheEnd = false): void
+    public function parse($rule, string $start, array $expected, ?string $fastForward = null, string $tz = 'UTC', bool $runTillTheEnd = false): void
     {
         $dt = new \DateTime($start, new \DateTimeZone($tz));
         $parser = new RRuleIterator($rule, $dt);

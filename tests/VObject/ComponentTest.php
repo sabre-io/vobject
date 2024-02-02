@@ -463,7 +463,7 @@ class ComponentTest extends TestCase
      */
     public function testValidateRules(array $componentList, int $errorCount): void
     {
-        $vcard = new Component\VCard();
+        $vcard = new VCard();
 
         $component = new FakeComponent($vcard, 'Hi', [], false);
         foreach ($componentList as $v) {
@@ -475,7 +475,7 @@ class ComponentTest extends TestCase
 
     public function testValidateRepair(): void
     {
-        $vcard = new Component\VCard();
+        $vcard = new VCard();
 
         $component = new FakeComponent($vcard, 'Hi', [], false);
         $component->validate(Component::REPAIR);
@@ -484,7 +484,7 @@ class ComponentTest extends TestCase
 
     public function testValidateRepairShouldNotDeduplicatePropertiesWhenValuesDiffer(): void
     {
-        $vcard = new Component\VCard();
+        $vcard = new VCard();
 
         $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
         $component->add('BAZ', 'BAZ');
@@ -500,7 +500,7 @@ class ComponentTest extends TestCase
 
     public function testValidateRepairShouldNotDeduplicatePropertiesWhenParametersDiffer(): void
     {
-        $vcard = new Component\VCard();
+        $vcard = new VCard();
 
         $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
         $component->add('BAZ', 'BAZ');
@@ -516,7 +516,7 @@ class ComponentTest extends TestCase
 
     public function testValidateRepairShouldDeduplicatePropertiesWhenValuesAndParametersAreEqual(): void
     {
-        $vcard = new Component\VCard();
+        $vcard = new VCard();
 
         $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
         $component->add('BAZ', 'BAZ');
@@ -532,7 +532,7 @@ class ComponentTest extends TestCase
 
     public function testValidateRepairShouldDeduplicatePropertiesWhenValuesAreEqual(): void
     {
-        $vcard = new Component\VCard();
+        $vcard = new VCard();
 
         $component = new FakeComponent($vcard, 'WithDuplicateGIR', []);
         $component->add('BAZ', 'BAZ');

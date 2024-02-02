@@ -554,7 +554,7 @@ VCF;
 
         $vcard = Reader::read($input);
 
-        self::assertInstanceOf(Component\VCard::class, $vcard);
+        self::assertInstanceOf(VCard::class, $vcard);
         /** @var VCard $vcard */
         $vcard = $vcard->convert(Document::VCARD40);
         $vcard = $vcard->serialize();
