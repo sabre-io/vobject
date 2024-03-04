@@ -304,7 +304,7 @@ class VCardConverter
      * be valid in vCard 3.0 as well, we should convert those to BINARY if
      * possible, to improve compatibility.
      *
-     * @return Property\Binary|Property\Uri|null
+     * @return Binary|Uri|null
      *
      * @throws InvalidDataException
      */
