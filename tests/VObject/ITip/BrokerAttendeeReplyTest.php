@@ -404,15 +404,15 @@ ICS;
         $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [
-        [
-            'uid' => 'foobar',
-            'method' => 'REPLY',
-            'component' => 'VEVENT',
-            'sender' => 'mailto:one@example.org',
-            'senderName' => 'One',
-            'recipient' => 'mailto:strunk@example.org',
-            'recipientName' => 'Strunk',
-            'message' => <<<ICS
+            [
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject $version//EN
