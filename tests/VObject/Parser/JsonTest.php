@@ -89,15 +89,15 @@ class JsonTest extends TestCase
                     'adr',
                     new \stdClass(),
                     'text',
-                        [
-                            '',
-                            '',
-                            ['My Street', 'Left Side', 'Second Shack'],
-                            'Hometown',
-                            'PA',
-                            '18252',
-                            'U.S.A',
-                        ],
+                    [
+                        '',
+                        '',
+                        ['My Street', 'Left Side', 'Second Shack'],
+                        'Hometown',
+                        'PA',
+                        '18252',
+                        'U.S.A',
+                    ],
                 ],
 
                 [

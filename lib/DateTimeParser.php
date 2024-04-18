@@ -98,12 +98,12 @@ class DateTimeParser
         }
 
         $parts = [
-                'week',
-                'day',
-                'hour',
-                'minute',
-                'second',
-            ];
+            'week',
+            'day',
+            'hour',
+            'minute',
+            'second',
+        ];
 
         foreach ($parts as $part) {
             $matches[$part] = isset($matches[$part]) && $matches[$part] ? (int) $matches[$part] : 0;
