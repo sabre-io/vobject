@@ -162,6 +162,64 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+     /**
+     * @dataProvider dstTransitionProvider
+     */
+    public function testDailyOnDstTransition(string $start, array $expected): void
+    {
+        $this->parse(
+            'FREQ=DAILY;INTERVAL=1;COUNT=5',
+            $start,
+            $expected,
+            null,
+            'Europe/Zurich',
+        );
+    }
+
+    public function dstTransitionProvider(): iterable
+    {
+        yield 'On transition start' => [
+            'Start' => '2023-03-24 02:00:00',
+            'Expected' => [
+                '2023-03-24 02:00:00',
+                '2023-03-25 02:00:00',
+                '2023-03-26 03:00:00',
+                '2023-03-27 02:00:00',
+                '2023-03-28 02:00:00',
+            ],
+        ];
+        yield 'During transition' => [
+            'Start' => '2023-03-24 02:15:00',
+            'Expected' => [
+                '2023-03-24 02:15:00',
+                '2023-03-25 02:15:00',
+                '2023-03-26 03:15:00',
+                '2023-03-27 02:15:00',
+                '2023-03-28 02:15:00',
+            ],
+        ];
+        yield 'On transition end' => [
+            'Start' => '2023-03-24 03:00:00',
+            'Expected' => [
+                '2023-03-24 03:00:00',
+                '2023-03-25 03:00:00',
+                '2023-03-26 03:00:00',
+                '2023-03-27 03:00:00',
+                '2023-03-28 03:00:00',
+            ],
+        ];
+        yield 'After transition end' => [
+            'Start' => '2023-03-24 03:15:00',
+            'Expected' => [
+                '2023-03-24 03:15:00',
+                '2023-03-25 03:15:00',
+                '2023-03-26 03:15:00',
+                '2023-03-27 03:15:00',
+                '2023-03-28 03:15:00',
+            ],
+        ];
+    }
+
     public function testWeekly(): void
     {
         $this->parse(
