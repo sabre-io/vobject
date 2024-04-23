@@ -167,7 +167,7 @@ abstract class Document extends Component
      *
      * @throws InvalidDataException
      */
-    public function createProperty(string $name, $value = null, ?array $parameters = null, ?string $valueType = null): Property
+    public function createProperty(string $name, $value = null, ?array $parameters = null, ?string $valueType = null, ?int $lineIndex = null, ?string $lineString = null): Property
     {
         // If there's a . in the name, it means it's prefixed by a group name.
         if (false !== ($i = strpos($name, '.'))) {
@@ -201,7 +201,7 @@ abstract class Document extends Component
             $parameters = [];
         }
 
-        return new $class($this, $name, $value, $parameters, $group);
+        return new $class($this, $name, $value, $parameters, $group, $lineIndex, $lineString);
     }
 
     /**
