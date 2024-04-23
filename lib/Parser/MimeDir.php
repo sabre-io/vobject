@@ -447,7 +447,7 @@ class MimeDir extends Parser
             }
         }
 
-        $propObj = $this->root->createProperty($property['name'], null, $namedParameters);
+        $propObj = $this->root->createProperty($property['name'], null, $namedParameters, null, $this->startLine, $line);
 
         foreach ($namelessParameters as $namelessParameter) {
             $propObj->add(null, $namelessParameter);

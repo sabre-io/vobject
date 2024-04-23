@@ -186,10 +186,8 @@ abstract class Document extends Component
      * @param mixed  $value
      * @param array  $parameters
      * @param string $valueType  Force a specific valuetype, such as URI or TEXT
-     *
-     * @return Property
      */
-    public function createProperty($name, $value = null, array $parameters = null, $valueType = null)
+    public function createProperty($name, $value = null, array $parameters = null, $valueType = null, ?int $lineIndex = null, ?string $lineString = null): Property
     {
         // If there's a . in the name, it means it's prefixed by a groupname.
         if (false !== ($i = strpos($name, '.'))) {
@@ -223,7 +221,7 @@ abstract class Document extends Component
             $parameters = [];
         }
 
-        return new $class($this, $name, $value, $parameters, $group);
+        return new $class($this, $name, $value, $parameters, $group, $lineIndex, $lineString);
     }
 
     /**
