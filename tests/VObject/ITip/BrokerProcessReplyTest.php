@@ -255,8 +255,6 @@ ICS;
 
     public function testReplyExistingExceptionRecurrenceIdInUTC(): void
     {
-        // This is a reply to 1 instance of a recurring event. This should
-        // automatically create an exception.
         $itip = <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
