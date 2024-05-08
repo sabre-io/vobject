@@ -333,7 +333,7 @@ class Broker
 
         // Finding all the instances the attendee replied to.
         foreach ($itipMessage->message->VEVENT as $vevent) {
-            $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getValue() : 'master';
+            $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() : 'master';
             $attendee = $vevent->ATTENDEE;
             $instances[$recurId] = $attendee['PARTSTAT']->getValue();
             if (isset($vevent->{'REQUEST-STATUS'})) {
@@ -346,7 +346,7 @@ class Broker
         // all the instances where we have a reply for.
         $masterObject = null;
         foreach ($existingObject->VEVENT as $vevent) {
-            $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getValue() : 'master';
+            $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() : 'master';
             if ('master' === $recurId) {
                 $masterObject = $vevent;
             }
@@ -393,7 +393,7 @@ class Broker
                 $newObject = $recurrenceIterator->getEventObject();
                 $recurrenceIterator->next();
 
-                if (isset($newObject->{'RECURRENCE-ID'}) && $newObject->{'RECURRENCE-ID'}->getValue() === $recurId) {
+                if (isset($newObject->{'RECURRENCE-ID'}) && $newObject->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() === $recurId) {
                     $found = true;
                 }
                 --$iterations;
