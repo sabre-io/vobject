@@ -783,18 +783,18 @@ ICS;
         }
         self::assertCount(2, $result, 'We expected exactly 2 validation messages, instead we got '.count($result).' results:'.implode(', ', $warningMessages));
         foreach ($result as $idx => $warning) {
-            self::assertArrayHasKey('node', $warning, 'The validation errors should contain a node key');
-            self::assertInstanceOf(VObject\Property\ICalendar\DateTime::class, $warning['node'], 'We expected the defective node to be of type Sabre\VObject\Property\ICalendar\DateTime, instead we got type '.gettype($warning['node']));
-            self::assertObjectHasProperty('lineIndex', $warning['node'], 'We expected the defective node in the validation errors array to have a "lineIndex" property');
-            self::assertObjectHasProperty('lineString', $warning['node'], 'We expected the defective node in the validation errors array to have a "lineString" property');
+            self::assertArrayHasKey('node', $warning);
+            self::assertInstanceOf(VObject\Property\ICalendar\DateTime::class, $warning['node']);
+            self::assertObjectHasProperty('lineIndex', $warning['node']);
+            self::assertObjectHasProperty('lineString', $warning['node']);
             switch ($idx) {
                 case 0:
-                    self::assertEquals('10', $warning['node']->lineIndex, 'We expected the "lineIndex" property of the first defective node to be 10, instead it was '.$warning['node']->lineIndex);
-                    self::assertEquals('CREATED:', $warning['node']->lineString, 'We expected the "lineString" property of the first defective node to be "CREATED:", instead it was '.$warning['node']->lineString);
+                    self::assertEquals('10', $warning['node']->lineIndex);
+                    self::assertEquals('CREATED:', $warning['node']->lineString);
                     break;
                 case 1:
-                    self::assertEquals('11', $warning['node']->lineIndex, 'We expected the "lineIndex" property of the second defective node to be 11, instead it was '.$warning['node']->lineIndex);
-                    self::assertEquals('LAST-MODIFIED:', $warning['node']->lineString, 'We expected the "lineString" property of the second defective node to be "LAST-MODIFIED:", instead it was '.$warning['node']->lineString);
+                    self::assertEquals('11', $warning['node']->lineIndex);
+                    self::assertEquals('LAST-MODIFIED:', $warning['node']->lineString);
                     break;
             }
         }
