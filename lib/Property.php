@@ -54,14 +54,14 @@ abstract class Property extends Node
     /**
      * The line number in the original iCalendar / vCard file
      *   that corresponds with the current node
-     *   if the node was read from a file
+     *   if the node was read from a file.
      */
     public ?int $lineIndex;
 
     /**
      * The line string from the original iCalendar / vCard file
      *   that corresponds with the current node
-     *   if the node was read from a file
+     *   if the node was read from a file.
      */
     public ?string $lineString;
 
