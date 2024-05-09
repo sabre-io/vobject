@@ -530,6 +530,64 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider dstMonthlyTransitionProvider
+     */
+    public function testMonthlyOnDstTransition(string $start, array $expected): void
+    {
+        $this->parse(
+            'FREQ=MONTHLY;INTERVAL=1;COUNT=5',
+            $start,
+            $expected,
+            null,
+            'Europe/Zurich',
+        );
+    }
+
+    public function dstMonthlyTransitionProvider(): iterable
+    {
+        yield 'On transition start' => [
+            'Start' => '2023-01-26 02:00:00',
+            'Expected' => [
+                '2023-01-26 02:00:00',
+                '2023-02-26 02:00:00',
+                '2023-03-26 03:00:00',
+                '2023-04-26 02:00:00',
+                '2023-05-26 02:00:00',
+            ],
+        ];
+        yield 'During transition' => [
+            'Start' => '2023-01-26 02:15:00',
+            'Expected' => [
+                '2023-01-26 02:15:00',
+                '2023-02-26 02:15:00',
+                '2023-03-26 03:15:00',
+                '2023-04-26 02:15:00',
+                '2023-05-26 02:15:00',
+            ],
+        ];
+        yield 'On transition end' => [
+            'Start' => '2023-01-26 03:00:00',
+            'Expected' => [
+                '2023-01-26 03:00:00',
+                '2023-02-26 03:00:00',
+                '2023-03-26 03:00:00',
+                '2023-04-26 03:00:00',
+                '2023-05-26 03:00:00',
+            ],
+        ];
+        yield 'After transition end' => [
+            'Start' => '2023-01-26 03:15:00',
+            'Expected' => [
+                '2023-01-26 03:15:00',
+                '2023-02-26 03:15:00',
+                '2023-03-26 03:15:00',
+                '2023-04-26 03:15:00',
+                '2023-05-26 03:15:00',
+            ],
+        ];
+    }
+
     public function testYearly(): void
     {
         $this->parse(
