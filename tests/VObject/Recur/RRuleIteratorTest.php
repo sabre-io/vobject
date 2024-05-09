@@ -162,7 +162,7 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
-     /**
+    /**
      * @dataProvider dstTransitionProvider
      */
     public function testDailyOnDstTransition(string $start, array $expected): void
