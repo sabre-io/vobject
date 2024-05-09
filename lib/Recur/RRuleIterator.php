@@ -335,16 +335,16 @@ class RRuleIterator implements Iterator
      */
     protected function advanceTheDate(string $interval): void
     {
-        $hourOfCurrentDate = (int) $this->currentDate->format('G');
+        $hourOfPreviousDate = (int) $this->currentDate->format('G');
         $this->currentDate = $this->currentDate->modify($interval);
-        $hourOfNextDate = (int) $this->currentDate->format('G');
         if (0 === $this->hourJump) {
             // Remember if the clock time jumped forward on the next date.
             // That happens if the next date is a day when summer time starts
             // and the event time is in the non-existent hour of the day.
             // For example, an event that normally starts at 02:30 will
             // have to start at 03:30 on that day.
-            $this->hourJump = $hourOfNextDate - $hourOfCurrentDate;
+            $hourOfNextDate = (int) $this->currentDate->format('G');
+            $this->hourJump = $hourOfNextDate - $hourOfPreviousDate;
         } else {
             // The hour "jumped" for the previous date, to avoid the non-existent time.
             // currentDate got set ahead by (usually) 1 hour on that day.
