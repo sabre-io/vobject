@@ -253,6 +253,73 @@ ICS;
         $this->process($itip, $old, $expected);
     }
 
+    public function testReplyExistingExceptionRecurrenceIdInUTC(): void
+    {
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+RECURRENCE-ID:20140725T040000Z
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART;TZID=America/Toronto:20140724T000000
+DTEND;TZID=America/Toronto:20140724T010000
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+DTSTART;TZID=America/Toronto:20140725T000000
+DTEND;TZID=America/Toronto:20140725T010000
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+RECURRENCE-ID;TZID=America/Toronto:20140725T000000
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART;TZID=America/Toronto:20140724T000000
+DTEND;TZID=America/Toronto:20140724T010000
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+DTSTART;TZID=America/Toronto:20140725T000000
+DTEND;TZID=America/Toronto:20140725T010000
+ATTENDEE;PARTSTAT=ACCEPTED;SCHEDULE-STATUS=2.0:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+RECURRENCE-ID;TZID=America/Toronto:20140725T000000
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $this->process($itip, $old, $expected);
+    }
+
     public function testReplyNewException(): void
     {
         // This is a reply to 1 instance of a recurring event. This should
@@ -326,6 +393,126 @@ ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
 ORGANIZER:mailto:bar@example.org
 SEQUENCE:2
 RECURRENCE-ID;TZID=America/Toronto:20140725T000000
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART;TZID=America/Toronto:20140724T000000
+DTEND;TZID=America/Toronto:20140724T010000
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART;TZID=America/Toronto:20140724T000000
+DTEND;TZID=America/Toronto:20140724T010000
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+DTSTART;TZID=America/Toronto:20140725T000000
+DTEND;TZID=America/Toronto:20140725T010000
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+RECURRENCE-ID;TZID=America/Toronto:20140725T000000
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $this->process($itip, $old, $expected);
+    }
+
+    public function testReplyNewExceptionRecurrenceIdInDifferentTz(): void
+    {
+        // This is a reply to 1 instance of a recurring event. This should
+        // automatically create an exception.
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+RECURRENCE-ID;TZID=Asia/Ho_Chi_Minh:20140725T110000
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART;TZID=America/Toronto:20140724T000000
+DTEND;TZID=America/Toronto:20140724T010000
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART;TZID=America/Toronto:20140724T000000
+DTEND;TZID=America/Toronto:20140724T010000
+ATTENDEE:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+DTSTART;TZID=America/Toronto:20140725T000000
+DTEND;TZID=America/Toronto:20140725T010000
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+RECURRENCE-ID;TZID=America/Toronto:20140725T000000
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $this->process($itip, $old, $expected);
+    }
+
+    public function testReplyNewExceptionRecurrenceIdInUTC(): void
+    {
+        // This is a reply to 1 instance of a recurring event. This should
+        // automatically create an exception.
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+RECURRENCE-ID:20140725T040000Z
 UID:foobar
 END:VEVENT
 END:VCALENDAR
