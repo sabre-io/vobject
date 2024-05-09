@@ -333,6 +333,9 @@ class Broker
 
         // Finding all the instances the attendee replied to.
         foreach ($itipMessage->message->VEVENT as $vevent) {
+            // Use the Unix timestamp returned by getTimestamp as a unique identifier for the recurrence.
+            // The Unix timestamp will be the same for an event, even if the reply from the attendee
+            // used a different format/timezone to express the event date-time.
             $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() : 'master';
             $attendee = $vevent->ATTENDEE;
             $instances[$recurId] = $attendee['PARTSTAT']->getValue();
@@ -346,6 +349,7 @@ class Broker
         // all the instances where we have a reply for.
         $masterObject = null;
         foreach ($existingObject->VEVENT as $vevent) {
+            // Use the Unix timestamp returned by getTimestamp as a unique identifier for the recurrence.
             $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() : 'master';
             if ('master' === $recurId) {
                 $masterObject = $vevent;
@@ -393,6 +397,9 @@ class Broker
                 $newObject = $recurrenceIterator->getEventObject();
                 $recurrenceIterator->next();
 
+                // Compare the Unix timestamp returned by getTimestamp with the previously calculated timestamp.
+                // If they are the same, then this is a matching recurrence, even though its date-time may have
+                // been expressed in a different format/timezone.
                 if (isset($newObject->{'RECURRENCE-ID'}) && $newObject->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() === $recurId) {
                     $found = true;
                 }
