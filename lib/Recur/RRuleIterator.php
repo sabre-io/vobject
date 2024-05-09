@@ -285,6 +285,33 @@ class RRuleIterator implements \Iterator
     /* Functions that advance the iterator {{{ */
 
     /**
+     * Advances currentDate by the interval.
+     * Takes into account the case where summer time starts and
+     * the event time on that day may have had to be advanced,
+     * usually by 1 hour.
+     */
+    protected function advanceTheDate(string $interval): void
+    {
+        $hourOfCurrentDate = (int) $this->currentDate->format('G');
+        $this->currentDate = $this->currentDate->modify($interval);
+        $hourOfNextDate = (int) $this->currentDate->format('G');
+        if (0 === $this->hourJump) {
+            // Remember if the clock time jumped forward on the next date.
+            // That happens if the next date is a day when summer time starts
+            // and the event time is in the non-existent hour of the day.
+            // For example, an event that normally starts at 02:30 will
+            // have to start at 03:30 on that day.
+            $this->hourJump = $hourOfNextDate - $hourOfCurrentDate;
+        } else {
+            // The hour "jumped" for the previous date, to avoid the non-existent time.
+            // currentDate got set ahead by (usually) 1 hour on that day.
+            // Adjust it back for this next occurrence.
+            $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
+            $this->hourJump = 0;
+        }
+    }
+
+    /**
      * Does the processing for advancing the iterator for hourly frequency.
      */
     protected function nextHourly(): void
@@ -298,23 +325,7 @@ class RRuleIterator implements \Iterator
     protected function nextDaily(): void
     {
         if (!$this->byHour && !$this->byDay) {
-            $hourOfCurrentDate = (int) $this->currentDate->format('G');
-            $this->currentDate = $this->currentDate->modify('+'.$this->interval.' days');
-            $hourOfNextDate = (int) $this->currentDate->format('G');
-            if (0 === $this->hourJump) {
-                // Remember if the clock time jumped forward on the nextDate.
-                // That happens if nextDate is a day when summer time starts
-                // and the event time is in the non-existent hour of the day.
-                // For example, an event that normally starts at 02:30 will
-                // have to start at 03:30 on that day.
-                $this->hourJump = $hourOfNextDate - $hourOfCurrentDate;
-            } else {
-                // The hour "jumped" for the previous date, to avoid the non-existent time.
-                // currentDate got set ahead by (usually) one hour on that day.
-                // Adjust it back for this next occurrence.
-                $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
-                $this->hourJump = 0;
-            }
+            $this->advanceTheDate('+'.$this->interval.' days');
 
             return;
         }
@@ -373,23 +384,7 @@ class RRuleIterator implements \Iterator
     protected function nextWeekly(): void
     {
         if (!$this->byHour && !$this->byDay) {
-            $hourOfCurrentDate = (int) $this->currentDate->format('G');
-            $this->currentDate = $this->currentDate->modify('+'.$this->interval.' weeks');
-            $hourOfNextDate = (int) $this->currentDate->format('G');
-            if (0 === $this->hourJump) {
-                // Remember if the clock time jumped forward on the nextDate.
-                // That happens if nextDate is a day when summer time starts
-                // and the event time is in the non-existent hour of the day.
-                // For example, an event that normally starts at 02:30 will
-                // have to start at 03:30 on that day.
-                $this->hourJump = $hourOfNextDate - $hourOfCurrentDate;
-            } else {
-                // The hour "jumped" for the previous date, to avoid the non-existent time.
-                // currentDate got set ahead by (usually) one hour on that day.
-                // Adjust it back for this next occurrence.
-                $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
-                $this->hourJump = 0;
-            }
+            $this->advanceTheDate('+'.$this->interval.' weeks');
 
             return;
         }
@@ -448,23 +443,7 @@ class RRuleIterator implements \Iterator
             // occur to the next month. We Must skip these invalid
             // entries.
             if ($currentDayOfMonth < 29) {
-                $hourOfCurrentDate = (int) $this->currentDate->format('G');
-                $this->currentDate = $this->currentDate->modify('+'.$this->interval.' months');
-                $hourOfNextDate = (int) $this->currentDate->format('G');
-                if (0 === $this->hourJump) {
-                    // Remember if the clock time jumped forward on the nextDate.
-                    // That happens if nextDate is a day when summer time starts
-                    // and the event time is in the non-existent hour of the day.
-                    // For example, an event that normally starts at 02:30 will
-                    // have to start at 03:30 on that day.
-                    $this->hourJump = $hourOfNextDate - $hourOfCurrentDate;
-                } else {
-                    // The hour "jumped" for the previous date, to avoid the non-existent time.
-                    // currentDate got set ahead by (usually) one hour on that day.
-                    // Adjust it back for this next occurrence.
-                    $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
-                    $this->hourJump = 0;
-                }
+                $this->advanceTheDate('+'.$this->interval.' months');
             } else {
                 $increase = 0;
                 do {
@@ -642,23 +621,7 @@ class RRuleIterator implements \Iterator
             }
 
             // The easiest form
-            $hourOfCurrentDate = (int) $this->currentDate->format('G');
-            $this->currentDate = $this->currentDate->modify('+'.$this->interval.' years');
-            $hourOfNextDate = (int) $this->currentDate->format('G');
-            if (0 === $this->hourJump) {
-                // Remember if the clock time jumped forward on the nextDate.
-                // That happens if nextDate is a day when summer time starts
-                // and the event time is in the non-existent hour of the day.
-                // For example, an event that normally starts at 02:30 will
-                // have to start at 03:30 on that day.
-                $this->hourJump = $hourOfNextDate - $hourOfCurrentDate;
-            } else {
-                // The hour "jumped" for the previous date, to avoid the non-existent time.
-                // currentDate got set ahead by (usually) one hour on that day.
-                // Adjust it back for this next occurrence.
-                $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
-                $this->hourJump = 0;
-            }
+            $this->advanceTheDate('+'.$this->interval.' years');
 
             return;
         }
