@@ -316,7 +316,28 @@ class RRuleIterator implements \Iterator
      */
     protected function nextHourly(): void
     {
+        $hourOfCurrentDate = (int) $this->currentDate->format('G');
         $this->currentDate = $this->currentDate->modify('+'.$this->interval.' hours');
+        if (0 === $this->hourJump) {
+            // Remember if the clock time jumped forward on the next occurrence.
+            // That happens if the next event time is on a day when summer time starts
+            // and the event time is in the non-existent hour of the day.
+            // For example, an event that normally starts at 02:30 will
+            // have to start at 03:30 on that day.
+            // If the interval is just 1 hour, then there is no "jumping back" to do.
+            // The events that day will happen, for example, at 0130 0330 0430 0530...
+            if ($this->interval > 1) {
+                $expectedHourOfNextDate = ($hourOfCurrentDate + $this->interval) % 24;
+                $actualHourOfNextDate = (int) $this->currentDate->format('G');
+                $this->hourJump = $actualHourOfNextDate - $expectedHourOfNextDate;
+            }
+        } else {
+            // The hour "jumped" for the previous occurrence, to avoid the non-existent time.
+            // currentDate got set ahead by (usually) 1 hour on that day.
+            // Adjust it back for this next occurrence.
+            $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
+            $this->hourJump = 0;
+        }
     }
 
     /**
