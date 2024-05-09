@@ -887,6 +887,64 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider dstYearlyTransitionProvider
+     */
+    public function testYearlyOnDstTransition(string $start, array $expected): void
+    {
+        $this->parse(
+            'FREQ=YEARLY;INTERVAL=1;COUNT=5',
+            $start,
+            $expected,
+            null,
+            'Europe/Zurich',
+        );
+    }
+
+    public function dstYearlyTransitionProvider(): iterable
+    {
+        yield 'On transition start' => [
+            'Start' => '2021-03-26 02:00:00',
+            'Expected' => [
+                '2021-03-26 02:00:00',
+                '2022-03-26 02:00:00',
+                '2023-03-26 03:00:00',
+                '2024-03-26 02:00:00',
+                '2025-03-26 02:00:00',
+            ],
+        ];
+        yield 'During transition' => [
+            'Start' => '2021-03-26 02:15:00',
+            'Expected' => [
+                '2021-03-26 02:15:00',
+                '2022-03-26 02:15:00',
+                '2023-03-26 03:15:00',
+                '2024-03-26 02:15:00',
+                '2025-03-26 02:15:00',
+            ],
+        ];
+        yield 'On transition end' => [
+            'Start' => '2021-03-26 03:00:00',
+            'Expected' => [
+                '2021-03-26 03:00:00',
+                '2022-03-26 03:00:00',
+                '2023-03-26 03:00:00',
+                '2024-03-26 03:00:00',
+                '2025-03-26 03:00:00',
+            ],
+        ];
+        yield 'After transition end' => [
+            'Start' => '2021-03-26 03:15:00',
+            'Expected' => [
+                '2021-03-26 03:15:00',
+                '2022-03-26 03:15:00',
+                '2023-03-26 03:15:00',
+                '2024-03-26 03:15:00',
+                '2025-03-26 03:15:00',
+            ],
+        ];
+    }
+
     public function testFastForward()
     {
         // The idea is that we're fast-forwarding too far in the future, so
