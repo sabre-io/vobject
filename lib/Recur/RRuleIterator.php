@@ -160,6 +160,14 @@ class RRuleIterator implements \Iterator
     protected ?\DateTimeInterface $currentDate;
 
     /**
+     * The number of hours that the next occurrence of an event
+     * jumped forward, usually because summer time started and
+     * the requested time-of-day like 0230 did not exist on that
+     * day. And so the event was scheduled 1 hour later at 0330.
+     */
+    protected int $hourJump = 0;
+
+    /**
      * Frequency is one of: secondly, minutely, hourly, daily, weekly, monthly,
      * yearly.
      */
@@ -290,7 +298,23 @@ class RRuleIterator implements \Iterator
     protected function nextDaily(): void
     {
         if (!$this->byHour && !$this->byDay) {
+            $hourOfCurrentDate = (int) $this->currentDate->format('G');
             $this->currentDate = $this->currentDate->modify('+'.$this->interval.' days');
+            $hourOfNextDate = (int) $this->currentDate->format('G');
+            if (0 === $this->hourJump) {
+                // Remember if the clock time jumped forward on the nextDate.
+                // That happens if nextDate is a day when summer time starts
+                // and the event time is in the non-existent hour of the day.
+                // For example, an event that normally starts at 02:30 will
+                // have to start at 03:30 on that day.
+                $this->hourJump = $hourOfNextDate - $hourOfCurrentDate;
+            } else {
+                // The hour "jumped" for the previous date, to avoid the non-existent time.
+                // currentDate got set ahead by (usually) one hour on that day.
+                // Adjust it back for this next occurrence.
+                $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
+                $this->hourJump = 0;
+            }
 
             return;
         }
