@@ -416,7 +416,23 @@ class RRuleIterator implements Iterator
     protected function nextWeekly()
     {
         if (!$this->byHour && !$this->byDay) {
+            $hourOfCurrentDate = (int) $this->currentDate->format('G');
             $this->currentDate = $this->currentDate->modify('+'.$this->interval.' weeks');
+            $hourOfNextDate = (int) $this->currentDate->format('G');
+            if (0 === $this->hourJump) {
+                // Remember if the clock time jumped forward on the nextDate.
+                // That happens if nextDate is a day when summer time starts
+                // and the event time is in the non-existent hour of the day.
+                // For example, an event that normally starts at 02:30 will
+                // have to start at 03:30 on that day.
+                $this->hourJump = $hourOfNextDate - $hourOfCurrentDate;
+            } else {
+                // The hour "jumped" for the previous date, to avoid the non-existent time.
+                // currentDate got set ahead by (usually) one hour on that day.
+                // Adjust it back for this next occurrence.
+                $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
+                $this->hourJump = 0;
+            }
 
             return;
         }

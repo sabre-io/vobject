@@ -166,7 +166,7 @@ class RRuleIteratorTest extends TestCase
     }
 
     /**
-     * @dataProvider dstTransitionProvider
+     * @dataProvider dstDailyTransitionProvider
      */
     public function testDailyOnDstTransition(string $start, array $expected): void
     {
@@ -179,7 +179,7 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
-    public function dstTransitionProvider(): iterable
+    public function dstDailyTransitionProvider(): iterable
     {
         yield 'On transition start' => [
             'Start' => '2023-03-24 02:00:00',
@@ -324,6 +324,64 @@ class RRuleIteratorTest extends TestCase
                 '2011-11-30 18:00:00',
             ]
         );
+    }
+
+    /**
+     * @dataProvider dstWeeklyTransitionProvider
+     */
+    public function testWeeklyOnDstTransition(string $start, array $expected): void
+    {
+        $this->parse(
+            'FREQ=WEEKLY;INTERVAL=1;COUNT=5',
+            $start,
+            $expected,
+            null,
+            'Europe/Zurich',
+        );
+    }
+
+    public function dstWeeklyTransitionProvider(): iterable
+    {
+        yield 'On transition start' => [
+            'Start' => '2023-03-12 02:00:00',
+            'Expected' => [
+                '2023-03-12 02:00:00',
+                '2023-03-19 02:00:00',
+                '2023-03-26 03:00:00',
+                '2023-04-02 02:00:00',
+                '2023-04-09 02:00:00',
+            ],
+        ];
+        yield 'During transition' => [
+            'Start' => '2023-03-12 02:15:00',
+            'Expected' => [
+                '2023-03-12 02:15:00',
+                '2023-03-19 02:15:00',
+                '2023-03-26 03:15:00',
+                '2023-04-02 02:15:00',
+                '2023-04-09 02:15:00',
+            ],
+        ];
+        yield 'On transition end' => [
+            'Start' => '2023-03-12 03:00:00',
+            'Expected' => [
+                '2023-03-12 03:00:00',
+                '2023-03-19 03:00:00',
+                '2023-03-26 03:00:00',
+                '2023-04-02 03:00:00',
+                '2023-04-09 03:00:00',
+            ],
+        ];
+        yield 'After transition end' => [
+            'Start' => '2023-03-12 03:15:00',
+            'Expected' => [
+                '2023-03-12 03:15:00',
+                '2023-03-19 03:15:00',
+                '2023-03-26 03:15:00',
+                '2023-04-02 03:15:00',
+                '2023-04-09 03:15:00',
+            ],
+        ];
     }
 
     public function testMonthly()
