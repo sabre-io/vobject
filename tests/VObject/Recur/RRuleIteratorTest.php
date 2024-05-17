@@ -556,6 +556,26 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testMonthlyByMonthDayDstTransition(): void
+    {
+        $this->parse(
+            'FREQ=MONTHLY;INTERVAL=1;COUNT=8;BYMONTHDAY=1,26',
+            '2023-01-01 02:15:00',
+            [
+                '2023-01-01 02:15:00',
+                '2023-01-26 02:15:00',
+                '2023-02-01 02:15:00',
+                '2023-02-26 02:15:00',
+                '2023-03-01 02:15:00',
+                '2023-03-26 03:15:00',
+                '2023-04-01 02:15:00',
+                '2023-04-26 02:15:00',
+            ],
+            null,
+            'Europe/Zurich',
+        );
+    }
+
     public function testMonthlyByDay()
     {
         $this->parse(
