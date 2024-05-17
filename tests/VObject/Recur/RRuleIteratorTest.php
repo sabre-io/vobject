@@ -722,6 +722,16 @@ class RRuleIteratorTest extends TestCase
                 '2023-05-26 03:15:00',
             ],
         ];
+        yield 'During transition on 31st day of month' => [
+            'Start' => '2024-01-31 02:15:00',
+            'Expected' => [
+                '2024-01-31 02:15:00',
+                '2024-03-31 03:15:00',
+                '2024-05-31 02:15:00',
+                '2024-07-31 02:15:00',
+                '2024-08-31 02:15:00',
+            ],
+        ];
     }
 
     public function testYearly(): void
