@@ -498,7 +498,7 @@ class RRuleIterator implements Iterator
                 do {
                     ++$increase;
                     $tempDate = clone $this->currentDate;
-                    $tempDate = $tempDate->modify('+ '.($this->interval * $increase).' months');
+                    $tempDate = $tempDate->modify('+ '.($this->interval * $increase).' months '.$this->startDate->format('H:i:s'));
                 } while ($tempDate->format('j') != $currentDayOfMonth);
                 $this->currentDate = $tempDate;
             }
