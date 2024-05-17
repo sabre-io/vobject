@@ -923,6 +923,52 @@ class RRuleIteratorTest extends TestCase
     }
 
     /**
+     * This caused an incorrect date to be returned by the rule iterator when
+     * start date was not on the rrule list.
+     *
+     * @dataProvider yearlyStartDateNotOnRRuleListProvider
+     */
+    public function testYearlyStartDateNotOnRRuleList(string $rule, string $start, array $expected): void
+    {
+        $this->parse($rule, $start, $expected);
+    }
+
+    public function yearlyStartDateNotOnRRuleListProvider(): array
+    {
+        return [
+            [
+                'FREQ=YEARLY;BYMONTH=6;BYDAY=-1FR;UNTIL=20250901T000000Z',
+                '2023-09-01 12:00:00',
+                [
+                    '2023-09-01 12:00:00',
+                    '2024-06-28 12:00:00',
+                    '2025-06-27 12:00:00',
+                ],
+            ],
+            [
+                'FREQ=YEARLY;BYMONTH=6;BYDAY=-1FR;UNTIL=20250901T000000Z',
+                '2023-06-01 12:00:00',
+                [
+                    '2023-06-01 12:00:00',
+                    '2023-06-30 12:00:00',
+                    '2024-06-28 12:00:00',
+                    '2025-06-27 12:00:00',
+                ],
+            ],
+            [
+                'FREQ=YEARLY;BYMONTH=6;BYDAY=-1FR;UNTIL=20250901T000000Z',
+                '2023-05-01 12:00:00',
+                [
+                    '2023-05-01 12:00:00',
+                    '2023-06-30 12:00:00',
+                    '2024-06-28 12:00:00',
+                    '2025-06-27 12:00:00',
+                ],
+            ],
+        ];
+    }
+
+    /**
      * Something, somewhere produced an ics with an interval set to 0. Because
      * this means we increase the current day (or week, month) by 0, this also
      * results in an infinite loop.
