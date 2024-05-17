@@ -508,11 +508,15 @@ class RRuleIterator implements \Iterator
             }
         }
 
+        // Set the currentDate to the year and month that we are in, and the day of the month that we have selected.
+        // That day could be a day when summer time starts, and if the time of the event is, for example, 0230,
+        // then 0230 will not be a valid time on that day. So always apply the start time from the original startDate.
+        // The "modify" method will set the time forward to 0330, for example, if needed.
         $this->currentDate = $this->currentDate->setDate(
             (int) $this->currentDate->format('Y'),
             (int) $this->currentDate->format('n'),
             (int) $occurrence
-        );
+        )->modify($this->startDate->format('H:i:s'));
     }
 
     /**
