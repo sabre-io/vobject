@@ -329,29 +329,16 @@ class RRuleIterator implements Iterator
 
     /**
      * Advances currentDate by the interval.
-     * Takes into account the case where summer time starts and
-     * the event time on that day may have had to be advanced,
-     * usually by 1 hour.
+     * The time is set from the original startDate.
+     * If the recurrence is on a day when summer time started, then the
+     * time on that day may have jumped forward, for example, from 0230 to 0330.
+     * Using the original time means that the next recurrence will be calculated
+     * based on the original start time and the day/week/month/year interval.
+     * So the start time of the next occurrence can correctly revert to 0230.
      */
     protected function advanceTheDate(string $interval): void
     {
-        $hourOfPreviousDate = (int) $this->currentDate->format('G');
-        $this->currentDate = $this->currentDate->modify($interval);
-        if (0 === $this->hourJump) {
-            // Remember if the clock time jumped forward on the next date.
-            // That happens if the next date is a day when summer time starts
-            // and the event time is in the non-existent hour of the day.
-            // For example, an event that normally starts at 02:30 will
-            // have to start at 03:30 on that day.
-            $hourOfNextDate = (int) $this->currentDate->format('G');
-            $this->hourJump = $hourOfNextDate - $hourOfPreviousDate;
-        } else {
-            // The hour "jumped" for the previous date, to avoid the non-existent time.
-            // currentDate got set ahead by (usually) 1 hour on that day.
-            // Adjust it back for this next occurrence.
-            $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
-            $this->hourJump = 0;
-        }
+        $this->currentDate = $this->currentDate->modify($interval.' '.$this->startDate->format('H:i:s'));
     }
 
     /**
