@@ -354,7 +354,7 @@ class RRuleIterator implements Iterator
     /**
      * Does the processing for adjusting the time of multi-hourly events when summer time starts.
      */
-    private function adjustForTimeJumpsOfHourlyEvent(DateTimeInterface $previousEventDateTime): void
+    protected function adjustForTimeJumpsOfHourlyEvent(DateTimeInterface $previousEventDateTime): void
     {
         if (0 === $this->hourJump) {
             // Remember if the clock time jumped forward on the next occurrence.
