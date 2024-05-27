@@ -328,6 +328,16 @@ class RRuleIterator implements Iterator
     /* Functions that advance the iterator {{{ */
 
     /**
+     * Gets the original start time of the RRULE.
+     *
+     * The value is formatted as a string with 24-hour:minute:second
+     */
+    protected function startTime(): string
+    {
+        return $this->startDate->format('H:i:s');
+    }
+
+    /**
      * Advances currentDate by the interval.
      * The time is set from the original startDate.
      * If the recurrence is on a day when summer time started, then the
@@ -338,7 +348,7 @@ class RRuleIterator implements Iterator
      */
     protected function advanceTheDate(string $interval): void
     {
-        $this->currentDate = $this->currentDate->modify($interval.' '.$this->startDate->format('H:i:s'));
+        $this->currentDate = $this->currentDate->modify($interval.' '.$this->startTime());
     }
 
     /**
@@ -506,7 +516,7 @@ class RRuleIterator implements Iterator
                 do {
                     ++$increase;
                     $tempDate = clone $this->currentDate;
-                    $tempDate = $tempDate->modify('+ '.($this->interval * $increase).' months '.$this->startDate->format('H:i:s'));
+                    $tempDate = $tempDate->modify('+ '.($this->interval * $increase).' months '.$this->startTime());
                 } while ($tempDate->format('j') != $currentDayOfMonth);
                 $this->currentDate = $tempDate;
             }
@@ -565,7 +575,7 @@ class RRuleIterator implements Iterator
             (int) $this->currentDate->format('Y'),
             (int) $this->currentDate->format('n'),
             (int) $occurrence
-        )->modify($this->startDate->format('H:i:s'));
+        )->modify($this->startTime());
     }
 
     /**
