@@ -101,6 +101,25 @@ VCF;
         $mimeDir->parse($vcard);
     }
 
+    public function provideEmptyParserInput(): array
+    {
+        return [
+            [null, 'No input provided to parse'],
+            ['', 'End of document reached prematurely'],
+        ];
+    }
+
+    /**
+     * @dataProvider provideEmptyParserInput
+     */
+    public function testParseEmpty($input, $expectedExceptionMessage): void
+    {
+        $this->expectException(ParseException::class);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+        $mimeDir = new MimeDir();
+        $mimeDir->parse($input);
+    }
+
     public function testDecodeWindows1252(): void
     {
         $vcard = <<<VCF
