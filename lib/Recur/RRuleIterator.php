@@ -342,12 +342,10 @@ class RRuleIterator implements Iterator
     }
 
     /**
-     * Does the processing for advancing the iterator for hourly frequency.
+     * Does the processing for adjusting the time of multi-hourly events when summer time starts.
      */
-    protected function nextHourly()
+    private function adjustForTimeJumpsOfHourlyEvent(DateTimeInterface $previousEventDateTime): void
     {
-        $hourOfCurrentDate = (int) $this->currentDate->format('G');
-        $this->currentDate = $this->currentDate->modify('+'.$this->interval.' hours');
         if (0 === $this->hourJump) {
             // Remember if the clock time jumped forward on the next occurrence.
             // That happens if the next event time is on a day when summer time starts
@@ -355,9 +353,9 @@ class RRuleIterator implements Iterator
             // For example, an event that normally starts at 02:30 will
             // have to start at 03:30 on that day.
             // If the interval is just 1 hour, then there is no "jumping back" to do.
-            // The events that day will happen, for example, at 0130 0330 0430 0530...
+            // The events that day will happen, for example, at 0030 0130 0330 0430 0530...
             if ($this->interval > 1) {
-                $expectedHourOfNextDate = ($hourOfCurrentDate + $this->interval) % 24;
+                $expectedHourOfNextDate = ((int) $previousEventDateTime->format('G') + $this->interval) % 24;
                 $actualHourOfNextDate = (int) $this->currentDate->format('G');
                 $this->hourJump = $actualHourOfNextDate - $expectedHourOfNextDate;
             }
@@ -368,6 +366,16 @@ class RRuleIterator implements Iterator
             $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
             $this->hourJump = 0;
         }
+    }
+
+    /**
+     * Does the processing for advancing the iterator for hourly frequency.
+     */
+    protected function nextHourly()
+    {
+        $previousEventDateTime = clone $this->currentDate;
+        $this->currentDate = $this->currentDate->modify('+'.$this->interval.' hours');
+        $this->adjustForTimeJumpsOfHourlyEvent($previousEventDateTime);
     }
 
     /**
