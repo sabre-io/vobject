@@ -79,6 +79,12 @@ class MimeDir extends Parser
             $this->setInput($input);
         }
 
+        if (!\is_resource($this->input)) {
+            // Null was passed as input, but there was no existing input buffer
+            // There is nothing to parse.
+            throw new ParseException('No input provided to parse');
+        }
+
         if (0 !== $options) {
             $this->options = $options;
         }
