@@ -664,6 +664,31 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testMonthlyByDayOnDstTransition(): void
+    {
+        $this->parse(
+            'FREQ=MONTHLY;INTERVAL=2;COUNT=13;BYDAY=SU',
+            '2023-01-01 02:30:00',
+            [
+                '2023-01-01 02:30:00',
+                '2023-01-08 02:30:00',
+                '2023-01-15 02:30:00',
+                '2023-01-22 02:30:00',
+                '2023-01-29 02:30:00',
+                '2023-03-05 02:30:00',
+                '2023-03-12 02:30:00',
+                '2023-03-19 02:30:00',
+                '2023-03-26 03:30:00',
+                '2023-05-07 02:30:00',
+                '2023-05-14 02:30:00',
+                '2023-05-21 02:30:00',
+                '2023-05-28 02:30:00',
+            ],
+            null,
+            'Europe/Zurich',
+        );
+    }
+
     public function testMonthlyByDayUntilWithImpossibleNextOccurrence()
     {
         $this->parse(
@@ -831,6 +856,26 @@ class RRuleIteratorTest extends TestCase
                 '2023-04-07 00:00:00',
                 '2023-10-07 00:00:00',
             ]
+        );
+    }
+
+    public function testYearlyByMonthOnDstTransition(): void
+    {
+        $this->parse(
+            'FREQ=YEARLY;COUNT=8;INTERVAL=2;BYMONTH=3,9',
+            '2019-03-26 02:30:00',
+            [
+                '2019-03-26 02:30:00',
+                '2019-09-26 02:30:00',
+                '2021-03-26 02:30:00',
+                '2021-09-26 02:30:00',
+                '2023-03-26 03:30:00',
+                '2023-09-26 02:30:00',
+                '2025-03-26 02:30:00',
+                '2025-09-26 02:30:00',
+            ],
+            null,
+            'Europe/Zurich',
         );
     }
 
