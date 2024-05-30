@@ -457,6 +457,34 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testWeeklyByDayByHourOnDstTransition(): void
+    {
+        $this->parse(
+            'FREQ=WEEKLY;INTERVAL=2;BYDAY=SA,SU;WKST=MO;BYHOUR=2,14',
+            '2023-03-11 02:00:00',
+            [
+                '2023-03-11 02:00:00',
+                '2023-03-11 14:00:00',
+                '2023-03-12 02:00:00',
+                '2023-03-12 14:00:00',
+                '2023-03-25 02:00:00',
+                '2023-03-25 14:00:00',
+                // 02:00:00 does not exist on 2023-03-26 because of summer-time start.
+                // The current implementation logic does not schedule a recurrence on
+                // the morning of 2023-03-26. But maybe it should schedule one at 03:00:00.
+                // The RFC is silent about the required behavior in this case.
+                // '2023-03-26 03:00:00',
+                '2023-03-26 14:00:00',
+                '2023-04-08 02:00:00',
+                '2023-04-08 14:00:00',
+                '2023-04-09 02:00:00',
+                '2023-04-09 14:00:00',
+            ],
+            null,
+            'Europe/Zurich',
+        );
+    }
+
     /**
      * @dataProvider dstWeeklyTransitionProvider
      */
