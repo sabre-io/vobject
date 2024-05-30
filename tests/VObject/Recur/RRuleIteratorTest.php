@@ -442,6 +442,24 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testWeeklyByDaySpecificHourOnDstTransition(): void
+    {
+        $this->parse(
+            'FREQ=WEEKLY;INTERVAL=2;BYDAY=SA,SU',
+            '2023-03-11 02:30:00',
+            [
+                '2023-03-11 02:30:00',
+                '2023-03-12 02:30:00',
+                '2023-03-25 02:30:00',
+                '2023-03-26 03:30:00',
+                '2023-04-08 02:30:00',
+                '2023-04-09 02:30:00',
+            ],
+            null,
+            'Europe/Zurich',
+        );
+    }
+
     /**
      * @dataProvider dstWeeklyTransitionProvider
      */

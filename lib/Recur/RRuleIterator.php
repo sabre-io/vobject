@@ -475,7 +475,7 @@ class RRuleIterator implements Iterator
             if ($this->byHour) {
                 $this->currentDate = $this->currentDate->modify('+1 hours');
             } else {
-                $this->currentDate = $this->currentDate->modify('+1 days');
+                $this->advanceTheDate('+1 days');
             }
 
             // Current day of the week
