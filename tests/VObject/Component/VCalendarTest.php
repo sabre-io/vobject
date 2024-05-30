@@ -785,8 +785,14 @@ ICS;
         foreach ($result as $idx => $warning) {
             self::assertArrayHasKey('node', $warning);
             self::assertInstanceOf(VObject\Property\ICalendar\DateTime::class, $warning['node']);
-            self::assertObjectHasProperty('lineIndex', $warning['node']);
-            self::assertObjectHasProperty('lineString', $warning['node']);
+            if (method_exists($this, 'assertObjectHasProperty')) {
+                self::assertObjectHasProperty('lineIndex', $warning['node']);
+                self::assertObjectHasProperty('lineString', $warning['node']);
+            } else {
+                // Fall back to the older method name known to older versions of phpunit.
+                self::assertObjectHasAttribute('lineIndex', $warning['node']);
+                self::assertObjectHasAttribute('lineString', $warning['node']);
+            }
             switch ($idx) {
                 case 0:
                     self::assertEquals('10', $warning['node']->lineIndex);
