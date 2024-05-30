@@ -715,7 +715,7 @@ class RRuleIterator implements \Iterator
                 (int) $currentYear,
                 (int) $currentMonth,
                 (int) $occurrence
-            );
+            )->modify($this->startTime());
 
             return;
         } else {
