@@ -937,6 +937,31 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testYearlyByMonthByDayOnDstTransition(): void
+    {
+        $this->parse(
+            'FREQ=YEARLY;COUNT=13;INTERVAL=2;BYMONTH=3;BYDAY=SU',
+            '2021-03-07 02:30:00',
+            [
+                '2021-03-07 02:30:00',
+                '2021-03-14 02:30:00',
+                '2021-03-21 02:30:00',
+                '2021-03-28 03:30:00',
+                '2023-03-05 02:30:00',
+                '2023-03-12 02:30:00',
+                '2023-03-19 02:30:00',
+                '2023-03-26 03:30:00',
+                '2025-03-02 02:30:00',
+                '2025-03-09 02:30:00',
+                '2025-03-16 02:30:00',
+                '2025-03-23 02:30:00',
+                '2025-03-30 03:30:00',
+            ],
+            null,
+            'Europe/Zurich',
+        );
+    }
+
     public function testYearlyNewYearsDay()
     {
         $this->parse(
