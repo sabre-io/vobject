@@ -1,4 +1,7 @@
 parameters:
   level: 1
+  reportUnmatchedIgnoredErrors: false
   universalObjectCratesClasses:
     - \Sabre\VObject\Component
+  ignoreErrors:
+    - '#Call to an undefined static method Sabre\\VObject\\Component\\VCalendarTest::assertObjectHasProperty\(\).#'

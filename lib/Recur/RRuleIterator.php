@@ -651,7 +651,11 @@ class RRuleIterator implements Iterator
                     // If we advanced to the next month or year, the first
                     // occurrence is always correct.
                     if ($occurrence > $currentDayOfMonth || $advancedToNewMonth) {
-                        break 2;
+                        // only consider byMonth matches,
+                        // otherwise, we don't follow RRule correctly
+                        if (in_array($currentMonth, $this->byMonth)) {
+                            break 2;
+                        }
                     }
                 }
 
