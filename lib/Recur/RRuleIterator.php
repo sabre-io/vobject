@@ -178,7 +178,7 @@ class RRuleIterator implements Iterator
      * the requested time-of-day like 0230 did not exist on that
      * day. And so the event was scheduled 1 hour later at 0330.
      */
-    protected int $hourJump = 0;
+    protected $hourJump = 0;
 
     /**
      * Frequency is one of: secondly, minutely, hourly, daily, weekly, monthly,

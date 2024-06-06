@@ -42,7 +42,7 @@ class RRuleIteratorTest extends TestCase
             $start,
             $expected,
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -100,7 +100,7 @@ class RRuleIteratorTest extends TestCase
             $start,
             $expected,
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -291,7 +291,7 @@ class RRuleIteratorTest extends TestCase
             $start,
             $expected,
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -456,7 +456,7 @@ class RRuleIteratorTest extends TestCase
                 '2023-04-09 02:30:00',
             ],
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -484,7 +484,7 @@ class RRuleIteratorTest extends TestCase
                 '2023-04-09 14:00:00',
             ],
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -498,7 +498,7 @@ class RRuleIteratorTest extends TestCase
             $start,
             $expected,
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -618,7 +618,7 @@ class RRuleIteratorTest extends TestCase
                 '2023-04-26 02:15:00',
             ],
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -685,7 +685,7 @@ class RRuleIteratorTest extends TestCase
                 '2023-05-28 02:30:00',
             ],
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -750,7 +750,7 @@ class RRuleIteratorTest extends TestCase
             $start,
             $expected,
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -875,7 +875,7 @@ class RRuleIteratorTest extends TestCase
                 '2025-09-26 02:30:00',
             ],
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -958,7 +958,7 @@ class RRuleIteratorTest extends TestCase
                 '2025-03-30 03:30:00',
             ],
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
@@ -1159,7 +1159,7 @@ class RRuleIteratorTest extends TestCase
             $start,
             $expected,
             null,
-            'Europe/Zurich',
+            'Europe/Zurich'
         );
     }
 
