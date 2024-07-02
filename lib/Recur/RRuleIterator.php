@@ -173,6 +173,14 @@ class RRuleIterator implements Iterator
     protected $currentDate;
 
     /**
+     * The number of hours that the next occurrence of an event
+     * jumped forward, usually because summer time started and
+     * the requested time-of-day like 0230 did not exist on that
+     * day. And so the event was scheduled 1 hour later at 0330.
+     */
+    protected $hourJump = 0;
+
+    /**
      * Frequency is one of: secondly, minutely, hourly, daily, weekly, monthly,
      * yearly.
      *
@@ -320,11 +328,64 @@ class RRuleIterator implements Iterator
     /* Functions that advance the iterator {{{ */
 
     /**
+     * Gets the original start time of the RRULE.
+     *
+     * The value is formatted as a string with 24-hour:minute:second
+     */
+    protected function startTime(): string
+    {
+        return $this->startDate->format('H:i:s');
+    }
+
+    /**
+     * Advances currentDate by the interval.
+     * The time is set from the original startDate.
+     * If the recurrence is on a day when summer time started, then the
+     * time on that day may have jumped forward, for example, from 0230 to 0330.
+     * Using the original time means that the next recurrence will be calculated
+     * based on the original start time and the day/week/month/year interval.
+     * So the start time of the next occurrence can correctly revert to 0230.
+     */
+    protected function advanceTheDate(string $interval): void
+    {
+        $this->currentDate = $this->currentDate->modify($interval.' '.$this->startTime());
+    }
+
+    /**
+     * Does the processing for adjusting the time of multi-hourly events when summer time starts.
+     */
+    protected function adjustForTimeJumpsOfHourlyEvent(DateTimeInterface $previousEventDateTime): void
+    {
+        if (0 === $this->hourJump) {
+            // Remember if the clock time jumped forward on the next occurrence.
+            // That happens if the next event time is on a day when summer time starts
+            // and the event time is in the non-existent hour of the day.
+            // For example, an event that normally starts at 02:30 will
+            // have to start at 03:30 on that day.
+            // If the interval is just 1 hour, then there is no "jumping back" to do.
+            // The events that day will happen, for example, at 0030 0130 0330 0430 0530...
+            if ($this->interval > 1) {
+                $expectedHourOfNextDate = ((int) $previousEventDateTime->format('G') + $this->interval) % 24;
+                $actualHourOfNextDate = (int) $this->currentDate->format('G');
+                $this->hourJump = $actualHourOfNextDate - $expectedHourOfNextDate;
+            }
+        } else {
+            // The hour "jumped" for the previous occurrence, to avoid the non-existent time.
+            // currentDate got set ahead by (usually) 1 hour on that day.
+            // Adjust it back for this next occurrence.
+            $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
+            $this->hourJump = 0;
+        }
+    }
+
+    /**
      * Does the processing for advancing the iterator for hourly frequency.
      */
     protected function nextHourly()
     {
+        $previousEventDateTime = clone $this->currentDate;
         $this->currentDate = $this->currentDate->modify('+'.$this->interval.' hours');
+        $this->adjustForTimeJumpsOfHourlyEvent($previousEventDateTime);
     }
 
     /**
@@ -333,7 +394,7 @@ class RRuleIterator implements Iterator
     protected function nextDaily()
     {
         if (!$this->byHour && !$this->byDay) {
-            $this->currentDate = $this->currentDate->modify('+'.$this->interval.' days');
+            $this->advanceTheDate('+'.$this->interval.' days');
 
             return;
         }
@@ -392,7 +453,7 @@ class RRuleIterator implements Iterator
     protected function nextWeekly()
     {
         if (!$this->byHour && !$this->byDay) {
-            $this->currentDate = $this->currentDate->modify('+'.$this->interval.' weeks');
+            $this->advanceTheDate('+'.$this->interval.' weeks');
 
             return;
         }
@@ -414,7 +475,7 @@ class RRuleIterator implements Iterator
             if ($this->byHour) {
                 $this->currentDate = $this->currentDate->modify('+1 hours');
             } else {
-                $this->currentDate = $this->currentDate->modify('+1 days');
+                $this->advanceTheDate('+1 days');
             }
 
             // Current day of the week
@@ -449,13 +510,13 @@ class RRuleIterator implements Iterator
             // occur to the next month. We Must skip these invalid
             // entries.
             if ($currentDayOfMonth < 29) {
-                $this->currentDate = $this->currentDate->modify('+'.$this->interval.' months');
+                $this->advanceTheDate('+'.$this->interval.' months');
             } else {
                 $increase = 0;
                 do {
                     ++$increase;
                     $tempDate = clone $this->currentDate;
-                    $tempDate = $tempDate->modify('+ '.($this->interval * $increase).' months');
+                    $tempDate = $tempDate->modify('+ '.($this->interval * $increase).' months '.$this->startTime());
                 } while ($tempDate->format('j') != $currentDayOfMonth);
                 $this->currentDate = $tempDate;
             }
@@ -506,11 +567,15 @@ class RRuleIterator implements Iterator
             }
         }
 
+        // Set the currentDate to the year and month that we are in, and the day of the month that we have selected.
+        // That day could be a day when summer time starts, and if the time of the event is, for example, 0230,
+        // then 0230 will not be a valid time on that day. So always apply the start time from the original startDate.
+        // The "modify" method will set the time forward to 0330, for example, if needed.
         $this->currentDate = $this->currentDate->setDate(
             (int) $this->currentDate->format('Y'),
             (int) $this->currentDate->format('n'),
             (int) $occurrence
-        );
+        )->modify($this->startTime());
     }
 
     /**
@@ -627,7 +692,7 @@ class RRuleIterator implements Iterator
             }
 
             // The easiest form
-            $this->currentDate = $this->currentDate->modify('+'.$this->interval.' years');
+            $this->advanceTheDate('+'.$this->interval.' years');
 
             return;
         }
@@ -691,7 +756,7 @@ class RRuleIterator implements Iterator
                 (int) $currentYear,
                 (int) $currentMonth,
                 (int) $occurrence
-            );
+            )->modify($this->startTime());
 
             return;
         } else {
@@ -708,7 +773,7 @@ class RRuleIterator implements Iterator
                 (int) $currentYear,
                 (int) $currentMonth,
                 (int) $currentDayOfMonth
-            );
+            )->modify($this->startTime());
 
             return;
         }
