@@ -1,6 +1,17 @@
 ChangeLog
 =========
 
+4.5.5 (2024-07-02)
+------------------
+
+* #632: Add PHP 8.3 to CI (@phil-davis)
+* #649: add lineIndex and lineString properties to a Property Node (@JohnRDOrazio)
+* #652: ITip\Broker: handle timezones in replies to exception events (@gharlan)
+* #654: chore: stop exporting php-cs-fixer config (@phil-davis)
+* #656: Yearly rrule compliance by the iterator (@kroky)
+* #658: throw ParseException when null input is provided (@phil-davis)
+* #653: Handle summer time jumps in event recurrences (@phil-davis)
+
 4.5.4 (2023-11-09)
 ------------------
 
