@@ -88,6 +88,31 @@ HI;
         self::assertEquals([], $messages);
     }
 
+    public function testValidateExtraProperty(): void
+    {
+        $input = <<<HI
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:YoYo
+BEGIN:VTODO
+UID:1234-21355-123156
+DTSTAMP:20140402T183400Z
+PERCENT:80
+END:VTODO
+END:VCALENDAR
+HI;
+
+        $obj = Reader::read($input);
+
+        $warnings = $obj->validate();
+        $messages = [];
+        foreach ($warnings as $warning) {
+            $messages[] = $warning['message'];
+        }
+
+        self::assertEquals([], $messages);
+    }
+
     public function testValidateInvalid(): void
     {
         $input = <<<HI
