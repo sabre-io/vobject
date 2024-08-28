@@ -3,7 +3,7 @@
 include __DIR__.'/../vendor/autoload.php';
 
 if ($argc < 2) {
-    echo 'sabre/vobject ', Sabre\VObject\Version::VERSION, " manipulation benchmark\n";
+    echo 'sabre/vobject ', VObject\Version::VERSION, " manipulation benchmark\n";
     echo "\n";
     echo "This script can be used to measure the speed of opening a large amount of\n";
     echo "vcards, making a few alterations and serializing them again.\n";
@@ -17,7 +17,7 @@ list(, $inputFile) = $argv;
 
 $input = file_get_contents($inputFile);
 
-$splitter = new Sabre\VObject\Splitter\VCard($input);
+$splitter = new VObject\Splitter\VCard($input);
 
 $bench = new Hoa\Bench\Bench();
 

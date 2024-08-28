@@ -3,7 +3,7 @@
 include __DIR__.'/../vendor/autoload.php';
 
 if ($argc < 4) {
-    echo 'sabre/vobject ', Sabre\VObject\Version::VERSION, " RRULE benchmark\n";
+    echo 'sabre/vobject ', VObject\Version::VERSION, " RRULE benchmark\n";
     echo "\n";
     echo "This script can be used to measure the speed of the 'recurrence expansion'\n";
     echo 'system.';
@@ -18,7 +18,7 @@ $bench = new Hoa\Bench\Bench();
 $bench->parse->start();
 
 echo "Parsing.\n";
-$vobj = Sabre\VObject\Reader::read(fopen($inputFile, 'r'));
+$vobj = VObject\Reader::read(fopen($inputFile, 'r'));
 
 $bench->parse->stop();
 
