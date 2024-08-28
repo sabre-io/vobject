@@ -7,6 +7,6 @@ $data = stream_get_contents(STDIN);
 
 $start = microtime(true);
 
-$lol = Sabre\VObject\Reader::read($data);
+$lol = VObject\Reader::read($data);
 
 echo 'time: '.(microtime(true) - $start)."\n";

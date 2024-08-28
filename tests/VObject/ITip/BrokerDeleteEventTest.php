@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject\ITip;
 
+use Sabre\VObject\Version;
+
 class BrokerDeleteEventTest extends BrokerTester
 {
     public function testOrganizerDeleteWithDtend(): void
@@ -24,7 +26,7 @@ ICS;
 
         $newMessage = null;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -107,7 +109,7 @@ ICS;
 
         $newMessage = null;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -190,7 +192,7 @@ ICS;
 
         $newMessage = null;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
@@ -245,7 +247,7 @@ ICS;
 
         $newMessage = null;
 
-        $version = \Sabre\VObject\Version::VERSION;
+        $version = Version::VERSION;
 
         $expected = [
             [
