@@ -503,10 +503,11 @@ class Broker
                 $icalMsg->add(clone $timezone);
             }
 
-            if (!$attendee['newInstances']) {
-                // If there are no instances the attendee is a part of, it
-                // means the attendee was removed and we need to send him a
-                // CANCEL.
+            if (!$attendee['newInstances'] || 'CANCELLED' === $eventInfo['status']) {
+                // If there are no instances the attendee is a part of, it means
+                // the attendee was removed and we need to send them a CANCEL message.
+                // Also If the meeting STATUS property was changed to CANCELLED
+                // we need to send the attendee a CANCEL message.
                 $message->method = 'CANCEL';
 
                 $icalMsg->METHOD = $message->method;
