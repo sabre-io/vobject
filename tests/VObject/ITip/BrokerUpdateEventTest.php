@@ -71,7 +71,7 @@ ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
             [
                 'uid' => 'foobar',
@@ -101,7 +101,7 @@ DTEND:20140716T130000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
             [
                 'uid' => 'foobar',
@@ -131,7 +131,7 @@ DTEND:20140716T130000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -193,7 +193,7 @@ DTEND:20140716T130000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -251,7 +251,7 @@ ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -350,7 +350,7 @@ EXDATE;TZID=America/Toronto:20140724T120000
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -427,7 +427,7 @@ ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
             [
                 'uid' => 'foobar',
@@ -457,7 +457,7 @@ DTEND:20140716T130000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
             [
                 'uid' => 'foobar',
@@ -487,7 +487,7 @@ DTEND:20140716T130000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -555,7 +555,7 @@ DTEND:20140716T130000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -623,7 +623,7 @@ DTEND:20140716T130000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -691,7 +691,7 @@ ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
             [
                 'uid' => 'foobar',
@@ -719,7 +719,7 @@ ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=Two:mailto:two@example.org
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -808,7 +808,7 @@ EXDATE:20150108T160000Z,20141225T160000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 

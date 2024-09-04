@@ -183,7 +183,7 @@ EXDATE:20140717T120000Z,20140718T120000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
             [
                 'uid' => 'foobar',
@@ -221,7 +221,7 @@ DURATION:PT1H
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
             [
                 'uid' => 'foobar',
@@ -248,7 +248,7 @@ DURATION:PT1H
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -312,7 +312,7 @@ EXDATE:20140718T120000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
             [
                 'uid' => 'foobar',
@@ -349,7 +349,7 @@ DTEND:20140718T130000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
             [
                 'uid' => 'foobar',
@@ -376,7 +376,7 @@ DTEND:20140718T130000Z
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
@@ -427,7 +427,7 @@ RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=8;BYDAY=SA,SU
 DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
-ICS
+ICS,
             ],
         ];
 
