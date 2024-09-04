@@ -461,7 +461,7 @@ OUT;
         // Swapping input and output
         list(
             $input,
-            $output
+            $output,
         ) = [
             $output,
             $input,
@@ -520,7 +520,7 @@ OUT;
         // Swapping input and output
         list(
             $input,
-            $output
+            $output,
         ) = [
             $output,
             $input,
