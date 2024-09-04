@@ -31,7 +31,7 @@ class DateTimeParser
      *
      * @return DateTimeImmutable
      */
-    public static function parseDateTime($dt, DateTimeZone $tz = null)
+    public static function parseDateTime($dt, ?DateTimeZone $tz = null)
     {
         // Format is YYYYMMDD + "T" + hhmmss
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/', $dt, $matches);
@@ -61,7 +61,7 @@ class DateTimeParser
      *
      * @return DateTimeImmutable
      */
-    public static function parseDate($date, DateTimeZone $tz = null)
+    public static function parseDate($date, ?DateTimeZone $tz = null)
     {
         // Format is YYYYMMDD
         $result = preg_match('/^([0-9]{4})([0-1][0-9])([0-3][0-9])$/', $date, $matches);

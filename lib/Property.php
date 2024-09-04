@@ -81,7 +81,7 @@ abstract class Property extends Node
      * @param array             $parameters List of parameters
      * @param string            $group      The vcard property group
      */
-    public function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null, int $lineIndex = null, string $lineString = null)
+    public function __construct(Component $root, $name, $value = null, array $parameters = [], $group = null, ?int $lineIndex = null, ?string $lineString = null)
     {
         $this->name = $name;
         $this->group = $group;

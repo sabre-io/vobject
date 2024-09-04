@@ -89,7 +89,7 @@ class FreeBusyGenerator
      * @param mixed             $objects
      * @param DateTimeZone      $timeZone
      */
-    public function __construct(DateTimeInterface $start = null, DateTimeInterface $end = null, $objects = null, DateTimeZone $timeZone = null)
+    public function __construct(?DateTimeInterface $start = null, ?DateTimeInterface $end = null, $objects = null, ?DateTimeZone $timeZone = null)
     {
         $this->setTimeRange($start, $end);
 
@@ -158,7 +158,7 @@ class FreeBusyGenerator
      * @param DateTimeInterface $start
      * @param DateTimeInterface $end
      */
-    public function setTimeRange(DateTimeInterface $start = null, DateTimeInterface $end = null)
+    public function setTimeRange(?DateTimeInterface $start = null, ?DateTimeInterface $end = null)
     {
         if (!$start) {
             $start = new DateTimeImmutable(Settings::$minDate);

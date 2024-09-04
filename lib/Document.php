@@ -157,7 +157,7 @@ abstract class Document extends Component
      *
      * @return Component
      */
-    public function createComponent($name, array $children = null, $defaults = true)
+    public function createComponent($name, ?array $children = null, $defaults = true)
     {
         $name = strtoupper($name);
         $class = Component::class;
@@ -187,7 +187,7 @@ abstract class Document extends Component
      * @param array  $parameters
      * @param string $valueType  Force a specific valuetype, such as URI or TEXT
      */
-    public function createProperty($name, $value = null, array $parameters = null, $valueType = null, int $lineIndex = null, string $lineString = null): Property
+    public function createProperty($name, $value = null, ?array $parameters = null, $valueType = null, ?int $lineIndex = null, ?string $lineString = null): Property
     {
         // If there's a . in the name, it means it's prefixed by a groupname.
         if (false !== ($i = strpos($name, '.'))) {

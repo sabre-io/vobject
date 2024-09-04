@@ -93,7 +93,7 @@ class EventIterator implements \Iterator
      * @param DateTimeZone    $timeZone reference timezone for floating dates and
      *                                  times
      */
-    public function __construct($input, $uid = null, DateTimeZone $timeZone = null)
+    public function __construct($input, $uid = null, ?DateTimeZone $timeZone = null)
     {
         if (is_null($timeZone)) {
             $timeZone = new DateTimeZone('UTC');
