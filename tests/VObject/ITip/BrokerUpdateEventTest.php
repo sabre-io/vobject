@@ -814,4 +814,66 @@ ICS,
 
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
+
+    public function testInviteStatusCancelled(): void
+    {
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:2
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:3
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+STATUS:CANCELLED
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = Version::VERSION;
+
+        $expected = [
+            [
+                'uid' => 'foobar',
+                'method' => 'CANCEL',
+                'component' => 'VEVENT',
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:CANCEL
+BEGIN:VEVENT
+UID:foobar
+DTSTAMP:**ANY**
+SEQUENCE:3
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS,
+            ],
+        ];
+
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+    }
 }
