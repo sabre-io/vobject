@@ -200,23 +200,30 @@ abstract class Document extends Component
 
         $class = null;
 
+        // If a VALUE parameter is supplied, we have to use that
+        // According to https://datatracker.ietf.org/doc/html/rfc5545#section-3.2.20
+        //  If the property's value is the default value type, then this
+        //  parameter need not be specified.  However, if the property's
+        //  default value type is overridden by some other allowable value
+        //  type, then this parameter MUST be specified.
+        if (isset($parameters['VALUE'])) {
+            $class = $this->getClassNameForPropertyValue($parameters['VALUE']);
+        }
+
         if ($valueType) {
             // The valueType argument comes first to figure out the correct
             // class.
             $class = $this->getClassNameForPropertyValue($valueType);
         }
 
+        // If the value parameter is not set or set to something we do not recognize
+        // we do not attempt to interpret or parse the datass value as specified in
+        // https://datatracker.ietf.org/doc/html/rfc5545#section-3.2.20
+        // So when we so far did not get a class-name, we use the default for the property
         if (is_null($class)) {
-            // If a VALUE parameter is supplied, we should use that.
-            if (isset($parameters['VALUE'])) {
-                $class = $this->getClassNameForPropertyValue($parameters['VALUE']);
-                if (is_null($class)) {
-                    throw new InvalidDataException('Unsupported VALUE parameter for '.$name.' property. You supplied "'.$parameters['VALUE'].'"');
-                }
-            } else {
-                $class = $this->getClassNameForPropertyName($name);
-            }
+            $class = $this->getClassNameForPropertyName($name);
         }
+
         if (is_null($parameters)) {
             $parameters = [];
         }
