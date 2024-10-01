@@ -359,7 +359,7 @@ class FreeBusyGenerator
 
                         $times = [];
 
-                        if ($component->RRULE) {
+                        if ($component->RRULE || $component->RDATE) {
                             try {
                                 $iterator = new EventIterator($object, (string) $component->UID, $this->timeZone);
                             } catch (NoInstancesException $e) {
