@@ -406,6 +406,112 @@ ICS;
         );
     }
 
+    public function testRecurrenceDate(): void
+    {
+        // Recurrence dates without a recurrence rule, the base instance falls
+        // outside the time-range but the recurrence dates show up
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:foobar15
+DTSTART:20101231T120000Z
+DTEND:20101231T130000Z
+RDATE:20110101T150000Z,20110102T150000Z,20110105T150000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        self::assertFreeBusyReport(
+            "FREEBUSY:20110101T150000Z/20110101T160000Z\n".
+            'FREEBUSY:20110102T150000Z/20110102T160000Z',
+            $blob
+        );
+    }
+
+    public function testRecurrenceDateDuration(): void
+    {
+        // Recurrence dates + duration, shows up
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:foobar16
+DTSTART:20101231T120000Z
+DURATION:PT2H
+RDATE:20110102T080000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        self::assertFreeBusyReport(
+            'FREEBUSY:20110102T080000Z/20110102T100000Z',
+            $blob
+        );
+    }
+
+    public function testRecurrenceDateMultipleProperties(): void
+    {
+        // Recurrence dates spread over multiple RDATE properties, shows up
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:foobar17
+DTSTART:20101231T120000Z
+DTEND:20101231T130000Z
+RDATE:20110101T150000Z
+RDATE:20110102T150000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        self::assertFreeBusyReport(
+            "FREEBUSY:20110101T150000Z/20110101T160000Z\n".
+            'FREEBUSY:20110102T150000Z/20110102T160000Z',
+            $blob
+        );
+    }
+
+    public function testRecurrenceDateWithExceptionDate(): void
+    {
+        // Recurrence dates with one of them excluded, only the remaining
+        // recurrence date shows up
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:foobar18
+DTSTART:20101231T120000Z
+DTEND:20101231T130000Z
+RDATE:20110101T150000Z,20110102T150000Z
+EXDATE:20110101T150000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        self::assertFreeBusyReport(
+            'FREEBUSY:20110102T150000Z/20110102T160000Z',
+            $blob
+        );
+    }
+
+    public function testRecurrenceDateOutsideTimeRange(): void
+    {
+        // Recurrence dates all outside the time-range, hidden
+        $blob = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+UID:foobar19
+DTSTART:20101231T120000Z
+DTEND:20101231T130000Z
+RDATE:20101231T150000Z,20110105T150000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        self::assertFreeBusyReport(
+            '',
+            $blob
+        );
+    }
+
     public function testFloatingTime(): void
     {
         // Floating time, no timezone
