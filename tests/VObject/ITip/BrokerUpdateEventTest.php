@@ -870,7 +870,7 @@ ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
-ICS,
+ICS
             ],
         ];
 
