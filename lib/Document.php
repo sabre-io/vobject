@@ -186,8 +186,8 @@ abstract class Document extends Component
         //  parameter need not be specified.  However, if the property's
         //  default value type is overridden by some other allowable value
         //  type, then this parameter MUST be specified.
-        if (isset($parameters['VALUE'])) {
-            $class = $this->getClassNameForPropertyValue($parameters['VALUE']);
+        if (!$valueType) {
+            $valueType = $parameters['VALUE'] ?? null;
         }
 
         if ($valueType) {
