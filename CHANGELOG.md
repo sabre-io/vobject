@@ -1,6 +1,15 @@
 ChangeLog
 =========
 
+4.5.6 (2024-10-14)
+------------------
+
+* #662: add PHP 8.4 to CI (@phil-davis)
+* #669: fix: check if event status was changed to cancelled and generate appropriate message (@SebastianKrupinski)
+* #673: Fix Implicitly marking parameter $param as nullable is deprecated (@cedric-anne)
+* #675: refactor: Replace dirname(__FILE__) with __DIR__ (@ChristophWurst)
+* #692: Throw InvalidDataException when RRule is invalid (@mathroc)
+
 4.5.5 (2024-07-02)
 ------------------
 
