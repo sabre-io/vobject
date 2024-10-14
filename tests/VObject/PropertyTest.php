@@ -5,6 +5,7 @@ namespace Sabre\VObject;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VCard;
+use Sabre\VObject\Property\ICalendar\DateTime;
 
 class PropertyTest extends TestCase
 {
@@ -390,5 +391,19 @@ class PropertyTest extends TestCase
 
         self::assertEquals('ENCODING=B is not valid for this document type.', $result[0]['message']);
         self::assertEquals(3, $result[0]['level']);
+    }
+
+    public function testUnknownValuesWillBeIgnored(): void
+    {
+        $cal = new VCalendar();
+        $property = $cal->createProperty('DTSTAMP', '20240101T000000Z', ['VALUE' => 'DATETIME']);
+
+        self::assertEquals("DTSTAMP;VALUE=DATETIME:20240101T000000Z\r\n", $property->serialize());
+
+        self::assertInstanceOf(DateTime::class, $property);
+        self::assertCount(1, $property->parameters());
+        self::assertInstanceOf(Parameter::class, $property->parameters['VALUE']);
+        self::assertEquals('VALUE', $property->parameters['VALUE']->name);
+        self::assertEquals('DATETIME', $property->parameters['VALUE']->getValue());
     }
 }
