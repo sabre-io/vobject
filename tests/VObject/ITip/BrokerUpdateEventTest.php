@@ -847,7 +847,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = Version::VERSION;
+        $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [
             [
