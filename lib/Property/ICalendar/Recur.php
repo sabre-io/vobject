@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property;
 use Sabre\Xml;
 
@@ -198,7 +199,14 @@ class Recur extends Property
             if (empty($part)) {
                 continue;
             }
-            list($partName, $partValue) = explode('=', $part);
+
+            $parts = explode('=', $part);
+
+            if (2 !== count($parts)) {
+                throw new InvalidDataException('The supplied iCalendar RRULE part is incorrect: '.$part);
+            }
+
+            list($partName, $partValue) = $parts;
 
             // The value itself had multiple values..
             if (false !== strpos($partValue, ',')) {
