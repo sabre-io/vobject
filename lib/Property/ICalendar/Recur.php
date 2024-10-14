@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\Property;
 use Sabre\Xml;
 
