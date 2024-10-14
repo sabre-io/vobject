@@ -281,7 +281,7 @@ class VCalendar extends VObject\Document
      *
      * @return VCalendar
      */
-    public function expand(DateTimeInterface $start, DateTimeInterface $end, DateTimeZone $timeZone = null)
+    public function expand(DateTimeInterface $start, DateTimeInterface $end, ?DateTimeZone $timeZone = null)
     {
         $newChildren = [];
         $recurringEvents = [];

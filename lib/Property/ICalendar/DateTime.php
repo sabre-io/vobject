@@ -131,7 +131,7 @@ class DateTime extends Property
      *
      * @return \DateTimeImmutable
      */
-    public function getDateTime(DateTimeZone $timeZone = null)
+    public function getDateTime(?DateTimeZone $timeZone = null)
     {
         $dt = $this->getDateTimes($timeZone);
         if (!$dt) {
@@ -153,7 +153,7 @@ class DateTime extends Property
      * @return \DateTimeImmutable[]
      * @return \DateTime[]
      */
-    public function getDateTimes(DateTimeZone $timeZone = null)
+    public function getDateTimes(?DateTimeZone $timeZone = null)
     {
         // Does the property have a TZID?
         $tzid = $this['TZID'];
