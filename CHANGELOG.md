@@ -1,5 +1,36 @@
 ChangeLog
 =========
+4.5.6 (2024-10-14)
+------------------
+
+* #662: add PHP 8.4 to CI (@phil-davis)
+* #669: fix: check if event status was changed to cancelled and generate appropriate message (@SebastianKrupinski)
+* #673: Fix Implicitly marking parameter $param as nullable is deprecated (@cedric-anne)
+* #675: refactor: Replace dirname(__FILE__) with __DIR__ (@ChristophWurst)
+* #692: Throw InvalidDataException when RRule is invalid (@mathroc)
+
+4.5.5 (2024-07-02)
+------------------
+
+* #632: Add PHP 8.3 to CI (@phil-davis)
+* #649: add lineIndex and lineString properties to a Property Node (@JohnRDOrazio)
+* #652: ITip\Broker: handle timezones in replies to exception events (@gharlan)
+* #654: chore: stop exporting php-cs-fixer config (@phil-davis)
+* #656: Yearly rrule compliance by the iterator (@kroky)
+* #658: throw ParseException when null input is provided (@phil-davis)
+* #653: Handle summer time jumps in event recurrences (@phil-davis)
+
+4.5.4 (2023-11-09)
+------------------
+
+* #619: fixed issue: Undefined index: plusminus (@sash04ek)
+* #622: Create Issue467Test.php for 619 (@sash04ek)
+* #623: docs: fix type definition for oldCalendar (@kesselb)
+
+4.5.3 (2023-01-22)
+------------------
+
+* #607: Apply 'Support sabre/xml v4' and needed code changes to 4.5 branch (@phil-davis)
 
 4.5.2 (2023-01-20)
 ------------------
