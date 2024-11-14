@@ -521,12 +521,7 @@ class FreeBusyGenerator
                 'FREEBUSY',
                 $busyTime[0]->format('Ymd\\THis\\Z').'/'.$busyTime[1]->format('Ymd\\THis\\Z')
             );
-
-            // Only setting FBTYPE if it's not BUSY, because BUSY is the
-            // default anyway.
-            if ('BUSY' !== $busyType) {
-                $prop['FBTYPE'] = $busyType;
-            }
+            $prop['FBTYPE'] = $busyType;
             $vfreebusy->add($prop);
         }
 

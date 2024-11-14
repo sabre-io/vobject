@@ -94,7 +94,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T120000Z/20110101T130000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T120000Z/20110101T130000Z',
             $blob
         );
     }
@@ -115,7 +115,7 @@ ICS;
         rewind($h);
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T120000Z/20110101T130000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T120000Z/20110101T130000Z',
             $h
         );
     }
@@ -137,7 +137,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T130000Z/20110101T140000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T130000Z/20110101T140000Z',
             $blob
         );
     }
@@ -272,7 +272,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T190000Z/20110101T200000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T190000Z/20110101T200000Z',
             $blob
         );
     }
@@ -293,7 +293,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110102T000000Z/20110103T000000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110102T000000Z/20110103T000000Z',
             $blob
         );
     }
@@ -336,7 +336,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T210000Z/20110101T220000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T210000Z/20110101T220000Z',
             Reader::read($blob)
         );
     }
@@ -360,8 +360,8 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            "FREEBUSY:20110103T010000Z/20110103T020000Z\n".
-            'FREEBUSY:20110103T030000Z/20110103T060000Z',
+            "FREEBUSY;FBTYPE=BUSY:20110103T010000Z/20110103T020000Z\n".
+            'FREEBUSY;FBTYPE=BUSY:20110103T030000Z/20110103T060000Z',
             $blob
         );
     }
@@ -381,7 +381,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T220000Z/20110101T230000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T220000Z/20110101T230000Z',
             $blob
         );
     }
@@ -401,7 +401,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T230000Z/20110102T000000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T230000Z/20110102T000000Z',
             $blob
         );
     }
@@ -420,7 +420,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T120000Z/20110101T130000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T120000Z/20110101T130000Z',
             $blob
         );
     }
@@ -439,7 +439,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T170000Z/20110101T180000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T170000Z/20110101T180000Z',
             $blob,
             new \DateTimeZone('America/Toronto')
         );
@@ -458,7 +458,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T110000Z/20110102T000000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T110000Z/20110102T000000Z',
             $blob
         );
     }
@@ -476,7 +476,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T110000Z/20110102T050000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T110000Z/20110102T050000Z',
             $blob,
             new \DateTimeZone('America/Toronto')
         );
@@ -534,7 +534,7 @@ ICS;
 
         self::assertFreeBusyReport(
             "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T110000Z/20110101T120000Z\n".
-            "FREEBUSY:20110101T120000Z/20110101T130000Z\n".
+            "FREEBUSY;FBTYPE=BUSY:20110101T120000Z/20110101T130000Z\n".
             'FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T130000Z/20110103T110000Z',
             $blob,
             null,
@@ -572,7 +572,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T120000Z/20110101T130000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T120000Z/20110101T130000Z',
             $blob,
             null,
             $vavail
@@ -612,7 +612,7 @@ ICS;
 
         self::assertFreeBusyReport(
             "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T110000Z/20110101T120000Z\n".
-            "FREEBUSY:20110101T120000Z/20110101T130000Z\n".
+            "FREEBUSY;FBTYPE=BUSY:20110101T120000Z/20110101T130000Z\n".
             "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T130000Z/20110103T090000Z\n",
             $blob,
             null,
@@ -659,7 +659,7 @@ END:VCALENDAR
 ICS;
 
         self::assertFreeBusyReport(
-            'FREEBUSY:20110101T110000Z/20110103T110000Z',
+            'FREEBUSY;FBTYPE=BUSY:20110101T110000Z/20110103T110000Z',
             $blob,
             null,
             $vavail
@@ -708,7 +708,7 @@ ICS;
 
         self::assertFreeBusyReport(
             "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T110000Z/20110101T120000Z\n".
-            "FREEBUSY:20110101T120000Z/20110101T130000Z\n".
+            "FREEBUSY;FBTYPE=BUSY:20110101T120000Z/20110101T130000Z\n".
             "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T130000Z/20110103T090000Z\n",
             $blob,
             null,
