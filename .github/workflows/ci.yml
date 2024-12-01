@@ -65,5 +65,5 @@ jobs:
         run: vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover clover.xml
 
       - name: Code Coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: matrix.coverage != 'none'
