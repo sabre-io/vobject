@@ -164,7 +164,7 @@ class VCalendar extends VObject\Document
      *
      * @param string|null $componentName filter by component name
      *
-     * @return VObject\Component[]
+     * @return Component[]
      */
     public function getBaseComponents(?string $componentName = null): array
     {
