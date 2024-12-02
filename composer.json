@@ -41,7 +41,7 @@
         "friendsofphp/php-cs-fixer": "^3.65",
         "phpunit/phpunit" : "^9.6",
         "phpunit/php-invoker" : "^2.0 || ^3.1",
-        "phpstan/phpstan": "^1.12"
+        "phpstan/phpstan": "^2.0"
     },
     "suggest" : {
         "hoa/bench"       : "If you would like to run the benchmark scripts"
