@@ -24,6 +24,7 @@ class ElementList extends ArrayIterator
      *
      * @param int   $offset
      * @param mixed $value
+     * @return void
      */
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
@@ -37,6 +38,7 @@ class ElementList extends ArrayIterator
      * This method just forwards the request to the inner iterator
      *
      * @param int $offset
+     * @return void
      */
     #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
