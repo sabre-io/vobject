@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+4.5.7 (2025-04-17)
+------------------
+
+* #618: Add new exchangetimezone 'Amsterdam, Berlin, Bern, Rom, Stockholm, Wien' (@chr-is)
+* #674: Allow unknown value data types for VALUE (@heiglandreas)
+* #707: add phpdoc return types for arrayaccess methods (@smhg)
+
 4.5.6 (2024-10-14)
 ------------------
 
