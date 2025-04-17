@@ -4,4 +4,11 @@ parameters:
   universalObjectCratesClasses:
     - \Sabre\VObject\Component
   ignoreErrors:
-    - '#Call to an undefined static method Sabre\\VObject\\Component\\VCalendarTest::assertObjectHasProperty\(\).#'
+    -
+      message: "#^Call to an undefined static method#"
+      count: 2
+      path: tests/VObject/Component/VCalendarTest.php
+    -
+      message: "#^Cannot unset offset 0 on Sabre\\\\VObject\\\\Property|null.$#"
+      count: 1
+      path: tests/VObject/PropertyTest.php
