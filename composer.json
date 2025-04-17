@@ -38,10 +38,10 @@
         "sabre/xml"    : "^3.0 || ^4.0"
     },
     "require-dev" : {
-        "friendsofphp/php-cs-fixer": "^3.65",
+        "friendsofphp/php-cs-fixer": "^3.75",
         "phpunit/phpunit" : "^9.6",
         "phpunit/php-invoker" : "^2.0 || ^3.1",
-        "phpstan/phpstan": "^2.0"
+        "phpstan/phpstan": "^2.1"
     },
     "suggest" : {
         "hoa/bench"       : "If you would like to run the benchmark scripts"
