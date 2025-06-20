@@ -342,6 +342,15 @@ class EventIterator implements \Iterator
         $this->nextDate = null;
         $this->currentDate = clone $this->startDate;
 
+        $this->currentCandidates = [];
+        foreach ($this->recurIterators as $index => $iterator) {
+            if (!$iterator->valid()) {
+                continue;
+            }
+            $this->currentCandidates[$index] = $iterator->current()->getTimeStamp();
+        }
+        asort($this->currentCandidates);
+
         $this->next();
     }
 
@@ -363,41 +372,31 @@ class EventIterator implements \Iterator
             // We need to ask rruleparser for the next date.
             // We need to do this until we find a date that's not in the
             // exception list.
-            $candidates = [];
-            foreach ($this->recurIterators as $index => $iterator) {
-                if (!$iterator->valid()) {
-                    continue;
-                }
-                $candidates[$index] = $iterator->current()->getTimeStamp();
-            }
             do {
-                if (empty($candidates)) {
+                if (empty($this->currentCandidates)) {
                     $nextDate = null;
                     break;
                 }
-                asort($candidates);
-                $nextIndex = array_key_first($candidates);
+                $nextIndex = array_key_first($this->currentCandidates);
                 $nextDate = $this->recurIterators[$nextIndex]->current();
-                $nextStamp = $candidates[$nextIndex];
-
-                $isException = isset($this->exceptions[$nextStamp]);
+                $nextStamp = $this->currentCandidates[$nextIndex];
 
                 // advance all iterators which match the current timestamp
-                foreach ($candidates as $index => $stamp) {
+                foreach ($this->currentCandidates as $index => $stamp) {
                     if ($stamp > $nextStamp) {
                         break;
                     }
                     $iterator = $this->recurIterators[$index];
                     $iterator->next();
-                    if ($isException) {
-                        if ($iterator->valid()) {
-                            $candidates[$index] = $iterator->current()->getTimeStamp();
-                        } else {
-                            unset($candidates[$index]);
-                        }
+                    if ($iterator->valid()) {
+                        $this->currentCandidates[$index] = $iterator->current()->getTimeStamp();
+                        asort($this->currentCandidates);
+                    } else {
+                        unset($this->currentCandidates[$index]);
+                        // resort not neccessary
                     }
                 }
-            } while ($isException);
+            } while (isset($this->exceptions[$nextStamp]));
         }
 
         // $nextDate now contains what rrule thinks is the next one, but an
@@ -454,11 +453,18 @@ class EventIterator implements \Iterator
     }
 
     /**
-     * RRULE parser.
+     * Array of RRULE parsers.
      *
      * @var array<int, RRuleIterator|RDateIterator>
      */
     protected array $recurIterators;
+
+    /**
+     * Array of current candidate timestamps.
+     *
+     * @var array<int, int>
+     */
+    protected array $currentCandidates;
 
     /**
      * The duration, in seconds, of the master event.
