@@ -164,7 +164,6 @@ class EventIterator implements \Iterator
         }
 
         $this->recurIterators = [];
-        $isRecurring = false;
         if (isset($this->masterEvent->RRULE)) {
             foreach ($this->masterEvent->RRULE as $rRule) {
                 $this->recurIterators[] = new RRuleIterator(
@@ -179,12 +178,10 @@ class EventIterator implements \Iterator
                 $this->recurIterators[] = new RDateIterator(
                     $rDate->getParts(),
                     $this->startDate,
-                    omitStart: $isRecurring
                 );
-                $isRecurring = true;
             }
         }
-        if (!$isRecurring) {
+        if (empty($this->recurIterators)) {
             $this->recurIterators[] = new RRuleIterator(
                 [
                     'FREQ' => 'DAILY',

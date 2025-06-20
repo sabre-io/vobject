@@ -25,13 +25,13 @@ class RDateIterator implements \Iterator
      *
      * @param string|array $rrule
      */
-    public function __construct($rrule, \DateTimeInterface $start, bool $omitStart = false)
+    public function __construct($rrule, \DateTimeInterface $start)
     {
         $this->startDate = $start;
         $this->parseRDate($rrule);
-        if (!$omitStart) {
-            array_unshift($this->dates, \DateTimeImmutable::createFromInterface($this->startDate));
-        }
+        array_unshift($this->dates, \DateTimeImmutable::createFromInterface($this->startDate));
+        sort($this->dates);
+        $this->dates = array_values($this->dates);
         $this->rewind();
     }
 
@@ -142,8 +142,13 @@ class RDateIterator implements \Iterator
         if (is_string($rdate)) {
             $rdate = explode(',', $rdate);
         }
-
-        $this->dates = $rdate;
+        $this->dates = array_map(
+            fn(string $dateString) => DateTimeParser::parse(
+                $dateString,
+                $this->startDate->getTimezone()
+            ),
+            $rdate
+        );
     }
 
     /**
