@@ -163,22 +163,31 @@ class EventIterator implements \Iterator
             $this->eventDuration = 0;
         }
 
+        $this->recurIterators = [];
+        $isRecurring = false;
+        if (isset($this->masterEvent->RRULE)) {
+            foreach ($this->masterEvent->RRULE as $rRule) {
+                $this->recurIterators[] = new RRuleIterator(
+                    $this->masterEvent->RRULE->getParts(),
+                    $this->startDate
+                );
+            }
+            $isRecurring = true;
+        }
         if (isset($this->masterEvent->RDATE)) {
             $rdateValues = [];
-            foreach ($this->masterEvent->RDATE as $rdate) {
+            foreach ($this->masterEvent->RDATE as $rDate) {
                 $rdateValues = array_merge($rdateValues, $rdate->getParts());
             }
-            $this->recurIterator = new RDateIterator(
+            $this->recurIterators[] = new RDateIterator(
                 $rdateValues,
-                $this->startDate
+                $this->startDate,
+                omitStart: $isRecurring
             );
-        } elseif (isset($this->masterEvent->RRULE)) {
-            $this->recurIterator = new RRuleIterator(
-                $this->masterEvent->RRULE->getParts(),
-                $this->startDate
-            );
-        } else {
-            $this->recurIterator = new RRuleIterator(
+            $isRecurring = true;
+        }
+        if (!$isRecurring) {
+            $this->recurIterators[] = new RRuleIterator(
                 [
                     'FREQ' => 'DAILY',
                     'COUNT' => 1,
@@ -317,7 +326,9 @@ class EventIterator implements \Iterator
     #[\ReturnTypeWillChange]
     public function rewind(): void
     {
-        $this->recurIterator->rewind();
+        foreach ($this->recurIterators as $iterator) {
+            $iterator->rewind();
+        }
         // re-creating overridden event index.
         $index = [];
         foreach ($this->overriddenEvents as $key => $event) {
@@ -332,6 +343,15 @@ class EventIterator implements \Iterator
 
         $this->nextDate = null;
         $this->currentDate = clone $this->startDate;
+
+        $this->currentCandidates = [];
+        foreach ($this->recurIterators as $index => $iterator) {
+            if (!$iterator->valid()) {
+                continue;
+            }
+            $this->currentCandidates[$index] = $iterator->current()->getTimeStamp();
+        }
+        asort($this->currentCandidates);
 
         $this->next();
     }
@@ -355,13 +375,30 @@ class EventIterator implements \Iterator
             // We need to do this until we find a date that's not in the
             // exception list.
             do {
-                if (!$this->recurIterator->valid()) {
+                if (empty($this->currentCandidates)) {
                     $nextDate = null;
                     break;
                 }
-                $nextDate = $this->recurIterator->current();
-                $this->recurIterator->next();
-            } while (isset($this->exceptions[$nextDate->getTimeStamp()]));
+                $nextIndex = array_key_first($this->currentCandidates);
+                $nextDate = $this->recurIterators[$nextIndex]->current();
+                $nextStamp = $this->currentCandidates[$nextIndex];
+
+                // advance all iterators which match the current timestamp
+                foreach ($this->currentCandidates as $index => $stamp) {
+                    if ($stamp > $nextStamp) {
+                        break;
+                    }
+                    $iterator = $this->recurIterators[$index];
+                    $iterator->next();
+                    if ($iterator->valid()) {
+                        $this->currentCandidates[$index] = $iterator->current()->getTimeStamp();
+                        asort($this->currentCandidates);
+                    } else {
+                        unset($this->currentCandidates[$index]);
+                        // resort not neccessary
+                    }
+                }
+            } while (isset($this->exceptions[$nextStamp]));
         }
 
         // $nextDate now contains what rrule thinks is the next one, but an
@@ -409,15 +446,27 @@ class EventIterator implements \Iterator
      */
     public function isInfinite(): bool
     {
-        return $this->recurIterator->isInfinite();
+        foreach ($this->recurIterators as $iterator) {
+            if ($iterator->isInfinite()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * RRULE parser.
+     * Array of RRULE parsers.
      *
-     * @var RRuleIterator|RDateIterator
+     * @var array<int, RRuleIterator|RDateIterator>
      */
-    protected \Iterator $recurIterator;
+    protected array $recurIterators;
+
+    /**
+     * Array of current candidate timestamps.
+     *
+     * @var array<int, int>
+     */
+    protected array $currentCandidates;
 
     /**
      * The duration, in seconds, of the master event.
