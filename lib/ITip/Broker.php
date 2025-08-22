@@ -259,7 +259,7 @@ class Broker
                 if (in_array($attendee['href'], $userHref)) {
                     $isPartstatDefined = false;
                     foreach ($attendee['instances'] as $instance) {
-                        if ($instance['partstat'] != 'NEEDS-ACTION') {
+                        if ('NEEDS-ACTION' != $instance['partstat']) {
                             $isPartstatDefined = true;
                             break;
                         }

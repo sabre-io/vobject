@@ -6,7 +6,6 @@ class BrokerAttendeeReplyTest extends BrokerTester
 {
     public function testAccepted(): void
     {
-
         // If $oldMessage is not set, in some cases an iTip message
         // still needs to be generated; this happens when partstat
         // differs from NEEDS-ACTION. For example, this is relevant in
@@ -15,7 +14,7 @@ class BrokerAttendeeReplyTest extends BrokerTester
         // participation before the upload. Also see
         // https://github.com/sabre-io/vobject/issues/719
 
-        $oldMessage = "";
+        $oldMessage = '';
 
         $newMessage = <<<ICS
 BEGIN:VCALENDAR
