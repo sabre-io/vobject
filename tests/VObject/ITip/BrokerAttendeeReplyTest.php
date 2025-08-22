@@ -6,19 +6,16 @@ class BrokerAttendeeReplyTest extends BrokerTester
 {
     public function testAccepted(): void
     {
-        $oldMessage = <<<ICS
-BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-UID:foobar
-SUMMARY:B-day party
-SEQUENCE:1
-ORGANIZER;CN=Strunk:mailto:strunk@example.org
-ATTENDEE;CN=One:mailto:one@example.org
-DTSTART:20140716T120000Z
-END:VEVENT
-END:VCALENDAR
-ICS;
+
+        // If $oldMessage is not set, in some cases an iTip message
+        // still needs to be generated; this happens when partstat
+        // differs from NEEDS-ACTION. For example, this is relevant in
+        // cases where a CalDAV client has received a calendar invite
+        // in some way, and the user of the client accepts
+        // participation before the upload. Also see
+        // https://github.com/sabre-io/vobject/issues/719
+
+        $oldMessage = "";
 
         $newMessage = <<<ICS
 BEGIN:VCALENDAR
