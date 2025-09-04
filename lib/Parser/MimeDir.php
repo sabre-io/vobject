@@ -415,7 +415,7 @@ class MimeDir extends Parser
                 $property['value'] = $match['propValue'];
                 continue;
             }
-            if (isset($match['name']) && $match['name']) {
+            if (isset($match['name']) && 0 < strlen($match['name'])) {
                 $property['name'] = strtoupper($match['name']);
                 continue;
             }
@@ -428,7 +428,7 @@ class MimeDir extends Parser
         if (\is_null($property['value'])) {
             $property['value'] = '';
         }
-        if (!$property['name']) {
+        if (!isset($property['name']) || 0 == strlen($property['name'])) {
             if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
                 return false;
             }
