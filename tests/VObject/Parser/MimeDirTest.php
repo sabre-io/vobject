@@ -259,4 +259,21 @@ END:VCALENDAR
 EOF,
         ]];
     }
+
+    public function testInvalidParameter(): void
+    {
+        $this->expectException(ParseException::class);
+        $this->expectExceptionMessage('Invalid Mimedir file. Line starting at 3: Missing parameter name for parameter value "value2"');
+        $vcard = <<<EOF
+BEGIN:VCARD
+VERSION:4.0
+FN;P1=value1; P2=value2:value
+UID:1234
+END:VCARD
+EOF;
+        $mimeDir = new MimeDir();
+        $vcard = $mimeDir->parse($vcard);
+
+        echo $vcard->serialize();
+    }
 }
