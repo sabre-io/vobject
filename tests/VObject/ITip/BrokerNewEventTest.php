@@ -574,4 +574,60 @@ ICS;
 
         $this->parse(null, $message, [], 'mailto:strunk@example.org');
     }
+
+    public function testAttendeeRemoval(): void
+    {
+        $message = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART:20140811T220000Z
+DTEND:20140811T230000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=White:mailto:white@example.org
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+RECURRENCE-ID:20140812T220000Z
+DTSTART:20140812T220000Z
+DTEND:20140812T230000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expectedMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART:20140811T220000Z
+DTEND:20140811T230000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=White;PARTSTAT=NEEDS-ACTION:mailto:white@example.org
+EXDATE:20140812T220000Z
+DTSTAMP:**ANY**
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            [
+                'uid' => 'foobar',
+                'method' => 'REQUEST',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+                'senderName' => 'Strunk',
+                'recipient' => 'mailto:white@example.org',
+                'recipientName' => 'White',
+                'message' => $expectedMessage,
+            ],
+        ];
+
+        $this->parse(null, $message, $expected, 'mailto:strunk@example.org');
+    }
 }
