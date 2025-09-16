@@ -435,8 +435,7 @@ DTSTAMP:20111005T133225Z
 …
 END:VAVAILABILITY
 END:VCALENDAR
-VCAL
-            ,
+VCAL,
             $properties
         );
     }
@@ -459,8 +458,7 @@ DTSTART:20111005T133225Z
 END:AVAILABLE
 END:VAVAILABILITY
 END:VCALENDAR
-VCAL
-            ,
+VCAL,
             $properties
         );
     }
