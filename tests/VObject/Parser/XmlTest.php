@@ -684,7 +684,7 @@ XML,
   <properties>
    <freebusy>
     <period>
-     <start>2011-05-17T12:00:00</start>
+     <start>2011-05-17T12:00:00Z</start>
      <duration>P1H</duration>
     </period>
    </freebusy>
@@ -693,7 +693,7 @@ XML,
 </icalendar>
 XML,
             'BEGIN:VCALENDAR'."\n".
-            'FREEBUSY:20110517T120000/P1H'."\n".
+            'FREEBUSY:20110517T120000Z/P1H'."\n".
             'END:VCALENDAR'."\n"
         );
 
@@ -705,8 +705,8 @@ XML,
   <properties>
    <freebusy>
     <period>
-     <start>2011-05-17T12:00:00</start>
-     <end>2012-05-17T12:00:00</end>
+     <start>2011-05-17T12:00:00Z</start>
+     <end>2012-05-17T12:00:00Z</end>
     </period>
    </freebusy>
   </properties>
@@ -714,7 +714,7 @@ XML,
 </icalendar>
 XML,
             'BEGIN:VCALENDAR'."\n".
-            'FREEBUSY:20110517T120000/20120517T120000'."\n".
+            'FREEBUSY:20110517T120000Z/20120517T120000Z'."\n".
             'END:VCALENDAR'."\n"
         );
     }
