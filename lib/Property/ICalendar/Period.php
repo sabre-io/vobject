@@ -94,17 +94,21 @@ class Period extends Property
 
             $start = DateTimeParser::parseDateTime($start);
 
+            // Check if the datetime is in UTC timezone
+            $isUtc = in_array($start->getTimezone()->getName(), ['UTC', 'GMT', 'Z', '+00:00']);
+            $zSuffix = $isUtc ? 'Z' : '';
+
             // This is a duration value.
             if ('P' === $end[0]) {
                 $return[] = [
-                    $start->format('Y-m-d\\TH:i:s'),
+                    $start->format('Y-m-d\\TH:i:s').$zSuffix,
                     $end,
                 ];
             } else {
                 $end = DateTimeParser::parseDateTime($end);
                 $return[] = [
-                    $start->format('Y-m-d\\TH:i:s'),
-                    $end->format('Y-m-d\\TH:i:s'),
+                    $start->format('Y-m-d\\TH:i:s').$zSuffix,
+                    $end->format('Y-m-d\\TH:i:s').$zSuffix,
                 ];
             }
         }
