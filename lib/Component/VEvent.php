@@ -29,7 +29,7 @@ class VEvent extends VObject\Component
      */
     public function isInTimeRange(DateTimeInterface $start, DateTimeInterface $end)
     {
-        if ($this->RRULE) {
+        if ($this->RRULE || $this->RDATE) {
             try {
                 $it = new EventIterator($this, null, $start->getTimezone());
             } catch (NoInstancesException $e) {
