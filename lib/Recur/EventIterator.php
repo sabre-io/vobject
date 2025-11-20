@@ -164,8 +164,12 @@ class EventIterator implements \Iterator
         }
 
         if (isset($this->masterEvent->RDATE)) {
+            $rdateValues = [];
+            foreach ($this->masterEvent->RDATE as $rdate) {
+                $rdateValues = array_merge($rdateValues, $rdate->getParts());
+            }
             $this->recurIterator = new RDateIterator(
-                $this->masterEvent->RDATE->getParts(),
+                $rdateValues,
                 $this->startDate
             );
         } elseif (isset($this->masterEvent->RRULE)) {
