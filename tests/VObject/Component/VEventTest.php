@@ -89,6 +89,41 @@ class VEventTest extends TestCase
         $vevent9->RRULE = 'FREQ=DAILY';
         $tests[] = [$vevent9, new \DateTime('2016-10-31'), new \DateTime('2016-12-12'), true];
 
+        // Added this test to check events with RDATE property with multiple dates
+        $vevent10 = clone $vevent;
+        $vevent10->DTSTART = '20140901T000000Z';
+        $vevent10->DTEND = '20140901T010000Z';
+        $vevent10->add('RDATE', ['20141001T000000Z', '20141101T000000Z']);
+        // DTSTART is the first occurrence
+        $tests[] = [$vevent10, new \DateTime('2014-09-01'), new \DateTime('2014-09-02'), true];
+        // RDATE adds additional occurrences on Oct 1 and Nov 1
+        $tests[] = [$vevent10, new \DateTime('2014-10-01'), new \DateTime('2014-10-02'), true];
+        $tests[] = [$vevent10, new \DateTime('2014-11-01'), new \DateTime('2014-11-02'), true];
+        // No occurrence in December
+        $tests[] = [$vevent10, new \DateTime('2014-12-01'), new \DateTime('2014-12-31'), false];
+        // Range that includes first occurrence
+        $tests[] = [$vevent10, new \DateTime('2014-08-01'), new \DateTime('2014-09-30'), true];
+        // Range that spans all occurrences
+        $tests[] = [$vevent10, new \DateTime('2014-08-01'), new \DateTime('2014-12-31'), true];
+
+        // Added this test to check events with RDATE property with multiple instances
+        $vevent11 = clone $vevent;
+        $vevent11->DTSTART = '20140901T000000Z';
+        $vevent11->DTEND = '20140901T010000Z';
+        $vevent11->add('RDATE', '20141001T000000Z');
+        $vevent11->add('RDATE', '20141101T000000Z');
+        // DTSTART is the first occurrence
+        $tests[] = [$vevent11, new \DateTime('2014-09-01'), new \DateTime('2014-09-02'), true];
+        // RDATE adds additional occurrences on Oct 1 and Nov 1
+        $tests[] = [$vevent11, new \DateTime('2014-10-01'), new \DateTime('2014-10-02'), true];
+        $tests[] = [$vevent11, new \DateTime('2014-11-01'), new \DateTime('2014-11-02'), true];
+        // No occurrence in December
+        $tests[] = [$vevent11, new \DateTime('2014-12-01'), new \DateTime('2014-12-31'), false];
+        // Range that includes first occurrence
+        $tests[] = [$vevent11, new \DateTime('2014-08-01'), new \DateTime('2014-09-30'), true];
+        // Range that spans all occurrences
+        $tests[] = [$vevent11, new \DateTime('2014-08-01'), new \DateTime('2014-12-31'), true];
+
         return $tests;
     }
 }
