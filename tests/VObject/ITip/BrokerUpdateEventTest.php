@@ -282,8 +282,6 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
-
         $expected = [];
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
@@ -928,7 +926,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = Version::VERSION;
+        $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [
             [
@@ -943,7 +941,7 @@ ICS;
                 'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+PRODID:-//Sabre//Sabre VObject $version//EN
 CALSCALE:GREGORIAN
 METHOD:REQUEST
 BEGIN:VEVENT
@@ -1018,7 +1016,7 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = Version::VERSION;
+        $version = \Sabre\VObject\Version::VERSION;
 
         $expected = [
             [
@@ -1033,7 +1031,7 @@ ICS;
                 'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+PRODID:-//Sabre//Sabre VObject $version//EN
 CALSCALE:GREGORIAN
 METHOD:REQUEST
 BEGIN:VEVENT
