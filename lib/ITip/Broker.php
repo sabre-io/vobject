@@ -580,6 +580,9 @@ class Broker
                                 ));
                             } else {
                                 $currentEvent->EXDATE = $exceptions;
+                                if ($currentEvent->DTSTART['TZID']) {
+                                    $currentEvent->EXDATE['TZID'] = clone $currentEvent->DTSTART['TZID'];
+                                }
                             }
                         }
 
