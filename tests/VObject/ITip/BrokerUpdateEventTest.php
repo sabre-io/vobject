@@ -282,8 +282,6 @@ END:VEVENT
 END:VCALENDAR
 ICS;
 
-        $version = \Sabre\VObject\Version::VERSION;
-
         $expected = [];
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
     }
@@ -868,6 +866,186 @@ DTSTART:20140716T120000Z
 DTEND:20140716T130000Z
 ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS
+            ],
+        ];
+
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+    }
+
+    /*
+     * When EXDATE is added by Broker, it needs to be in the correct
+     * timezone
+     */
+
+    public function testExdateTimezone(): void
+    {
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+RRULE:FREQ=WEEKLY
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART;TZID=Europe/London:20140716T120000
+DTEND;TZID=Europe/London:20140716T130000
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+RRULE:FREQ=WEEKLY
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART;TZID=Europe/London:20140716T120000
+DTEND;TZID=Europe/London:20140716T130000
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+RECURRENCE-ID;TZID=Europe/London:20140723T120000
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+DTSTART;TZID=Europe/London:20140723T120000
+DTEND;TZID=Europe/London:20140723T130000
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = [
+            [
+                'uid' => 'foobar',
+                'method' => 'REQUEST',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+                'senderName' => 'Strunk',
+                'recipient' => 'mailto:one@example.org',
+                'recipientName' => 'One',
+                'significantChange' => true,
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+RRULE:FREQ=WEEKLY
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=One;PARTSTAT=NEEDS-ACTION:mailto:one@example.org
+DTSTART;TZID=Europe/London:20140716T120000
+DTEND;TZID=Europe/London:20140716T130000
+EXDATE;TZID=Europe/London:20140723T120000
+DTSTAMP:**ANY**
+END:VEVENT
+END:VCALENDAR
+ICS
+            ],
+        ];
+
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+    }
+
+    /*
+     * When EXDATE is added by Broker, it needs to be in the correct
+     * timezone, also in case UTC is used
+     */
+
+    public function testExdateTimezoneUTC(): void
+    {
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+RRULE:FREQ=WEEKLY
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+RRULE:FREQ=WEEKLY
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+END:VEVENT
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+RECURRENCE-ID:20140723T120000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+DTSTART:20140723T120000Z
+DTEND:20140723T130000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = [
+            [
+                'uid' => 'foobar',
+                'method' => 'REQUEST',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:strunk@example.org',
+                'senderName' => 'Strunk',
+                'recipient' => 'mailto:one@example.org',
+                'recipientName' => 'One',
+                'significantChange' => true,
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+RRULE:FREQ=WEEKLY
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=Strunk;PARTSTAT=ACCEPTED:mailto:strunk@example.org
+ATTENDEE;CN=One;PARTSTAT=NEEDS-ACTION:mailto:one@example.org
+DTSTART:20140716T120000Z
+DTEND:20140716T130000Z
+EXDATE:20140723T120000Z
+DTSTAMP:**ANY**
 END:VEVENT
 END:VCALENDAR
 ICS
