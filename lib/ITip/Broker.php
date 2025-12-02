@@ -248,13 +248,25 @@ class Broker
 
         if (in_array($eventInfo['organizer'], $userHref)) {
             return $this->parseEventForOrganizer($baseCalendar, $eventInfo, $oldEventInfo);
-        } elseif ($oldCalendar) {
-            // We need to figure out if the user is an attendee, but we're only
-            // doing so if there's an oldCalendar, because we only want to
-            // process updates, not creation of new events.
+        } else {
+            // We need to figure out if the user is an attendee. If
+            // that is the case, we want to process that attendee if
+            // there is also an oldcalendar or if some of the
+            // instances of that attendee has partstat different from
+            // NEEDS-ACTION. See
+            // https://github.com/sabre-io/vobject/issues/719
             foreach ($eventInfo['attendees'] as $attendee) {
                 if (in_array($attendee['href'], $userHref)) {
-                    return $this->parseEventForAttendee($baseCalendar, $eventInfo, $oldEventInfo, $attendee['href']);
+                    $isPartstatDefined = false;
+                    foreach ($attendee['instances'] as $instance) {
+                        if ('NEEDS-ACTION' != $instance['partstat']) {
+                            $isPartstatDefined = true;
+                            break;
+                        }
+                    }
+                    if ($oldCalendar or $isPartstatDefined) {
+                        return $this->parseEventForAttendee($baseCalendar, $eventInfo, $oldEventInfo, $attendee['href']);
+                    }
                 }
             }
         }
