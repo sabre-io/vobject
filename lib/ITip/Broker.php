@@ -591,14 +591,14 @@ class Broker
                         unset($currentEvent->ORGANIZER['SCHEDULE-FORCE-SEND']);
                         unset($currentEvent->ORGANIZER['SCHEDULE-STATUS']);
 
-                        foreach ($currentEvent->ATTENDEE as $attendee) {
-                            unset($attendee['SCHEDULE-FORCE-SEND']);
-                            unset($attendee['SCHEDULE-STATUS']);
+                        foreach ($currentEvent->ATTENDEE as $currentEventAttendee) {
+                            unset($currentEventAttendee['SCHEDULE-FORCE-SEND']);
+                            unset($currentEventAttendee['SCHEDULE-STATUS']);
 
                             // We're adding PARTSTAT=NEEDS-ACTION to ensure that
                             // iOS shows an "Inbox Item"
-                            if (!isset($attendee['PARTSTAT'])) {
-                                $attendee['PARTSTAT'] = 'NEEDS-ACTION';
+                            if (!isset($currentEventAttendee['PARTSTAT'])) {
+                                $currentEventAttendee['PARTSTAT'] = 'NEEDS-ACTION';
                             }
                         }
                     }
