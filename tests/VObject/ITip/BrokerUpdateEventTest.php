@@ -943,7 +943,7 @@ ICS;
                 'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+PRODID:-//Sabre//Sabre VObject $version//EN
 CALSCALE:GREGORIAN
 METHOD:REQUEST
 BEGIN:VEVENT
@@ -1033,7 +1033,7 @@ ICS;
                 'message' => <<<ICS
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+PRODID:-//Sabre//Sabre VObject $version//EN
 CALSCALE:GREGORIAN
 METHOD:REQUEST
 BEGIN:VEVENT
