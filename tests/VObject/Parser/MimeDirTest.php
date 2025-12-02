@@ -259,4 +259,21 @@ END:VCALENDAR
 EOF,
         ]];
     }
+
+    public function testPropertyName0(): void
+    {
+        $iCal = <<<EOF
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:PRODID
+BEGIN:VEVENT
+0:test
+END:VEVENT
+END:VCALENDAR
+EOF;
+
+        $mimeDir = new MimeDir();
+        $vevent = $mimeDir->parse($iCal);
+        self::assertEquals('test', $vevent->VEVENT->{0}->getValue());
+    }
 }
