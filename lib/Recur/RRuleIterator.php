@@ -41,6 +41,31 @@ class RRuleIterator implements Iterator
         $this->startDate = $start;
         $this->parseRRule($rrule);
         $this->currentDate = clone $this->startDate;
+        $this->skipInvalidStart();
+    }
+
+    /**
+     * For YEARLY frequency with BYMONTH, check if DTSTART matches the rules.
+     * If not, advance to the first valid occurrence without incrementing the counter.
+     * See: https://github.com/linagora/esn-sabre/issues/50
+     */
+    private function skipInvalidStart()
+    {
+        if ('yearly' === $this->frequency && $this->byMonth) {
+            $currentMonth = (int) $this->currentDate->format('n');
+            if (!in_array($currentMonth, $this->byMonth)) {
+                // DTSTART month is not in BYMONTH, advance to first valid occurrence
+                $this->nextYearly();
+            } elseif ($this->byMonthDay || $this->byDay) {
+                // Month is valid, but check if day is valid
+                $currentDay = (int) $this->currentDate->format('j');
+                $validDays = $this->getMonthlyOccurrences();
+                if (!in_array($currentDay, $validDays)) {
+                    // Day is not valid, advance to first valid occurrence
+                    $this->nextYearly();
+                }
+            }
+        }
     }
 
     /* Implementation of the Iterator interface {{{ */
@@ -96,6 +121,7 @@ class RRuleIterator implements Iterator
     {
         $this->currentDate = clone $this->startDate;
         $this->counter = 0;
+        $this->skipInvalidStart();
     }
 
     /**
