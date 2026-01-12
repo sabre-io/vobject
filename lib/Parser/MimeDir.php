@@ -25,6 +25,11 @@ use Sabre\VObject\ParseException;
  */
 class MimeDir extends Parser
 {
+    public const TOKEN_PROPNAME = 1;
+    public const TOKEN_PROPVALUE = 2;
+    public const TOKEN_PARAMNAME = 3;
+    public const TOKEN_PARAMVALUE = 4;
+
     /**
      * The input stream.
      *
@@ -362,6 +367,12 @@ class MimeDir extends Parser
             'value' => null,
         ];
 
+        /*
+         * Keep track on the last token we parsed in order to do
+         * better error checking
+         */
+        $lastToken = null;
+
         $lastParam = null;
 
         /*
@@ -387,10 +398,16 @@ class MimeDir extends Parser
                         // option is set to ignore invalid lines, we ignore this line
                         // This can happen when servers provide faulty data as iCloud
                         //  frequently does with X-APPLE-STRUCTURED-LOCATION
+                        $lastToken = self::TOKEN_PARAMVALUE;
                         continue;
                     }
                     throw new ParseException('Invalid Mimedir file. Line starting at '.$this->startLine.' did not follow iCalendar/vCard conventions');
                 }
+
+                if ('=' == $match[0][0] && self::TOKEN_PARAMNAME != $lastToken) {
+                    throw new ParseException('Invalid Mimedir file. Line starting at '.$this->startLine.': Missing parameter name for parameter value "'.$match['paramValue'].'"');
+                }
+
                 if (is_null($property['parameters'][$lastParam])) {
                     $property['parameters'][$lastParam] = $value;
                 } elseif (is_array($property['parameters'][$lastParam])) {
@@ -404,6 +421,7 @@ class MimeDir extends Parser
                         $value,
                     ];
                 }
+                $lastToken = self::TOKEN_PARAMVALUE;
                 continue;
             }
             if (isset($match['paramName'])) {
@@ -411,14 +429,17 @@ class MimeDir extends Parser
                 if (!isset($property['parameters'][$lastParam])) {
                     $property['parameters'][$lastParam] = null;
                 }
+                $lastToken = self::TOKEN_PARAMNAME;
                 continue;
             }
             if (isset($match['propValue'])) {
                 $property['value'] = $match['propValue'];
+                $lastToken = self::TOKEN_PROPVALUE;
                 continue;
             }
             if (isset($match['name']) && 0 < strlen($match['name'])) {
                 $property['name'] = strtoupper($match['name']);
+                $lastToken = self::TOKEN_PROPNAME;
                 continue;
             }
 
