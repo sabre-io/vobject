@@ -1203,7 +1203,6 @@ ORGANIZER;CN=Strunk:mailto:strunk@example.org
 ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
-
 ICS
             ],
         ];
