@@ -240,16 +240,29 @@ class Broker
             $baseCalendar = $oldCalendar;
         }
 
+        // Check if the user is the organizer
         if (in_array($eventInfo['organizer'], $userHref)) {
             return $this->parseEventForOrganizer($baseCalendar, $eventInfo, $oldEventInfo);
-        } elseif ($oldCalendar) {
-            // We need to figure out if the user is an attendee, but we're only
-            // doing so if there's an oldCalendar, because we only want to
-            // process updates, not creation of new events.
-            foreach ($eventInfo['attendees'] as $attendee) {
-                if (in_array($attendee['href'], $userHref)) {
+        }
+
+        // Check if the user is an attendee
+        foreach ($eventInfo['attendees'] as $attendee) {
+            if (in_array($attendee['href'], $userHref)) {
+                // If this is a event update, we always generate a reply
+                if ($oldCalendar) {
                     return $this->parseEventForAttendee($baseCalendar, $eventInfo, $oldEventInfo, $attendee['href']);
                 }
+
+                // If this is a new event, we only generate a reply if the participation status is set
+                foreach ($attendee['instances'] as $instance) {
+                    if (isset($instance['partstat']) && 'NEEDS-ACTION' !== $instance['partstat']) {
+                        // Attendee has responded (ACCEPTED/DECLINED/TENTATIVE) - generate REPLY
+                        return $this->parseEventForAttendee($baseCalendar, $eventInfo, $oldEventInfo, $attendee['href']);
+                    }
+                }
+
+                // User is attendee but no response to process
+                break;
             }
         }
 
