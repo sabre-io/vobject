@@ -1204,4 +1204,56 @@ ICS,
 
         $this->parse($oldMessage, $newMessage, $expected);
     }
+
+    public function testNewEventWithReply(): void
+    {
+        $oldMessage = null;
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SUMMARY:Team meeting
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+DTSTART:20140716T120000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = [
+            [
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:foobar
+DTSTAMP:**ANY**
+SEQUENCE:1
+DTSTART:20140716T120000Z
+SUMMARY:Team meeting
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS,
+            ],
+        ];
+
+        $this->parse($oldMessage, $newMessage, $expected);
+    }
 }

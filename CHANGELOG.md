@@ -1,5 +1,24 @@
 ChangeLog
 =========
+
+4.5.8 (2026-01-12)
+------------------
+
+* #721: Fix variable scope (@KristofferFM)
+* #723: Broker shouldn't add EXDATE property with floating timezone (@KristofferFM)
+* #726: Improved check on property name (@KristofferFM)
+* #727: Improve error checks in Mimedir parser (@KristofferFM)
+* #728: Removing attendee from scheduled recurring event should generate an EXDATE property (@KristofferFM)
+* #735: use RDATE in time range check and use all instances (@SebastianKrupinski)
+* #743: send participation reply on fresh event (@SebastianKrupinski)
+
+4.5.7 (2025-04-17)
+------------------
+
+* #618: Add new exchangetimezone 'Amsterdam, Berlin, Bern, Rom, Stockholm, Wien' (@chr-is)
+* #674: Allow unknown value data types for VALUE (@heiglandreas)
+* #707: add phpdoc return types for arrayaccess methods (@smhg)
+
 4.5.6 (2024-10-14)
 ------------------
 

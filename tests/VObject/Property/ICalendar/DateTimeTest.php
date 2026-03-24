@@ -177,7 +177,7 @@ class DateTimeTest extends TestCase
     {
         $tz = new \DateTimeZone('Europe/Amsterdam');
         $dt = new \DateTimeImmutable('1985-07-04 01:30:00', $tz);
-        $dt->setTimeZone($tz);
+        $dt = $dt->setTimeZone($tz);
 
         $elem = $this->vcal->createProperty('DTSTART');
         $elem->setDateTime($dt);
