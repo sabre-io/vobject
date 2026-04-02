@@ -96,9 +96,9 @@ class VAlarm extends VObject\Component
             }
 
             return false;
-        } else {
-            return $start <= $effectiveTrigger && $end > $effectiveTrigger;
         }
+
+        return $start <= $effectiveTrigger && $end > $effectiveTrigger;
     }
 
     /**

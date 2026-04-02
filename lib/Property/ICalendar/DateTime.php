@@ -263,9 +263,9 @@ class DateTime extends Property
             function (\DateTimeInterface $dt) use ($hasTime, $isUtc) {
                 if ($hasTime) {
                     return $dt->format('Y-m-d\\TH:i:s').($isUtc ? 'Z' : '');
-                } else {
-                    return $dt->format('Y-m-d');
                 }
+
+                return $dt->format('Y-m-d');
             },
             $dts
         );

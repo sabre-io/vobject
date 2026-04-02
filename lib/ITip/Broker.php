@@ -789,9 +789,9 @@ class Broker
             $message->message = $icalMsg;
 
             return [$message];
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     /**
