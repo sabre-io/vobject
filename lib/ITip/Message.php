@@ -107,10 +107,9 @@ class Message
     {
         if (!$this->scheduleStatus) {
             return false;
-        } else {
-            list($scheduleStatus) = explode(';', $this->scheduleStatus);
-
-            return $scheduleStatus;
         }
+        list($scheduleStatus) = explode(';', $this->scheduleStatus);
+
+        return $scheduleStatus;
     }
 }

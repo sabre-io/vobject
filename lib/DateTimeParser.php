@@ -205,9 +205,9 @@ class DateTimeParser
             return self::parseDuration($date);
         } elseif (8 === strlen($date)) {
             return self::parseDate($date, $referenceTz);
-        } else {
-            return self::parseDateTime($date, $referenceTz);
         }
+
+        return self::parseDateTime($date, $referenceTz);
     }
 
     /**

@@ -718,24 +718,21 @@ class RRuleIterator implements \Iterator
             )->modify($this->startTime());
 
             return;
-        } else {
-            // These are the 'byMonth' rules, if there are no byDay or
-            // byMonthDay sub-rules.
-            do {
-                ++$currentMonth;
-                if ($currentMonth > 12) {
-                    $currentYear += $this->interval;
-                    $currentMonth = 1;
-                }
-            } while (!in_array($currentMonth, $this->byMonth));
-            $this->currentDate = $this->currentDate->setDate(
-                (int) $currentYear,
-                (int) $currentMonth,
-                (int) $currentDayOfMonth
-            )->modify($this->startTime());
-
-            return;
         }
+        // These are the 'byMonth' rules, if there are no byDay or
+        // byMonthDay sub-rules.
+        do {
+            ++$currentMonth;
+            if ($currentMonth > 12) {
+                $currentYear += $this->interval;
+                $currentMonth = 1;
+            }
+        } while (!in_array($currentMonth, $this->byMonth));
+        $this->currentDate = $this->currentDate->setDate(
+            (int) $currentYear,
+            (int) $currentMonth,
+            (int) $currentDayOfMonth
+        )->modify($this->startTime());
     }
 
     /* }}} */

@@ -235,16 +235,15 @@ class MimeDir extends Parser
             }
 
             return $component;
-        } else {
-            // Property reader
-            $property = $this->readProperty($line);
-            if (!$property) {
-                // Ignored line
-                return false;
-            }
-
-            return $property;
         }
+        // Property reader
+        $property = $this->readProperty($line);
+        if (!$property) {
+            // Ignored line
+            return false;
+        }
+
+        return $property;
     }
 
     /**

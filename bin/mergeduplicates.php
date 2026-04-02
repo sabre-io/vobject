@@ -96,53 +96,52 @@ while ($vcard = $splitter->getNext()) {
         $collectedNames[$fn] = $vcard;
         ++$stats['Unique cards'];
         continue;
-    } else {
-        // Starting comparison for all properties. We only check if properties
-        // in the current vcard exactly appear in the earlier vcard as well.
-        foreach ($vcard->children() as $newProp) {
-            if (in_array($newProp->name, $ignoredProperties)) {
-                // We don't care about properties such as UID and REV.
-                continue;
+    }
+    // Starting comparison for all properties. We only check if properties
+    // in the current vcard exactly appear in the earlier vcard as well.
+    foreach ($vcard->children() as $newProp) {
+        if (in_array($newProp->name, $ignoredProperties)) {
+            // We don't care about properties such as UID and REV.
+            continue;
+        }
+        $ok = false;
+        foreach ($collectedNames[$fn]->select($newProp->name) as $compareProp) {
+            if ($compareProp->serialize() === $newProp->serialize()) {
+                $ok = true;
+                break;
             }
-            $ok = false;
-            foreach ($collectedNames[$fn]->select($newProp->name) as $compareProp) {
-                if ($compareProp->serialize() === $newProp->serialize()) {
-                    $ok = true;
-                    break;
-                }
-            }
+        }
 
-            if (!$ok) {
-                if ('EMAIL' === $newProp->name || 'TEL' === $newProp->name) {
-                    // We're going to make another attempt to find this
-                    // property, this time just by value. If we find it, we
-                    // consider it a success.
-                    foreach ($collectedNames[$fn]->select($newProp->name) as $compareProp) {
-                        if ($compareProp->getValue() === $newProp->getValue()) {
-                            $ok = true;
-                            break;
-                        }
-                    }
-
-                    if (!$ok) {
-                        // Merging the new value in the old vcard.
-                        $collectedNames[$fn]->add(clone $newProp);
+        if (!$ok) {
+            if ('EMAIL' === $newProp->name || 'TEL' === $newProp->name) {
+                // We're going to make another attempt to find this
+                // property, this time just by value. If we find it, we
+                // consider it a success.
+                foreach ($collectedNames[$fn]->select($newProp->name) as $compareProp) {
+                    if ($compareProp->getValue() === $newProp->getValue()) {
                         $ok = true;
-                        ++$stats['Merged values'];
+                        break;
                     }
                 }
-            }
 
-            if (!$ok) {
-                // echo $newProp->serialize() . " does not appear in earlier vcard!\n";
-                ++$stats['Error'];
-                if ($debug) {
-                    fwrite($debug, "Missing '".$newProp->name."' property in duplicate. Earlier vcard:\n".$collectedNames[$fn]->serialize()."\n\nLater:\n".$vcard->serialize()."\n\n");
+                if (!$ok) {
+                    // Merging the new value in the old vcard.
+                    $collectedNames[$fn]->add(clone $newProp);
+                    $ok = true;
+                    ++$stats['Merged values'];
                 }
-
-                $vcard->destroy();
-                continue 2;
             }
+        }
+
+        if (!$ok) {
+            // echo $newProp->serialize() . " does not appear in earlier vcard!\n";
+            ++$stats['Error'];
+            if ($debug) {
+                fwrite($debug, "Missing '".$newProp->name."' property in duplicate. Earlier vcard:\n".$collectedNames[$fn]->serialize()."\n\nLater:\n".$vcard->serialize()."\n\n");
+            }
+
+            $vcard->destroy();
+            continue 2;
         }
     }
 

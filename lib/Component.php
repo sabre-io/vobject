@@ -222,16 +222,16 @@ class Component extends Node
 
             if (is_null($group)) {
                 return $result;
-            } else {
-                // If we have a group filter as well, we need to narrow it down
-                // more.
-                return array_filter(
-                    $result,
-                    function ($child) use ($group) {
-                        return $child instanceof Property && (null !== $child->group ? strtoupper($child->group) : '') === $group;
-                    }
-                );
             }
+
+            // If we have a group filter as well, we need to narrow it down
+            // more.
+            return array_filter(
+                $result,
+                function ($child) use ($group) {
+                    return $child instanceof Property && (null !== $child->group ? strtoupper($child->group) : '') === $group;
+                }
+            );
         }
 
         // If we got to this point, it means there was no 'name' specified for
@@ -422,13 +422,12 @@ class Component extends Node
         $matches = $this->select($name);
         if (0 === count($matches)) {
             return null;
-        } else {
-            $firstMatch = current($matches);
-            /* @var $firstMatch Property */
-            $firstMatch->setIterator(new ElementList(array_values($matches)));
-
-            return $firstMatch;
         }
+        $firstMatch = current($matches);
+        /* @var $firstMatch Property */
+        $firstMatch->setIterator(new ElementList(array_values($matches)));
+
+        return $firstMatch;
     }
 
     /**

@@ -177,9 +177,9 @@ class Parameter extends Node
     {
         if (is_array($this->value)) {
             return implode(',', $this->value);
-        } else {
-            return $this->value;
         }
+
+        return $this->value;
     }
 
     /**
@@ -201,9 +201,9 @@ class Parameter extends Node
             return $this->value;
         } elseif (is_null($this->value)) {
             return [];
-        } else {
-            return [$this->value];
         }
+
+        return [$this->value];
     }
 
     /**
@@ -278,20 +278,19 @@ class Parameter extends Node
                 // added + as well.
                 if (!preg_match('#(?: [\n":;\^,\+] )#x', $item)) {
                     return $out.$item;
-                } else {
-                    // Enclosing in double-quotes, and using RFC6868 for encoding any
-                    // special characters
-                    $out .= '"'.strtr(
-                        $item,
-                        [
-                            '^' => '^^',
-                            "\n" => '^n',
-                            '"' => '^\'',
-                        ]
-                    ).'"';
-
-                    return $out;
                 }
+                // Enclosing in double-quotes, and using RFC6868 for encoding any
+                // special characters
+                $out .= '"'.strtr(
+                    $item,
+                    [
+                        '^' => '^^',
+                        "\n" => '^n',
+                        '"' => '^\'',
+                    ]
+                ).'"';
+
+                return $out;
             }
         );
     }
