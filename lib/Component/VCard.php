@@ -410,6 +410,34 @@ class VCard extends VObject\Document
     }
 
     /**
+     * Returns a property with a specific TYPE value (ADR, TEL, or EMAIL).
+     *
+     * This function will return null if the exact property list does not exist.
+     *
+     * For example to get the property of `TEL;TYPE=HOME,CELL`
+     * you would call `getByTypes('TEL', ['HOME', 'CELL'])`
+     *
+     * @param string[] $types
+     *
+     * @return \ArrayAccess|array|null
+     */
+    public function getByTypes(string $propertyName, array $types)
+    {
+        $types = array_map('strtolower', $types);
+        foreach ($this->select($propertyName) as $field) {
+            if (isset($field['TYPE'])) {
+                $parts = array_map('strtolower', $field['TYPE']->getParts());
+
+                if (!array_diff($types, $parts) && !array_diff($parts, $types)) {
+                    return $field;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * This method should return a list of default property values.
      */
     protected function getDefaults(): array
