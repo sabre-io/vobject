@@ -22,7 +22,11 @@ class FindFromTimezoneMap implements TimezoneFinder
     {
         // Next, we check if the tzid is somewhere in our tzid map.
         if ($this->hasTzInMap($tzid)) {
-            return new \DateTimeZone($this->getTzFromMap($tzid));
+            try {
+                return new \DateTimeZone($this->getTzFromMap($tzid));
+            } catch (\Exception $e) {
+                return null;
+            }
         }
 
         // Some Microsoft products prefix the offset first, so let's strip that off
@@ -34,7 +38,11 @@ class FindFromTimezoneMap implements TimezoneFinder
             }
             $tzidAlternate = $matches[3];
             if ($this->hasTzInMap($tzidAlternate)) {
-                return new \DateTimeZone($this->getTzFromMap($tzidAlternate));
+                try {
+                    return new \DateTimeZone($this->getTzFromMap($tzidAlternate));
+                } catch (\Exception $e) {
+                    return null;
+                }
             }
         }
 
