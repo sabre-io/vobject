@@ -1325,7 +1325,7 @@ ORGANIZER:mailto:organizer@example.org
 ATTENDEE;PARTSTAT=DECLINED:mailto:one@example.org
 END:VEVENT
 END:VCALENDAR
-ICS,
+ICS
             ],
         ];
         $this->parse($oldMessage, $newMessage, $expected);
