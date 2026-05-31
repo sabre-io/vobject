@@ -1,6 +1,15 @@
 ChangeLog
 =========
 
+4.6.0 (2026-05-31)
+------------------
+* #718 feat(VCard): add getByTypes method (@JimKnoxx)
+* #756 fix: Update deprecated timezone names (@ralflang)
+
+4.5.9 (2026-05-31)
+------------------
+* #759 fix(itip): handle null old calendar/event (@ChristophWurst)
+
 4.5.8 (2026-01-12)
 ------------------
 
