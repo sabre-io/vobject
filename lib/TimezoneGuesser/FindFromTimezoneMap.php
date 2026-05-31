@@ -18,6 +18,9 @@ class FindFromTimezoneMap implements TimezoneFinder
         '/^\((UTC|GMT)(\+|\-)[\d]{2}\.[\d]{2}\) (.*)/',
     ];
 
+    /**
+     * @throws void
+     */
     public function find(string $tzid, ?bool $failIfUncertain = false): ?\DateTimeZone
     {
         // Next, we check if the tzid is somewhere in our tzid map.
