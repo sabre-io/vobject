@@ -730,7 +730,7 @@ class Broker
             /** @var VEvent $event */
             $event = $icalMsg->add('VEVENT', [
                 'UID' => $message->uid,
-                'SEQUENCE' => $message->sequence,
+                'SEQUENCE' => $eventInfo['sequences'][$instance['id']] ?? $message->sequence,
             ]);
             $summary = isset($calendar->VEVENT->SUMMARY) ? $calendar->VEVENT->SUMMARY->getValue() : '';
             // Adding properties from the correct source instance
@@ -823,7 +823,7 @@ class Broker
         $organizer = null;
         $organizerName = null;
         $organizerForceSend = null;
-        $sequence = null;
+        $sequences = [];
         $timezone = null;
         $status = null;
         $organizerScheduleAgent = 'SERVER';
@@ -871,8 +871,9 @@ class Broker
                     strtoupper((string) $vevent->ORGANIZER['SCHEDULE-AGENT']) :
                     'SERVER';
             }
-            if (is_null($sequence) && isset($vevent->SEQUENCE)) {
-                $sequence = $vevent->SEQUENCE->getValue();
+            if (isset($vevent->SEQUENCE)) {
+                $recurIdForSeq = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getValue() : 'master';
+                $sequences[$recurIdForSeq] = $vevent->SEQUENCE->getValue();
             }
             if (isset($vevent->EXDATE)) {
                 foreach ($vevent->select('EXDATE') as $val) {
@@ -975,6 +976,8 @@ class Broker
         $significantChangeHash = implode('', $significantChangeEventProperties);
         $significantChangeHash = md5($significantChangeHash);
 
+        $sequence = $sequences['master'] ?? (reset($sequences) ?: null);
+
         return compact(
             'uid',
             'organizer',
@@ -984,6 +987,7 @@ class Broker
             'instances',
             'attendees',
             'sequence',
+            'sequences',
             'exdate',
             'timezone',
             'significantChangeHash',
