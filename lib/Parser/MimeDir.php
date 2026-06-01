@@ -41,7 +41,7 @@ class MimeDir extends Parser
     /**
      * Root component.
      */
-    protected ?Document $root;
+    protected ?Document $root = null;
 
     /**
      * By default, all input will be assumed to be UTF-8.
@@ -155,23 +155,18 @@ class MimeDir extends Parser
 
         // BOM is ZERO WIDTH NO-BREAK SPACE (U+FEFF).
         // It's 0xEF 0xBB 0xBF in UTF-8 hex.
-        if (3 <= strlen($line)
+        if (3 <= strlen((string) $line)
             && 0xEF === ord($line[0])
             && 0xBB === ord($line[1])
             && 0xBF === ord($line[2])) {
-            $line = \substr($line, 3);
+            $line = \substr((string) $line, 3);
         }
 
-        switch (strtoupper($line)) {
-            case 'BEGIN:VCALENDAR':
-                $class = VCalendar::$componentMap['VCALENDAR'];
-                break;
-            case 'BEGIN:VCARD':
-                $class = VCard::$componentMap['VCARD'];
-                break;
-            default:
-                throw new ParseException('This parser only supports VCARD and VCALENDAR files');
-        }
+        $class = match (strtoupper((string) $line)) {
+            'BEGIN:VCALENDAR' => VCalendar::$componentMap['VCALENDAR'],
+            'BEGIN:VCARD' => VCard::$componentMap['VCARD'],
+            default => throw new ParseException('This parser only supports VCARD and VCALENDAR files'),
+        };
 
         $this->root = new $class([], false);
 
@@ -179,10 +174,10 @@ class MimeDir extends Parser
             // Reading until we hit END:
             try {
                 $line = $this->readLine();
-            } catch (EofException $oEx) {
+            } catch (EofException) {
                 $line = 'END:'.$this->root->name;
             }
-            if ('END:' === strtoupper(\substr($line, 0, 4))) {
+            if ('END:' === strtoupper(\substr((string) $line, 0, 4))) {
                 break;
             }
             $result = $this->parseLine($line);
@@ -191,7 +186,7 @@ class MimeDir extends Parser
             }
         }
 
-        $name = strtoupper(\substr($line, 4));
+        $name = strtoupper(\substr((string) $line, 4));
         if ($name !== $this->root->name) {
             throw new ParseException('Invalid MimeDir file. expected: "END:'.$this->root->name.'" got: "END:'.$name.'"');
         }
@@ -220,7 +215,7 @@ class MimeDir extends Parser
             while (true) {
                 // Reading until we hit END:
                 $line = $this->readLine();
-                if ('END:' === strtoupper(\substr($line, 0, 4))) {
+                if ('END:' === strtoupper(\substr((string) $line, 0, 4))) {
                     break;
                 }
                 $result = $this->parseLine($line);
@@ -229,7 +224,7 @@ class MimeDir extends Parser
                 }
             }
 
-            $name = strtoupper(\substr($line, 4));
+            $name = strtoupper(\substr((string) $line, 4));
             if ($name !== $component->name) {
                 throw new ParseException('Invalid MimeDir file. expected: "END:'.$component->name.'" got: "END:'.$name.'"');
             }
@@ -691,7 +686,7 @@ class MimeDir extends Parser
         // missing a whitespace. So if 'forgiving' is turned on, we will take
         // those as well.
         if ($this->options & self::OPTION_FORGIVING) {
-            while ('=' === \substr($value, -1) && $this->lineBuffer) {
+            while (str_ends_with($value, '=') && $this->lineBuffer) {
                 // Reading the line
                 $this->readLine();
                 // Grabbing the raw form

@@ -37,9 +37,13 @@ class RRuleIterator implements \Iterator
      *
      * @throws InvalidDataException
      */
-    public function __construct($rrule, \DateTimeInterface $start)
+    public function __construct($rrule, /**
+     * The reference start date/time for the rrule.
+     *
+     * All calculations are based on this initial date.
+     */
+        protected \DateTimeInterface $startDate)
     {
-        $this->startDate = $start;
         $this->parseRRule($rrule);
         $this->currentDate = clone $this->startDate;
     }
@@ -145,13 +149,6 @@ class RRuleIterator implements \Iterator
             $this->next();
         }
     }
-
-    /**
-     * The reference start date/time for the rrule.
-     *
-     * All calculations are based on this initial date.
-     */
-    protected \DateTimeInterface $startDate;
 
     /**
      * The date of the current iteration. You can get this by calling
@@ -752,10 +749,10 @@ class RRuleIterator implements \Iterator
         }
 
         foreach ($rrule as $key => $value) {
-            $key = strtoupper($key);
+            $key = strtoupper((string) $key);
             switch ($key) {
                 case 'FREQ':
-                    $value = strtolower($value);
+                    $value = strtolower((string) $value);
                     if (!in_array(
                         $value,
                         ['secondly', 'minutely', 'hourly', 'daily', 'weekly', 'monthly', 'yearly']
@@ -806,7 +803,7 @@ class RRuleIterator implements \Iterator
                 case 'BYDAY':
                     $value = (array) $value;
                     foreach ($value as $part) {
-                        if (!preg_match('#^  (-|\+)? ([1-5])? (MO|TU|WE|TH|FR|SA|SU) $# xi', $part)) {
+                        if (!preg_match('#^  (-|\+)? ([1-5])? (MO|TU|WE|TH|FR|SA|SU) $# xi', (string) $part)) {
                             throw new InvalidDataException('Invalid part in BYDAY clause: '.$part);
                         }
                     }
@@ -849,7 +846,7 @@ class RRuleIterator implements \Iterator
                     break;
 
                 case 'WKST':
-                    $this->weekStart = strtoupper($value);
+                    $this->weekStart = strtoupper((string) $value);
                     break;
 
                 default:
@@ -889,7 +886,7 @@ class RRuleIterator implements \Iterator
         // that point and add it to the results.
         if ($this->byDay) {
             foreach ($this->byDay as $day) {
-                $dayName = $this->dayNames[$this->dayMap[substr($day, -2)]];
+                $dayName = $this->dayNames[$this->dayMap[substr((string) $day, -2)]];
 
                 // Dayname will be something like 'wednesday'. Now we need to find
                 // all wednesdays in this month.
@@ -910,8 +907,8 @@ class RRuleIterator implements \Iterator
                 // So now we have 'all wednesdays' for month. It is however
                 // possible that the user only really wanted the 1st, 2nd or last
                 // wednesday.
-                if (strlen($day) > 2) {
-                    $offset = (int) substr($day, 0, -2);
+                if (strlen((string) $day) > 2) {
+                    $offset = (int) substr((string) $day, 0, -2);
 
                     if ($offset > 0) {
                         // It is possible that the day does not exist, such as a
@@ -1015,7 +1012,7 @@ class RRuleIterator implements \Iterator
             // The day may be preceded with a positive (+n) or
             // negative (-n) integer. However, this does not make
             // sense in 'weekly' so we ignore it here.
-            $recurrenceDays[] = $this->dayMap[substr($byDay, -2)];
+            $recurrenceDays[] = $this->dayMap[substr((string) $byDay, -2)];
         }
 
         return $recurrenceDays;

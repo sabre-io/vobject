@@ -55,13 +55,13 @@ trait PHPUnitAssertions
         $actual = $getObj($actual)->serialize();
 
         // Finding wildcards in expected.
-        preg_match_all('|^([A-Z]+):\\*\\*ANY\\*\\*\r$|m', $expected, $matches, PREG_SET_ORDER);
+        preg_match_all('|^([A-Z]+):\\*\\*ANY\\*\\*\r$|m', (string) $expected, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $match) {
             $actual = preg_replace(
                 '|^'.preg_quote($match[1], '|').':(.*)\r$|m',
                 $match[1].':**ANY**'."\r",
-                $actual
+                (string) $actual
             );
         }
 

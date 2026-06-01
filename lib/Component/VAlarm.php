@@ -32,7 +32,7 @@ class VAlarm extends VObject\Component
     public function getEffectiveTriggerTime(): \DateTimeImmutable
     {
         $trigger = $this->TRIGGER;
-        if (!isset($trigger['VALUE']) || ($trigger['VALUE'] && 'DURATION' === strtoupper($trigger['VALUE']))) {
+        if (!isset($trigger['VALUE']) || ($trigger['VALUE'] && 'DURATION' === strtoupper((string) $trigger['VALUE']))) {
             $triggerDuration = VObject\DateTimeParser::parseDuration($this->TRIGGER);
             $related = (isset($trigger['RELATED']) && 'END' == strtoupper($trigger['RELATED'])) ? 'END' : 'START';
 

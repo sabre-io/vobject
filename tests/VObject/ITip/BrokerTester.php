@@ -76,7 +76,7 @@ abstract class BrokerTester extends TestCase
             $message->sender = $mainComponent->ATTENDEE->getValue();
             $message->senderName = isset($mainComponent->ATTENDEE['CN']) ? $mainComponent->ATTENDEE['CN']->getValue() : null;
             $message->recipient = $mainComponent->ORGANIZER->getValue();
-            $message->recipientName = isset($mainComponent->ORGANIZER['CN']) ? $mainComponent->ORGANIZER['CN'] : null;
+            $message->recipientName = $mainComponent->ORGANIZER['CN'] ?? null;
         }
 
         $broker = new Broker();

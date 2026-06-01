@@ -127,7 +127,7 @@ class VCardConverter
                     $output->add('ITEM'.$x.'.X-ABLABEL', '_$!<Anniversary>!$_');
                 }
             } elseif ('KIND' === $property->name) {
-                switch (strtolower($property->getValue())) {
+                switch (strtolower((string) $property->getValue())) {
                     case 'org':
                         // vCard 3.0 does not have an equivalent to KIND:ORG,
                         // but apple has an extension that means the same
@@ -171,12 +171,12 @@ class VCardConverter
             }
             switch ($property->name) {
                 case 'X-ABSHOWAS':
-                    if ('COMPANY' === strtoupper($property->getValue())) {
+                    if ('COMPANY' === strtoupper((string) $property->getValue())) {
                         $newProperty = $output->createProperty('KIND', 'ORG');
                     }
                     break;
                 case 'X-ADDRESSBOOKSERVER-KIND':
-                    if ('GROUP' === strtoupper($property->getValue())) {
+                    if ('GROUP' === strtoupper((string) $property->getValue())) {
                         $newProperty = $output->createProperty('KIND', 'GROUP');
                     }
                     break;
@@ -274,10 +274,10 @@ class VCardConverter
             $newTypes = [];
             foreach ($parameters['TYPE']->getParts() as $typePart) {
                 if (in_array(
-                    strtoupper($typePart),
+                    strtoupper((string) $typePart),
                     ['JPEG', 'PNG', 'GIF']
                 )) {
-                    $mimeType = 'image/'.strtolower($typePart);
+                    $mimeType = 'image/'.strtolower((string) $typePart);
                 } else {
                     $newTypes[] = $typePart;
                 }
@@ -292,7 +292,7 @@ class VCardConverter
             }
         }
 
-        $newProperty->setValue('data:'.$mimeType.';base64,'.base64_encode($value));
+        $newProperty->setValue('data:'.$mimeType.';base64,'.base64_encode((string) $value));
 
         return $newProperty;
     }
@@ -313,7 +313,7 @@ class VCardConverter
         $value = $newProperty->getValue();
 
         // Only converting data: uris
-        if ('data:' !== substr($value, 0, 5)) {
+        if (!str_starts_with((string) $value, 'data:')) {
             return $newProperty;
         }
 
@@ -325,12 +325,12 @@ class VCardConverter
             'BINARY'
         );
 
-        $mimeType = substr($value, 5, strpos($value, ',') - 5);
+        $mimeType = substr((string) $value, 5, strpos((string) $value, ',') - 5);
         if (strpos($mimeType, ';')) {
             $mimeType = substr($mimeType, 0, strpos($mimeType, ';'));
-            $newProperty->setValue(base64_decode(substr($value, strpos($value, ',') + 1)));
+            $newProperty->setValue(base64_decode(substr((string) $value, strpos((string) $value, ',') + 1)));
         } else {
-            $newProperty->setValue(substr($value, strpos($value, ',') + 1));
+            $newProperty->setValue(substr((string) $value, strpos((string) $value, ',') + 1));
         }
         unset($value);
 
@@ -367,7 +367,7 @@ class VCardConverter
                 // that's now PREF=1.
                 case 'TYPE':
                     foreach ($param->getParts() as $paramPart) {
-                        if ('PREF' === strtoupper($paramPart)) {
+                        if ('PREF' === strtoupper((string) $paramPart)) {
                             $newProperty->add('PREF', '1');
                         } else {
                             $newProperty->add($param->name, $paramPart);
@@ -402,7 +402,7 @@ class VCardConverter
                 case 'ENCODING':
                     // This value only existed in vCard 2.1, and should be
                     // removed for anything else.
-                    if ('QUOTED-PRINTABLE' !== strtoupper($param->getValue())) {
+                    if ('QUOTED-PRINTABLE' !== strtoupper((string) $param->getValue())) {
                         $newProperty->add($param->name, $param->getParts());
                     }
                     break;

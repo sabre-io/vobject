@@ -64,9 +64,7 @@ class Period extends Property
     public function setJsonValue(array $value): void
     {
         $value = array_map(
-            function ($item) {
-                return strtr(implode('/', $item), [':' => '', '-' => '']);
-            },
+            fn ($item) => strtr(implode('/', $item), [':' => '', '-' => '']),
             $value
         );
         parent::setJsonValue($value);
@@ -83,7 +81,7 @@ class Period extends Property
     {
         $return = [];
         foreach ($this->getParts() as $item) {
-            list($start, $end) = explode('/', $item, 2);
+            [$start, $end] = explode('/', (string) $item, 2);
 
             $start = DateTimeParser::parseDateTime($start);
 

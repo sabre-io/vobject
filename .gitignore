@@ -3,6 +3,7 @@ vendor/
 composer.lock
 tests/cov/
 tests/temp
+tests/.phpunit.cache
 tests/.phpunit.result.cache
 
 # Development stuff

@@ -20,7 +20,7 @@ class TimeZoneUtilTest extends TestCase
             $tz = new \DateTimeZone($timezoneName);
             self::assertInstanceOf('DateTimeZone', $tz);
         } catch (\Exception $e) {
-            if (false !== strpos($e->getMessage(), 'Unknown or bad timezone')) {
+            if (str_contains($e->getMessage(), 'Unknown or bad timezone')) {
                 $this->markTestSkipped($timezoneName.' is not (yet) supported in this PHP version. Update pecl/timezonedb');
             } else {
                 throw $e;
@@ -39,9 +39,7 @@ class TimeZoneUtilTest extends TestCase
 
         // PHPUNit requires an array of arrays
         return array_map(
-            function ($value) {
-                return [$value];
-            },
+            fn ($value) => [$value],
             $map
         );
     }
@@ -202,9 +200,7 @@ HI;
     {
         // PHPUNit requires an array of arrays
         return array_map(
-            function ($value) {
-                return [$value];
-            },
+            fn ($value) => [$value],
             \DateTimeZone::listIdentifiers()
         );
     }
@@ -213,9 +209,7 @@ HI;
     {
         // PHPUNit requires an array of arrays
         return array_map(
-            function ($value) {
-                return [$value];
-            },
+            fn ($value) => [$value],
             include __DIR__.'/../../lib/timezonedata/php-bc.php'
         );
     }

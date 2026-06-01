@@ -29,7 +29,7 @@ class Recur extends Property
     /**
      * Reference to the parent object, if this is not the top object.
      */
-    public ?Node $parent;
+    public ?Node $parent = null;
 
     /**
      * Updates the current value.
@@ -52,17 +52,17 @@ class Recur extends Property
                     $v = strtoupper($v);
 
                     // The value had multiple sub-values
-                    if (false !== strpos($v, ',')) {
+                    if (str_contains($v, ',')) {
                         $v = explode(',', $v);
                     }
-                    if (0 === strcmp($k, 'until')) {
+                    if (0 === strcmp((string) $k, 'until')) {
                         $v = strtr($v, [':' => '', '-' => '']);
                     }
                 } elseif (is_array($v)) {
-                    $v = array_map('strtoupper', $v);
+                    $v = array_map(strtoupper(...), $v);
                 }
 
-                $newVal[strtoupper($k)] = $v;
+                $newVal[strtoupper((string) $k)] = $v;
             }
             $this->value = $newVal;
         } elseif (is_string($value)) {
@@ -151,13 +151,13 @@ class Recur extends Property
     {
         $values = [];
         foreach ($this->getParts() as $k => $v) {
-            if (0 === strcmp($k, 'UNTIL')) {
+            if (0 === strcmp((string) $k, 'UNTIL')) {
                 $date = new DateTime($this->root, null, $v);
-                $values[strtolower($k)] = $date->getJsonValue()[0];
-            } elseif (0 === strcmp($k, 'COUNT')) {
-                $values[strtolower($k)] = intval($v);
+                $values[strtolower((string) $k)] = $date->getJsonValue()[0];
+            } elseif (0 === strcmp((string) $k, 'COUNT')) {
+                $values[strtolower((string) $k)] = intval($v);
             } else {
-                $values[strtolower($k)] = $v;
+                $values[strtolower((string) $k)] = $v;
             }
         }
 
@@ -196,10 +196,10 @@ class Recur extends Property
                 throw new InvalidDataException('The supplied iCalendar RRULE part is incorrect: '.$part);
             }
 
-            list($partName, $partValue) = $parts;
+            [$partName, $partValue] = $parts;
 
             // The value itself had multiple values..
-            if (false !== strpos($partValue, ',')) {
+            if (str_contains($partValue, ',')) {
                 $partValue = explode(',', $partValue);
             }
             $newValue[$partName] = $partValue;

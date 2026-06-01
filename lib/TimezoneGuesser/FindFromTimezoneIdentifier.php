@@ -46,7 +46,7 @@ class FindFromTimezoneIdentifier implements TimezoneFinder
             ) {
                 return new \DateTimeZone($tzid);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         return null;
