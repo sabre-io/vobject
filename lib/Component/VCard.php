@@ -423,10 +423,10 @@ class VCard extends VObject\Document
      */
     public function getByTypes(string $propertyName, array $types)
     {
-        $types = array_map('strtolower', $types);
+        $types = array_map(strtolower(...), $types);
         foreach ($this->select($propertyName) as $field) {
             if (isset($field['TYPE'])) {
-                $parts = array_map('strtolower', $field['TYPE']->getParts());
+                $parts = array_map(strtolower(...), $field['TYPE']->getParts());
 
                 if (!array_diff($types, $parts) && !array_diff($parts, $types)) {
                     return $field;
@@ -493,7 +493,7 @@ class VCard extends VObject\Document
         foreach ($propertiesByGroup as $group => $properties) {
             if (!empty($group)) {
                 $writer->startElement('group');
-                $writer->writeAttribute('name', strtolower($group));
+                $writer->writeAttribute('name', strtolower((string) $group));
             }
 
             foreach ($properties as $property) {

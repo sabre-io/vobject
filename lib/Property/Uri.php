@@ -74,14 +74,10 @@ class Uri extends Text
             $matches = preg_split($regex, $val, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
             $newVal = '';
             foreach ($matches as $match) {
-                switch ($match) {
-                    case '\:':
-                        $newVal .= ':';
-                        break;
-                    default:
-                        $newVal .= $match;
-                        break;
-                }
+                match ($match) {
+                    '\:' => $newVal .= ':',
+                    default => $newVal .= $match,
+                };
             }
             $this->value = $newVal;
         } else {

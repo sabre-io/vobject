@@ -213,7 +213,7 @@ class Text extends Property
 
         // If the resulting value contains a \n, we must encode it as
         // quoted-printable.
-        if (false !== \strpos($val, "\n")) {
+        if (str_contains((string) $val, "\n")) {
             $str .= ';ENCODING=QUOTED-PRINTABLE:';
             $lastLine = $str;
             $out = '';
@@ -222,13 +222,13 @@ class Text extends Property
             // encode newlines for us. Specifically, the \r\n sequence must in
             // vcards be encoded as =0D=OA and we must insert soft-newlines
             // every 75 bytes.
-            for ($ii = 0; $ii < \strlen($val); ++$ii) {
+            for ($ii = 0; $ii < \strlen((string) $val); ++$ii) {
                 $ord = \ord($val[$ii]);
                 // These characters are encoded as themselves.
                 if ($ord >= 32 && $ord <= 126) {
                     $lastLine .= $val[$ii];
                 } else {
-                    $lastLine .= '='.\strtoupper(\bin2hex($val[$ii]));
+                    $lastLine .= '='.\strtoupper(\bin2hex((string) $val[$ii]));
                 }
                 if (\strlen($lastLine) >= 75) {
                     // Soft line break
@@ -255,7 +255,7 @@ class Text extends Property
         );
 
         // remove single space after last CRLF
-        return \substr($str, 0, -1);
+        return \substr((string) $str, 0, -1);
     }
 
     /**

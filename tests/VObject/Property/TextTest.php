@@ -66,14 +66,14 @@ class TextTest extends TestCase
 
     public function testValidateMinimumPropValue(): void
     {
-        $vcard = <<<IN
-BEGIN:VCARD
-VERSION:4.0
-UID:foo
-FN:Hi!
-N:A
-END:VCARD
-IN;
+        $vcard = <<<IN_WRAP
+        BEGIN:VCARD
+        VERSION:4.0
+        UID:foo
+        FN:Hi!
+        N:A
+        END:VCARD
+        IN_WRAP;
 
         $vcard = \Sabre\VObject\Reader::read($vcard);
         self::assertCount(1, $vcard->validate());

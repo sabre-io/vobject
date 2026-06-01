@@ -44,7 +44,7 @@ class VEvent extends VObject\Component
         if ($this->RRULE || $this->RDATE) {
             try {
                 $it = new EventIterator($this, null, $start->getTimezone());
-            } catch (NoInstancesException $e) {
+            } catch (NoInstancesException) {
                 // If we've caught this exception, there are no instances
                 // for the event that fall into the specified time-range.
                 return false;

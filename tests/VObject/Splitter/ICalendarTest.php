@@ -169,7 +169,7 @@ EOT;
 
         if ($messages) {
             $messages = array_map(
-                function ($item) { return $item['message']; },
+                fn ($item) => $item['message'],
                 $messages
             );
             $this->fail('Validation errors: '.implode("\n", $messages));

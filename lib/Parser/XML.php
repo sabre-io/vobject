@@ -28,17 +28,17 @@ class XML extends Parser
     /**
      * The input data.
      */
-    protected ?array $input;
+    protected ?array $input = null;
 
     /**
      * A pointer/reference to the input.
      */
-    private ?array $pointer;
+    private ?array $pointer = null;
 
     /**
      * Document, root component.
      */
-    protected ?Document $root;
+    protected ?Document $root = null;
 
     /**
      * Creates the parser.
@@ -146,7 +146,7 @@ class XML extends Parser
     protected function parseProperties(Component $parentComponent, string $propertyNamePrefix = ''): void
     {
         foreach ($this->pointer ?: [] as $xmlProperty) {
-            list($namespace, $tagName) = SabreXml\Service::parseClarkNotation($xmlProperty['name']);
+            [$namespace, $tagName] = SabreXml\Service::parseClarkNotation($xmlProperty['name']);
 
             $propertyName = $tagName;
             $propertyValue = [];

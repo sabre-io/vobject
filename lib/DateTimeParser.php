@@ -42,7 +42,7 @@ class DateTimeParser
 
         try {
             $date = new \DateTimeImmutable($matches[1].'-'.$matches[2].'-'.$matches[3].' '.$matches[4].':'.$matches[5].':'.$matches[6], $tz);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new InvalidDataException('The supplied iCalendar datetime value is incorrect: '.$dt);
         }
 
@@ -69,7 +69,7 @@ class DateTimeParser
 
         try {
             $date = new \DateTimeImmutable($matches[1].'-'.$matches[2].'-'.$matches[3], $tz);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new InvalidDataException('The supplied iCalendar date value is incorrect: '.$date);
         }
 

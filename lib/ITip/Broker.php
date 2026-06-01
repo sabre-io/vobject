@@ -354,7 +354,7 @@ class Broker
             $instances[$recurId] = $attendee['PARTSTAT']->getValue();
             if (isset($vevent->{'REQUEST-STATUS'})) {
                 $requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
-                list($requestStatus) = explode(';', $requestStatus);
+                [$requestStatus] = explode(';', $requestStatus);
             }
         }
 
@@ -754,7 +754,7 @@ class Broker
                 // EXDATE
                 $dt = DateTimeParser::parse($instance['id'], $eventInfo['timezone']);
                 // Treat is as a DATE field
-                if (strlen($instance['id']) <= 8) {
+                if (strlen((string) $instance['id']) <= 8) {
                     $event->add('DTSTART', $dt, ['VALUE' => 'DATE']);
                 } else {
                     $event->add('DTSTART', $dt);
@@ -766,7 +766,7 @@ class Broker
             if ('master' !== $instance['id']) {
                 $dt = DateTimeParser::parse($instance['id'], $eventInfo['timezone']);
                 // Treat is as a DATE field
-                if (strlen($instance['id']) <= 8) {
+                if (strlen((string) $instance['id']) <= 8) {
                     $event->add('RECURRENCE-ID', $dt, ['VALUE' => 'DATE']);
                 } else {
                     $event->add('RECURRENCE-ID', $dt);
@@ -858,7 +858,7 @@ class Broker
                     $organizer = $vevent->ORGANIZER->getNormalizedValue();
                     $organizerName = $vevent->ORGANIZER['CN'] ?? null;
                 } else {
-                    if (strtoupper($organizer) !== strtoupper($vevent->ORGANIZER->getNormalizedValue())) {
+                    if (strtoupper($organizer) !== strtoupper((string) $vevent->ORGANIZER->getNormalizedValue())) {
                         throw new SameOrganizerForAllComponentsException('Every instance of the event must have the same organizer.');
                     }
                 }
@@ -896,7 +896,7 @@ class Broker
                 sort($rrule);
             }
             if (isset($vevent->STATUS)) {
-                $status = strtoupper($vevent->STATUS->getValue());
+                $status = strtoupper((string) $vevent->STATUS->getValue());
             }
 
             $recurId = isset($vevent->{'RECURRENCE-ID'}) ? $vevent->{'RECURRENCE-ID'}->getValue() : 'master';
@@ -914,7 +914,7 @@ class Broker
                 foreach ($vevent->ATTENDEE as $attendee) {
                     if ($this->scheduleAgentServerRules
                         && isset($attendee['SCHEDULE-AGENT'])
-                        && 'CLIENT' === strtoupper($attendee['SCHEDULE-AGENT']->getValue())
+                        && 'CLIENT' === strtoupper((string) $attendee['SCHEDULE-AGENT']->getValue())
                     ) {
                         continue;
                     }

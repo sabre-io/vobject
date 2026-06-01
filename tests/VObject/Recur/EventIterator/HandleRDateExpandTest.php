@@ -51,7 +51,7 @@ ICS;
             new \DateTimeImmutable('2015-10-20', $utc),
         ];
 
-        $result = array_map(function ($ev) {return $ev->DTSTART->getDateTime(); }, $result);
+        $result = array_map(fn ($ev) => $ev->DTSTART->getDateTime(), $result);
         self::assertEquals($expected, $result);
     }
 }

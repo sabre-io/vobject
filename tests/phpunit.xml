@@ -1,26 +1,16 @@
-<phpunit
-  colors="true"
-  bootstrap="bootstrap.php"
-  convertErrorsToExceptions="true"
-  convertNoticesToExceptions="true"
-  convertWarningsToExceptions="true"
-  beStrictAboutTestsThatDoNotTestAnything="true"
-  beStrictAboutOutputDuringTests="true"
-  failOnRisky="true"
-  failOnWarning="true"
-  enforceTimeLimit="true"
-  >
+<?xml version="1.0"?>
+<phpunit colors="true" bootstrap="bootstrap.php" beStrictAboutTestsThatDoNotTestAnything="true" beStrictAboutOutputDuringTests="true" failOnRisky="true" failOnWarning="true" enforceTimeLimit="true" cacheDirectory=".phpunit.cache">
   <php>
     <ini name="error_reporting" value="E_ALL"/>
   </php>
-  <coverage includeUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">../lib/</directory>
-    </include>
-  </coverage>
   <testsuites>
     <testsuite name="Sabre\VObject">
       <directory>.</directory>
     </testsuite>
   </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">../lib/</directory>
+    </include>
+  </source>
 </phpunit>

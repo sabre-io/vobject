@@ -111,7 +111,7 @@ class DateTime extends Property
             !$this->hasTime()
             || (
                 !isset($this['TZID'])
-                && false === strpos($this->getValue(), 'Z')
+                && !str_contains((string) $this->getValue(), 'Z')
             );
     }
 
@@ -286,9 +286,7 @@ class DateTime extends Property
         // those.
         $this->setValue(
             array_map(
-                function ($item) {
-                    return strtr($item, [':' => '', '-' => '']);
-                },
+                fn ($item) => strtr($item, [':' => '', '-' => '']),
                 $value
             )
         );
@@ -306,7 +304,7 @@ class DateTime extends Property
     public function offsetSet($offset, $value): void
     {
         parent::offsetSet($offset, $value);
-        if ('VALUE' !== strtoupper($offset)) {
+        if ('VALUE' !== strtoupper((string) $offset)) {
             return;
         }
 
@@ -347,7 +345,7 @@ class DateTime extends Property
                         DateTimeParser::parseDateTime($value);
                         break;
                 }
-            } catch (InvalidDataException $e) {
+            } catch (InvalidDataException) {
                 $messages[] = [
                     'level' => 3,
                     'message' => 'The supplied value ('.$value.') is not a correct '.$valueType,

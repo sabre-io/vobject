@@ -302,14 +302,14 @@ VCF;
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:3.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
-FN:Cowboy Henk
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:3.0
+        PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+        FN:Cowboy Henk
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -341,14 +341,14 @@ VCF;
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:4.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
-FN:Cowboy Henk
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:4.0
+        PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+        FN:Cowboy Henk
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -380,14 +380,14 @@ VCF;
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:4.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
-FN:Cowboy Henk
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:4.0
+        PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+        FN:Cowboy Henk
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -402,15 +402,15 @@ VCARD
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:4.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
-UID:foo
-FN:Cowboy Henk
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:4.0
+        PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+        UID:foo
+        FN:Cowboy Henk
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -426,12 +426,12 @@ VCARD
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCALENDAR
-VERSION:2.0
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCALENDAR
+        VERSION:2.0
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -466,12 +466,12 @@ VCARD
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:5.0
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:5.0
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;

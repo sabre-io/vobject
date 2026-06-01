@@ -140,7 +140,7 @@ class Component extends Node
             // If there's no dot in the name, it's an exact property name,
             // we can just wipe out all those properties.
             //
-            if (false === strpos($item, '.')) {
+            if (!str_contains($item, '.')) {
                 unset($this->children[strtoupper($item)]);
 
                 return;
@@ -210,8 +210,8 @@ class Component extends Node
     {
         $group = null;
         $name = strtoupper($name);
-        if (false !== strpos($name, '.')) {
-            list($group, $name) = explode('.', $name, 2);
+        if (str_contains($name, '.')) {
+            [$group, $name] = explode('.', $name, 2);
         }
         if ('' === $name) {
             $name = null;
@@ -228,9 +228,7 @@ class Component extends Node
             // more.
             return array_filter(
                 $result,
-                function ($child) use ($group) {
-                    return $child instanceof Property && (null !== $child->group ? strtoupper($child->group) : '') === $group;
-                }
+                fn ($child) => $child instanceof Property && (null !== $child->group ? strtoupper($child->group) : '') === $group
             );
         }
 
@@ -541,7 +539,7 @@ class Component extends Node
         $messages = [];
 
         foreach ($this->children() as $child) {
-            $name = strtoupper($child->name);
+            $name = strtoupper((string) $child->name);
             if (!isset($propertyCounters[$name])) {
                 $propertyCounters[$name] = 1;
             } else {

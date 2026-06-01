@@ -12,19 +12,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4']
+        php-versions: ['8.3', '8.4']
         coverage: ['pcov']
         code-style: ['no']
         code-analysis: ['no']
+        rector-check: ['no']
         include:
-          - php-versions: '7.4'
+          - php-versions: '8.2'
             coverage: 'pcov'
             code-style: 'yes'
             code-analysis: 'yes'
+            rector-check: 'no'
           - php-versions: '8.5'
             coverage: 'pcov'
             code-style: 'no'
             code-analysis: 'yes'
+            rector-check: 'yes'
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -60,6 +63,10 @@ jobs:
       - name: Code Analysis (PHPStan)
         if: matrix.code-analysis == 'yes'
         run: composer phpstan
+
+      - name: Code Refactoring (rector)
+        if: matrix.rector-check == 'yes'
+        run: composer rector-check
 
       - name: Test with phpunit
         run: vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover clover.xml
