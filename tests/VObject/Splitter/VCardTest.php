@@ -37,6 +37,7 @@ EOT;
     public function testVCardImportWrongType(): void
     {
         $this->expectException(ParseException::class);
+        $event = [];
         $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo1

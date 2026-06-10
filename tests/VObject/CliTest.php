@@ -154,7 +154,7 @@ ICS
     public function testConvertJCardPretty(): void
     {
         if (version_compare(PHP_VERSION, '5.4.0') < 0) {
-            $this->markTestSkipped('This test required PHP 5.4.0');
+            $this::markTestSkipped('This test required PHP 5.4.0');
         }
 
         $inputStream = fopen('php://memory', 'r+');

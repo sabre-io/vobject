@@ -15,7 +15,7 @@ class VTodoTest extends TestCase
         self::assertEquals($outcome, $vtodo->isInTimeRange($start, $end));
     }
 
-    public function timeRangeTestData(): array
+    public static function timeRangeTestData(): array
     {
         $tests = [];
 

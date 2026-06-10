@@ -104,7 +104,7 @@ abstract class Property extends Node implements \Stringable
     public function getValue()
     {
         if (is_array($this->value)) {
-            if (0 == count($this->value)) {
+            if (0 === count($this->value)) {
                 return null;
             } elseif (1 === count($this->value)) {
                 return $this->value[0];
@@ -312,7 +312,7 @@ abstract class Property extends Node implements \Stringable
 
         $writer->startElement(strtolower((string) $this->name));
 
-        if (!empty($parameters)) {
+        if ([] !== $parameters) {
             $writer->startElement('parameters');
 
             foreach ($parameters as $parameter) {
@@ -553,7 +553,7 @@ abstract class Property extends Node implements \Stringable
                         }
                         break;
                 }
-                if ($allowedEncoding && !in_array(strtoupper($encoding), $allowedEncoding)) {
+                if ($allowedEncoding && !in_array(strtoupper($encoding), $allowedEncoding, true)) {
                     $warnings[] = [
                         'level' => 3,
                         'message' => 'ENCODING='.strtoupper($encoding).' is not valid for this document type.',

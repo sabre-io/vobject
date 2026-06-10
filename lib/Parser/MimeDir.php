@@ -111,7 +111,7 @@ class MimeDir extends Parser
      */
     public function setCharset(string $charset): void
     {
-        if (!in_array($charset, self::$SUPPORTED_CHARSETS)) {
+        if (!in_array($charset, self::$SUPPORTED_CHARSETS, true)) {
             throw new \InvalidArgumentException('Unsupported encoding. (Supported encodings: '.implode(', ', self::$SUPPORTED_CHARSETS).')');
         }
         $this->charset = $charset;
@@ -396,7 +396,7 @@ class MimeDir extends Parser
                     throw new ParseException('Invalid Mimedir file. Line starting at '.$this->startLine.' did not follow iCalendar/vCard conventions');
                 }
 
-                if ('=' == $match[0][0] && self::TOKEN_PARAMNAME != $lastToken) {
+                if ('=' === $match[0][0] && self::TOKEN_PARAMNAME !== $lastToken) {
                     throw new ParseException('Invalid Mimedir file. Line starting at '.$this->startLine.': Missing parameter name for parameter value "'.$match['paramValue'].'"');
                 }
 
@@ -443,7 +443,7 @@ class MimeDir extends Parser
         if (\is_null($property['value'])) {
             $property['value'] = '';
         }
-        if (!isset($property['name']) || 0 == strlen($property['name'])) {
+        if (!isset($property['name']) || 0 === strlen($property['name'])) {
             if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
                 return false;
             }

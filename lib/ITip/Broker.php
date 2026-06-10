@@ -228,7 +228,7 @@ class Broker
 
             $eventInfo = $oldEventInfo;
 
-            if (in_array($eventInfo['organizer'], $userHref)) {
+            if (in_array($eventInfo['organizer'], $userHref, true)) {
                 // This is an organizer deleting the event.
                 $eventInfo['attendees'] = [];
                 // Increasing the sequence, but only if the organizer deleted
@@ -237,7 +237,7 @@ class Broker
             } else {
                 // This is an attendee deleting the event.
                 foreach ($eventInfo['attendees'] as $key => $attendee) {
-                    if (in_array($attendee['href'], $userHref)) {
+                    if (in_array($attendee['href'], $userHref, true)) {
                         $eventInfo['attendees'][$key]['instances'] = ['master' => ['id' => 'master', 'partstat' => 'DECLINED'],
                         ];
                     }
@@ -247,13 +247,13 @@ class Broker
         }
 
         // Check if the user is the organizer
-        if (in_array($eventInfo['organizer'], $userHref)) {
+        if (in_array($eventInfo['organizer'], $userHref, true)) {
             return $this->parseEventForOrganizer($baseCalendar, $eventInfo, $oldEventInfo);
         }
 
         // Check if the user is an attendee
         foreach ($eventInfo['attendees'] as $attendee) {
-            if (in_array($attendee['href'], $userHref)) {
+            if (in_array($attendee['href'], $userHref, true)) {
                 // If this is a event update, we always generate a reply
                 if ($oldCalendar) {
                     return $this->parseEventForAttendee($baseCalendar, $eventInfo, $oldEventInfo, $attendee['href']);
@@ -566,7 +566,7 @@ class Broker
 
                 $message->significantChange =
                     'REQUEST' === $attendee['forceSend']
-                    || count($oldAttendeeInstances) != count($newAttendeeInstances)
+                    || count($oldAttendeeInstances) !== count($newAttendeeInstances)
                     || count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0
                     || $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
 
@@ -576,9 +576,9 @@ class Broker
                         // We need to find a list of events that the attendee
                         // is not a part of to add to the list of exceptions.
                         $exceptions = [];
-                        foreach ($eventInfo['instances'] as $instanceId => $vevent) {
-                            if (!isset($attendee['newInstances'][$instanceId])) {
-                                $exceptions[] = $instanceId;
+                        foreach ($eventInfo['instances'] as $eventInstanceId => $vevent) {
+                            if (!isset($attendee['newInstances'][$eventInstanceId])) {
+                                $exceptions[] = $eventInstanceId;
                             }
                         }
 
@@ -648,7 +648,7 @@ class Broker
             return [];
         }
 
-        $oldInstances = !empty($oldEventInfo['attendees'][$attendee]['instances']) ?
+        $oldInstances = array_key_exists('instances', $oldEventInfo['attendees'][$attendee]) ?
             $oldEventInfo['attendees'][$attendee]['instances'] :
             [];
 
@@ -679,7 +679,7 @@ class Broker
         // We only need to do that though, if the master event is not declined.
         if (isset($instances['master']) && 'DECLINED' !== $instances['master']['newstatus']) {
             foreach ($eventInfo['exdate'] as $exDate) {
-                if (!in_array($exDate, $oldEventInfo['exdate'] ?? [])) {
+                if (!in_array($exDate, $oldEventInfo['exdate'] ?? [], true)) {
                     if (isset($instances[$exDate])) {
                         $instances[$exDate]['newstatus'] = 'DECLINED';
                     } else {
@@ -722,7 +722,7 @@ class Broker
         $hasReply = false;
 
         foreach ($instances as $instance) {
-            if ($instance['oldstatus'] == $instance['newstatus'] && 'REPLY' !== $eventInfo['organizerForceSend']) {
+            if ($instance['oldstatus'] === $instance['newstatus'] && 'REPLY' !== $eventInfo['organizerForceSend']) {
                 // Skip
                 continue;
             }
@@ -884,7 +884,7 @@ class Broker
                 foreach ($vevent->select('RRULE') as $rr) {
                     foreach ($rr->getParts() as $key => $val) {
                         // ignore default values (https://github.com/sabre-io/vobject/issues/126)
-                        if ('INTERVAL' === $key && 1 == $val) {
+                        if ('INTERVAL' === $key && 1 === $val) {
                             continue;
                         }
                         if (is_array($val)) {
@@ -951,6 +951,7 @@ class Broker
             }
 
             foreach ($this->significantChangeProperties as $prop) {
+                // @phpstan-ignore property.dynamicName
                 if (isset($vevent->$prop)) {
                     $propertyValues = $vevent->select($prop);
 

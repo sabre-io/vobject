@@ -163,7 +163,8 @@ class Parameter extends Node implements \Stringable
     {
         return in_array(
             strtolower($value),
-            array_map(strtolower(...), (array) $this->value)
+            array_map(strtolower(...), (array) $this->value),
+            true
         );
     }
 

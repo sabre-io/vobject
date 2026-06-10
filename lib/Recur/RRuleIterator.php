@@ -354,23 +354,23 @@ class RRuleIterator implements \Iterator
         }
 
         $recurrenceHours = [];
-        if (!empty($this->byHour)) {
+        if ($this->byHour) {
             $recurrenceHours = $this->getHours();
         }
 
         $recurrenceDays = [];
-        if (!empty($this->byDay)) {
+        if ($this->byDay) {
             $recurrenceDays = $this->getDays();
         }
 
         $recurrenceMonths = [];
-        if (!empty($this->byMonth)) {
+        if ($this->byMonth) {
             $recurrenceMonths = $this->getMonths();
         }
 
         do {
             if ($this->byHour) {
-                if ('23' == $this->currentDate->format('G')) {
+                if ('23' === $this->currentDate->format('G')) {
                     // to obey the interval rule
                     $this->currentDate = $this->currentDate->modify('+'.($this->interval - 1).' days');
                 }
@@ -395,9 +395,9 @@ class RRuleIterator implements \Iterator
                 return;
             }
         } while (
-            ($this->byDay && !in_array($currentDay, $recurrenceDays))
-            || ($this->byHour && !in_array($currentHour, $recurrenceHours))
-            || ($this->byMonth && !in_array($currentMonth, $recurrenceMonths))
+            ($this->byDay && !in_array($currentDay, $recurrenceDays, true))
+            || ($this->byHour && !in_array($currentHour, $recurrenceHours, true))
+            || ($this->byMonth && !in_array($currentMonth, $recurrenceMonths, true))
         );
     }
 
@@ -439,18 +439,18 @@ class RRuleIterator implements \Iterator
             $currentHour = (int) $this->currentDate->format('G');
 
             // We need to roll over to the next week
-            if ($currentDay === $firstDay && (!$this->byHour || '0' == $currentHour)) {
+            if ($currentDay === $firstDay && (!$this->byHour || '0' === $currentHour)) {
                 $this->currentDate = $this->currentDate->modify('+'.($this->interval - 1).' weeks');
 
                 // We need to go to the first day of this week, but only if we
                 // are not already on this first day of this week.
-                if ($this->currentDate->format('w') != $firstDay) {
+                if ($this->currentDate->format('w') !== $firstDay) {
                     $this->currentDate = $this->currentDate->modify('last '.$this->dayNames[$this->dayMap[$this->weekStart]]);
                 }
             }
 
             // We have a match
-        } while (($this->byDay && !in_array($currentDay, $recurrenceDays)) || ($this->byHour && !in_array($currentHour, $recurrenceHours)));
+        } while (($this->byDay && !in_array($currentDay, $recurrenceDays, true)) || ($this->byHour && !in_array($currentHour, $recurrenceHours, true)));
     }
 
     /**
@@ -473,14 +473,14 @@ class RRuleIterator implements \Iterator
                     ++$increase;
                     $tempDate = clone $this->currentDate;
                     $tempDate = $tempDate->modify('+ '.($this->interval * $increase).' months '.$this->startTime());
-                } while ($tempDate->format('j') != $currentDayOfMonth);
+                } while ($tempDate->format('j') !== $currentDayOfMonth);
                 $this->currentDate = $tempDate;
             }
 
             return;
         }
 
-        $occurrence = -1;
+        $selectedOccurrence = -1;
         while (true) {
             $occurrences = $this->getMonthlyOccurrences();
 
@@ -488,6 +488,7 @@ class RRuleIterator implements \Iterator
                 // The first occurrence that's higher than the current
                 // day of the month wins.
                 if ($occurrence > $currentDayOfMonth) {
+                    $selectedOccurrence = $occurrence;
                     break 2;
                 }
             }
@@ -530,7 +531,7 @@ class RRuleIterator implements \Iterator
         $this->currentDate = $this->currentDate->setDate(
             (int) $this->currentDate->format('Y'),
             (int) $this->currentDate->format('n'),
-            (int) $occurrence
+            (int) $selectedOccurrence,
         )->modify($this->startTime());
     }
 
@@ -544,9 +545,9 @@ class RRuleIterator implements \Iterator
         $currentDayOfMonth = $this->currentDate->format('j');
 
         // No sub-rules, so we just advance by year
-        if (empty($this->byMonth)) {
+        if (!$this->byMonth) {
             // Unless it was a leap day!
-            if (2 == $currentMonth && 29 == $currentDayOfMonth) {
+            if (2 === $currentMonth && 29 === $currentDayOfMonth) {
                 $counter = 0;
                 do {
                     ++$counter;
@@ -560,7 +561,7 @@ class RRuleIterator implements \Iterator
                     // functions instead.
                     $nextDate = clone $this->currentDate;
                     $nextDate = $nextDate->modify('+ '.($this->interval * $counter).' years');
-                } while (2 != $nextDate->format('n'));
+                } while (2 !== $nextDate->format('n'));
 
                 $this->currentDate = $nextDate;
 
@@ -631,7 +632,7 @@ class RRuleIterator implements \Iterator
                             $date = $date->sub(new \DateInterval('P'.abs($byYearDay + 1).'D'));
                         }
 
-                        if ($date > $this->currentDate && in_array($date->format('N'), $dayOffsets)) {
+                        if ($date > $this->currentDate && in_array($date->format('N'), $dayOffsets, true)) {
                             $checkDates[] = $date;
                         }
                     }
@@ -662,7 +663,7 @@ class RRuleIterator implements \Iterator
         // If we got a byDay or getMonthDay filter, we must first expand
         // further.
         if ($this->byDay || $this->byMonthDay) {
-            $occurrence = -1;
+            $selectedOccurrence = -1;
             while (true) {
                 $occurrences = $this->getMonthlyOccurrences();
 
@@ -674,7 +675,8 @@ class RRuleIterator implements \Iterator
                     if ($occurrence > $currentDayOfMonth || $advancedToNewMonth) {
                         // only consider byMonth matches,
                         // otherwise, we don't follow RRule correctly
-                        if (in_array($currentMonth, $this->byMonth)) {
+                        if (in_array($currentMonth, $this->byMonth, true)) {
+                            $selectedOccurrence = $occurrence;
                             break 2;
                         }
                     }
@@ -690,12 +692,12 @@ class RRuleIterator implements \Iterator
                         $currentYear += $this->interval;
                         $currentMonth = 1;
                     }
-                } while (!in_array($currentMonth, $this->byMonth));
+                } while (!in_array($currentMonth, $this->byMonth, true));
 
                 $this->currentDate = $this->currentDate->setDate(
                     (int) $currentYear,
-                    (int) $currentMonth,
-                    (int) $currentDayOfMonth
+                    $currentMonth,
+                    $currentDayOfMonth
                 );
 
                 // To prevent running this forever (better: until we hit the max date of DateTimeImmutable) we simply
@@ -711,7 +713,7 @@ class RRuleIterator implements \Iterator
             $this->currentDate = $this->currentDate->setDate(
                 (int) $currentYear,
                 (int) $currentMonth,
-                (int) $occurrence
+                (int) $selectedOccurrence,
             )->modify($this->startTime());
 
             return;
@@ -724,10 +726,10 @@ class RRuleIterator implements \Iterator
                 $currentYear += $this->interval;
                 $currentMonth = 1;
             }
-        } while (!in_array($currentMonth, $this->byMonth));
+        } while (!in_array($currentMonth, $this->byMonth, true));
         $this->currentDate = $this->currentDate->setDate(
             (int) $currentYear,
-            (int) $currentMonth,
+            $currentMonth,
             (int) $currentDayOfMonth
         )->modify($this->startTime());
     }
@@ -755,7 +757,8 @@ class RRuleIterator implements \Iterator
                     $value = strtolower((string) $value);
                     if (!in_array(
                         $value,
-                        ['secondly', 'minutely', 'hourly', 'daily', 'weekly', 'monthly', 'yearly']
+                        ['secondly', 'minutely', 'hourly', 'daily', 'weekly', 'monthly', 'yearly'],
+                        true
                     )) {
                         throw new InvalidDataException('Unknown value for FREQ='.strtoupper($value));
                     }
@@ -817,7 +820,7 @@ class RRuleIterator implements \Iterator
                 case 'BYYEARDAY':
                     $this->byYearDay = (array) $value;
                     foreach ($this->byYearDay as $byYearDay) {
-                        if (!is_numeric($byYearDay) || (int) $byYearDay < -366 || 0 == (int) $byYearDay || (int) $byYearDay > 366) {
+                        if (!is_numeric($byYearDay) || (int) $byYearDay < -366 || 0 === (int) $byYearDay || (int) $byYearDay > 366) {
                             throw new InvalidDataException('BYYEARDAY in RRULE must have value(s) from 1 to 366, or -366 to -1!');
                         }
                     }
@@ -826,7 +829,7 @@ class RRuleIterator implements \Iterator
                 case 'BYWEEKNO':
                     $this->byWeekNo = (array) $value;
                     foreach ($this->byWeekNo as $byWeekNo) {
-                        if (!is_numeric($byWeekNo) || (int) $byWeekNo < -53 || 0 == (int) $byWeekNo || (int) $byWeekNo > 53) {
+                        if (!is_numeric($byWeekNo) || (int) $byWeekNo < -53 || 0 === (int) $byWeekNo || (int) $byWeekNo > 53) {
                             throw new InvalidDataException('BYWEEKNO in RRULE must have value(s) from 1 to 53, or -53 to -1!');
                         }
                     }

@@ -21,14 +21,14 @@ class TimeZoneUtilTest extends TestCase
             self::assertInstanceOf('DateTimeZone', $tz);
         } catch (\Exception $e) {
             if (str_contains($e->getMessage(), 'Unknown or bad timezone')) {
-                $this->markTestSkipped($timezoneName.' is not (yet) supported in this PHP version. Update pecl/timezonedb');
+                static::markTestSkipped($timezoneName.' is not (yet) supported in this PHP version. Update pecl/timezonedb');
             } else {
                 throw $e;
             }
         }
     }
 
-    public function getMapping(): array
+    public static function getMapping(): array
     {
         $map = array_merge(
             include __DIR__.'/../../lib/timezonedata/windowszones.php',
@@ -187,8 +187,8 @@ HI;
          * that should be released in Feb 2023.
          */
         $versionOfPHP = \phpversion();
-        if ((('8.1.14' == $versionOfPHP) || ('8.2.1' == $versionOfPHP)) && \str_contains($tzid, '+')) {
-            $this->markTestSkipped("Timezone ids containing '+' do not work on PHP $versionOfPHP");
+        if ((('8.1.14' === $versionOfPHP) || ('8.2.1' === $versionOfPHP)) && \str_contains($tzid, '+')) {
+            static::markTestSkipped("Timezone ids containing '+' do not work on PHP $versionOfPHP");
         }
         $tz = TimeZoneUtil::getTimeZone($tzid);
         $ex = new \DateTimeZone($tzid);
@@ -196,7 +196,7 @@ HI;
         self::assertEquals($ex->getName(), $tz->getName());
     }
 
-    public function getPHPTimeZoneIdentifiers(): array
+    public static function getPHPTimeZoneIdentifiers(): array
     {
         // PHPUNit requires an array of arrays
         return array_map(
@@ -205,7 +205,7 @@ HI;
         );
     }
 
-    public function getPHPTimeZoneBCIdentifiers(): array
+    public static function getPHPTimeZoneBCIdentifiers(): array
     {
         // PHPUNit requires an array of arrays
         return array_map(
