@@ -648,7 +648,7 @@ class Broker
             return [];
         }
 
-        $oldInstances = array_key_exists('instances', $oldEventInfo['attendees'][$attendee]) ?
+        $oldInstances = is_array($oldEventInfo['attendees'][$attendee]) && array_key_exists('instances', $oldEventInfo['attendees'][$attendee]) ?
             $oldEventInfo['attendees'][$attendee]['instances'] :
             [];
 
