@@ -20,7 +20,7 @@ class CalAddressTest extends TestCase
         );
     }
 
-    public function values(): array
+    public static function values(): array
     {
         return [
             ['mailto:a@b.com', 'mailto:a@b.com'],

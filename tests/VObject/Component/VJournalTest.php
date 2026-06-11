@@ -68,7 +68,7 @@ HI;
         );
     }
 
-    public function timeRangeTestData(): array
+    public static function timeRangeTestData(): array
     {
         $calendar = new VCalendar();
 

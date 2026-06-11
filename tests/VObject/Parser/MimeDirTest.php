@@ -101,7 +101,7 @@ VCF;
         $mimeDir->parse($vcard);
     }
 
-    public function provideEmptyParserInput(): array
+    public static function provideEmptyParserInput(): array
     {
         return [
             [null, 'No input provided to parse'],
@@ -212,7 +212,7 @@ EOF;
         $mimeDir->parse($vcalendar);
     }
 
-    public function provideBrokenVCalendar(): array
+    public static function provideBrokenVCalendar(): array
     {
         return [[<<<EOF
 BEGIN:VCALENDAR

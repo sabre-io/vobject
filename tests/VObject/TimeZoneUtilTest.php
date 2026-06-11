@@ -28,7 +28,7 @@ class TimeZoneUtilTest extends TestCase
         }
     }
 
-    public function getMapping(): array
+    public static function getMapping(): array
     {
         $map = array_merge(
             include __DIR__.'/../../lib/timezonedata/windowszones.php',
@@ -196,7 +196,7 @@ HI;
         self::assertEquals($ex->getName(), $tz->getName());
     }
 
-    public function getPHPTimeZoneIdentifiers(): array
+    public static function getPHPTimeZoneIdentifiers(): array
     {
         // PHPUNit requires an array of arrays
         return array_map(
@@ -205,7 +205,7 @@ HI;
         );
     }
 
-    public function getPHPTimeZoneBCIdentifiers(): array
+    public static function getPHPTimeZoneBCIdentifiers(): array
     {
         // PHPUNit requires an array of arrays
         return array_map(

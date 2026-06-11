@@ -16,7 +16,7 @@ class VAlarmTest extends TestCase
         self::assertEquals($outcome, $valarm->isInTimeRange($start, $end));
     }
 
-    public function timeRangeTestData(): array
+    public static function timeRangeTestData(): array
     {
         $tests = [];
 
