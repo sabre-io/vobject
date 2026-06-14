@@ -36,7 +36,7 @@ class Recur extends Property
      *
      * This may be either a single, or multiple strings in an array.
      *
-     * @param string|array $value
+     * @param string|array|object $value
      */
     public function setValue($value): void
     {
@@ -186,7 +186,7 @@ class Recur extends Property
         $newValue = [];
         foreach (explode(';', $value) as $part) {
             // Skipping empty parts.
-            if (empty($part)) {
+            if ('' === $part) {
                 continue;
             }
 
@@ -243,7 +243,7 @@ class Recur extends Property
                 if ($repair) {
                     unset($values[$key]);
                 }
-            } elseif ('BYMONTH' == $key) {
+            } elseif ('BYMONTH' === $key) {
                 $byMonth = (array) $value;
                 foreach ($byMonth as $i => $v) {
                     if (!is_numeric($v) || (int) $v < 1 || (int) $v > 12) {
@@ -262,13 +262,13 @@ class Recur extends Property
                     }
                 }
                 // if there is no valid entry left, remove the whole value
-                if (is_array($value) && empty($values[$key])) {
+                if (is_array($value) && ([] === $values[$key])) {
                     unset($values[$key]);
                 }
-            } elseif ('BYWEEKNO' == $key) {
+            } elseif ('BYWEEKNO' === $key) {
                 $byWeekNo = (array) $value;
                 foreach ($byWeekNo as $i => $v) {
-                    if (!is_numeric($v) || (int) $v < -53 || 0 == (int) $v || (int) $v > 53) {
+                    if (!is_numeric($v) || (int) $v < -53 || 0 === (int) $v || (int) $v > 53) {
                         $warnings[] = [
                             'level' => $repair ? 1 : 3,
                             'message' => 'BYWEEKNO in RRULE must have value(s) from -53 to -1, or 1 to 53!',
@@ -284,13 +284,13 @@ class Recur extends Property
                     }
                 }
                 // if there is no valid entry left, remove the whole value
-                if (is_array($value) && empty($values[$key])) {
+                if (is_array($value) && ([] === $values[$key])) {
                     unset($values[$key]);
                 }
-            } elseif ('BYYEARDAY' == $key) {
+            } elseif ('BYYEARDAY' === $key) {
                 $byYearDay = (array) $value;
                 foreach ($byYearDay as $i => $v) {
-                    if (!is_numeric($v) || (int) $v < -366 || 0 == (int) $v || (int) $v > 366) {
+                    if (!is_numeric($v) || (int) $v < -366 || 0 === (int) $v || (int) $v > 366) {
                         $warnings[] = [
                             'level' => $repair ? 1 : 3,
                             'message' => 'BYYEARDAY in RRULE must have value(s) from -366 to -1, or 1 to 366!',
@@ -306,7 +306,7 @@ class Recur extends Property
                     }
                 }
                 // if there is no valid entry left, remove the whole value
-                if (is_array($value) && empty($values[$key])) {
+                if (is_array($value) && ([] === $values[$key])) {
                     unset($values[$key]);
                 }
             }

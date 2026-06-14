@@ -71,7 +71,7 @@ class Text extends Property
         // 2. structured value properties
         //
         // The former is always separated by a comma, the latter by semicolon.
-        if (in_array($name, $this->structuredValues)) {
+        if (in_array($name, $this->structuredValues, true)) {
             $this->delimiter = ';';
         }
 
@@ -155,7 +155,7 @@ class Text extends Property
         // Structured text values should always be returned as a single
         // array-item. Multi-value text should be returned as multiple items in
         // the top-array.
-        if (in_array($this->name, $this->structuredValues)) {
+        if (in_array($this->name, $this->structuredValues, true)) {
             return [$this->getParts()];
         }
 
@@ -270,7 +270,7 @@ class Text extends Property
             foreach ($items as $i => $item) {
                 $writer->writeElement(
                     $item,
-                    !empty($values[$i]) ? $values[$i] : null
+                    ('' !== $values[$i] && [] !== $values[$i]) ? $values[$i] : null
                 );
             }
         };

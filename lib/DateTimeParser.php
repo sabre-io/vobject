@@ -329,7 +329,7 @@ class DateTimeParser
 
         $result = [];
         foreach ($parts as $part) {
-            if (empty($matches[$part])) {
+            if (!array_key_exists($part, $matches) || '' === $matches[$part]) {
                 $result[$part] = null;
             } elseif ('-' === $matches[$part] || '--' === $matches[$part]) {
                 $result[$part] = null;
@@ -424,7 +424,7 @@ class DateTimeParser
 
         $result = [];
         foreach ($parts as $part) {
-            if (empty($matches[$part])) {
+            if (!array_key_exists($part, $matches) || '' === $matches[$part]) {
                 $result[$part] = null;
             } elseif ('-' === $matches[$part]) {
                 $result[$part] = null;
@@ -541,7 +541,7 @@ class DateTimeParser
         $parts['year0'] = &$parts['year'];
 
         foreach ($parts as $part => &$value) {
-            if (!empty($matches[$part])) {
+            if (array_key_exists($part, $matches) && '' !== $matches[$part]) {
                 $value = $matches[$part];
             }
         }

@@ -77,7 +77,7 @@ class DateAndOrTime extends Property
     public function setDateTime(\DateTimeInterface $dt): void
     {
         $tz = $dt->getTimeZone();
-        $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
+        $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z'], true);
 
         if ($isUtc) {
             $value = $dt->format('Ymd\\THis\\Z');

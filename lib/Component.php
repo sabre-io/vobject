@@ -366,7 +366,7 @@ class Component extends Node
 
         $writer->startElement(strtolower($this->name));
 
-        if (!empty($properties)) {
+        if ([] !== $properties) {
             $writer->startElement('properties');
 
             foreach ($properties as $property) {
@@ -376,7 +376,7 @@ class Component extends Node
             $writer->endElement();
         }
 
-        if (!empty($components)) {
+        if ([] !== $components) {
             $writer->startElement('components');
 
             foreach ($components as $component) {

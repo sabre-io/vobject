@@ -205,7 +205,7 @@ class DateTime extends Property
                 }
                 if (is_null($tz)) {
                     $tz = $d->getTimeZone();
-                    $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z', '+00:00']);
+                    $isUtc = in_array($tz->getName(), ['UTC', 'GMT', 'Z', '+00:00'], true);
                     if (!$isUtc) {
                         $this->offsetSet('TZID', $tz->getName());
                     }
@@ -257,7 +257,7 @@ class DateTime extends Property
         $isFloating = $this->isFloating();
 
         $tz = $dts[0]->getTimeZone();
-        $isUtc = !$isFloating && in_array($tz->getName(), ['UTC', 'GMT', 'Z']);
+        $isUtc = !$isFloating && in_array($tz->getName(), ['UTC', 'GMT', 'Z'], true);
 
         return array_map(
             function (\DateTimeInterface $dt) use ($hasTime, $isUtc) {

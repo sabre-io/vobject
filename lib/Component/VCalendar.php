@@ -424,7 +424,7 @@ class VCalendar extends VObject\Document
             if ($child instanceof Component) {
                 ++$componentsFound;
 
-                if (!in_array($child->name, ['VEVENT', 'VTODO', 'VJOURNAL'])) {
+                if (!in_array($child->name, ['VEVENT', 'VTODO', 'VJOURNAL'], true)) {
                     continue;
                 }
                 $componentTypes[] = $child->name;

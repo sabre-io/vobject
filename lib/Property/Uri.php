@@ -38,7 +38,7 @@ class Uri extends Text
     public function parameters(): array
     {
         $parameters = parent::parameters();
-        if (!isset($parameters['VALUE']) && in_array($this->name, ['URL', 'PHOTO'])) {
+        if (!isset($parameters['VALUE']) && in_array($this->name, ['URL', 'PHOTO'], true)) {
             // If we are encoding a URI value, and this URI value has no
             // VALUE=URI parameter, we add it anyway.
             //

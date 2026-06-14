@@ -95,7 +95,7 @@ class BirthdayCalendarGenerator
             // We've seen clients (ez-vcard) putting "BDAY:" properties
             // without a value into vCards. If we come across those, we'll
             // skip them.
-            if (empty($object->BDAY->getValue())) {
+            if ('' === $object->BDAY->getValue()) {
                 continue;
             }
 

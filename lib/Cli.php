@@ -147,7 +147,7 @@ class Cli
                 throw new \InvalidArgumentException('Too many arguments');
             }
 
-            if (!in_array($positional[0], ['validate', 'repair', 'convert', 'color'])) {
+            if (!in_array($positional[0], ['validate', 'repair', 'convert', 'color'], true)) {
                 throw new \InvalidArgumentException('Unknown command: '.$positional[0]);
             }
         } catch (\InvalidArgumentException $e) {
@@ -185,6 +185,7 @@ class Cli
 
         try {
             while ($input = $this->readInput()) {
+                // @phpstan-ignore method.dynamicName
                 $returnCode = $this->$command($input);
                 if (0 !== $returnCode) {
                     $realCode = $returnCode;

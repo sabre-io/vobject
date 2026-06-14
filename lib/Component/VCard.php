@@ -491,7 +491,7 @@ class VCard extends VObject\Document
         $writer->startElement(strtolower($this->name));
 
         foreach ($propertiesByGroup as $group => $properties) {
-            if (!empty($group)) {
+            if ('' !== $group) {
                 $writer->startElement('group');
                 $writer->writeAttribute('name', strtolower((string) $group));
             }
@@ -513,7 +513,7 @@ class VCard extends VObject\Document
                 }
             }
 
-            if (!empty($group)) {
+            if ('' !== $group) {
                 $writer->endElement();
             }
         }
@@ -529,7 +529,7 @@ class VCard extends VObject\Document
         $className = parent::getClassNameForPropertyName($propertyName);
 
         // In vCard 4, BINARY no longer exists, and we need URI instead.
-        if (VObject\Property\Binary::class == $className && self::VCARD40 === $this->getDocumentType()) {
+        if (VObject\Property\Binary::class === $className && self::VCARD40 === $this->getDocumentType()) {
             return VObject\Property\Uri::class;
         }
 
