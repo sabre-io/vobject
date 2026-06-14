@@ -94,6 +94,7 @@ EOT;
 
     public function testICalendarImportMultipleValidEvents(): void
     {
+        $event = [];
         $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo1
@@ -172,7 +173,7 @@ EOT;
                 fn ($item) => $item['message'],
                 $messages
             );
-            $this->fail('Validation errors: '.implode("\n", $messages));
+            $this::fail('Validation errors: '.implode("\n", $messages));
         } else {
             self::assertEquals([], $messages);
         }
@@ -217,6 +218,7 @@ END:STANDARD
 END:VTIMEZONE
 EOT;
 
+        $event = [];
         $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo1

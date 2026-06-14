@@ -274,6 +274,7 @@ EOF;
 
         $mimeDir = new MimeDir();
         $vevent = $mimeDir->parse($iCal);
+        // @phpstan-ignore property.dynamicName
         self::assertEquals('test', $vevent->VEVENT->{0}->getValue());
     }
 
