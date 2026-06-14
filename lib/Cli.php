@@ -594,6 +594,9 @@ HELP
         if (!$this->parser) {
             if ('-' !== $this->inputPath) {
                 $this->stdin = fopen($this->inputPath, 'r');
+                if (false === $this->stdin) {
+                    throw new InvalidDataException('Cannot open "'.$this->inputPath);
+                }
             }
 
             if ('mimedir' === $this->inputFormat) {

@@ -272,30 +272,46 @@ VCF;
         );
     }
 
-    public function testConvertDefaultFormats(): void
+    public static function provideFormats(): array
     {
-        $outputFile = $this->sabreTempDir.'bar.json';
-
-        self::assertEquals(
-            2,
-            $this->cli->main(['vobject', 'convert', 'foo.json', $outputFile])
-        );
-
-        self::assertEquals('json', $this->cli->inputFormat);
-        self::assertEquals('json', $this->cli->format);
+        return [
+            ['foo.json', 'bar.json', 'json'],
+            ['foo.ics', 'bar.ics', 'mimedir'],
+        ];
     }
 
-    public function testConvertDefaultFormats2(): void
+    /**
+     * @dataProvider provideFormats
+     */
+    public function testConvertDefaultFormats($inputFilename, $outputFilename, $format): void
     {
-        $outputFile = $this->sabreTempDir.'bar.ics';
+        $triggeredWarning = null;
 
-        self::assertEquals(
-            2,
-            $this->cli->main(['vobject', 'convert', 'foo.ics', $outputFile])
+        // Set an error handler to catch the native PHP Warning
+        set_error_handler(function (int $errno, string $errstr) use (&$triggeredWarning) {
+            $triggeredWarning = $errstr;
+
+            return true; // Prevents the error from propagating further
+        }, E_WARNING);
+
+        $outputFile = $this->sabreTempDir.$outputFilename;
+
+        try {
+            self::assertEquals(
+                2,
+                $this->cli->main(['vobject', 'convert', $inputFilename, $outputFile])
+            );
+        } finally {
+            restore_error_handler();
+        }
+
+        self::assertNotNull($triggeredWarning, 'A PHP warning was expected but never triggered.');
+        $this->assertStringContainsString(
+            "fopen($inputFilename): Failed to open stream: No such file or directory",
+            $triggeredWarning
         );
-
-        self::assertEquals('mimedir', $this->cli->inputFormat);
-        self::assertEquals('mimedir', $this->cli->format);
+        self::assertEquals($format, $this->cli->inputFormat);
+        self::assertEquals($format, $this->cli->format);
     }
 
     public function testVCard3040(): void
