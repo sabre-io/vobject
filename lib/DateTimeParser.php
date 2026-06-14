@@ -42,7 +42,7 @@ class DateTimeParser
 
         try {
             $date = new \DateTimeImmutable($matches[1].'-'.$matches[2].'-'.$matches[3].' '.$matches[4].':'.$matches[5].':'.$matches[6], $tz);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new InvalidDataException('The supplied iCalendar datetime value is incorrect: '.$dt);
         }
 
@@ -69,7 +69,7 @@ class DateTimeParser
 
         try {
             $date = new \DateTimeImmutable($matches[1].'-'.$matches[2].'-'.$matches[3], $tz);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new InvalidDataException('The supplied iCalendar date value is incorrect: '.$date);
         }
 
@@ -329,7 +329,7 @@ class DateTimeParser
 
         $result = [];
         foreach ($parts as $part) {
-            if (empty($matches[$part])) {
+            if (!array_key_exists($part, $matches) || '' === $matches[$part]) {
                 $result[$part] = null;
             } elseif ('-' === $matches[$part] || '--' === $matches[$part]) {
                 $result[$part] = null;
@@ -424,7 +424,7 @@ class DateTimeParser
 
         $result = [];
         foreach ($parts as $part) {
-            if (empty($matches[$part])) {
+            if (!array_key_exists($part, $matches) || '' === $matches[$part]) {
                 $result[$part] = null;
             } elseif ('-' === $matches[$part]) {
                 $result[$part] = null;
@@ -541,7 +541,7 @@ class DateTimeParser
         $parts['year0'] = &$parts['year'];
 
         foreach ($parts as $part => &$value) {
-            if (!empty($matches[$part])) {
+            if (array_key_exists($part, $matches) && '' !== $matches[$part]) {
                 $value = $matches[$part];
             }
         }

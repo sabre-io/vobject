@@ -546,7 +546,7 @@ class ComponentTest extends TestCase
         self::assertCount(1, $component->GIR);
     }
 
-    public function ruleData(): array
+    public static function ruleData(): array
     {
         return [
             [[], 2],

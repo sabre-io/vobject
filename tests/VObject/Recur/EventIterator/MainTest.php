@@ -33,7 +33,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         self::assertTrue($it->isInfinite());
     }
@@ -58,7 +58,7 @@ class MainTest extends TestCase
         $ev->add($dtStart);
         $vcal->add($ev);
 
-        new EventIterator($vcal, (string) $ev->UID);
+        new EventIterator($vcal, $ev->UID);
     }
 
     /**
@@ -252,7 +252,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -304,7 +304,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -356,7 +356,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -408,7 +408,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Max is to prevent overflow
         $max = 12;
@@ -458,7 +458,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Grabbing the next 12 items
         $max = 15;
@@ -513,7 +513,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -565,7 +565,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // Grabbing the next 12 items
         $max = 12;
@@ -617,7 +617,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 14;
         $result = [];
@@ -661,7 +661,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 14;
         $result = [];
@@ -719,7 +719,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 14;
         $result = [];
@@ -772,7 +772,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 20;
         $result = [];
@@ -827,7 +827,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 20;
         $result = [];
@@ -876,7 +876,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 20;
         $result = [];
@@ -930,7 +930,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 20;
         $result = [];
@@ -979,7 +979,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 20;
         $result = [];
@@ -1021,7 +1021,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 20;
         $result = [];
@@ -1068,7 +1068,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 20;
         $result = [];
@@ -1115,7 +1115,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         // The idea is that we're fast-forwarding too far in the future, so
         // there will be no results left.
@@ -1157,7 +1157,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $it->fastForward(new \DateTimeImmutable('2011-04-05T000000', new \DateTimeZone('UTC')));
 
@@ -1199,7 +1199,7 @@ class MainTest extends TestCase
 
         $vcal->add($ev);
 
-        $it = new EventIterator($vcal, (string) $ev->UID);
+        $it = new EventIterator($vcal, $ev->UID);
 
         $max = 20;
         $result = [];

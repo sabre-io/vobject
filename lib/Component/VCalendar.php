@@ -327,7 +327,7 @@ class VCalendar extends VObject\Document
         foreach ($recurringEvents as $events) {
             try {
                 $it = new EventIterator($events, null, $timeZone);
-            } catch (NoInstancesException $e) {
+            } catch (NoInstancesException) {
                 // This event is recurring, but it doesn't have a single
                 // instance. We are skipping this event from the output
                 // entirely.
@@ -424,7 +424,7 @@ class VCalendar extends VObject\Document
             if ($child instanceof Component) {
                 ++$componentsFound;
 
-                if (!in_array($child->name, ['VEVENT', 'VTODO', 'VJOURNAL'])) {
+                if (!in_array($child->name, ['VEVENT', 'VTODO', 'VJOURNAL'], true)) {
                     continue;
                 }
                 $componentTypes[] = $child->name;

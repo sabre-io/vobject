@@ -27,7 +27,7 @@ class FindFromTimezoneMap implements TimezoneFinder
         if ($this->hasTzInMap($tzid)) {
             try {
                 return new \DateTimeZone($this->getTzFromMap($tzid));
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return null;
             }
         }
@@ -43,7 +43,7 @@ class FindFromTimezoneMap implements TimezoneFinder
             if ($this->hasTzInMap($tzidAlternate)) {
                 try {
                     return new \DateTimeZone($this->getTzFromMap($tzidAlternate));
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     return null;
                 }
             }

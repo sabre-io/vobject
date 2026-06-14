@@ -154,7 +154,7 @@ ICS
     public function testConvertJCardPretty(): void
     {
         if (version_compare(PHP_VERSION, '5.4.0') < 0) {
-            $this->markTestSkipped('This test required PHP 5.4.0');
+            self::markTestSkipped('This test required PHP 5.4.0');
         }
 
         $inputStream = fopen('php://memory', 'r+');
@@ -272,44 +272,60 @@ VCF;
         );
     }
 
-    public function testConvertDefaultFormats(): void
+    public static function provideFormats(): array
     {
-        $outputFile = $this->sabreTempDir.'bar.json';
-
-        self::assertEquals(
-            2,
-            $this->cli->main(['vobject', 'convert', 'foo.json', $outputFile])
-        );
-
-        self::assertEquals('json', $this->cli->inputFormat);
-        self::assertEquals('json', $this->cli->format);
+        return [
+            ['foo.json', 'bar.json', 'json'],
+            ['foo.ics', 'bar.ics', 'mimedir'],
+        ];
     }
 
-    public function testConvertDefaultFormats2(): void
+    /**
+     * @dataProvider provideFormats
+     */
+    public function testConvertDefaultFormats($inputFilename, $outputFilename, $format): void
     {
-        $outputFile = $this->sabreTempDir.'bar.ics';
+        $triggeredWarning = null;
 
-        self::assertEquals(
-            2,
-            $this->cli->main(['vobject', 'convert', 'foo.ics', $outputFile])
+        // Set an error handler to catch the native PHP Warning
+        set_error_handler(function (int $errno, string $errstr) use (&$triggeredWarning) {
+            $triggeredWarning = $errstr;
+
+            return true; // Prevents the error from propagating further
+        }, E_WARNING);
+
+        $outputFile = $this->sabreTempDir.$outputFilename;
+
+        try {
+            self::assertEquals(
+                2,
+                $this->cli->main(['vobject', 'convert', $inputFilename, $outputFile])
+            );
+        } finally {
+            restore_error_handler();
+        }
+
+        self::assertNotNull($triggeredWarning, 'A PHP warning was expected but never triggered.');
+        self::assertStringContainsString(
+            "fopen($inputFilename): Failed to open stream: No such file or directory",
+            $triggeredWarning
         );
-
-        self::assertEquals('mimedir', $this->cli->inputFormat);
-        self::assertEquals('mimedir', $this->cli->format);
+        self::assertEquals($format, $this->cli->inputFormat);
+        self::assertEquals($format, $this->cli->format);
     }
 
     public function testVCard3040(): void
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:3.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
-FN:Cowboy Henk
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:3.0
+        PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+        FN:Cowboy Henk
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -341,14 +357,14 @@ VCF;
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:4.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
-FN:Cowboy Henk
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:4.0
+        PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+        FN:Cowboy Henk
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -380,14 +396,14 @@ VCF;
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:4.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
-FN:Cowboy Henk
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:4.0
+        PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+        FN:Cowboy Henk
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -402,15 +418,15 @@ VCARD
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:4.0
-PRODID:-//Sabre//Sabre VObject 3.1.0//EN
-UID:foo
-FN:Cowboy Henk
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:4.0
+        PRODID:-//Sabre//Sabre VObject 3.1.0//EN
+        UID:foo
+        FN:Cowboy Henk
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -426,12 +442,12 @@ VCARD
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCALENDAR
-VERSION:2.0
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCALENDAR
+        VERSION:2.0
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;
@@ -466,12 +482,12 @@ VCARD
     {
         $inputStream = fopen('php://memory', 'r+');
 
-        fwrite($inputStream, <<<VCARD
-BEGIN:VCARD
-VERSION:5.0
-END:VCARD
-
-VCARD
+        fwrite($inputStream, <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:5.0
+        END:VCARD
+        
+        VCARD_WRAP
         );
         rewind($inputStream);
         $this->cli->stdin = $inputStream;

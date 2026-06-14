@@ -2704,6 +2704,6 @@ XML,
         self::assertXMLEqualsToMimeDir($xml, $mimedir);
 
         $component = VObject\Reader::read($mimedir);
-        self::assertXmlStringEqualsXmlString($xml, VObject\Writer::writeXML($component));
+        self::assertXmlStringEqualsXmlString($xml, VObject\Writer::writeXml($component));
     }
 }

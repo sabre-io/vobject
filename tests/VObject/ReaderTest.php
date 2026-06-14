@@ -318,7 +318,7 @@ class ReaderTest extends TestCase
         $caught = false;
         try {
             Reader::read(implode("\r\n", $data));
-        } catch (ParseException $e) {
+        } catch (ParseException) {
             $caught = true;
         }
 
@@ -348,7 +348,7 @@ class ReaderTest extends TestCase
         $caught = false;
         try {
             Reader::read(implode("\r\n", $data));
-        } catch (ParseException $e) {
+        } catch (ParseException) {
             $caught = true;
         }
 

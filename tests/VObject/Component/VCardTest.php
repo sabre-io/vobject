@@ -31,7 +31,7 @@ class VCardTest extends TestCase
         );
     }
 
-    public function validateData(): array
+    public static function validateData(): array
     {
         $tests = [];
 

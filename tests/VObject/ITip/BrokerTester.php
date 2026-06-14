@@ -40,6 +40,7 @@ abstract class BrokerTester extends TestCase
                         $message->message->serialize()
                     );
                 } else {
+                    // @phpstan-ignore property.dynamicName
                     self::assertEquals($val, $message->$key);
                 }
             }
@@ -59,8 +60,9 @@ abstract class BrokerTester extends TestCase
         $vcal = Reader::read($input);
 
         $mainComponent = new VEvent($vcal, 'VEVENT');
-        foreach ($vcal->getComponents() as $mainComponent) {
-            if ('VEVENT' === $mainComponent->name) {
+        foreach ($vcal->getComponents() as $nextComponent) {
+            if ('VEVENT' === $nextComponent->name) {
+                $mainComponent = $nextComponent;
                 break;
             }
         }
@@ -76,7 +78,7 @@ abstract class BrokerTester extends TestCase
             $message->sender = $mainComponent->ATTENDEE->getValue();
             $message->senderName = isset($mainComponent->ATTENDEE['CN']) ? $mainComponent->ATTENDEE['CN']->getValue() : null;
             $message->recipient = $mainComponent->ORGANIZER->getValue();
-            $message->recipientName = isset($mainComponent->ORGANIZER['CN']) ? $mainComponent->ORGANIZER['CN'] : null;
+            $message->recipientName = $mainComponent->ORGANIZER['CN'] ?? null;
         }
 
         $broker = new Broker();

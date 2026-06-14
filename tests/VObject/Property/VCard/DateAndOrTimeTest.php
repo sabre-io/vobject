@@ -19,7 +19,7 @@ class DateAndOrTimeTest extends TestCase
         self::assertEquals([$output], $prop->getJsonValue());
     }
 
-    public function dates(): array
+    public static function dates(): array
     {
         return [
             [

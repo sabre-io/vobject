@@ -23,7 +23,7 @@ class FindFromTimezoneMapTest extends TestCase
         self::assertSame($expectedOlson, $tz->getName());
     }
 
-    public function updatedTimezoneProvider(): array
+    public static function updatedTimezoneProvider(): array
     {
         return [
             // windowszones.php

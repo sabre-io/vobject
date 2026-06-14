@@ -10,7 +10,7 @@ class VCardTest extends TestCase
     public function createStream($data)
     {
         $stream = fopen('php://memory', 'r+');
-        fwrite($stream, $data);
+        fwrite($stream, (string) $data);
         rewind($stream);
 
         return $stream;
@@ -37,6 +37,7 @@ EOT;
     public function testVCardImportWrongType(): void
     {
         $this->expectException(ParseException::class);
+        $event = [];
         $event[] = <<<EOT
 BEGIN:VEVENT
 UID:foo1

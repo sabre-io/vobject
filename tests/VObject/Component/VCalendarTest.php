@@ -31,7 +31,7 @@ class VCalendarTest extends TestCase
         self::assertVObjectEqualsVObject($output, $vcal->serialize());
     }
 
-    public function expandData(): array
+    public static function expandData(): array
     {
         $tests = [];
 

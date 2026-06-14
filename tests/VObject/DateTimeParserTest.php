@@ -189,7 +189,7 @@ class DateTimeParserTest extends TestCase
         DateTimeParser::parseVCardTime('23:12:166');
     }
 
-    public function vcardDates(): array
+    public static function vcardDates(): array
     {
         return [
             [

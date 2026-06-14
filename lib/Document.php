@@ -118,10 +118,10 @@ abstract class Document extends Component
     public function create(string $name)
     {
         if (isset(static::$componentMap[strtoupper($name)])) {
-            return call_user_func_array([$this, 'createComponent'], func_get_args());
+            return $this->createComponent(...func_get_args());
         }
 
-        return call_user_func_array([$this, 'createProperty'], func_get_args());
+        return $this->createProperty(...func_get_args());
     }
 
     /**
