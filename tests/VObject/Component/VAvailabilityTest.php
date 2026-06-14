@@ -412,7 +412,7 @@ class VAvailabilityTest extends TestCase
         $validationResult = $document->validate();
         if ($validationResult) {
             $messages = array_map(fn ($item) => $item['message'], $validationResult);
-            $this::fail('Failed to assert that the supplied document is a valid document. Validation messages: '.implode(', ', $messages));
+            self::fail('Failed to assert that the supplied document is a valid document. Validation messages: '.implode(', ', $messages));
         }
         self::assertEmpty($document->validate());
     }

@@ -21,7 +21,7 @@ class TimeZoneUtilTest extends TestCase
             self::assertInstanceOf('DateTimeZone', $tz);
         } catch (\Exception $e) {
             if (str_contains($e->getMessage(), 'Unknown or bad timezone')) {
-                $this::markTestSkipped($timezoneName.' is not (yet) supported in this PHP version. Update pecl/timezonedb');
+                self::markTestSkipped($timezoneName.' is not (yet) supported in this PHP version. Update pecl/timezonedb');
             } else {
                 throw $e;
             }
@@ -188,7 +188,7 @@ HI;
          */
         $versionOfPHP = \phpversion();
         if ((('8.1.14' === $versionOfPHP) || ('8.2.1' === $versionOfPHP)) && \str_contains($tzid, '+')) {
-            $this::markTestSkipped("Timezone ids containing '+' do not work on PHP $versionOfPHP");
+            self::markTestSkipped("Timezone ids containing '+' do not work on PHP $versionOfPHP");
         }
         $tz = TimeZoneUtil::getTimeZone($tzid);
         $ex = new \DateTimeZone($tzid);

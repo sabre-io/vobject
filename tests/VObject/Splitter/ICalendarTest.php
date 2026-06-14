@@ -173,7 +173,7 @@ EOT;
                 fn ($item) => $item['message'],
                 $messages
             );
-            $this::fail('Validation errors: '.implode("\n", $messages));
+            self::fail('Validation errors: '.implode("\n", $messages));
         } else {
             self::assertEquals([], $messages);
         }

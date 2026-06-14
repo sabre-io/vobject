@@ -154,7 +154,7 @@ ICS
     public function testConvertJCardPretty(): void
     {
         if (version_compare(PHP_VERSION, '5.4.0') < 0) {
-            $this::markTestSkipped('This test required PHP 5.4.0');
+            self::markTestSkipped('This test required PHP 5.4.0');
         }
 
         $inputStream = fopen('php://memory', 'r+');
@@ -306,7 +306,7 @@ VCF;
         }
 
         self::assertNotNull($triggeredWarning, 'A PHP warning was expected but never triggered.');
-        $this::assertStringContainsString(
+        self::assertStringContainsString(
             "fopen($inputFilename): Failed to open stream: No such file or directory",
             $triggeredWarning
         );
