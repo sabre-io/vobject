@@ -2,6 +2,7 @@
 
 namespace Sabre\VObject\Property\ICalendar;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\InvalidDataException;
@@ -320,12 +321,43 @@ class DateTimeTest extends TestCase
         $this->assertEquals("DTSTART;VALUE=DATE:20130607\r\n", $dtStart->serialize());
     }
 
-    public function testValidate()
+    public static function validateDateTimeProvider(): array
     {
-        $exDate = $this->vcal->createProperty('EXDATE', '-00011130T143000Z');
+        return [
+            [
+                '-00011130T143000Z',
+                1,
+                3,
+            ],
+            [
+                '20260627T100000',
+                0,
+                0,
+            ],
+            [
+                '20260627T100000Z',
+                0,
+                0,
+            ],
+            [
+                '20260627T100000Z+0200',
+                1,
+                3,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider validateDateTimeProvider
+     */
+    public function testValidate(string $invalidDateTime, int $expectedMessageCount, int $expectedMessageLevel): void
+    {
+        $exDate = $this->vcal->createProperty('EXDATE', $invalidDateTime);
         $messages = $exDate->validate();
-        $this->assertEquals(1, count($messages));
-        $this->assertEquals(3, $messages[0]['level']);
+        self::assertCount($expectedMessageCount, $messages);
+        if ($expectedMessageCount > 0) {
+            self::assertEquals($expectedMessageLevel, $messages[0]['level']);
+        }
     }
 
     /**

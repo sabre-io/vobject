@@ -261,7 +261,7 @@ VCF;
                             'sequence', new \stdClass(), 'integer', 5,
                         ],
                         [
-                            'freebusy', new \stdClass(), 'period',  ['2013-05-26T21:02:13', 'PT1H'], ['2013-06-26T12:00:00', '2013-06-26T13:00:00'],
+                            'freebusy', new \stdClass(), 'period',  ['2013-05-26T21:02:13Z', 'PT1H'], ['2013-06-26T12:00:00Z', '2013-06-26T13:00:00Z'],
                         ],
                         [
                             'url', new \stdClass(), 'uri', 'http://example.org/',
@@ -330,7 +330,7 @@ ATTENDEE:mailto:armin@example.org
 ATTENDEE;CN=Dominik;PARTSTAT=DECLINED:mailto:dominik@example.org
 GEO:51.96668;7.61876
 SEQUENCE:5
-FREEBUSY:20130526T210213/PT1H,20130626T120000/20130626T130000
+FREEBUSY:20130526T210213Z/PT1H,20130626T120000Z/20130626T130000Z
 URL;VALUE=URI:http://example.org/
 TZOFFSETFROM:+0500
 RRULE:FREQ=WEEKLY;BYDAY=MO,TU
