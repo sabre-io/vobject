@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+4.6.1 (2026-07-07)
+------------------
+* #776 fix: preserve UTC 'Z' indicator in Period JSON serialization (@bastien-roucaries @guimard @phil-davis)
+
 4.6.0 (2026-05-31)
 ------------------
 * #718 feat(VCard): add getByTypes method (@JimKnoxx)
