@@ -305,6 +305,73 @@ ICS;
         $this->parse($oldMessage, $newMessage, $expected, 'mailto:one@example.org');
     }
 
+    public function testOrganizerDeleteEventWithAttendeeAndAlarm()
+    {
+
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+SUMMARY:foo
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:EMAIL
+ATTENDEE:mailto:one@example.org
+DESCRIPTION:Breakfast meeting
+END:VALARM
+DTSTART:20140716T120000Z
+DURATION:PT1H
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $newMessage = null;
+        $version = \Sabre\VObject\Version::VERSION;
+
+        $expected = [
+            [
+                'uid'           => 'foobar',
+                'method'        => 'CANCEL',
+                'component'     => 'VEVENT',
+                'sender'        => 'mailto:strunk@example.org',
+                'senderName'    => 'Strunk',
+                'recipient'     => 'mailto:one@example.org',
+                'recipientName' => 'One',
+                'message'       => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject $version//EN
+CALSCALE:GREGORIAN
+METHOD:CANCEL
+BEGIN:VEVENT
+UID:foobar
+DTSTAMP:**ANY**
+SEQUENCE:2
+SUMMARY:foo
+DTSTART:20140716T120000Z
+DURATION:PT1H
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:EMAIL
+ATTENDEE:mailto:one@example.org
+DESCRIPTION:Breakfast meeting
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+ICS
+            ],
+        ];
+
+        $this->parse($oldMessage, $newMessage, $expected, 'mailto:strunk@example.org');
+
+    }
+
     public function testNoCalendar()
     {
         $this->parse(null, null, [], 'mailto:one@example.org');
