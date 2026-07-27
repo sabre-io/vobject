@@ -491,6 +491,8 @@ class Broker
             }
         }
 
+        $participationOnlyOverrides = $this->findParticipationOnlyOverrides($eventInfo, $oldEventInfo);
+
         $messages = [];
         foreach ($attendees as $attendee) {
             // An organizer can also be an attendee. We should not generate any
@@ -564,11 +566,21 @@ class Broker
                 $oldAttendeeInstances = array_keys($attendee['oldInstances']);
                 $newAttendeeInstances = array_keys($attendee['newInstances']);
 
+                $excludedOverrides = [];
+                foreach (array_keys($participationOnlyOverrides) as $instanceId) {
+                    if (isset($attendee['newInstances'][$instanceId], $attendee['newInstances']['master'])
+                        && $attendee['newInstances'][$instanceId]['partstat'] === $attendee['newInstances']['master']['partstat']
+                    ) {
+                        $excludedOverrides[$instanceId] = true;
+                    }
+                }
+                $comparableNewInstances = array_diff($newAttendeeInstances, array_keys($excludedOverrides));
+
                 $message->significantChange =
                     'REQUEST' === $attendee['forceSend']
-                    || count($oldAttendeeInstances) !== count($newAttendeeInstances)
-                    || count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0
-                    || $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
+                    || count($oldAttendeeInstances) !== count($comparableNewInstances)
+                    || count(array_diff($oldAttendeeInstances, $comparableNewInstances)) > 0
+                    || $this->significantChangeHashDiffers($eventInfo, $oldEventInfo, $excludedOverrides);
 
                 foreach ($attendee['newInstances'] as $instanceId => $instanceInfo) {
                     $currentEvent = clone $eventInfo['instances'][$instanceId];
@@ -817,7 +829,8 @@ class Broker
      * 10. timezone - strictly the timezone on which the recurrence rule is
      *                based on.
      * 11. significantChangeHash
-     * 12. status
+     * 12. significantChangePerInstance
+     * 13. status
      *
      * @throws ITipException
      * @throws SameOrganizerForAllComponentsException
@@ -841,6 +854,7 @@ class Broker
         $exdate = [];
 
         $significantChangeEventProperties = [];
+        $significantChangePerInstance = [];
 
         foreach ($calendar->VEVENT as $vevent) {
             $eventSignificantChangeHash = '';
@@ -974,6 +988,7 @@ class Broker
                 }
             }
             $significantChangeEventProperties[] = $eventSignificantChangeHash;
+            $significantChangePerInstance[$recurId] = $eventSignificantChangeHash;
         }
 
         asort($significantChangeEventProperties);
@@ -993,7 +1008,99 @@ class Broker
             'exdate',
             'timezone',
             'significantChangeHash',
+            'significantChangePerInstance',
             'status'
         );
+    }
+
+    /**
+     * Checks whether the significant change hashes differ, ignoring the given
+     * overridden instances on the new side of the comparison.
+     */
+    protected function significantChangeHashDiffers(array $eventInfo, array $oldEventInfo, array $excludedInstances): bool
+    {
+        if (!$excludedInstances || !isset($eventInfo['significantChangePerInstance'])) {
+            return $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
+        }
+
+        $fingerprints = array_diff_key($eventInfo['significantChangePerInstance'], $excludedInstances);
+        asort($fingerprints);
+
+        return $oldEventInfo['significantChangeHash'] !== md5(implode('', $fingerprints));
+    }
+
+    /**
+     * Returns the overridden instances that appeared since the old version of
+     * the event and only record participation changes, keyed by recurrence id.
+     *
+     * @return array<string, true>
+     */
+    protected function findParticipationOnlyOverrides(array $eventInfo, array $oldEventInfo): array
+    {
+        if (!isset($eventInfo['instances']['master'])) {
+            return [];
+        }
+
+        $oldInstances = $oldEventInfo['instances'] ?? [];
+
+        $overrides = [];
+        foreach ($eventInfo['instances'] as $instanceId => $instance) {
+            if ('master' !== $instanceId
+                && !isset($oldInstances[$instanceId])
+                && $this->isParticipationOnlyOverride($instance, $eventInfo['instances']['master'])
+            ) {
+                $overrides[$instanceId] = true;
+            }
+        }
+
+        return $overrides;
+    }
+
+    /**
+     * A reply to a single instance of a recurring event creates an override
+     * on the organizer's copy that changes nothing but participation.
+     */
+    protected function isParticipationOnlyOverride(VEvent $override, VEvent $master): bool
+    {
+        $recurrenceId = $override->{'RECURRENCE-ID'} ?? null;
+        if (null === $recurrenceId || isset($recurrenceId['RANGE'])) {
+            return false;
+        }
+
+        // the other significantChangeProperties are checked below
+        foreach (['RRULE', 'RDATE', 'EXDATE', 'DUE'] as $prop) {
+            if (isset($override->$prop)) {
+                return false;
+            }
+        }
+
+        $overrideStatus = isset($override->STATUS) ? strtoupper((string) $override->STATUS->getValue()) : null;
+        $masterStatus = isset($master->STATUS) ? strtoupper((string) $master->STATUS->getValue()) : null;
+        if ($overrideStatus !== $masterStatus) {
+            return false;
+        }
+
+        if ($override->DTSTART->getDateTime()->getTimestamp() !== $recurrenceId->getDateTime()->getTimestamp()) {
+            return false;
+        }
+
+        return $this->getEffectiveDuration($override) === $this->getEffectiveDuration($master);
+    }
+
+    /**
+     * Returns the duration of the event in seconds, from either DTEND or
+     * DURATION, or null when the event has neither.
+     */
+    protected function getEffectiveDuration(VEvent $vevent): ?int
+    {
+        $start = $vevent->DTSTART->getDateTime();
+        if (isset($vevent->DTEND)) {
+            return $vevent->DTEND->getDateTime()->getTimestamp() - $start->getTimestamp();
+        }
+        if (isset($vevent->DURATION)) {
+            return $start->add(DateTimeParser::parseDuration($vevent->DURATION->getValue()))->getTimestamp() - $start->getTimestamp();
+        }
+
+        return null;
     }
 }
