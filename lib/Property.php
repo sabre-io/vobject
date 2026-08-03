@@ -362,17 +362,16 @@ abstract class Property extends Node implements \Stringable
     /**
      * Checks if an array element exists.
      */
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         if (is_int($offset)) {
             return parent::offsetExists($offset);
         }
 
-        $offset = strtoupper($offset);
+        $offset = strtoupper((string) $offset);
 
         foreach ($this->parameters as $parameter) {
-            if ($parameter->name == $offset) {
+            if ($parameter->name === $offset) {
                 return true;
             }
         }

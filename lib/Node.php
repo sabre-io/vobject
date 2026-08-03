@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sabre\VObject;
 
 use Sabre\Xml;
@@ -62,17 +64,12 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
     /**
      * This method returns an array, with the representation as it should be
      * encoded in JSON. This is used to create jCard or jCal documents.
-     *
-     * @return array|string
      */
-    #[\ReturnTypeWillChange]
-    abstract public function jsonSerialize();
+    abstract public function jsonSerialize(): array|string|null;
 
     /**
      * This method serializes the data into XML. This is used to create xCard or
      * xCal documents.
-     *
-     * @param Xml\Writer $writer XML writer
      */
     abstract public function xmlSerialize(Xml\Writer $writer): void;
 
@@ -93,8 +90,7 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
     /**
      * Returns the iterator for this object.
      */
-    #[\ReturnTypeWillChange]
-    public function getIterator(): ?ElementList
+    public function getIterator(): ElementList
     {
         if (!is_null($this->iterator)) {
             return $this->iterator;
@@ -143,7 +139,6 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
     /**
      * Returns the number of elements.
      */
-    #[\ReturnTypeWillChange]
     public function count(): int
     {
         $it = $this->getIterator();
@@ -159,11 +154,8 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * Checks if an item exists through ArrayAccess.
      *
      * This method just forwards the request to the inner iterator
-     *
-     * @param int $offset
      */
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         $iterator = $this->getIterator();
 
@@ -174,11 +166,8 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * Gets an item through ArrayAccess.
      *
      * This method just forwards the request to the inner iterator
-     *
-     * @param int $offset
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         $iterator = $this->getIterator();
 
@@ -189,11 +178,8 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * Sets an item through ArrayAccess.
      *
      * This method just forwards the request to the inner iterator
-     *
-     * @param int $offset
      */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, $value): void
     {
         $iterator = $this->getIterator();
         $iterator->offsetSet($offset, $value);
@@ -210,11 +196,8 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
      * Sets an item through ArrayAccess.
      *
      * This method just forwards the request to the inner iterator
-     *
-     * @param int $offset
      */
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         $iterator = $this->getIterator();
         $iterator->offsetUnset($offset);

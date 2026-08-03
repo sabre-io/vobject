@@ -53,11 +53,12 @@ abstract class BrokerTester extends TestCase
      * @throws NoInstancesException
      * @throws InvalidDataException
      */
-    public function process($input, $existingObject = null, $expected = false): void
+    public function process(string $input, ?string $existingObject = null, bool|string|null $expected = false): void
     {
         $version = Version::VERSION;
 
         $vcal = Reader::read($input);
+        self::assertNotNull($vcal);
 
         $mainComponent = new VEvent($vcal, 'VEVENT');
         foreach ($vcal->getComponents() as $nextComponent) {
@@ -90,6 +91,7 @@ abstract class BrokerTester extends TestCase
                 $existingObject
             );
             $existingObject = Reader::read($existingObject);
+            self::assertNotNull($existingObject, 'existingObject could not be read');
         }
 
         $result = $broker->processMessage($message, $existingObject);
@@ -99,6 +101,8 @@ abstract class BrokerTester extends TestCase
 
             return;
         }
+
+        self::assertNotNull($result, 'processMessage returned null');
 
         self::assertVObjectEqualsVObject(
             $expected,
