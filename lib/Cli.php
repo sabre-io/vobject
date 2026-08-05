@@ -214,8 +214,9 @@ class Cli
         $this->log($this->colorize('green', '  -q            ')."Don't output anything.");
         $this->log($this->colorize('green', '  -help -h      ').'Display this help message.');
         $this->log($this->colorize('green', '  --format      ').'Convert to a specific format. Must be one of: vcard, vcard21,');
+        $this->log('                vcard30, vcard40, icalendar, icalendar20, jcal, jcard, json,');
+        $this->log('                mimedir.');
         $this->log($this->colorize('green', '  --forgiving   ').'Makes the parser less strict.');
-        $this->log('                vcard30, vcard40, icalendar20, jcal, jcard, json, mimedir.');
         $this->log($this->colorize('green', '  --inputformat ').'If the input format cannot be guessed from the extension, it');
         $this->log('                must be specified here.');
         $this->log($this->colorize('green', '  --pretty      ').'json pretty-print.');
