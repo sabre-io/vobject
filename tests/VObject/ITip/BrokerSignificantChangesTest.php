@@ -2,6 +2,8 @@
 
 namespace Sabre\VObject\ITip;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class BrokerSignificantChangesTest extends BrokerTester
 {
     /**
@@ -210,6 +212,621 @@ ICS;
         $new .= "\nEND:VCALENDAR";
 
         $expected = [['significantChange' => false]];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * An attendee accepting a single instance creates a participation-only
+     * override: significant for the replier, not for the other attendees.
+     */
+    public function testParticipationOnlyOverrideInsignificantForOtherAttendees(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-partstat-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-partstat-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-partstat-override
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T110000
+DTEND;TZID=America/Toronto:20140822T120000
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=ACCEPTED:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => true],
+            ['significantChange' => false],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * A participation-only override on an all-day event, where DTSTART,
+     * DTEND and RECURRENCE-ID are DATE values, is detected as well.
+     */
+    public function testParticipationOnlyOverrideOnAllDayEvent(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-allday-override
+DTSTAMP:20140813T142829Z
+DTSTART;VALUE=DATE:20140815
+DTEND;VALUE=DATE:20140816
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-allday-override
+DTSTAMP:20140813T142829Z
+DTSTART;VALUE=DATE:20140815
+DTEND;VALUE=DATE:20140816
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-allday-override
+RECURRENCE-ID;VALUE=DATE:20140822
+DTSTAMP:20140813T152829Z
+DTSTART;VALUE=DATE:20140822
+DTEND;VALUE=DATE:20140823
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=ACCEPTED:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => true],
+            ['significantChange' => false],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * A participation-only override on an event that uses DURATION instead
+     * of DTEND is detected as well.
+     */
+    public function testParticipationOnlyOverrideOnDurationBasedEvent(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-duration-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DURATION:PT1H
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-duration-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DURATION:PT1H
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-duration-override
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T110000
+DURATION:PT1H
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=ACCEPTED:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => true],
+            ['significantChange' => false],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * A participation-only override on an event that has neither DTEND nor
+     * DURATION is detected as well.
+     */
+    public function testParticipationOnlyOverrideOnEventWithoutEndOrDuration(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-no-duration-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-no-duration-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-no-duration-override
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T110000
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=ACCEPTED:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => true],
+            ['significantChange' => false],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * An override with RANGE=THISANDFUTURE affects more than one instance
+     * and therefore stays significant for everybody.
+     */
+    public function testThisAndFutureOverrideStaysSignificant(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-range-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-range-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-range-override
+RECURRENCE-ID;RANGE=THISANDFUTURE;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T110000
+DTEND;TZID=America/Toronto:20140822T120000
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=ACCEPTED:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => true],
+            ['significantChange' => true],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * An override that keeps the original start but changes the duration is
+     * a real change and stays significant for everybody.
+     */
+    public function testResizedOverrideStaysSignificant(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-resized-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-resized-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-resized-override
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T110000
+DTEND;TZID=America/Toronto:20140822T130000
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => true],
+            ['significantChange' => true],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * An override that changes the STATUS of the instance is a real change
+     * and stays significant for everybody.
+     */
+    public function testStatusChangedOverrideStaysSignificant(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-status-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+STATUS:CONFIRMED
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-status-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+STATUS:CONFIRMED
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-status-override
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T110000
+DTEND;TZID=America/Toronto:20140822T120000
+STATUS:TENTATIVE
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => true],
+            ['significantChange' => true],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * An override that moves the occurrence to another time is a real change
+     * and stays significant for everybody.
+     */
+    public function testMovedOverrideStaysSignificant(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-moved-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-moved-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-moved-override
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T140000
+DTEND;TZID=America/Toronto:20140822T150000
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => true],
+            ['significantChange' => true],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * An attendee invited via a participation-only override still has to
+     * receive their invitation for that instance.
+     */
+    public function testAttendeeAddedOnOverrideStaysSignificant(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-added-attendee-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-added-attendee-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-added-attendee-override
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T110000
+DTEND;TZID=America/Toronto:20140822T120000
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:newperson@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => false],
+            ['significantChange' => true],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * Recurrence properties have no place on an overridden instance, but if a
+     * client writes them anyway the override shapes the recurrence itself and
+     * stays significant for everybody.
+     */
+    #[DataProvider('recurrenceProperties')]
+    public function testOverrideWithRecurrencePropertyStaysSignificant(string $property): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-recurrence-property-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:recurring-recurrence-property-override
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140815T110000
+DTEND;TZID=America/Toronto:20140815T120000
+RRULE:FREQ=WEEKLY
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+BEGIN:VEVENT
+UID:recurring-recurrence-property-override
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T110000
+DTEND;TZID=America/Toronto:20140822T120000
+$property
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=ACCEPTED:MAILTO:dominik@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:charlie@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            ['significantChange' => true],
+            ['significantChange' => true],
+        ];
+
+        $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function recurrenceProperties(): array
+    {
+        return [
+            'RRULE' => ['RRULE:FREQ=DAILY'],
+            'RDATE' => ['RDATE;TZID=America/Toronto:20140829T110000'],
+            'EXDATE' => ['EXDATE;TZID=America/Toronto:20140829T110000'],
+            'DUE' => ['DUE;TZID=America/Toronto:20140822T113000'],
+        ];
+    }
+
+    /**
+     * An object that holds a detached instance only has no master to compare
+     * an override against, so significance is decided the usual way.
+     */
+    public function testDetachedInstanceWithoutMasterStaysSignificant(): void
+    {
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:detached-instance
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T142829Z
+DTSTART;TZID=America/Toronto:20140822T110000
+DTEND;TZID=America/Toronto:20140822T120000
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $new = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:detached-instance
+RECURRENCE-ID;TZID=America/Toronto:20140822T110000
+DTSTAMP:20140813T152829Z
+DTSTART;TZID=America/Toronto:20140822T140000
+DTEND;TZID=America/Toronto:20140822T150000
+ORGANIZER:MAILTO:martin@fruux.com
+ATTENDEE;PARTSTAT=NEEDS-ACTION:MAILTO:dominik@fruux.com
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [['significantChange' => true]];
 
         $this->parse($old, $new, $expected, 'mailto:martin@fruux.com');
     }
