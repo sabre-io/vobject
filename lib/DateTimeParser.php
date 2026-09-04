@@ -63,9 +63,7 @@ class DateTimeParser
             throw new InvalidDataException('The supplied iCalendar date value is incorrect: '.$date);
         }
 
-        if (is_null($tz)) {
-            $tz = new \DateTimeZone('UTC');
-        }
+        $tz ??= new \DateTimeZone('UTC');
 
         try {
             $date = new \DateTimeImmutable($matches[1].'-'.$matches[2].'-'.$matches[3], $tz);

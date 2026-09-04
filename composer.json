@@ -45,7 +45,7 @@
         "phpstan/extension-installer": "^1.4",
         "phpunit/phpunit": "^11.5",
         "phpunit/php-invoker" : "^5.0",
-        "rector/rector": "^2.4"
+        "rector/rector": "^2.6"
     },
     "suggest" : {
         "hoa/bench"       : "If you would like to run the benchmark scripts"

@@ -418,9 +418,7 @@ class MimeDir extends Parser
             }
             if (isset($match['paramName'])) {
                 $lastParam = strtoupper($match['paramName']);
-                if (!isset($property['parameters'][$lastParam])) {
-                    $property['parameters'][$lastParam] = null;
-                }
+                $property['parameters'][$lastParam] ??= null;
                 $lastToken = self::TOKEN_PARAMNAME;
                 continue;
             }
@@ -440,9 +438,7 @@ class MimeDir extends Parser
             // @codeCoverageIgnoreEnd
         }
 
-        if (\is_null($property['value'])) {
-            $property['value'] = '';
-        }
+        $property['value'] ??= '';
         if (!isset($property['name']) || 0 === strlen($property['name'])) {
             if ($this->options & self::OPTION_IGNORE_INVALID_LINES) {
                 return false;

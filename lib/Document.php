@@ -146,9 +146,7 @@ abstract class Document extends Component
         if (isset(static::$componentMap[$name])) {
             $class = static::$componentMap[$name];
         }
-        if (is_null($children)) {
-            $children = [];
-        }
+        $children ??= [];
 
         return new $class($this, $name, $children, $defaults);
     }
@@ -200,13 +198,9 @@ abstract class Document extends Component
         // we do not attempt to interpret or parse the datass value as specified in
         // https://datatracker.ietf.org/doc/html/rfc5545#section-3.2.20
         // So when we so far did not get a class-name, we use the default for the property
-        if (is_null($class)) {
-            $class = $this->getClassNameForPropertyName($name);
-        }
+        $class ??= $this->getClassNameForPropertyName($name);
 
-        if (is_null($parameters)) {
-            $parameters = [];
-        }
+        $parameters ??= [];
 
         return new $class($this, $name, $value, $parameters, $group, $lineIndex, $lineString);
     }

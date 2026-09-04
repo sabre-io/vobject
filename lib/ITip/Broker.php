@@ -609,9 +609,7 @@ class Broker
 
                             // We're adding PARTSTAT=NEEDS-ACTION to ensure that
                             // iOS shows an "Inbox Item"
-                            if (!isset($currentEventAttendee['PARTSTAT'])) {
-                                $currentEventAttendee['PARTSTAT'] = 'NEEDS-ACTION';
-                            }
+                            $currentEventAttendee['PARTSTAT'] ??= 'NEEDS-ACTION';
                         }
                     }
 
