@@ -479,7 +479,7 @@ class VCard extends VObject\Document
         $propertiesByGroup = [];
 
         foreach ($this->children() as $property) {
-            $group = $property->group;
+            $group = $property->group ?? '';
 
             $propertiesByGroup[$group] ??= [];
 
