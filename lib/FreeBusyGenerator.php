@@ -79,9 +79,7 @@ class FreeBusyGenerator
         if ($objects) {
             $this->setObjects($objects);
         }
-        if (is_null($timeZone)) {
-            $timeZone = new \DateTimeZone('UTC');
-        }
+        $timeZone ??= new \DateTimeZone('UTC');
         $this->setTimeZone($timeZone);
     }
 
