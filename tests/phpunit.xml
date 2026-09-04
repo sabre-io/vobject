@@ -1,5 +1,14 @@
 <?xml version="1.0"?>
-<phpunit colors="true" bootstrap="bootstrap.php" beStrictAboutTestsThatDoNotTestAnything="true" beStrictAboutOutputDuringTests="true" failOnRisky="true" failOnWarning="true" enforceTimeLimit="true" cacheDirectory=".phpunit.cache">
+<phpunit colors="true"
+         bootstrap="bootstrap.php"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         failOnDeprecation="true"
+         enforceTimeLimit="true"
+         cacheDirectory=".phpunit.cache"
+>
   <php>
     <ini name="error_reporting" value="E_ALL"/>
   </php>
