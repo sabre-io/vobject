@@ -2126,10 +2126,10 @@ XML,
      */
     public function testRFC6350Section6Part5Part2(): void
     {
-    /*
-     * Note: We do not expect the comma in the Uri value of the GEO property to
-     * be escaped
-     */
+        /*
+         * Note: We do not expect the comma in the Uri value of the GEO property to
+         * be escaped
+         */
         self::assertXMLEqualsToMimeDir(
             <<<XML
 <?xml version="1.0" encoding="UTF-8"?>

@@ -24,16 +24,17 @@ ICS;
         self::assertStringContainsString('URL;VALUE=URI:http://example.org/', $output);
     }
 
-    public function testNoEscapeForDataValue() {
+    public function testNoEscapeForDataValue()
+    {
         $input = <<<VCARD
 BEGIN:VCARD
 VERSION:4.0
 PHOTO;VALUE=URI:data:image/jpeg;base64,MIICajCCAd
 END:VCARD
 VCARD;
-	    $vObject = Reader::read($input);
-	    self::assertStringContainsString("data:image/jpeg;base64,MIICajCCAd",
-					      $vObject->PHOTO->serialize(),
-					      "Comma is not escaped");
-	}
+        $vObject = Reader::read($input);
+        self::assertStringContainsString('data:image/jpeg;base64,MIICajCCAd',
+            $vObject->PHOTO->serialize(),
+            'Comma is not escaped');
+    }
 }

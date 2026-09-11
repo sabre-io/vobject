@@ -92,8 +92,8 @@ class Uri extends Text
     {
         if (is_array($this->value)) {
             return $this->value[0];
-        } else {
-            return $this->value;
         }
+
+        return $this->value;
     }
 }
