@@ -26,12 +26,12 @@ ICS;
 
     public function testNoEscapeForDataValue()
     {
-        $input = <<<VCARD
-BEGIN:VCARD
-VERSION:4.0
-PHOTO;VALUE=URI:data:image/jpeg;base64,MIICajCCAd
-END:VCARD
-VCARD;
+        $input = <<<VCARD_WRAP
+        BEGIN:VCARD
+        VERSION:4.0
+        PHOTO;VALUE=URI:data:image/jpeg;base64,MIICajCCAd
+        END:VCARD
+        VCARD_WRAP;
         $vObject = Reader::read($input);
         self::assertStringContainsString('data:image/jpeg;base64,MIICajCCAd',
             $vObject->PHOTO->serialize(),
