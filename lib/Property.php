@@ -453,9 +453,13 @@ abstract class Property extends Node implements \Stringable
      */
     public function __clone()
     {
+        if (null !== self::$cloneRoot) {
+            $this->root = self::$cloneRoot;
+        }
         foreach ($this->parameters as $key => $child) {
             $this->parameters[$key] = clone $child;
             $this->parameters[$key]->parent = $this;
+            $this->parameters[$key]->root = $this->root;
         }
     }
 
