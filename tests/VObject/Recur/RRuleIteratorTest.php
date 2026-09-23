@@ -1298,19 +1298,113 @@ class RRuleIteratorTest extends TestCase
             '2011-09-02 00:00:00',
             [
                 '2011-09-02 00:00:00',
-                '2012-08-07 00:00:00',
-                '2012-08-10 00:00:00',
-                '2013-08-06 00:00:00',
-                '2013-08-09 00:00:00',
-                '2014-08-05 00:00:00',
-                '2014-08-08 00:00:00',
-                '2015-08-11 00:00:00',
-                '2015-08-14 00:00:00',
-                '2016-08-09 00:00:00',
-                '2016-08-12 00:00:00',
-                '2017-08-08 00:00:00',
+                '2012-08-14 00:00:00',
+                '2012-08-17 00:00:00',
+                '2013-08-13 00:00:00',
+                '2013-08-16 00:00:00',
+                '2014-08-12 00:00:00',
+                '2014-08-15 00:00:00',
+                '2015-08-18 00:00:00',
+                '2015-08-21 00:00:00',
+                '2016-08-16 00:00:00',
+                '2016-08-19 00:00:00',
+                '2017-08-15 00:00:00',
             ]
         );
+    }
+
+    #[DataProvider('negativeWeekNoProvider')]
+    public function testNegativeWeekNo(string $rule, string $start, array $expected): void
+    {
+        $this->parse($rule, $start, $expected);
+    }
+
+    public static function negativeWeekNoProvider(): iterable
+    {
+        yield 'three year interval with multiple weekdays' => [
+            'FREQ=YEARLY;INTERVAL=3;BYDAY=MO,TU;BYWEEKNO=-2',
+            '2026-03-17 17:00:00',
+            [
+                '2026-03-17 17:00:00',
+                '2026-12-21 17:00:00',
+                '2026-12-22 17:00:00',
+                '2029-12-17 17:00:00',
+                '2029-12-18 17:00:00',
+                '2032-12-20 17:00:00',
+                '2032-12-21 17:00:00',
+            ],
+        ];
+        yield 'last week extends into January' => [
+            'FREQ=YEARLY;INTERVAL=3;BYDAY=MO,SU;BYWEEKNO=-1',
+            '2020-12-28 09:00:00',
+            [
+                '2020-12-28 09:00:00',
+                '2021-01-03 09:00:00',
+                '2023-12-25 09:00:00',
+                '2023-12-31 09:00:00',
+                '2026-12-28 09:00:00',
+                '2027-01-03 09:00:00',
+            ],
+        ];
+        yield 'start date belongs to the previous ISO year' => [
+            'FREQ=YEARLY;INTERVAL=3;BYDAY=MO;BYWEEKNO=-1',
+            '2021-01-01 09:00:00',
+            [
+                '2021-01-01 09:00:00',
+                '2021-12-27 09:00:00',
+                '2024-12-23 09:00:00',
+                '2027-12-27 09:00:00',
+            ],
+        ];
+        yield 'negative week 53 skips years with 52 weeks' => [
+            'FREQ=YEARLY;BYDAY=TH;BYWEEKNO=-53',
+            '2014-01-01 09:00:00',
+            [
+                '2014-01-01 09:00:00',
+                '2015-01-01 09:00:00',
+                '2020-01-02 09:00:00',
+                '2026-01-01 09:00:00',
+                '2032-01-01 09:00:00',
+            ],
+        ];
+        yield 'mixed and repeated week numbers' => [
+            'FREQ=YEARLY;BYDAY=MO;BYWEEKNO=-1,1,-1',
+            '2021-01-04 09:00:00',
+            [
+                '2021-01-04 09:00:00',
+                '2021-12-27 09:00:00',
+                '2022-01-03 09:00:00',
+                '2022-12-26 09:00:00',
+                '2023-01-02 09:00:00',
+            ],
+        ];
+    }
+
+    public function testNegativeWeekNoWithoutMatchingYear(): void
+    {
+        $this->parse(
+            'FREQ=YEARLY;INTERVAL=400;BYWEEKNO=-53;BYDAY=TH;COUNT=2',
+            '2014-01-01 09:00:00',
+            ['2014-01-01 09:00:00'],
+        );
+    }
+
+    public function testNegativeWeekNoImmutable(): void
+    {
+        $start = new \DateTimeImmutable('2026-03-17 17:00:00', new \DateTimeZone('Europe/Brussels'));
+        $iterator = new RRuleIterator('FREQ=YEARLY;INTERVAL=3;BYDAY=MO,TU;BYWEEKNO=-2;COUNT=3', $start);
+
+        $dates = array_map(
+            static fn (\DateTimeInterface $date): string => $date->format('Y-m-d H:i:s e'),
+            iterator_to_array($iterator),
+        );
+
+        self::assertSame([
+            '2026-03-17 17:00:00 Europe/Brussels',
+            '2026-12-21 17:00:00 Europe/Brussels',
+            '2026-12-22 17:00:00 Europe/Brussels',
+        ], $dates);
+        self::assertSame('2026-03-17 17:00:00', $start->format('Y-m-d H:i:s'));
     }
 
     public function testTwoValidByWeekNo(): void
