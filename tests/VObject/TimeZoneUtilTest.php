@@ -221,6 +221,72 @@ HI;
         self::assertEquals($ex->getName(), $tz->getName());
     }
 
+    #[DataProvider('getValidUtcOffsets')]
+    public function testValidUtcOffset(string $tzid, string $expectedOffset): void
+    {
+        $tz = TimeZoneUtil::getTimeZone($tzid, null, true);
+
+        self::assertSame($expectedOffset, $tz->getName());
+    }
+
+    public static function getValidUtcOffsets(): array
+    {
+        return [
+            ['UTC-04:00', '-04:00'],
+            ['UTC-0400', '-04:00'],
+            ['UTC+05:30', '+05:30'],
+            ['UTC+0545', '+05:45'],
+            ['utc-03:30', '-03:30'],
+            ['UTC+00:00', '+00:00'],
+            ['UTC-00:00', '+00:00'],
+            ['UTC+23:59', '+23:59'],
+        ];
+    }
+
+    #[DataProvider('getInvalidUtcOffsets')]
+    public function testInvalidUtcOffset(string $tzid): void
+    {
+        self::assertSame(date_default_timezone_get(), TimeZoneUtil::getTimeZone($tzid)->getName());
+
+        $this->expectException(\InvalidArgumentException::class);
+        TimeZoneUtil::getTimeZone($tzid, null, true);
+    }
+
+    public static function getInvalidUtcOffsets(): array
+    {
+        return [
+            ['UTC-24:00'],
+            ['UTC+04:60'],
+            ['UTC+4:00'],
+            ['UTC+04'],
+            ['UTC04:00'],
+            ['UTC+ab:cd'],
+            ['UTC+04:00extra'],
+            ["UTC+04:00\n"],
+            ['UTC+04::00'],
+            ['UTC+'],
+        ];
+    }
+
+    public function testParseUtcOffsetDateTime(): void
+    {
+        $calendar = Reader::read(<<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:fixed-offset
+DTSTART;TZID="UTC-04:00":20260728T111500
+END:VEVENT
+END:VCALENDAR
+ICS
+        );
+
+        $start = $calendar->VEVENT->DTSTART->getDateTime();
+
+        self::assertSame('2026-07-28 11:15:00 -04:00', $start->format('Y-m-d H:i:s P'));
+        self::assertSame((new \DateTimeImmutable('2026-07-28T15:15:00Z'))->getTimestamp(), $start->getTimestamp());
+    }
+
     public function testTimezoneFail(): void
     {
         $this->expectException(\InvalidArgumentException::class);
