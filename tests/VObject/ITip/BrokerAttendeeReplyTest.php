@@ -1118,6 +1118,76 @@ ICS,
     }
 
     /**
+     * This function tests an attendee updating an event, where the new
+     * version no longer contains the master event the attendee was part of,
+     * but only an instance of it.
+     *
+     * Some clients add a RECURRENCE-ID to non-recurring events.
+     */
+    public function testReplyMasterEventReplacedByInstance(): void
+    {
+        $oldMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;CN=One:mailto:one@example.org
+DTSTART:20140724T120000Z
+SUMMARY:Daily sprint
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $newMessage = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:foobar
+SEQUENCE:1
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+RECURRENCE-ID:20140724T120000Z
+DTSTART:20140724T120000Z
+SUMMARY:Daily sprint
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = [
+            [
+                'uid' => 'foobar',
+                'method' => 'REPLY',
+                'component' => 'VEVENT',
+                'sender' => 'mailto:one@example.org',
+                'senderName' => 'One',
+                'recipient' => 'mailto:strunk@example.org',
+                'recipientName' => 'Strunk',
+                'message' => <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+UID:foobar
+DTSTAMP:**ANY**
+SEQUENCE:1
+DTSTART:20140724T120000Z
+SUMMARY:Daily sprint
+RECURRENCE-ID:20140724T120000Z
+ORGANIZER;CN=Strunk:mailto:strunk@example.org
+ATTENDEE;PARTSTAT=ACCEPTED;CN=One:mailto:one@example.org
+END:VEVENT
+END:VCALENDAR
+ICS,
+            ],
+        ];
+
+        $this->parse($oldMessage, $newMessage, $expected);
+    }
+
+    /**
      * A party crasher is an attendee that accepted an event, but was not in
      * any original invite.
      *
