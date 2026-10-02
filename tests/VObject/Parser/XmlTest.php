@@ -2455,7 +2455,7 @@ XML,
 <vcards xmlns="urn:ietf:params:xml:ns:vcard-4.0">
  <vcard>
   <sound>
-   <text>CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com</text>
+   <uri>CID:JOHNQPUBLIC.part8.19960229T080000.xyzMail@example.com</uri>
   </sound>
  </vcard>
 </vcards>
@@ -2571,7 +2571,7 @@ XML,
      <text>application/pgp-keys</text>
     </mediatype>
    </parameters>
-   <text>ftp://example.com/keys/jdoe</text>
+   <uri>ftp://example.com/keys/jdoe</uri>
   </key>
  </vcard>
 </vcards>
