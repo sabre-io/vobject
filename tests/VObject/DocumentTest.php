@@ -52,6 +52,16 @@ class DocumentTest extends TestCase
         self::assertInstanceOf(Property\Text::class, $prop);
     }
 
+    public function testCreatePropertyWithRepeatedValueParameter(): void
+    {
+        $vcard = new Component\VCard([], false);
+
+        $prop = $vcard->createProperty('PRODID', 'foo', ['VALUE' => ['text', 'TEXT']]);
+
+        self::assertInstanceOf(Property\Text::class, $prop);
+        self::assertEquals('foo', $prop->getValue());
+    }
+
     public function testGetClassNameForPropertyValue(): void
     {
         $vcal = new Component\VCalendar([], false);

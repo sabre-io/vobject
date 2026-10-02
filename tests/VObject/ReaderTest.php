@@ -230,6 +230,19 @@ class ReaderTest extends TestCase
         self::assertEquals('PRODIGY', $result->parameters['TYPE']);
     }
 
+    public function testReadPropertyWithRepeatedValueParameter(): void
+    {
+        // ez-vcard writes the VALUE parameter twice.
+        $data = "BEGIN:VCARD\r\nVERSION:4.0\r\nPRODID;VALUE=text;VALUE=TEXT:ez-vcard 0.12.1\r\nEND:VCARD";
+        $result = Reader::read($data);
+
+        $result = $result->PRODID;
+
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('ez-vcard 0.12.1', $result->getValue());
+        self::assertEquals(['text', 'TEXT'], $result['VALUE']->getParts());
+    }
+
     public function testReadPropertyParameterExtraColon(): void
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue:propValue:anotherrandomstring\r\nEND:VCALENDAR";
