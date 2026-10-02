@@ -155,8 +155,9 @@ class Json extends Parser
 
         // If the value type we received (e.g.: TEXT) was not the default value
         // type for the given property (e.g.: BDAY), we need to add a VALUE=
-        // parameter.
-        if ($defaultPropertyClass !== $prop::class) {
+        // parameter. The "unknown" type is the exception: it MUST NOT be
+        // written as a VALUE parameter (RFC 7095, section 5.2).
+        if ($defaultPropertyClass !== $prop::class && 'UNKNOWN' !== $valueType) {
             $prop['VALUE'] = $valueType;
         }
 
