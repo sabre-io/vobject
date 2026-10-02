@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sabre\VObject;
 
 use PHPUnit\Framework\TestCase;
@@ -30,17 +32,17 @@ class ParameterTest extends TestCase
         $cal = new Component\VCalendar();
 
         $param = new Parameter($cal, 'name', null);
-        $param->addValue(1);
+        $param->addValue('1');
         self::assertEquals([1], $param->getParts());
 
         $param->setParts([1, 2]);
         self::assertEquals([1, 2], $param->getParts());
 
-        $param->addValue(3);
+        $param->addValue('3');
         self::assertEquals([1, 2, 3], $param->getParts());
 
-        $param->setValue(4);
-        $param->addValue(5);
+        $param->setValue('4');
+        $param->addValue('5');
         self::assertEquals([4, 5], $param->getParts());
     }
 

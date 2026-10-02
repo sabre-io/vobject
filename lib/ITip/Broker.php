@@ -396,7 +396,7 @@ class Broker
             }
         }
 
-        if (!$masterObject) {
+        if (null === $masterObject) {
             // No master object, we can't add new instances.
             return null;
         }
