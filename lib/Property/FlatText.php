@@ -3,6 +3,7 @@
 namespace Sabre\VObject\Property;
 
 use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Parser\MimeDir;
 
 /**
  * FlatText property.
@@ -30,6 +31,17 @@ class FlatText extends Text
      * Field separator.
      */
     public string $delimiter = ',';
+
+    /**
+     * Sets a raw value coming from a mimedir (iCalendar/vCard) file.
+     *
+     * A flat text holds a single value: as said above, unescaped commas are
+     * not delimiters, so the value is not split.
+     */
+    public function setRawMimeDirValue(string $val): void
+    {
+        $this->setValue(MimeDir::unescapeValue($val, ''));
+    }
 
     /**
      * Sets the value as a quoted-printable encoded string.
