@@ -243,6 +243,20 @@ class ReaderTest extends TestCase
         self::assertEquals(['text', 'TEXT'], $result['VALUE']->getParts());
     }
 
+    public function testReadPropertyWithListedValueParameter(): void
+    {
+        // ez-vcard lists several value types in a single VALUE parameter.
+        $data = "BEGIN:VCARD\r\nVERSION:3.0\r\nURL;VALUE=uri,text:https://jane.example\r\nEND:VCARD";
+        $result = Reader::read($data);
+
+        $result = $result->URL;
+
+        self::assertInstanceOf(Property::class, $result);
+        self::assertEquals('https://jane.example', $result->getValue());
+        self::assertEquals(['uri', 'text'], $result['VALUE']->getParts());
+        self::assertEquals("URL;VALUE=uri,text:https://jane.example\r\n", $result->serialize());
+    }
+
     public function testReadPropertyParameterExtraColon(): void
     {
         $data = "BEGIN:VCALENDAR\r\nPROPNAME;PARAMNAME=paramvalue:propValue:anotherrandomstring\r\nEND:VCALENDAR";
