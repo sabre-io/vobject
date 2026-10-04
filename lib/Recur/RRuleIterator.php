@@ -572,22 +572,40 @@ class RRuleIterator implements \Iterator
                 $dayOffsets = [];
                 if ($this->byDay) {
                     foreach ($this->byDay as $byDay) {
-                        $dayOffsets[] = $this->dayMap[$byDay];
+                        $dayOffsets[] = 'SU' === $byDay ? 7 : $this->dayMap[$byDay];
                     }
                 } else {   // default is Monday
                     $dayOffsets[] = 1;
                 }
 
-                $currentYear = $this->currentDate->format('Y');
+                // A selected week can extend into the next calendar year.
+                $currentYear = (int) $this->currentDate->format(0 === $this->counter ? 'Y' : 'o');
 
                 while (true) {
                     $checkDates = [];
+                    // December 28 always belongs to the last ISO week of its year.
+                    $lastWeekDate = clone $this->currentDate;
+                    $lastWeekDate = $lastWeekDate->setDate($currentYear, 12, 28);
+                    if ($lastWeekDate->getTimestamp() > self::dateUpperLimit) {
+                        $this->currentDate = null;
+
+                        return;
+                    }
+                    $lastWeek = (int) $lastWeekDate->format('W');
 
                     // loop through all WeekNo and Days to check all the combinations
                     foreach ($this->byWeekNo as $byWeekNo) {
+                        $weekNo = (int) $byWeekNo;
+                        if ($weekNo < 0) {
+                            $weekNo += $lastWeek + 1;
+                            if ($weekNo < 1) {
+                                continue;
+                            }
+                        }
+
                         foreach ($dayOffsets as $dayOffset) {
                             $date = clone $this->currentDate;
-                            $date = $date->setISODate($currentYear, $byWeekNo, $dayOffset);
+                            $date = $date->setISODate($currentYear, $weekNo, $dayOffset);
 
                             if ($date > $this->currentDate) {
                                 $checkDates[] = $date;
