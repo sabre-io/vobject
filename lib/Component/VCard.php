@@ -130,6 +130,13 @@ class VCard extends VObject\Document
         'HOBBY' => VObject\Property\FlatText::class,
         'INTEREST' => VObject\Property\FlatText::class,
         'ORG-DIRECTORY' => VObject\Property\FlatText::class,
+
+        // rfc9554 properties
+        'CREATED' => VObject\Property\VCard\TimeStamp::class,
+        'GRAMGENDER' => VObject\Property\FlatText::class,
+        'LANGUAGE' => VObject\Property\VCard\LanguageTag::class,
+        'PRONOUNS' => VObject\Property\FlatText::class,
+        'SOCIALPROFILE' => VObject\Property\Uri::class,
     ];
 
     /**
@@ -324,6 +331,11 @@ class VCard extends VObject\Document
             'CALURI' => '*',
             'CATEGORIES' => '*',
             'CLIENTPIDMAP' => '*',
+            'CREATED' => '?',
+            'GRAMGENDER' => '*',
+            'LANGUAGE' => '?',
+            'PRONOUNS' => '*',
+            'SOCIALPROFILE' => '*',
             'EMAIL' => '*',
             'FBURL' => '*',
             'IMPP' => '*',
