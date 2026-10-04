@@ -145,6 +145,10 @@ class VCalendar extends VObject\Document
 
         // Additions from draft-daboo-calendar-availability-05
         'BUSYTYPE' => Property\Text::class,
+
+        // RFC 7986 properties
+        'NAME' => Property\FlatText::class,
+        'COLOR' => Property\FlatText::class,
     ];
 
     /**
@@ -379,6 +383,18 @@ class VCalendar extends VObject\Document
 
             'CALSCALE' => '?',
             'METHOD' => '?',
+
+            // RFC 7986 calendar properties
+            'UID' => '?',
+            'LAST-MODIFIED' => '?',
+            'URL' => '?',
+            'REFRESH-INTERVAL' => '?',
+            'SOURCE' => '?',
+            'COLOR' => '?',
+            'NAME' => '*',
+            'DESCRIPTION' => '*',
+            'CATEGORIES' => '*',
+            'IMAGE' => '*',
         ];
     }
 
