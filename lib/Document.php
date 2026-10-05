@@ -194,6 +194,13 @@ abstract class Document extends Component
             $class = $this->getClassNameForPropertyValue($valueType);
         }
 
+        // A base64 encoded value is binary, whatever the default value type of
+        // the property: vCard 2.1 and 3.0 embed keys and sounds this way too,
+        // not only photos and logos.
+        if (!$class && $this->isBase64Encoded($parameters['ENCODING'] ?? null)) {
+            $class = Property\Binary::class;
+        }
+
         // If the value parameter is not set or set to something we do not recognize
         // we do not attempt to interpret or parse the datass value as specified in
         // https://datatracker.ietf.org/doc/html/rfc5545#section-3.2.20
@@ -203,6 +210,18 @@ abstract class Document extends Component
         $parameters ??= [];
 
         return new $class($this, $name, $value, $parameters, $group, $lineIndex, $lineString);
+    }
+
+    /**
+     * Whether an ENCODING parameter value says the value is base64 encoded.
+     */
+    private function isBase64Encoded(mixed $encoding): bool
+    {
+        if (is_array($encoding)) {
+            $encoding = reset($encoding);
+        }
+
+        return is_string($encoding) && in_array(strtoupper($encoding), ['B', 'BASE64'], true);
     }
 
     /**
