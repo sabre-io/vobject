@@ -106,6 +106,14 @@ class RRuleIterator implements \Iterator
         // Otherwise, we find the next event in the normal RRULE
         // sequence.
         switch ($this->frequency) {
+            case 'secondly':
+                $this->nextSecondly();
+                break;
+
+            case 'minutely':
+                $this->nextMinutely();
+                break;
+
             case 'hourly':
                 $this->nextHourly();
                 break;
@@ -330,6 +338,62 @@ class RRuleIterator implements \Iterator
             $this->currentDate = $this->currentDate->sub(new \DateInterval('PT'.$this->hourJump.'H'));
             $this->hourJump = 0;
         }
+    }
+
+    /**
+     * Does the processing for advancing the iterator for secondly frequency.
+     */
+    protected function nextSecondly(): void
+    {
+        $this->advanceSubHourly('+'.$this->interval.' seconds', true);
+    }
+
+    /**
+     * Does the processing for advancing the iterator for minutely frequency.
+     */
+    protected function nextMinutely(): void
+    {
+        $this->advanceSubHourly('+'.$this->interval.' minutes', false);
+    }
+
+    /**
+     * Advances currentDate by a sub-hourly interval, applying the BYHOUR,
+     * BYMINUTE and (secondly only) BYSECOND limit rules of RFC 5545 §3.3.10.
+     */
+    protected function advanceSubHourly(string $interval, bool $limitBySecond): void
+    {
+        if (!$this->byHour && !$this->byMinute && !($limitBySecond && $this->bySecond)) {
+            $this->currentDate = $this->currentDate->modify($interval);
+
+            return;
+        }
+
+        do {
+            $this->currentDate = $this->currentDate->modify($interval);
+            if ($this->currentDate->getTimestamp() > self::dateUpperLimit) {
+                $this->currentDate = null;
+
+                return;
+            }
+        } while (!$this->matchesSubHourlyByRules($limitBySecond));
+    }
+
+    /**
+     * Whether currentDate satisfies the applicable BYHOUR/BYMINUTE/BYSECOND limits.
+     */
+    protected function matchesSubHourlyByRules(bool $limitBySecond): bool
+    {
+        if ($this->byHour && !in_array((int) $this->currentDate->format('G'), array_map('intval', $this->byHour), true)) {
+            return false;
+        }
+        if ($this->byMinute && !in_array((int) $this->currentDate->format('i'), array_map('intval', $this->byMinute), true)) {
+            return false;
+        }
+        if ($limitBySecond && $this->bySecond && !in_array((int) $this->currentDate->format('s'), array_map('intval', $this->bySecond), true)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
