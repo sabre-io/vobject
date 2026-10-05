@@ -729,6 +729,11 @@ class Broker
                 // Skip
                 continue;
             }
+            if ('master' === $instance['id'] && !isset($eventInfo['instances']['master'])) {
+                // The master event no longer exists in the new object, so
+                // there is no instance to reply for.
+                continue;
+            }
 
             /** @var VEvent $event */
             $event = $icalMsg->add('VEVENT', [
