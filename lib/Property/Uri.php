@@ -91,11 +91,9 @@ class Uri extends Text
     public function getRawMimeDirValue(): string
     {
         if (is_array($this->value)) {
-            $value = $this->value[0];
-        } else {
-            $value = $this->value;
+            return $this->value[0];
         }
 
-        return strtr($value, [',' => '\,']);
+        return $this->value;
     }
 }

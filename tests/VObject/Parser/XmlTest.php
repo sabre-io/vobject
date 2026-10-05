@@ -2126,6 +2126,10 @@ XML,
      */
     public function testRFC6350Section6Part5Part2(): void
     {
+        /*
+         * Note: We do not expect the comma in the Uri value of the GEO property to
+         * be escaped
+         */
         self::assertXMLEqualsToMimeDir(
             <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2139,7 +2143,7 @@ XML,
 XML,
             'BEGIN:VCARD'."\n".
             'VERSION:4.0'."\n".
-            'GEO:geo:37.386013\,-122.082932'."\n".
+            'GEO:geo:37.386013,-122.082932'."\n".
             'END:VCARD'."\n"
         );
 
