@@ -543,6 +543,12 @@ class VCard extends VObject\Document
             return VObject\Property\Uri::class;
         }
 
+        // In vCard 4, KEY and SOUND are URIs by default too (RFC 6350, sections
+        // 6.7.5 and 6.8.1), not text.
+        if (in_array($propertyName, ['KEY', 'SOUND'], true) && self::VCARD40 === $this->getDocumentType()) {
+            return VObject\Property\Uri::class;
+        }
+
         return $className;
     }
 }
