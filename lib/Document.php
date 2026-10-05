@@ -188,7 +188,15 @@ abstract class Document extends Component
             $valueType = $parameters['VALUE'] ?? null;
         }
 
-        if ($valueType) {
+        // The VALUE parameter must have a single value, but some producers repeat
+        // it (e.g. VALUE=text;VALUE=TEXT) or list several types in it (e.g.
+        // VALUE=uri,text). The parser then passes all its values as an array: use
+        // the first one.
+        if (\is_array($valueType)) {
+            $valueType = reset($valueType);
+        }
+
+        if (\is_string($valueType) && '' !== $valueType) {
             // The valueType argument comes first to figure out the correct
             // class.
             $class = $this->getClassNameForPropertyValue($valueType);
