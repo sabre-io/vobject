@@ -1620,6 +1620,132 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testMinutely(): void
+    {
+        $this->parse(
+            'FREQ=MINUTELY;COUNT=4',
+            '2024-01-01 09:00:00',
+            [
+                '2024-01-01 09:00:00',
+                '2024-01-01 09:01:00',
+                '2024-01-01 09:02:00',
+                '2024-01-01 09:03:00',
+            ]
+        );
+    }
+
+    public function testMinutelyInterval(): void
+    {
+        $this->parse(
+            'FREQ=MINUTELY;INTERVAL=15;COUNT=3',
+            '2024-01-01 09:50:00',
+            [
+                '2024-01-01 09:50:00',
+                '2024-01-01 10:05:00',
+                '2024-01-01 10:20:00',
+            ]
+        );
+    }
+
+    public function testMinutelyByHour(): void
+    {
+        $this->parse(
+            'FREQ=MINUTELY;BYHOUR=10;COUNT=3',
+            '2024-01-01 09:58:00',
+            [
+                '2024-01-01 09:58:00',
+                '2024-01-01 10:00:00',
+                '2024-01-01 10:01:00',
+            ]
+        );
+    }
+
+    public function testMinutelyByMinute(): void
+    {
+        $this->parse(
+            'FREQ=MINUTELY;BYMINUTE=0,30;COUNT=3',
+            '2024-01-01 09:58:00',
+            [
+                '2024-01-01 09:58:00',
+                '2024-01-01 10:00:00',
+                '2024-01-01 10:30:00',
+            ]
+        );
+    }
+
+    public function testSecondly(): void
+    {
+        $this->parse(
+            'FREQ=SECONDLY;COUNT=4',
+            '2024-01-01 09:00:00',
+            [
+                '2024-01-01 09:00:00',
+                '2024-01-01 09:00:01',
+                '2024-01-01 09:00:02',
+                '2024-01-01 09:00:03',
+            ]
+        );
+    }
+
+    public function testSecondlyByMinute(): void
+    {
+        $this->parse(
+            'FREQ=SECONDLY;BYMINUTE=0;COUNT=3',
+            '2024-01-01 08:59:58',
+            [
+                '2024-01-01 08:59:58',
+                '2024-01-01 09:00:00',
+                '2024-01-01 09:00:01',
+            ]
+        );
+    }
+
+    public function testSecondlyBySecond(): void
+    {
+        $this->parse(
+            'FREQ=SECONDLY;BYSECOND=0,30;COUNT=3',
+            '2024-01-01 08:59:58',
+            [
+                '2024-01-01 08:59:58',
+                '2024-01-01 09:00:00',
+                '2024-01-01 09:00:30',
+            ]
+        );
+    }
+
+    /**
+     * A bounded (UNTIL) sub-hourly rule must terminate. Before SECONDLY/MINUTELY
+     * were iterated, currentDate never advanced past the start, so valid() stayed
+     * true forever. The hard cap keeps a regression from hanging the suite.
+     */
+    public function testMinutelyUntilTerminates(): void
+    {
+        $parser = new RRuleIterator('FREQ=MINUTELY;UNTIL=20240101T091000Z', new \DateTime('2024-01-01 09:00:00', new \DateTimeZone('UTC')));
+        $result = [];
+        while ($parser->valid()) {
+            $result[] = $parser->current()->format('H:i:s');
+            if (count($result) > 100) {
+                self::fail('MINUTELY;UNTIL did not terminate');
+            }
+            $parser->next();
+        }
+        self::assertSame(['09:00:00', '09:01:00', '09:02:00', '09:03:00', '09:04:00', '09:05:00', '09:06:00', '09:07:00', '09:08:00', '09:09:00', '09:10:00'], $result);
+    }
+
+    public function testSecondlyUntilTerminates(): void
+    {
+        $parser = new RRuleIterator('FREQ=SECONDLY;UNTIL=20240101T090005Z', new \DateTime('2024-01-01 09:00:00', new \DateTimeZone('UTC')));
+        $result = [];
+        while ($parser->valid()) {
+            $result[] = $parser->current()->format('H:i:s');
+            if (count($result) > 100) {
+                self::fail('SECONDLY;UNTIL did not terminate');
+            }
+            $parser->next();
+        }
+        self::assertSame(['09:00:00', '09:00:01', '09:00:02', '09:00:03', '09:00:04', '09:00:05'], $result);
+    }
+
     public function parse($rule, string $start, array $expected, ?string $fastForward = null, string $tz = 'UTC', bool $runTillTheEnd = false): void
     {
         $dt = new \DateTime($start, new \DateTimeZone($tz));
