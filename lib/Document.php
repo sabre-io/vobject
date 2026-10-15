@@ -102,6 +102,23 @@ abstract class Document extends Component
     }
 
     /**
+     * This method is automatically called when the object is cloned.
+     *
+     * The copy becomes the root of all its cloned nodes, so it does not depend
+     * on the original document (e.g. to resolve a TZID against its VTIMEZONE).
+     */
+    public function __clone()
+    {
+        $previousCloneRoot = self::$cloneRoot;
+        self::$cloneRoot = $this;
+        try {
+            parent::__clone();
+        } finally {
+            self::$cloneRoot = $previousCloneRoot;
+        }
+    }
+
+    /**
      * Returns the current document type.
      */
     public function getDocumentType(): int

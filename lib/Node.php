@@ -55,6 +55,14 @@ abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable, \Js
     protected ?Component $root = null;
 
     /**
+     * The copy under construction while a Document is being cloned.
+     *
+     * Every node cloned as part of that copy takes it as its root, instead of
+     * keeping a reference to the original document.
+     */
+    protected static ?Document $cloneRoot = null;
+
+    /**
      * Serializes the node into a mimedir format.
      */
     abstract public function serialize(): string;

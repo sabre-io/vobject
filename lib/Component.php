@@ -475,6 +475,9 @@ class Component extends Node
      */
     public function __clone()
     {
+        if (null !== self::$cloneRoot) {
+            $this->root = self::$cloneRoot;
+        }
         foreach ($this->children as $childName => $childGroup) {
             foreach ($childGroup as $key => $child) {
                 $clonedChild = clone $child;
