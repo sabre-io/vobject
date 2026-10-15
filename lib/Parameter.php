@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sabre\VObject;
 
 use Sabre\Xml;
@@ -32,19 +34,15 @@ class Parameter extends Node implements \Stringable
 
     /**
      * Parameter value.
-     *
-     * @var string|array|null
      */
-    protected $value;
+    protected array|string|null $value = null;
 
     /**
      * Sets up the object.
      *
      * It's recommended to use the create:: factory method instead.
-     *
-     * @param string|array|null $value
      */
-    public function __construct(Document $root, ?string $name, $value = null)
+    public function __construct(Document $root, ?string $name, array|string|null $value = null)
     {
         $this->root = $root;
         if (is_null($name)) {
@@ -61,7 +59,9 @@ class Parameter extends Node implements \Stringable
             $this->noName = false;
             $this->name = strtoupper($value);
         } else {
-            $this->setValue($value);
+            if (null !== $value) {
+                $this->setValue($value);
+            }
         }
     }
 
@@ -88,10 +88,8 @@ class Parameter extends Node implements \Stringable
      * Updates the current value.
      *
      * This may be either a single, or multiple strings in an array.
-     *
-     * @param string|array $value
      */
-    public function setValue($value): void
+    public function setValue(array|string $value): void
     {
         $this->value = $value;
     }
@@ -140,10 +138,8 @@ class Parameter extends Node implements \Stringable
      *
      * If the argument is specified as an array, all items will be added to the
      * parameter value list.
-     *
-     * @param string|array $part
      */
-    public function addValue($part): void
+    public function addValue(array|string $part): void
     {
         if (is_null($this->value)) {
             $this->value = $part;
@@ -206,7 +202,7 @@ class Parameter extends Node implements \Stringable
                 // But we've found that iCal (7.0, shipped with OSX 10.9)
                 // severely trips on + characters not being quoted, so we
                 // added + as well.
-                if (!preg_match('#(?: [\n":;\^,\+] )#x', $item)) {
+                if (!preg_match('#(?: [\n":;\^,\+] )#x', (string) $item)) {
                     return $out.$item;
                 }
                 // Enclosing in double-quotes, and using RFC6868 for encoding any
@@ -228,11 +224,8 @@ class Parameter extends Node implements \Stringable
     /**
      * This method returns an array, with the representation as it should be
      * encoded in JSON. This is used to create jCard or jCal documents.
-     *
-     * @return array|string|null
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): array|string|null
     {
         return $this->value;
     }
@@ -240,8 +233,6 @@ class Parameter extends Node implements \Stringable
     /**
      * This method serializes the data into XML. This is used to create xCard or
      * xCal documents.
-     *
-     * @param Xml\Writer $writer XML writer
      */
     public function xmlSerialize(Xml\Writer $writer): void
     {
@@ -261,7 +252,6 @@ class Parameter extends Node implements \Stringable
     /**
      * Returns the iterator for this object.
      */
-    #[\ReturnTypeWillChange]
     public function getIterator(): ElementList
     {
         if (!is_null($this->iterator)) {

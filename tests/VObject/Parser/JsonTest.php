@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sabre\VObject\Parser;
 
 use PHPUnit\Framework\TestCase;
