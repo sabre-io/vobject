@@ -162,6 +162,56 @@ HI;
         self::assertEquals($ex->getName(), $tz->getName());
     }
 
+    /**
+     * Windows added these zones in 2026 for the Canadian time changes of
+     * 2026-11-01. CLDR windowsZones maps them since commit c4bb2c199c.
+     */
+    #[DataProvider('getCanada2026WindowsTimeZones')]
+    public function testCanada2026WindowsTimeZones(string $windowsName, string $expected): void
+    {
+        $tz = TimeZoneUtil::getTimeZone($windowsName, null, true);
+        self::assertEquals($expected, $tz->getName());
+    }
+
+    #[DataProvider('getCanada2026WindowsTimeZones')]
+    public function testCanada2026WindowsTimeZonesInOutlookEvent(string $windowsName, string $expected): void
+    {
+        $vobj = <<<ICS
+BEGIN:VCALENDAR
+PRODID:-//Microsoft Corporation//Outlook 16.0 MIMEDIR//EN
+VERSION:2.0
+METHOD:REQUEST
+BEGIN:VTIMEZONE
+TZID:$windowsName
+BEGIN:STANDARD
+DTSTART:16010101T000000
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0700
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:canada-2026
+DTSTAMP:20261018T000000Z
+DTSTART;TZID=$windowsName:20261215T100000
+DTEND;TZID=$windowsName:20261215T110000
+SUMMARY:Meeting
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $dt = Reader::read($vobj)->VEVENT->DTSTART->getDateTime();
+        self::assertEquals($expected, $dt->getTimezone()->getName());
+    }
+
+    public static function getCanada2026WindowsTimeZones(): array
+    {
+        return [
+            ['Alberta Standard Time', 'America/Edmonton'],
+            ['British Columbia Standard Time', 'America/Vancouver'],
+            ['Manitoba Standard Time', 'America/Winnipeg'],
+        ];
+    }
+
     #[DataProvider('getPHPTimeZoneIdentifiers')]
     public function testTimeZoneIdentifiers(string $tzid): void
     {
