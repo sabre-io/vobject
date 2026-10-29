@@ -287,15 +287,35 @@ class Broker
             // This is a new invite, and we're just going to copy over
             // all the components from the invite.
             $existingObject = new VCalendar();
-        } else {
-            // We need to update an existing object with all the new
-            // information. We can just remove all existing components
-            // and create new ones.
+        } elseif ($itipMessage->message->getBaseComponents()) {
+            // The update contains the master event, so we can just remove
+            // all existing components and create new ones.
             foreach ($existingObject->getComponents() as $component) {
                 $existingObject->remove($component);
             }
         }
+        // If the update only contains specific instances of a recurring
+        // event, we merge those into the existing object, replacing any
+        // matching instances and timezones, instead of replacing the
+        // entire series.
         foreach ($itipMessage->message->getComponents() as $component) {
+            if ('VTIMEZONE' === $component->name) {
+                foreach ($existingObject->select('VTIMEZONE') as $existingComponent) {
+                    if ((string) $existingComponent->TZID === (string) $component->TZID) {
+                        $existingObject->remove($existingComponent);
+                    }
+                }
+            } elseif (isset($component->{'RECURRENCE-ID'})) {
+                $recurId = $component->{'RECURRENCE-ID'}->getDateTime()->getTimestamp();
+                foreach ($existingObject->select($component->name) as $existingComponent) {
+                    if (
+                        isset($existingComponent->{'RECURRENCE-ID'})
+                        && $existingComponent->{'RECURRENCE-ID'}->getDateTime()->getTimestamp() === $recurId
+                    ) {
+                        $existingObject->remove($existingComponent);
+                    }
+                }
+            }
             $existingObject->add(clone $component);
         }
 
