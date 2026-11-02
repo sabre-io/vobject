@@ -1183,7 +1183,7 @@ class MainTest extends TestCase
         /** @var DateTime $dtStart */
         $dtStart = $vcal->createProperty('DTSTART');
 
-        $tz = new \DateTimeZone('Canada/Eastern');
+        $tz = new \DateTimeZone('America/Toronto');
         $dtStart->setDateTime(new \DateTimeImmutable('2011-01-01 13:50:20', $tz));
 
         /** @var DateTime $exDate1 */
