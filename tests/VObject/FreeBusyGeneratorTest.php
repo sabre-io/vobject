@@ -715,4 +715,107 @@ ICS;
             $vavail
         );
     }
+
+    /**
+     * The office hours start at 09:00, but the free-busy report starts at
+     * 11:00 on the same day. The time from 11:00 to 17:00 must still be free.
+     */
+    public function testVAvailabilityRecurrenceStartsBeforeReport(): void
+    {
+        $vavail = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20100101T000000Z
+DTEND:20120101T000000Z
+BEGIN:AVAILABLE
+DTSTART:20101213T090000Z
+DTEND:20101213T170000Z
+RRULE:FREQ=DAILY
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+ICS;
+
+        self::assertFreeBusyReport(
+            "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T170000Z/20110102T090000Z\n".
+            "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110102T170000Z/20110103T090000Z\n",
+            [],
+            null,
+            $vavail
+        );
+    }
+
+    /**
+     * The office hours start at 09:00, but the VAVAILABILITY with the office
+     * hours only starts at 13:00. Before 13:00 the other VAVAILABILITY applies.
+     */
+    public function testVAvailabilityRecurrenceStartsBeforeVAvailability(): void
+    {
+        $vavail = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20100101T000000Z
+DTEND:20120101T000000Z
+BUSYTYPE:BUSY-TENTATIVE
+PRIORITY:2
+END:VAVAILABILITY
+BEGIN:VAVAILABILITY
+DTSTART:20110101T130000Z
+DTEND:20120101T000000Z
+PRIORITY:1
+BEGIN:AVAILABLE
+DTSTART:20101213T090000Z
+DTEND:20101213T170000Z
+RRULE:FREQ=DAILY
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+ICS;
+
+        self::assertFreeBusyReport(
+            "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T110000Z/20110101T130000Z\n".
+            "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T170000Z/20110102T090000Z\n".
+            "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110102T170000Z/20110103T090000Z\n",
+            [],
+            null,
+            $vavail
+        );
+    }
+
+    /**
+     * The office hours end at 17:00, but the VAVAILABILITY with the office
+     * hours only starts at 18:00. The office hours of that day don't apply.
+     */
+    public function testVAvailabilityRecurrenceEndsBeforeVAvailability(): void
+    {
+        $vavail = <<<ICS
+BEGIN:VCALENDAR
+BEGIN:VAVAILABILITY
+DTSTART:20100101T000000Z
+DTEND:20120101T000000Z
+BUSYTYPE:BUSY-TENTATIVE
+PRIORITY:2
+END:VAVAILABILITY
+BEGIN:VAVAILABILITY
+DTSTART:20110101T180000Z
+DTEND:20120101T000000Z
+PRIORITY:1
+BEGIN:AVAILABLE
+DTSTART:20101213T090000Z
+DTEND:20101213T170000Z
+RRULE:FREQ=DAILY
+END:AVAILABLE
+END:VAVAILABILITY
+END:VCALENDAR
+ICS;
+
+        self::assertFreeBusyReport(
+            "FREEBUSY;FBTYPE=BUSY-TENTATIVE:20110101T110000Z/20110101T180000Z\n".
+            "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110101T180000Z/20110102T090000Z\n".
+            "FREEBUSY;FBTYPE=BUSY-UNAVAILABLE:20110102T170000Z/20110103T090000Z\n",
+            [],
+            null,
+            $vavail
+        );
+    }
 }

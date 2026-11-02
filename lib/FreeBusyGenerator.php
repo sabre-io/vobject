@@ -293,7 +293,6 @@ class FreeBusyGenerator
                             $available->RRULE->getValue(),
                             $availStart
                         );
-                        $rruleIterator->fastForward($vavailStart);
 
                         $startEndDiff = $availStart->diff($availEnd);
 
@@ -304,6 +303,18 @@ class FreeBusyGenerator
                             if ($recurStart > $vavailEnd) {
                                 // We're beyond the legal time range.
                                 break;
+                            }
+
+                            if ($recurEnd <= $vavailStart) {
+                                // This instance ends before the time range.
+                                $rruleIterator->next();
+                                continue;
+                            }
+
+                            if ($recurStart < $vavailStart) {
+                                // Truncating the start if it is before the
+                                // VAVAILABILITY start.
+                                $recurStart = $vavailStart;
                             }
 
                             if ($recurEnd > $vavailEnd) {
