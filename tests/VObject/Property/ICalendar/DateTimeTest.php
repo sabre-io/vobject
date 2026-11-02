@@ -290,7 +290,7 @@ class DateTimeTest extends TestCase
     public function testGetDateTimeBadTimeZone(): void
     {
         $default = date_default_timezone_get();
-        date_default_timezone_set('Canada/Eastern');
+        date_default_timezone_set('America/Toronto');
 
         $elem = $this->vcal->createProperty('DTSTART', '19850704T013000');
         $elem['TZID'] = 'Moon';
@@ -309,7 +309,7 @@ class DateTimeTest extends TestCase
 
         self::assertInstanceOf('DateTimeImmutable', $dt);
         self::assertEquals('1985-07-04 01:30:00', $dt->format('Y-m-d H:i:s'));
-        self::assertEquals('Canada/Eastern', $dt->getTimeZone()->getName());
+        self::assertEquals('America/Toronto', $dt->getTimeZone()->getName());
         date_default_timezone_set($default);
     }
 
