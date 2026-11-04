@@ -268,11 +268,16 @@ class VCardConverter
         if (isset($parameters['TYPE'])) {
             $newTypes = [];
             foreach ($parameters['TYPE']->getParts() as $typePart) {
+                $format = strtoupper($typePart);
+                // Some clients write the MIME type (TYPE=image/jpeg) instead of the short name.
+                if (0 === strpos($format, 'IMAGE/')) {
+                    $format = substr($format, 6);
+                }
                 if (in_array(
-                    strtoupper($typePart),
-                    ['JPEG', 'PNG', 'GIF']
+                    $format,
+                    ['JPEG', 'PNG', 'GIF', 'WEBP']
                 )) {
-                    $mimeType = 'image/'.strtolower($typePart);
+                    $mimeType = 'image/'.strtolower($format);
                 } else {
                     $newTypes[] = $typePart;
                 }
@@ -329,7 +334,7 @@ class VCardConverter
         unset($value);
 
         $newProperty['ENCODING'] = 'b';
-        switch ($mimeType) {
+        switch (strtolower($mimeType)) {
             case 'image/jpeg':
                 $newProperty['TYPE'] = 'JPEG';
                 break;
@@ -338,6 +343,9 @@ class VCardConverter
                 break;
             case 'image/gif':
                 $newProperty['TYPE'] = 'GIF';
+                break;
+            case 'image/webp':
+                $newProperty['TYPE'] = 'WEBP';
                 break;
         }
 

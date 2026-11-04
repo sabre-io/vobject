@@ -20,6 +20,8 @@ ITEM1.TEL:+1 444 555 666
 ITEM1.X-ABLABEL:CustomLabel
 PHOTO;ENCODING=b;TYPE=JPEG,HOME:Zm9v
 PHOTO;ENCODING=b;TYPE=GIF:Zm9v
+PHOTO;ENCODING=b;TYPE=WEBP:Zm9v
+PHOTO;ENCODING=b;TYPE=image/webp:Zm9v
 PHOTO;X-PARAM=FOO;ENCODING=b;TYPE=PNG:Zm9v
 PHOTO;VALUE=URI:http://example.org/foo.png
 X-ABShowAs:COMPANY
@@ -35,6 +37,8 @@ ITEM1.TEL:+1 444 555 666
 ITEM1.X-ABLABEL:CustomLabel
 PHOTO;TYPE=HOME:data:image/jpeg;base64,Zm9v
 PHOTO:data:image/gif;base64,Zm9v
+PHOTO:data:image/webp;base64,Zm9v
+PHOTO:data:image/webp;base64,Zm9v
 PHOTO;X-PARAM=FOO:data:image/png;base64,Zm9v
 PHOTO:http://example.org/foo.png
 KIND:ORG
@@ -174,6 +178,8 @@ FN:Steve
 TEL;PREF=1;TYPE=HOME:+1 555 666 777
 PHOTO:data:image/jpeg;base64,Zm9v
 PHOTO:data:image/gif,foo
+PHOTO:data:image/webp;base64,Zm9v
+PHOTO:data:image/WEBP;base64,Zm9v
 PHOTO;X-PARAM=FOO:data:image/png;base64,Zm9v
 PHOTO:http://example.org/foo.png
 KIND:ORG
@@ -188,6 +194,8 @@ FN:Steve
 TEL;TYPE=PREF,HOME:+1 555 666 777
 PHOTO;ENCODING=b;TYPE=JPEG:Zm9v
 PHOTO;ENCODING=b;TYPE=GIF:Zm9v
+PHOTO;ENCODING=b;TYPE=WEBP:Zm9v
+PHOTO;ENCODING=b;TYPE=WEBP:Zm9v
 PHOTO;ENCODING=b;TYPE=PNG;X-PARAM=FOO:Zm9v
 PHOTO;VALUE=URI:http://example.org/foo.png
 X-ABSHOWAS:COMPANY
