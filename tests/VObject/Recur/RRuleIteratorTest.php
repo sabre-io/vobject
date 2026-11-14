@@ -421,6 +421,22 @@ class RRuleIteratorTest extends TestCase
         );
     }
 
+    public function testWeeklyByHour(): void
+    {
+        $this->parse(
+            'FREQ=WEEKLY;INTERVAL=2;WKST=MO;BYHOUR=8,9',
+            '2011-10-07 08:00:00',
+            [
+                '2011-10-07 08:00:00',
+                '2011-10-07 09:00:00',
+                '2011-10-21 08:00:00',
+                '2011-10-21 09:00:00',
+                '2011-11-04 08:00:00',
+                '2011-11-04 09:00:00',
+            ]
+        );
+    }
+
     public function testWeeklyByDaySpecificHour(): void
     {
         $this->parse(

@@ -417,7 +417,7 @@ class RRuleIterator implements \Iterator
             $recurrenceHours = $this->getHours();
         }
 
-        $recurrenceDays = [];
+        $recurrenceDays = [(int) $this->startDate->format('w')];
         if ($this->byDay) {
             $recurrenceDays = $this->getDays();
         }
@@ -450,7 +450,7 @@ class RRuleIterator implements \Iterator
             }
 
             // We have a match
-        } while (($this->byDay && !in_array($currentDay, $recurrenceDays, true)) || ($this->byHour && !in_array((string) $currentHour, $recurrenceHours, true)));
+        } while (!in_array($currentDay, $recurrenceDays, true) || ($this->byHour && !in_array((string) $currentHour, $recurrenceHours, true)));
     }
 
     /**
