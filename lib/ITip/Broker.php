@@ -371,7 +371,7 @@ class Broker
                 $attendeeFound = false;
                 if (isset($vevent->ATTENDEE)) {
                     foreach ($vevent->ATTENDEE as $attendee) {
-                        if ($attendee->getValue() === $itipMessage->sender) {
+                        if (strtoupper($attendee->getValue()) === strtoupper($itipMessage->sender)) {
                             $attendeeFound = true;
                             $attendee['PARTSTAT'] = $instances[$recurId];
                             $attendee['SCHEDULE-STATUS'] = $requestStatus;
@@ -432,7 +432,7 @@ class Broker
             $attendeeFound = false;
             if (isset($newObject->ATTENDEE)) {
                 foreach ($newObject->ATTENDEE as $attendee) {
-                    if ($attendee->getValue() === $itipMessage->sender) {
+                    if (strtoupper($attendee->getValue()) === strtoupper($itipMessage->sender)) {
                         $attendeeFound = true;
                         $attendee['PARTSTAT'] = $partstat;
                         break;
