@@ -67,6 +67,106 @@ ICS;
         $this->process($itip, $old, $expected);
     }
 
+    public function testReplyAttendeeDifferentCase(): void
+    {
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+ATTENDEE:mailto:Foo@Example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+ATTENDEE;PARTSTAT=ACCEPTED;SCHEDULE-STATUS=2.0:mailto:Foo@Example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $this->process($itip, $old, $expected);
+    }
+
+    public function testReplyNewExceptionAttendeeDifferentCase(): void
+    {
+        $itip = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VEVENT
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:foo@example.org
+ORGANIZER:mailto:bar@example.org
+SEQUENCE:2
+RECURRENCE-ID:20140725T000000Z
+UID:foobar
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $old = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART:20140724T000000Z
+DTEND:20140724T010000Z
+ATTENDEE:mailto:Foo@Example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $expected = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+RRULE:FREQ=DAILY
+DTSTART:20140724T000000Z
+DTEND:20140724T010000Z
+ATTENDEE:mailto:Foo@Example.org
+ORGANIZER:mailto:bar@example.org
+END:VEVENT
+BEGIN:VEVENT
+SEQUENCE:2
+UID:foobar
+DTSTART:20140725T000000Z
+DTEND:20140725T010000Z
+ATTENDEE;PARTSTAT=ACCEPTED:mailto:Foo@Example.org
+ORGANIZER:mailto:bar@example.org
+RECURRENCE-ID:20140725T000000Z
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+        $this->process($itip, $old, $expected);
+    }
+
     public function testReplyWithTz(): void
     {
         $itip = <<<ICS
