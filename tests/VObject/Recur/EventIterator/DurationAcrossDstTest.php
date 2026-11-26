@@ -19,7 +19,7 @@ use Sabre\VObject\Recur\EventIterator;
 class DurationAcrossDstTest extends TestCase
 {
     /**
-     * @return array<string, array{string, string[]}>
+     * @return array<string, array{0: string, 1: string[], 2?: string}>
      */
     public static function endProvider(): array
     {
@@ -51,6 +51,30 @@ class DurationAcrossDstTest extends TestCase
                 "DTSTART;TZID=America/New_York:20270313T120000\nDURATION:PT24H",
                 ['2027-03-14 13:00 EDT', '2027-03-21 12:00 EDT'],
             ],
+            'DURATION, to winter time' => [
+                "DTSTART;TZID=America/New_York:20271106T120000\nDURATION:P1D",
+                ['2027-11-07 12:00 EST', '2027-11-14 12:00 EST'],
+            ],
+            'DURATION in hours, to winter time' => [
+                "DTSTART;TZID=America/New_York:20271106T120000\nDURATION:PT24H",
+                ['2027-11-07 11:00 EST', '2027-11-14 12:00 EST'],
+            ],
+            // The day is nominal, then the hours are exact: 01:00 EST plus
+            // 2 hours is 04:00 EDT.
+            'DURATION in days and hours, to summer time' => [
+                "DTSTART;TZID=America/New_York:20270313T010000\nDURATION:P1DT2H",
+                ['2027-03-14 04:00 EDT', '2027-03-21 03:00 EDT'],
+            ],
+            'Floating DURATION in hours, to summer time' => [
+                "DTSTART:20270306T120000\nDURATION:PT24H",
+                ['2027-03-07 12:00 EST', '2027-03-14 13:00 EDT'],
+                'America/New_York',
+            ],
+            'All-day DURATION, to summer time' => [
+                "DTSTART;VALUE=DATE:20270314\nDURATION:P1D",
+                ['2027-03-15 00:00 EDT', '2027-03-22 00:00 EDT'],
+                'America/New_York',
+            ],
         ];
     }
 
@@ -58,9 +82,13 @@ class DurationAcrossDstTest extends TestCase
      * @param string[] $expected
      */
     #[DataProvider('endProvider')]
-    public function testGetDtEnd(string $times, array $expected): void
+    public function testGetDtEnd(string $times, array $expected, ?string $timeZone = null): void
     {
-        $iterator = new EventIterator($this->calendar($times), 'test');
+        $iterator = new EventIterator(
+            $this->calendar($times),
+            'test',
+            $timeZone ? new \DateTimeZone($timeZone) : null
+        );
 
         $ends = [];
         foreach ($iterator as $_) {
