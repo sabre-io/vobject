@@ -150,8 +150,12 @@ class EventIterator implements \Iterator
             $this->eventDuration =
                 $this->masterEvent->DTEND->getDateTime($this->timeZone)->getTimeStamp() -
                 $this->startDate->getTimeStamp();
+            $this->exactDuration =
+                $this->masterEvent->DTSTART->hasTime()
+                && !$this->masterEvent->DTSTART->isFloating();
         } elseif (isset($this->masterEvent->DURATION)) {
             $duration = $this->masterEvent->DURATION->getDateInterval();
+            $this->nominalDuration = $duration;
             $end = clone $this->startDate;
             $end = $end->add($duration);
             $this->eventDuration = $end->getTimeStamp() - $this->startDate->getTimeStamp();
@@ -232,6 +236,15 @@ class EventIterator implements \Iterator
             return $this->currentOverriddenEvent->DTEND->getDateTime($this->timeZone);
         }
         $end = clone $this->currentDate;
+
+        // RFC 5545, section 3.8.5.3: with DTEND, all instances have the same
+        // exact duration. With DURATION, they have the same nominal duration.
+        if ($this->nominalDuration) {
+            return $end->add($this->nominalDuration);
+        }
+        if ($this->exactDuration) {
+            return $end->setTimestamp($end->getTimestamp() + $this->eventDuration);
+        }
 
         return $end->modify('+'.$this->eventDuration.' seconds');
     }
@@ -422,6 +435,17 @@ class EventIterator implements \Iterator
      * We use this to calculate the DTEND for subsequent events.
      */
     protected $eventDuration;
+
+    /**
+     * The DURATION of the master event, if it has one.
+     */
+    protected ?\DateInterval $nominalDuration = null;
+
+    /**
+     * True if the master event has a DTEND and a DTSTART with a time in a
+     * timezone. Its duration in seconds then applies to all instances.
+     */
+    protected bool $exactDuration = false;
 
     /**
      * A reference to the main (master) event.
