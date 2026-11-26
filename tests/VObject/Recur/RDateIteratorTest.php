@@ -44,6 +44,25 @@ class RDateIteratorTest extends TestCase
         self::assertFalse($it->isInfinite());
     }
 
+    public function testDateTimeValues(): void
+    {
+        $tz = new \DateTimeZone('Europe/Berlin');
+        $it = new RDateIterator(
+            [new \DateTimeImmutable('2014-09-01 00:00:00', new \DateTimeZone('America/New_York'))],
+            new \DateTimeImmutable('2014-08-01 00:00:00', $tz)
+        );
+
+        $expected = [
+            new \DateTimeImmutable('2014-08-01 00:00:00', $tz),
+            new \DateTimeImmutable('2014-09-01 06:00:00', $tz),
+        ];
+
+        self::assertEquals(
+            $expected,
+            iterator_to_array($it)
+        );
+    }
+
     public function testFastForward(): void
     {
         $utc = new \DateTimeZone('UTC');
