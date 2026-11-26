@@ -5,6 +5,7 @@ namespace Sabre\VObject\Recur;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Property\ICalendar\DateTime;
 use Sabre\VObject\Settings;
 
 /**
@@ -167,8 +168,24 @@ class EventIterator implements \Iterator
 
         if (isset($this->masterEvent->RDATE)) {
             $rdateValues = [];
+            $rdateDateTimes = [];
+            $hasPeriods = false;
             foreach ($this->masterEvent->RDATE as $rdate) {
                 $rdateValues = array_merge($rdateValues, $rdate->getParts());
+                if ($rdate instanceof DateTime) {
+                    // getDateTimes() reads the TZID of each RDATE property.
+                    $rdateDateTimes = array_merge(
+                        $rdateDateTimes,
+                        $rdate->getDateTimes($this->startDate->getTimezone())
+                    );
+                } else {
+                    $hasPeriods = true;
+                }
+            }
+            if (!$hasPeriods) {
+                // RDATE properties in different timezones can be out of order.
+                sort($rdateDateTimes);
+                $rdateValues = $rdateDateTimes;
             }
             $this->recurIterator = new RDateIterator(
                 $rdateValues,

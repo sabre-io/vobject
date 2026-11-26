@@ -24,7 +24,10 @@ class RDateIterator implements \Iterator
     /**
      * Creates the Iterator.
      *
-     * @param string|array $rrule
+     * The values are strings, parsed in the timezone of the start date, or
+     * DateTimeInterface objects.
+     *
+     * @param string|array<string|\DateTimeInterface> $rrule
      */
     public function __construct($rrule, /**
      * The reference start date/time for the rrule.
@@ -91,11 +94,10 @@ class RDateIterator implements \Iterator
             return;
         }
 
-        $this->currentDate =
-            DateTimeParser::parse(
-                $this->dates[$this->counter - 1],
-                $this->startDate->getTimezone()
-            );
+        $date = $this->dates[$this->counter - 1];
+        $this->currentDate = $date instanceof \DateTimeInterface
+            ? \DateTimeImmutable::createFromInterface($date)->setTimezone($this->startDate->getTimezone())
+            : DateTimeParser::parse($date, $this->startDate->getTimezone());
     }
 
     /* End of Iterator implementation }}} */
@@ -140,7 +142,7 @@ class RDateIterator implements \Iterator
      * This method receives a string from an RRULE property, and populates this
      * class with all the values.
      *
-     * @param string|array $rdate
+     * @param string|array<string|\DateTimeInterface> $rdate
      */
     protected function parseRDate($rdate): void
     {
@@ -153,6 +155,8 @@ class RDateIterator implements \Iterator
 
     /**
      * Array with the RRULE dates.
+     *
+     * @var array<string|\DateTimeInterface>
      */
     protected array $dates = [];
 }
