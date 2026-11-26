@@ -75,6 +75,22 @@ class RDateTimezoneTest extends TestCase
         self::assertSame('2027-01-08 10:00 Europe/Paris', $iterator->getDtStart()?->format('Y-m-d H:i e'));
     }
 
+    /**
+     * The RDATE starts at 00:30 EST, before the move to summer time. It keeps
+     * the exact duration of 3 hours.
+     */
+    public function testEndAcrossDst(): void
+    {
+        $iterator = new EventIterator(
+            $this->calendar("DTSTART;TZID=America/New_York:20270306T120000\nDTEND;TZID=America/New_York:20270306T150000\nRDATE:20270314T053000Z"),
+            'test'
+        );
+        $iterator->next();
+
+        self::assertSame('2027-03-14 00:30 EST', $iterator->getDtStart()?->format('Y-m-d H:i T'));
+        self::assertSame('2027-03-14 04:30 EDT', $iterator->getDtEnd()?->format('Y-m-d H:i T'));
+    }
+
     private function calendar(string $dates): VCalendar
     {
         $calendar = Reader::read(<<<ICS
